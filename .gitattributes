@@ -1,0 +1,36 @@
+**/automation/*     text eol=lf
+**/bin/console      text eol=lf
+**/bin/pull         text eol=lf
+**/bin/replicate    text eol=lf
+**/environment      text eol=lf
+
+*.cfg               text eol=lf
+*.conf              text eol=lf
+*.css               text eol=lf
+*.html              text eol=lf
+*.htm               text eol=lf
+*.ini               text eol=lf
+*.j2                text eol=lf
+*.js                text eol=lf
+*.json              text eol=lf
+*.jsx               text eol=lf
+*.md                text eol=lf
+*.php               text eol=lf
+*.scss              text eol=lf
+*.sql               text eol=lf
+*.twig              text eol=lf
+*.txt               text eol=lf
+*.txt               text eol=lf
+*.xml               text eol=lf
+*.yml               text eol=lf
+
+*.svg -diff
+*.min.js -diff
+*.min.js.map -diff
+
+**/web/assets/js/* -diff
+**/web/assets/media/* -diff
+**/public/assets/js/* -diff
+**/public/assets/css/* -diff
+**/public/service-worker.js -diff
+**/public/assets/media/* -diff
