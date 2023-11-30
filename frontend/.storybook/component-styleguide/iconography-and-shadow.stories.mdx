@@ -1,0 +1,73 @@
+import { Meta } from '@storybook/addon-docs';
+
+<Meta title="Style guide/Iconography & Shadows" />
+
+<h1 style={{ color: '#000000', fontFamily: 'Inter, sans-serif' }}> Iconography</h1>
+
+<br />
+
+<h3 style={{ color: '#000000', fontFamily: 'Inter, sans-serif', fontWeight: '500' }}> Introduction </h3>
+
+<p style={{ color: '#000000', fontFamily: 'Inter, sans-serif' }}>
+  Icons are visual representations of commands, files, devices, directories, or common actions. <br />
+  The&apos;re used to provide visual context and enhance usability. We rely on them as they help users find what they&apos;re
+  looking for quickly.
+</p>
+
+<h3 style={{ color: '#000000', fontFamily: 'Inter, sans-serif', fontWeight: '500' }}>Sizes</h3>
+
+<p style={{ color: '#000000', fontFamily: 'Inter, sans-serif' }}>
+  Icons scale by 4 pixels where the most common usage is 16x16px , 20x20px and 24x24px.
+</p>
+
+<h3 style={{ color: '#000000', fontFamily: 'Inter, sans-serif', fontWeight: '500' }}>Library</h3>
+
+[Heroicons library](https://heroicons.com/) <br />
+[Feather Icons library](https://feathericons.com/) for social icons
+
+<br />
+
+<h1 style={{ color: '#000000', fontFamily: 'Inter, sans-serif' }}>Shadows</h1>
+
+<p style={{ color: '#000000', fontFamily: 'Inter, sans-serif' }}>
+  Our shadow system follows a principle of multiple of 2. <br />
+  Constant scale creates visual balance and assists in understanding the interface.
+</p>
+
+<div className="flex h-[325px] w-full items-center justify-center rounded-lg bg-neutral-150">
+  <div
+    className="flex h-120 w-120 items-center justify-center bg-neutral-100 shadow-100"
+    style={{ marginRight: '40px' }}
+  >
+    Shadow - 100
+  </div>
+  <div
+    className="flex h-120 w-120 items-center justify-center bg-neutral-100 shadow-200"
+    style={{ marginRight: '40px' }}
+  >
+    Shadow - 200
+  </div>
+  <div
+    className="flex h-120 w-120 items-center justify-center bg-neutral-100 shadow-300"
+    style={{ marginRight: '40px' }}
+  >
+    Shadow - 300
+  </div>
+  <div
+    className="flex h-120 w-120 items-center justify-center bg-neutral-100 shadow-400"
+    style={{ marginRight: '40px' }}
+  >
+    Shadow - 400
+  </div>
+  <div className="flex h-120 w-120 items-center justify-center bg-neutral-100 text-center shadow-dark">
+    White text on dark image
+  </div>
+</div>
+
+<h3 style={{ color: '#000000', fontFamily: 'Inter, sans-serif', fontWeight: '500' }}>Usage</h3>
+
+<p style={{ color: '#000000', fontFamily: 'Inter, sans-serif' }}>
+  Shadows are used for creating user understanding and should simulate the natural, real-world behavior of light and
+  shadow-casting. <br />
+  Shadows must be used consistently, to indicate possible interactions or reactions triggered by a user's action.
+</p>

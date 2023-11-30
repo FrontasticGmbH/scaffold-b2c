@@ -1,0 +1,76 @@
+{
+  "extends": [
+    "next/core-web-vitals",
+    "plugin:prettier/recommended",
+    "plugin:tailwindcss/recommended",
+    "plugin:import/recommended",
+    "plugin:import/typescript",
+    "plugin:@typescript-eslint/recommended"
+  ],
+  "parser": "@typescript-eslint/parser",
+  "plugins": ["tailwindcss", "import", "@typescript-eslint"],
+  "parserOptions": {
+    "project": "tsconfig.json"
+  },
+  "settings": {
+    "import/resolver": {
+      "node": {
+        "moduleDirectory": ["node_modules", "."]
+      }
+    }
+  },
+  "ignorePatterns": ["node_modules", "out", "*.config.js"],
+  "rules": {
+    "@typescript-eslint/no-empty-function": "off",
+    "tailwindcss/classnames-order": ["warn", { "officialSorting": true }],
+    "tailwindcss/enforces-negative-arbitrary-values": "warn",
+    "tailwindcss/enforces-shorthand": "warn",
+    "tailwindcss/migration-from-tailwind-2": "warn",
+    "tailwindcss/no-custom-classname": "warn",
+    "tailwindcss/no-contradicting-classname": "error",
+    "prettier/prettier": "error",
+    "@typescript-eslint/no-explicit-any": "warn",
+    "import/no-named-as-default": 0,
+    "jsx-a11y/alt-text": 0,
+    "@typescript-eslint/ban-ts-comment": 0,
+    "import/order": [
+      "warn",
+      {
+        "groups": ["builtin", "external", "internal"],
+        "pathGroups": [
+          {
+            "pattern": "react",
+            "group": "external",
+            "position": "before"
+          },
+          {
+            "pattern": "next",
+            "group": "external",
+            "position": "before"
+          },
+          {
+            "pattern": "next/**",
+            "group": "external",
+            "position": "before"
+          },
+          {
+            "pattern": "frontastic",
+            "group": "internal",
+            "position": "after"
+          },
+          {
+            "pattern": "frontastic/**",
+            "group": "internal",
+            "position": "after"
+          }
+        ],
+        "pathGroupsExcludedImportTypes": ["react"],
+        "newlines-between": "never",
+        "alphabetize": {
+          "order": "asc",
+          "caseInsensitive": true
+        }
+      }
+    ]
+  }
+}
