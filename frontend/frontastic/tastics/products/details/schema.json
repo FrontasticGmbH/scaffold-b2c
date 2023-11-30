@@ -1,0 +1,20 @@
+{
+  "tasticType": "commercetools/ui/products/details",
+  "name": "commercetools UI product details",
+  "icon": "card_giftcard",
+  "category": "Products",
+  "schema": [
+    {
+      "name": "Configuration",
+      "fields": [
+        {
+          "label": "Product",
+          "field": "data",
+          "type": "dataSource",
+          "dataSourceType": "frontastic/product",
+          "required": true
+        }
+      ]
+    }
+  ]
+}

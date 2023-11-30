@@ -1,0 +1,17 @@
+{
+  "thank.for.order": "Vielen Dank für Ihre Bestellung",
+  "email.sent": "Eine E-Mail-Bestätigung wurde gesendet an",
+  "order.number": "Bestellnummer",
+  "delivery.by": "Lieferung durch",
+  "delivery.to": "Lieferung an",
+  "payment.by": "Zahlung per",
+  "user.title": "Meine Bestellungen",
+  "user.subtitle": "Verwalten, überprüfen oder verfolgen Sie Ihre Bestellung.",
+  "user.cta": "Bestellstatus prüfen",
+  "guest.title": "Speichern Sie Ihre Daten",
+  "guest.subtitle": "Freuen Sie sich über einen schnelleren Checkout, Bestellverlauf und persönliche Angebote.",
+  "guest.cta": "Konto erstellen",
+  "order.details": "Bestelldetails",
+  "your.order": "Ihre Bestellung",
+  "print.invoice": "Rechnung drucken"
+}

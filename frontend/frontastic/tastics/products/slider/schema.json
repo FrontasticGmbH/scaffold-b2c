@@ -1,0 +1,79 @@
+{
+  "tasticType": "commercetools/ui/products/slider",
+  "name": "commercetools UI product slider",
+  "icon": "menu",
+  "category": "Products",
+  "schema": [
+    {
+      "name": "Configuration",
+      "fields": [
+        {
+          "label": "Title",
+          "field": "title",
+          "type": "string",
+          "required": true
+        },
+        {
+          "label": "Title Variant",
+          "field": "titleVariant",
+          "type": "enum",
+          "default": "lg",
+          "values": [
+            {
+              "name": "Small",
+              "value": "sm"
+            },
+            {
+              "name": "Large",
+              "value": "lg"
+            }
+          ]
+        },
+        {
+          "label": "Subline",
+          "field": "subline",
+          "type": "string",
+          "required": true
+        },
+        {
+          "label": "Subtitle Variant",
+          "field": "subtitleVariant",
+          "type": "enum",
+          "default": "lg",
+          "values": [
+            {
+              "name": "Small",
+              "value": "sm"
+            },
+            {
+              "name": "Large",
+              "value": "lg"
+            }
+          ]
+        },
+        {
+          "label": "products",
+          "field": "data",
+          "type": "dataSource",
+          "dataSourceType": "frontastic/product-list",
+          "required": true
+        }
+      ]
+    },
+    {
+      "name": "CTA",
+      "fields": [
+        {
+          "label": "Label",
+          "field": "ctaLabel",
+          "type": "string"
+        },
+        {
+          "label": "Link",
+          "field": "ctaLink",
+          "type": "reference"
+        }
+      ]
+    }
+  ]
+}

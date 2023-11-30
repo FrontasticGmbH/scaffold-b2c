@@ -1,0 +1,25 @@
+{
+  "tasticType": "commercetools/ui/account/reset-password",
+  "name": "commercetools UI account reset password",
+  "category": "Account",
+  "icon": "account_circle",
+  "schema": [
+    {
+      "name": "Redirecting",
+      "fields": [
+        {
+          "label": "Account link",
+          "field": "accountLink",
+          "type": "reference",
+          "required": true
+        },
+        {
+          "label": "Sign in link",
+          "field": "signInLink",
+          "type": "reference",
+          "required": true
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,62 @@
+{
+  "tasticType": "commercetools/ui/content/tiles-group",
+  "name": "commercetools UI tiles group",
+  "icon": "image",
+  "category": "Content",
+  "schema": [
+    {
+      "name": "Tiles",
+      "fields": [
+        {
+          "label": "Tile",
+          "type": "group",
+          "field": "tiles",
+          "fields": [
+            {
+              "label": "Image",
+              "field": "image",
+              "type": "media",
+              "required": true
+            },
+            {
+              "label": "Title",
+              "field": "title",
+              "type": "string",
+              "translatable": true,
+              "required": false
+            },
+            {
+              "label": "Subtitle",
+              "field": "subtitle",
+              "type": "string",
+              "translatable": true,
+              "required": false
+            },
+            {
+              "label": "Button label",
+              "field": "ctaLabel",
+              "translatable": true,
+              "type": "string",
+              "required": false,
+              "default": ""
+            },
+            {
+              "label": "Link",
+              "field": "ctaReference",
+              "translatable": false,
+              "required": false,
+              "type": "reference",
+              "default": null
+            },
+            {
+              "label": "Enable rounded borders?",
+              "field": "roundedBorders",
+              "type": "boolean",
+              "default": true
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,19 @@
+{
+  "tasticType": "commercetools/ui/account/register",
+  "name": "commercetools UI account register",
+  "category": "Account",
+  "icon": "account_circle",
+  "schema": [
+    {
+      "name": "Content",
+      "fields": [
+        {
+          "label": "Terms of Use Link",
+          "field": "termsOfUseLink",
+          "type": "reference",
+          "required": true
+        }
+      ]
+    }
+  ]
+}

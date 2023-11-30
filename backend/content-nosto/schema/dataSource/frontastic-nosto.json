@@ -1,0 +1,25 @@
+{
+  "customDataSourceType": "nosto/product-recommendations",
+  "name": "Nosto Product Recommendations",
+  "category": "Content",
+  "icon": "group",
+  "schema": [
+    {
+      "name": "Configuration",
+      "fields": [
+        {
+          "label": "Page Type",
+          "field": "pageType",
+          "type": "string",
+          "translatable": false
+        },
+        {
+          "label": "Nosto Placement ID",
+          "field": "placementId",
+          "type": "string",
+          "translatable": false
+        }
+      ]
+    }
+  ]
+}

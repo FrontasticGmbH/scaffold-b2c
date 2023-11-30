@@ -1,0 +1,55 @@
+{
+  "tasticType": "commercetools/ui/content/markdown",
+  "name": "commercetools UI markdown",
+  "icon": "wrap_text",
+  "category": "Content",
+  "schema": [
+    {
+      "name": "Content",
+      "fields": [
+        {
+          "label": "Content",
+          "field": "markdown",
+          "type": "markdown",
+          "translatable": true,
+          "required": true
+        }
+      ]
+    },
+    {
+      "name": "Layout",
+      "fields": [
+        {
+          "label": "Text Alignment",
+          "field": "textAlign",
+          "type": "enum",
+          "values": [
+            {
+              "name": "Left",
+              "value": "left"
+            },
+            {
+              "name": "Center",
+              "value": "center"
+            },
+            {
+              "name": "Right",
+              "value": "right"
+            },
+            {
+              "name": "Justify",
+              "value": "justify"
+            }
+          ],
+          "default": "left"
+        },
+        {
+          "label": "Full Width",
+          "field": "fullWidth",
+          "type": "boolean",
+          "default": false
+        }
+      ]
+    }
+  ]
+}

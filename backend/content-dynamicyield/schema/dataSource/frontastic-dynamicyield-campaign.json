@@ -1,0 +1,25 @@
+{
+  "customDataSourceType": "dynamicyield/product-recommendations-campaign",
+  "name": "DynamicYield Product Recommendations",
+  "category": "Content",
+  "icon": "group",
+  "schema": [
+    {
+      "name": "Configuration",
+      "fields": [
+        {
+          "label": "Campaign Selector Name",
+          "field": "campaignSelectorName",
+          "type": "string",
+          "translatable": false
+        },
+        {
+          "label": "Page Context Type",
+          "field": "pageContextType",
+          "type": "string",
+          "translatable": false
+        }
+      ]
+    }
+  ]
+}

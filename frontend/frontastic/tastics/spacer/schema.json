@@ -1,0 +1,52 @@
+{
+  "tasticType": "commercetools/ui/content/spacer",
+  "name": "commercetools UI Spacer",
+  "icon": "favorite",
+  "category": "Content",
+  "schema": [
+    {
+      "name": "Spacing",
+      "fields": [
+        {
+          "label": "Custom Mobile Spacing",
+          "field": "customMobile",
+          "type": "number",
+          "required": true
+        },
+        {
+          "label": "Custom Tablet Spacing",
+          "field": "customTablet",
+          "type": "number",
+          "required": true
+        },
+        {
+          "label": "Custom Desktop Spacing",
+          "field": "customDesktop",
+          "type": "number",
+          "required": true
+        }
+      ]
+    },
+    {
+      "name": "Styling",
+      "fields": [
+        {
+          "label": "Background Color",
+          "field": "backgroundColor",
+          "type": "enum",
+          "values": [
+            {
+              "name": "White",
+              "value": "white"
+            },
+            {
+              "name": "Neutral",
+              "value": "neutral-200"
+            }
+          ],
+          "default": "white"
+        }
+      ]
+    }
+  ]
+}

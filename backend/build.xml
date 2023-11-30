@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="Commercetools extension" basedir="./" default="test">
+
+    <property name="frontastic_basedir" value="${basedir}/../../.." />
+    <property name="integration_dir" value="${frontastic_basedir}/paas/integration" />
+
+    <!--
+        Include local project properties.
+    -->
+    <property file="${basedir}/environment.local" />
+    <property file="${basedir}/../environment.local" />
+    <property file="${basedir}/environment" />
+    <property file="${basedir}/../environment" />
+
+    <!--
+        Import main target defintions (extension points)
+    -->
+    <import file="${integration_dir}/main.xml" />
+
+    <!--
+        Custom initialize, test and build
+    -->
+    <target name="commercetools extension:bootstrap" extensionOf="-initialize:main~hook">
+        <tool-exists executable="yarn" />
+
+        <exec executable="yarn" failonerror="true" dir="${basedir}">
+            <env key="CI" value="true" />
+
+            <arg value="--network-timeout" />
+            <arg value="1000000000" />
+
+            <!-- This is a workaround for ENOENT errors: https://github.com/yarnpkg/yarn/issues/2629 -->
+            <arg value="--mutex" />
+            <arg value="network" />
+            <arg value="--network-concurrency" />
+            <arg value="1" />
+
+            <arg value="install" />
+        </exec>
+
+        <!--
+            Always try to build development modules once on intilization so
+            sandbox backend builds are up-to-date without running the
+            frontastic-cli first.
+        -->
+        <exec executable="node_modules/.bin/webpack-cli" failonerror="false" dir="${basedir}">
+            <arg value="--config" />
+            <arg value="webpack/webpack.dev.js" />
+        </exec>
+    </target>
+
+    <target name="commercetools extension:test" unless="${production}" extensionOf="-test-unit:main~hook">
+        <tool-exists executable="yarn" />
+
+        <exec executable="yarn" dir="${basedir}">
+            <arg value="run" />
+            <arg value="lint" />
+        </exec>
+        <exec executable="yarn" dir="${basedir}" failonerror="true">
+            <arg value="run" />
+            <arg value="test" />
+            <env key="CI" value="true" />
+        </exec>
+    </target>
+
+    <target name="commercetools extension:package" depends="initialize" extensionOf="-package:before~hook">
+        <tool-exists executable="yarn" />
+
+        <exec executable="yarn" dir="${basedir}" failonerror="true">
+            <arg value="run" />
+            <arg value="build" />
+        </exec>
+
+        <copy todir="${basedir}/dist" overwrite="true">
+            <fileset dir="${basedir}/build">
+                <include name="*.js" />
+                <include name="*.js.map" />
+            </fileset>
+        </copy>
+
+        <retry retrycount="3" retrydelay="1000">
+            <exec executable="git" failonerror="false" dir="${basedir}/dist">
+                <arg value="add" />
+                <arg value="*.js" />
+                <arg value="*.js.map" />
+            </exec>
+        </retry>
+    </target>
+</project>

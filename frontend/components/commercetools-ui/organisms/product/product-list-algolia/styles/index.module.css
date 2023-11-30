@@ -1,0 +1,20 @@
+.desktop_facet_container {
+  display: block;
+}
+
+.desktop_facet_container::-webkit-scrollbar {
+  width: 16px;
+}
+.desktop_facet_container::-webkit-scrollbar-track {
+  border-left: 1px solid #dce0eb;
+}
+.desktop_facet_container::-webkit-scrollbar-thumb {
+  background: #d1d1d1;
+  border-radius: 999px;
+  border: 4px solid transparent;
+  background-clip: padding-box;
+}
+.desktop_facet_container::-webkit-scrollbar-thumb:hover {
+  background: #bbb9b9;
+  background-clip: padding-box;
+}

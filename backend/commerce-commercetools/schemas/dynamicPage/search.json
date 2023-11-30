@@ -1,0 +1,8 @@
+{
+  "dynamicPageType": "frontastic/search",
+  "name": "Product search page",
+  "category": "Products",
+  "icon": "search",
+  "dataSourceType": "frontastic/product-list",
+  "isMultiple": true
+}

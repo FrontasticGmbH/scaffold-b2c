@@ -1,0 +1,20 @@
+{
+    "customDataSourceType": "example/star-wars/character-filter",
+    "name": "Star Wars Character Filter",
+    "category": "Star Wars Documentation Examples",
+    "icon": "filter_list",
+    "schema": [
+        {
+            "name": "Character search",
+            "fields": [
+                {
+                    "label": "Filters",
+                    "field": "characterFilters",
+                    "type": "dynamic-filter",
+                    "dynamicFilterEndpoint": "/frontastic/action/star-wars/filters"
+                }
+
+            ]
+        }
+    ]
+}

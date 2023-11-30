@@ -1,0 +1,299 @@
+{
+  "name": "commercetools UI header",
+  "icon": "menu",
+  "category": "Header and footer",
+  "schema": [
+    {
+      "name": "Announcement Bar Content",
+      "fields": [
+        {
+          "label": "Text",
+          "field": "text",
+          "type": "string"
+        },
+        {
+          "label": "Highlighted Substring",
+          "field": "highlightedSubstring",
+          "type": "string"
+        },
+        {
+          "label": "Target",
+          "field": "target",
+          "type": "reference"
+        }
+      ]
+    },
+    {
+      "name": "Maintenance",
+      "fields": [
+        {
+          "label": "Activate",
+          "field": "activateMaintenance",
+          "type": "boolean",
+          "default": false
+        },
+        {
+          "label": "Text",
+          "field": "maintenanceText",
+          "type": "string",
+          "required": true
+        }
+      ]
+    },
+    {
+      "name": "Header Menu",
+      "fields": [
+        {
+          "label": "Logo",
+          "field": "logo",
+          "type": "media",
+          "required": true,
+          "options": {}
+        },
+        {
+          "label": "Logo link",
+          "field": "logoLink",
+          "type": "reference",
+          "required": true
+        }
+      ]
+    },
+    {
+      "name": "Header Menu Mobile",
+      "fields": [
+        {
+          "label": "Logo mobile view",
+          "field": "logoMobile",
+          "type": "media",
+          "required": true,
+          "options": {}
+        },
+        {
+          "label": "Logo link mobile view",
+          "field": "logoLinkMobile",
+          "type": "reference",
+          "required": true
+        }
+      ]
+    },
+    {
+      "name": "Search",
+      "fields": [
+        {
+          "label": "Enable algolia search",
+          "field": "enableAlgoliaSearch",
+          "type": "boolean",
+          "default": false
+        }
+      ]
+    },
+    {
+      "name": "Utility Links",
+      "fields": [
+        {
+          "label": "Account link",
+          "field": "accountLink",
+          "type": "reference",
+          "required": true
+        },
+        {
+          "label": "Wishlist link",
+          "field": "wishlistLink",
+          "type": "reference",
+          "required": true
+        },
+        {
+          "label": "Cart link",
+          "field": "cartLink",
+          "type": "reference",
+          "required": true
+        }
+      ]
+    },
+    {
+      "name": "Navigation Tiles",
+      "fields": [
+        {
+          "label": "Tile",
+          "field": "tiles",
+          "type": "group",
+          "min": 1,
+          "fields": [
+            {
+              "label": "Category",
+              "field": "tileCategory",
+              "translatable": true,
+              "required": true,
+              "type": "string"
+            },
+            {
+              "label": "Tile Image",
+              "field": "tileImage",
+              "type": "media",
+              "required": true,
+              "options": {}
+            },
+            {
+              "label": "Tile Header Text",
+              "field": "tileHeaderText",
+              "translatable": true,
+              "required": true,
+              "type": "string"
+            },
+            {
+              "label": "Tile Header Text Decorations",
+              "field": "tileHeaderDecoration",
+              "type": "enum",
+              "values": [
+                {
+                  "name": "Uppercase",
+                  "value": "uppercase"
+                },
+                {
+                  "name": "Lowercase",
+                  "value": "lowercase"
+                },
+                {
+                  "name": "Capitalize",
+                  "value": "capitalize"
+                },
+                {
+                  "name": "Normal Case",
+                  "value": "normal-case"
+                }
+              ],
+              "default": "uppercase"
+            },
+            {
+              "label": "Tile Button Label",
+              "field": "tileButtonLabel",
+              "translatable": true,
+              "required": true,
+              "type": "string"
+            },
+            {
+              "label": "Tile Button Label Decorations",
+              "field": "tileButtonLabelDecoration",
+              "type": "enum",
+              "values": [
+                {
+                  "name": "Uppercase",
+                  "value": "uppercase"
+                },
+                {
+                  "name": "Lowercase",
+                  "value": "lowercase"
+                },
+                {
+                  "name": "Capitalize",
+                  "value": "capitalize"
+                },
+                {
+                  "name": "Normal Case",
+                  "value": "normal-case"
+                }
+              ],
+              "default": "uppercase"
+            },
+            {
+              "label": "Tile Button link",
+              "field": "tileButtonLink",
+              "type": "reference",
+              "required": true
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Empty Cart",
+      "fields": [
+        {
+          "label": "Title",
+          "field": "emptyCartTitle",
+          "translatable": true,
+          "type": "string"
+        },
+        {
+          "label": "Subtitle",
+          "field": "emptyCartSubtitle",
+          "translatable": true,
+          "type": "string"
+        },
+        {
+          "label": "Image",
+          "field": "emptyCartImage",
+          "type": "media",
+          "required": true,
+          "options": {}
+        },
+        {
+          "label": "Categories",
+          "field": "emptyCartCategories",
+          "type": "group",
+          "min": 1,
+          "fields": [
+            {
+              "label": "Name",
+              "field": "name",
+              "translatable": true,
+              "required": true,
+              "type": "string"
+            },
+            {
+              "label": "Link",
+              "field": "reference",
+              "type": "reference",
+              "required": true
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Empty Wishlist",
+      "fields": [
+        {
+          "label": "Image",
+          "field": "emptyWishlistImage",
+          "type": "media",
+          "required": true,
+          "options": {}
+        },
+        {
+          "label": "Title",
+          "field": "emptyWishlistTitle",
+          "translatable": true,
+          "type": "string"
+        },
+        {
+          "label": "Subtitle",
+          "field": "emptyWishlistSubtitle",
+          "translatable": true,
+          "type": "string"
+        },
+        {
+          "label": "Categories",
+          "field": "emptyWishlistCategories",
+          "type": "group",
+          "min": 1,
+          "fields": [
+            {
+              "label": "Name",
+              "field": "name",
+              "translatable": true,
+              "required": true,
+              "type": "string"
+            },
+            {
+              "label": "Link",
+              "field": "reference",
+              "type": "reference",
+              "required": true
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

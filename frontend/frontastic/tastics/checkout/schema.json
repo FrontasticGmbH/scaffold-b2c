@@ -1,0 +1,64 @@
+{
+  "tasticType": "commercetools/ui/checkout",
+  "name": "commercetools UI checkout",
+  "icon": "add_shopping_cart",
+  "category": "Checkout",
+  "schema": [
+    {
+      "name": "Media",
+      "fields": [
+        {
+          "label": "Logo",
+          "field": "logo",
+          "type": "media",
+          "required": true
+        }
+      ]
+    },
+    {
+      "name": "Empty Cart",
+      "fields": [
+        {
+          "label": "Title",
+          "field": "emptyCartTitle",
+          "translatable": true,
+          "type": "string"
+        },
+        {
+          "label": "Subtitle",
+          "field": "emptyCartSubtitle",
+          "translatable": true,
+          "type": "string"
+        },
+        {
+          "label": "Image",
+          "field": "emptyCartImage",
+          "type": "media",
+          "required": true,
+          "options": {}
+        },
+        {
+          "label": "Categories",
+          "field": "emptyCartCategories",
+          "type": "group",
+          "min": 1,
+          "fields": [
+            {
+              "label": "Name",
+              "field": "name",
+              "translatable": true,
+              "required": true,
+              "type": "string"
+            },
+            {
+              "label": "Link",
+              "field": "reference",
+              "type": "reference",
+              "required": true
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

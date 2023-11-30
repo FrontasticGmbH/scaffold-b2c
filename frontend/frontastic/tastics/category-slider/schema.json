@@ -1,0 +1,36 @@
+{
+  "tasticType": "commercetools/ui/category-slider",
+  "name": "commercetools UI category slider",
+  "category": "Content",
+  "icon": "card_giftcard",
+  "schema": [
+    {
+      "name": "Tiles",
+      "fields": [
+        {
+          "label": "Tile",
+          "field": "tiles",
+          "type": "group",
+          "min": 1,
+          "fields": [
+            {
+              "label": "Title",
+              "field": "title",
+              "type": "string"
+            },
+            {
+              "label": "Image",
+              "field": "image",
+              "type": "media"
+            },
+            {
+              "label": "Target",
+              "field": "target",
+              "type": "reference"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

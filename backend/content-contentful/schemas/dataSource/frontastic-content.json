@@ -1,0 +1,19 @@
+{
+  "customDataSourceType": "frontastic/content",
+  "name": "Single content",
+  "category": "Content",
+  "icon": "source",
+  "schema": [
+    {
+      "name": "Content selection",
+      "fields": [
+        {
+          "label": "Content ID",
+          "field": "contentId",
+          "type": "text",
+          "translatable": false
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,7 @@
+{
+  "tasticType": "commercetools/ui/account/orders",
+  "name": "commercetools UI account orders",
+  "category": "Account",
+  "icon": "account_circle",
+  "schema": []
+}

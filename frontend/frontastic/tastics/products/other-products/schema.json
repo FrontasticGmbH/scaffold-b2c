@@ -1,0 +1,78 @@
+{
+  "tasticType": "commercetools/ui/products/other-products",
+  "name": "commercetools UI other products",
+  "icon": "menu",
+  "category": "Products",
+  "schema": [
+    {
+      "name": "Configuration",
+      "fields": [
+        {
+          "label": "Title",
+          "field": "title",
+          "type": "string",
+          "required": true
+        },
+        {
+          "label": "Title Variant",
+          "field": "titleVariant",
+          "type": "enum",
+          "default": "lg",
+          "values": [
+            {
+              "name": "Small",
+              "value": "sm"
+            },
+            {
+              "name": "Large",
+              "value": "lg"
+            }
+          ]
+        },
+        {
+          "label": "products",
+          "field": "data",
+          "type": "dataSource",
+          "dataSourceType": "frontastic/other-products",
+          "required": true
+        }
+      ]
+    },
+    {
+      "name": "CTA",
+      "fields": [
+        {
+          "label": "Label",
+          "field": "ctaLabel",
+          "type": "string"
+        },
+        {
+          "label": "Link",
+          "field": "ctaLink",
+          "type": "reference"
+        }
+      ]
+    },
+    {
+      "name": "Customization",
+      "fields": [
+        {
+          "label": "Variant",
+          "field": "variant",
+          "type": "enum",
+          "default": "normal",
+          "values": [
+            {
+              "name": "Normal",
+              "value": "normal"
+            },
+            {
+              "name": "Cart",
+              "value": "cart"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

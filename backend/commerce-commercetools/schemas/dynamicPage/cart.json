@@ -1,0 +1,8 @@
+{
+  "dynamicPageType": "frontastic/cart",
+  "name": "Cart",
+  "category": "Checkout",
+  "icon": "shopping_cart",
+  "dataSourceType": "frontastic/product-list",
+  "isMultiple": true
+}

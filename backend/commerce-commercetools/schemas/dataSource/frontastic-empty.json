@@ -1,0 +1,7 @@
+{
+  "customDataSourceType": "frontastic/empty",
+  "name": "Empty",
+  "category": "Empty",
+  "icon": "picture_in_picture",
+  "schema": []
+}

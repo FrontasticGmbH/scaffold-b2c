@@ -1,0 +1,12 @@
+export const PLP_PRODUCT_CLICKED = 'PLP: Product Clicked';
+export const PLP_PRODUCT_ADDED_TO_CART = 'PLP: Product Added To Cart';
+export const SLIDER_PRODUCT_CLICKED = 'Slider: Product Clicked';
+export const PDP_PRODUCT_ADDED_TO_CART_AFTER_SEARCH = 'PDP: Product Added To Cart After Search';
+export const PDP_PRODUCT_ADDED_TO_CART = 'PDP: Product Added To Cart';
+export const PRODUCT_VIEWED = 'Product Viewed';
+export const PDP_VIEWED = 'Product Details Page Viewed';
+export const PDP_VIEWED_AFTER_SEARCH = 'Product Details Page Viewed After Search';
+export const QUICK_VIEW_PRODUCT_ADDED_TO_CART = 'Quickview: Product Added To Cart';
+export const QUICK_VIEW_PRODUCT_ADDED_TO_CART_AFTER_SEARCH = 'Quickview: Product Added To Cart After Search';
+export const AUTOCOMPLETE_PRODUCT_CLICKED = 'Autocomplete: Product Clicked';
+export const FILTER_APPLIED = 'Filter Applied';

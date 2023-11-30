@@ -1,0 +1,68 @@
+{
+  "tasticType": "commercetools/ui/content/content-slider",
+  "name": "commercetools UI Content Slider",
+  "category": "Content",
+  "icon": "announcement",
+  "schema": [
+    {
+      "name": "Head",
+      "fields": [
+        {
+          "label": "Title",
+          "field": "title",
+          "type": "string"
+        },
+        {
+          "label": "Subtitle",
+          "field": "subtitle",
+          "type": "string"
+        }
+      ]
+    },
+    {
+      "name": "Slides",
+      "fields": [
+        {
+          "label": "Slide",
+          "field": "slides",
+          "type": "group",
+          "min": 3,
+          "max": 3,
+          "fields": [
+            {
+              "label": "Image",
+              "field": "image",
+              "type": "media"
+            },
+            {
+              "label": "Title",
+              "field": "title",
+              "type": "string"
+            },
+            {
+              "label": "Summary",
+              "field": "summary",
+              "type": "string"
+            },
+            {
+              "label": "Button label",
+              "field": "ctaLabel",
+              "translatable": true,
+              "type": "string",
+              "required": false,
+              "default": ""
+            },
+            {
+              "label": "Link",
+              "field": "ctaReference",
+              "translatable": false,
+              "required": false,
+              "type": "reference",
+              "default": null
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

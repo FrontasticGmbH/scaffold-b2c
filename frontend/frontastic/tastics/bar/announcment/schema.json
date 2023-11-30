@@ -1,0 +1,28 @@
+{
+  "tasticType": "commercetools/ui/content/announcement-bar",
+  "name": "commercetools UI announcement bar",
+  "category": "Content",
+  "icon": "announcement",
+  "schema": [
+    {
+      "name": "Content",
+      "fields": [
+        {
+          "label": "Text",
+          "field": "text",
+          "type": "string"
+        },
+        {
+          "label": "Highlighted Substring",
+          "field": "highlightedSubstring",
+          "type": "string"
+        },
+        {
+          "label": "Target",
+          "field": "target",
+          "type": "reference"
+        }
+      ]
+    }
+  ]
+}

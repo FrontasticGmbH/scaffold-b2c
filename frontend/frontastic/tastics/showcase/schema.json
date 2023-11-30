@@ -1,0 +1,18 @@
+{
+  "tasticType": "commercetools/ui/content/showcase",
+  "name": "commercetools UI Show Case",
+  "category": "Content",
+  "icon": "wrap_text",
+  "schema": [
+    {
+      "name": "Content",
+      "fields": [
+        {
+          "label": "Text",
+          "field": "content",
+          "type": "text"
+        }
+      ]
+    }
+  ]
+}

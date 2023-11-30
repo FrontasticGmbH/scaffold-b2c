@@ -1,0 +1,47 @@
+{
+  "customDataSourceType": "frontastic/product-list",
+  "name": "Product list",
+  "category": "Products",
+  "icon": "view_list",
+  "schema": [
+    {
+      "name": "Configuration",
+      "fields": [
+        {
+          "label": "Query",
+          "field": "query",
+          "type": "text",
+          "default": "",
+          "translatable": false
+        }
+      ]
+    },
+    {
+      "name": "Price range",
+      "fields": [
+        {
+          "label": "Minimum price",
+          "field": "minPrice",
+          "type": "integer",
+          "default": 0
+        },
+        {
+          "label": "Maximum price",
+          "field": "maxPrice",
+          "type": "integer"
+        }
+      ]
+    },
+    {
+      "name": "Filters",
+      "fields": [
+        {
+          "label": "Attribute filters",
+          "field": "productFilters",
+          "type": "dynamic-filter",
+          "dynamicFilterEndpoint": "/frontastic/action/product/searchableAttributes"
+        }
+      ]
+    }
+  ]
+}

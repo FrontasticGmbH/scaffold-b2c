@@ -1,0 +1,31 @@
+{
+  "compilerOptions": {
+    "target": "esnext",
+    "lib": ["dom", "dom.iterable", "esnext"],
+    "paths": {
+      "shared/types": ["../types"],
+      "shared/types/*": ["../types/*"]
+    },
+    "allowJs": true,
+    "skipLibCheck": true,
+    "strict": true,
+    "forceConsistentCasingInFileNames": true,
+    "noEmit": true,
+    "esModuleInterop": true,
+    "module": "esnext",
+    "moduleResolution": "node",
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "jsx": "preserve",
+    "baseUrl": ".",
+    "incremental": true,
+    "typeRoots": ["./node_modules/@types", "./node_modules/@headlessui/react"],
+    "plugins": [
+      {
+        "name": "next"
+      }
+    ]
+  },
+  "include": [".", ".next/types/**/*.ts"],
+  "exclude": ["node_modules", ".next/types/app/[locale]/[[...slug]]/page.ts", ".next/types/app/[locale]/layout.ts"]
+}

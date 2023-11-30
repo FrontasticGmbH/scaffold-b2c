@@ -1,0 +1,19 @@
+{
+    "customDataSourceType": "example/star-wars/movie",
+    "name": "Star Wars Movie",
+    "category": "Star Wars Documentation Examples",
+    "icon": "movie",
+    "schema": [
+        {
+            "name": "Settings",
+            "fields": [
+                {
+                    "label": "Movie ID",
+                    "field": "movieId",
+                    "type": "string",
+                    "translatable": false
+                }
+            ]
+        }
+    ]
+}

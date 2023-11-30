@@ -1,0 +1,19 @@
+{
+  "customDataSourceType": "frontastic/product",
+  "name": "Single product",
+  "category": "Products",
+  "icon": "picture_in_picture",
+  "schema": [
+    {
+      "name": "Product selection",
+      "fields": [
+        {
+          "label": "Product ID",
+          "field": "productId",
+          "type": "text",
+          "translatable": false
+        }
+      ]
+    }
+  ]
+}

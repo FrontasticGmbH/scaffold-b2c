@@ -1,0 +1,62 @@
+{
+  "tasticType": "commercetools/ui/content/hero",
+  "name": "commercetools UI hero",
+  "icon": "image",
+  "category": "Content",
+  "schema": [
+    {
+      "name": "Image",
+      "helpText": "Customize your image",
+      "fields": [
+        {
+          "label": "Image",
+          "field": "image",
+          "type": "media",
+          "required": true
+        }
+      ]
+    },
+    {
+      "name": "Message",
+      "helpText": "Customize your tile message",
+      "fields": [
+        {
+          "label": "Title",
+          "field": "title",
+          "type": "string",
+          "translatable": true,
+          "required": false
+        },
+        {
+          "label": "Subtitle",
+          "field": "subtitle",
+          "type": "string",
+          "translatable": true,
+          "required": false
+        }
+      ]
+    },
+    {
+      "name": "Call to action",
+      "helpText": "Customize your call to action",
+      "fields": [
+        {
+          "label": "Button label",
+          "field": "ctaLabel",
+          "translatable": true,
+          "type": "string",
+          "required": false,
+          "default": ""
+        },
+        {
+          "label": "Link",
+          "field": "ctaReference",
+          "translatable": false,
+          "required": false,
+          "type": "reference",
+          "default": null
+        }
+      ]
+    }
+  ]
+}

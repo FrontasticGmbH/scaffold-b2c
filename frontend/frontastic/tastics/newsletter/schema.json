@@ -1,0 +1,58 @@
+{
+  "tasticType": "commercetools/ui/content/newsletter",
+  "name": "commercetools UI newsletter",
+  "category": "Content",
+  "icon": "email",
+  "schema": [
+    {
+      "name": "Content",
+      "fields": [
+        {
+          "label": "Headline",
+          "field": "headline",
+          "type": "string"
+        },
+        {
+          "label": "Description",
+          "field": "description",
+          "type": "string"
+        },
+        {
+          "label": "Disclaimer",
+          "field": "disclaimer",
+          "type": "string"
+        }
+      ]
+    },
+    {
+      "name": "Form",
+      "fields": [
+        {
+          "label": "Input placeholder",
+          "field": "inputPlaceholder",
+          "type": "string"
+        },
+        {
+          "label": "CTA label",
+          "field": "ctaLabel",
+          "type": "string"
+        }
+      ]
+    },
+    {
+      "name": "Subscription confirmation",
+      "fields": [
+        {
+          "label": "Success title",
+          "field": "successTitle",
+          "type": "string"
+        },
+        {
+          "label": "Success message",
+          "field": "successMessage",
+          "type": "string"
+        }
+      ]
+    }
+  ]
+}

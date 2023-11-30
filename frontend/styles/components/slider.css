@@ -1,0 +1,134 @@
+.slider {
+  position: static;
+}
+.slider__container {
+  position: relative;
+  overflow: visible;
+}
+
+.slider-main-container {
+  position: relative;
+  overflow: visible;
+}
+
+.slider__container--fit {
+  width: fit-content;
+}
+.slider__container--with-thumbs {
+  display: grid;
+  grid-template-columns: 1fr 5fr;
+  gap: 25px;
+  height: 480px;
+}
+
+.slider__slides {
+  position: relative;
+  overflow: hidden;
+  padding: 0 20px;
+}
+.slider__thumbs {
+  position: relative;
+  box-sizing: border-box;
+  height: 480px;
+  width: 80px;
+}
+.swiper-pagination-bullet.slider__bullet--active {
+  background: gray;
+  opacity: 1;
+}
+.slider__thumb {
+  height: 80px;
+  width: 80px;
+}
+
+.slider_arrow {
+  position: absolute;
+  top: 50%;
+  z-index: 10;
+  cursor: pointer;
+  transform: translateY(-50%);
+}
+
+.slider_arrow .arrow {
+  display: block;
+  border: solid #494949;
+  border-width: 0 2px 2px 0;
+  padding: 10px;
+  width: 0;
+  height: 0;
+}
+
+.slider_arrow.slider_arrow_solid {
+  padding: 16px 14px;
+  width: 38px;
+  overflow: hidden;
+  display: flex;
+  transition: 150ms ease-out;
+}
+
+.slider_arrow.slider_arrow_solid.swiper-button-disabled .arrow {
+  border-color: #d1d1d1;
+}
+
+.slider_arrow.slider_arrow_solid:not(.swiper-button-disabled):hover {
+  background: #212121;
+}
+
+.slider_arrow.slider_arrow_solid .arrow {
+  border-color: #212121;
+  border-width: 0 2px 2px 0;
+}
+
+.slider_arrow.slider_arrow_solid:not(.swiper-button-disabled):hover .arrow {
+  border-color: white;
+}
+
+.slider_arrow_next.slider_arrow_solid {
+  justify-content: flex-end;
+}
+
+.slider_arrow_prev.slider_arrow_solid {
+  justify-content: flex-start;
+}
+
+.slider_arrow_prev {
+  left: -40px;
+}
+
+.slider_arrow_prev .arrow {
+  transform: rotateZ(135deg);
+}
+
+.slider_arrow_next {
+  right: -40px;
+}
+
+.slider_arrow_next .arrow {
+  transform: rotateZ(-45deg);
+}
+
+.slider_arrow_container.slider_arrow_solid {
+  background-color: #212121;
+  padding: 12px;
+}
+
+.slider_arrow_prev.slider_arrow_inner {
+  left: 10px;
+}
+
+.slider_arrow_next.slider_arrow_inner {
+  right: 10px;
+}
+
+.swiper-button-disabled {
+  cursor: default;
+}
+
+.swiper-button-disabled .arrow {
+  border-color: #d1d1d1;
+}
+
+.swiper-slide {
+  -webkit-backface-visibility: hidden;
+  -webkit-transform: translate3d(0, 0, 0);
+}

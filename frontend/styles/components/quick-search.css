@@ -1,0 +1,3 @@
+.quick-search input:focus {
+  box-shadow: none;
+}

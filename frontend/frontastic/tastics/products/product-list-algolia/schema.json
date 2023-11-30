@@ -1,0 +1,101 @@
+{
+  "tasticType": "commercetools/ui/products/product-list-algolia",
+  "name": "commercetools UI product list (Algolia)",
+  "icon": "list",
+  "category": "Products",
+  "schema": [
+    {
+      "name": "Facets configuration",
+      "fields": [
+        {
+          "label": "Facet Configuration",
+          "field": "facetsConfiguration",
+          "type": "group",
+          "min": 0,
+          "itemLabelField": "key",
+          "fields": [
+            {
+              "label": "Key",
+              "field": "key",
+              "type": "string",
+              "required": true,
+              "translatable": false
+            },
+            {
+              "label": "Type",
+              "field": "type",
+              "type": "enum",
+              "default": "term",
+              "required": true,
+              "values": [
+                {
+                  "name": "Range",
+                  "value": "range"
+                },
+                {
+                  "name": "Color",
+                  "value": "color"
+                },
+                {
+                  "name": "Term",
+                  "value": "term"
+                },
+                {
+                  "name": "Boolean",
+                  "value": "boolean"
+                }
+              ]
+            },
+            {
+              "label": "Label",
+              "field": "label",
+              "type": "string",
+              "required": true
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Prices Configuration",
+      "fields": [
+        {
+          "label": "Price Configuration",
+          "field": "pricesConfiguration",
+          "type": "group",
+          "min": 0,
+          "itemLabelField": "key",
+          "fields": [
+            {
+              "label": "Key",
+              "field": "key",
+              "type": "string",
+              "required": true,
+              "translatable": false
+            },
+            {
+              "label": "Range",
+              "field": "ranges",
+              "type": "group",
+              "fields": [
+                {
+                  "label": "Min",
+                  "field": "min",
+                  "default": 0,
+                  "type": "number",
+                  "required": true
+                },
+                {
+                  "label": "Max",
+                  "field": "max",
+                  "type": "number",
+                  "required": true
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

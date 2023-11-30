@@ -1,0 +1,52 @@
+{
+  "schema": [
+    {
+      "name": "SMTP extension",
+      "fields": [
+        {
+          "label": "Host",
+          "field": "EXTENSION_SMTP_HOST",
+          "type": "string",
+          "translatable": false,
+          "required": true
+        },
+        {
+          "label": "Port",
+          "field": "EXTENSION_SMTP_PORT",
+          "type": "integer",
+          "translatable": false,
+          "required": true,
+          "default": 587
+        },
+        {
+          "label": "Sender",
+          "field": "EXTENSION_SMTP_SENDER",
+          "type": "string",
+          "translatable": false,
+          "required": true
+        },
+        {
+          "label": "Client host",
+          "field": "EXTENSION_SMTP_CLIENT_HOST",
+          "type": "string",
+          "translatable": false,
+          "required": true
+        },
+        {
+          "label": "User",
+          "field": "EXTENSION_SMTP_USER",
+          "type": "string",
+          "translatable": false,
+          "required": false
+        },
+        {
+          "label": "Password",
+          "field": "EXTENSION_SMTP_PASSWORD",
+          "type": "encrypted",
+          "translatable": false,
+          "required": false
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,152 @@
+{
+  "schema": [
+    {
+      "name": "Commercetools Composable Commerce extension",
+      "fields": [
+        {
+          "label": "Project Key",
+          "field": "EXTENSION_COMMERCETOOLS_PROJECT_KEY",
+          "type": "string",
+          "translatable": false,
+          "required": true
+        },
+        {
+          "label": "Client ID",
+          "field": "EXTENSION_COMMERCETOOLS_CLIENT_ID",
+          "type": "string",
+          "translatable": false,
+          "required": true
+        },
+        {
+          "label": "Client Secret",
+          "field": "EXTENSION_COMMERCETOOLS_CLIENT_SECRET",
+          "type": "encrypted",
+          "translatable": false,
+          "required": true
+        },
+        {
+          "label": "Auth URL",
+          "field": "EXTENSION_COMMERCETOOLS_AUTH_URL",
+          "type": "string",
+          "translatable": false,
+          "required": true
+        },
+        {
+          "label": "Host URL",
+          "field": "EXTENSION_COMMERCETOOLS_HOST_URL",
+          "type": "string",
+          "translatable": false,
+          "required": true
+        },
+        {
+          "label": "Product ID Field",
+          "field": "EXTENSION_COMMERCETOOLS_PRODUCT_ID_FIELD",
+          "type": "string",
+          "translatable": false,
+          "required": false
+        },
+        {
+          "label": "Category ID Field",
+          "field": "EXTENSION_COMMERCETOOLS_CATEGORY_ID_FIELD",
+          "type": "string",
+          "translatable": false,
+          "required": false
+        }
+      ]
+    },
+    {
+      "name": "SMTP Email extension",
+      "fields": [
+        {
+          "label": "Host",
+          "field": "EXTENSION_SMTP_HOST",
+          "type": "string",
+          "translatable": false,
+          "required": true
+        },
+        {
+          "label": "Port",
+          "field": "EXTENSION_SMTP_PORT",
+          "type": "string",
+          "translatable": false,
+          "required": true
+        },
+        {
+          "label": "Encryption",
+          "field": "EXTENSION_SMTP_ENCRYPTION",
+          "type": "string",
+          "translatable": false,
+          "required": true
+        },
+        {
+          "label": "User",
+          "field": "EXTENSION_SMTP_USER",
+          "type": "string",
+          "translatable": false,
+          "required": true
+        },
+        {
+          "label": "Password",
+          "field": "EXTENSION_SMTP_PASSWORD",
+          "type": "encrypted",
+          "translatable": false,
+          "required": true
+        },
+        {
+          "label": "Sender",
+          "field": "EXTENSION_SMTP_SENDER",
+          "type": "string",
+          "translatable": false,
+          "required": true
+        },
+        {
+          "label": "Client host",
+          "field": "EXTENSION_SMTP_CLIENT_HOST",
+          "type": "string",
+          "translatable": false,
+          "required": true
+        }
+      ]
+    },
+    {
+      "name": "Adyen Payment extension",
+      "fields": [
+        {
+          "label": "Api Key",
+          "field": "EXTENSION_ADYEN_API_KEY",
+          "type": "encrypted",
+          "translatable": false,
+          "required": true
+        },
+        {
+          "label": "Merchant Account",
+          "field": "EXTENSION_ADYEN_MERCHANT_ACCOUNT",
+          "type": "string",
+          "translatable": false,
+          "required": true
+        },
+        {
+          "label": "Base Url",
+          "field": "EXTENSION_ADYEN_BASE_URL",
+          "type": "string",
+          "translatable": false,
+          "required": true
+        },
+        {
+          "label": "Client Key",
+          "field": "EXTENSION_ADYEN_CLIENT_KEY",
+          "type": "encrypted",
+          "translatable": false,
+          "required": true
+        },
+        {
+          "label": "Hmac Key",
+          "field": "EXTENSION_ADYEN_HMAC_KEY",
+          "type": "encrypted",
+          "translatable": false,
+          "required": true
+        }
+      ]
+    }
+  ]
+}

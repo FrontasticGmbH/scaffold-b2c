@@ -1,0 +1,54 @@
+{
+  "schema": [
+    {
+      "name": "SendGrid extension",
+      "fields": [
+        {
+          "label": "API key",
+          "field": "EXTENSION_SENDGRID_API_KEY",
+          "type": "encrypted",
+          "translatable": false,
+          "required": true
+        },
+        {
+          "label": "Sender",
+          "field": "EXTENSION_SENDGRID_SENDER",
+          "type": "string",
+          "translatable": false,
+          "required": true
+        },
+        {
+          "label": "Client host",
+          "field": "EXTENSION_SENDGRID_CLIENT_HOST",
+          "type": "string",
+          "translatable": false,
+          "required": false
+        },
+        {
+          "label": "Template IDs",
+          "field": "EXTENSION_SENDGRID_TEMPLATE_IDS",
+          "type": "group",
+          "translatable": false,
+          "required": false,
+          "min": 0,
+          "fields": [
+            {
+              "label": "Template Key",
+              "field": "TEMPLATE_KEY",
+              "type": "string",
+              "translatable": false,
+              "required": true
+            },
+            {
+              "label": "Template ID",
+              "field": "TEMPLATE_ID",
+              "type": "string",
+              "translatable": false,
+              "required": true
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

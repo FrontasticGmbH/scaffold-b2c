@@ -1,0 +1,23 @@
+{
+  "schema": [
+    {
+      "name": "Contentful extension",
+      "fields": [
+        {
+          "label": "Space ID",
+          "field": "EXTENSION_CONTENTFUL_SPACE_ID",
+          "type": "string",
+          "translatable": false,
+          "required": true
+        },
+        {
+          "label": "Access token",
+          "field": "EXTENSION_CONTENTFUL_ACCESS_TOKEN",
+          "type": "encrypted",
+          "translatable": false,
+          "required": true
+        }
+      ]
+    }
+  ]
+}
