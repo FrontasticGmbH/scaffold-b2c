@@ -18,7 +18,7 @@ const usePurchase = () => {
   const { locale } = useParams();
   const { country } = useI18n();
   const { account } = useAccount();
-  const { transaction, data, hasOutOfStockItems, orderCart } = useCart();
+  const { transaction, data, hasOutOfStockItems } = useCart();
   const { makePayment, makeKlarnaPayment, paymentData, paymentDataIsValid, handleThreeDS2Action, setProcessing } =
     useCheckout();
 
@@ -151,7 +151,6 @@ const usePurchase = () => {
     account?.accountId,
     country,
     data,
-    orderCart,
     paymentDataIsValid,
     handlePaymentResponse,
     formatCheckoutMessage,

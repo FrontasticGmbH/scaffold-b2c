@@ -34,11 +34,11 @@ type AccountChangePasswordBody = {
 };
 
 function getAccountApi(request: Request, actionContext: ActionContext) {
-  return new AccountApi(actionContext.frontasticContext, getLocale(request), getCurrency(request));
+  return new AccountApi(actionContext.frontasticContext, getLocale(request), getCurrency(request), request);
 }
 
 function getCartApi(request: Request, actionContext: ActionContext) {
-  return new CartApi(actionContext.frontasticContext, getLocale(request), getCurrency(request));
+  return new CartApi(actionContext.frontasticContext, getLocale(request), getCurrency(request), request);
 }
 
 async function loginAccount(request: Request, actionContext: ActionContext, account: Account): Promise<Response> {
@@ -46,6 +46,7 @@ async function loginAccount(request: Request, actionContext: ActionContext, acco
   const cartApi = getCartApi(request, actionContext);
 
   const cart = await CartFetcher.fetchCart(cartApi, request, actionContext);
+  const anonymousCheckoutToken = await accountApi.getCheckoutToken();
 
   try {
     account = await accountApi.login(account, cart);
@@ -55,8 +56,7 @@ async function loginAccount(request: Request, actionContext: ActionContext, acco
         statusCode: 401,
         body: JSON.stringify(error.message),
         sessionData: {
-          ...request.sessionData,
-          account: account,
+          ...accountApi.getSessionData(),
         },
       };
 
@@ -67,14 +67,16 @@ async function loginAccount(request: Request, actionContext: ActionContext, acco
   }
 
   if (!account.confirmed) {
+    // As the account is not confirmed, we'll reuse the anonymous checkout token
+    accountApi.setCheckoutToken(anonymousCheckoutToken);
+
     // If needed, the account confirmation email can be requested using
     // the endpoint action/account/requestConfirmationEmail.
     const response: Response = {
       statusCode: 401,
       body: JSON.stringify(`Your email address "${account.email}" was not yet verified.`),
       sessionData: {
-        ...request.sessionData,
-        account: account,
+        ...accountApi.getSessionData(),
       },
     };
 
@@ -85,7 +87,7 @@ async function loginAccount(request: Request, actionContext: ActionContext, acco
     statusCode: 200,
     body: JSON.stringify(account),
     sessionData: {
-      ...request.sessionData,
+      ...accountApi.getSessionData(),
       account: account,
     },
   };
@@ -202,7 +204,7 @@ export const register: ActionHook = async (request: Request, actionContext: Acti
     statusCode: 200,
     body: JSON.stringify(account),
     sessionData: {
-      ...request.sessionData,
+      ...accountApi.getSessionData(),
     },
   };
 
@@ -231,7 +233,7 @@ export const requestConfirmationEmail: ActionHook = async (request: Request, act
       statusCode: 405,
       body: JSON.stringify(`Your email address "${account.email}" was verified already.`),
       sessionData: {
-        ...request.sessionData,
+        ...accountApi.getSessionData(),
         account: account,
       },
     };
@@ -246,7 +248,7 @@ export const requestConfirmationEmail: ActionHook = async (request: Request, act
     statusCode: 200,
     body: JSON.stringify({}),
     sessionData: {
-      ...request.sessionData,
+      ...accountApi.getSessionData(),
     },
   };
 
@@ -268,7 +270,7 @@ export const confirm: ActionHook = async (request: Request, actionContext: Actio
     statusCode: 200,
     body: JSON.stringify(account),
     sessionData: {
-      ...request.sessionData,
+      ...accountApi.getSessionData(),
       account: account,
     },
   };
@@ -288,11 +290,14 @@ export const login: ActionHook = async (request: Request, actionContext: ActionC
 };
 
 export const logout: ActionHook = async (request: Request, actionContext: ActionContext) => {
+  const accountApi = getAccountApi(request, actionContext);
+  accountApi.invalidateCheckoutData();
+
   return {
     statusCode: 200,
     body: JSON.stringify({}),
     sessionData: {
-      ...request.sessionData,
+      ...accountApi.getSessionData(),
       account: undefined,
       cartId: undefined,
       wishlistId: undefined,
@@ -322,7 +327,7 @@ export const password: ActionHook = async (request: Request, actionContext: Acti
     statusCode: 200,
     body: JSON.stringify(account),
     sessionData: {
-      ...request.sessionData,
+      ...accountApi.getSessionData(),
       account,
     },
   } as Response;
@@ -351,7 +356,7 @@ export const requestReset: ActionHook = async (request: Request, actionContext: 
     statusCode: 200,
     body: JSON.stringify({}),
     sessionData: {
-      ...request.sessionData,
+      ...accountApi.getSessionData(),
       // TODO: should we redirect to logout rather to unset the account?
       account: undefined,
     },
@@ -395,7 +400,7 @@ export const update: ActionHook = async (request: Request, actionContext: Action
     statusCode: 200,
     body: JSON.stringify(account),
     sessionData: {
-      ...request.sessionData,
+      ...accountApi.getSessionData(),
       account,
     },
   } as Response;
@@ -416,7 +421,7 @@ export const addAddress: ActionHook = async (request: Request, actionContext: Ac
     statusCode: 200,
     body: JSON.stringify(account),
     sessionData: {
-      ...request.sessionData,
+      ...accountApi.getSessionData(),
       account,
     },
   } as Response;
@@ -437,7 +442,7 @@ export const addShippingAddress: ActionHook = async (request: Request, actionCon
     statusCode: 200,
     body: JSON.stringify(account),
     sessionData: {
-      ...request.sessionData,
+      ...accountApi.getSessionData(),
       account,
     },
   } as Response;
@@ -458,7 +463,7 @@ export const addBillingAddress: ActionHook = async (request: Request, actionCont
     statusCode: 200,
     body: JSON.stringify(account),
     sessionData: {
-      ...request.sessionData,
+      ...accountApi.getSessionData(),
       account,
     },
   } as Response;
@@ -479,7 +484,7 @@ export const updateAddress: ActionHook = async (request: Request, actionContext:
     statusCode: 200,
     body: JSON.stringify(account),
     sessionData: {
-      ...request.sessionData,
+      ...accountApi.getSessionData(),
       account,
     },
   } as Response;
@@ -500,7 +505,7 @@ export const removeAddress: ActionHook = async (request: Request, actionContext:
     statusCode: 200,
     body: JSON.stringify(account),
     sessionData: {
-      ...request.sessionData,
+      ...accountApi.getSessionData(),
       account,
     },
   } as Response;
@@ -521,7 +526,7 @@ export const setDefaultBillingAddress: ActionHook = async (request: Request, act
     statusCode: 200,
     body: JSON.stringify(account),
     sessionData: {
-      ...request.sessionData,
+      ...accountApi.getSessionData(),
       account,
     },
   } as Response;
@@ -542,7 +547,7 @@ export const setDefaultShippingAddress: ActionHook = async (request: Request, ac
     statusCode: 200,
     body: JSON.stringify(account),
     sessionData: {
-      ...request.sessionData,
+      ...accountApi.getSessionData(),
       account,
     },
   } as Response;

@@ -10,7 +10,7 @@ import { PageProps } from 'types/next';
 import Renderer from 'frontastic/renderer';
 
 export const revalidate = 300; // 5 minutes
-export const fetchCache = 'force-cache';
+export const fetchCache = process.env.NODE_ENV === 'production' ? 'force-cache' : 'force-no-store';
 
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
   const { locale: nextLocale, slug } = params;
@@ -43,7 +43,7 @@ export default async function Page({ params, searchParams }: PageProps) {
     ...getServerOptions(),
   });
 
-  if (response.isError) return <></>;
+  if (response.isError) return <>This page could not be resolved</>;
 
   const accountResult = await sdk.composableCommerce.account.getAccount({ ...getServerOptions() });
 

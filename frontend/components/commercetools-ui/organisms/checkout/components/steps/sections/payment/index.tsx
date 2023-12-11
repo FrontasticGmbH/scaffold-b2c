@@ -38,30 +38,23 @@ const Payment: React.FC<Props> = ({ goToNextStep }) => {
     goToNextStep();
   }, [goToNextStep]);
 
-  const getComponent = useCallback(
-    (type: PaymentMethodType) => {
-      if (type !== selectedType) return <></>;
-
-      return (
-        (
-          {
-            scheme: <Scheme />,
-            klarna_paynow: <Klarna />,
-          } as Record<PaymentMethodType, JSX.Element>
-        )[type] ?? <></>
-      );
-    },
-    [selectedType],
-  );
+  const getComponent = useCallback((type: PaymentMethodType) => {
+    return (
+      (
+        {
+          scheme: <Scheme />,
+          klarna_paynow: <Klarna />,
+        } as Record<PaymentMethodType, JSX.Element>
+      )[type] ?? <></>
+    );
+  }, []);
 
   const handlePaymentMethodSelection = useCallback(
     (type: PaymentMethodType) => {
-      if (type !== selectedType) {
-        setSelectedType(type);
-        setPaymentData({ ...paymentData, type } as PaymentData);
-      }
+      setSelectedType(type);
+      setPaymentData({ ...paymentData, type } as PaymentData);
     },
-    [selectedType, setPaymentData, paymentData],
+    [setPaymentData, paymentData],
   );
 
   return (
@@ -83,7 +76,7 @@ const Payment: React.FC<Props> = ({ goToNextStep }) => {
               {/* eslint-disable-next-line */}
               <img src={image.src} className="h-[20px] lg:h-[24px]" />
             </div>
-            {getComponent(type)}
+            {type === selectedType && getComponent(type)}
           </div>
         ))}
       </div>

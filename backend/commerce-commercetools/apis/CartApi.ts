@@ -37,19 +37,20 @@ import { ExternalError } from '../utils/Errors';
 import { CartNotCompleteError } from '../errors/CartNotCompleteError';
 import { CartPaymentNotFoundError } from '../errors/CartPaymentNotFoundError';
 import { CartRedeemDiscountCodeError } from '../errors/CartRedeemDiscountCodeError';
-import { Context } from '@frontastic/extension-types';
+import { Context, Request } from '@frontastic/extension-types';
 import { ProductApi } from './ProductApi';
 import { ProductMapper } from '@Commerce-commercetools/mappers/ProductMapper';
 import { getOffsetFromCursor } from '@Commerce-commercetools/utils/Pagination';
 import { PaginatedResult } from '@Types/result';
 import { OrderQuery } from '@Types/cart';
+import { CartNotActiveError } from '@Commerce-commercetools/errors/CartNotActiveError';
 
 export class CartApi extends BaseApi {
   productApi: ProductApi;
 
-  constructor(frontasticContext: Context, locale: string | null, currency: string | null) {
-    super(frontasticContext, locale, currency);
-    this.productApi = new ProductApi(frontasticContext, locale, currency);
+  constructor(frontasticContext: Context, locale: string | null, currency: string | null, request?: Request | null) {
+    super(frontasticContext, locale, currency, request);
+    this.productApi = new ProductApi(frontasticContext, locale, currency, request);
   }
 
   replicateCart: (orderId: string) => Promise<Cart> = async (orderId: string) => {
@@ -87,6 +88,7 @@ export class CartApi extends BaseApi {
             'paymentInfo.payments[*]',
           ],
           where: [`customerId="${account.accountId}"`, `cartState="Active"`],
+          sort: 'lastModifiedAt desc',
         },
       })
       .execute()
@@ -127,7 +129,7 @@ export class CartApi extends BaseApi {
       });
   };
 
-  getAnonymous: (anonymousId: string) => Promise<Cart> = async (anonymousId: string) => {
+  getAnonymous: () => Promise<Cart> = async () => {
     const locale = await this.getCommercetoolsLocal();
 
     const response = await this.requestBuilder()
@@ -140,7 +142,7 @@ export class CartApi extends BaseApi {
             'discountCodes[*].discountCode',
             'paymentInfo.payments[*]',
           ],
-          where: [`anonymousId="${anonymousId}"`, `cartState="Active"`],
+          where: [`anonymousId="${this.getAnonymousIdFromSessionData()}"`, `cartState="Active"`],
           sort: 'createdAt desc',
         },
       })
@@ -152,6 +154,13 @@ export class CartApi extends BaseApi {
     if (response.body.count >= 1) {
       return this.buildCartWithAvailableShippingMethods(response.body.results[0], locale);
     }
+
+    // If there is no active cart, we create one with new anonymousId and checkout token
+    this.invalidateAnonymousId();
+    const anonymousId = this.getAnonymousIdFromSessionData();
+
+    // Before create new cart with the anonymousId, we need to get a checkout token for the anonymousId
+    await this.generateCheckoutToken(anonymousId);
 
     const cartDraft: CartDraft = {
       currency: locale.currency,
@@ -182,7 +191,7 @@ export class CartApi extends BaseApi {
       });
   };
 
-  getById: (cartId: string) => Promise<Cart> = async (cartId: string) => {
+  getActiveCartById: (cartId: string) => Promise<Cart> = async (cartId: string) => {
     const locale = await this.getCommercetoolsLocal();
 
     return await this.requestBuilder()
@@ -202,6 +211,9 @@ export class CartApi extends BaseApi {
       })
       .execute()
       .then((response) => {
+        if (response.body.cartState !== 'Active') {
+          throw new CartNotActiveError({ message: `Cart ${cartId} is not active.` });
+        }
         return this.buildCartWithAvailableShippingMethods(response.body, locale);
       })
       .catch((error) => {
@@ -958,7 +970,11 @@ export class CartApi extends BaseApi {
       sortAttributes.push(`lastModifiedAt desc`);
     }
 
-    const whereClause = [`customerId="${orderQuery.accountId}"`];
+    const whereClause = [];
+
+    if (orderQuery.accountId !== undefined) {
+      whereClause.push(`customerId="${orderQuery.accountId}"`);
+    }
 
     if (orderQuery.orderIds !== undefined && orderQuery.orderIds.length !== 0) {
       whereClause.push(`id in ("${orderQuery.orderIds.join('","')}")`);

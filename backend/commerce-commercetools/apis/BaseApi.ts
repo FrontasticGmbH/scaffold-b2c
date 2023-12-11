@@ -1,6 +1,12 @@
-import { ApiRoot, createApiBuilderFromCtpClient, ProductType, Project } from '@commercetools/platform-sdk';
+import {
+  ApiRoot,
+  ClientRequest,
+  createApiBuilderFromCtpClient,
+  ProductType,
+  Project,
+} from '@commercetools/platform-sdk';
 import { ClientFactory } from '../ClientFactory';
-import { Context } from '@frontastic/extension-types';
+import { Context, Request } from '@frontastic/extension-types';
 import { getConfig } from '../utils/GetConfig';
 import { Locale } from '../Locale';
 import { LocaleError } from '../errors/LocaleError';
@@ -10,6 +16,9 @@ import { ClientConfig } from '../interfaces/ClientConfig';
 import { Token } from '@Types/Token';
 import { tokenHasExpired } from '../utils/Token';
 import crypto from 'crypto';
+import { Guid } from '@Commerce-commercetools/utils/Guid';
+import { Account } from '@Types/account';
+import { ValidationError } from '@Commerce-commercetools/errors/ValidationError';
 
 const defaultCurrency = 'USD';
 
@@ -409,8 +418,9 @@ export abstract class BaseApi {
   protected clientHashKey: string;
   protected token: Token;
   protected currency: string;
+  protected sessionData: any | null;
 
-  constructor(frontasticContext: Context, locale: string | null, currency: string | null) {
+  constructor(frontasticContext: Context, locale: string | null, currency: string | null, request?: Request | null) {
     this.defaultLocale = frontasticContext.project.defaultLocale;
     this.defaultCurrency = defaultCurrency;
 
@@ -426,6 +436,41 @@ export abstract class BaseApi {
     this.categoryIdField = this.clientSettings?.categoryIdField || 'key';
 
     this.token = clientTokensStored.get(this.getClientHashKey());
+
+    this.sessionData = request?.sessionData;
+  }
+
+  getSessionData(): any | null {
+    return this.sessionData;
+  }
+
+  invalidateCheckoutData(): void {
+    this.invalidateAnonymousId();
+    this.invalidateCheckoutToken();
+  }
+
+  invalidateAnonymousId(): void {
+    if (this.sessionData?.anonymousId) {
+      this.sessionData.anonymousId = undefined;
+    }
+  }
+
+  invalidateCheckoutToken(): void {
+    if (this.sessionData?.checkoutToken) {
+      this.sessionData.checkoutToken = undefined;
+    }
+  }
+
+  async getCheckoutToken(): Promise<Token | undefined> {
+    if (this.sessionData?.checkoutToken && tokenHasExpired(this.sessionData.checkoutToken)) {
+      await this.generateCheckoutToken(undefined, undefined, this.sessionData.checkoutToken.refreshToken);
+    }
+
+    return this.sessionData?.checkoutToken ?? undefined;
+  }
+
+  setCheckoutToken(token: Token): void {
+    this.sessionData.checkoutToken = token;
   }
 
   private commercetoolsTokenCache(): TokenCache {
@@ -491,6 +536,19 @@ export abstract class BaseApi {
     this.apiRoot = createApiBuilderFromCtpClient(client);
 
     return this.apiRoot;
+  }
+
+  protected getAnonymousIdFromSessionData(): string {
+    if (this.sessionData?.anonymousId) {
+      return this.sessionData.anonymousId;
+    }
+
+    this.sessionData = {
+      ...this.sessionData,
+      anonymousId: Guid.newGuid(),
+    };
+
+    return this.sessionData.anonymousId;
   }
 
   protected requestBuilder() {
@@ -582,5 +640,60 @@ export abstract class BaseApi {
     };
 
     return project;
+  }
+
+  protected async generateCheckoutToken(anonymousId?: string, account?: Account, refreshToken?: string) {
+    if (anonymousId === undefined && account === undefined && refreshToken === undefined) {
+      throw new ValidationError({ message: 'Either anonymousId, account, or refresh token must be defined' });
+    }
+
+    const scopes = ['manage_my_orders:' + this.clientSettings.projectKey];
+
+    const client = ClientFactory.factorWithoutAuthenticationFlow(this.clientSettings);
+
+    const request: ClientRequest = {
+      method: 'POST',
+      headers: {
+        Authorization: `Basic ${Buffer.from(
+          `${this.clientSettings.clientId}:${this.clientSettings.clientSecret}`,
+        ).toString('base64')}`,
+        'Content-Type': 'application/x-www-form-urlencoded',
+      },
+    };
+
+    switch (true) {
+      case refreshToken !== undefined:
+        request.uri = `/oauth/token`;
+        request.body = `grant_type=refresh_token&refresh_token=${encodeURIComponent(refreshToken)}`;
+        break;
+
+      case account !== undefined:
+        request.uri = `/oauth/${this.clientSettings.projectKey}/customers/token`;
+        request.body = `grant_type=password&username=${encodeURIComponent(account.email)}&password=${encodeURIComponent(
+          account.password,
+        )}&scope=${scopes.join(' ')}`;
+        break;
+
+      case anonymousId !== undefined:
+        request.uri = `/oauth/${this.clientSettings.projectKey}/anonymous/token`;
+        request.body = `grant_type=client_credentials&anonymous_id=${encodeURIComponent(
+          anonymousId,
+        )}&scope=${scopes.join(' ')}`;
+        break;
+    }
+
+    await client
+      .execute(request)
+      .then((response) => {
+        const token = {
+          token: response.body.access_token,
+          expirationTime: response.body.expires_in,
+          refreshToken: response.body.refresh_token,
+        };
+        this.setCheckoutToken(token);
+      })
+      .catch((error) => {
+        throw new ExternalError({ status: error.code, message: error.message, body: error.body });
+      });
   }
 }

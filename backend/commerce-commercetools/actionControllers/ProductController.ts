@@ -9,7 +9,7 @@ import { getCurrency, getLocale } from '../utils/Request';
 type ActionHook = (request: Request, actionContext: ActionContext) => Promise<Response>;
 
 function getProductApi(request: Request, actionContext: ActionContext) {
-  return new ProductApi(actionContext.frontasticContext, getLocale(request), getCurrency(request));
+  return new ProductApi(actionContext.frontasticContext, getLocale(request), getCurrency(request), request);
 }
 
 export const getProduct: ActionHook = async (request: Request, actionContext: ActionContext) => {
@@ -35,7 +35,7 @@ export const getProduct: ActionHook = async (request: Request, actionContext: Ac
     statusCode: 200,
     body: JSON.stringify(product),
     sessionData: {
-      ...request.sessionData,
+      ...productApi.getSessionData(),
     },
   };
 
@@ -53,7 +53,7 @@ export const query: ActionHook = async (request: Request, actionContext: ActionC
     statusCode: 200,
     body: JSON.stringify(queryResult),
     sessionData: {
-      ...request.sessionData,
+      ...productApi.getSessionData(),
     },
   };
 
@@ -77,7 +77,7 @@ export const queryCategories: ActionHook = async (request: Request, actionContex
     statusCode: 200,
     body: JSON.stringify(queryResult),
     sessionData: {
-      ...request.sessionData,
+      ...productApi.getSessionData(),
     },
   };
 
@@ -93,7 +93,7 @@ export const searchableAttributes: ActionHook = async (request: Request, actionC
     statusCode: 200,
     body: JSON.stringify(result),
     sessionData: {
-      ...request.sessionData,
+      ...productApi.getSessionData(),
     },
   };
 

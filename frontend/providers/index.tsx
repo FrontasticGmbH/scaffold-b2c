@@ -1,7 +1,6 @@
 'use client';
 
 import { useParams } from 'next/navigation';
-import { GetAccountActionReturn } from '../sdk/composable-commerce/types/actions/AccountActions';
 import { SDKResponse } from '@commercetools/frontend-sdk';
 import Toaster from 'components/commercetools-ui/atoms/toaster';
 import AddToCartOverlayProvider from 'context/add-to-cart-overlay';
@@ -9,6 +8,7 @@ import { sdk } from 'sdk';
 import { Translations } from 'types/i18n';
 import I18nProvider from './i18n';
 import { SWRProvider } from './swr';
+import { GetAccountActionReturn } from '../sdk/composable-commerce/types/actions/AccountActions';
 
 interface ProvidersProps {
   translations: Translations;

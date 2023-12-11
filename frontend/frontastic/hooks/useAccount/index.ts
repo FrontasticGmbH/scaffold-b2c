@@ -8,7 +8,10 @@ import { GetAccountResult, RegisterAccount, UpdateAccount, UseAccountReturn } fr
 const useAccount = (): UseAccountReturn => {
   const extensions = sdk.composableCommerce;
 
-  const result = useSWR('/action/account/getAccount', extensions.account.getAccount, revalidateOptions);
+  const result = useSWR('/action/account/getAccount', extensions.account.getAccount, {
+    ...revalidateOptions,
+    revalidateOnMount: true,
+  });
 
   const data = useMemo(() => {
     if (result.data?.isError) return { loggedIn: false, accountLoading: false, error: result.error };

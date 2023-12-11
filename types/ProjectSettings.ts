@@ -9,4 +9,6 @@ export interface ProjectSettings {
   currencies?: string[];
 
   languages?: string[];
+
+  projectKey?: string;
 }

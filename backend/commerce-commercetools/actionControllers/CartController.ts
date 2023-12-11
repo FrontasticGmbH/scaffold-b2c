@@ -19,11 +19,12 @@ import handleError from '@Commerce-commercetools/utils/handleError';
 import { SortAttributes, SortOrder } from '@Types/query/ProductQuery';
 import { OrderQuery } from '@Types/cart';
 import { fetchAccountFromSession } from '@Commerce-commercetools/utils/fetchAccountFromSession';
+import { CartNotMatchOrderError } from '@Commerce-commercetools/errors/CartNotMatchOrderError';
 
 type ActionHook = (request: Request, actionContext: ActionContext) => Promise<Response>;
 
 function getCartApi(request: Request, actionContext: ActionContext) {
-  return new CartApi(actionContext.frontasticContext, getLocale(request), getCurrency(request));
+  return new CartApi(actionContext.frontasticContext, getLocale(request), getCurrency(request), request);
 }
 
 function queryParamsToSortAttributes(queryParams: any) {
@@ -79,7 +80,8 @@ export const getCart: ActionHook = async (request: Request, actionContext: Actio
       statusCode: 200,
       body: cart ? JSON.stringify(cart) : '',
       sessionData: {
-        ...request.sessionData,
+        ...cartApi.getSessionData(),
+        ...(cart ? { cartId: cart.cartId } : {}),
       },
     };
   } catch (error) {
@@ -128,7 +130,7 @@ export const addToCart: ActionHook = async (request: Request, actionContext: Act
     statusCode: 200,
     body: JSON.stringify(cart),
     sessionData: {
-      ...request.sessionData,
+      ...cartApi.getSessionData(),
       cartId,
     },
   };
@@ -145,7 +147,7 @@ export const replicateCart: ActionHook = async (request: Request, actionContext:
       statusCode: 422,
       body: JSON.stringify(`Order was not found.`),
       sessionData: {
-        ...request.sessionData,
+        ...cartApi.getSessionData(),
       },
     };
   }
@@ -158,7 +160,7 @@ export const replicateCart: ActionHook = async (request: Request, actionContext:
         statusCode: 400,
         body: JSON.stringify(`We could not replicate cart for order : "${orderId}".`),
         sessionData: {
-          ...request.sessionData,
+          ...cartApi.getSessionData(),
         },
       };
     }
@@ -167,7 +169,7 @@ export const replicateCart: ActionHook = async (request: Request, actionContext:
       statusCode: 200,
       body: JSON.stringify(cart),
       sessionData: {
-        ...request.sessionData,
+        ...cartApi.getSessionData(),
         cartId: cart.cartId,
       },
     };
@@ -177,7 +179,7 @@ export const replicateCart: ActionHook = async (request: Request, actionContext:
         statusCode: error.status,
         body: JSON.stringify(error.message),
         sessionData: {
-          ...request.sessionData,
+          ...cartApi.getSessionData(),
         },
       };
     }
@@ -186,7 +188,7 @@ export const replicateCart: ActionHook = async (request: Request, actionContext:
       statusCode: 400,
       body: JSON.stringify(err.message),
       sessionData: {
-        ...request.sessionData,
+        ...cartApi.getSessionData(),
       },
     };
   }
@@ -213,7 +215,7 @@ export const updateLineItem: ActionHook = async (request: Request, actionContext
     statusCode: 200,
     body: JSON.stringify(cart),
     sessionData: {
-      ...request.sessionData,
+      ...cartApi.getSessionData(),
       cartId,
     },
   };
@@ -241,7 +243,7 @@ export const removeLineItem: ActionHook = async (request: Request, actionContext
     statusCode: 200,
     body: JSON.stringify(cart),
     sessionData: {
-      ...request.sessionData,
+      ...cartApi.getSessionData(),
       cartId,
     },
   };
@@ -259,7 +261,7 @@ export const updateCart: ActionHook = async (request: Request, actionContext: Ac
     statusCode: 200,
     body: JSON.stringify(cart),
     sessionData: {
-      ...request.sessionData,
+      ...cartApi.getSessionData(),
       cartId,
     },
   };
@@ -286,7 +288,7 @@ export const checkout: ActionHook = async (request: Request, actionContext: Acti
     statusCode: 200,
     body: JSON.stringify(order),
     sessionData: {
-      ...request.sessionData,
+      ...cartApi.getSessionData(),
       cartId,
     },
   };
@@ -312,7 +314,7 @@ export const getOrders: ActionHook = async (request: Request, actionContext: Act
     statusCode: 200,
     body: JSON.stringify(orders),
     sessionData: {
-      ...request.sessionData,
+      ...cartApi.getSessionData(),
     },
   };
   return response;
@@ -328,7 +330,7 @@ export const getShippingMethods: ActionHook = async (request: Request, actionCon
     statusCode: 200,
     body: JSON.stringify(shippingMethods),
     sessionData: {
-      ...request.sessionData,
+      ...cartApi.getSessionData(),
     },
   };
 
@@ -345,7 +347,7 @@ export const getAvailableShippingMethods: ActionHook = async (request: Request, 
     statusCode: 200,
     body: JSON.stringify(availableShippingMethods),
     sessionData: {
-      ...request.sessionData,
+      ...cartApi.getSessionData(),
       cartId: cart.cartId,
     },
   };
@@ -371,7 +373,7 @@ export const setShippingMethod: ActionHook = async (request: Request, actionCont
     statusCode: 200,
     body: JSON.stringify(cart),
     sessionData: {
-      ...request.sessionData,
+      ...cartApi.getSessionData(),
       cartId: cart.cartId,
     },
   };
@@ -407,7 +409,7 @@ export const addPaymentByInvoice: ActionHook = async (request: Request, actionCo
     statusCode: 200,
     body: JSON.stringify(cart),
     sessionData: {
-      ...request.sessionData,
+      ...cartApi.getSessionData(),
       cartId: cart.cartId,
     },
   };
@@ -429,7 +431,7 @@ export const updatePayment: ActionHook = async (request: Request, actionContext:
     statusCode: 200,
     body: JSON.stringify(payment),
     sessionData: {
-      ...request.sessionData,
+      ...cartApi.getSessionData(),
       cartId: cart.cartId,
     },
   };
@@ -454,7 +456,7 @@ export const redeemDiscount: ActionHook = async (request: Request, actionContext
       statusCode: 200,
       body: JSON.stringify(cart),
       sessionData: {
-        ...request.sessionData,
+        ...cartApi.getSessionData(),
         cartId: cart.cartId,
       },
     };
@@ -464,7 +466,7 @@ export const redeemDiscount: ActionHook = async (request: Request, actionContext
         statusCode: error.status,
         body: JSON.stringify(error.message),
         sessionData: {
-          ...request.sessionData,
+          ...cartApi.getSessionData(),
           cartId: cart.cartId,
         },
       };
@@ -496,7 +498,7 @@ export const removeDiscount: ActionHook = async (request: Request, actionContext
     statusCode: 200,
     body: JSON.stringify(cart),
     sessionData: {
-      ...request.sessionData,
+      ...cartApi.getSessionData(),
       cartId: cart.cartId,
     },
   };
@@ -530,11 +532,67 @@ export const queryOrders: ActionHook = async (request, actionContext) => {
     const response: Response = {
       statusCode: 200,
       body: JSON.stringify(queryResult),
-      sessionData: request.sessionData,
+      sessionData: {
+        ...cartApi.getSessionData(),
+      },
     };
 
     return response;
   } catch (error) {
     return handleError(error, request);
   }
+};
+
+export const getCheckoutOrder: ActionHook = async (request, actionContext) => {
+  const locale = getLocale(request);
+  const cartApi = new CartApi(actionContext.frontasticContext, locale, getCurrency(request));
+
+  const account = fetchAccountFromSession(request);
+
+  try {
+    const orderQuery: OrderQuery = {
+      accountId: account?.accountId,
+      orderIds: [request.query?.orderId],
+      limit: 1,
+    };
+
+    const queryResult = await cartApi.queryOrders(orderQuery);
+
+    // We'll consider the first order as the checkout order
+    const order = queryResult.items[0];
+
+    if (account === undefined) {
+      // If account is not logged in, we need to validate if the order belongs to the current session cart
+      if (order?.cartId !== request.sessionData?.cartId) {
+        throw new CartNotMatchOrderError({ message: 'Order does not match the current cart.' });
+      }
+    }
+
+    const response: Response = {
+      statusCode: 200,
+      body: JSON.stringify(order),
+      sessionData: {
+        ...cartApi.getSessionData(),
+      },
+    };
+
+    return response;
+  } catch (error) {
+    return handleError(error, request);
+  }
+};
+
+export const getCheckoutToken: ActionHook = async (request: Request, actionContext: ActionContext) => {
+  const cartApi = getCartApi(request, actionContext);
+  const checkoutToken = await cartApi.getCheckoutToken();
+
+  const response: Response = {
+    statusCode: 200,
+    body: checkoutToken ? JSON.stringify(checkoutToken) : '',
+    sessionData: {
+      ...cartApi.getSessionData(),
+    },
+  };
+
+  return response;
 };

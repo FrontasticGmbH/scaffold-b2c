@@ -52,7 +52,7 @@ const ProductDetails: FC<ProductDetailsProps> = ({
 
   useEffect(() => {
     if (product && categories && !category) {
-      const currentCategory = categories.find((cat) => cat.categoryId === product.categories?.[0].categoryId);
+      const currentCategory = categories.find((cat) => cat.categoryId === product.categories?.[0]?.categoryId);
       setCategory(currentCategory);
     }
   }, [categories, category, product, product?.categories]);

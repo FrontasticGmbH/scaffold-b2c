@@ -7,7 +7,7 @@ import { PageProps } from 'types/next';
 import PreviewRenderer from 'frontastic/preview-renderer';
 
 export const revalidate = 300; // 5 minutes
-export const fetchCache = 'force-cache';
+export const fetchCache = 'force-no-store';
 
 export default async function Page({ params, searchParams }: PageProps) {
   const { locale, previewId } = params;

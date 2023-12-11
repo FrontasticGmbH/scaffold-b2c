@@ -1,5 +1,6 @@
-import React, { useCallback, useMemo } from 'react';
+import React, { useCallback, useEffect, useMemo, useRef } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
+import toast from 'react-hot-toast';
 import Skeleton from 'react-loading-skeleton';
 import Button from 'components/commercetools-ui/atoms/button';
 import Link from 'components/commercetools-ui/atoms/link';
@@ -61,9 +62,25 @@ const AccountDetails: React.FC<AccountDetailsProps> = ({
   const verify = searchParams.get('verify');
 
   const { logout } = useAccount();
+
   const { formatMessage: formatAccountMessage } = useFormat({ name: 'account' });
+
   const [hash, id] = useHash();
   const isLoading = useMemo(() => !!verify, [verify]);
+
+  const responded = useRef(false);
+
+  useEffect(() => {
+    if (!verify || responded.current) return;
+
+    if (verify === '0')
+      toast.error(formatAccountMessage({ id: 'verification.failed', defaultMessage: 'Invalid token' }));
+    else toast.success(formatAccountMessage({ id: 'verification.done', defaultMessage: 'Email verified' }));
+
+    responded.current = true;
+
+    router.push('/account');
+  }, [verify, router, formatAccountMessage]);
 
   const handleLogout = () => {
     logout().then(() => router.push('/login'));

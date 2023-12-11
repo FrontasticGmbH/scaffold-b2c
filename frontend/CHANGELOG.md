@@ -1,4 +1,44 @@
 
+## Version 1.8.4 (2023-12-10)
+
+
+** Features and Imporvements **
+
+- Pass `showTaxes` to ct checkout
+
+## Version 1.8.3 (2023-12-07)
+
+** Features and Improvements **
+
+- Checkout style customizations
+
+
+** Bug Fixes **
+
+- Fix verify route stuck
+- 
+
+## Version 1.8.1 (2023-12-07)
+
+** Features and Improvements **
+
+- Add leave checkout handler
+
+## Version 1.8.0 (2023-12-07)
+
+** Bug Fixes **
+
+- Fix cart disappearing bug
+
+## Version 1.7.0 (2023-12-06)
+
+
+** New Features and Improvements **
+
+- Remove adyen
+- Checkout imporvements
+- Remove nextjs caching from preview and enabled in production only for page
+
 ## Version 1.6.0 (2023-11-22)
 
 ** New Features and Improvements **

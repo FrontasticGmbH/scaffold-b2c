@@ -4,3 +4,4 @@ export { default as useWishlist } from './useWishlist';
 export { default as useProduct } from './useProduct';
 export { default as useAdyen } from './useAdyen';
 export { default as useProjectSettings } from './useProjectSettings';
+export { default as useCheckoutToken } from './useCheckoutToken';

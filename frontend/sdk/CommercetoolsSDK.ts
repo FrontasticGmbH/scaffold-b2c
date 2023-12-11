@@ -18,6 +18,10 @@ class CommercetoolsSDK extends SDK<ComposableCommerceEvents> {
       // extensions. Log error, fire notification etc...
       console.log('SDK error: ', event.data);
     });
+
+    // Set up any other custom global event handlers here.
+    // Ensure types are created and added to the SDK generic type
+    // if specific to your project.
   }
 
   configureForNext(nextJsLocale: string) {

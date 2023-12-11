@@ -5,7 +5,6 @@ import 'core-js/stable';
 import 'regenerator-runtime/runtime';
 
 import commercetoolsExtension from '@Commerce-commercetools';
-import adyenExtension from '@Payment-adyen';
 import contentfulExtensions from '@Content-contentful';
 import dynamicyieldExtensions from '@Content-dynamicyield';
 import amplienceExtensions from '@Content-amplience';
@@ -19,7 +18,6 @@ import appHealthExtension from './extensions-runner-test';
 
 const extensionsToMerge = [
   commercetoolsExtension,
-  adyenExtension,
   contentfulExtensions,
   dynamicyieldExtensions,
   amplienceExtensions,

@@ -1,12 +1,12 @@
 import { useCallback, useMemo } from 'react';
+import { Cart } from 'shared/types/cart';
 import { Discount } from 'shared/types/cart/Discount';
+import { Order } from 'shared/types/cart/Order';
+import { Variant } from 'shared/types/product';
 import useSWR, { mutate } from 'swr';
 import useI18n from 'helpers/hooks/useI18n';
 import mapCosts from 'helpers/utils/mapCosts';
 import { sdk } from 'sdk';
-import { Cart } from 'shared/types/cart';
-import { Order } from 'shared/types/cart/Order';
-import { Variant } from 'shared/types/product';
 import { revalidateOptions } from 'frontastic';
 import { CartDetails, UseCartReturn } from './types';
 
@@ -15,7 +15,10 @@ const useCart = (): UseCartReturn => {
 
   const { currency } = useI18n();
 
-  const result = useSWR('/action/cart/getCart', extensions.cart.getCart, revalidateOptions);
+  const result = useSWR('/action/cart/getCart', extensions.cart.getCart, {
+    ...revalidateOptions,
+    revalidateIfStale: true,
+  });
 
   const shippingMethodsResults = useSWR(
     '/action/cart/getShippingMethods',
@@ -52,8 +55,6 @@ const useCart = (): UseCartReturn => {
   }, []);
 
   const orderCart = useCallback(async () => {
-    const extensions = sdk.composableCommerce;
-
     const res = await sdk.callAction({ actionName: 'cart/checkout' });
     mutate('/action/cart/getCart');
 
@@ -64,8 +65,16 @@ const useCart = (): UseCartReturn => {
     const extensions = sdk.composableCommerce;
 
     const res = await extensions.cart.queryOrders({ orderIds: [orderId] });
+    mutate('/action/cart/getCart');
 
     return (res.isError ? {} : res.data.items?.[0]) as Order;
+  }, []);
+
+  const getCheckoutOrder = useCallback(async (orderId: string) => {
+    const res = await sdk.callAction({ actionName: 'cart/getCheckoutOrder', query: { orderId: orderId } });
+    mutate('/action/cart/getCheckoutOrder');
+
+    return (res.isError ? {} : res.data) as Order;
   }, []);
 
   const orderHistory = useCallback(async () => {
@@ -170,6 +179,7 @@ const useCart = (): UseCartReturn => {
     shippingMethods,
     orderCart,
     getOrder,
+    getCheckoutOrder,
     orderHistory,
     getProjectSettings,
     redeemDiscountCode,

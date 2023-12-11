@@ -5,7 +5,7 @@ import { ProjectApi } from '../apis/ProjectApi';
 type ActionHook = (request: Request, actionContext: ActionContext) => Promise<Response>;
 
 function getProjectApi(request: Request, actionContext: ActionContext) {
-  return new ProjectApi(actionContext.frontasticContext, getLocale(request), getCurrency(request));
+  return new ProjectApi(actionContext.frontasticContext, getLocale(request), getCurrency(request), request);
 }
 
 export const getProjectSettings: ActionHook = async (request: Request, actionContext: ActionContext) => {
@@ -17,7 +17,7 @@ export const getProjectSettings: ActionHook = async (request: Request, actionCon
     statusCode: 200,
     body: JSON.stringify(project),
     sessionData: {
-      ...request.sessionData,
+      ...projectApi.getSessionData(),
     },
   };
 

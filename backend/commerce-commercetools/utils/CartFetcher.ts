@@ -1,13 +1,10 @@
 import { ActionContext, Request } from '@frontastic/extension-types';
 import { Cart } from '@Types/cart/Cart';
 import { CartApi } from '../apis/CartApi';
-import { Guid } from './Guid';
 
 export class CartFetcher {
   static async fetchCart(cartApi: CartApi, request: Request, actionContext: ActionContext): Promise<Cart> {
-    return (
-      (await this.fetchCartFromSession(cartApi, request, actionContext)) ?? (await cartApi.getAnonymous(Guid.newGuid()))
-    );
+    return (await this.fetchCartFromSession(cartApi, request, actionContext)) ?? (await cartApi.getAnonymous());
   }
 
   static async fetchCartFromSession(
@@ -23,7 +20,7 @@ export class CartFetcher {
 
     if (request.sessionData?.cartId !== undefined) {
       try {
-        return await cartApi.getById(request.sessionData.cartId);
+        return await cartApi.getActiveCartById(request.sessionData.cartId);
       } catch (error) {
         console.info(`Error fetching the cart ${request.sessionData.cartId}. ${error}`);
       }

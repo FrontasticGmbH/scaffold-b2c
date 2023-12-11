@@ -7,10 +7,10 @@ import { TasticProps } from '../types';
 
 const CheckoutTastic = ({ data }: TasticProps<CheckoutWrappedProps>) => {
   //CT-Checkout
-  //   return <CommercetoolsCheckout {...data} />;
+  return <CommercetoolsCheckout {...data} />;
 
   //Fully customized checkout
-  return <Checkout {...data} />;
+  //   return <Checkout {...data} />;
 };
 
 export default CheckoutTastic;

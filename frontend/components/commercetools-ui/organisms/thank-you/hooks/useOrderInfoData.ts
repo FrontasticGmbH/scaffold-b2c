@@ -43,9 +43,10 @@ const useOrderInfoData = (order?: Order) => {
 
   const updatePaymentInfo = useCallback(() => {
     const payment = order?.payments?.[0];
-    const lastDigits = ''; //payment?.cardSummary;
+    // const lastDigits = payment?.cardSummary;
+    const lastDigits = undefined;
     const cardType = payment?.paymentMethod == 'mc' ? 'MASTERCARD' : 'VISA';
-    const label = `${cardType} **${lastDigits}`;
+    const label = lastDigits ? `${cardType} **${lastDigits}` : cardType;
     setPaymentInfo(label);
   }, [order?.payments]);
 

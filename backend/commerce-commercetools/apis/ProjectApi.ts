@@ -9,6 +9,7 @@ export class ProjectApi extends BaseApi {
         countries: response.countries,
         currencies: response.currencies,
         languages: response.languages,
+        projectKey: response.key,
       };
 
       return projectSettings;

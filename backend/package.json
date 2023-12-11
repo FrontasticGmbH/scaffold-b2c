@@ -23,7 +23,7 @@
     "@babel/runtime": "^7.16.5",
     "@bloomreach/spa-sdk": "^22.0.0",
     "@commercetools/platform-sdk": "^4.5.0",
-    "@commercetools/sdk-client-v2": "^2.1.1",
+    "@commercetools/sdk-client-v2": "^2.2.1",
     "@sendgrid/mail": "^7.7.0",
     "@types/jest": "^27.4.1",
     "axios": "^0.26.1",
