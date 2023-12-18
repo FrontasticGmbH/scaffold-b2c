@@ -6,7 +6,7 @@ import { FilterField, FilterFieldTypes } from '@Types/product/FilterField';
 import { FilterTypes } from '@Types/query/Filter';
 import { TermFilter } from '@Types/query/TermFilter';
 import { RangeFilter } from '@Types/query/RangeFilter';
-import { CategoryQuery } from '@Types/query/CategoryQuery';
+import { CategoryQuery, CategoryQueryFormat } from '@Types/query/CategoryQuery';
 import { Category } from '@Types/product/Category';
 import { FacetDefinition } from '@Types/product/FacetDefinition';
 import { ExternalError } from '../utils/Errors';
@@ -205,7 +205,7 @@ export class ProductApi extends BaseApi {
       field: 'categoryIds',
       type: FilterFieldTypes.ENUM,
       label: 'Category',
-      values: await this.queryCategories({ limit: 250, format: 'tree' }).then((result) => {
+      values: await this.queryCategories({ limit: 250, format: CategoryQueryFormat.TREE }).then((result) => {
         return (result.items as Category[]).map((item) => {
           return {
             value: item.categoryId,
@@ -261,7 +261,7 @@ export class ProductApi extends BaseApi {
     return await this.getCommercetoolsCategoryPagedQueryResponse(methodArgs)
       .then((response) => {
         const items =
-          categoryQuery.format === 'tree'
+          categoryQuery.format === CategoryQueryFormat.TREE
             ? ProductMapper.commercetoolsCategoriesToTreeCategory(response.body.results, this.categoryIdField, locale)
             : response.body.results.map((category) =>
                 ProductMapper.commercetoolsCategoryToCategory(category, this.categoryIdField, locale),

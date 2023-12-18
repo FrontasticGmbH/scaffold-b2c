@@ -46,7 +46,7 @@ async function loginAccount(request: Request, actionContext: ActionContext, acco
   const cartApi = getCartApi(request, actionContext);
 
   const cart = await CartFetcher.fetchCart(cartApi, request, actionContext);
-  const anonymousCheckoutToken = await accountApi.getCheckoutToken();
+  const anonymousCheckoutToken = await cartApi.getCheckoutToken(cart);
 
   try {
     account = await accountApi.login(account, cart);
@@ -68,7 +68,7 @@ async function loginAccount(request: Request, actionContext: ActionContext, acco
 
   if (!account.confirmed) {
     // As the account is not confirmed, we'll reuse the anonymous checkout token
-    accountApi.setCheckoutToken(anonymousCheckoutToken);
+    accountApi.setSessionCheckoutToken(anonymousCheckoutToken);
 
     // If needed, the account confirmation email can be requested using
     // the endpoint action/account/requestConfirmationEmail.
@@ -291,7 +291,7 @@ export const login: ActionHook = async (request: Request, actionContext: ActionC
 
 export const logout: ActionHook = async (request: Request, actionContext: ActionContext) => {
   const accountApi = getAccountApi(request, actionContext);
-  accountApi.invalidateCheckoutData();
+  accountApi.invalidateSessionCheckoutData();
 
   return {
     statusCode: 200,

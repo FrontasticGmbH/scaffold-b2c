@@ -30,7 +30,7 @@ export const parameters = {
 };
 
 const StoryWrapper = ({ Story }) => {
-  sdk.configureForNext('en');
+  sdk.defaultConfigure('en');
 
   return <Story />;
 };

@@ -18,3 +18,11 @@ export const tokenHasExpired = (token?: Token): boolean => {
 
   return Date.now() >= token.expirationTime;
 };
+
+export const calculateExpirationTime = (expiredIn?: number): number | undefined => {
+  if (expiredIn === undefined) {
+    return undefined;
+  }
+
+  return expiredIn * 1000 + Date.now();
+};

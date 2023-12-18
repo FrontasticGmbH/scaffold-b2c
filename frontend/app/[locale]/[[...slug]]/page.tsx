@@ -1,5 +1,6 @@
 import { Metadata } from 'next';
-import { Result } from 'shared/types/product/Result';
+import { Category } from 'shared/types/product';
+import { PaginatedResult } from 'shared/types/result/PaginatedResult';
 import GASnippet from 'components/headless/GASnippet';
 import { getTranslations } from 'helpers/i18n/get-translations';
 import getServerOptions from 'helpers/server/get-server-options';
@@ -9,13 +10,12 @@ import { sdk } from 'sdk';
 import { PageProps } from 'types/next';
 import Renderer from 'frontastic/renderer';
 
-export const revalidate = 300; // 5 minutes
-export const fetchCache = process.env.NODE_ENV === 'production' ? 'force-cache' : 'force-no-store';
+export const fetchCache = 'force-no-store';
 
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
   const { locale: nextLocale, slug } = params;
 
-  sdk.configureForNext(nextLocale);
+  sdk.defaultConfigure(nextLocale);
 
   const response = await sdk.page.getPage({ path: `/${(slug as string[])?.join('/') ?? ''}` });
 
@@ -35,7 +35,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
 export default async function Page({ params, searchParams }: PageProps) {
   const { locale, slug } = params;
 
-  sdk.configureForNext(locale);
+  sdk.defaultConfigure(locale);
 
   const response = await sdk.page.getPage({
     path: `/${(slug as string[])?.join('/') ?? ''}`,
@@ -43,21 +43,16 @@ export default async function Page({ params, searchParams }: PageProps) {
     ...getServerOptions(),
   });
 
-  if (response.isError) return <>This page could not be resolved</>;
+  if (response.isError) return <></>;
 
   const accountResult = await sdk.composableCommerce.account.getAccount({ ...getServerOptions() });
 
-  const categoriesResult = await sdk.callAction<Result>({
+  const categoriesResult = await sdk.callAction<PaginatedResult<Category>>({
     actionName: 'product/queryCategories',
     payload: { limit: 99 },
     query: { format: 'tree' },
     ...getServerOptions(),
   });
-
-  /*const categoriesResult = await sdk.composableCommerce.product.queryCategories(
-    { limit: 99 },
-    { ...getServerOptions() },
-  );*/
 
   const translations = await getTranslations(
     [locale],

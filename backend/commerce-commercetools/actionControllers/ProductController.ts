@@ -3,7 +3,7 @@ import { ProductApi } from '../apis/ProductApi';
 import { ActionContext } from '@frontastic/extension-types';
 import { ProductQueryFactory } from '../utils/ProductQueryFactory';
 import { ProductQuery } from '@Types/query/ProductQuery';
-import { CategoryQuery } from '@Types/query/CategoryQuery';
+import { CategoryQuery, CategoryQueryFormat } from '@Types/query/CategoryQuery';
 import { getCurrency, getLocale } from '../utils/Request';
 
 type ActionHook = (request: Request, actionContext: ActionContext) => Promise<Response>;
@@ -68,7 +68,7 @@ export const queryCategories: ActionHook = async (request: Request, actionContex
     cursor: request.query?.cursor ?? undefined,
     slug: request.query?.slug ?? undefined,
     parentId: request.query?.parentId ?? undefined,
-    format: request.query?.format ?? 'flat',
+    format: request.query?.format ?? CategoryQueryFormat.FLAT,
   };
 
   const queryResult = await productApi.queryCategories(categoryQuery);

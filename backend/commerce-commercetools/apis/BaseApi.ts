@@ -14,7 +14,7 @@ import { ExternalError } from '../utils/Errors';
 import { TokenCache, TokenStore } from '@commercetools/sdk-client-v2';
 import { ClientConfig } from '../interfaces/ClientConfig';
 import { Token } from '@Types/Token';
-import { tokenHasExpired } from '../utils/Token';
+import { calculateExpirationTime, tokenHasExpired } from '../utils/Token';
 import crypto from 'crypto';
 import { Guid } from '@Commerce-commercetools/utils/Guid';
 import { Account } from '@Types/account';
@@ -444,33 +444,29 @@ export abstract class BaseApi {
     return this.sessionData;
   }
 
-  invalidateCheckoutData(): void {
-    this.invalidateAnonymousId();
-    this.invalidateCheckoutToken();
+  invalidateSessionCheckoutData(): void {
+    this.invalidateSessionAnonymousId();
+    this.invalidateSessionCheckoutToken();
   }
 
-  invalidateAnonymousId(): void {
+  invalidateSessionAnonymousId(): void {
     if (this.sessionData?.anonymousId) {
       this.sessionData.anonymousId = undefined;
     }
   }
 
-  invalidateCheckoutToken(): void {
+  invalidateSessionCheckoutToken(): void {
     if (this.sessionData?.checkoutToken) {
       this.sessionData.checkoutToken = undefined;
     }
   }
 
-  async getCheckoutToken(): Promise<Token | undefined> {
-    if (this.sessionData?.checkoutToken && tokenHasExpired(this.sessionData.checkoutToken)) {
-      await this.generateCheckoutToken(undefined, undefined, this.sessionData.checkoutToken.refreshToken);
-    }
-
-    return this.sessionData?.checkoutToken ?? undefined;
+  setSessionCheckoutToken(token: Token): void {
+    this.sessionData.checkoutToken = token;
   }
 
-  setCheckoutToken(token: Token): void {
-    this.sessionData.checkoutToken = token;
+  getSessionCheckoutToken(): Token | undefined {
+    return this.sessionData?.checkoutToken ?? undefined;
   }
 
   private commercetoolsTokenCache(): TokenCache {
@@ -685,12 +681,12 @@ export abstract class BaseApi {
     await client
       .execute(request)
       .then((response) => {
-        const token = {
+        const token: Token = {
           token: response.body.access_token,
-          expirationTime: response.body.expires_in,
-          refreshToken: response.body.refresh_token,
+          expirationTime: calculateExpirationTime(response.body.expires_in),
+          refreshToken: response.body.refresh_token ?? refreshToken,
         };
-        this.setCheckoutToken(token);
+        this.setSessionCheckoutToken(token);
       })
       .catch((error) => {
         throw new ExternalError({ status: error.code, message: error.message, body: error.body });

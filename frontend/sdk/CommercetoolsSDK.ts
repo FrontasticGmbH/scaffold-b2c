@@ -1,21 +1,23 @@
 import { ComposableCommerce, ComposableCommerceEvents } from './composable-commerce';
 import { SDK } from '@commercetools/frontend-sdk';
 import { getLocalizationInfo } from 'project.config';
-// Add other extension's custom events to the SDK's generic type here,
-// by extending ComposableCommerceEvents with their type with an
-// intersection. For example <ComposableCommerceEvents & OtherEvents>.
+
+// Add other integration's custom events to the SDK's generic type here,
+// by extending ComposableCommerceEvents with their type using an intersection.
+// For example, <ComposableCommerceEvents & OtherEvents>.
+// You may also wish to add your own custom events.
 class CommercetoolsSDK extends SDK<ComposableCommerceEvents> {
   composableCommerce!: ComposableCommerce;
-  // Add your other extensions here.
+  // Add any other integrations here.
 
   constructor() {
     super();
     this.composableCommerce = new ComposableCommerce(this);
-    // Initialise your other extensions here.
+    // Initialize your other integrations here.
 
     this.on('errorCaught', (event) => {
-      // Globally handle any errors caught by the SDK from your
-      // extensions. Log error, fire notification etc...
+      // Globally handle any errors caught by the SDK and integrations. For
+      // example, log error, fire notification, etc.
       console.log('SDK error: ', event.data);
     });
 
@@ -24,8 +26,11 @@ class CommercetoolsSDK extends SDK<ComposableCommerceEvents> {
     // if specific to your project.
   }
 
-  configureForNext(nextJsLocale: string) {
-    const { locale, currency } = getLocalizationInfo(nextJsLocale);
+  // A simplified, reusable method for configuring the SDK, as for
+  // most cases only the locale and currency require input from runtime, or
+  // may change on user input.
+  defaultConfigure(localeString: string) {
+    const { locale, currency } = getLocalizationInfo(localeString);
 
     sdk.configure({
       locale,

@@ -44,6 +44,10 @@ import { getOffsetFromCursor } from '@Commerce-commercetools/utils/Pagination';
 import { PaginatedResult } from '@Types/result';
 import { OrderQuery } from '@Types/cart';
 import { CartNotActiveError } from '@Commerce-commercetools/errors/CartNotActiveError';
+import { Token } from '@Types/Token';
+import { tokenHasExpired } from '@Commerce-commercetools/utils/Token';
+import { CartSetAnonymousIdAction } from '@commercetools/platform-sdk/dist/declarations/src/generated/models/cart';
+import { TokenError } from '@Commerce-commercetools/errors/TokenError';
 
 export class CartApi extends BaseApi {
   productApi: ProductApi;
@@ -156,7 +160,7 @@ export class CartApi extends BaseApi {
     }
 
     // If there is no active cart, we create one with new anonymousId and checkout token
-    this.invalidateAnonymousId();
+    this.invalidateSessionAnonymousId();
     const anonymousId = this.getAnonymousIdFromSessionData();
 
     // Before create new cart with the anonymousId, we need to get a checkout token for the anonymousId
@@ -1024,5 +1028,55 @@ export class CartApi extends BaseApi {
       .catch((error) => {
         throw new ExternalError({ status: error.code, message: error.message, body: error.body });
       });
+  }
+
+  async getCheckoutToken(cart: Cart, account?: Account): Promise<Token | undefined> {
+    let checkoutToken = this.getSessionCheckoutToken();
+
+    if (!tokenHasExpired(checkoutToken)) {
+      return checkoutToken;
+    }
+
+    if (checkoutToken.refreshToken) {
+      await this.generateCheckoutToken(undefined, undefined, checkoutToken.refreshToken).catch((error) => {
+        throw new ExternalError({ status: error.code, message: error.message, body: error.body });
+      });
+
+      return this.getSessionCheckoutToken();
+    }
+
+    // The token has expired as we can't refresh it, we need to create a new one
+    this.invalidateSessionCheckoutData();
+
+    if (account) {
+      // If the user is logged in, we can't create a new token without the user email and password
+      throw new TokenError({
+        message: 'The checkout token has expired and can not be refreshed. Please login again.',
+      });
+    }
+
+    const anonymousId = this.getAnonymousIdFromSessionData();
+
+    await this.generateCheckoutToken(anonymousId).catch((error) => {
+      throw new ExternalError({ status: error.code, message: error.message, body: error.body });
+    });
+
+    checkoutToken = this.getSessionCheckoutToken();
+
+    // Update the cart with the new anonymousId
+    const cartUpdate: CartUpdate = {
+      version: +cart.cartVersion,
+      actions: [
+        {
+          action: 'setAnonymousId',
+          anonymousId,
+        } as CartSetAnonymousIdAction,
+      ],
+    };
+
+    const locale = await this.getCommercetoolsLocal();
+    await this.updateCart(cart.cartId, cartUpdate, locale);
+
+    return checkoutToken;
   }
 }

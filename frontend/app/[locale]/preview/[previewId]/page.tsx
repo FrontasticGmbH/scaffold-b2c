@@ -6,13 +6,12 @@ import { sdk } from 'sdk';
 import { PageProps } from 'types/next';
 import PreviewRenderer from 'frontastic/preview-renderer';
 
-export const revalidate = 300; // 5 minutes
 export const fetchCache = 'force-no-store';
 
 export default async function Page({ params, searchParams }: PageProps) {
   const { locale, previewId } = params;
 
-  sdk.configureForNext(locale);
+  sdk.defaultConfigure(locale);
 
   const response = await sdk.page.getPreview({ previewId: previewId as string });
 

@@ -1,12 +1,16 @@
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { useParams, useRouter } from 'next/navigation';
 import { checkout, init } from '@commercetools/checkout-browser-sdk';
-import { useCart, useProjectSettings, useCheckoutToken } from 'frontastic';
+import toast from 'react-hot-toast';
+import useTranslation from 'providers/i18n/hooks/useTranslation';
+import { useCart, useProjectSettings, useCheckoutToken, useAccount } from 'frontastic';
 import { CheckoutWrappedProps } from '..';
 import Header from '../components/header';
 
-const CommercetoolsCheckout = ({ logo, ...emptyState }: CheckoutWrappedProps) => {
+const CommercetoolsCheckout = ({ logo }: CheckoutWrappedProps) => {
   const { push: pushRoute } = useRouter();
+
+  const { translate } = useTranslation();
 
   const initiatedCheckout = useRef(false);
 
@@ -20,7 +24,9 @@ const CommercetoolsCheckout = ({ logo, ...emptyState }: CheckoutWrappedProps) =>
 
   const { projectKey } = projectSettings ?? {};
 
-  const accessToken = useCheckoutToken();
+  const { accessToken, isExpired } = useCheckoutToken();
+
+  const { account, logout } = useAccount();
 
   const applicationId = useMemo(() => {
     return locale === 'en'
@@ -67,6 +73,18 @@ const CommercetoolsCheckout = ({ logo, ...emptyState }: CheckoutWrappedProps) =>
     });
   }, [projectKey, cart, locale, accessToken, applicationId, pushRoute]);
 
+  const errorTriggered = useRef(false);
+
+  useEffect(() => {
+    if (account?.accountId && isExpired && !errorTriggered.current) {
+      errorTriggered.current = true;
+      logout().then(() => {
+        pushRoute('/login');
+        toast.error(translate('checkout.your.token.has.expired'), { position: 'top-right' });
+      });
+    }
+  }, [isExpired, pushRoute, logout, translate, account]);
+
   const handleGoingBack = useCallback(() => {
     const checkoutIframe = document.getElementById('ctc-wrapper');
 
@@ -81,7 +99,7 @@ const CommercetoolsCheckout = ({ logo, ...emptyState }: CheckoutWrappedProps) =>
 
   return (
     <div className="min-h-screen lg:bg-neutral-200">
-      <Header logo={logo} {...emptyState} />
+      <Header logo={logo} />
       <div className="relative pt-6">
         {/* eslint-disable-next-line tailwindcss/no-custom-classname*/}
         <div data-ctc className="checkout-Container" />

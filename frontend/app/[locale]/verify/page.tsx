@@ -11,7 +11,7 @@ export default async function Page({ params, searchParams }: PageProps) {
 
   const token = searchParams.token as string;
 
-  sdk.configureForNext(locale);
+  sdk.defaultConfigure(locale);
 
   const response = await sdk.composableCommerce.account.confirm({ token }, { ...getServerOptions() });
 

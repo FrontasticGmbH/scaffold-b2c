@@ -8,7 +8,7 @@ export async function GET() {
 
   const siteUrl = process.env.SITE_URL;
 
-  sdk.configureForNext(locale);
+  sdk.defaultConfigure(locale);
 
   const fields = [] as SiteMapField[];
 

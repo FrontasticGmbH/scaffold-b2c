@@ -18,7 +18,7 @@ interface ProvidersProps {
 export const Providers = ({ translations, accountResult, children }: React.PropsWithChildren<ProvidersProps>) => {
   const { locale } = useParams();
 
-  sdk.configureForNext(locale);
+  sdk.defaultConfigure(locale);
 
   return (
     <I18nProvider translations={translations}>

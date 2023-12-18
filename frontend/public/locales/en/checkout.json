@@ -56,5 +56,6 @@
   "items.outOfStock": "The following items are out of stock",
   "payment.failed": "We could not process your payment, please try again later.",
   "discount.apply": "Apply a discount",
-  "expiry.date": "Expiry date"
+  "expiry.date": "Expiry date",
+  "your.token.has.expired": "Your token has expired, please login again to continue."
 }

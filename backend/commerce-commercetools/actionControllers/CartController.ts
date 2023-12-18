@@ -20,6 +20,8 @@ import { SortAttributes, SortOrder } from '@Types/query/ProductQuery';
 import { OrderQuery } from '@Types/cart';
 import { fetchAccountFromSession } from '@Commerce-commercetools/utils/fetchAccountFromSession';
 import { CartNotMatchOrderError } from '@Commerce-commercetools/errors/CartNotMatchOrderError';
+import { TokenError } from '@Commerce-commercetools/errors/TokenError';
+import { Token } from '@Types/Token';
 
 type ActionHook = (request: Request, actionContext: ActionContext) => Promise<Response>;
 
@@ -583,8 +585,41 @@ export const getCheckoutOrder: ActionHook = async (request, actionContext) => {
 };
 
 export const getCheckoutToken: ActionHook = async (request: Request, actionContext: ActionContext) => {
+  let checkoutToken: Token;
+
   const cartApi = getCartApi(request, actionContext);
-  const checkoutToken = await cartApi.getCheckoutToken();
+  const cart = await CartFetcher.fetchCart(cartApi, request, actionContext);
+  const account = fetchAccountFromSession(request);
+
+  try {
+    checkoutToken = await cartApi.getCheckoutToken(cart, account);
+  } catch (error) {
+    if (error instanceof TokenError) {
+      const response: Response = {
+        statusCode: 401,
+        body: JSON.stringify(error.message),
+        sessionData: {
+          ...cartApi.getSessionData(),
+        },
+      };
+
+      return response;
+    }
+
+    if (error instanceof ExternalError) {
+      const response: Response = {
+        statusCode: error.status,
+        body: JSON.stringify(error.message),
+        sessionData: {
+          ...cartApi.getSessionData(),
+        },
+      };
+
+      return response;
+    }
+
+    throw error;
+  }
 
   const response: Response = {
     statusCode: 200,

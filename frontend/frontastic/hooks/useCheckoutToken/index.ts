@@ -6,9 +6,13 @@ const useCheckoutToken = () => {
     sdk.callAction<{ token: string }>({ actionName: 'cart/getCheckoutToken' }),
   );
 
-  const token = data?.isError ? undefined : data?.data.token;
+  const accessToken = data?.isError ? undefined : data?.data.token;
 
-  return token;
+  const isExpired =
+    data?.isError &&
+    data?.error.message === 'Error: The checkout token has expired and can not be refreshed. Please login again.';
+
+  return { accessToken, isExpired };
 };
 
 export default useCheckoutToken;

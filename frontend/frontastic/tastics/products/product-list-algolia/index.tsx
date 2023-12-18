@@ -14,6 +14,7 @@ import {
 } from 'components/commercetools-ui/organisms/product/product-list-algolia/types';
 import InstantSearch from 'components/HOC/InstantSearch';
 import usePath from 'helpers/hooks/usePath';
+import { flattenTree } from 'helpers/utils/flattenTree';
 import { getLocalizationInfo } from 'project.config';
 import LocalizedIndex from 'providers/algolia/localized-index';
 import { TasticProps } from 'frontastic/tastics/types';
@@ -78,12 +79,14 @@ function ProductListTastic({ categories, data }: TasticProps<Props>) {
     clearAllRefinements();
   }, [clearAllRefinements, pathWithoutQuery]);
 
+  const flattenedCategories = categories.map((category) => flattenTree(category, 'subCategories')).flat();
+
   const isCategoryFoundOrSearchQueryExists = useMemo(() => {
     if (searchQuery) return true;
     if (!categorySlug) return true;
 
-    return !!categories?.find((category) => category.slug === categorySlug);
-  }, [searchQuery, categories, categorySlug]);
+    return !!flattenedCategories?.find((category) => category.slug === categorySlug);
+  }, [searchQuery, flattenedCategories, categorySlug]);
 
   if (!isCategoryFoundOrSearchQueryExists) return <NotFound />;
 
@@ -91,7 +94,7 @@ function ProductListTastic({ categories, data }: TasticProps<Props>) {
     <ProductList
       slug={categorySlug}
       searchQuery={searchQuery}
-      categories={categories}
+      categories={flattenedCategories}
       facetsConfiguration={facetsConfiguration}
     />
   );

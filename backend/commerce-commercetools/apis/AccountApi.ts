@@ -164,8 +164,10 @@ export class AccountApi extends BaseApi {
       account.confirmationToken = await this.getConfirmationToken(account);
     }
 
-    // Recreate checkout token with the account credentials
-    await this.generateCheckoutToken(undefined, accountCredentials);
+    // Create checkout token with the account credentials
+    await this.generateCheckoutToken(undefined, accountCredentials).catch((error) => {
+      throw new ExternalError({ status: error.code, message: error.message, body: error.body });
+    });
 
     return account;
   };
