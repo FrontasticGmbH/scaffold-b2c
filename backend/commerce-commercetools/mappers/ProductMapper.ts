@@ -9,6 +9,7 @@ import {
   CategoryReference,
   FacetResults as CommercetoolsFacetResults,
   Price as CommercetoolsPrice,
+  ProductDiscount,
   ProductProjection as CommercetoolsProductProjection,
   ProductType as CommercetoolsProductType,
   ProductVariant as CommercetoolsProductVariant,
@@ -17,7 +18,7 @@ import {
   TypedMoney,
 } from '@commercetools/platform-sdk';
 import { Product } from '@Types/product/Product';
-import { Variant } from '@Types/product/Variant';
+import { DiscountValue, Variant } from '@Types/product/Variant';
 import { Attributes } from '@Types/product/Attributes';
 import { Category } from '@Types/product/Category';
 import { ProductRouter } from '../utils/ProductRouter';
@@ -224,32 +225,66 @@ export class ProductMapper {
     return commercetoolsAttributeValue[locale.language] || commercetoolsAttributeValue;
   }
 
+  static commercetoolsProductDiscountValueToProductDiscountValue(
+    commercetoolsProductDiscountValue: ProductDiscount,
+    locale: Locale,
+  ): DiscountValue[] {
+    const productDiscountValue: DiscountValue = {
+      type: commercetoolsProductDiscountValue.value.type,
+      description: commercetoolsProductDiscountValue.description?.[locale.language],
+    };
+
+    if (commercetoolsProductDiscountValue.value.type == 'relative') {
+      Object.assign(productDiscountValue, {
+        permyriad: commercetoolsProductDiscountValue.value.permyriad,
+      });
+    }
+
+    if (commercetoolsProductDiscountValue.value.type == 'absolute') {
+      const discountValues = commercetoolsProductDiscountValue.value.money.map((money) => {
+        return this.commercetoolsMoneyToMoney(money);
+      });
+
+      Object.assign(productDiscountValue, {
+        value: discountValues,
+      });
+    }
+
+    return [productDiscountValue]
+  }
+
   static extractPriceAndDiscounts(commercetoolsVariant: CommercetoolsProductVariant, locale: Locale) {
     let price: Money | undefined;
     let discountedPrice: Money | undefined;
-    let discounts: string[] | undefined;
+    let discounts: DiscountValue[] | undefined;
 
     if (commercetoolsVariant?.scopedPrice) {
-      price = ProductMapper.commercetoolsMoneyToMoney(commercetoolsVariant.scopedPrice?.value);
+      price = this.commercetoolsMoneyToMoney(commercetoolsVariant.scopedPrice?.value);
       if (commercetoolsVariant.scopedPrice?.discounted?.value) {
-        discountedPrice = ProductMapper.commercetoolsMoneyToMoney(commercetoolsVariant.scopedPrice?.discounted?.value);
+        discountedPrice = this.commercetoolsMoneyToMoney(commercetoolsVariant.scopedPrice?.discounted?.value);
       }
 
-      if (commercetoolsVariant.scopedPrice?.discounted?.discount?.obj?.description?.[locale.language]) {
-        discounts = [commercetoolsVariant.scopedPrice?.discounted?.discount?.obj?.description[locale.language]];
+      if (commercetoolsVariant.scopedPrice?.discounted?.discount?.obj) {
+        discounts = this.commercetoolsProductDiscountValueToProductDiscountValue(
+          commercetoolsVariant.scopedPrice?.discounted?.discount?.obj,
+          locale,
+        );
       }
 
       return { price, discountedPrice, discounts };
     }
 
     if (commercetoolsVariant?.price) {
-      price = ProductMapper.commercetoolsMoneyToMoney(commercetoolsVariant.price?.value);
+      price = this.commercetoolsMoneyToMoney(commercetoolsVariant.price?.value);
       if (commercetoolsVariant.price?.discounted?.value) {
-        discountedPrice = ProductMapper.commercetoolsMoneyToMoney(commercetoolsVariant.price?.discounted?.value);
+        discountedPrice = this.commercetoolsMoneyToMoney(commercetoolsVariant.price?.discounted?.value);
       }
 
-      if (commercetoolsVariant.price?.discounted?.discount?.obj?.description?.[locale.language]) {
-        discounts = [commercetoolsVariant.price?.discounted?.discount?.obj?.description[locale.language]];
+      if (commercetoolsVariant.price?.discounted?.discount?.obj) {
+        discounts = this.commercetoolsProductDiscountValueToProductDiscountValue(
+          commercetoolsVariant.price?.discounted?.discount?.obj,
+          locale,
+        );
       }
 
       return { price, discountedPrice, discounts };
@@ -277,14 +312,17 @@ export class ProductMapper {
         });
       }
 
-      price = ProductMapper.commercetoolsMoneyToMoney(commercetoolsPrice?.value);
+      price = this.commercetoolsMoneyToMoney(commercetoolsPrice?.value);
 
       if (commercetoolsPrice?.discounted?.value) {
-        discountedPrice = ProductMapper.commercetoolsMoneyToMoney(commercetoolsPrice?.discounted?.value);
+        discountedPrice = this.commercetoolsMoneyToMoney(commercetoolsPrice?.discounted?.value);
       }
 
-      if (commercetoolsPrice?.discounted?.discount?.obj?.description?.[locale.language]) {
-        discounts = [commercetoolsPrice?.discounted?.discount?.obj?.description[locale.language]];
+      if (commercetoolsPrice?.discounted?.discount?.obj) {
+        discounts = this.commercetoolsProductDiscountValueToProductDiscountValue(
+          commercetoolsPrice?.discounted?.discount?.obj,
+          locale,
+        );
       }
 
       return { price, discountedPrice, discounts };

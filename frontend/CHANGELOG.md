@@ -1,4 +1,13 @@
 
+## Version 1.9.0 (2023-12-18)
+
+** New Features and Improvements **
+
+- Changed caching strategy
+
+** Bug fixes **
+- Fix checkout expired token handler
+
 ## Version 1.8.4 (2023-12-10)
 
 

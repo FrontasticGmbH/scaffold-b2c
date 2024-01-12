@@ -339,11 +339,11 @@ const parseLocale = (locale: string, currency?: string): ParsedLocale => {
 
 const projectCacheTtlMilliseconds = 10 * 60 * 1000;
 const projectCache: {
-  [projectKey: string]: { project: Project; expiryTime: Date };
+  [projectKey: string]: { project: Project; expiryTime: number };
 } = {};
 
 const productTypesCache: {
-  [projectKey: string]: { productTypes: ProductType[]; expiryTime: Date };
+  [projectKey: string]: { productTypes: ProductType[]; expiryTime: number };
 } = {};
 
 const pickCandidate = (candidates: string[], availableOptions: string[]): string | undefined => {
@@ -584,10 +584,11 @@ export abstract class BaseApi {
   }
 
   protected async getProductTypes() {
-    const now = new Date();
+    const now = Date.now();
 
     if (this.projectKey in productTypesCache) {
       const cacheEntry = productTypesCache[this.projectKey];
+
       if (now < cacheEntry.expiryTime) {
         return cacheEntry.productTypes;
       }
@@ -602,7 +603,7 @@ export abstract class BaseApi {
 
         productTypesCache[this.projectKey] = {
           productTypes,
-          expiryTime: new Date(now.getMilliseconds() + projectCacheTtlMilliseconds),
+          expiryTime: projectCacheTtlMilliseconds * 1000 + now,
         };
 
         return productTypes;
@@ -613,10 +614,11 @@ export abstract class BaseApi {
   }
 
   protected async getProject() {
-    const now = new Date();
+    const now = Date.now();
 
     if (this.projectKey in projectCache) {
       const cacheEntry = projectCache[this.projectKey];
+
       if (now < cacheEntry.expiryTime) {
         return cacheEntry.project;
       }
@@ -632,7 +634,7 @@ export abstract class BaseApi {
 
     projectCache[this.projectKey] = {
       project,
-      expiryTime: new Date(now.getMilliseconds() + projectCacheTtlMilliseconds),
+      expiryTime: projectCacheTtlMilliseconds * 1000 + now,
     };
 
     return project;

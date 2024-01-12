@@ -1,4 +1,24 @@
 
+## Version 1.10.0 (2023-12-18)
+
+** New Features and Improvements **
+
+- Improve handle of expired token
+
+** Bug fixes **
+
+- Handle recreated cart on getCart action
+
+## Version 1.10.0 (2023-12-18)
+
+** New Features and Improvements **
+
+- Improve token refresh for checkout anywhere
+
+** Bug fixes **
+
+- Handle anonymous cart
+
 ## Version 1.9.0 (2023-11-28)
 
 ** New Features and Improvements **
