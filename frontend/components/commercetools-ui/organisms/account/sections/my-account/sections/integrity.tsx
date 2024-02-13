@@ -11,11 +11,11 @@ const Integrity = () => {
   const integrityButtons: Array<InfoField> = [
     {
       label: formatMessage({ id: 'password.change', defaultMessage: 'Change your password' }),
-      value: '#/change-password',
+      value: '?id=change-password',
     },
     {
       label: formatMessage({ id: 'delete.account', defaultMessage: 'Delete your account' }),
-      value: '#/delete-account',
+      value: '?id=delete-account',
     },
   ];
 

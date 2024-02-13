@@ -26,7 +26,7 @@ const InfoCard: FC<InfoCardProps> = ({
   editHref,
 }) => {
   const cardFullClassName = useClassNames([
-    { 'flex items-center justify-between': !!isEditable },
+    { 'flex items-start justify-between': !!isEditable },
     { 'py-24 px-16 md:px-24 md:pr-28 lg:pr-44': !clearPadding },
     'rounded-sm border border-neutral-400',
     cardClassName,

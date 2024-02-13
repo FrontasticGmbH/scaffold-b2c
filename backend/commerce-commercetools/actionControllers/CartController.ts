@@ -140,7 +140,7 @@ export const addToCart: ActionHook = async (request: Request, actionContext: Act
   return response;
 };
 
-export const replicateCart: ActionHook = async (request: Request, actionContext: ActionContext) => {
+export const replicateOrder: ActionHook = async (request: Request, actionContext: ActionContext) => {
   const cartApi = getCartApi(request, actionContext);
   const orderId = request.query?.['orderId'];
 

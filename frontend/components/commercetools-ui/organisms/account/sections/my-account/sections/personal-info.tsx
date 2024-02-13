@@ -22,7 +22,7 @@ const PersonalInfo: FC<PersonalInformation> = ({ account }) => {
       title={formatAccountMessage({ id: 'personal.info', defaultMessage: 'Personal information' })}
       isEditable
       infoFields={personalInformationFields}
-      editHref="#/edit-personal-info"
+      editHref="?id=edit-personal-info"
     />
   );
 };

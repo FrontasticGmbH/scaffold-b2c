@@ -20,8 +20,9 @@ const TasticWrapper = ({
   const resolvedTasticData = dataSources ? injectDataSources(data.configuration, dataSources) : data.configuration;
 
   return (
-    <div className={`${highlight(isHighlighted)} ${deviceVisibility(data.configuration)}`}>
-      <Tastic data={resolvedTasticData} params={params} searchParams={searchParams} categories={categories} />
+    <div id={data?.tasticId} className={`${highlight(isHighlighted)} ${deviceVisibility(data.configuration)}`}>
+      {/* @ts-ignore*/}
+      <Tastic id={data?.tasticId} data={resolvedTasticData} params={params} searchParams={searchParams} categories={categories} />
     </div>
   );
 };
