@@ -88,14 +88,19 @@ const LoginForm: FC<Props> = ({ onLogin }) => {
   //resend verification email for user
   const resendVerificationEmailForUser = async () => {
     try {
-      await requestConfirmationEmail(data.email, data.password);
-      setSuccess(
-        formatAccountMessage({
-          id: 'verification.resent',
-          defaultMessage: 'An email was sent to {email}',
-          values: { email: data.email },
-        }),
-      );
+      const response = await requestConfirmationEmail(data.email, data.password);
+
+      if (response.error)
+        setError(formatErrorMessage({ id: 'wentWrong', defaultMessage: 'Sorry. Something went wrong..' }));
+      else {
+        setSuccess(
+          formatAccountMessage({
+            id: 'verification.resent',
+            defaultMessage: 'An email was sent to {email}',
+            values: { email: data.email },
+          }),
+        );
+      }
     } catch (err) {
       setError(formatErrorMessage({ id: 'wentWrong', defaultMessage: 'Sorry. Something went wrong..' }));
     }
@@ -104,14 +109,19 @@ const LoginForm: FC<Props> = ({ onLogin }) => {
   //request a password reset for user
   const resendPasswordResetForUser = async () => {
     try {
-      await requestPasswordReset(data.email);
-      setSuccess(
-        formatAccountMessage({
-          id: 'verification.resent',
-          defaultMessage: 'An email was sent to {email}',
-          values: { email: data.email },
-        }),
-      );
+      const response = await requestPasswordReset(data.email);
+
+      if (response.error)
+        setError(formatErrorMessage({ id: 'wentWrong', defaultMessage: 'Sorry. Something went wrong..' }));
+      else {
+        setSuccess(
+          formatAccountMessage({
+            id: 'verification.resent',
+            defaultMessage: 'An email was sent to {email}',
+            values: { email: data.email },
+          }),
+        );
+      }
     } catch (err) {
       setError(formatErrorMessage({ id: 'wentWrong', defaultMessage: 'Sorry. Something went wrong..' }));
     }

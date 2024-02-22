@@ -3,9 +3,9 @@ import { Account, Address } from 'shared/types/account';
 import useSWR, { mutate } from 'swr';
 import { sdk } from 'sdk';
 import { revalidateOptions } from 'frontastic';
-import { GetAccountResult, RegisterAccount, UpdateAccount, UseAccountReturn } from './types';
+import { GetAccountResult, RegisterAccount, UpdateAccount } from './types';
 
-const useAccount = (): UseAccountReturn => {
+const useAccount = () => {
   const extensions = sdk.composableCommerce;
 
   const result = useSWR('/action/account/getAccount', extensions.account.getAccount, {
@@ -94,7 +94,7 @@ const useAccount = (): UseAccountReturn => {
     return res.isError ? ({} as Account) : res.data;
   }, []);
 
-  const requestConfirmationEmail = useCallback(async (email: string, password: string): Promise<void> => {
+  const requestConfirmationEmail = useCallback(async (email: string, password: string) => {
     const extensions = sdk.composableCommerce;
 
     const payload = {
@@ -102,7 +102,9 @@ const useAccount = (): UseAccountReturn => {
       password,
     };
 
-    await extensions.account.requestConfirmationEmail(payload);
+    const response = await extensions.account.requestConfirmationEmail(payload);
+
+    return response.isError ? { error: true, message: response.error.message } : { error: false };
   }, []);
 
   const changePassword = useCallback(async (oldPassword: string, newPassword: string): Promise<Account> => {
@@ -113,17 +115,19 @@ const useAccount = (): UseAccountReturn => {
     return res.isError ? ({} as Account) : res.data;
   }, []);
 
-  const requestPasswordReset = useCallback(async (email: string): Promise<void> => {
+  const requestPasswordReset = useCallback(async (email: string) => {
     const extensions = sdk.composableCommerce;
 
     const payload = {
       email,
     };
 
-    await extensions.account.requestResetPassword(payload);
+    const response = await extensions.account.requestResetPassword(payload);
+
+    return response.isError ? { error: true, message: response.error.message } : { error: false };
   }, []);
 
-  const resetPassword = useCallback(async (token: string, newPassword: string): Promise<Account> => {
+  const resetPassword = useCallback(async (token: string, newPassword: string) => {
     const extensions = sdk.composableCommerce;
 
     const res = await extensions.account.resetPassword({ token, newPassword });

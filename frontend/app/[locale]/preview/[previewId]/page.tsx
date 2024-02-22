@@ -19,15 +19,9 @@ export default async function Page({ params, searchParams }: PageProps) {
 
   const categoriesResult = await sdk.callAction<Result>({
     actionName: 'product/queryCategories',
-    payload: { limit: 99 },
-    query: { format: 'tree' },
+    query: { format: 'tree', limit: 99 },
     ...getServerOptions(),
   });
-
-  /*const categoriesResult = await sdk.composableCommerce.product.queryCategories(
-    { limit: 99 },
-    { ...getServerOptions() },
-  );*/
 
   const translations = await getTranslations(
     [locale],
