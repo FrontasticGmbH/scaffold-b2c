@@ -1,10 +1,10 @@
 // @ts-ignore
 import fetch from 'node-fetch';
+import { Product } from '@Types/product/Product';
+import { ContextType } from '../interfaces/ContextType';
 import BaseApi from './BaseApi';
 import { DynamicYieldMapper } from '@Content-dynamicyield/mappers/DynamicYieldMapper';
-import { Product } from '@Types/product/Product';
 import { ExternalError } from '@Content-dynamicyield/utils/Errors';
-import { ContextType } from '../interfaces/ContextType';
 
 export default class DynamicYieldApi extends BaseApi {
   async choose(dyContext: ContextType, selectors: string[] = []): Promise<Product[]> {

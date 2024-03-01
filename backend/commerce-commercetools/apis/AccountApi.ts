@@ -1,4 +1,3 @@
-import { BaseApi } from './BaseApi';
 import { Account } from '@Types/account/Account';
 import {
   BaseAddress,
@@ -7,14 +6,15 @@ import {
   CustomerUpdate,
   CustomerUpdateAction,
 } from '@commercetools/platform-sdk';
-import { AccountMapper } from '../mappers/AccountMapper';
 import { Cart } from '@Types/cart/Cart';
 import { Address } from '@Types/account/Address';
+import { AccountToken } from '@Types/account/AccountToken';
+import { AccountMapper } from '../mappers/AccountMapper';
 import { Guid } from '../utils/Guid';
 import { ExternalError, ValidationError } from '../utils/Errors';
 import { AccountEmailDuplicatedError } from '../errors/AccountEmailDuplicatedError';
-import { AccountToken } from '@Types/account/AccountToken';
 import { AccountAuthenticationError } from '../errors/AccountAuthenticationError';
+import { BaseApi } from './BaseApi';
 
 export class AccountApi extends BaseApi {
   create: (account: Account, cart: Cart | undefined) => Promise<Account> = async (

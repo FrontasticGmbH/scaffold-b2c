@@ -1,6 +1,6 @@
 import { Request } from '@frontastic/extension-types';
-import { getLocale, getPath } from './Request';
 import axios from 'axios';
+import { getLocale, getPath } from './Request';
 
 /**
  * PageFolderFetcher can be used on multi-store projects to fetch

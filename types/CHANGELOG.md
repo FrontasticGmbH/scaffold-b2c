@@ -1,4 +1,11 @@
 
+## Version 1.4.0 (2024-02-22)
+
+** New Features and Improvements **
+
+- Refactor product mapper to use a helper method
+- Add discount details for b2c
+
 ## Version 1.3.0 (2023-09-27)
 
 ** New Features and Improvements **

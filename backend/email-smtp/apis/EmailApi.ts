@@ -1,10 +1,10 @@
 import * as nodemailer from 'nodemailer';
 import SMTPTransport from 'nodemailer/lib/smtp-transport';
 import { Context, Project } from '@frontastic/extension-types';
-import { SmtpConfig } from '../interfaces/SmtpConfig';
-import { SmtpConfigurationError } from '../errors/SmtpConfigurationError';
 import { Account } from '@Types/account/Account';
 import { Order } from '@Types/cart/Order';
+import { SmtpConfig } from '../interfaces/SmtpConfig';
+import { SmtpConfigurationError } from '../errors/SmtpConfigurationError';
 import getCustomerName from '../utils/get-customer-name';
 import { getFromProjectConfig } from '../utils/Context';
 

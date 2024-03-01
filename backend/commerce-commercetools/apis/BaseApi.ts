@@ -1,3 +1,4 @@
+import crypto from 'crypto';
 import {
   ApiRoot,
   ClientRequest,
@@ -5,19 +6,18 @@ import {
   ProductType,
   Project,
 } from '@commercetools/platform-sdk';
-import { ClientFactory } from '../ClientFactory';
 import { Context, Request } from '@frontastic/extension-types';
+import { TokenCache, TokenStore } from '@commercetools/sdk-client-v2';
+import { Token } from '@Types/Token';
+import { Account } from '@Types/account';
+import { ClientFactory } from '../ClientFactory';
 import { getConfig } from '../utils/GetConfig';
 import { Locale } from '../Locale';
 import { LocaleError } from '../errors/LocaleError';
 import { ExternalError } from '../utils/Errors';
-import { TokenCache, TokenStore } from '@commercetools/sdk-client-v2';
 import { ClientConfig } from '../interfaces/ClientConfig';
-import { Token } from '@Types/Token';
 import { calculateExpirationTime, tokenHasExpired } from '../utils/Token';
-import crypto from 'crypto';
 import { Guid } from '@Commerce-commercetools/utils/Guid';
-import { Account } from '@Types/account';
 import { ValidationError } from '@Commerce-commercetools/errors/ValidationError';
 
 const defaultCurrency = 'USD';

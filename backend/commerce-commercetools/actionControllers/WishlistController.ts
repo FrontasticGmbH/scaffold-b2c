@@ -1,7 +1,7 @@
 import { ActionContext, Request, Response } from '@frontastic/extension-types';
+import { Account } from '@Types/account/Account';
 import { WishlistApi } from '../apis/WishlistApi';
 import { Guid } from '../utils/Guid';
-import { Account } from '@Types/account/Account';
 import { getCurrency, getLocale } from '../utils/Request';
 import { AccountAuthenticationError } from '../errors/AccountAuthenticationError';
 

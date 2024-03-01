@@ -1,5 +1,5 @@
-import { ExternalError } from './Errors';
 import { Request } from '@frontastic/extension-types';
+import { ExternalError } from './Errors';
 
 const handleError = (error: ExternalError | Error | unknown, request?: Request) => {
   if (error instanceof ExternalError) {

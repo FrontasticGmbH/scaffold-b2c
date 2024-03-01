@@ -69,8 +69,7 @@ const ShippingSection = () => {
 
   return (
     <>
-      <hr className="mt-24 h-1 bg-neutral-400" />
-      <div className="mt-24 grid border border-neutral-400">
+      <div className="mt-28 grid border border-neutral-400">
         {shippingMethods.data?.map(({ shippingMethodId, name, description, rates }) => (
           <div
             key={shippingMethodId}

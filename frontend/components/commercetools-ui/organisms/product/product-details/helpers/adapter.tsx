@@ -40,7 +40,7 @@ const ProductDetailsAdapter: FC<ProductDetailsAdapterProps> = ({ product, inModa
       setVariant(product?.variants[0]);
     } else {
       const currentVariantPath = path.split('/');
-      const currentVariantSKU = currentVariantPath[3]?.split('?')[0];
+      const currentVariantSKU = currentVariantPath[2]?.split('?')[0];
       const currentVariantIndex = product?.variants.findIndex(({ sku }) => sku == currentVariantSKU);
       setVariant(product.variants[currentVariantIndex] ?? product.variants?.[0]);
     }

@@ -1,10 +1,4 @@
-import * as AccountActions from './actionControllers/AccountController';
-import * as ProductActions from './actionControllers/ProductController';
-import * as CartActions from './actionControllers/CartController';
-import * as WishlistActions from './actionControllers/WishlistController';
-import * as ProjectActions from './actionControllers/ProjectController';
 import { DataSourcePreviewPayloadElement } from '@frontastic/extension-types/src/ts';
-
 import {
   DataSourceConfiguration,
   DataSourceContext,
@@ -14,15 +8,21 @@ import {
   ExtensionRegistry,
   Request,
 } from '@frontastic/extension-types';
+import { Product } from '@Types/product/Product';
+import { ProductPaginatedResult } from '@Types/result';
+import * as AccountActions from './actionControllers/AccountController';
+import * as ProductActions from './actionControllers/ProductController';
+import * as CartActions from './actionControllers/CartController';
+import * as WishlistActions from './actionControllers/WishlistController';
+import * as ProjectActions from './actionControllers/ProjectController';
+
 import { getCurrency, getLocale, getPath } from './utils/Request';
 import { ProductRouter } from './utils/ProductRouter';
-import { Product } from '@Types/product/Product';
 import { SearchRouter } from './utils/SearchRouter';
 import { CategoryRouter } from './utils/CategoryRouter';
 import { ProductApi } from './apis/ProductApi';
 import { ProductQueryFactory } from './utils/ProductQueryFactory';
 import { ValidationError } from './utils/Errors';
-import { ProductPaginatedResult } from '@Types/result';
 
 const getPreviewPayload = (queryResult: ProductPaginatedResult) => {
   return (queryResult.items as Product[]).map((product): DataSourcePreviewPayloadElement => {

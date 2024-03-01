@@ -22,31 +22,31 @@ import {
   PaymentState,
   PaymentUpdateAction,
 } from '@commercetools/platform-sdk';
-import { CartMapper } from '../mappers/CartMapper';
 import { LineItem } from '@Types/cart/LineItem';
 import { Address } from '@Types/account/Address';
 import { Order } from '@Types/cart/Order';
-import { BaseApi } from './BaseApi';
 import { ShippingMethod } from '@Types/cart/ShippingMethod';
-import { Locale } from '../Locale';
 import { Payment } from '@Types/cart/Payment';
 import { Account } from '@Types/account/Account';
-import { isReadyForCheckout } from '../utils/Cart';
 import { Discount } from '@Types/cart/Discount';
+import { Context, Request } from '@frontastic/extension-types';
+import { PaginatedResult } from '@Types/result';
+import { OrderQuery } from '@Types/cart';
+import { Token } from '@Types/Token';
+import { CartSetAnonymousIdAction } from '@commercetools/platform-sdk/dist/declarations/src/generated/models/cart';
+import { Locale } from '../Locale';
+import { isReadyForCheckout } from '../utils/Cart';
 import { ExternalError } from '../utils/Errors';
 import { CartNotCompleteError } from '../errors/CartNotCompleteError';
 import { CartPaymentNotFoundError } from '../errors/CartPaymentNotFoundError';
 import { CartRedeemDiscountCodeError } from '../errors/CartRedeemDiscountCodeError';
-import { Context, Request } from '@frontastic/extension-types';
+import { CartMapper } from '../mappers/CartMapper';
 import { ProductApi } from './ProductApi';
+import { BaseApi } from './BaseApi';
 import { ProductMapper } from '@Commerce-commercetools/mappers/ProductMapper';
 import { getOffsetFromCursor } from '@Commerce-commercetools/utils/Pagination';
-import { PaginatedResult } from '@Types/result';
-import { OrderQuery } from '@Types/cart';
 import { CartNotActiveError } from '@Commerce-commercetools/errors/CartNotActiveError';
-import { Token } from '@Types/Token';
 import { tokenHasExpired } from '@Commerce-commercetools/utils/Token';
-import { CartSetAnonymousIdAction } from '@commercetools/platform-sdk/dist/declarations/src/generated/models/cart';
 import { TokenError } from '@Commerce-commercetools/errors/TokenError';
 
 export class CartApi extends BaseApi {

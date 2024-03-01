@@ -1,8 +1,8 @@
-import BaseApi from './BaseApi';
-import { NostoMapper } from '../mappers/NostoMapper';
 import { Product } from '@Types/product/Product';
+import { NostoMapper } from '../mappers/NostoMapper';
 import { Recommendations } from '../interfaces/Recommendations';
 import { NostoProduct } from '../interfaces/NostoProduct';
+import BaseApi from './BaseApi';
 
 export default class CategoryPageRecommendationApi extends BaseApi {
   async fetchRecommendation(target: string, placementId: string): Promise<Product[]> {

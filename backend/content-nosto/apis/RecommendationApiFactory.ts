@@ -1,12 +1,11 @@
+import { Context } from '@frontastic/extension-types';
+import { ValidationError } from '../utils/Errors';
 import ProductPageRecommendationApi from './ProductPageRecommendationApi';
 import CategoryPageRecommendationApi from './CategoryPageRecommendationApi';
 import SearchPageRecommendationApi from './SearchPageRecommendationApi';
 import CartPageRecommendationApi from './CartPageRecommendationApi';
 import FrontPageRecommendationApi from './FrontPageRecommendationApi';
 import BaseApi from './BaseApi';
-
-import { Context } from '@frontastic/extension-types';
-import { ValidationError } from '../utils/Errors';
 
 export default class RecommendationApiFactory {
   public static getInstance(frontasticContext: Context, nostoSessionId: string, pageType: string): BaseApi {

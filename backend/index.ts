@@ -4,6 +4,13 @@
 import 'core-js/stable';
 import 'regenerator-runtime/runtime';
 
+import {
+  ExtensionRegistry,
+  ActionRegistry,
+  DynamicPageHandler,
+  DynamicPageRedirectResult,
+  DynamicPageSuccessResult,
+} from '@frontastic/extension-types';
 import commercetoolsExtension from '@Commerce-commercetools';
 import contentfulExtensions from '@Content-contentful';
 import dynamicyieldExtensions from '@Content-dynamicyield';
@@ -14,7 +21,6 @@ import nostoExtensions from '@Content-nosto';
 import talonOneExtension from '@Promotion-talon-one';
 
 // Intregration tests
-import appHealthExtension from './extensions-runner-test';
 
 const extensionsToMerge = [
   commercetoolsExtension,
@@ -24,18 +30,9 @@ const extensionsToMerge = [
   contentstackExtensions,
   bloomreachExtensions,
   talonOneExtension,
-  appHealthExtension,
   nostoExtensions,
 ] as Array<ExtensionRegistry>;
 // END: List of used extensions
-
-import {
-  ExtensionRegistry,
-  ActionRegistry,
-  DynamicPageHandler,
-  DynamicPageRedirectResult,
-  DynamicPageSuccessResult,
-} from '@frontastic/extension-types';
 
 const mergeActions = (extensions: Array<ExtensionRegistry>): ActionRegistry => {
   const actionNamespaces = {};

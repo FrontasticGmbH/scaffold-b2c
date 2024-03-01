@@ -12,5 +12,3 @@ test('Get movie by ID', async () => {
 
   expect(result.dataSourcePayload.data.film.title).toBe('A New Hope');
 });
-
-export {};

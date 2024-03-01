@@ -48,14 +48,16 @@ const ProductDetails: FC<ProductDetailsProps> = ({
   const [loading, setLoading] = useState(false);
   const [added, setAdded] = useState(false);
 
-  const { categories } = useProduct();
+  const { categories: categoriesWithDynamicPages } = useProduct();
 
   useEffect(() => {
-    if (product && categories && !category) {
-      const currentCategory = categories.find((cat) => cat.categoryId === product.categories?.[0]?.categoryId);
+    if (product && categoriesWithDynamicPages && !category) {
+      const currentCategory = categoriesWithDynamicPages.find((category) =>
+        product.categories?.find((productCategory) => productCategory.categoryId === category.categoryId),
+      );
       setCategory(currentCategory);
     }
-  }, [categories, category, product, product?.categories]);
+  }, [categoriesWithDynamicPages, category, product, product?.categories]);
 
   const { trackAddToCart } = useTrack({ product, inModalVersion });
 

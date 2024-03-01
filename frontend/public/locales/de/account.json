@@ -81,5 +81,6 @@
   "action.warning": "Diese Aktion kann nicht rückgängig gemacht werden.",
   "address.deleted": "Adresse erfolgreich gelöscht",
   "default": "Default",
-  "newsletter": "das Mitteilungsblatt"
+  "newsletter": "das Mitteilungsblatt",
+  "verification.email.sent": "Eine Bestätigungs-E-Mail wurde an Ihre E-Mail-Adresse gesendet!"
 }

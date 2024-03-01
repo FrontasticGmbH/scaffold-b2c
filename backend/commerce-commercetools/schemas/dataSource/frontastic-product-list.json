@@ -8,27 +8,25 @@
       "name": "Configuration",
       "fields": [
         {
-          "label": "Query",
+          "label": "Text query",
           "field": "query",
           "type": "text",
           "default": "",
           "translatable": false
-        }
-      ]
-    },
-    {
-      "name": "Price range",
-      "fields": [
-        {
-          "label": "Minimum price",
-          "field": "minPrice",
-          "type": "integer",
-          "default": 0
         },
         {
-          "label": "Maximum price",
-          "field": "maxPrice",
-          "type": "integer"
+          "label": "Product IDs",
+          "field": "productIds",
+          "type": "text",
+          "default": "",
+          "translatable": false
+        },
+        {
+          "label": "Product SKUs",
+          "field": "productSkus",
+          "type": "text",
+          "default": "",
+          "translatable": false
         }
       ]
     },

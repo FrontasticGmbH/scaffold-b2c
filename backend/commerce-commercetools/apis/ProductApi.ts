@@ -1,16 +1,13 @@
-import { ProductMapper } from '../mappers/ProductMapper';
 import { ProductQuery } from '@Types/query/ProductQuery';
 import { Product } from '@Types/product/Product';
-import { BaseApi } from './BaseApi';
 import { FilterField, FilterFieldTypes } from '@Types/product/FilterField';
-import { FilterTypes } from '@Types/query/Filter';
-import { TermFilter } from '@Types/query/TermFilter';
-import { RangeFilter } from '@Types/query/RangeFilter';
 import { CategoryQuery, CategoryQueryFormat } from '@Types/query/CategoryQuery';
 import { Category } from '@Types/product/Category';
 import { FacetDefinition } from '@Types/product/FacetDefinition';
-import { ExternalError } from '../utils/Errors';
 import { PaginatedResult, ProductPaginatedResult } from '@Types/result';
+import { ExternalError } from '../utils/Errors';
+import { ProductMapper } from '../mappers/ProductMapper';
+import { BaseApi } from './BaseApi';
 
 export class ProductApi extends BaseApi {
   query: (productQuery: ProductQuery) => Promise<ProductPaginatedResult> = async (productQuery: ProductQuery) => {
@@ -86,27 +83,9 @@ export class ProductApi extends BaseApi {
     }
 
     if (productQuery.filters !== undefined) {
-      productQuery.filters.forEach((filter) => {
-        switch (filter.type) {
-          case FilterTypes.TERM:
-            filterQuery.push(`${filter.identifier}.key:"${(filter as TermFilter).terms.join('","')}"`);
-            break;
-          case FilterTypes.BOOLEAN:
-            filterQuery.push(
-              `${filter.identifier}:${(filter as TermFilter).terms[0]?.toString().toLowerCase() === 'true'}`,
-            );
-            break;
-          case FilterTypes.RANGE:
-            // The scopedPrice filter is a commercetools price filter of a product variant selected
-            // base on the price scope. The scope used is currency and country.
-            const filterId =
-              filter.identifier === 'price' ? `variants.scopedPrice.value.centAmount` : filter.identifier;
-            filterQuery.push(
-              `${filterId}:range (${(filter as RangeFilter).min ?? '*'} to ${(filter as RangeFilter).max ?? '*'})`,
-            );
-            break;
-        }
-      });
+      filterQuery.push(
+        ...ProductMapper.facetDefinitionsToFilterQueries(productQuery.filters, facetDefinitions, locale),
+      );
     }
 
     if (productQuery.facets !== undefined) {
@@ -138,7 +117,7 @@ export class ProductApi extends BaseApi {
         'filter.facets': filterFacets.length > 0 ? filterFacets : undefined,
         'filter.query': filterQuery.length > 0 ? filterQuery : undefined,
         [`text.${locale.language}`]: productQuery.query,
-        expand: ['categories[*].ancestors[*]'],
+        expand: ['categories[*].ancestors[*]', 'categories[*].parent'],
         fuzzy: true,
       },
     };

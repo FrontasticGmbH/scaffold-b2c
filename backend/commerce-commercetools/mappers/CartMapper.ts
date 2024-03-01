@@ -2,6 +2,7 @@ import { Cart } from '@Types/cart/Cart';
 import {
   BaseAddress as CommercetoolsAddress,
   Cart as CommercetoolsCart,
+  CartDiscountReference,
   DiscountCodeInfo as CommercetoolsDiscountCodeInfo,
   DiscountedLineItemPortion as CommercetoolsDiscountedLineItemPortion,
   DiscountedLineItemPriceForQuantity as CommercetoolsDiscountedLineItemPriceForQuantity,
@@ -9,6 +10,7 @@ import {
   Order as CommercetoolsOrder,
   Payment as CommercetoolsPayment,
   PaymentInfo as CommercetoolsPaymentInfo,
+  Reference,
   ShipmentState as CommercetoolsShipmentState,
   ShippingInfo as CommercetoolsShippingInfo,
   ShippingMethod as CommercetoolsShippingMethod,
@@ -18,18 +20,18 @@ import {
 import { LineItem } from '@Types/cart/LineItem';
 import { Address } from '@Types/account/Address';
 import { Order, ShipmentState } from '@Types/cart/Order';
-import { Locale } from '../Locale';
 import { ShippingMethod } from '@Types/cart/ShippingMethod';
 import { ShippingRate } from '@Types/cart/ShippingRate';
 import { ShippingLocation } from '@Types/cart/ShippingLocation';
-import { ProductRouter } from '../utils/ProductRouter';
-import { ProductMapper } from './ProductMapper';
 import { ShippingInfo } from '@Types/cart/ShippingInfo';
 import { Payment } from '@Types/cart/Payment';
 import { Tax } from '@Types/cart/Tax';
 import { TaxPortion } from '@Types/cart/TaxPortion';
 import { Discount } from '@Types/cart/Discount';
+import { ProductRouter } from '../utils/ProductRouter';
+import { Locale } from '../Locale';
 import LocalizedValue from '../utils/LocalizedValue';
+import { ProductMapper } from './ProductMapper';
 
 export class CartMapper {
   static commercetoolsCartToCart: (
@@ -363,13 +365,15 @@ export class CartMapper {
     commercetoolsDiscountedLineItemPricesForQuantity?.forEach((commercetoolsDiscountedLineItemPriceForQuantity) => {
       commercetoolsDiscountedLineItemPriceForQuantity.discountedPrice.includedDiscounts.forEach(
         (commercetoolsDiscountedLineItemPortion) => {
-          discountTexts.push(
-            LocalizedValue.getLocalizedValue(
-              locale,
-              defaultLocale,
-              commercetoolsDiscountedLineItemPortion.discount.obj?.name,
-            ),
-          );
+          if (this.isCartDiscountReference(commercetoolsDiscountedLineItemPortion.discount)) {
+            discountTexts.push(
+              LocalizedValue.getLocalizedValue(
+                locale,
+                defaultLocale,
+                commercetoolsDiscountedLineItemPortion.discount.obj?.name,
+              ),
+            );
+          }
         },
       );
     });
@@ -420,7 +424,7 @@ export class CartMapper {
       ),
     };
 
-    if (commercetoolsDiscountedLineItemPortion.discount.obj) {
+    if (this.isCartDiscountReference(commercetoolsDiscountedLineItemPortion.discount)) {
       const commercetoolsCartDiscount = commercetoolsDiscountedLineItemPortion.discount.obj;
 
       discount = {
@@ -478,4 +482,8 @@ export class CartMapper {
         return ShipmentState.PENDING;
     }
   };
+
+  static isCartDiscountReference(reference: Reference): reference is CartDiscountReference {
+    return (reference as CartDiscountReference).obj !== undefined;
+  }
 }

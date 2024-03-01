@@ -1,6 +1,6 @@
 import { DataSourceConfiguration, DataSourceContext, ExtensionRegistry } from '@frontastic/extension-types';
-import DynamicYieldApi from './apis/DynamicYieldApi';
 import { Product } from '@Types/product/Product';
+import DynamicYieldApi from './apis/DynamicYieldApi';
 import { getContext } from './utils/Request';
 import { ValidationError } from './utils/Errors';
 export default {

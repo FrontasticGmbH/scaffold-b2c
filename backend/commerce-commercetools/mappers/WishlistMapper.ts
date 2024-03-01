@@ -1,10 +1,10 @@
 import { Wishlist } from '@Types/wishlist/Wishlist';
 import { ShoppingList, ShoppingListDraft, ShoppingListLineItem } from '@commercetools/platform-sdk';
-import { Locale } from '../Locale';
 import { LineItem } from '@Types/wishlist/LineItem';
+import { Locale } from '../Locale';
 import { ProductRouter } from '../utils/ProductRouter';
-import { ProductMapper } from './ProductMapper';
 import LocalizedValue from '../utils/LocalizedValue';
+import { ProductMapper } from './ProductMapper';
 
 export class WishlistMapper {
   static commercetoolsShoppingListToWishlist = (

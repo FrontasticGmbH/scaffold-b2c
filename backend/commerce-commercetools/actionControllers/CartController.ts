@@ -2,12 +2,15 @@ import { ActionContext, Request, Response } from '@frontastic/extension-types';
 import { Cart } from '@Types/cart/Cart';
 import { LineItem } from '@Types/cart/LineItem';
 import { Address } from '@Types/account/Address';
-import { CartFetcher } from '../utils/CartFetcher';
 import { ShippingMethod } from '@Types/cart/ShippingMethod';
 import { Payment, PaymentStatuses } from '@Types/cart/Payment';
+import { Discount } from '@Types/cart/Discount';
+import { SortAttributes, SortOrder } from '@Types/query/ProductQuery';
+import { OrderQuery } from '@Types/cart';
+import { Token } from '@Types/Token';
+import { CartFetcher } from '../utils/CartFetcher';
 import { CartApi } from '../apis/CartApi';
 import { getCurrency, getLocale } from '../utils/Request';
-import { Discount } from '@Types/cart/Discount';
 import { EmailApiFactory } from '../utils/EmailApiFactory';
 import { AccountAuthenticationError } from '../errors/AccountAuthenticationError';
 import { CartRedeemDiscountCodeError } from '../errors/CartRedeemDiscountCodeError';
@@ -16,12 +19,9 @@ import { Guid } from '@Commerce-commercetools/utils/Guid';
 import queryParamsToStates from '@Commerce-commercetools/utils/queryParamsToState';
 import queryParamsToIds from '@Commerce-commercetools/utils/queryParamsToIds';
 import handleError from '@Commerce-commercetools/utils/handleError';
-import { SortAttributes, SortOrder } from '@Types/query/ProductQuery';
-import { OrderQuery } from '@Types/cart';
 import { fetchAccountFromSession } from '@Commerce-commercetools/utils/fetchAccountFromSession';
 import { CartNotMatchOrderError } from '@Commerce-commercetools/errors/CartNotMatchOrderError';
 import { TokenError } from '@Commerce-commercetools/errors/TokenError';
-import { Token } from '@Types/Token';
 
 type ActionHook = (request: Request, actionContext: ActionContext) => Promise<Response>;
 
@@ -140,7 +140,7 @@ export const addToCart: ActionHook = async (request: Request, actionContext: Act
   return response;
 };
 
-export const replicateOrder: ActionHook = async (request: Request, actionContext: ActionContext) => {
+export const replicateCart: ActionHook = async (request: Request, actionContext: ActionContext) => {
   const cartApi = getCartApi(request, actionContext);
   const orderId = request.query?.['orderId'];
 
@@ -509,8 +509,7 @@ export const removeDiscount: ActionHook = async (request: Request, actionContext
 };
 
 export const queryOrders: ActionHook = async (request, actionContext) => {
-  const locale = getLocale(request);
-  const cartApi = new CartApi(actionContext.frontasticContext, locale, getCurrency(request));
+  const cartApi = getCartApi(request, actionContext);
 
   const account = fetchAccountFromSession(request);
   if (account === undefined) {
@@ -546,9 +545,7 @@ export const queryOrders: ActionHook = async (request, actionContext) => {
 };
 
 export const getCheckoutOrder: ActionHook = async (request, actionContext) => {
-  const locale = getLocale(request);
-  const cartApi = new CartApi(actionContext.frontasticContext, locale, getCurrency(request));
-
+  const cartApi = getCartApi(request, actionContext);
   const account = fetchAccountFromSession(request);
 
   try {

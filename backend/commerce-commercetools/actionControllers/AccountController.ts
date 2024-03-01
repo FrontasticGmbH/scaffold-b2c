@@ -1,7 +1,7 @@
 import { ActionContext, Request, Response } from '@frontastic/extension-types';
-import { AccountApi } from '../apis/AccountApi';
 import { Account } from '@Types/account/Account';
 import { Address } from '@Types/account/Address';
+import { AccountApi } from '../apis/AccountApi';
 import { CartFetcher } from '../utils/CartFetcher';
 import { getCurrency, getLocale } from '../utils/Request';
 import { EmailApiFactory } from '../utils/EmailApiFactory';

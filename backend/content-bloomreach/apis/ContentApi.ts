@@ -1,8 +1,8 @@
 import { Context } from '@frontastic/extension-types';
 import axios from 'axios';
 import { initialize } from '@bloomreach/spa-sdk';
-import { ContentMapper } from '@Content-bloomreach/mappers/ContentMapper';
 import { Content } from '@Types/content/Content';
+import { ContentMapper } from '@Content-bloomreach/mappers/ContentMapper';
 import { getFromProjectConfig } from '@Content-bloomreach/utils/Context';
 
 export default class ContentApi {

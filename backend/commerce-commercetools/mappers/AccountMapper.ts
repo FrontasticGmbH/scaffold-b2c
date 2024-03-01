@@ -1,7 +1,7 @@
 import { BaseAddress, Customer as commercetoolsCustomer } from '@commercetools/platform-sdk';
-import { Locale } from '../Locale';
 import { Account } from '@Types/account/Account';
 import { Address } from '@Types/account/Address';
+import { Locale } from '../Locale';
 import { Guid } from '@Commerce-commercetools/utils/Guid';
 
 export class AccountMapper {

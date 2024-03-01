@@ -23,7 +23,7 @@ const RegisterForm: FC<Props> = ({ termsOfUseLink }) => {
   const { validatePassword } = useValidate();
 
   //account actions
-  const { register, loggedIn, login } = useAccount();
+  const { register, loggedIn } = useAccount();
 
   //register data
   const [data, setData] = useState({ firstName: '', lastName: '', email: '', password: '' });
@@ -75,7 +75,12 @@ const RegisterForm: FC<Props> = ({ termsOfUseLink }) => {
         );
         setSuccess('');
       } else {
-        login(data.email, data.password);
+        setSuccess(
+          formatAccountMessage({
+            id: 'verification.email.sent',
+            defaultMessage: 'A verification email was sent to your mail address!',
+          }),
+        );
       }
     } catch (err) {
       setError(formatErrorMessage({ id: 'wentWrong', defaultMessage: 'Sorry. Something went wrong..' }));

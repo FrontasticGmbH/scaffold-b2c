@@ -9,5 +9,3 @@ test('Fetch by query search', async () => {
   expect(result.data.allPeople.totalCount).toBe(1);
   expect(result.data.allPeople.people[0].name).toBe('Obi-Wan Kenobi');
 });
-
-export {};

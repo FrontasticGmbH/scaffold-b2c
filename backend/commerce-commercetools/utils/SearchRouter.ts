@@ -1,8 +1,8 @@
 import { Context, Request } from '@frontastic/extension-types';
-import { ProductQueryFactory } from './ProductQueryFactory';
-import { ProductApi } from '../apis/ProductApi';
-import { getCurrency, getLocale, getPath } from './Request';
 import { ProductPaginatedResult } from '@Types/result';
+import { ProductApi } from '../apis/ProductApi';
+import { ProductQueryFactory } from './ProductQueryFactory';
+import { getCurrency, getLocale, getPath } from './Request';
 
 export class SearchRouter {
   static identifyFrom(request: Request) {

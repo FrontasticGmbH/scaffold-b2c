@@ -1,4 +1,19 @@
 
+## Version 1.11.0 (2024-02-22)
+
+** New Features and Improvements **
+
+- Refactor product mapper to use a helper method
+- Returned error response when customer token can not be refresh 
+- Reused refresh token and sent empyt token when customers is logged in
+- Validated expiration time before return checkout token
+
+** Bug fixes **
+
+- Calculate correct expiration time
+- Verified the refresh token exist before using it
+- Don't update cartId or wishlistId from the session after fetch
+
 ## Version 1.10.0 (2023-12-18)
 
 ** New Features and Improvements **

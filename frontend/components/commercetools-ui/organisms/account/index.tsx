@@ -1,6 +1,5 @@
-import React, { useCallback, useEffect, useMemo, useRef } from 'react';
-import { useRouter, useSearchParams } from 'next/navigation';
-import toast from 'react-hot-toast';
+import React, { useCallback, useMemo } from 'react';
+import { useRouter } from 'next/navigation';
 import Skeleton from 'react-loading-skeleton';
 import Button from 'components/commercetools-ui/atoms/button';
 import Link from 'components/commercetools-ui/atoms/link';
@@ -20,9 +19,6 @@ import DeleteAccountForm from './sections/my-account/forms/delete-account-form';
 import PersonalInfoForm from './sections/my-account/forms/personal-info-form';
 import Orders from './sections/orders';
 import OrderPage from './sections/orders/order-page';
-import PaymentMethods from './sections/payment-methods';
-import PaymentAdd from './sections/payment-methods/payment-add';
-import PaymentEdit from './sections/payment-methods/payment-edit';
 
 export interface AccountTab {
   name: string;
@@ -57,30 +53,13 @@ const AccountDetails: React.FC<AccountDetailsProps> = ({
 }) => {
   const router = useRouter();
 
-  const searchParams = useSearchParams();
-
-  const verify = searchParams.get('verify');
-
   const { logout } = useAccount();
 
   const { formatMessage: formatAccountMessage } = useFormat({ name: 'account' });
 
   const [hash, id] = useHash();
-  const isLoading = useMemo(() => !!verify, [verify]);
 
-  const responded = useRef(false);
-
-  useEffect(() => {
-    if (!verify || responded.current) return;
-
-    if (verify === '0')
-      toast.error(formatAccountMessage({ id: 'verification.failed', defaultMessage: 'Invalid token' }));
-    else toast.success(formatAccountMessage({ id: 'verification.done', defaultMessage: 'Email verified' }));
-
-    responded.current = true;
-
-    router.push('/account');
-  }, [verify, router, formatAccountMessage]);
+  const isLoading = false;
 
   const handleLogout = () => {
     logout().then(() => router.push('/login'));
@@ -103,11 +82,11 @@ const AccountDetails: React.FC<AccountDetailsProps> = ({
         href: '?hash=orders',
         isActive: hash === 'orders',
       },
-      {
-        name: formatAccountMessage({ id: 'payment.methods', defaultMessage: 'Payment methods' }),
-        href: '?hash=payment',
-        isActive: hash === 'payment',
-      },
+      //   {
+      //     name: formatAccountMessage({ id: 'payment.methods', defaultMessage: 'Payment methods' }),
+      //     href: '?hash=payment',
+      //     isActive: hash === 'payment',
+      //   },
       {
         name: formatAccountMessage({ id: 'customer.support', defaultMessage: 'Customer support' }),
         href: '?hash=support',
@@ -137,19 +116,20 @@ const AccountDetails: React.FC<AccountDetailsProps> = ({
     return id && id.startsWith('order') ? <OrderPage orderId={id.split('_')[1]} /> : <Orders />;
   }, [id]);
 
-  const paymentPagesRef = useMemo(() => {
-    return { add: <PaymentAdd />, edit: <PaymentEdit /> };
-  }, []);
-  const Payment = useMemo(
-    () => paymentPagesRef[id?.split('-')[0] as keyof typeof paymentPagesRef] ?? <PaymentMethods />,
-    [id, paymentPagesRef],
-  );
+  //   const paymentPagesRef = useMemo(() => {
+  //     return { add: <PaymentAdd />, edit: <PaymentEdit /> };
+  //   }, []);
+
+  //   const Payment = useMemo(
+  //     () => paymentPagesRef[id?.split('-')[0] as keyof typeof paymentPagesRef] ?? <PaymentMethods />,
+  //     [id, paymentPagesRef],
+  //   );
 
   const mapping = {
     '': account,
     addresses: addresses,
     orders: orders,
-    payment: Payment,
+    // payment: Payment,
     support: (
       <CustomerSupport
         phoneNumber={phoneNumber}

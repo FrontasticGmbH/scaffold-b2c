@@ -1,7 +1,9 @@
-import React, { useCallback, useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef } from 'react';
+import { Transition } from '@headlessui/react';
 import useClassNames from 'helpers/hooks/useClassNames';
 import useOnClickOutside from 'helpers/hooks/useOnClickOutside';
 import useScrollBlock from 'helpers/hooks/useScrollBlock';
+import Overlay from '../overlay';
 
 export interface DrawerProps {
   className?: string;
@@ -40,41 +42,54 @@ const Drawer = ({
     bottom: 'left-0 bottom-0 w-full',
   };
 
-  const getTransitionStyles = useCallback(() => {
-    if (isOpen) return 'opacity-1';
-    else {
-      const transitionStyles = {
-        left: '-translate-x-full opacity-0',
-        top: '-translate-y-full opacity-0',
-        right: 'translate-x-full opacity-0',
-        bottom: 'translate-y-full opacity-0',
-      };
+  const drawerTransitions = {
+    left: {
+      enterFrom: '-translate-x-full transform opacity-0',
+      enterTo: 'translate-x-0 opacity-100 transition',
+      leaveFrom: 'translate-x-0 opacity-100 transition',
+      leaveTo: '-translate-x-full opacity-0 transition',
+    },
+    top: {
+      enterFrom: '-translate-y-full transform opacity-0',
+      enterTo: 'translate-y-0 opacity-100 transition',
+      leaveFrom: 'translate-y-0 opacity-100 transition',
+      leaveTo: '-translate-y-full opacity-0 transition',
+    },
+    right: {
+      enterFrom: 'translate-x-full transform opacity-0',
+      enterTo: '-translate-x-0 opacity-100 transition',
+      leaveFrom: '-translate-x-0 opacity-100 transition',
+      leaveTo: 'translate-x-full opacity-0 transition',
+    },
+    bottom: {
+      enterFrom: 'translate-y-full transform opacity-0',
+      enterTo: '-translate-y-0 opacity-100 transition',
+      leaveFrom: '-translate-y-0 opacity-100 transition',
+      leaveTo: 'translate-y-full opacity-0 transition',
+    },
+  };
 
-      return transitionStyles[direction];
-    }
-  }, [isOpen, direction]);
-
-  const [transitionClassNames, setTransitionClassNames] = useState('');
-
-  const drawerClassName = useClassNames([
-    className,
-    'fixed z-[999] shadow-lg',
-    directionStyles[direction],
-    getTransitionStyles(),
-    transitionClassNames,
-  ]);
-
-  useEffect(() => {
-    setTransitionClassNames('transition duration-300 ease-out');
-  }, []);
+  const drawerClassName = useClassNames([className, 'fixed z-[999] shadow-lg', directionStyles[direction]]);
 
   return (
     <>
-      {isOpen && <div className="fixed left-0 top-0 z-[999] h-full w-full bg-secondary-black opacity-30" />}
+      {isOpen && <Overlay />}
 
-      <div ref={ref} style={{ display: isOpen ? 'block' : 'none' }} className={drawerClassName}>
-        <div className="flex h-full flex-col items-stretch">{children}</div>
-      </div>
+      <Transition show={isOpen}>
+        <Transition.Child
+          enter="ease-out"
+          enterFrom={drawerTransitions[direction].enterFrom}
+          enterTo={drawerTransitions[direction].enterTo}
+          leave="ease-in duration-75"
+          leaveFrom={drawerTransitions[direction].leaveFrom}
+          leaveTo={drawerTransitions[direction].leaveTo}
+          className={drawerClassName}
+        >
+          <div ref={ref} className="h-full">
+            <div className="flex h-full flex-col items-stretch">{children}</div>
+          </div>
+        </Transition.Child>
+      </Transition>
     </>
   );
 };

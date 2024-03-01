@@ -1,10 +1,10 @@
 import { Context, Request } from '@frontastic/extension-types';
-import { ProductApi } from '../apis/ProductApi';
 import { CategoryQuery } from '@Types/query/CategoryQuery';
 import { Category } from '@Types/product/Category';
+import { ProductPaginatedResult } from '@Types/result';
+import { ProductApi } from '../apis/ProductApi';
 import { getCurrency, getLocale, getPath } from './Request';
 import { ProductQueryFactory } from './ProductQueryFactory';
-import { ProductPaginatedResult } from '@Types/result';
 
 export class CategoryRouter {
   static identifyFrom(request: Request) {

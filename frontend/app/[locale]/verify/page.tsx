@@ -15,7 +15,7 @@ export default async function Page({ params, searchParams }: PageProps) {
 
   const response = await sdk.composableCommerce.account.confirm({ token }, { ...getServerOptions() });
 
-  if (response.isError) return redirect('/account?verify=0');
+  if (response.isError) return redirect('/login?verify=0');
 
-  return redirect('/account?verify=1');
+  return redirect('/login?verify=1');
 }

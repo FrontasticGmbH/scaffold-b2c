@@ -1,9 +1,9 @@
 import { Context } from '@frontastic/extension-types';
 import axios, { AxiosInstance } from 'axios';
-import { Profile, Session } from '../interfaces';
 import { Cart } from '@Types/cart/Cart';
-import { TalonOneMapper } from '@Promotion-talon-one/mappers/TalonOneMapper';
+import { Profile, Session } from '../interfaces';
 import { getFromProjectConfig } from '../utils/Context';
+import { TalonOneMapper } from '@Promotion-talon-one/mappers/TalonOneMapper';
 
 export class IntegrationApi {
   api: AxiosInstance;

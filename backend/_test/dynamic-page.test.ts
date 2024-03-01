@@ -1,6 +1,5 @@
-import extensions from '../demo-docs';
-
 import { DataSourceContext } from '@frontastic/extension-types';
+import extensions from '../demo-docs';
 
 const DynamicPageHandler = extensions['dynamic-page-handler'];
 
@@ -16,5 +15,3 @@ test('Get by query path', async () => {
     pageMatchingPayload: { foo: { result: 'test' } },
   });
 });
-
-export {};

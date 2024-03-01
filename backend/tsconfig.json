@@ -45,6 +45,6 @@
     "isolatedModules": true,
     "noEmit": false
   },
-  "include": ["./*"],
+  "include": ["**/*.ts"],
   "exclude": ["node_modules/*", "build", "webpack"]
 }

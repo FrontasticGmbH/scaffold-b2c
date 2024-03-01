@@ -22,8 +22,14 @@ export function middleware(request: NextRequest) {
     response = NextResponse.redirect(new URL(`/${locale}${path}`, request.url));
   } else {
     locale = path.split('/')[1];
-
-    response = NextResponse.next();
+    const containsMultipleLocaleOccurrences = new RegExp(`(/${locale}){2,}`, 'g').exec(path);
+    if (containsMultipleLocaleOccurrences) {
+      response = NextResponse.redirect(
+        new URL(path.replace(new RegExp(`(/${locale}){2,2}`, 'g'), `/${locale}/`), request.url),
+      );
+    } else {
+      response = NextResponse.next();
+    }
   }
 
   response.cookies.set('locale', locale, { maxAge: 60 * 60 * 24 * 7 * 4 * 12 * 100 }); // 100 years expiry

@@ -2,15 +2,43 @@
   "parser": "@typescript-eslint/parser",
   "parserOptions": {
     "ecmaVersion": 2018,
-    "sourceType": "module"
+    "sourceType": "module",
+    "project": "tsconfig.json"
   },
-  "plugins": [
-    "@typescript-eslint"
-  ],
+  "env": {
+    "node": true,
+    "es6": true
+  },
+  "settings": {
+    "import/resolver": {
+      "node": true,
+      "typescript": true
+    }
+  },
+  "plugins": ["@typescript-eslint", "import"],
   "extends": [
-    "plugin:@typescript-eslint/recommended"
+    "plugin:@typescript-eslint/recommended",
+    "plugin:import/recommended",
+    "plugin:import/typescript",
+    "plugin:prettier/recommended"
   ],
+  "ignorePatterns": ["*.config.js"],
   "rules": {
-    "@typescript-eslint/ban-ts-comment": "off"
-  }
+    "@typescript-eslint/ban-ts-comment": "off",
+    "import/order": "warn"
+  },
+  "overrides": [
+    {
+      "files": ["**/*.test.ts"],
+      "extends": ["plugin:jest/recommended"],
+      "env": {
+        "jest": true
+      },
+      "plugins": ["jest"],
+      "rules": {
+        "prettier/prettier": ["error", {}],
+        "jest/no-conditional-expect": "warn"
+      }
+    }
+  ]
 }

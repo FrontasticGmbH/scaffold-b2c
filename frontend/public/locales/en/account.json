@@ -81,5 +81,6 @@
   "action.warning": "This action can not be undone.",
   "address.deleted": "Address deleted successfully",
   "default": "Default",
-  "newsletter": "Newsletter"
+  "newsletter": "Newsletter",
+  "verification.email.sent": "A verification email was sent to your mail address!"
 }

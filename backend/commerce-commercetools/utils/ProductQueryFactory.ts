@@ -14,17 +14,11 @@ export class ProductQueryFactory {
     config?: DataSourceConfiguration,
   ) => {
     let queryParams;
-    const filters: Filter[] = [];
     const productQuery: ProductQuery = {
       categories: [],
       productIds: [],
       skus: [],
     };
-
-    // Selected categories and products ID/SKUs filter from the studio
-    const categories = config?.configuration?.categories?.split(',').map((val: string) => val.trim());
-    const productIds = config?.configuration?.productIds?.split(',').map((val: string) => val.trim());
-    const productSkus = config?.configuration?.productSkus?.split(',').map((val: string) => val.trim());
 
     /**
      * Merge params
@@ -33,17 +27,28 @@ export class ProductQueryFactory {
       queryParams = request.query;
     }
 
+    // Overwrite queryParams with configuration from Studio
     if (config?.configuration) {
-      queryParams = {
-        ...queryParams,
-        ...config.configuration,
-      };
+      for (const [key, value] of Object.entries(config?.configuration)) {
+        if (value === undefined || value === '') {
+          continue;
+        }
+        switch (key) {
+          case 'categories':
+            queryParams['categories'] = (value as string).split(',').map((val: string) => val.trim());
+            break;
+          case 'productIds':
+            queryParams['productIds'] = (value as string).split(',').map((val: string) => val.trim());
+            break;
+          case 'productSkus':
+            queryParams['skus'] = (value as string).split(',').map((val: string) => val.trim());
+            break;
+          default:
+            queryParams[key] = value;
+            break;
+        }
+      }
     }
-
-    // Add categories and product SKUs and IDs if they are there
-    if (categories && categories.length > 0) queryParams.categories = categories;
-    if (productIds && productIds.length > 0) queryParams.productIds = productIds;
-    if (productSkus && productSkus.length > 0) queryParams.skus = productSkus;
 
     /**
      * Map query
@@ -52,8 +57,6 @@ export class ProductQueryFactory {
 
     /**
      * Map Categories
-     *
-     * Categories could be overwritten by categories configuration from Frontastic Studio
      */
     if (queryParams?.categories && Array.isArray(queryParams?.categories)) {
       queryParams.categories.map((category: string | number) => {
@@ -84,75 +87,26 @@ export class ProductQueryFactory {
     }
 
     /**
-     * Map filters and category
-     *
      * Since filters and values might be returned in separated arrays we are using
      * the following method to merge both, filters and values, in a single array.
      */
     const configFiltersData = [];
     configFiltersData.push(...ProductQueryFactory.mergeProductFiltersAndValues(queryParams));
-    configFiltersData.push(...ProductQueryFactory.mergeCategoryFiltersAndValues(queryParams));
 
     /**
-     * Map price filter
+     * Map filters
      */
-    if (queryParams.minPrice || queryParams.maxPrice) {
-      configFiltersData.push({
-        type: FilterFieldTypes.MONEY,
-        field: 'price',
-        values: [
-          {
-            min: queryParams?.minPrice,
-            max: queryParams?.maxPrice,
-          },
-        ],
-      });
+    const filters = this.configFiltersDataToFilters(configFiltersData);
+    if (filters.length > 0) {
+      productQuery.filters = filters;
     }
 
-    let key: any;
-    let configFilterData: any;
-
-    if (configFiltersData instanceof Array) {
-      for ([key, configFilterData] of Object.entries(configFiltersData)) {
-        if (configFilterData?.field === 'categoryId' || configFilterData?.field === 'categoryIds') {
-          // Overwrite category with any value that has been set from Frontastic Studio
-          productQuery.categories = configFilterData.values;
-          continue;
-        }
-
-        switch (configFilterData.type) {
-          case FilterFieldTypes.NUMBER:
-          case FilterFieldTypes.MONEY:
-            const rangeFilter: RangeFilter = {
-              identifier: configFilterData?.field,
-              type: FilterTypes.RANGE,
-              min: +configFilterData?.values?.[0]?.min || +configFilterData?.values?.[0] || undefined,
-              max: +configFilterData?.values?.[0]?.max || +configFilterData?.values?.[0] || undefined,
-            };
-            filters.push(rangeFilter);
-            break;
-          case FilterFieldTypes.ENUM:
-            const enumFilter: TermFilter = {
-              identifier: configFilterData?.field,
-              type: FilterTypes.TERM,
-              terms: configFilterData?.values.map((term: string | number) => term),
-            };
-            filters.push(enumFilter);
-            break;
-          case FilterFieldTypes.BOOLEAN:
-            const booleanFilter: TermFilter = {
-              identifier: configFilterData?.field,
-              type: FilterTypes.BOOLEAN,
-              terms: [configFilterData?.values[0]],
-            };
-            filters.push(booleanFilter);
-            break;
-          default:
-            break;
-        }
-      }
-
-      productQuery.filters = filters;
+    /**
+     * Map category filters
+     */
+    const categoryFilters = this.configFiltersDataToCategoryFilters(configFiltersData);
+    if (categoryFilters.length > 0) {
+      productQuery.categories = categoryFilters;
     }
 
     /**
@@ -202,11 +156,13 @@ export class ProductQueryFactory {
 
       switch (true) {
         case facetData.min !== undefined && facetData.max !== undefined:
+          const min = parseInt(facetData.min);
+          const max = parseInt(facetData.max);
           facets.push({
             type: FilterTypes.RANGE,
             identifier: key,
-            min: +facetData.min,
-            max: +facetData.max,
+            min: isNaN(min) ? 0 : min,
+            max: isNaN(max) ? Number.MAX_SAFE_INTEGER : max,
           } as RangeFacet);
           break;
         case facetData.terms !== undefined:
@@ -259,29 +215,84 @@ export class ProductQueryFactory {
     return filtersData;
   }
 
-  private static mergeCategoryFiltersAndValues(queryParams: any) {
-    const filtersData: any[] = [];
+  private static configFiltersDataToFilters(configFiltersData: any) {
+    const filters: Filter[] = [];
 
-    if (queryParams?.categoryFilters?.filters === undefined) {
-      return filtersData;
-    }
+    configFiltersData.forEach((configFilterData: any) => {
+      if (configFilterData?.field === 'categoryId' || configFilterData?.field === 'categoryIds') {
+        // Ignore category filters, they are handled separately
+        return;
+      }
 
-    if (queryParams?.categoryFilters?.values === undefined) {
-      return queryParams.categoryFilters.filters;
-    }
-
-    queryParams.categoryFilters.filters.forEach((filter: any) => {
-      if (filter?.field) {
-        const filterValues = [queryParams.categoryFilters.values[filter.field]] || [];
-
-        const filterData = {
-          ...filter,
-          values: filterValues,
-        };
-        filtersData.push(filterData);
+      switch (configFilterData.type) {
+        case FilterFieldTypes.NUMBER:
+        case FilterFieldTypes.MONEY:
+          const rangeFilter: RangeFilter = {
+            identifier: configFilterData?.field,
+            type: FilterTypes.RANGE,
+            min: +configFilterData?.values?.[0]?.min || +configFilterData?.values?.[0] || undefined,
+            max: +configFilterData?.values?.[0]?.max || +configFilterData?.values?.[0] || undefined,
+          };
+          filters.push(rangeFilter);
+          break;
+        case FilterFieldTypes.TEXT:
+          const termFilter: TermFilter = {
+            identifier: configFilterData?.field,
+            type: FilterTypes.TERM,
+            terms: this.getTermsFromConfigFilterData(configFilterData),
+          };
+          filters.push(termFilter);
+          break;
+        case FilterFieldTypes.ENUM:
+          const enumFilter: TermFilter = {
+            identifier: configFilterData?.field,
+            type: FilterTypes.ENUM,
+            terms: this.getTermsFromConfigFilterData(configFilterData),
+          };
+          filters.push(enumFilter);
+          break;
+        case FilterFieldTypes.BOOLEAN:
+          const booleanFilter: TermFilter = {
+            identifier: configFilterData?.field,
+            type: FilterTypes.BOOLEAN,
+            terms: [configFilterData?.values[0]],
+          };
+          filters.push(booleanFilter);
+          break;
+        default:
+          break;
       }
     });
 
-    return filtersData;
+    return filters;
+  }
+
+  private static configFiltersDataToCategoryFilters(configFiltersData: any) {
+    const categoryFilters: string[] = [];
+
+    configFiltersData.forEach((configFilterData: any) => {
+      if (configFilterData?.field === 'categoryId' || configFilterData?.field === 'categoryIds') {
+        // Overwrite category with any value that has been set from Studio
+        categoryFilters.push(configFilterData.values);
+      }
+    });
+
+    return categoryFilters;
+  }
+
+  private static getTermsFromConfigFilterData(configFilterData: any) {
+    return configFilterData?.values.map((term: object | string | number) => {
+      if (typeof term !== 'object') {
+        return term;
+      }
+
+      // The config might include a key-value pair that include the locale and the term value. If this is
+      // the case, we'll return the term value and ignore the locale
+      const key = Object.keys(term)[0];
+      if (term.hasOwnProperty(key)) {
+        // term has a key-value pair, return the value
+        return term[key];
+      }
+    });
   }
 }
