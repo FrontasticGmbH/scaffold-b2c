@@ -1,10 +1,10 @@
 import { Metadata } from 'next';
-import { Category } from 'shared/types/product';
-import { PaginatedResult } from 'shared/types/result/PaginatedResult';
+import { redirect } from 'next/navigation';
 import GASnippet from 'components/headless/GASnippet';
 import { getTranslations } from 'helpers/i18n/get-translations';
+import fetchAccount from 'helpers/server/fetch-account';
+import fetchCategories from 'helpers/server/fetch-categories';
 import fetchPageData from 'helpers/server/fetch-page-data';
-import getServerOptions from 'helpers/server/get-server-options';
 import { getLocalizationInfo } from 'project.config';
 import { Providers } from 'providers';
 import { sdk } from 'sdk';
@@ -38,17 +38,13 @@ export default async function Page({ params, searchParams }: PageProps) {
 
   sdk.defaultConfigure(locale);
 
-  const response = await fetchPageData(slug as string[], searchParams);
+  const [response, accountResult, categoriesResult] = await Promise.all([
+    fetchPageData(slug as string[], searchParams),
+    fetchAccount(),
+    fetchCategories({ format: 'tree' }),
+  ]);
 
-  if (response.isError) return <></>;
-
-  const accountResult = await sdk.composableCommerce.account.getAccount({ ...getServerOptions() });
-
-  const categoriesResult = await sdk.callAction<PaginatedResult<Category>>({
-    actionName: 'product/queryCategories',
-    query: { format: 'tree', limit: 99 },
-    ...getServerOptions(),
-  });
+  if (response.isError) return redirect('/404');
 
   const translations = await getTranslations(
     [locale],

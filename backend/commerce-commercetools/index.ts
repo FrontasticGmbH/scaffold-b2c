@@ -22,7 +22,7 @@ import { SearchRouter } from './utils/SearchRouter';
 import { CategoryRouter } from './utils/CategoryRouter';
 import { ProductApi } from './apis/ProductApi';
 import { ProductQueryFactory } from './utils/ProductQueryFactory';
-import { ValidationError } from './utils/Errors';
+import { ValidationError } from '@Commerce-commercetools/errors/ValidationError';
 
 const getPreviewPayload = (queryResult: ProductPaginatedResult) => {
   return (queryResult.items as Product[]).map((product): DataSourcePreviewPayloadElement => {
@@ -109,6 +109,7 @@ export default {
         context.frontasticContext,
         getLocale(context.request),
         getCurrency(context.request),
+        context.request,
       );
       const productQuery = ProductQueryFactory.queryFromParams(context?.request, config);
 
@@ -133,6 +134,7 @@ export default {
         context.frontasticContext,
         getLocale(context.request),
         getCurrency(context.request),
+        context.request,
       );
       const productQuery = ProductQueryFactory.queryFromParams(context.request, config);
       const query = {
@@ -158,6 +160,7 @@ export default {
         context.frontasticContext,
         getLocale(context.request),
         getCurrency(context.request),
+        context.request,
       );
       const productQuery = ProductQueryFactory.queryFromParams(context?.request, config);
 
@@ -189,6 +192,7 @@ export default {
         context.frontasticContext,
         getLocale(context.request),
         getCurrency(context.request),
+        context.request,
       );
       const productQuery = ProductQueryFactory.queryFromParams(context.request, config);
 

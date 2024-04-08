@@ -10,6 +10,8 @@ const PreviewRenderer = ({ data, params, searchParams, categories }: PreviewRend
 
   const notifier = useRef<Notifier>(null) as React.MutableRefObject<Notifier>;
 
+  const customer = data.previewContext?.customerName ?? 'demo';
+
   const handleRefresh = () => {
     // Do a proper refresh and no full reload
     window.location = window.location;
@@ -25,7 +27,7 @@ const PreviewRenderer = ({ data, params, searchParams, categories }: PreviewRend
     };
     if (data?.previewId && !notifier.current) {
       notifier.current = new Notifier(
-        { previewId: data.previewId, customer: 'Demo' },
+        { previewId: data.previewId, customer },
         {
           Refresh: handleRefresh,
           Highlight: handleHighlight,
@@ -34,7 +36,7 @@ const PreviewRenderer = ({ data, params, searchParams, categories }: PreviewRend
       );
       notifier.current.connect();
     }
-  }, [currentHighlight, data?.previewId]);
+  }, [currentHighlight, data?.previewId, customer]);
 
   useEffect(() => {
     //Gtag mock function

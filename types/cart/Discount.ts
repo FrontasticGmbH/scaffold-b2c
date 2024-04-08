@@ -15,3 +15,8 @@ export interface Discount {
    */
   discountedAmount?: Money;
 }
+
+export interface DiscountedPricePerCount {
+  count?: number;
+  discounts?: Discount[];
+}

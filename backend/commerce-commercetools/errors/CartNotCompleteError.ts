@@ -1,8 +1,10 @@
-import { ErrorProps, ExtensionError } from '../utils/Errors';
+import { ExtensionError, ExtensionErrorProperties } from './Errors';
 
 export class CartNotCompleteError extends ExtensionError {
-  constructor(options: ErrorProps) {
+  static CART_NOT_COMPLETE_ERROR_NAME: 'cart_not_complete_error';
+
+  constructor(options: ExtensionErrorProperties) {
     super(options);
-    this.code = 'cart_not_complete_error';
+    this.errorName = CartNotCompleteError.CART_NOT_COMPLETE_ERROR_NAME;
   }
 }

@@ -20,6 +20,5 @@ export interface Cart {
   payments?: Payment[];
   discountCodes?: Discount[];
   taxed?: Tax;
-
-  // TODO: import the logic from Cart.php
+  discountedAmount?: Money;
 }

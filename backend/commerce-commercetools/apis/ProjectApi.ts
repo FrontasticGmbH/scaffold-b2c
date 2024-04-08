@@ -2,7 +2,7 @@ import { ProjectSettings } from '@Types/ProjectSettings';
 import { BaseApi } from './BaseApi';
 
 export class ProjectApi extends BaseApi {
-  getProjectSettings: () => Promise<ProjectSettings> = async () => {
+  async getProjectSettings(): Promise<ProjectSettings> {
     return await this.getProject().then((response) => {
       const projectSettings: ProjectSettings = {
         name: response.name,
@@ -14,5 +14,5 @@ export class ProjectApi extends BaseApi {
 
       return projectSettings;
     });
-  };
+  }
 }

@@ -1,6 +1,7 @@
 import { ActionContext, Request, Response } from '@frontastic/extension-types';
 import { getCurrency, getLocale } from '../utils/Request';
 import { ProjectApi } from '../apis/ProjectApi';
+import handleError from '@Commerce-commercetools/utils/handleError';
 
 type ActionHook = (request: Request, actionContext: ActionContext) => Promise<Response>;
 
@@ -9,17 +10,21 @@ function getProjectApi(request: Request, actionContext: ActionContext) {
 }
 
 export const getProjectSettings: ActionHook = async (request: Request, actionContext: ActionContext) => {
-  const projectApi = getProjectApi(request, actionContext);
+  try {
+    const projectApi = getProjectApi(request, actionContext);
 
-  const project = await projectApi.getProjectSettings();
+    const project = await projectApi.getProjectSettings();
 
-  const response: Response = {
-    statusCode: 200,
-    body: JSON.stringify(project),
-    sessionData: {
-      ...projectApi.getSessionData(),
-    },
-  };
+    const response: Response = {
+      statusCode: 200,
+      body: JSON.stringify(project),
+      sessionData: {
+        ...projectApi.getSessionData(),
+      },
+    };
 
-  return response;
+    return response;
+  } catch (error) {
+    return handleError(error, request);
+  }
 };

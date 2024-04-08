@@ -1,4 +1,5 @@
 import 'server-only';
+
 import { cache } from 'react';
 import { sdk } from 'sdk';
 import { SearchParams } from 'types/next';

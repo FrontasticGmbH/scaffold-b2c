@@ -1,4 +1,7 @@
+// @ts-ignore
 import crypto from 'crypto';
+// @ts-ignore
+import fetch from 'node-fetch';
 import {
   ApiRoot,
   ClientRequest,
@@ -14,11 +17,11 @@ import { ClientFactory } from '../ClientFactory';
 import { getConfig } from '../utils/GetConfig';
 import { Locale } from '../Locale';
 import { LocaleError } from '../errors/LocaleError';
-import { ExternalError } from '../utils/Errors';
 import { ClientConfig } from '../interfaces/ClientConfig';
 import { calculateExpirationTime, tokenHasExpired } from '../utils/Token';
 import { Guid } from '@Commerce-commercetools/utils/Guid';
 import { ValidationError } from '@Commerce-commercetools/errors/ValidationError';
+import { ExternalError } from '@Commerce-commercetools/errors/ExternalError';
 
 const defaultCurrency = 'USD';
 
@@ -437,7 +440,7 @@ export abstract class BaseApi {
 
     this.token = clientTokensStored.get(this.getClientHashKey());
 
-    this.sessionData = request?.sessionData;
+    this.sessionData = request?.sessionData ?? {};
   }
 
   getSessionData(): any | null {
@@ -469,69 +472,12 @@ export abstract class BaseApi {
     return this.sessionData?.checkoutToken ?? undefined;
   }
 
-  private commercetoolsTokenCache(): TokenCache {
-    return (() => {
-      const get = () => {
-        if (this.token === undefined) {
-          return undefined;
-        }
-
-        const tokenStore: TokenStore = {
-          token: this.token.token,
-          expirationTime: this.token.expirationTime,
-          refreshToken: this.token.refreshToken,
-        };
-
-        return tokenStore;
-      };
-
-      const set = (tokenStore: TokenStore) => {
-        this.token = {
-          token: tokenStore.token,
-          expirationTime: tokenStore.expirationTime,
-          refreshToken: tokenStore.refreshToken,
-        };
-        clientTokensStored.set(this.getClientHashKey(), this.token);
-      };
-
-      return { get, set };
-    })();
+  setSessionCheckoutSessionToken(token: Token): void {
+    this.sessionData.checkoutSessionToken = token;
   }
 
-  private getClientHashKey(): string {
-    if (this.clientHashKey) {
-      return this.clientHashKey;
-    }
-
-    this.clientHashKey = crypto
-      .createHash('md5')
-      .update(this.clientSettings.clientId + this.clientSettings.clientSecret + this.clientSettings.projectKey)
-      .digest('hex');
-
-    return this.clientHashKey;
-  }
-
-  private getApiRoot(): ApiRoot {
-    let refreshToken: string | undefined;
-    if (this.apiRoot && tokenHasExpired(this.token)) {
-      this.apiRoot = undefined;
-      refreshToken = this.token?.refreshToken;
-    }
-
-    if (this.apiRoot) {
-      return this.apiRoot;
-    }
-
-    const client = ClientFactory.factor(
-      this.clientSettings,
-      this.environment,
-      this.commercetoolsTokenCache(),
-      refreshToken,
-    );
-
-    this.apiRoot = createApiBuilderFromCtpClient(client);
-
-    return this.apiRoot;
+  getSessionCheckoutSessionToken(): Token | undefined {
+    return this.sessionData?.checkoutSessionToken ?? undefined;
   }
 
   protected getAnonymousIdFromSessionData(): string {
@@ -609,7 +555,7 @@ export abstract class BaseApi {
         return productTypes;
       })
       .catch((error) => {
-        throw new ExternalError({ status: error.code, message: error.message, body: error.body });
+        throw new ExternalError({ statusCode: error.code, message: error.message, body: error.body });
       });
   }
 
@@ -628,7 +574,7 @@ export abstract class BaseApi {
       .get()
       .execute()
       .catch((error) => {
-        throw new ExternalError({ status: error.code, message: error.message, body: error.body });
+        throw new ExternalError({ statusCode: error.code, message: error.message, body: error.body });
       });
     const project = response.body;
 
@@ -691,7 +637,149 @@ export abstract class BaseApi {
         this.setSessionCheckoutToken(token);
       })
       .catch((error) => {
-        throw new ExternalError({ status: error.code, message: error.message, body: error.body });
+        throw new ExternalError({ statusCode: error.code, message: error.message, body: error.body });
       });
+  }
+
+  protected async generateCheckoutSessionToken(cartId: string, refreshToken?: Token) {
+    if (refreshToken) {
+      try {
+        await this.refreshCheckoutSessionToken(refreshToken);
+        return;
+      } catch (error) {
+        // We are ignoring the error refreshing the token and trying to generate a new one
+      }
+    }
+
+    const url = `${this.clientSettings.sessionUrl}/${this.projectKey}/sessions`;
+
+    const body = JSON.stringify({
+      cart: {
+        cartRef: {
+          id: cartId,
+        },
+      },
+      metadata: {
+        applicationKey: this.clientSettings.checkoutApplicationKey,
+      },
+    });
+
+    await this.fetchCheckoutSessionToken(url, body);
+  }
+
+  private async refreshCheckoutSessionToken(refreshToken: Token) {
+    const url = `${this.clientSettings.sessionUrl}/${this.projectKey}/sessions/${refreshToken.token}`;
+
+    const body = JSON.stringify({
+      actions: [
+        {
+          action: 'refresh',
+        },
+      ],
+    });
+
+    await this.fetchCheckoutSessionToken(url, body);
+  }
+
+  private async fetchCheckoutSessionToken(url: string, body: string) {
+    const headers = {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${this.token.token}`,
+    };
+
+    const requestOptions = {
+      method: 'POST',
+      headers,
+      body,
+    };
+
+    const response = await fetch(url, requestOptions)
+      .then((response: any) => {
+        return response.json();
+      })
+      .catch((error: any) => {
+        throw new ExternalError({ statusCode: error.code, message: error.message, body: error });
+      });
+
+    if (response?.errors) {
+      throw new ExternalError({
+        statusCode: response?.statusCode,
+        message: response.errors[0].message,
+        body: response,
+        errors: response?.errors,
+      });
+    }
+
+    const token: Token = {
+      token: response?.id,
+      expirationTime: response?.expiryAt ? new Date(response?.expiryAt).getTime() : undefined,
+    };
+
+    this.setSessionCheckoutSessionToken(token);
+  }
+
+  private commercetoolsTokenCache(): TokenCache {
+    return (() => {
+      const get = () => {
+        if (this.token === undefined) {
+          return undefined;
+        }
+
+        const tokenStore: TokenStore = {
+          token: this.token.token,
+          expirationTime: this.token.expirationTime,
+          refreshToken: this.token.refreshToken,
+        };
+
+        return tokenStore;
+      };
+
+      const set = (tokenStore: TokenStore) => {
+        this.token = {
+          token: tokenStore.token,
+          expirationTime: tokenStore.expirationTime,
+          refreshToken: tokenStore.refreshToken,
+        };
+        clientTokensStored.set(this.getClientHashKey(), this.token);
+      };
+
+      return { get, set };
+    })();
+  }
+
+  private getClientHashKey(): string {
+    if (this.clientHashKey) {
+      return this.clientHashKey;
+    }
+
+    this.clientHashKey = crypto
+      .createHash('md5')
+      .update(this.clientSettings.clientId + this.clientSettings.clientSecret + this.clientSettings.projectKey)
+      .digest('hex');
+
+    return this.clientHashKey;
+  }
+
+  private getApiRoot(): ApiRoot {
+    let refreshToken: string | undefined;
+    if (this.apiRoot && tokenHasExpired(this.token)) {
+      this.apiRoot = undefined;
+      refreshToken = this.token?.refreshToken;
+    }
+
+    if (this.apiRoot) {
+      return this.apiRoot;
+    }
+
+    const client = ClientFactory.factor(
+      this.clientSettings,
+      this.environment,
+      this.commercetoolsTokenCache(),
+      refreshToken,
+    );
+
+    this.apiRoot = createApiBuilderFromCtpClient(client);
+
+    return this.apiRoot;
   }
 }

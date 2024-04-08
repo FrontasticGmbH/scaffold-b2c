@@ -6,22 +6,18 @@ import { ShippingMethod } from '@Types/cart/ShippingMethod';
 import { Payment, PaymentStatuses } from '@Types/cart/Payment';
 import { Discount } from '@Types/cart/Discount';
 import { SortAttributes, SortOrder } from '@Types/query/ProductQuery';
-import { OrderQuery } from '@Types/cart';
-import { Token } from '@Types/Token';
+import { OrderQuery } from '@Types/query';
 import { CartFetcher } from '../utils/CartFetcher';
 import { CartApi } from '../apis/CartApi';
 import { getCurrency, getLocale } from '../utils/Request';
 import { EmailApiFactory } from '../utils/EmailApiFactory';
 import { AccountAuthenticationError } from '../errors/AccountAuthenticationError';
-import { CartRedeemDiscountCodeError } from '../errors/CartRedeemDiscountCodeError';
-import { ExternalError } from '@Commerce-commercetools/utils/Errors';
-import { Guid } from '@Commerce-commercetools/utils/Guid';
 import queryParamsToStates from '@Commerce-commercetools/utils/queryParamsToState';
 import queryParamsToIds from '@Commerce-commercetools/utils/queryParamsToIds';
 import handleError from '@Commerce-commercetools/utils/handleError';
 import { fetchAccountFromSession } from '@Commerce-commercetools/utils/fetchAccountFromSession';
 import { CartNotMatchOrderError } from '@Commerce-commercetools/errors/CartNotMatchOrderError';
-import { TokenError } from '@Commerce-commercetools/errors/TokenError';
+import { ValidationError } from '@Commerce-commercetools/errors/ValidationError';
 
 type ActionHook = (request: Request, actionContext: ActionContext) => Promise<Response>;
 
@@ -73,25 +69,29 @@ async function updateCartFromRequest(cartApi: CartApi, request: Request, actionC
 }
 
 export const getCart: ActionHook = async (request: Request, actionContext: ActionContext) => {
-  const cartApi = getCartApi(request, actionContext);
-
   try {
-    const cart = await CartFetcher.fetchCartFromSession(cartApi, request, actionContext);
+    const cartApi = getCartApi(request, actionContext);
 
-    return {
-      statusCode: 200,
-      body: cart ? JSON.stringify(cart) : '',
-      sessionData: {
-        ...cartApi.getSessionData(),
-        ...(cart ? { cartId: cart.cartId } : {}),
-      },
-    };
+    try {
+      const cart = await CartFetcher.fetchCartFromSession(cartApi, request, actionContext);
+
+      return {
+        statusCode: 200,
+        body: cart ? JSON.stringify(cart) : '',
+        sessionData: {
+          ...cartApi.getSessionData(),
+          ...(cart ? { cartId: cart.cartId } : {}),
+        },
+      };
+    } catch (error) {
+      const errorResponse = error as Error;
+      return {
+        statusCode: 400,
+        message: errorResponse.message,
+      };
+    }
   } catch (error) {
-    const errorResponse = error as Error;
-    return {
-      statusCode: 400,
-      message: errorResponse.message,
-    };
+    return handleError(error, request);
   }
 };
 
@@ -109,63 +109,51 @@ export const resetCart: ActionHook = async (request: Request) => {
 };
 
 export const addToCart: ActionHook = async (request: Request, actionContext: ActionContext) => {
-  const cartApi = getCartApi(request, actionContext);
+  try {
+    const cartApi = getCartApi(request, actionContext);
 
-  const body: {
-    variant?: { sku?: string; count: number };
-  } = JSON.parse(request.body);
+    const body: {
+      variant?: { sku?: string; count: number };
+    } = JSON.parse(request.body);
 
-  const lineItem: LineItem = {
-    variant: {
-      sku: body.variant?.sku || undefined,
-      price: undefined,
-    },
-    count: +body.variant?.count || 1,
-  };
+    const lineItem: LineItem = {
+      variant: {
+        sku: body.variant?.sku || undefined,
+        price: undefined,
+      },
+      count: +body.variant?.count || 1,
+    };
 
-  let cart = await CartFetcher.fetchCart(cartApi, request, actionContext);
-  cart = await cartApi.addToCart(cart, lineItem);
+    let cart = await CartFetcher.fetchCart(cartApi, request, actionContext);
+    cart = await cartApi.addToCart(cart, lineItem);
 
-  const cartId = cart.cartId;
+    const cartId = cart.cartId;
 
-  const response: Response = {
-    statusCode: 200,
-    body: JSON.stringify(cart),
-    sessionData: {
-      ...cartApi.getSessionData(),
-      cartId,
-    },
-  };
+    const response: Response = {
+      statusCode: 200,
+      body: JSON.stringify(cart),
+      sessionData: {
+        ...cartApi.getSessionData(),
+        cartId,
+      },
+    };
 
-  return response;
+    return response;
+  } catch (error) {
+    return handleError(error, request);
+  }
 };
 
 export const replicateCart: ActionHook = async (request: Request, actionContext: ActionContext) => {
-  const cartApi = getCartApi(request, actionContext);
-  const orderId = request.query?.['orderId'];
-
-  if (!orderId) {
-    return {
-      statusCode: 422,
-      body: JSON.stringify(`Order was not found.`),
-      sessionData: {
-        ...cartApi.getSessionData(),
-      },
-    };
-  }
-
   try {
-    const cart = await cartApi.replicateCart(orderId);
+    const cartApi = getCartApi(request, actionContext);
+    const orderId = request.query?.['orderId'];
 
-    if (!cart) {
-      return {
-        statusCode: 400,
-        body: JSON.stringify(`We could not replicate cart for order : "${orderId}".`),
-        sessionData: {
-          ...cartApi.getSessionData(),
-        },
-      };
+    if (!orderId) {
+      throw new ValidationError({ message: `orderId is required` });
     }
+
+    const cart = await cartApi.replicateCart(orderId);
 
     return {
       statusCode: 200,
@@ -176,285 +164,312 @@ export const replicateCart: ActionHook = async (request: Request, actionContext:
       },
     };
   } catch (error) {
-    if (error instanceof ExternalError) {
-      return {
-        statusCode: error.status,
-        body: JSON.stringify(error.message),
-        sessionData: {
-          ...cartApi.getSessionData(),
-        },
-      };
-    }
-    const err = error as Error;
-    return {
-      statusCode: 400,
-      body: JSON.stringify(err.message),
-      sessionData: {
-        ...cartApi.getSessionData(),
-      },
-    };
+    return handleError(error, request);
   }
 };
 
 export const updateLineItem: ActionHook = async (request: Request, actionContext: ActionContext) => {
-  const cartApi = getCartApi(request, actionContext);
+  try {
+    const cartApi = getCartApi(request, actionContext);
 
-  const body: {
-    lineItem?: { id?: string; count: number };
-  } = JSON.parse(request.body);
+    const body: {
+      lineItem?: { id?: string; count: number };
+    } = JSON.parse(request.body);
 
-  const lineItem: LineItem = {
-    lineItemId: body.lineItem?.id,
-    count: +body.lineItem?.count || 1,
-  };
+    const lineItem: LineItem = {
+      lineItemId: body.lineItem?.id,
+      count: +body.lineItem?.count || 1,
+    };
 
-  let cart = await CartFetcher.fetchCart(cartApi, request, actionContext);
-  cart = await cartApi.updateLineItem(cart, lineItem);
+    let cart = await CartFetcher.fetchCart(cartApi, request, actionContext);
+    cart = await cartApi.updateLineItem(cart, lineItem);
 
-  const cartId = cart.cartId;
+    const cartId = cart.cartId;
 
-  const response: Response = {
-    statusCode: 200,
-    body: JSON.stringify(cart),
-    sessionData: {
-      ...cartApi.getSessionData(),
-      cartId,
-    },
-  };
+    const response: Response = {
+      statusCode: 200,
+      body: JSON.stringify(cart),
+      sessionData: {
+        ...cartApi.getSessionData(),
+        cartId,
+      },
+    };
 
-  return response;
+    return response;
+  } catch (error) {
+    return handleError(error, request);
+  }
 };
 
 export const removeLineItem: ActionHook = async (request: Request, actionContext: ActionContext) => {
-  const cartApi = getCartApi(request, actionContext);
+  try {
+    const cartApi = getCartApi(request, actionContext);
 
-  const body: {
-    lineItem?: { id?: string };
-  } = JSON.parse(request.body);
+    const body: {
+      lineItem?: { id?: string };
+    } = JSON.parse(request.body);
 
-  const lineItem: LineItem = {
-    lineItemId: body.lineItem?.id,
-  };
+    const lineItem: LineItem = {
+      lineItemId: body.lineItem?.id,
+    };
 
-  let cart = await CartFetcher.fetchCart(cartApi, request, actionContext);
-  cart = await cartApi.removeLineItem(cart, lineItem);
+    let cart = await CartFetcher.fetchCart(cartApi, request, actionContext);
+    cart = await cartApi.removeLineItem(cart, lineItem);
 
-  const cartId = cart.cartId;
+    const cartId = cart.cartId;
 
-  const response: Response = {
-    statusCode: 200,
-    body: JSON.stringify(cart),
-    sessionData: {
-      ...cartApi.getSessionData(),
-      cartId,
-    },
-  };
+    const response: Response = {
+      statusCode: 200,
+      body: JSON.stringify(cart),
+      sessionData: {
+        ...cartApi.getSessionData(),
+        cartId,
+      },
+    };
 
-  return response;
+    return response;
+  } catch (error) {
+    return handleError(error, request);
+  }
 };
 
 export const updateCart: ActionHook = async (request: Request, actionContext: ActionContext) => {
-  const cartApi = getCartApi(request, actionContext);
+  try {
+    const cartApi = getCartApi(request, actionContext);
 
-  const cart = await updateCartFromRequest(cartApi, request, actionContext);
-  const cartId = cart.cartId;
+    const cart = await updateCartFromRequest(cartApi, request, actionContext);
+    const cartId = cart.cartId;
 
-  const response: Response = {
-    statusCode: 200,
-    body: JSON.stringify(cart),
-    sessionData: {
-      ...cartApi.getSessionData(),
-      cartId,
-    },
-  };
+    const response: Response = {
+      statusCode: 200,
+      body: JSON.stringify(cart),
+      sessionData: {
+        ...cartApi.getSessionData(),
+        cartId,
+      },
+    };
 
-  return response;
+    return response;
+  } catch (error) {
+    return handleError(error, request);
+  }
 };
 
 export const checkout: ActionHook = async (request: Request, actionContext: ActionContext) => {
-  const locale = getLocale(request);
+  try {
+    const locale = getLocale(request);
+    const body: {
+      purchaseOrderNumber?: string;
+    } = JSON.parse(request.body);
 
-  const cartApi = getCartApi(request, actionContext);
-  const emailApi = EmailApiFactory.getDefaultApi(actionContext.frontasticContext, locale);
+    const cartApi = getCartApi(request, actionContext);
+    const emailApi = EmailApiFactory.getDefaultApi(actionContext.frontasticContext, locale);
 
-  const cart = await updateCartFromRequest(cartApi, request, actionContext);
+    const cart = await updateCartFromRequest(cartApi, request, actionContext);
 
-  const order = await cartApi.order(cart, { orderNumber: Guid.newGuid(false, ['xxxxxxxxyxxx', 'xxxx-xxxx-yxxx']) });
+    const order = await cartApi.order(cart, body?.purchaseOrderNumber);
 
-  emailApi.sendOrderConfirmationEmail({ ...order, email: order.email || cart.email });
+    emailApi.sendOrderConfirmationEmail({ ...order, email: order.email || cart.email });
 
-  // Unset the cartId
-  const cartId: string = undefined;
+    // Unset the cartId
+    const cartId: string = undefined;
 
-  const response: Response = {
-    statusCode: 200,
-    body: JSON.stringify(order),
-    sessionData: {
-      ...cartApi.getSessionData(),
-      cartId,
-    },
-  };
+    const response: Response = {
+      statusCode: 200,
+      body: JSON.stringify(order),
+      sessionData: {
+        ...cartApi.getSessionData(),
+        cartId,
+      },
+    };
 
-  return response;
+    return response;
+  } catch (error) {
+    return handleError(error, request);
+  }
 };
 
 /**
  * @deprecated Use queryOrders instead
  */
 export const getOrders: ActionHook = async (request: Request, actionContext: ActionContext) => {
-  const cartApi = getCartApi(request, actionContext);
+  try {
+    const cartApi = getCartApi(request, actionContext);
 
-  const account = request.sessionData?.account !== undefined ? request.sessionData.account : undefined;
+    const account = request.sessionData?.account !== undefined ? request.sessionData.account : undefined;
 
-  if (account === undefined) {
-    throw new AccountAuthenticationError({ message: 'Not logged in.' });
+    if (account === undefined) {
+      throw new AccountAuthenticationError({ message: 'Not logged in.' });
+    }
+
+    const orders = await cartApi.getOrders(account);
+
+    const response: Response = {
+      statusCode: 200,
+      body: JSON.stringify(orders),
+      sessionData: {
+        ...cartApi.getSessionData(),
+      },
+    };
+    return response;
+  } catch (error) {
+    return handleError(error, request);
   }
-
-  const orders = await cartApi.getOrders(account);
-
-  const response: Response = {
-    statusCode: 200,
-    body: JSON.stringify(orders),
-    sessionData: {
-      ...cartApi.getSessionData(),
-    },
-  };
-  return response;
 };
 
 export const getShippingMethods: ActionHook = async (request: Request, actionContext: ActionContext) => {
-  const cartApi = getCartApi(request, actionContext);
-  const onlyMatching = request.query.onlyMatching === 'true';
+  try {
+    const cartApi = getCartApi(request, actionContext);
+    const onlyMatching = request.query.onlyMatching === 'true';
 
-  const shippingMethods = await cartApi.getShippingMethods(onlyMatching);
+    const shippingMethods = await cartApi.getShippingMethods(onlyMatching);
 
-  const response: Response = {
-    statusCode: 200,
-    body: JSON.stringify(shippingMethods),
-    sessionData: {
-      ...cartApi.getSessionData(),
-    },
-  };
+    const response: Response = {
+      statusCode: 200,
+      body: JSON.stringify(shippingMethods),
+      sessionData: {
+        ...cartApi.getSessionData(),
+      },
+    };
 
-  return response;
+    return response;
+  } catch (error) {
+    return handleError(error, request);
+  }
 };
 
 export const getAvailableShippingMethods: ActionHook = async (request: Request, actionContext: ActionContext) => {
-  const cartApi = getCartApi(request, actionContext);
-  const cart = await CartFetcher.fetchCart(cartApi, request, actionContext);
+  try {
+    const cartApi = getCartApi(request, actionContext);
+    const cart = await CartFetcher.fetchCart(cartApi, request, actionContext);
 
-  const availableShippingMethods = await cartApi.getAvailableShippingMethods(cart);
+    const availableShippingMethods = await cartApi.getAvailableShippingMethods(cart);
 
-  const response: Response = {
-    statusCode: 200,
-    body: JSON.stringify(availableShippingMethods),
-    sessionData: {
-      ...cartApi.getSessionData(),
-      cartId: cart.cartId,
-    },
-  };
+    const response: Response = {
+      statusCode: 200,
+      body: JSON.stringify(availableShippingMethods),
+      sessionData: {
+        ...cartApi.getSessionData(),
+        cartId: cart.cartId,
+      },
+    };
 
-  return response;
+    return response;
+  } catch (error) {
+    return handleError(error, request);
+  }
 };
 
 export const setShippingMethod: ActionHook = async (request: Request, actionContext: ActionContext) => {
-  const cartApi = getCartApi(request, actionContext);
-  let cart = await CartFetcher.fetchCart(cartApi, request, actionContext);
+  try {
+    const cartApi = getCartApi(request, actionContext);
 
-  const body: {
-    shippingMethod?: { id?: string };
-  } = JSON.parse(request.body);
+    let cart = await CartFetcher.fetchCart(cartApi, request, actionContext);
 
-  const shippingMethod: ShippingMethod = {
-    shippingMethodId: body.shippingMethod?.id,
-  };
+    const body: {
+      shippingMethod?: { id?: string };
+    } = JSON.parse(request.body);
 
-  cart = await cartApi.setShippingMethod(cart, shippingMethod);
+    const shippingMethod: ShippingMethod = {
+      shippingMethodId: body.shippingMethod?.id,
+    };
 
-  const response: Response = {
-    statusCode: 200,
-    body: JSON.stringify(cart),
-    sessionData: {
-      ...cartApi.getSessionData(),
-      cartId: cart.cartId,
-    },
-  };
+    cart = await cartApi.setShippingMethod(cart, shippingMethod);
 
-  return response;
+    const response: Response = {
+      statusCode: 200,
+      body: JSON.stringify(cart),
+      sessionData: {
+        ...cartApi.getSessionData(),
+        cartId: cart.cartId,
+      },
+    };
+
+    return response;
+  } catch (error) {
+    return handleError(error, request);
+  }
 };
 
 export const addPaymentByInvoice: ActionHook = async (request: Request, actionContext: ActionContext) => {
-  const cartApi = getCartApi(request, actionContext);
-  let cart = await CartFetcher.fetchCart(cartApi, request, actionContext);
+  try {
+    const cartApi = getCartApi(request, actionContext);
 
-  const body: {
-    payment?: Payment;
-  } = JSON.parse(request.body);
+    let cart = await CartFetcher.fetchCart(cartApi, request, actionContext);
 
-  const payment: Payment = {
-    ...body.payment,
-    paymentProvider: 'frontastic',
-    paymentMethod: 'invoice',
-    paymentStatus: PaymentStatuses.PENDING,
-  };
+    const body: {
+      payment?: Payment;
+    } = JSON.parse(request.body);
 
-  if (payment.amountPlanned === undefined) {
-    payment.amountPlanned = {};
+    const payment: Payment = {
+      ...body.payment,
+      paymentProvider: 'frontastic',
+      paymentMethod: 'invoice',
+      paymentStatus: PaymentStatuses.PENDING,
+    };
+
+    if (payment.amountPlanned === undefined) {
+      payment.amountPlanned = {};
+    }
+
+    payment.amountPlanned.centAmount = payment.amountPlanned.centAmount ?? cart.sum.centAmount ?? undefined;
+    payment.amountPlanned.currencyCode = payment.amountPlanned.currencyCode ?? cart.sum.currencyCode ?? undefined;
+
+    cart = await cartApi.addPayment(cart, payment);
+
+    const response: Response = {
+      statusCode: 200,
+      body: JSON.stringify(cart),
+      sessionData: {
+        ...cartApi.getSessionData(),
+        cartId: cart.cartId,
+      },
+    };
+
+    return response;
+  } catch (error) {
+    return handleError(error, request);
   }
-
-  payment.amountPlanned.centAmount = payment.amountPlanned.centAmount ?? cart.sum.centAmount ?? undefined;
-  payment.amountPlanned.currencyCode = payment.amountPlanned.currencyCode ?? cart.sum.currencyCode ?? undefined;
-
-  cart = await cartApi.addPayment(cart, payment);
-
-  const response: Response = {
-    statusCode: 200,
-    body: JSON.stringify(cart),
-    sessionData: {
-      ...cartApi.getSessionData(),
-      cartId: cart.cartId,
-    },
-  };
-
-  return response;
 };
 
 export const updatePayment: ActionHook = async (request: Request, actionContext: ActionContext) => {
-  const cartApi = getCartApi(request, actionContext);
-  const cart = await CartFetcher.fetchCart(cartApi, request, actionContext);
+  try {
+    const cartApi = getCartApi(request, actionContext);
+    const cart = await CartFetcher.fetchCart(cartApi, request, actionContext);
 
-  const body: {
-    payment?: Payment;
-  } = JSON.parse(request.body);
+    const body: {
+      payment?: Payment;
+    } = JSON.parse(request.body);
 
-  const payment = await cartApi.updatePayment(cart, body.payment);
+    const payment = await cartApi.updatePayment(cart, body.payment);
 
-  const response: Response = {
-    statusCode: 200,
-    body: JSON.stringify(payment),
-    sessionData: {
-      ...cartApi.getSessionData(),
-      cartId: cart.cartId,
-    },
-  };
+    const response: Response = {
+      statusCode: 200,
+      body: JSON.stringify(payment),
+      sessionData: {
+        ...cartApi.getSessionData(),
+        cartId: cart.cartId,
+      },
+    };
 
-  return response;
+    return response;
+  } catch (error) {
+    return handleError(error, request);
+  }
 };
 
 export const redeemDiscount: ActionHook = async (request: Request, actionContext: ActionContext) => {
-  const cartApi = getCartApi(request, actionContext);
-  let cart = await CartFetcher.fetchCart(cartApi, request, actionContext);
-
-  const body: {
-    code?: string;
-  } = JSON.parse(request.body);
-
-  let response: Response;
-
   try {
+    const cartApi = getCartApi(request, actionContext);
+    let cart = await CartFetcher.fetchCart(cartApi, request, actionContext);
+
+    const body: {
+      code?: string;
+    } = JSON.parse(request.body);
+
     cart = await cartApi.redeemDiscountCode(cart, body.code);
 
-    response = {
+    return {
       statusCode: 200,
       body: JSON.stringify(cart),
       sessionData: {
@@ -463,60 +478,49 @@ export const redeemDiscount: ActionHook = async (request: Request, actionContext
       },
     };
   } catch (error) {
-    if (error instanceof CartRedeemDiscountCodeError) {
-      response = {
-        statusCode: error.status,
-        body: JSON.stringify(error.message),
-        sessionData: {
-          ...cartApi.getSessionData(),
-          cartId: cart.cartId,
-        },
-      };
-
-      return response;
-    }
-
-    throw error;
+    return handleError(error, request);
   }
-
-  return response;
 };
 
 export const removeDiscount: ActionHook = async (request: Request, actionContext: ActionContext) => {
-  const cartApi = getCartApi(request, actionContext);
-  let cart = await CartFetcher.fetchCart(cartApi, request, actionContext);
+  try {
+    const cartApi = getCartApi(request, actionContext);
+    let cart = await CartFetcher.fetchCart(cartApi, request, actionContext);
 
-  const body: {
-    discountId?: string;
-  } = JSON.parse(request.body);
+    const body: {
+      discountId?: string;
+    } = JSON.parse(request.body);
 
-  const discount: Discount = {
-    discountId: body?.discountId,
-  };
+    const discount: Discount = {
+      discountId: body?.discountId,
+    };
 
-  cart = await cartApi.removeDiscountCode(cart, discount);
+    cart = await cartApi.removeDiscountCode(cart, discount);
 
-  const response: Response = {
-    statusCode: 200,
-    body: JSON.stringify(cart),
-    sessionData: {
-      ...cartApi.getSessionData(),
-      cartId: cart.cartId,
-    },
-  };
+    const response: Response = {
+      statusCode: 200,
+      body: JSON.stringify(cart),
+      sessionData: {
+        ...cartApi.getSessionData(),
+        cartId: cart.cartId,
+      },
+    };
 
-  return response;
+    return response;
+  } catch (error) {
+    return handleError(error, request);
+  }
 };
 
 export const queryOrders: ActionHook = async (request, actionContext) => {
-  const cartApi = getCartApi(request, actionContext);
-
-  const account = fetchAccountFromSession(request);
-  if (account === undefined) {
-    throw new AccountAuthenticationError({ message: 'Not logged in.' });
-  }
-
   try {
+    const cartApi = getCartApi(request, actionContext);
+
+    const account = fetchAccountFromSession(request);
+    if (account === undefined) {
+      throw new AccountAuthenticationError({ message: 'Not logged in.' });
+    }
+
     const orderQuery: OrderQuery = {
       accountId: account.accountId,
       limit: request.query?.limit ?? undefined,
@@ -544,11 +548,11 @@ export const queryOrders: ActionHook = async (request, actionContext) => {
   }
 };
 
-export const getCheckoutOrder: ActionHook = async (request, actionContext) => {
-  const cartApi = getCartApi(request, actionContext);
-  const account = fetchAccountFromSession(request);
-
+export const getOrder: ActionHook = async (request, actionContext) => {
   try {
+    const cartApi = getCartApi(request, actionContext);
+
+    const account = fetchAccountFromSession(request);
     const orderQuery: OrderQuery = {
       accountId: account?.accountId,
       orderIds: [request.query?.orderId],
@@ -581,50 +585,46 @@ export const getCheckoutOrder: ActionHook = async (request, actionContext) => {
   }
 };
 
+// @deprecated Use getCheckoutSessionToken instead
 export const getCheckoutToken: ActionHook = async (request: Request, actionContext: ActionContext) => {
-  let checkoutToken: Token;
-
-  const cartApi = getCartApi(request, actionContext);
-  const cart = await CartFetcher.fetchCart(cartApi, request, actionContext);
-  const account = fetchAccountFromSession(request);
-
   try {
-    checkoutToken = await cartApi.getCheckoutToken(cart, account);
+    const cartApi = getCartApi(request, actionContext);
+    const cart = await CartFetcher.fetchCart(cartApi, request, actionContext);
+    const account = fetchAccountFromSession(request);
+
+    const checkoutToken = await cartApi.getCheckoutToken(cart, account);
+
+    const response: Response = {
+      statusCode: 200,
+      body: checkoutToken ? JSON.stringify(checkoutToken) : '',
+      sessionData: {
+        ...cartApi.getSessionData(),
+      },
+    };
+
+    return response;
   } catch (error) {
-    if (error instanceof TokenError) {
-      const response: Response = {
-        statusCode: 401,
-        body: JSON.stringify(error.message),
-        sessionData: {
-          ...cartApi.getSessionData(),
-        },
-      };
-
-      return response;
-    }
-
-    if (error instanceof ExternalError) {
-      const response: Response = {
-        statusCode: error.status,
-        body: JSON.stringify(error.message),
-        sessionData: {
-          ...cartApi.getSessionData(),
-        },
-      };
-
-      return response;
-    }
-
-    throw error;
+    return handleError(error, request);
   }
+};
 
-  const response: Response = {
-    statusCode: 200,
-    body: checkoutToken ? JSON.stringify(checkoutToken) : '',
-    sessionData: {
-      ...cartApi.getSessionData(),
-    },
-  };
+export const getCheckoutSessionToken: ActionHook = async (request: Request, actionContext: ActionContext) => {
+  try {
+    const cartApi = getCartApi(request, actionContext);
+    const cart = await CartFetcher.fetchCart(cartApi, request, actionContext);
 
-  return response;
+    const checkoutSessionToken = await cartApi.getCheckoutSessionToken(cart);
+
+    const response: Response = {
+      statusCode: 200,
+      body: checkoutSessionToken ? JSON.stringify(checkoutSessionToken) : '',
+      sessionData: {
+        ...cartApi.getSessionData(),
+      },
+    };
+
+    return response;
+  } catch (error) {
+    return handleError(error, request);
+  }
 };

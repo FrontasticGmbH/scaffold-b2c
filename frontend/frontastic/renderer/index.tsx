@@ -1,6 +1,7 @@
+'use client';
+
 import React from 'react';
 import { classnames } from 'helpers/utils/classnames';
-import { tastics } from 'frontastic/tastics';
 import Cell from './components/cell';
 import Grid from './components/grid';
 import TasticWrapper from './components/tastic-wrapper';
@@ -52,7 +53,6 @@ const Renderer = ({
                   params={params}
                   searchParams={searchParams}
                   dataSources={data.dataSources}
-                  tastics={tastics}
                   isHighlighted={currentHighlight === tastic.tasticId}
                   categories={categories}
                 />

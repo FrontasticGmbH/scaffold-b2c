@@ -38,7 +38,7 @@ const OrderSummary: FC<OrderSummaryProps> = ({ order, onPrint }) => {
     },
     {
       label: formatCartMessage({ id: 'tax', defaultMessage: 'Tax' }),
-      value: order.taxed?.amount,
+      value: order.taxed?.taxAmount,
     },
   ];
 

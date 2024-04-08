@@ -1,8 +1,10 @@
-import { ErrorProps, ExtensionError } from '../utils/Errors';
+import { ExtensionError, ExtensionErrorProperties } from './Errors';
 
 export class AccountEmailDuplicatedError extends ExtensionError {
-  constructor(options: ErrorProps) {
+  static ACCOUNT_EMAIL_DUPLICATED_ERROR_NAME: 'account_email_duplicated_error';
+
+  constructor(options: ExtensionErrorProperties) {
     super(options);
-    this.code = 'account_email_not_active_error';
+    this.errorName = AccountEmailDuplicatedError.ACCOUNT_EMAIL_DUPLICATED_ERROR_NAME;
   }
 }

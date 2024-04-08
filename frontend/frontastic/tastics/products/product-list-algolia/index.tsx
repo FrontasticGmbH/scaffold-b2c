@@ -3,7 +3,6 @@
 import { useEffect, useMemo } from 'react';
 import { useParams, useSearchParams } from 'next/navigation';
 import { InstantSearchServerState, useClearRefinements } from 'react-instantsearch-hooks';
-import NotFound from 'components/commercetools-ui/organisms/not-found';
 import ProductList from 'components/commercetools-ui/organisms/product/product-list-algolia';
 import ProductListProvider, {
   useProductList,
@@ -14,6 +13,7 @@ import {
 } from 'components/commercetools-ui/organisms/product/product-list-algolia/types';
 import InstantSearch from 'components/HOC/InstantSearch';
 import usePath from 'helpers/hooks/usePath';
+import Redirect from 'helpers/redirect';
 import { flattenTree } from 'helpers/utils/flattenTree';
 import { getLocalizationInfo } from 'project.config';
 import LocalizedIndex from 'providers/algolia/localized-index';
@@ -29,6 +29,11 @@ export interface Props {
 }
 
 function ProductListTastic({ categories, data }: TasticProps<Props>) {
+  const flattenedCategories = useMemo(
+    () => categories.map((category) => flattenTree(category, 'subCategories')).flat(),
+    [categories],
+  );
+
   const { updateFacetsConfiguration, updatePricesConfiguration } = useProductList();
 
   const { locale, slug } = useParams();
@@ -79,8 +84,6 @@ function ProductListTastic({ categories, data }: TasticProps<Props>) {
     clearAllRefinements();
   }, [clearAllRefinements, pathWithoutQuery]);
 
-  const flattenedCategories = categories.map((category) => flattenTree(category, 'subCategories')).flat();
-
   const isCategoryFoundOrSearchQueryExists = useMemo(() => {
     if (searchQuery) return true;
     if (!categorySlug) return true;
@@ -88,7 +91,7 @@ function ProductListTastic({ categories, data }: TasticProps<Props>) {
     return !!flattenedCategories?.find((category) => category.slug === categorySlug);
   }, [searchQuery, flattenedCategories, categorySlug]);
 
-  if (!isCategoryFoundOrSearchQueryExists) return <NotFound />;
+  if (!isCategoryFoundOrSearchQueryExists) return <Redirect target="/404" />;
 
   return (
     <ProductList

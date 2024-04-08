@@ -1,14 +1,15 @@
-import { BaseAddress, Customer as commercetoolsCustomer } from '@commercetools/platform-sdk';
+import {
+  Address as CommercetoolsAddress,
+  BaseAddress,
+  Customer as commercetoolsCustomer,
+} from '@commercetools/platform-sdk';
 import { Account } from '@Types/account/Account';
 import { Address } from '@Types/account/Address';
 import { Locale } from '../Locale';
 import { Guid } from '@Commerce-commercetools/utils/Guid';
 
 export class AccountMapper {
-  static commercetoolsCustomerToAccount: (commercetoolsCustomer: commercetoolsCustomer, locale: Locale) => Account = (
-    commercetoolsCustomer: commercetoolsCustomer,
-    locale: Locale,
-  ) => {
+  static commercetoolsCustomerToAccount(commercetoolsCustomer: commercetoolsCustomer): Account {
     return {
       accountId: commercetoolsCustomer.id,
       email: commercetoolsCustomer.email,
@@ -17,9 +18,56 @@ export class AccountMapper {
       lastName: commercetoolsCustomer?.lastName,
       birthday: commercetoolsCustomer?.dateOfBirth ? new Date(commercetoolsCustomer.dateOfBirth) : undefined,
       confirmed: commercetoolsCustomer.isEmailVerified,
-      addresses: AccountMapper.commercetoolsCustomerToAddresses(commercetoolsCustomer, locale),
+      addresses: this.commercetoolsAddressesToAddresses(
+        commercetoolsCustomer.addresses,
+        commercetoolsCustomer.defaultBillingAddressId,
+        commercetoolsCustomer.defaultShippingAddressId,
+        commercetoolsCustomer.billingAddressIds,
+        commercetoolsCustomer.shippingAddressIds,
+      ),
     } as Account;
-  };
+  }
+
+  static commercetoolsAddressesToAddresses(
+    commercetoolsAddresses: CommercetoolsAddress[],
+    defaultBillingAddressId?: string,
+    defaultShippingAddressId?: string,
+    billingAddressIds?: string[],
+    shippingAddressIds?: string[],
+  ): Address[] {
+    const addresses: Address[] = [];
+
+    commercetoolsAddresses.forEach((commercetoolsAddress) => {
+      addresses.push({
+        ...this.commercetoolsAddressToAddress(commercetoolsAddress),
+        isDefaultBillingAddress: commercetoolsAddress.id === defaultBillingAddressId,
+        isDefaultShippingAddress: commercetoolsAddress.id === defaultShippingAddressId,
+        isBillingAddress: billingAddressIds.includes(commercetoolsAddress.id),
+        isShippingAddress: shippingAddressIds.includes(commercetoolsAddress.id),
+      } as Address);
+    });
+
+    return addresses;
+  }
+
+  static commercetoolsAddressToAddress(commercetoolsAddress: CommercetoolsAddress): Address {
+    return {
+      addressId: commercetoolsAddress.id,
+      key: commercetoolsAddress?.key ?? undefined,
+      salutation: commercetoolsAddress.salutation ?? undefined,
+      firstName: commercetoolsAddress.firstName ?? undefined,
+      lastName: commercetoolsAddress.lastName ?? undefined,
+      streetName: commercetoolsAddress.streetName ?? undefined,
+      streetNumber: commercetoolsAddress.streetNumber ?? undefined,
+      additionalStreetInfo: commercetoolsAddress.additionalStreetInfo ?? undefined,
+      additionalAddressInfo: commercetoolsAddress.additionalAddressInfo ?? undefined,
+      postalCode: commercetoolsAddress.postalCode ?? undefined,
+      city: commercetoolsAddress.city ?? undefined,
+      country: commercetoolsAddress.country ?? undefined,
+      state: commercetoolsAddress.state ?? undefined,
+      phone: commercetoolsAddress.phone ?? undefined,
+    };
+  }
 
   static commercetoolsCustomerToAddresses: (commercetoolsCustomer: commercetoolsCustomer, locale: Locale) => Address[] =
     (commercetoolsCustomer: commercetoolsCustomer, locale: Locale) => {
@@ -27,19 +75,6 @@ export class AccountMapper {
 
       commercetoolsCustomer.addresses.forEach((commercetoolsAddress) => {
         addresses.push({
-          addressId: commercetoolsAddress.id,
-          salutation: commercetoolsAddress.salutation ?? undefined,
-          firstName: commercetoolsAddress.firstName ?? undefined,
-          lastName: commercetoolsAddress.lastName ?? undefined,
-          streetName: commercetoolsAddress.streetName ?? undefined,
-          streetNumber: commercetoolsAddress.streetNumber ?? undefined,
-          additionalStreetInfo: commercetoolsAddress.additionalStreetInfo ?? undefined,
-          additionalAddressInfo: commercetoolsAddress.additionalAddressInfo ?? undefined,
-          postalCode: commercetoolsAddress.postalCode ?? undefined,
-          city: commercetoolsAddress.city ?? undefined,
-          country: commercetoolsAddress.country ?? undefined,
-          state: commercetoolsAddress.state ?? undefined,
-          phone: commercetoolsAddress.phone ?? undefined,
           isDefaultBillingAddress: commercetoolsAddress.id === commercetoolsCustomer.defaultBillingAddressId,
           isBillingAddress: commercetoolsCustomer.billingAddressIds.includes(commercetoolsAddress.id),
           isDefaultShippingAddress: commercetoolsAddress.id === commercetoolsCustomer.defaultShippingAddressId,

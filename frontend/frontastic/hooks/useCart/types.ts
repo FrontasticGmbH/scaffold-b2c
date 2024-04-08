@@ -20,6 +20,7 @@ export interface UseCartReturn {
   isShippingAccurate: boolean;
   hasOutOfStockItems: boolean;
   transaction: {
+    isEstimatedShipping?: boolean;
     subtotal: Required<Money>;
     discount: Required<Money>;
     shipping: Required<Money>;
@@ -35,8 +36,8 @@ export interface UseCartReturn {
   redeemDiscountCode?: (code: string) => Promise<void>;
   shippingMethods: { data?: ShippingMethod[] };
   orderCart: () => Promise<Order>;
+  queryOrder: (orderId: string) => Promise<Order>;
   getOrder: (orderId: string) => Promise<Order>;
-  getCheckoutOrder: (orderId: string) => Promise<Order>;
   orderHistory?: () => Promise<Order[]>;
   getProjectSettings?: () => Promise<ProjectSettings>;
 }

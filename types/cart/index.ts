@@ -1,5 +1,5 @@
 import { Cart } from './Cart';
-import { Discount } from './Discount';
+import { Discount, DiscountedPricePerCount } from './Discount';
 import { LineItem } from './LineItem';
 import { Order, ShipmentState, OrderState } from './Order';
 import { Payment, PaymentStatuses } from './Payment';
@@ -9,11 +9,12 @@ import { ShippingMethod } from './ShippingMethod';
 import { ShippingRate } from './ShippingRate';
 import { Tax } from './Tax';
 import { TaxPortion } from './TaxPortion';
-import { OrderQuery } from './OrderQuery';
+import { TaxRate } from './TaxRate';
 
 export {
   type Cart,
   type Discount,
+  type DiscountedPricePerCount,
   type LineItem,
   type Order,
   type OrderState,
@@ -26,5 +27,5 @@ export {
   type ShippingRate,
   type Tax,
   type TaxPortion,
-  type OrderQuery,
+  type TaxRate,
 };

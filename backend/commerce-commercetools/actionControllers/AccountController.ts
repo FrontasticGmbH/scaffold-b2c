@@ -7,6 +7,7 @@ import { getCurrency, getLocale } from '../utils/Request';
 import { EmailApiFactory } from '../utils/EmailApiFactory';
 import { AccountAuthenticationError } from '../errors/AccountAuthenticationError';
 import { CartApi } from '../apis/CartApi';
+import handleError from '@Commerce-commercetools/utils/handleError';
 
 type ActionHook = (request: Request, actionContext: ActionContext) => Promise<Response>;
 
@@ -48,23 +49,7 @@ async function loginAccount(request: Request, actionContext: ActionContext, acco
   const cart = await CartFetcher.fetchCart(cartApi, request, actionContext);
   const anonymousCheckoutToken = await cartApi.getCheckoutToken(cart);
 
-  try {
-    account = await accountApi.login(account, cart);
-  } catch (error) {
-    if (error instanceof AccountAuthenticationError) {
-      const response: Response = {
-        statusCode: 401,
-        body: JSON.stringify(error.message),
-        sessionData: {
-          ...accountApi.getSessionData(),
-        },
-      };
-
-      return response;
-    }
-
-    throw error;
-  }
+  account = await accountApi.login(account, cart);
 
   if (!account.confirmed) {
     // As the account is not confirmed, we'll reuse the anonymous checkout token
@@ -153,85 +138,135 @@ function mapRequestToAccount(request: Request): Account {
   return account;
 }
 
-export const getAccount: ActionHook = async (request: Request, actionContext: ActionContext) => {
-  const account = fetchAccountFromSession(request);
+export const getAccount: ActionHook = async (request: Request) => {
+  try {
+    const account = fetchAccountFromSession(request);
 
-  if (account === undefined) {
-    return {
+    if (account === undefined) {
+      return {
+        statusCode: 200,
+        body: JSON.stringify({
+          loggedIn: false,
+        }),
+      };
+    }
+
+    const response: Response = {
       statusCode: 200,
       body: JSON.stringify({
-        loggedIn: false,
+        loggedIn: true,
+        account,
       }),
+      sessionData: {
+        ...request.sessionData,
+        account: account,
+      },
     };
+
+    return response;
+  } catch (error) {
+    return handleError(error, request);
   }
-
-  const response: Response = {
-    statusCode: 200,
-    body: JSON.stringify({
-      loggedIn: true,
-      account,
-    }),
-    sessionData: {
-      ...request.sessionData,
-      account: account,
-    },
-  };
-
-  return response;
 };
 
 export const register: ActionHook = async (request: Request, actionContext: ActionContext) => {
-  const locale = getLocale(request);
+  try {
+    const locale = getLocale(request);
 
-  const accountApi = getAccountApi(request, actionContext);
-  const cartApi = getCartApi(request, actionContext);
+    const accountApi = getAccountApi(request, actionContext);
+    const cartApi = getCartApi(request, actionContext);
 
-  const accountData = mapRequestToAccount(request);
+    const accountData = mapRequestToAccount(request);
 
-  const cart = await CartFetcher.fetchCart(cartApi, request, actionContext);
+    const cart = await CartFetcher.fetchCart(cartApi, request, actionContext);
 
-  const account = await accountApi.create(accountData, cart);
+    const account = await accountApi.create(accountData, cart);
 
-  const emailApi = EmailApiFactory.getDefaultApi(actionContext.frontasticContext, locale);
+    const emailApi = EmailApiFactory.getDefaultApi(actionContext.frontasticContext, locale);
 
-  emailApi.sendWelcomeCustomerEmail(account);
+    emailApi.sendWelcomeCustomerEmail(account);
 
-  if (!account.confirmed) {
-    emailApi.sendAccountVerificationEmail(account);
+    if (!account.confirmed) {
+      emailApi.sendAccountVerificationEmail(account);
+    }
+
+    const response: Response = {
+      statusCode: 200,
+      body: JSON.stringify(account),
+      sessionData: {
+        ...accountApi.getSessionData(),
+      },
+    };
+
+    return response;
+  } catch (error) {
+    return handleError(error, request);
   }
-
-  const response: Response = {
-    statusCode: 200,
-    body: JSON.stringify(account),
-    sessionData: {
-      ...accountApi.getSessionData(),
-    },
-  };
-
-  return response;
 };
 
 export const requestConfirmationEmail: ActionHook = async (request: Request, actionContext: ActionContext) => {
-  const locale = getLocale(request);
+  try {
+    const locale = getLocale(request);
 
-  const accountApi = getAccountApi(request, actionContext);
-  const cartApi = getCartApi(request, actionContext);
+    const accountApi = getAccountApi(request, actionContext);
+    const cartApi = getCartApi(request, actionContext);
 
-  const accountLoginBody: AccountLoginBody = JSON.parse(request.body);
+    const accountLoginBody: AccountLoginBody = JSON.parse(request.body);
 
-  let account = {
-    email: accountLoginBody.email,
-    password: accountLoginBody.password,
-  } as Account;
+    let account = {
+      email: accountLoginBody.email,
+      password: accountLoginBody.password,
+    } as Account;
 
-  const cart = await CartFetcher.fetchCart(cartApi, request, actionContext);
+    const cart = await CartFetcher.fetchCart(cartApi, request, actionContext);
 
-  account = await accountApi.login(account, cart);
+    account = await accountApi.login(account, cart);
 
-  if (account.confirmed) {
+    if (account.confirmed) {
+      const response: Response = {
+        statusCode: 405,
+        body: JSON.stringify(`Your email address "${account.email}" was verified already.`),
+        sessionData: {
+          ...accountApi.getSessionData(),
+          account: account,
+        },
+      };
+
+      return response;
+    }
+
+    const emailApi = EmailApiFactory.getDefaultApi(actionContext.frontasticContext, locale);
+    emailApi.sendAccountVerificationEmail(account);
+
     const response: Response = {
-      statusCode: 405,
-      body: JSON.stringify(`Your email address "${account.email}" was verified already.`),
+      statusCode: 200,
+      body: JSON.stringify({}),
+      sessionData: {
+        ...accountApi.getSessionData(),
+      },
+    };
+
+    return response;
+  } catch (error) {
+    return handleError(error, request);
+  }
+};
+
+export const confirm: ActionHook = async (request: Request, actionContext: ActionContext) => {
+  try {
+    const accountApi = new AccountApi(actionContext.frontasticContext, getLocale(request), getCurrency(request));
+
+    type AccountConfirmBody = {
+      token?: string;
+    };
+
+    const accountConfirmBody: AccountConfirmBody = JSON.parse(request.body);
+
+    const account = await accountApi.confirmEmail(accountConfirmBody.token);
+
+    const response: Response = {
+      statusCode: 200,
+      body: JSON.stringify(account),
       sessionData: {
         ...accountApi.getSessionData(),
         account: account,
@@ -239,54 +274,24 @@ export const requestConfirmationEmail: ActionHook = async (request: Request, act
     };
 
     return response;
+  } catch (error) {
+    return handleError(error, request);
   }
-
-  const emailApi = EmailApiFactory.getDefaultApi(actionContext.frontasticContext, locale);
-  emailApi.sendAccountVerificationEmail(account);
-
-  const response: Response = {
-    statusCode: 200,
-    body: JSON.stringify({}),
-    sessionData: {
-      ...accountApi.getSessionData(),
-    },
-  };
-
-  return response;
-};
-
-export const confirm: ActionHook = async (request: Request, actionContext: ActionContext) => {
-  const accountApi = new AccountApi(actionContext.frontasticContext, getLocale(request), getCurrency(request));
-
-  type AccountConfirmBody = {
-    token?: string;
-  };
-
-  const accountConfirmBody: AccountConfirmBody = JSON.parse(request.body);
-
-  const account = await accountApi.confirmEmail(accountConfirmBody.token);
-
-  const response: Response = {
-    statusCode: 200,
-    body: JSON.stringify(account),
-    sessionData: {
-      ...accountApi.getSessionData(),
-      account: account,
-    },
-  };
-
-  return response;
 };
 
 export const login: ActionHook = async (request: Request, actionContext: ActionContext) => {
-  const accountLoginBody: AccountLoginBody = JSON.parse(request.body);
+  try {
+    const accountLoginBody: AccountLoginBody = JSON.parse(request.body);
 
-  const account = {
-    email: accountLoginBody.email,
-    password: accountLoginBody.password,
-  } as Account;
+    const account = {
+      email: accountLoginBody.email,
+      password: accountLoginBody.password,
+    } as Account;
 
-  return await loginAccount(request, actionContext, account);
+    return await loginAccount(request, actionContext, account);
+  } catch (error) {
+    return handleError(error, request);
+  }
 };
 
 export const logout: ActionHook = async (request: Request, actionContext: ActionContext) => {
@@ -309,246 +314,298 @@ export const logout: ActionHook = async (request: Request, actionContext: Action
  * Change password
  */
 export const password: ActionHook = async (request: Request, actionContext: ActionContext) => {
-  assertIsAuthenticated(request);
+  try {
+    assertIsAuthenticated(request);
 
-  let account = fetchAccountFromSession(request);
+    let account = fetchAccountFromSession(request);
 
-  const accountApi = new AccountApi(actionContext.frontasticContext, getLocale(request), getCurrency(request));
+    const accountApi = new AccountApi(actionContext.frontasticContext, getLocale(request), getCurrency(request));
 
-  const accountChangePasswordBody: AccountChangePasswordBody = JSON.parse(request.body);
+    const accountChangePasswordBody: AccountChangePasswordBody = JSON.parse(request.body);
 
-  account = await accountApi.updatePassword(
-    account,
-    accountChangePasswordBody.oldPassword,
-    accountChangePasswordBody.newPassword,
-  );
-
-  return {
-    statusCode: 200,
-    body: JSON.stringify(account),
-    sessionData: {
-      ...accountApi.getSessionData(),
+    account = await accountApi.updatePassword(
       account,
-    },
-  } as Response;
+      accountChangePasswordBody.oldPassword,
+      accountChangePasswordBody.newPassword,
+    );
+
+    return {
+      statusCode: 200,
+      body: JSON.stringify(account),
+      sessionData: {
+        ...accountApi.getSessionData(),
+        account,
+      },
+    } as Response;
+  } catch (error) {
+    return handleError(error, request);
+  }
 };
 
 /**
  * Request new reset token
  */
 export const requestReset: ActionHook = async (request: Request, actionContext: ActionContext) => {
-  const locale = getLocale(request);
+  try {
+    const locale = getLocale(request);
 
-  type AccountRequestResetBody = {
-    email?: string;
-  };
+    type AccountRequestResetBody = {
+      email?: string;
+    };
 
-  const accountApi = new AccountApi(actionContext.frontasticContext, locale, getCurrency(request));
-  const emailApi = EmailApiFactory.getDefaultApi(actionContext.frontasticContext, locale);
+    const accountApi = new AccountApi(actionContext.frontasticContext, locale, getCurrency(request));
+    const emailApi = EmailApiFactory.getDefaultApi(actionContext.frontasticContext, locale);
 
-  const accountRequestResetBody: AccountRequestResetBody = JSON.parse(request.body);
+    const accountRequestResetBody: AccountRequestResetBody = JSON.parse(request.body);
 
-  const passwordResetToken = await accountApi.generatePasswordResetToken(accountRequestResetBody.email);
+    const passwordResetToken = await accountApi.generatePasswordResetToken(accountRequestResetBody.email);
 
-  emailApi.sendPasswordResetEmail(accountRequestResetBody as Account, passwordResetToken.token);
+    emailApi.sendPasswordResetEmail(accountRequestResetBody as Account, passwordResetToken.token);
 
-  return {
-    statusCode: 200,
-    body: JSON.stringify({}),
-    sessionData: {
-      ...accountApi.getSessionData(),
-      // TODO: should we redirect to logout rather to unset the account?
-      account: undefined,
-    },
-  } as Response;
+    return {
+      statusCode: 200,
+      body: JSON.stringify({}),
+      sessionData: {
+        ...accountApi.getSessionData(),
+        // TODO: should we redirect to logout rather to unset the account?
+        account: undefined,
+      },
+    } as Response;
+  } catch (error) {
+    return handleError(error, request);
+  }
 };
 
 /**
  * Reset password
  */
 export const reset: ActionHook = async (request: Request, actionContext: ActionContext) => {
-  type AccountResetBody = {
-    token?: string;
-    newPassword?: string;
-  };
+  try {
+    type AccountResetBody = {
+      token?: string;
+      newPassword?: string;
+    };
 
-  const accountResetBody: AccountResetBody = JSON.parse(request.body);
+    const accountResetBody: AccountResetBody = JSON.parse(request.body);
 
-  const accountApi = new AccountApi(actionContext.frontasticContext, getLocale(request), getCurrency(request));
+    const accountApi = new AccountApi(actionContext.frontasticContext, getLocale(request), getCurrency(request));
 
-  const account = await accountApi.resetPassword(accountResetBody.token, accountResetBody.newPassword);
-  account.password = accountResetBody.newPassword;
+    const account = await accountApi.resetPassword(accountResetBody.token, accountResetBody.newPassword);
+    account.password = accountResetBody.newPassword;
 
-  return await loginAccount(request, actionContext, account);
+    return await loginAccount(request, actionContext, account);
+  } catch (error) {
+    return handleError(error, request);
+  }
 };
 
 export const update: ActionHook = async (request: Request, actionContext: ActionContext) => {
-  assertIsAuthenticated(request);
+  try {
+    assertIsAuthenticated(request);
 
-  let account = fetchAccountFromSession(request);
+    let account = fetchAccountFromSession(request);
 
-  const accountApi = new AccountApi(actionContext.frontasticContext, getLocale(request), getCurrency(request));
+    const accountApi = new AccountApi(actionContext.frontasticContext, getLocale(request), getCurrency(request));
+    const emailApi = EmailApiFactory.getDefaultApi(actionContext.frontasticContext, getLocale(request));
 
-  account = {
-    ...account,
-    ...mapRequestToAccount(request),
-  };
+    account = {
+      ...account,
+      ...mapRequestToAccount(request),
+    };
 
-  account = await accountApi.update(account);
+    account = await accountApi.update(account);
 
-  return {
-    statusCode: 200,
-    body: JSON.stringify(account),
-    sessionData: {
-      ...accountApi.getSessionData(),
-      account,
-    },
-  } as Response;
+    if (!account.confirmed) {
+      emailApi.sendAccountVerificationEmail(account);
+    }
+
+    //We are unsetting the confirmationToken to avoid exposing it to the client
+    account.confirmationToken = null;
+
+    return {
+      statusCode: 200,
+      body: JSON.stringify(account),
+      sessionData: {
+        ...accountApi.getSessionData(),
+        account,
+      },
+    } as Response;
+  } catch (error) {
+    return handleError(error, request);
+  }
 };
 
 export const addAddress: ActionHook = async (request: Request, actionContext: ActionContext) => {
-  assertIsAuthenticated(request);
+  try {
+    assertIsAuthenticated(request);
 
-  let account = fetchAccountFromSession(request);
+    let account = fetchAccountFromSession(request);
 
-  const address: Address = JSON.parse(request.body).address;
+    const address: Address = JSON.parse(request.body).address;
 
-  const accountApi = new AccountApi(actionContext.frontasticContext, getLocale(request), getCurrency(request));
+    const accountApi = new AccountApi(actionContext.frontasticContext, getLocale(request), getCurrency(request));
 
-  account = await accountApi.addAddress(account, address);
+    account = await accountApi.addAddress(account, address);
 
-  return {
-    statusCode: 200,
-    body: JSON.stringify(account),
-    sessionData: {
-      ...accountApi.getSessionData(),
-      account,
-    },
-  } as Response;
+    return {
+      statusCode: 200,
+      body: JSON.stringify(account),
+      sessionData: {
+        ...accountApi.getSessionData(),
+        account,
+      },
+    } as Response;
+  } catch (error) {
+    return handleError(error, request);
+  }
 };
 
 export const addShippingAddress: ActionHook = async (request: Request, actionContext: ActionContext) => {
-  assertIsAuthenticated(request);
+  try {
+    assertIsAuthenticated(request);
 
-  let account = fetchAccountFromSession(request);
+    let account = fetchAccountFromSession(request);
 
-  const address: Address = JSON.parse(request.body).address;
+    const address: Address = JSON.parse(request.body).address;
 
-  const accountApi = new AccountApi(actionContext.frontasticContext, getLocale(request), getCurrency(request));
+    const accountApi = new AccountApi(actionContext.frontasticContext, getLocale(request), getCurrency(request));
 
-  account = await accountApi.addShippingAddress(account, address);
+    account = await accountApi.addShippingAddress(account, address);
 
-  return {
-    statusCode: 200,
-    body: JSON.stringify(account),
-    sessionData: {
-      ...accountApi.getSessionData(),
-      account,
-    },
-  } as Response;
+    return {
+      statusCode: 200,
+      body: JSON.stringify(account),
+      sessionData: {
+        ...accountApi.getSessionData(),
+        account,
+      },
+    } as Response;
+  } catch (error) {
+    return handleError(error, request);
+  }
 };
 
 export const addBillingAddress: ActionHook = async (request: Request, actionContext: ActionContext) => {
-  assertIsAuthenticated(request);
+  try {
+    assertIsAuthenticated(request);
 
-  let account = fetchAccountFromSession(request);
+    let account = fetchAccountFromSession(request);
 
-  const address: Address = JSON.parse(request.body).address;
+    const address: Address = JSON.parse(request.body).address;
 
-  const accountApi = new AccountApi(actionContext.frontasticContext, getLocale(request), getCurrency(request));
+    const accountApi = new AccountApi(actionContext.frontasticContext, getLocale(request), getCurrency(request));
 
-  account = await accountApi.addBillingAddress(account, address);
+    account = await accountApi.addBillingAddress(account, address);
 
-  return {
-    statusCode: 200,
-    body: JSON.stringify(account),
-    sessionData: {
-      ...accountApi.getSessionData(),
-      account,
-    },
-  } as Response;
+    return {
+      statusCode: 200,
+      body: JSON.stringify(account),
+      sessionData: {
+        ...accountApi.getSessionData(),
+        account,
+      },
+    } as Response;
+  } catch (error) {
+    return handleError(error, request);
+  }
 };
 
 export const updateAddress: ActionHook = async (request: Request, actionContext: ActionContext) => {
-  assertIsAuthenticated(request);
+  try {
+    assertIsAuthenticated(request);
 
-  let account = fetchAccountFromSession(request);
+    let account = fetchAccountFromSession(request);
 
-  const address: Address = JSON.parse(request.body);
+    const address: Address = JSON.parse(request.body);
 
-  const accountApi = new AccountApi(actionContext.frontasticContext, getLocale(request), getCurrency(request));
+    const accountApi = new AccountApi(actionContext.frontasticContext, getLocale(request), getCurrency(request));
 
-  account = await accountApi.updateAddress(account, address);
+    account = await accountApi.updateAddress(account, address);
 
-  return {
-    statusCode: 200,
-    body: JSON.stringify(account),
-    sessionData: {
-      ...accountApi.getSessionData(),
-      account,
-    },
-  } as Response;
+    return {
+      statusCode: 200,
+      body: JSON.stringify(account),
+      sessionData: {
+        ...accountApi.getSessionData(),
+        account,
+      },
+    } as Response;
+  } catch (error) {
+    return handleError(error, request);
+  }
 };
 
 export const removeAddress: ActionHook = async (request: Request, actionContext: ActionContext) => {
-  assertIsAuthenticated(request);
+  try {
+    assertIsAuthenticated(request);
 
-  let account = fetchAccountFromSession(request);
+    let account = fetchAccountFromSession(request);
 
-  const address: Address = JSON.parse(request.body);
+    const address: Address = JSON.parse(request.body);
 
-  const accountApi = new AccountApi(actionContext.frontasticContext, getLocale(request), getCurrency(request));
+    const accountApi = new AccountApi(actionContext.frontasticContext, getLocale(request), getCurrency(request));
 
-  account = await accountApi.removeAddress(account, address);
+    account = await accountApi.removeAddress(account, address);
 
-  return {
-    statusCode: 200,
-    body: JSON.stringify(account),
-    sessionData: {
-      ...accountApi.getSessionData(),
-      account,
-    },
-  } as Response;
+    return {
+      statusCode: 200,
+      body: JSON.stringify(account),
+      sessionData: {
+        ...accountApi.getSessionData(),
+        account,
+      },
+    } as Response;
+  } catch (error) {
+    return handleError(error, request);
+  }
 };
 
 export const setDefaultBillingAddress: ActionHook = async (request: Request, actionContext: ActionContext) => {
-  assertIsAuthenticated(request);
+  try {
+    assertIsAuthenticated(request);
 
-  let account = fetchAccountFromSession(request);
+    let account = fetchAccountFromSession(request);
 
-  const address: Address = JSON.parse(request.body);
+    const address: Address = JSON.parse(request.body);
 
-  const accountApi = new AccountApi(actionContext.frontasticContext, getLocale(request), getCurrency(request));
+    const accountApi = new AccountApi(actionContext.frontasticContext, getLocale(request), getCurrency(request));
 
-  account = await accountApi.setDefaultBillingAddress(account, address);
+    account = await accountApi.setDefaultBillingAddress(account, address);
 
-  return {
-    statusCode: 200,
-    body: JSON.stringify(account),
-    sessionData: {
-      ...accountApi.getSessionData(),
-      account,
-    },
-  } as Response;
+    return {
+      statusCode: 200,
+      body: JSON.stringify(account),
+      sessionData: {
+        ...accountApi.getSessionData(),
+        account,
+      },
+    } as Response;
+  } catch (error) {
+    return handleError(error, request);
+  }
 };
 
 export const setDefaultShippingAddress: ActionHook = async (request: Request, actionContext: ActionContext) => {
-  assertIsAuthenticated(request);
+  try {
+    assertIsAuthenticated(request);
 
-  let account = fetchAccountFromSession(request);
+    let account = fetchAccountFromSession(request);
 
-  const address: Address = JSON.parse(request.body);
+    const address: Address = JSON.parse(request.body);
 
-  const accountApi = new AccountApi(actionContext.frontasticContext, getLocale(request), getCurrency(request));
+    const accountApi = new AccountApi(actionContext.frontasticContext, getLocale(request), getCurrency(request));
 
-  account = await accountApi.setDefaultShippingAddress(account, address);
+    account = await accountApi.setDefaultShippingAddress(account, address);
 
-  return {
-    statusCode: 200,
-    body: JSON.stringify(account),
-    sessionData: {
-      ...accountApi.getSessionData(),
-      account,
-    },
-  } as Response;
+    return {
+      statusCode: 200,
+      body: JSON.stringify(account),
+      sessionData: {
+        ...accountApi.getSessionData(),
+        account,
+      },
+    } as Response;
+  } catch (error) {
+    return handleError(error, request);
+  }
 };

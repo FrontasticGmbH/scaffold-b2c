@@ -3,7 +3,7 @@ import NextLink from 'next/link';
 import { useParams } from 'next/navigation';
 import useClassNames from 'helpers/hooks/useClassNames';
 import { resolveReferenceProps, resolveReferenceTarget } from 'helpers/reference';
-import i18nConfig from 'i18n.config';
+import { i18nConfig } from 'project.config';
 import { Reference } from 'types/reference';
 
 export type LinkVariant = 'primary' | 'menu-header' | 'menu-item' | 'breadcrumb';

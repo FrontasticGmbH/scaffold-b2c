@@ -6,7 +6,6 @@ interface LocalizationMapping {
   currencyCode: string;
   countryName: string;
   countryCode: string;
-  countryKey: string;
 }
 
 const localizationMapper = {
@@ -16,7 +15,6 @@ const localizationMapper = {
     currencyCode: '$',
     countryCode: 'US',
     countryName: 'United States',
-    countryKey: 'us',
   },
   de: {
     locale: 'de_DE',
@@ -24,9 +22,13 @@ const localizationMapper = {
     currencyCode: '€',
     countryCode: 'DE',
     countryName: 'Germany',
-    countryKey: 'de',
   },
 } as Record<string, LocalizationMapping>;
+
+const locales = Object.keys(localizationMapper);
+const defaultLocale = locales[0];
+
+export const i18nConfig = { locales, defaultLocale };
 
 export const getLocalizationInfo = (locale: string) => {
   if (!(locale in localizationMapper)) {
@@ -34,7 +36,7 @@ export const getLocalizationInfo = (locale: string) => {
       `Invalid locale ${locale} provided. Possible values are ${Object.keys(localizationMapper).join(', ')}`,
     );
 
-    return localizationMapper.en;
+    return localizationMapper[defaultLocale];
   }
 
   return localizationMapper[locale as keyof typeof localizationMapper];

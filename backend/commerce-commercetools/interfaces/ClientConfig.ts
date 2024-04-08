@@ -7,4 +7,6 @@ export interface ClientConfig {
   projectKey: string;
   productIdField?: string;
   categoryIdField?: string;
+  sessionUrl: string;
+  checkoutApplicationKey: string;
 }

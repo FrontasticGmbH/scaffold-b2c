@@ -1,4 +1,3 @@
-import { Group } from './Group';
 import { Address } from './Address';
 import { AccountToken } from './AccountToken';
 
@@ -10,7 +9,6 @@ export interface Account {
   lastName?: string;
   birthday?: Date;
   password?: string; // TODO: should we use hash the password or use plain password?
-  groups?: Group[];
   confirmationToken?: AccountToken;
   confirmed?: boolean;
   addresses?: Address[];

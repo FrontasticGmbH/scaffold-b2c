@@ -61,7 +61,7 @@ const useCart = (): UseCartReturn => {
     return (res.isError ? {} : res.data) as Order;
   }, []);
 
-  const getOrder = useCallback(async (orderId: string) => {
+  const queryOrder = useCallback(async (orderId: string) => {
     const extensions = sdk.composableCommerce;
 
     const res = await extensions.cart.queryOrders({ orderIds: [orderId] });
@@ -70,9 +70,11 @@ const useCart = (): UseCartReturn => {
     return (res.isError ? {} : res.data.items?.[0]) as Order;
   }, []);
 
-  const getCheckoutOrder = useCallback(async (orderId: string) => {
-    const res = await sdk.callAction({ actionName: 'cart/getCheckoutOrder', query: { orderId: orderId } });
-    mutate('/action/cart/getCheckoutOrder');
+  const getOrder = useCallback(async (orderId: string) => {
+    const extensions = sdk.composableCommerce;
+
+    const res = await extensions.cart.getOrder({ orderId });
+    mutate('/action/cart/getOrder');
 
     return (res.isError ? {} : res.data) as Order;
   }, []);
@@ -178,8 +180,8 @@ const useCart = (): UseCartReturn => {
     updateItem,
     shippingMethods,
     orderCart,
+    queryOrder,
     getOrder,
-    getCheckoutOrder,
     orderHistory,
     getProjectSettings,
     redeemDiscountCode,

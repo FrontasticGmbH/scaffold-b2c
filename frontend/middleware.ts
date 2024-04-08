@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import Negotiator from 'negotiator';
-import i18nConfig from './i18n.config';
+import { i18nConfig } from './project.config';
 
 export function middleware(request: NextRequest) {
   const headers = Object.fromEntries(request.headers.entries());
@@ -17,12 +17,15 @@ export function middleware(request: NextRequest) {
     const storedLocale = request.cookies.get('locale')?.value;
     const preferredLocale = new Negotiator({ headers }).language(i18nConfig.locales);
 
-    locale = storedLocale || preferredLocale || i18nConfig.defaultLocale;
+    locale = [storedLocale, preferredLocale, i18nConfig.defaultLocale]
+      .filter(Boolean)
+      .filter((l) => i18nConfig.locales.includes(l as string))[0] as string;
 
     response = NextResponse.redirect(new URL(`/${locale}${path}`, request.url));
   } else {
     locale = path.split('/')[1];
-    const containsMultipleLocaleOccurrences = new RegExp(`(/${locale}){2,}`, 'g').exec(path);
+
+    const containsMultipleLocaleOccurrences = new RegExp(`(/${locale}){2,2}`, 'g').exec(path);
     if (containsMultipleLocaleOccurrences) {
       response = NextResponse.redirect(
         new URL(path.replace(new RegExp(`(/${locale}){2,2}`, 'g'), `/${locale}/`), request.url),
@@ -38,5 +41,6 @@ export function middleware(request: NextRequest) {
 }
 
 export const config = {
-  matcher: '/((?!api|_next|favicon|manifest|locales|storybook|images|sitemap|robots.txt|sw.js|workbox|icons).*)',
+  matcher:
+    '/((?!api|_next|favicon|manifest|locales|storybook|images|sb-assets|sitemap|robots.txt|sw.js|workbox|icons).*)',
 };

@@ -1,6 +1,6 @@
-import { Result } from 'shared/types/product/Result';
 import { getTranslations } from 'helpers/i18n/get-translations';
-import getServerOptions from 'helpers/server/get-server-options';
+import fetchCategories from 'helpers/server/fetch-categories';
+import fetchPreview from 'helpers/server/fetch-preview';
 import { Providers } from 'providers';
 import { sdk } from 'sdk';
 import { PageProps } from 'types/next';
@@ -13,15 +13,12 @@ export default async function Page({ params, searchParams }: PageProps) {
 
   sdk.defaultConfigure(locale);
 
-  const response = await sdk.page.getPreview({ previewId: previewId as string });
+  const [response, categoriesResult] = await Promise.all([
+    fetchPreview(previewId as string),
+    fetchCategories({ format: 'tree' }),
+  ]);
 
   if (response.isError) return <></>;
-
-  const categoriesResult = await sdk.callAction<Result>({
-    actionName: 'product/queryCategories',
-    query: { format: 'tree', limit: 99 },
-    ...getServerOptions(),
-  });
 
   const translations = await getTranslations(
     [locale],

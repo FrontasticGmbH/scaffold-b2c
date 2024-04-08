@@ -27,7 +27,10 @@ const mapCosts: MapCosts = ({ reference = 'order', cart, order, currency }) => {
 
   const totalAmount = data.sum?.centAmount as number;
   const subTotalAmount = data.lineItems.reduce(
-    (acc, curr) => acc + (curr.price?.centAmount || 0) * (curr.count as number),
+    (acc, curr) =>
+      acc +
+      (curr.price?.centAmount || 0) * (curr.count as number) -
+      (curr.taxRate?.includedInPrice ? curr.taxed?.taxAmount?.centAmount || 0 : 0),
     0,
   );
 
@@ -36,14 +39,23 @@ const mapCosts: MapCosts = ({ reference = 'order', cart, order, currency }) => {
     0,
   );
 
-  const totalTax = totalAmount > 0 ? data.taxed?.amount.centAmount ?? 0 : 0;
+  const excludedTaxes =
+    data.lineItems
+      .filter((item) => !item.taxRate?.includedInPrice)
+      .reduce((acc, curr) => acc + (curr.taxed?.taxAmount?.centAmount ?? 0), 0) +
+    (!data.shippingInfo?.taxIncludedInPrice ? data.shippingInfo?.taxed?.taxAmount?.centAmount ?? 0 : 0);
+
+  const totalTax = totalAmount > 0 ? data.taxed?.taxAmount?.centAmount ?? 0 : 0;
 
   const totalShipping =
     totalAmount > 0
-      ? data.shippingInfo?.price?.centAmount ?? data.availableShippingMethods?.[0]?.rates?.[0]?.price?.centAmount ?? 0
+      ? (data.shippingInfo?.price?.centAmount || 0) -
+          (data.shippingInfo?.taxIncludedInPrice ? data.taxed?.taxAmount?.centAmount || 0 : 0) ||
+        data.availableShippingMethods?.[0]?.rates?.[0]?.price?.centAmount ||
+        0
       : 0;
 
-  const isEstimatedShipping = !data.shippingInfo?.price?.centAmount;
+  const isEstimatedShipping = !data.shippingInfo;
 
   return {
     subtotal: {
@@ -61,13 +73,14 @@ const mapCosts: MapCosts = ({ reference = 'order', cart, order, currency }) => {
       currencyCode,
       fractionDigits,
     },
+    isEstimatedShipping,
     tax: {
       centAmount: totalTax,
       currencyCode,
       fractionDigits,
     },
     total: {
-      centAmount: totalAmount + totalTax + (isEstimatedShipping ? totalShipping : 0),
+      centAmount: totalAmount + (isEstimatedShipping ? totalShipping : 0) + excludedTaxes,
       currencyCode,
       fractionDigits,
     },

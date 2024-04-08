@@ -1,8 +1,10 @@
-import { ErrorProps, ExtensionError } from '../utils/Errors';
+import { ExtensionError, ExtensionErrorProperties } from './Errors';
 
 export class AccountAuthenticationError extends ExtensionError {
-  constructor(options: ErrorProps) {
+  static ACCOUNT_AUTHENTICATION_ERROR_NAME: 'account_authentication_error';
+
+  constructor(options: ExtensionErrorProperties) {
     super(options);
-    this.code = 'account_authentication_error';
+    this.errorName = AccountAuthenticationError.ACCOUNT_AUTHENTICATION_ERROR_NAME;
   }
 }

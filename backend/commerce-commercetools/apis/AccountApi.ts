@@ -11,10 +11,11 @@ import { Address } from '@Types/account/Address';
 import { AccountToken } from '@Types/account/AccountToken';
 import { AccountMapper } from '../mappers/AccountMapper';
 import { Guid } from '../utils/Guid';
-import { ExternalError, ValidationError } from '../utils/Errors';
 import { AccountEmailDuplicatedError } from '../errors/AccountEmailDuplicatedError';
 import { AccountAuthenticationError } from '../errors/AccountAuthenticationError';
 import { BaseApi } from './BaseApi';
+import { ExternalError } from '@Commerce-commercetools/errors/ExternalError';
+import { ValidationError } from '@Commerce-commercetools/errors/ValidationError';
 
 export class AccountApi extends BaseApi {
   create: (account: Account, cart: Cart | undefined) => Promise<Account> = async (
@@ -63,14 +64,12 @@ export class AccountApi extends BaseApi {
       })
       .execute()
       .then((response) => {
-        return AccountMapper.commercetoolsCustomerToAccount(response.body.customer, locale);
+        return AccountMapper.commercetoolsCustomerToAccount(response.body.customer);
       })
       .catch((error) => {
         if (error.code === 400) {
-          if (error.body?.errors?.[0]?.code === 'DuplicateField') {
-            throw new AccountEmailDuplicatedError({
-              message: `The account ${account.email} does already exist. ${error.message}`,
-            });
+          if (error instanceof ExternalError && error?.errorName === ExternalError.DUPLICATED_FIELD_ERROR_NAME) {
+            throw new AccountEmailDuplicatedError({ message: `The account ${account.email} does already exist.` });
           }
 
           /*
@@ -81,7 +80,7 @@ export class AccountApi extends BaseApi {
           }
         }
 
-        throw new ExternalError({ status: error.code, message: error.message, body: error.body });
+        throw new ExternalError({ statusCode: error.code, message: error.message, body: error.body });
       });
 
     if (!account.confirmed) {
@@ -104,10 +103,10 @@ export class AccountApi extends BaseApi {
       })
       .execute()
       .then((response) => {
-        return AccountMapper.commercetoolsCustomerToAccount(response.body, locale);
+        return AccountMapper.commercetoolsCustomerToAccount(response.body);
       })
       .catch((error) => {
-        throw new ExternalError({ status: error.code, message: error.message, body: error.body });
+        throw new ExternalError({ statusCode: error.code, message: error.message, body: error.body });
       });
   };
 
@@ -139,7 +138,7 @@ export class AccountApi extends BaseApi {
       })
       .execute()
       .then((response) => {
-        return AccountMapper.commercetoolsCustomerToAccount(response.body.customer, locale);
+        return AccountMapper.commercetoolsCustomerToAccount(response.body.customer);
       })
       .catch((error) => {
         if (error.code && error.code === 400) {
@@ -157,7 +156,7 @@ export class AccountApi extends BaseApi {
           }
         }
 
-        throw new ExternalError({ status: error.code, message: error.message, body: error.body });
+        throw new ExternalError({ statusCode: error.code, message: error.message, body: error.body });
       });
 
     if (!account.confirmed) {
@@ -165,9 +164,7 @@ export class AccountApi extends BaseApi {
     }
 
     // Create checkout token with the account credentials
-    await this.generateCheckoutToken(undefined, accountCredentials).catch((error) => {
-      throw new ExternalError({ status: error.code, message: error.message, body: error.body });
-    });
+    await this.generateCheckoutToken(undefined, accountCredentials);
 
     return account;
   };
@@ -194,10 +191,10 @@ export class AccountApi extends BaseApi {
       })
       .execute()
       .then((response) => {
-        return AccountMapper.commercetoolsCustomerToAccount(response.body, locale);
+        return AccountMapper.commercetoolsCustomerToAccount(response.body);
       })
       .catch((error) => {
-        throw new ExternalError({ status: error.code, message: error.message, body: error.body });
+        throw new ExternalError({ statusCode: error.code, message: error.message, body: error.body });
       });
 
     return account;
@@ -222,7 +219,7 @@ export class AccountApi extends BaseApi {
         };
       })
       .catch((error) => {
-        throw new ExternalError({ status: error.code, message: error.message, body: error.body });
+        throw new ExternalError({ statusCode: error.code, message: error.message, body: error.body });
       });
   };
 
@@ -243,10 +240,10 @@ export class AccountApi extends BaseApi {
       })
       .execute()
       .then((response) => {
-        return AccountMapper.commercetoolsCustomerToAccount(response.body, locale);
+        return AccountMapper.commercetoolsCustomerToAccount(response.body);
       })
       .catch((error) => {
-        throw new ExternalError({ status: error.code, message: error.message, body: error.body });
+        throw new ExternalError({ statusCode: error.code, message: error.message, body: error.body });
       });
   };
 
@@ -279,7 +276,13 @@ export class AccountApi extends BaseApi {
 
     // TODO: should we also update addresses in this method?
 
-    return await this.updateAccount(account, customerUpdateActions);
+    account = await this.updateAccount(account, customerUpdateActions);
+
+    if (!account.confirmed) {
+      account.confirmationToken = await this.getConfirmationToken(account);
+    }
+
+    return account;
   };
 
   addAddress: (account: Account, address: Address) => Promise<Account> = async (account: Account, address: Address) => {
@@ -479,7 +482,10 @@ export class AccountApi extends BaseApi {
       .customers()
       .withId({ ID: account.accountId })
       .get()
-      .execute();
+      .execute()
+      .catch((error) => {
+        throw new ExternalError({ statusCode: error.code, message: error.message, body: error.body });
+      });
 
     return commercetoolsAccount.body?.version;
   }
@@ -502,10 +508,10 @@ export class AccountApi extends BaseApi {
       })
       .execute()
       .then((response) => {
-        return AccountMapper.commercetoolsCustomerToAccount(response.body, locale);
+        return AccountMapper.commercetoolsCustomerToAccount(response.body);
       })
       .catch((error) => {
-        throw new ExternalError({ status: error.code, message: error.message, body: error.body });
+        throw new ExternalError({ statusCode: error.code, message: error.message, body: error.body });
       });
   }
 
@@ -530,7 +536,7 @@ export class AccountApi extends BaseApi {
         return accountToken;
       })
       .catch((error) => {
-        throw new ExternalError({ status: error.code, message: error.message, body: error.body });
+        throw new ExternalError({ statusCode: error.code, message: error.message, body: error.body });
       });
   }
 }

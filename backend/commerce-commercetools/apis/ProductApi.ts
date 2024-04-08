@@ -5,12 +5,13 @@ import { CategoryQuery, CategoryQueryFormat } from '@Types/query/CategoryQuery';
 import { Category } from '@Types/product/Category';
 import { FacetDefinition } from '@Types/product/FacetDefinition';
 import { PaginatedResult, ProductPaginatedResult } from '@Types/result';
-import { ExternalError } from '../utils/Errors';
+
 import { ProductMapper } from '../mappers/ProductMapper';
 import { BaseApi } from './BaseApi';
+import { ExternalError } from '@Commerce-commercetools/errors/ExternalError';
 
 export class ProductApi extends BaseApi {
-  query: (productQuery: ProductQuery) => Promise<ProductPaginatedResult> = async (productQuery: ProductQuery) => {
+  async query(productQuery: ProductQuery): Promise<ProductPaginatedResult> {
     const locale = await this.getCommercetoolsLocal();
 
     // TODO: get default from constant
@@ -156,17 +157,17 @@ export class ProductApi extends BaseApi {
         return result;
       })
       .catch((error) => {
-        throw new ExternalError({ status: error.code, message: error.message, body: error.body });
+        throw new ExternalError({ statusCode: error.code, message: error.message, body: error.body });
       });
-  };
+  }
 
-  getProduct: (productQuery: ProductQuery) => Promise<Product> = async (productQuery: ProductQuery) => {
+  async getProduct(productQuery: ProductQuery): Promise<Product> {
     const result = await this.query(productQuery);
 
     return result.items.shift() as Product;
-  };
+  }
 
-  getSearchableAttributes: () => Promise<FilterField[]> = async () => {
+  async getSearchableAttributes(): Promise<FilterField[]> {
     const locale = await this.getCommercetoolsLocal();
 
     const response = await this.requestBuilder()
@@ -174,7 +175,7 @@ export class ProductApi extends BaseApi {
       .get()
       .execute()
       .catch((error) => {
-        throw new ExternalError({ status: error.code, message: error.message, body: error.body });
+        throw new ExternalError({ statusCode: error.code, message: error.message, body: error.body });
       });
 
     const filterFields = ProductMapper.commercetoolsProductTypesToFilterFields(response.body.results, locale);
@@ -209,11 +210,9 @@ export class ProductApi extends BaseApi {
     });
 
     return filterFields;
-  };
+  }
 
-  queryCategories: (categoryQuery: CategoryQuery) => Promise<PaginatedResult<Category>> = async (
-    categoryQuery: CategoryQuery,
-  ) => {
+  async queryCategories(categoryQuery: CategoryQuery): Promise<PaginatedResult<Category>> {
     const locale = await this.getCommercetoolsLocal();
 
     // TODO: get default from constant
@@ -258,18 +257,18 @@ export class ProductApi extends BaseApi {
         return result;
       })
       .catch((error) => {
-        throw new ExternalError({ status: error.code, message: error.message, body: error.body });
+        throw new ExternalError({ statusCode: error.code, message: error.message, body: error.body });
       });
-  };
+  }
 
-  protected getOffsetFromCursor = (cursor: string) => {
+  protected getOffsetFromCursor(cursor: string) {
     if (cursor === undefined) {
       return undefined;
     }
 
     const offsetMach = cursor.match(/(?<=offset:).+/);
     return offsetMach !== null ? +Object.values(offsetMach)[0] : undefined;
-  };
+  }
 
   protected async getCommercetoolsCategoryPagedQueryResponse(methodArgs: object) {
     return await this.requestBuilder()
@@ -277,7 +276,7 @@ export class ProductApi extends BaseApi {
       .get(methodArgs)
       .execute()
       .catch((error) => {
-        throw new ExternalError({ status: error.code, message: error.message, body: error.body });
+        throw new ExternalError({ statusCode: error.code, message: error.message, body: error.body });
       });
   }
 }

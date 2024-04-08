@@ -1,8 +1,10 @@
-import { ErrorProps, ExtensionError } from '../utils/Errors';
+import { ExtensionError, ExtensionErrorProperties } from '@Commerce-commercetools/errors/Errors';
 
 export class CartNotMatchOrderError extends ExtensionError {
-  constructor(options: ErrorProps) {
+  static CART_NOT_MATCH_ORDER_ERROR_NAME: 'cart_not_match_order_error';
+
+  constructor(options: ExtensionErrorProperties) {
     super(options);
-    this.code = 'cart_not_match_order_error';
+    this.errorName = CartNotMatchOrderError.CART_NOT_MATCH_ORDER_ERROR_NAME;
   }
 }

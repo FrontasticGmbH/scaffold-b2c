@@ -3,7 +3,7 @@ import { Category } from 'shared/types/product';
 import { Params, SearchParams } from 'types/next';
 
 export interface PreviewRendererProps {
-  data: PagePreviewResponse;
+  data: PagePreviewResponse & { previewContext?: { customerName?: string } };
   params: Params;
   searchParams: SearchParams;
   categories: Category[];

@@ -1,8 +1,10 @@
-import { ErrorProps, ExtensionError } from '../utils/Errors';
+import { ExtensionError, ExtensionErrorProperties } from '@Commerce-commercetools/errors/Errors';
 
 export class TokenError extends ExtensionError {
-  constructor(options: ErrorProps) {
+  static TOKEN_ERROR_NAME: 'token_error';
+
+  constructor(options: ExtensionErrorProperties) {
     super(options);
-    this.code = 'token_error';
+    this.errorName = TokenError.TOKEN_ERROR_NAME;
   }
 }

@@ -4,7 +4,6 @@ import { Term } from './Term';
 import { TermFacet } from './TermFacet';
 import { PaginatedResult, ProductPaginatedResult } from './PaginatedResult';
 
-
 export {
   type Facet,
   type FacetTypes,

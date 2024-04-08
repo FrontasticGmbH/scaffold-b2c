@@ -1,5 +1,6 @@
 export interface Address {
   addressId?: string;
+  key?: string;
   salutation?: string;
   firstName?: string;
   lastName?: string;

@@ -16,7 +16,7 @@ export class SearchRouter {
   }
 
   static loadFor = async (request: Request, frontasticContext: Context): Promise<ProductPaginatedResult> | null => {
-    const productApi = new ProductApi(frontasticContext, getLocale(request), getCurrency(request));
+    const productApi = new ProductApi(frontasticContext, getLocale(request), getCurrency(request), request);
 
     const urlMatches = getPath(request)?.match(/\/search/);
 

@@ -17,13 +17,13 @@ const ThankYouContent: FC = () => {
   const orderId = searchParams.get('orderId');
 
   const [order, setOrder] = useState<Order>();
-  const { getCheckoutOrder } = useCart();
+  const { getOrder } = useCart();
 
   useEffect(() => {
     if (!order) {
-      getCheckoutOrder(orderId as string).then((res) => setOrder(res));
+      getOrder(orderId as string).then((res) => setOrder(res));
     }
-  }, [getCheckoutOrder, order, orderId]);
+  }, [getOrder, order, orderId]);
 
   const handlePrint = () => {
     window.print();

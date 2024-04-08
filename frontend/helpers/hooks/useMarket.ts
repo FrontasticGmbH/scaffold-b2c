@@ -1,8 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useParams, useRouter } from 'next/navigation';
 import { Market } from 'components/commercetools-ui/organisms/header/types';
-import i18nConfig from 'i18n.config';
-import { getLocalizationInfo } from 'project.config';
+import { getLocalizationInfo, i18nConfig } from 'project.config';
 import usePath from './usePath';
 
 const useMarket = () => {

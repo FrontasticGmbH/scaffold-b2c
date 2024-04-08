@@ -9,5 +9,6 @@ export interface Facet {
   identifier: string;
   label: string;
   key: string; // 'key' is used to identify the facet in the frontend regardless the language.
+  count?: number;
   selected?: boolean;
 }

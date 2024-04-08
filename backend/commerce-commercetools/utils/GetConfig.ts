@@ -1,6 +1,7 @@
 import { Context } from '@frontastic/extension-types';
 import { ClientConfig } from '../interfaces/ClientConfig';
 import { getFromProjectConfig } from './Context';
+import { normalizeUrl } from '@Commerce-commercetools/utils/NormalizeData';
 
 export const getConfig = (context: Context, engine: string, locale: string | null): ClientConfig => {
   const prefix = `EXTENSION_${engine.toUpperCase()}`;
@@ -13,6 +14,8 @@ export const getConfig = (context: Context, engine: string, locale: string | nul
     projectKey: getFromProjectConfig(`${prefix}_PROJECT_KEY`, context),
     productIdField: getFromProjectConfig(`${prefix}_PRODUCT_ID_FIELD`, context),
     categoryIdField: getFromProjectConfig(`${prefix}_CATEGORY_ID_FIELD`, context),
+    sessionUrl: getFromProjectConfig(`${prefix}_SESSION_URL`, context),
+    checkoutApplicationKey: getFromProjectConfig(`${prefix}_CHECKOUT_APPLICATION_KEY`, context),
   };
 
   if (!clientConfig.authUrl) {
@@ -39,9 +42,18 @@ export const getConfig = (context: Context, engine: string, locale: string | nul
     clientConfig.productIdField = context.project.configuration?.[engine]?.productIdField;
   }
 
-  if (!clientConfig.categoryIdField) {
-    clientConfig.categoryIdField = context.project.configuration?.[engine]?.categoryIdField;
+  if (!clientConfig.sessionUrl) {
+    clientConfig.sessionUrl = context.project.configuration?.[engine]?.sessionUrl;
   }
+
+  if (!clientConfig.checkoutApplicationKey) {
+    clientConfig.checkoutApplicationKey = context.project.configuration?.[engine]?.checkoutApplicationKey;
+  }
+
+  // Normalize urls
+  clientConfig.authUrl = normalizeUrl(clientConfig.authUrl);
+  clientConfig.hostUrl = normalizeUrl(clientConfig.hostUrl);
+  clientConfig.sessionUrl = normalizeUrl(clientConfig.sessionUrl);
 
   return clientConfig;
 };

@@ -16,7 +16,7 @@ export class CategoryRouter {
   }
 
   static loadFor = async (request: Request, frontasticContext: Context): Promise<ProductPaginatedResult> => {
-    const productApi = new ProductApi(frontasticContext, getLocale(request), getCurrency(request));
+    const productApi = new ProductApi(frontasticContext, getLocale(request), getCurrency(request), request);
 
     // We are using the last subdirectory of the path to identify the category slug
     const urlMatches = getPath(request)?.match(/[^/]+(?=\/$|$)/);

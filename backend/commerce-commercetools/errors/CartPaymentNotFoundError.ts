@@ -1,8 +1,10 @@
-import { ErrorProps, ExtensionError } from '../utils/Errors';
+import { ExtensionError, ExtensionErrorProperties } from './Errors';
 
 export class CartPaymentNotFoundError extends ExtensionError {
-  constructor(options: ErrorProps) {
+  static CART_PAYMENT_NOT_FOUND_ERROR_NAME: 'cart_payment_not_found_error';
+
+  constructor(options: ExtensionErrorProperties) {
     super(options);
-    this.code = 'cart_payment_not_found_error';
+    this.errorName = CartPaymentNotFoundError.CART_PAYMENT_NOT_FOUND_ERROR_NAME;
   }
 }

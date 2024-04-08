@@ -1,7 +1,6 @@
 import { Account } from 'shared/types/account';
 import { AccountToken } from 'shared/types/account/AccountToken';
 import { Address } from 'shared/types/account/Address';
-import { Group } from 'shared/types/account/Group';
 import { LineItem as CartLineItem } from 'shared/types/cart/LineItem';
 import { ShippingInfo } from 'shared/types/cart/ShippingInfo';
 import { Variant } from 'shared/types/product';
@@ -1149,18 +1148,6 @@ export const addresses: Address[] = [
     streetNumber: '21st',
   },
 ];
-export const groups: Group[] = [
-  {
-    groupId: 'grp-1',
-    groupNameAll: '__SYSTEM_ALL',
-    name: 'Name',
-  },
-  {
-    groupId: 'grp-2',
-    groupNameAll: '__SYSTEM_ALL',
-    name: 'Name 2',
-  },
-];
 export const account: Account = {
   email: 'spiderman@friendlyNeighbourhood.com',
   accountId: 'usr-12345',
@@ -1172,7 +1159,6 @@ export const account: Account = {
   confirmationToken: accountToken,
   confirmed: true,
   salutation: 'Salutations',
-  groups: groups,
   addresses: addresses,
 };
 

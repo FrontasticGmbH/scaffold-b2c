@@ -32,7 +32,10 @@ const useCostsData: UseCostsData = ({ dataReference = 'cart', order }) => {
       },
       {
         key: 'shipping',
-        label: formatCartMessage({ id: 'shipping.estimate', defaultMessage: 'Est. Shipping' }),
+        label:
+          dataReference === 'cart' && transaction.isEstimatedShipping
+            ? formatCartMessage({ id: 'shipping.estimate', defaultMessage: 'Est. Shipping' })
+            : formatCartMessage({ id: 'shipping', defaultMessage: 'Shipping' }),
         value: skeletonMoney,
       },
       {
@@ -49,7 +52,7 @@ const useCostsData: UseCostsData = ({ dataReference = 'cart', order }) => {
         value: skeletonMoney,
       },
     ],
-    [formatCartMessage, skeletonMoney],
+    [formatCartMessage, skeletonMoney, transaction.isEstimatedShipping, dataReference],
   ) as CostRef[];
 
   const costsToRender = useMemo(() => {
@@ -77,7 +80,7 @@ const useCostsData: UseCostsData = ({ dataReference = 'cart', order }) => {
   const total: CostRef = {
     key: 'total',
     label: formatCartMessage({ id: 'total', defaultMessage: 'Total' }),
-    value: dataReference === 'cart' ? transaction.total : (order?.sum as Money),
+    value: dataReference === 'order' ? mapCosts({ order, currency }).total : transaction.total,
   };
 
   return { loading, costsToRender: loading ? skeletonCosts : costsToRender, total };

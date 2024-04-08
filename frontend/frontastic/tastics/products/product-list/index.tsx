@@ -4,7 +4,6 @@ import React, { useEffect, useMemo } from 'react';
 import { useParams, useSearchParams } from 'next/navigation';
 import { Product } from 'shared/types/product/Product';
 import { Facet } from 'shared/types/result/Facet';
-import NotFound from 'components/commercetools-ui/organisms/not-found';
 import ProductList, { Props as ProductListProps } from 'components/commercetools-ui/organisms/product/product-list';
 import ProductListProvider, {
   useProductList,
@@ -15,6 +14,8 @@ import {
   PriceConfiguration,
 } from 'components/commercetools-ui/organisms/product/product-list/types';
 import { useFormat } from 'helpers/hooks/useFormat';
+import Redirect from 'helpers/redirect';
+import { flattenTree } from 'helpers/utils/flattenTree';
 import { DataSource } from 'types/datasource';
 import { TasticProps } from 'frontastic/tastics/types';
 
@@ -37,6 +38,11 @@ const ProductListWrapped = ({
   data,
   categories,
 }: TasticProps<DataSource<DataSourceProps> & Props & ProductListProps>) => {
+  const flattenedCategories = useMemo(
+    () => categories.map((category) => flattenTree(category, 'subCategories')).flat(),
+    [categories],
+  );
+
   const { formatMessage: formatProductMessage } = useFormat({ name: 'product' });
 
   const { updatePricesConfiguration, updateFacetsConfiguration, slug, searchQuery } = useProductList();
@@ -80,7 +86,7 @@ const ProductListWrapped = ({
         if (facet.key === 'categories.id') {
           (facet as TermFacet).terms = (facet as TermFacet).terms.map((term) => ({
             ...term,
-            label: categories.find((c) => c.categoryId === term.key)?.name ?? '',
+            label: flattenedCategories.find((c) => c.categoryId === term.key)?.name ?? '',
           }));
         } else if (facet.type === 'boolean') {
           (facet as TermFacet).terms = (facet as TermFacet).terms.map((term) => ({
@@ -105,7 +111,7 @@ const ProductListWrapped = ({
         }),
         {},
       );
-  }, [data.data?.dataSource?.facets, externalFacetsConfiguration, categories, formatProductMessage]);
+  }, [data.data?.dataSource?.facets, externalFacetsConfiguration, flattenedCategories, formatProductMessage]);
 
   useEffect(() => {
     updateFacetsConfiguration(facetsConfiguration);
@@ -114,14 +120,14 @@ const ProductListWrapped = ({
   const isValidCategoryOrSearchQuery = useMemo(() => {
     if (searchQuery) return true;
 
-    return slug && !!categories.find((c) => c.slug === slug);
-  }, [searchQuery, slug, categories]);
+    return slug && !!flattenedCategories.find((c) => c.slug === slug);
+  }, [searchQuery, slug, flattenedCategories]);
 
   if (!data?.data) return <></>;
 
-  if (!isValidCategoryOrSearchQuery) return <NotFound />;
+  if (!isValidCategoryOrSearchQuery) return <Redirect target="/404" />;
 
-  return <ProductList products={data.data.dataSource?.items ?? []} categories={categories} />;
+  return <ProductList products={data.data.dataSource?.items ?? []} categories={flattenedCategories} />;
 };
 
 const ProductListTastic = ({ data, ...props }: TasticProps<DataSource<DataSourceProps> & Props & ProductListProps>) => {

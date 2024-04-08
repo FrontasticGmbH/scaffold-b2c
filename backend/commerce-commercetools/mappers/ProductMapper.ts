@@ -15,6 +15,7 @@ import {
   ProductVariant as CommercetoolsProductVariant,
   RangeFacetResult as CommercetoolsRangeFacetResult,
   TermFacetResult as CommercetoolsTermFacetResult,
+  FilteredFacetResult as CommercetoolsFilteredFacetResult,
   TypedMoney,
 } from '@commercetools/platform-sdk';
 import { Product } from '@Types/product/Product';
@@ -36,6 +37,7 @@ import { FacetDefinition } from '@Types/product/FacetDefinition';
 import { Locale } from '../Locale';
 import { ProductRouter } from '../utils/ProductRouter';
 import LocalizedValue from '../utils/LocalizedValue';
+import { FilteredFacetResult } from '@commercetools/platform-sdk/dist/declarations/src/generated/models/product';
 
 const TypeMap = new Map<string, string>([
   ['boolean', FilterFieldTypes.BOOLEAN],
@@ -673,7 +675,16 @@ export class ProductMapper {
             ),
           );
           break;
-        case 'filter': // Currently, we are not mapping FilteredFacetResult
+        case 'filter':
+          facets.push(
+            ProductMapper.commercetoolsFilteredFacetResultToFacet(
+              facetLabel,
+              facetKey,
+              facetResult as CommercetoolsFilteredFacetResult,
+              facetQuery as QueryTermFacet | undefined,
+            ),
+          );
+          break;
         default:
           break;
       }
@@ -714,6 +725,7 @@ export class ProductMapper {
       identifier: facetKey,
       label: facetLabel,
       key: facetKey,
+      count: facetResult.total,
       selected: facetQuery !== undefined,
       terms: facetResult.terms.map((facetResultTerm) => {
         const term: Term = {
@@ -727,6 +739,23 @@ export class ProductMapper {
       }),
     };
     return termFacet;
+  }
+
+  static commercetoolsFilteredFacetResultToFacet(
+    facetLabel: string,
+    facetKey: string,
+    facetResult: CommercetoolsFilteredFacetResult,
+    facetQuery: QueryTermFacet | undefined,
+  ) {
+    const facet: Facet = {
+      type: FacetTypes.TERM,
+      identifier: facetKey,
+      label: facetLabel,
+      key: facetKey,
+      count: facetResult.count,
+      selected: facetQuery !== undefined,
+    };
+    return facet;
   }
 
   static commercetoolsTermNumberFacetResultToRangeFacet(

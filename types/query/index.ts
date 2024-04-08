@@ -1,6 +1,7 @@
 import { CategoryQuery } from './CategoryQuery';
 import { Facet } from './Facet';
 import { Filter, FilterTypes } from './Filter';
+import { OrderQuery } from './OrderQuery';
 import { PaginatedQuery } from './PaginatedQuery';
 import { ProductQuery, SortAttributes, SortOrder } from './ProductQuery';
 import { RangeFacet } from './RangeFacet';
@@ -21,4 +22,5 @@ export {
   type RangeFilter,
   type TermFacet,
   type TermFilter,
+  type OrderQuery,
 };

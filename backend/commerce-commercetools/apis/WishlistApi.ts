@@ -1,7 +1,8 @@
 import { Wishlist } from '@Types/wishlist/Wishlist';
 import { WishlistMapper } from '../mappers/WishlistMapper';
-import { ExternalError } from '../utils/Errors';
+
 import { BaseApi } from './BaseApi';
+import { ExternalError } from '@Commerce-commercetools/errors/ExternalError';
 
 const expandVariants = ['lineItems[*].variant'];
 
@@ -11,7 +12,7 @@ interface AddToWishlistRequest {
 }
 
 export class WishlistApi extends BaseApi {
-  getById = async (wishlistId: string) => {
+  async getById(wishlistId: string): Promise<Wishlist> {
     const locale = await this.getCommercetoolsLocal();
     return await this.requestBuilder()
       .shoppingLists()
@@ -26,11 +27,11 @@ export class WishlistApi extends BaseApi {
         return WishlistMapper.commercetoolsShoppingListToWishlist(response.body, locale, this.defaultLocale);
       })
       .catch((error) => {
-        throw new ExternalError({ status: error.code, message: error.message, body: error.body });
+        throw new ExternalError({ statusCode: error.code, message: error.message, body: error.body });
       });
-  };
+  }
 
-  getForAccount = async (accountId: string) => {
+  async getForAccount(accountId: string): Promise<Wishlist[]> {
     const locale = await this.getCommercetoolsLocal();
     return await this.requestBuilder()
       .shoppingLists()
@@ -47,11 +48,11 @@ export class WishlistApi extends BaseApi {
         );
       })
       .catch((error) => {
-        throw new ExternalError({ status: error.code, message: error.message, body: error.body });
+        throw new ExternalError({ statusCode: error.code, message: error.message, body: error.body });
       });
-  };
+  }
 
-  getByIdForAccount = async (wishlistId: string, accountId: string) => {
+  async getByIdForAccount(wishlistId: string, accountId: string): Promise<Wishlist> {
     const locale = await this.getCommercetoolsLocal();
     return await this.requestBuilder()
       .shoppingLists()
@@ -67,11 +68,11 @@ export class WishlistApi extends BaseApi {
         return WishlistMapper.commercetoolsShoppingListToWishlist(response.body, locale, this.defaultLocale);
       })
       .catch((error) => {
-        throw new ExternalError({ status: error.code, message: error.message, body: error.body });
+        throw new ExternalError({ statusCode: error.code, message: error.message, body: error.body });
       });
-  };
+  }
 
-  create = async (wishlist: Omit<Wishlist, 'wishlistId'>) => {
+  async create(wishlist: Omit<Wishlist, 'wishlistId'>): Promise<Wishlist> {
     const locale = await this.getCommercetoolsLocal();
     const body = WishlistMapper.wishlistToCommercetoolsShoppingListDraft(wishlist, locale);
     return await this.requestBuilder()
@@ -87,11 +88,11 @@ export class WishlistApi extends BaseApi {
         return WishlistMapper.commercetoolsShoppingListToWishlist(response.body, locale, this.defaultLocale);
       })
       .catch((error) => {
-        throw new ExternalError({ status: error.code, message: error.message, body: error.body });
+        throw new ExternalError({ statusCode: error.code, message: error.message, body: error.body });
       });
-  };
+  }
 
-  addToWishlist = async (wishlist: Wishlist, request: AddToWishlistRequest) => {
+  async addToWishlist(wishlist: Wishlist, request: AddToWishlistRequest): Promise<Wishlist> {
     const locale = await this.getCommercetoolsLocal();
 
     return await this.requestBuilder()
@@ -117,11 +118,11 @@ export class WishlistApi extends BaseApi {
         return WishlistMapper.commercetoolsShoppingListToWishlist(response.body, locale, this.defaultLocale);
       })
       .catch((error) => {
-        throw new ExternalError({ status: error.code, message: error.message, body: error.body });
+        throw new ExternalError({ statusCode: error.code, message: error.message, body: error.body });
       });
-  };
+  }
 
-  removeLineItem = async (wishlist: Wishlist, lineItemId: string) => {
+  async removeLineItem(wishlist: Wishlist, lineItemId: string): Promise<Wishlist> {
     const locale = await this.getCommercetoolsLocal();
 
     return await this.requestBuilder()
@@ -146,11 +147,11 @@ export class WishlistApi extends BaseApi {
         return WishlistMapper.commercetoolsShoppingListToWishlist(response.body, locale, this.defaultLocale);
       })
       .catch((error) => {
-        throw new ExternalError({ status: error.code, message: error.message, body: error.body });
+        throw new ExternalError({ statusCode: error.code, message: error.message, body: error.body });
       });
-  };
+  }
 
-  deleteWishlist = async (wishlist: Wishlist) => {
+  async deleteWishlist(wishlist: Wishlist): Promise<void> {
     await this.requestBuilder()
       .shoppingLists()
       .withId({ ID: wishlist.wishlistId })
@@ -161,11 +162,11 @@ export class WishlistApi extends BaseApi {
       })
       .execute()
       .catch((error) => {
-        throw new ExternalError({ status: error.code, message: error.message, body: error.body });
+        throw new ExternalError({ statusCode: error.code, message: error.message, body: error.body });
       });
-  };
+  }
 
-  updateLineItemCount = async (wishlist: Wishlist, lineItemId: string, count: number) => {
+  async updateLineItemCount(wishlist: Wishlist, lineItemId: string, count: number): Promise<Wishlist> {
     const locale = await this.getCommercetoolsLocal();
 
     return await this.requestBuilder()
@@ -191,7 +192,7 @@ export class WishlistApi extends BaseApi {
         return WishlistMapper.commercetoolsShoppingListToWishlist(response.body, locale, this.defaultLocale);
       })
       .catch((error) => {
-        throw new ExternalError({ status: error.code, message: error.message, body: error.body });
+        throw new ExternalError({ statusCode: error.code, message: error.message, body: error.body });
       });
-  };
+  }
 }

@@ -1,8 +1,10 @@
-import { ErrorProps, ExtensionError } from '../utils/Errors';
+import { ExtensionError, ExtensionErrorProperties } from './Errors';
 
 export class ValidationError extends ExtensionError {
-  constructor(options: ErrorProps) {
+  static VALIDATION_ERROR_NAME: 'validation_error';
+
+  constructor(options: ExtensionErrorProperties) {
     super(options);
-    this.code = 'validation_error';
+    this.errorName = ValidationError.VALIDATION_ERROR_NAME;
   }
 }
