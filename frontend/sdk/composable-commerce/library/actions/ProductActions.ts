@@ -10,8 +10,9 @@ import {
 	ProductQueryAction,
 	QueryProductCategoriesAction,
 } from "../../types/actions/ProductActions";
-import { Product, Result, FilterField } from "shared/types/product";
+import { Product, FilterField, Category } from "shared/types/product";
 import { ComposableCommerceEvents } from "../../types/events/ComposableCommerceEvents";
+import { PaginatedResult, ProductPaginatedResult } from "shared/types/result";
 
 export type ProductActions = {
 	getProduct: GetProductAction;
@@ -50,7 +51,7 @@ export const getProductActions = (
 			query: ProductQueryQuery,
 			options: { serverOptions?: ServerOptions } = {}
 		) => {
-			const response = await sdk.callAction<Result>({
+			const response = await sdk.callAction<ProductPaginatedResult>({
 				actionName: "product/query",
 				query,
 				serverOptions: options.serverOptions,
@@ -73,7 +74,7 @@ export const getProductActions = (
 			query: QueryProductCategoriesQuery,
 			options: { serverOptions?: ServerOptions } = {}
 		) => {
-			const response = await sdk.callAction<Result>({
+			const response = await sdk.callAction<PaginatedResult<Category>>({
 				actionName: "product/queryCategories",
 				query,
 				serverOptions: options.serverOptions,

@@ -1,16 +1,22 @@
-import { Cart } from '@Types/cart/Cart';
+import { Cart, CartOrigin, CartState } from '@Types/cart/Cart';
 import {
   BaseAddress as CommercetoolsAddress,
   Cart as CommercetoolsCart,
   CartDiscountReference,
+  CartOrigin as CommercetoolsCartOrigin,
+  CartState as CommercetoolsCartState,
   DiscountCodeInfo as CommercetoolsDiscountCodeInfo,
   DiscountedLineItemPortion as CommercetoolsDiscountedLineItemPortion,
   DiscountedLineItemPriceForQuantity as CommercetoolsDiscountedLineItemPriceForQuantity,
   LineItem as CommercetoolsLineItem,
+  LineItemReturnItem,
   Order as CommercetoolsOrder,
+  OrderState as CommercetoolsOrderState,
   Payment as CommercetoolsPayment,
   PaymentInfo as CommercetoolsPaymentInfo,
   Reference,
+  ReturnInfo as CommercetoolsReturnInfo,
+  ReturnItemDraft,
   ShipmentState as CommercetoolsShipmentState,
   ShippingInfo as CommercetoolsShippingInfo,
   ShippingMethod as CommercetoolsShippingMethod,
@@ -21,10 +27,9 @@ import {
 } from '@commercetools/platform-sdk';
 import { LineItem } from '@Types/cart/LineItem';
 import { Address } from '@Types/account/Address';
-import { Order, ShipmentState } from '@Types/cart/Order';
+import { Order, OrderState, ReturnInfo, ReturnLineItem, ShipmentState } from '@Types/cart/Order';
 import { ShippingMethod } from '@Types/cart/ShippingMethod';
 import { ShippingRate } from '@Types/cart/ShippingRate';
-import { ShippingLocation } from '@Types/cart/ShippingLocation';
 import { ShippingInfo } from '@Types/cart/ShippingInfo';
 import { Payment } from '@Types/cart/Payment';
 import { Tax } from '@Types/cart/Tax';
@@ -44,6 +49,7 @@ export class CartMapper {
   ) => Cart = (commercetoolsCart: CommercetoolsCart, locale: Locale, defaultLocale: string) => {
     return {
       cartId: commercetoolsCart.id,
+      accountId: commercetoolsCart.customerId,
       cartVersion: commercetoolsCart.version.toString(),
       lineItems: CartMapper.commercetoolsLineItemsToLineItems(commercetoolsCart.lineItems, locale, defaultLocale),
       email: commercetoolsCart?.customerEmail,
@@ -65,6 +71,17 @@ export class CartMapper {
       discountedAmount: ProductMapper.commercetoolsMoneyToMoney(
         commercetoolsCart.discountOnTotalPrice?.discountedAmount,
       ),
+      itemShippingAddresses: commercetoolsCart.itemShippingAddresses,
+      origin: this.commercetoolsCartOriginToCartOrigin(commercetoolsCart.origin),
+      cartState: this.commercetoolsCartStateToCartState(commercetoolsCart.cartState),
+      storeKey: commercetoolsCart.store?.key,
+      availableShippingMethods: [
+        CartMapper.commercetoolsShippingMethodToShippingMethod(
+          commercetoolsCart.shippingInfo?.shippingMethod?.obj,
+          locale,
+          defaultLocale,
+        ),
+      ],
     };
   };
 
@@ -130,7 +147,29 @@ export class CartMapper {
       country: commercetoolsAddress?.country,
       state: commercetoolsAddress?.state,
       phone: commercetoolsAddress?.phone,
-    } as Address;
+    };
+  };
+
+  static commercetoolsShipmentStateToShipmentState: (
+    commercetoolsShipmentState: CommercetoolsShipmentState | undefined,
+  ) => ShipmentState | undefined = (commercetoolsShipmentState: CommercetoolsShipmentState | undefined) => {
+    switch (commercetoolsShipmentState) {
+      case 'backorder':
+        return ShipmentState.BACKORDER;
+      case 'delayed':
+        return ShipmentState.DELAYED;
+      case 'delivered':
+        return ShipmentState.DELIVERED;
+      case 'partial':
+        return ShipmentState.PARTIAL;
+      case 'ready':
+        return ShipmentState.READY;
+      case 'shipped':
+        return ShipmentState.SHIPPED;
+      case 'pending':
+      default:
+        return ShipmentState.PENDING;
+    }
   };
 
   static addressToCommercetoolsAddress: (address: Address) => CommercetoolsAddress = (address: Address) => {
@@ -148,7 +187,7 @@ export class CartMapper {
       country: address?.country,
       state: address?.state,
       phone: address?.phone,
-    } as CommercetoolsAddress;
+    };
   };
 
   static commercetoolsOrderToOrder: (
@@ -158,7 +197,8 @@ export class CartMapper {
   ) => Order = (commercetoolsOrder: CommercetoolsOrder, locale: Locale, defaultLocale: string) => {
     return {
       cartId: commercetoolsOrder.cart?.id,
-      orderState: commercetoolsOrder.orderState,
+      origin: this.commercetoolsCartOriginToCartOrigin(commercetoolsOrder.origin),
+      orderState: this.commercetoolsOrderStateToOrderState(commercetoolsOrder.orderState),
       orderId: commercetoolsOrder.id,
       orderNumber: commercetoolsOrder.orderNumber,
       purchaseOrderNumber: commercetoolsOrder.purchaseOrderNumber,
@@ -175,7 +215,7 @@ export class CartMapper {
       ),
       payments: CartMapper.commercetoolsPaymentInfoToPayments(commercetoolsOrder.paymentInfo, locale),
       shipmentState: CartMapper.commercetoolsShipmentStateToShipmentState(commercetoolsOrder.shipmentState),
-    } as Order;
+    };
   };
 
   static commercetoolsShippingInfoToShippingInfo: (
@@ -187,7 +227,7 @@ export class CartMapper {
     locale: Locale,
     defaultLocale: string,
   ) => {
-    if (commercetoolsShippingInfo === undefined) {
+    if (commercetoolsShippingInfo === undefined || !Object.keys(commercetoolsShippingInfo.shippingMethod.obj).length) {
       return undefined;
     }
 
@@ -195,13 +235,16 @@ export class CartMapper {
       shippingMethodId: commercetoolsShippingInfo?.shippingMethod?.id,
     };
 
-    if (commercetoolsShippingInfo.shippingMethod.obj) {
+    if (
+      commercetoolsShippingInfo.shippingMethod?.obj &&
+      Object.keys(commercetoolsShippingInfo.shippingMethod.obj).length > 0
+    ) {
       shippingMethod = {
         ...CartMapper.commercetoolsShippingMethodToShippingMethod(
           commercetoolsShippingInfo.shippingMethod.obj,
           locale,
           defaultLocale,
-        ),
+        )[0],
       };
     }
 
@@ -255,30 +298,38 @@ export class CartMapper {
 
     commercetoolsZoneRates.forEach((commercetoolsZoneRate) => {
       const shippingRateId = commercetoolsZoneRate.zone.id;
-      const name = commercetoolsZoneRate.zone?.obj?.name || undefined;
-      const locations = commercetoolsZoneRate.zone?.obj?.locations?.map((location) => {
+      const name = commercetoolsZoneRate.zone.obj?.name;
+
+      // It can be [] if the locations array is empty. Array.map() will return [] if its argument is an empty array, despite whatever the callback function does, so no need to check the array length.
+      const locations = commercetoolsZoneRate.zone.obj?.locations.map((location) => {
         return {
           country: location.country,
           state: location.state,
-        } as ShippingLocation;
+        };
       });
 
       // When we tried to get only matching shipping methods, `isMatching` value will be returned.
       // In those cases, we'll only map the ones with value `true`.
-      const matchingShippingRates = commercetoolsZoneRate.shippingRates.filter(function (shippingRate) {
-        if (shippingRate.isMatching !== undefined && shippingRate.isMatching !== true) {
-          return false; // skip
-        }
-        return true;
+
+      // const matchingShippingRates = commercetoolsZoneRate.shippingRates.filter(function (shippingRate) {
+      //   if (shippingRate.isMatching !== undefined && shippingRate.isMatching !== true) {
+      //     return false; // skip
+      //   }
+      //   return true;
+      // });
+
+      // If `isMatching` is undefined, it's going to return true too! Replace suggestion:
+      const matchingShippingRates = commercetoolsZoneRate.shippingRates.filter((shippingRate) => {
+        return !!shippingRate.isMatching;
       });
 
-      matchingShippingRates.forEach((matchingShippingRates) => {
-        const matchingShippingRatePriceTiers = matchingShippingRates.tiers.filter(function (shippingRatePriceTier) {
+      matchingShippingRates.forEach((shippingRate) => {
+        const matchingShippingRatePriceTiers = shippingRate.tiers.filter(function (shippingRatePriceTier) {
           if (shippingRatePriceTier.isMatching !== true) {
             return false; // skip
           }
           return true;
-        });
+        }); // Same suggestion than above (although here, the undefined result is handled)
 
         shippingRates.push({
           shippingRateId: shippingRateId,
@@ -288,8 +339,8 @@ export class CartMapper {
             // If there are multiple matching price, we only consider the first match.
             matchingShippingRatePriceTiers.length > 0
               ? ProductMapper.commercetoolsMoneyToMoney(matchingShippingRatePriceTiers[0].price)
-              : ProductMapper.commercetoolsMoneyToMoney(matchingShippingRates.price),
-        } as ShippingRate);
+              : ProductMapper.commercetoolsMoneyToMoney(shippingRate.price),
+        });
       });
     });
 
@@ -538,27 +589,88 @@ export class CartMapper {
     };
   }
 
-  static commercetoolsShipmentStateToShipmentState: (
-    commercetoolsShipmentState: CommercetoolsShipmentState | undefined,
-  ) => ShipmentState | undefined = (commercetoolsShipmentState: CommercetoolsShipmentState | undefined) => {
-    switch (commercetoolsShipmentState) {
-      case 'backorder':
-        return ShipmentState.BACKORDER;
-      case 'delayed':
-        return ShipmentState.DELAYED;
-      case 'delivered':
-        return ShipmentState.DELIVERED;
-      case 'partial':
-        return ShipmentState.PARTIAL;
-      case 'ready':
-        return ShipmentState.READY;
-      case 'shipped':
-        return ShipmentState.SHIPPED;
-      case 'pending':
+  static commercetoolsCartOriginToCartOrigin(commercetoolsCartOrigin: CommercetoolsCartOrigin): CartOrigin {
+    let cartOrigin: CartOrigin;
+
+    switch (true) {
+      case commercetoolsCartOrigin === 'Merchant':
+        cartOrigin = 'Merchant';
+        break;
+      case commercetoolsCartOrigin === 'Customer':
       default:
-        return ShipmentState.PENDING;
+        cartOrigin = 'Customer';
+        break;
     }
-  };
+
+    return cartOrigin;
+  }
+
+  static commercetoolsCartStateToCartState(commercetoolsCartState: CommercetoolsCartState): CartState {
+    let cartState: CartState;
+
+    switch (true) {
+      case commercetoolsCartState === 'Frozen':
+        cartState = 'Frozen';
+        break;
+      case commercetoolsCartState === 'Merged':
+        cartState = 'Merged';
+        break;
+      case commercetoolsCartState === 'Ordered':
+        cartState = 'Ordered';
+        break;
+      case commercetoolsCartState === 'Active':
+      default:
+        cartState = 'Active';
+        break;
+    }
+
+    return cartState;
+  }
+
+  static commercetoolsOrderStateToOrderState(commercetoolsOrderState: CommercetoolsOrderState): OrderState {
+    let orderState: OrderState;
+
+    switch (true) {
+      case commercetoolsOrderState === 'Cancelled':
+        orderState = 'Cancelled';
+        break;
+      case commercetoolsOrderState === 'Complete':
+        orderState = 'Complete';
+        break;
+      case commercetoolsOrderState === 'Confirmed':
+        orderState = 'Confirmed';
+        break;
+      case commercetoolsOrderState === 'Open':
+      default:
+        orderState = 'Open';
+        break;
+    }
+
+    return orderState;
+  }
+
+  static commercetoolsReturnInfoToReturnInfo(commercetoolsReturnInfo: CommercetoolsReturnInfo[]): ReturnInfo[] {
+    return commercetoolsReturnInfo.map((returnInfo) => ({
+      returnDate: new Date(returnInfo.returnDate),
+      returnTrackingId: returnInfo.returnTrackingId,
+      lineItems: returnInfo.items.map((returnItem) => ({
+        returnLineItemId: returnItem.id,
+        count: returnItem.quantity,
+        lineItemId: (returnItem as LineItemReturnItem)?.lineItemId,
+        comment: returnItem.comment,
+        createdAt: new Date(returnItem.createdAt),
+      })),
+    }));
+  }
+
+  static returnLineItemToCommercetoolsReturnItemDraft(returnItem: ReturnLineItem[]): ReturnItemDraft[] {
+    return returnItem.map((item) => ({
+      quantity: item.count,
+      lineItemId: item.lineItemId,
+      shipmentState: 'Returned', //Initial state for Return Items that are refundable.
+      comment: item?.comment,
+    }));
+  }
 
   static isCartDiscountReference(reference: Reference): reference is CartDiscountReference {
     return (reference as CartDiscountReference).obj !== undefined;

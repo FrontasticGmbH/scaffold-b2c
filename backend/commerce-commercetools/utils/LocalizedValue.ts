@@ -9,9 +9,6 @@ export default class LocalizedValue {
     if (productValue[locale.language]) {
       return productValue[locale.language];
     }
-    if (productValue[locale.language]) {
-      return productValue[locale.language];
-    }
     if (productValue[defaultLocale]) {
       return productValue[defaultLocale];
     }

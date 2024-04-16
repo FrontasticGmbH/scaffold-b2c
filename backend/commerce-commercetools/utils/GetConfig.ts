@@ -42,6 +42,10 @@ export const getConfig = (context: Context, engine: string, locale: string | nul
     clientConfig.productIdField = context.project.configuration?.[engine]?.productIdField;
   }
 
+  if (!clientConfig.categoryIdField) {
+    clientConfig.categoryIdField = context.project.configuration?.[engine]?.categoryIdField;
+  }
+
   if (!clientConfig.sessionUrl) {
     clientConfig.sessionUrl = context.project.configuration?.[engine]?.sessionUrl;
   }

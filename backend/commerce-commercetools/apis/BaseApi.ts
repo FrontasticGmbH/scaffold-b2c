@@ -641,11 +641,17 @@ export abstract class BaseApi {
       });
   }
 
-  protected async generateCheckoutSessionToken(cartId: string, refreshToken?: Token) {
-    if (refreshToken) {
+  protected async generateCheckoutSessionToken(cartId: string) {
+    let checkoutSessionToken = this.getSessionCheckoutSessionToken();
+
+    if (!tokenHasExpired(checkoutSessionToken)) {
+      // The token exist and is not expired, so we don't need to generate a new one.
+      return checkoutSessionToken;
+    }
+
+    if (checkoutSessionToken) {
       try {
-        await this.refreshCheckoutSessionToken(refreshToken);
-        return;
+        return await this.refreshCheckoutSessionToken(checkoutSessionToken);
       } catch (error) {
         // We are ignoring the error refreshing the token and trying to generate a new one
       }
@@ -664,11 +670,11 @@ export abstract class BaseApi {
       },
     });
 
-    await this.fetchCheckoutSessionToken(url, body);
+    return await this.fetchCheckoutSessionToken(url, body);
   }
 
-  private async refreshCheckoutSessionToken(refreshToken: Token) {
-    const url = `${this.clientSettings.sessionUrl}/${this.projectKey}/sessions/${refreshToken.token}`;
+  private async refreshCheckoutSessionToken(checkoutSessionToken: Token) {
+    const url = `${this.clientSettings.sessionUrl}/${this.projectKey}/sessions/${checkoutSessionToken.token}`;
 
     const body = JSON.stringify({
       actions: [
@@ -678,7 +684,7 @@ export abstract class BaseApi {
       ],
     });
 
-    await this.fetchCheckoutSessionToken(url, body);
+    return await this.fetchCheckoutSessionToken(url, body);
   }
 
   private async fetchCheckoutSessionToken(url: string, body: string) {
@@ -716,6 +722,8 @@ export abstract class BaseApi {
     };
 
     this.setSessionCheckoutSessionToken(token);
+
+    return token;
   }
 
   private commercetoolsTokenCache(): TokenCache {

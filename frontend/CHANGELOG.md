@@ -1,4 +1,10 @@
 
+## Version 1.11.1 (2024-04-16)
+
+** Bug fixes **
+
+- Fixed User component styling
+
 ## Version 1.11.0 (2024-03-01)
 
 ** New Features and Improvements **

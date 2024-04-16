@@ -5,10 +5,15 @@ type GetProductQuery = {
 	sku: string;
 };
 
-type ProductQueryQuery = Omit<
-	ProductQuery,
-	"filters" | "facets" | "sortAttributes"
->;
+type ProductQueryQuery = {
+    limit?: number;
+    cursor?: string;
+    categories?: string[];
+    productIds?: string[];
+    productType?: string;
+    skus?: string[];
+    query?: string;
+}
 
 type QueryProductCategoriesQuery = {
 	limit?: number;

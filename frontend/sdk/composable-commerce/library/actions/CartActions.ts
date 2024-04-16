@@ -1,9 +1,9 @@
 import { Event, SDK, ServerOptions } from "@commercetools/frontend-sdk";
 import {
 	AddCartItemPayload,
-  CheckoutCartPayload,
+    CheckoutCartPayload,
 	GetCartShippingMethodsPayload,
-  GetOrderPayload,
+    GetOrderPayload,
 	RedeemDiscountCodePayload,
 	RemoveCartItemPayload,
 	RemoveDiscountCodePayload,
@@ -17,8 +17,8 @@ import {
 	GetAvailableCartShippingMethodsAction,
 	GetCartAction,
 	GetCartShippingMethodsAction,
-  GetCheckoutSessionTokenAction,
-  GetOrderAction,
+    GetCheckoutSessionTokenAction,
+    GetOrderAction,
 	QueryOrdersAction,
 	RedeemDiscountCodeAction,
 	RemoveCartItemAction,
@@ -46,8 +46,8 @@ export type CartActions = {
 	removeDiscountCode: RemoveDiscountCodeAction;
 	checkout: CheckoutCartAction;
 	queryOrders: QueryOrdersAction;
-  getOrder: GetOrderAction;
-  getCheckoutSessionToken: GetCheckoutSessionTokenAction;
+	getOrder: GetOrderAction;
+    getCheckoutSessionToken: GetCheckoutSessionTokenAction;
 };
 
 export const getCartActions = (
@@ -317,29 +317,29 @@ export const getCartActions = (
 			});
 			return response;
 		},
-    getOrder: async (
-      payload?: GetOrderPayload,
-      options: {
-        serverOptions?: ServerOptions;
-      } = {}
-    ) => {
-      const response = await sdk.callAction<Order>({
-        actionName: "cart/getOrder",
-        payload,
-        serverOptions: options.serverOptions,
-      });
-      return response;
-    },
-    getCheckoutSessionToken: async (
-      options: {
-        serverOptions?: ServerOptions;
-      } = {}
-    ) => {
-      const response = await sdk.callAction<Token>({
-        actionName: "cart/getCheckoutSessionToken",
-        serverOptions: options.serverOptions,
-      });
-      return response;
-    },
+        getOrder: async (
+            payload?: GetOrderPayload,
+            options: {
+                serverOptions?: ServerOptions;
+            } = {}
+        ) => {
+            const response = await sdk.callAction<Order>({
+                actionName: "cart/getOrder",
+                payload,
+                serverOptions: options.serverOptions,
+            });
+            return response;
+        },
+        getCheckoutSessionToken: async (
+            options: {
+                serverOptions?: ServerOptions;
+            } = {}
+        ) => {
+            const response = await sdk.callAction<Token>({
+                actionName: "cart/getCheckoutSessionToken",
+                serverOptions: options.serverOptions,
+            });
+            return response;
+        },
 	};
 };

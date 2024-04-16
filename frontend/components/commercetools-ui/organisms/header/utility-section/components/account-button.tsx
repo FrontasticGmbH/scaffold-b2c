@@ -27,7 +27,7 @@ const AccountButton = () => {
       <Popover as="div" className="relative hidden h-fit lg:block">
         {() => (
           <>
-            <Popover.Button title={title}>
+            <Popover.Button title={title} className="focus-visible:!outline-none">
               <div className="flex w-fit whitespace-nowrap">
                 <div className="mr-8 hidden w-104 py-4 lg:inline-block">
                   {loggedIn && (

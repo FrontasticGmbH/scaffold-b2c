@@ -2,8 +2,8 @@ import { Cart, Order, ShippingMethod } from "shared/types/cart";
 import { SDKResponse, ServerOptions } from "@commercetools/frontend-sdk";
 import {
 	AddCartItemPayload,
-  CheckoutCartPayload,
-  GetOrderPayload,
+    CheckoutCartPayload,
+    GetOrderPayload,
 	RemoveCartItemPayload,
 	UpdateCartItemPayload,
 	UpdateCartPayload,
@@ -65,8 +65,8 @@ type RemoveDiscountCodeAction = (
 ) => Promise<SDKResponse<Cart>>;
 
 type CheckoutCartAction = (
-  payload: CheckoutCartPayload,
-  options?: { serverOptions?: ServerOptions; }
+    payload: CheckoutCartPayload,
+    options?: { serverOptions?: ServerOptions; }
 ) => Promise<SDKResponse<Cart>>;
 
 type QueryOrdersAction = (
@@ -77,14 +77,14 @@ type QueryOrdersAction = (
 ) => Promise<SDKResponse<PaginatedResult<Order>>>;
 
 type GetOrderAction = (
-  payload: GetOrderPayload,
-  options?: {
-    serverOptions?: ServerOptions;
-  },
+    payload: GetOrderPayload,
+    options?: {
+        serverOptions?: ServerOptions;
+    },
 ) => Promise<SDKResponse<Order>>;
 
 type GetCheckoutSessionTokenAction = (options?: {
-  serverOptions?: ServerOptions;
+    serverOptions?: ServerOptions;
 }) => Promise<SDKResponse<Token>>;
 
 export {
@@ -100,6 +100,6 @@ export {
 	type RemoveDiscountCodeAction,
 	type CheckoutCartAction,
 	type QueryOrdersAction,
-  type GetOrderAction,
-  type GetCheckoutSessionTokenAction,
+    type GetOrderAction,
+    type GetCheckoutSessionTokenAction,
 };

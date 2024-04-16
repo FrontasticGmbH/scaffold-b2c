@@ -842,7 +842,7 @@ export class CartApi extends BaseApi {
       return checkoutToken;
     }
 
-    if (checkoutToken.refreshToken) {
+    if (checkoutToken?.refreshToken) {
       await this.generateCheckoutToken(undefined, undefined, checkoutToken.refreshToken);
 
       return this.getSessionCheckoutToken();
@@ -882,18 +882,8 @@ export class CartApi extends BaseApi {
     return checkoutToken;
   }
 
-  async getCheckoutSessionToken(cart: Cart): Promise<Token | undefined> {
-    let checkoutSessionToken = this.getSessionCheckoutSessionToken();
-
-    if (!tokenHasExpired(checkoutSessionToken)) {
-      return checkoutSessionToken;
-    }
-
-    await this.generateCheckoutSessionToken(cart.cartId, checkoutSessionToken);
-
-    checkoutSessionToken = this.getSessionCheckoutSessionToken();
-
-    return checkoutSessionToken;
+  async getCheckoutSessionToken(cart: Cart): Promise<Token> {
+    return await this.generateCheckoutSessionToken(cart.cartId);
   }
 
   protected async updateCart(cartId: string, cartUpdate: CartUpdate, locale: Locale): Promise<CommercetoolsCart> {
