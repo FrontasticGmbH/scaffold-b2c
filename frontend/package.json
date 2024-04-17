@@ -1,6 +1,6 @@
 {
   "name": "@frontastic/components",
-  "version": "1.11.1",
+  "version": "1.11.2",
   "license": "MIT",
   "main": "index.js",
   "private": true,
@@ -21,7 +21,7 @@
   },
   "dependencies": {
     "@adyen/adyen-web": "^5.33.0",
-    "@commercetools/checkout-browser-sdk": "^0.3.0",
+    "@commercetools/checkout-browser-sdk": "^0.6.0",
     "@commercetools/frontend-sdk": "1.10.1",
     "@emotion/react": "^11.9.0",
     "@headlessui/react": "^1.7.17",

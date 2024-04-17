@@ -10,4 +10,8 @@ type QueryOrdersQuery = {
 	query?: string;
 };
 
-export { type QueryOrdersQuery };
+type GetOrderQuery = {
+    orderId: string;
+}
+
+export { type QueryOrdersQuery, type GetOrderQuery};

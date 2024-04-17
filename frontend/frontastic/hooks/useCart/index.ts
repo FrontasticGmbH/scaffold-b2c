@@ -166,6 +166,10 @@ const useCart = (): UseCartReturn => {
     mutate('/action/cart/getCart', res);
   }, []);
 
+  const resetCart = useCallback(async () => {
+    await sdk.callAction({ actionName: 'cart/resetCart' });
+  }, []);
+
   return {
     ...data,
     totalItems,
@@ -186,6 +190,7 @@ const useCart = (): UseCartReturn => {
     getProjectSettings,
     redeemDiscountCode,
     removeDiscountCode,
+    resetCart,
   };
 };
 

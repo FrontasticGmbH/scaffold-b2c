@@ -1406,12 +1406,12 @@
   resolved "https://registry.yarnpkg.com/@colors/colors/-/colors-1.5.0.tgz#bb504579c1cae923e6576a4f5da43d25f97bdbd9"
   integrity sha512-ooWCrlZP11i8GImSjTHYHLkvFDP48nS4+204nGb1RiX/WXYHmJA2III9/e2DWVabCESdW7hBAEzHRqUn9OUVvQ==
 
-"@commercetools/checkout-browser-sdk@^0.3.0":
-  version "0.3.0"
-  resolved "https://registry.yarnpkg.com/@commercetools/checkout-browser-sdk/-/checkout-browser-sdk-0.3.0.tgz#0350f5ee084f416db703ea94ad7039fbf44a9a9d"
-  integrity sha512-wfH+bQcuCGr+kYi+KkzWR12PYjN1yP64uQtekUf6f/39nfqnDBzT42ACSiH7vwBjuHQ4PjbrtubU6x+2Xqo2mA==
+"@commercetools/checkout-browser-sdk@^0.6.0":
+  version "0.6.0"
+  resolved "https://registry.yarnpkg.com/@commercetools/checkout-browser-sdk/-/checkout-browser-sdk-0.6.0.tgz#cbe5b7009bb58715c9878e6c78b8107cf956f506"
+  integrity sha512-YkvLFDUg8RQdR80fLRKwtJQ0B837SDXuzICh1NIkMXnytMFnkddRa7G76Y0qP2OnDGfDtKSn2YfGaYhSM/G64A==
   dependencies:
-    "@swc/helpers" "0.5.3"
+    "@swc/helpers" "0.5.10"
 
 "@commercetools/frontend-sdk@1.10.1":
   version "1.10.1"
@@ -3583,10 +3583,10 @@
   dependencies:
     tslib "^2.4.0"
 
-"@swc/helpers@0.5.3":
-  version "0.5.3"
-  resolved "https://registry.yarnpkg.com/@swc/helpers/-/helpers-0.5.3.tgz#98c6da1e196f5f08f977658b80d6bd941b5f294f"
-  integrity sha512-FaruWX6KdudYloq1AHD/4nU+UsMTdNE8CKyrseXWEcgjDAbvkwJg2QGPAnfIJLIWsjZOSPLOAykK6fuYp4vp4A==
+"@swc/helpers@0.5.10":
+  version "0.5.10"
+  resolved "https://registry.yarnpkg.com/@swc/helpers/-/helpers-0.5.10.tgz#5720082d007197cd85743dd599198097126a3f6e"
+  integrity sha512-CU+RF9FySljn7HVSkkjiB84hWkvTaI3rtLvF433+jRSBL2hMu3zX5bGhHS8C80SM++h4xy8hBSnUHFQHmRXSBw==
   dependencies:
     tslib "^2.4.0"
 

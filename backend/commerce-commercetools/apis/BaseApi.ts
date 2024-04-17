@@ -642,7 +642,7 @@ export abstract class BaseApi {
   }
 
   protected async generateCheckoutSessionToken(cartId: string) {
-    let checkoutSessionToken = this.getSessionCheckoutSessionToken();
+    const checkoutSessionToken = this.getSessionCheckoutSessionToken();
 
     if (!tokenHasExpired(checkoutSessionToken)) {
       // The token exist and is not expired, so we don't need to generate a new one.

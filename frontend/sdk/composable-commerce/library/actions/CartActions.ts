@@ -3,7 +3,6 @@ import {
 	AddCartItemPayload,
     CheckoutCartPayload,
 	GetCartShippingMethodsPayload,
-    GetOrderPayload,
 	RedeemDiscountCodePayload,
 	RemoveCartItemPayload,
 	RemoveDiscountCodePayload,
@@ -29,7 +28,7 @@ import {
 } from "../../types/actions/CartActions";
 import { Cart, ShippingMethod, Order } from "shared/types/cart";
 import { ComposableCommerceEvents } from "../../types/events/ComposableCommerceEvents";
-import { QueryOrdersQuery } from "../../types/queries/CartQueries";
+import { QueryOrdersQuery, GetOrderQuery } from "../../types/queries/CartQueries";
 import { PaginatedResult } from "shared/types/result";
 import { Token } from "shared/types/Token";
 
@@ -318,14 +317,14 @@ export const getCartActions = (
 			return response;
 		},
         getOrder: async (
-            payload?: GetOrderPayload,
+            query: GetOrderQuery,
             options: {
                 serverOptions?: ServerOptions;
             } = {}
         ) => {
             const response = await sdk.callAction<Order>({
                 actionName: "cart/getOrder",
-                payload,
+                query,
                 serverOptions: options.serverOptions,
             });
             return response;

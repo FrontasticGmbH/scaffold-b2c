@@ -3,7 +3,6 @@ import { SDKResponse, ServerOptions } from "@commercetools/frontend-sdk";
 import {
 	AddCartItemPayload,
     CheckoutCartPayload,
-    GetOrderPayload,
 	RemoveCartItemPayload,
 	UpdateCartItemPayload,
 	UpdateCartPayload,
@@ -12,7 +11,7 @@ import {
 	RedeemDiscountCodePayload,
 	RemoveDiscountCodePayload,
 } from "../payloads/CartPayloads";
-import { QueryOrdersQuery } from "../queries/CartQueries";
+import { QueryOrdersQuery, GetOrderQuery } from "../queries/CartQueries";
 import { PaginatedResult } from "shared/types/result";
 import { Token } from "shared/types/Token";
 
@@ -77,7 +76,7 @@ type QueryOrdersAction = (
 ) => Promise<SDKResponse<PaginatedResult<Order>>>;
 
 type GetOrderAction = (
-    payload: GetOrderPayload,
+    query: GetOrderQuery,
     options?: {
         serverOptions?: ServerOptions;
     },

@@ -40,4 +40,5 @@ export interface UseCartReturn {
   getOrder: (orderId: string) => Promise<Order>;
   orderHistory?: () => Promise<Order[]>;
   getProjectSettings?: () => Promise<ProjectSettings>;
+  resetCart?: () => Promise<void>;
 }

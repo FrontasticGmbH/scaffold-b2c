@@ -1,9 +1,9 @@
-import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { useParams, useRouter } from 'next/navigation';
 import { checkout, init } from '@commercetools/checkout-browser-sdk';
 import toast from 'react-hot-toast';
 import useTranslation from 'providers/i18n/hooks/useTranslation';
-import { useCart, useProjectSettings, useCheckoutToken, useAccount } from 'frontastic';
+import { useProjectSettings, useCheckout, useAccount } from 'frontastic';
 import { CheckoutWrappedProps } from '..';
 import Header from '../components/header';
 
@@ -16,33 +16,35 @@ const CommercetoolsCheckout = ({ logo }: CheckoutWrappedProps) => {
 
   const [isLoading, setIsLoading] = useState(true);
 
-  const { data: cart } = useCart();
-
   const { data: projectSettings } = useProjectSettings();
 
   const { locale } = useParams();
 
   const { projectKey } = projectSettings ?? {};
 
-  const { accessToken, isExpired } = useCheckoutToken();
+  const { session, isExpired } = useCheckout();
 
   const { account, logout } = useAccount();
 
-  const applicationId = useMemo(() => {
-    return locale === 'en'
-      ? process.env.NEXT_PUBLIC_COMMERCETOOLS_CHECKOUT_APPLICATION_ID_EN
-      : process.env.NEXT_PUBLIC_COMMERCETOOLS_CHECKOUT_APPLICATION_ID_DE;
-  }, [locale]);
-
   useEffect(() => {
-    if (initiatedCheckout.current || !projectKey || !cart || !accessToken) return;
+    if (initiatedCheckout.current || !projectKey || !session?.token) return;
 
     initiatedCheckout.current = true;
 
-    const host = typeof window !== 'undefined' ? window.location.origin : '';
-
     init({
-      checkoutConfig: {},
+      checkoutConfig: {
+        region: process.env.NEXT_PUBLIC_COMMERCETOOLS_CHECKOUT_REGION,
+        projectKey,
+        sessionId: session.token,
+        locale,
+        showTaxes: locale === 'en',
+        styles: {
+          '--font-family': "'Inter', sans-serif",
+          '--button': '#212121',
+          '--radio': '#343434',
+          '--checkbox': '#343434',
+        },
+      },
       onInfo: (message) => {
         switch (message.code) {
           case 'checkout_cancelled':
@@ -51,27 +53,18 @@ const CommercetoolsCheckout = ({ logo }: CheckoutWrappedProps) => {
           case 'checkout_loaded':
             setIsLoading(false);
             break;
+          case 'checkout_completed':
+            pushRoute(
+              `${process.env.NEXT_PUBLIC_COMMERCETOOLS_CHECKOUT_CALLBACK_URL}?orderId=${
+                (message.payload as any)?.order?.id //eslint-disable-line
+              }`,
+            );
         }
       },
     });
 
-    checkout({
-      host: process.env.NEXT_PUBLIC_COMMERCETOOLS_CHECKOUT_HOST,
-      sellerId: projectKey,
-      applicationId,
-      callbackUrl: `${host}/${process.env.NEXT_PUBLIC_COMMERCETOOLS_CHECKOUT_CALLBACK_URL}`,
-      cartId: cart.cartId,
-      accessToken,
-      locale,
-      showTaxes: locale === 'en',
-      styles: {
-        '--font-family': "'Inter', sans-serif",
-        '--button': '#212121',
-        '--radio': '#343434',
-        '--checkbox': '#343434',
-      },
-    });
-  }, [projectKey, cart, locale, accessToken, applicationId, pushRoute]);
+    checkout({});
+  }, [projectKey, locale, session, pushRoute]);
 
   const errorTriggered = useRef(false);
 

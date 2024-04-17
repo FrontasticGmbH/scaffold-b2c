@@ -34,10 +34,10 @@ import { RangeFacet as QueryRangeFacet } from '@Types/query/RangeFacet';
 import { Facet as QueryFacet } from '@Types/query/Facet';
 import { Filter as QueryFilter, FilterTypes } from '@Types/query/Filter';
 import { FacetDefinition } from '@Types/product/FacetDefinition';
+import { FilteredFacetResult } from '@commercetools/platform-sdk/dist/declarations/src/generated/models/product';
 import { Locale } from '../Locale';
 import { ProductRouter } from '../utils/ProductRouter';
 import LocalizedValue from '../utils/LocalizedValue';
-import { FilteredFacetResult } from '@commercetools/platform-sdk/dist/declarations/src/generated/models/product';
 
 const TypeMap = new Map<string, string>([
   ['boolean', FilterFieldTypes.BOOLEAN],
