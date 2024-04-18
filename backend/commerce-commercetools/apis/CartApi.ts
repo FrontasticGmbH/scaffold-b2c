@@ -104,6 +104,8 @@ export class CartApi extends BaseApi {
       return this.buildCartWithAvailableShippingMethods(response.body.results[0], locale);
     }
 
+    this.invalidateSessionCheckoutData();
+
     const cartDraft: CartDraft = {
       currency: locale.currency,
       country: locale.country,
@@ -159,18 +161,14 @@ export class CartApi extends BaseApi {
       return this.buildCartWithAvailableShippingMethods(response.body.results[0], locale);
     }
 
-    // If there is no active cart, we create one with new anonymousId and checkout token
+    // If there is no active cart for the anonymous ID, we invalidate it
     this.invalidateSessionAnonymousId();
-    const anonymousId = this.getAnonymousIdFromSessionData();
-
-    // Before create new cart with the anonymousId, we need to get a checkout token for the anonymousId
-    await this.generateCheckoutToken(anonymousId);
 
     const cartDraft: CartDraft = {
       currency: locale.currency,
       country: locale.country,
       locale: locale.language,
-      anonymousId: anonymousId,
+      anonymousId: this.getAnonymousIdFromSessionData(),
       inventoryMode: 'ReserveOnOrder',
     };
 
@@ -835,55 +833,8 @@ export class CartApi extends BaseApi {
       });
   }
 
-  async getCheckoutToken(cart: Cart, account?: Account): Promise<Token | undefined> {
-    let checkoutToken = this.getSessionCheckoutToken();
-
-    if (!tokenHasExpired(checkoutToken)) {
-      return checkoutToken;
-    }
-
-    if (checkoutToken?.refreshToken) {
-      await this.generateCheckoutToken(undefined, undefined, checkoutToken.refreshToken);
-
-      return this.getSessionCheckoutToken();
-    }
-
-    // The token has expired as we can't refresh it, we need to create a new one
-    this.invalidateSessionCheckoutData();
-
-    if (account) {
-      // If the user is logged in, we can't create a new token without the user email and password
-      throw new TokenError({
-        statusCode: 401,
-        message: 'The checkout token has expired and can not be refreshed. Please login again.',
-      });
-    }
-
-    const anonymousId = this.getAnonymousIdFromSessionData();
-
-    await this.generateCheckoutToken(anonymousId);
-
-    checkoutToken = this.getSessionCheckoutToken();
-
-    // Update the cart with the new anonymousId
-    const cartUpdate: CartUpdate = {
-      version: +cart.cartVersion,
-      actions: [
-        {
-          action: 'setAnonymousId',
-          anonymousId,
-        } as CartSetAnonymousIdAction,
-      ],
-    };
-
-    const locale = await this.getCommercetoolsLocal();
-    await this.updateCart(cart.cartId, cartUpdate, locale);
-
-    return checkoutToken;
-  }
-
-  async getCheckoutSessionToken(cart: Cart): Promise<Token> {
-    return await this.generateCheckoutSessionToken(cart.cartId);
+  async getCheckoutSessionToken(cartId: string): Promise<Token> {
+    return await this.generateCheckoutSessionToken(cartId);
   }
 
   protected async updateCart(cartId: string, cartUpdate: CartUpdate, locale: Locale): Promise<CommercetoolsCart> {

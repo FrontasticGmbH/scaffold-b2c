@@ -46,15 +46,11 @@ async function loginAccount(request: Request, actionContext: ActionContext, acco
   const accountApi = getAccountApi(request, actionContext);
   const cartApi = getCartApi(request, actionContext);
 
-  const cart = await CartFetcher.fetchCart(cartApi, request, actionContext);
-  const anonymousCheckoutToken = await cartApi.getCheckoutToken(cart);
+  const cart = await CartFetcher.fetchCart(cartApi, request);
 
   account = await accountApi.login(account, cart);
 
   if (!account.confirmed) {
-    // As the account is not confirmed, we'll reuse the anonymous checkout token
-    accountApi.setSessionCheckoutToken(anonymousCheckoutToken);
-
     // If needed, the account confirmation email can be requested using
     // the endpoint action/account/requestConfirmationEmail.
     const response: Response = {
@@ -74,6 +70,7 @@ async function loginAccount(request: Request, actionContext: ActionContext, acco
     sessionData: {
       ...accountApi.getSessionData(),
       account: account,
+      cartId: undefined, // We unset the cartId as it could have been changed after login
     },
   };
 
@@ -178,7 +175,7 @@ export const register: ActionHook = async (request: Request, actionContext: Acti
 
     const accountData = mapRequestToAccount(request);
 
-    const cart = await CartFetcher.fetchCart(cartApi, request, actionContext);
+    const cart = await CartFetcher.fetchCart(cartApi, request);
 
     const account = await accountApi.create(accountData, cart);
 
@@ -218,7 +215,7 @@ export const requestConfirmationEmail: ActionHook = async (request: Request, act
       password: accountLoginBody.password,
     } as Account;
 
-    const cart = await CartFetcher.fetchCart(cartApi, request, actionContext);
+    const cart = await CartFetcher.fetchCart(cartApi, request);
 
     account = await accountApi.login(account, cart);
 
@@ -296,7 +293,6 @@ export const login: ActionHook = async (request: Request, actionContext: ActionC
 
 export const logout: ActionHook = async (request: Request, actionContext: ActionContext) => {
   const accountApi = getAccountApi(request, actionContext);
-  accountApi.invalidateSessionCheckoutData();
 
   return {
     statusCode: 200,

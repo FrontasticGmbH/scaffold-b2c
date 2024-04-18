@@ -163,9 +163,6 @@ export class AccountApi extends BaseApi {
       account.confirmationToken = await this.getConfirmationToken(account);
     }
 
-    // Create checkout token with the account credentials
-    await this.generateCheckoutToken(undefined, accountCredentials);
-
     return account;
   };
 

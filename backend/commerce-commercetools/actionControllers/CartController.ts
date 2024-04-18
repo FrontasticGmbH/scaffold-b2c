@@ -40,8 +40,8 @@ function queryParamsToSortAttributes(queryParams: any) {
   return sortAttributes;
 }
 
-async function updateCartFromRequest(cartApi: CartApi, request: Request, actionContext: ActionContext): Promise<Cart> {
-  let cart = await CartFetcher.fetchCart(cartApi, request, actionContext);
+async function updateCartFromRequest(cartApi: CartApi, request: Request): Promise<Cart> {
+  let cart = await CartFetcher.fetchCart(cartApi, request);
 
   if (request?.body === undefined || request?.body === '') {
     return cart;
@@ -73,7 +73,7 @@ export const getCart: ActionHook = async (request: Request, actionContext: Actio
     const cartApi = getCartApi(request, actionContext);
 
     try {
-      const cart = await CartFetcher.fetchCartFromSession(cartApi, request, actionContext);
+      const cart = await CartFetcher.fetchCartFromSession(cartApi, request);
 
       return {
         statusCode: 200,
@@ -95,7 +95,10 @@ export const getCart: ActionHook = async (request: Request, actionContext: Actio
   }
 };
 
-export const resetCart: ActionHook = async (request: Request) => {
+export const resetCart: ActionHook = async (request: Request, actionContext: ActionContext) => {
+  const cartApi = getCartApi(request, actionContext);
+  cartApi.invalidateSessionCheckoutData();
+
   const response: Response = {
     statusCode: 200,
     body: null,
@@ -124,7 +127,7 @@ export const addToCart: ActionHook = async (request: Request, actionContext: Act
       count: +body.variant?.count || 1,
     };
 
-    let cart = await CartFetcher.fetchCart(cartApi, request, actionContext);
+    let cart = await CartFetcher.fetchCart(cartApi, request);
     cart = await cartApi.addToCart(cart, lineItem);
 
     const cartId = cart.cartId;
@@ -181,7 +184,7 @@ export const updateLineItem: ActionHook = async (request: Request, actionContext
       count: +body.lineItem?.count || 1,
     };
 
-    let cart = await CartFetcher.fetchCart(cartApi, request, actionContext);
+    let cart = await CartFetcher.fetchCart(cartApi, request);
     cart = await cartApi.updateLineItem(cart, lineItem);
 
     const cartId = cart.cartId;
@@ -213,7 +216,7 @@ export const removeLineItem: ActionHook = async (request: Request, actionContext
       lineItemId: body.lineItem?.id,
     };
 
-    let cart = await CartFetcher.fetchCart(cartApi, request, actionContext);
+    let cart = await CartFetcher.fetchCart(cartApi, request);
     cart = await cartApi.removeLineItem(cart, lineItem);
 
     const cartId = cart.cartId;
@@ -237,7 +240,7 @@ export const updateCart: ActionHook = async (request: Request, actionContext: Ac
   try {
     const cartApi = getCartApi(request, actionContext);
 
-    const cart = await updateCartFromRequest(cartApi, request, actionContext);
+    const cart = await updateCartFromRequest(cartApi, request);
     const cartId = cart.cartId;
 
     const response: Response = {
@@ -265,7 +268,7 @@ export const checkout: ActionHook = async (request: Request, actionContext: Acti
     const cartApi = getCartApi(request, actionContext);
     const emailApi = EmailApiFactory.getDefaultApi(actionContext.frontasticContext, locale);
 
-    const cart = await updateCartFromRequest(cartApi, request, actionContext);
+    const cart = await updateCartFromRequest(cartApi, request);
 
     const order = await cartApi.order(cart, body?.purchaseOrderNumber);
 
@@ -341,7 +344,7 @@ export const getShippingMethods: ActionHook = async (request: Request, actionCon
 export const getAvailableShippingMethods: ActionHook = async (request: Request, actionContext: ActionContext) => {
   try {
     const cartApi = getCartApi(request, actionContext);
-    const cart = await CartFetcher.fetchCart(cartApi, request, actionContext);
+    const cart = await CartFetcher.fetchCart(cartApi, request);
 
     const availableShippingMethods = await cartApi.getAvailableShippingMethods(cart);
 
@@ -364,7 +367,7 @@ export const setShippingMethod: ActionHook = async (request: Request, actionCont
   try {
     const cartApi = getCartApi(request, actionContext);
 
-    let cart = await CartFetcher.fetchCart(cartApi, request, actionContext);
+    let cart = await CartFetcher.fetchCart(cartApi, request);
 
     const body: {
       shippingMethod?: { id?: string };
@@ -395,7 +398,7 @@ export const addPaymentByInvoice: ActionHook = async (request: Request, actionCo
   try {
     const cartApi = getCartApi(request, actionContext);
 
-    let cart = await CartFetcher.fetchCart(cartApi, request, actionContext);
+    let cart = await CartFetcher.fetchCart(cartApi, request);
 
     const body: {
       payment?: Payment;
@@ -435,7 +438,7 @@ export const addPaymentByInvoice: ActionHook = async (request: Request, actionCo
 export const updatePayment: ActionHook = async (request: Request, actionContext: ActionContext) => {
   try {
     const cartApi = getCartApi(request, actionContext);
-    const cart = await CartFetcher.fetchCart(cartApi, request, actionContext);
+    const cart = await CartFetcher.fetchCart(cartApi, request);
 
     const body: {
       payment?: Payment;
@@ -461,7 +464,7 @@ export const updatePayment: ActionHook = async (request: Request, actionContext:
 export const redeemDiscount: ActionHook = async (request: Request, actionContext: ActionContext) => {
   try {
     const cartApi = getCartApi(request, actionContext);
-    let cart = await CartFetcher.fetchCart(cartApi, request, actionContext);
+    let cart = await CartFetcher.fetchCart(cartApi, request);
 
     const body: {
       code?: string;
@@ -485,7 +488,7 @@ export const redeemDiscount: ActionHook = async (request: Request, actionContext
 export const removeDiscount: ActionHook = async (request: Request, actionContext: ActionContext) => {
   try {
     const cartApi = getCartApi(request, actionContext);
-    let cart = await CartFetcher.fetchCart(cartApi, request, actionContext);
+    let cart = await CartFetcher.fetchCart(cartApi, request);
 
     const body: {
       discountId?: string;
@@ -585,35 +588,12 @@ export const getOrder: ActionHook = async (request, actionContext) => {
   }
 };
 
-// @deprecated Use getCheckoutSessionToken instead
-export const getCheckoutToken: ActionHook = async (request: Request, actionContext: ActionContext) => {
-  try {
-    const cartApi = getCartApi(request, actionContext);
-    const cart = await CartFetcher.fetchCart(cartApi, request, actionContext);
-    const account = fetchAccountFromSession(request);
-
-    const checkoutToken = await cartApi.getCheckoutToken(cart, account);
-
-    const response: Response = {
-      statusCode: 200,
-      body: checkoutToken ? JSON.stringify(checkoutToken) : '',
-      sessionData: {
-        ...cartApi.getSessionData(),
-      },
-    };
-
-    return response;
-  } catch (error) {
-    return handleError(error, request);
-  }
-};
-
 export const getCheckoutSessionToken: ActionHook = async (request: Request, actionContext: ActionContext) => {
   try {
     const cartApi = getCartApi(request, actionContext);
-    const cart = await CartFetcher.fetchCart(cartApi, request, actionContext);
+    const cart = await CartFetcher.fetchCart(cartApi, request);
 
-    const checkoutSessionToken = await cartApi.getCheckoutSessionToken(cart);
+    const checkoutSessionToken = await cartApi.getCheckoutSessionToken(cart.cartId);
 
     const response: Response = {
       statusCode: 200,

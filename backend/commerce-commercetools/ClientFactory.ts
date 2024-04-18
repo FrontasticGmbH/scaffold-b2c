@@ -101,14 +101,4 @@ export class ClientFactory {
       .withHttpMiddleware(httpMiddlewareOptions)
       .withClientCredentialsFlow(authMiddlewareOptions);
   }
-
-  static factorWithoutAuthenticationFlow: (clientConfig: ClientConfig) => Client = (clientConfig: ClientConfig) => {
-    const httpMiddlewareOptions: HttpMiddlewareOptions = {
-      host: clientConfig.authUrl,
-      headersWithStringBody: ['application/x-www-form-urlencoded'],
-      fetch,
-    };
-
-    return new ClientBuilder().withHttpMiddleware(httpMiddlewareOptions).build();
-  };
 }
