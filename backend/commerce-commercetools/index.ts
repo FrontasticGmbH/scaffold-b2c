@@ -17,9 +17,9 @@ import * as WishlistActions from './actionControllers/WishlistController';
 import * as ProjectActions from './actionControllers/ProjectController';
 
 import { getCurrency, getLocale, getPath } from './utils/Request';
-import { ProductRouter } from './utils/ProductRouter';
-import { SearchRouter } from './utils/SearchRouter';
-import { CategoryRouter } from './utils/CategoryRouter';
+import { ProductRouter } from './utils/routers/ProductRouter';
+import { SearchRouter } from './utils/routers/SearchRouter';
+import { CategoryRouter } from './utils/routers/CategoryRouter';
 import { ProductApi } from './apis/ProductApi';
 import { ProductQueryFactory } from './utils/ProductQueryFactory';
 import { ValidationError } from '@Commerce-commercetools/errors/ValidationError';

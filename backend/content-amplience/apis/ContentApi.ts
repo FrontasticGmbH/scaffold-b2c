@@ -7,12 +7,12 @@ export default class ContentApi {
   private client: ContentClient;
   private locale: string;
 
-  constructor(frontasticContext: Context, locale?: string) {
-    this.locale = (locale ?? frontasticContext.project.defaultLocale).replace('_', '-');
+  constructor(commercetoolsFrontendContext: Context, locale?: string) {
+    this.locale = (locale ?? commercetoolsFrontendContext.project.defaultLocale).replace('_', '-');
 
-    let hubName = getFromProjectConfig('EXTENSION_AMPLIENCE_HUB_NAME', frontasticContext);
+    let hubName = getFromProjectConfig('EXTENSION_AMPLIENCE_HUB_NAME', commercetoolsFrontendContext);
     if (!hubName) {
-      hubName = frontasticContext.project.configuration?.amplience?.hubName;
+      hubName = commercetoolsFrontendContext.project.configuration?.amplience?.hubName;
     }
 
     this.client = new ContentClient({

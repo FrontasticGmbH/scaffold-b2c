@@ -2,7 +2,7 @@ import { Wishlist } from '@Types/wishlist/Wishlist';
 import { ShoppingList, ShoppingListDraft, ShoppingListLineItem } from '@commercetools/platform-sdk';
 import { LineItem } from '@Types/wishlist/LineItem';
 import { Locale } from '../Locale';
-import { ProductRouter } from '../utils/ProductRouter';
+import { ProductRouter } from '../utils/routers/ProductRouter';
 import LocalizedValue from '../utils/LocalizedValue';
 import { ProductMapper } from './ProductMapper';
 

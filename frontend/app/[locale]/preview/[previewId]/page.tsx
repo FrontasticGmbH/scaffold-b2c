@@ -13,12 +13,12 @@ export default async function Page({ params, searchParams }: PageProps) {
 
   sdk.defaultConfigure(locale);
 
-  const [response, categoriesResult] = await Promise.all([
+  const [page, categoriesResult] = await Promise.all([
     fetchPreview(previewId as string),
     fetchCategories({ format: 'tree' }),
   ]);
 
-  if (response.isError) return <></>;
+  if (page.isError) return <></>;
 
   const translations = await getTranslations(
     [locale],
@@ -40,9 +40,9 @@ export default async function Page({ params, searchParams }: PageProps) {
   );
 
   return (
-    <Providers translations={translations}>
+    <Providers translations={translations} tracing={page.tracing}>
       <PreviewRenderer
-        data={response.data}
+        data={page.data}
         params={params}
         searchParams={searchParams}
         categories={categoriesResult.isError ? [] : categoriesResult.data.items}

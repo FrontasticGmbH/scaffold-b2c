@@ -36,7 +36,7 @@ import { Tax } from '@Types/cart/Tax';
 import { TaxPortion } from '@Types/cart/TaxPortion';
 import { Discount, DiscountedPricePerCount } from '@Types/cart/Discount';
 import { TaxRate } from '@Types/cart';
-import { ProductRouter } from '../utils/ProductRouter';
+import { ProductRouter } from '../utils/routers/ProductRouter';
 import { Locale } from '../Locale';
 import LocalizedValue from '../utils/LocalizedValue';
 import { ProductMapper } from './ProductMapper';

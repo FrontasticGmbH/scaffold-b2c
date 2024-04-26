@@ -1406,17 +1406,17 @@
   resolved "https://registry.yarnpkg.com/@colors/colors/-/colors-1.5.0.tgz#bb504579c1cae923e6576a4f5da43d25f97bdbd9"
   integrity sha512-ooWCrlZP11i8GImSjTHYHLkvFDP48nS4+204nGb1RiX/WXYHmJA2III9/e2DWVabCESdW7hBAEzHRqUn9OUVvQ==
 
-"@commercetools/checkout-browser-sdk@^0.6.0":
-  version "0.6.0"
-  resolved "https://registry.yarnpkg.com/@commercetools/checkout-browser-sdk/-/checkout-browser-sdk-0.6.0.tgz#cbe5b7009bb58715c9878e6c78b8107cf956f506"
-  integrity sha512-YkvLFDUg8RQdR80fLRKwtJQ0B837SDXuzICh1NIkMXnytMFnkddRa7G76Y0qP2OnDGfDtKSn2YfGaYhSM/G64A==
+"@commercetools/checkout-browser-sdk@^0.6.1":
+  version "0.6.1"
+  resolved "https://registry.yarnpkg.com/@commercetools/checkout-browser-sdk/-/checkout-browser-sdk-0.6.1.tgz#e822db1dab5dae648791f294eff6667716af0040"
+  integrity sha512-DJtYtBdsFFsRMwuqRdplAvTKURnY9umbDGt3FRonKnSmXFurd+KngvHJs09IntEVnkPu3yCfzHqZjd7dPWoaTA==
   dependencies:
     "@swc/helpers" "0.5.10"
 
-"@commercetools/frontend-sdk@1.10.1":
-  version "1.10.1"
-  resolved "https://registry.yarnpkg.com/@commercetools/frontend-sdk/-/frontend-sdk-1.10.1.tgz#45903f28a6935ee001fb3f6dae2ab220aea793e2"
-  integrity sha512-efSVGylL8ma1t3zPEJ6lJ5XTZy39UEb03iqZ7d528wDxOrwU6alhaIBnLEC/xVlcRSbLa3ulIPdbqn9buDB+ow==
+"@commercetools/frontend-sdk@1.11.1":
+  version "1.11.1"
+  resolved "https://registry.yarnpkg.com/@commercetools/frontend-sdk/-/frontend-sdk-1.11.1.tgz#912dc4a0dcf537ba03eb3cfd3827863e3184b565"
+  integrity sha512-kMmieoLZQHYSq5oTrbzM/5Ksqw32LLerM6qYBg83IB8lgHqkbYJl01sD3YXbrYnL43Cg8sP53OYBHejjSIhRvw==
   dependencies:
     "@frontastic/extension-types" "^0.0.11"
     cookie "^0.5.0"

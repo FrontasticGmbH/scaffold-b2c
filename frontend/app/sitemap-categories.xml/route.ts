@@ -2,6 +2,7 @@ import { Category } from 'shared/types/product/Category';
 //import { Result } from 'shared/types/product/Result';
 import { SiteMapField, generateSiteMap } from 'helpers/sitemap';
 import { sdk } from 'sdk';
+import { Product } from 'shared/types/product';
 
 export async function GET() {
   const locale = 'en';
@@ -24,10 +25,14 @@ export async function GET() {
 
     const response = await extensions.product.queryCategories({ cursor: nextCursor, limit: 12 });
 
-    const items = ((response.isError ? [] : response.data.items) ?? []) as Category[];
+    const items = [] as Category[];
+
+    if (!response.isError && response.data.items != null) {
+      items.push(...response.data.items);
+    }
 
     fields.push(
-      ...items.map((category) => ({
+      ...items?.map((category) => ({
         loc: `${siteUrl}/${locale}${category._url}`,
         lastmod: new Date().toISOString(),
         changefreq: 'daily' as const,

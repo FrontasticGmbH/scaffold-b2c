@@ -1,28 +1,42 @@
 import { Request } from '@frontastic/extension-types';
+import { ValidationError } from '@Commerce-commercetools/errors/ValidationError';
+
+enum requestHeaders {
+  'commercetoolsFrontendPath' = 'commercetools-frontend-path',
+  'frontasticPath' = 'frontastic-path',
+  'commercetoolsFrontendLocale' = 'commercetools-frontend-locale',
+  'frontasticLocale' = 'frontastic-locale',
+  'commercetoolsFrontendCurrency' = 'commercetools-frontend-currency',
+  'frontasticCurrency' = 'frontastic-currency',
+}
 
 export const getPath = (request: Request): string | null => {
-  return getHeader(request, 'frontastic-path') ?? request.query.path;
+  return (
+    getHeader(request, [requestHeaders.frontasticPath, requestHeaders.commercetoolsFrontendPath]) ?? request.query.path
+  );
 };
 
 export const getLocale = (request?: Request): string | null => {
-  if (request !== undefined) {
-    const locale = getHeader(request, 'frontastic-locale') ?? request.query.locale;
+  const locale =
+    getHeader(request, [requestHeaders.commercetoolsFrontendLocale, requestHeaders.frontasticLocale]) ??
+    request.query.locale;
 
-    if (locale !== undefined) {
-      return getHeader(request, 'frontastic-locale') ?? request.query.locale;
-    }
+  if (locale !== undefined) {
+    return locale;
   }
 
-  return null;
+  throw new ValidationError({ message: `Locale is missing from request ${request}` });
 };
 
-const getHeader = (request: Request, header: string): string | null => {
-  if (request.headers && header in request.headers) {
-    const foundHeader = request.headers[header];
-    if (Array.isArray(foundHeader)) {
-      return foundHeader[0];
+const getHeader = (request: Request, headers: string[]): string | null => {
+  for (const header of headers) {
+    const foundHeader = request.headers[header.toLowerCase()];
+    if (foundHeader !== undefined) {
+      if (Array.isArray(foundHeader)) {
+        return foundHeader[0];
+      }
+      return foundHeader;
     }
-    return foundHeader;
   }
 
   return null;

@@ -1,14 +1,17 @@
-import useSWR from 'swr';
+import { useEffect, useState } from 'react';
+import { Token } from 'shared/types/Token';
 import { sdk } from 'sdk';
 
 const useCheckout = () => {
-  const { data } = useSWR('/action/cart/getCheckoutSessionToken', () =>
-    sdk.composableCommerce.cart.getCheckoutSessionToken(),
-  );
+  const [session, setSession] = useState<Token>();
+  const [isExpired, setIsExpired] = useState(false);
 
-  const session = data?.isError ? null : data?.data;
-
-  const isExpired = data?.isError;
+  useEffect(() => {
+    sdk.composableCommerce.cart.getCheckoutSessionToken().then((res) => {
+      if (!res.isError) setSession(res.data);
+      else setIsExpired(true);
+    });
+  }, []);
 
   return { session, isExpired };
 };

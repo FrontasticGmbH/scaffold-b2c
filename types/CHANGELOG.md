@@ -1,4 +1,16 @@
 
+## Version 1.5.0 (2024-04-22)
+
+** New Features and Improvements **
+
+- Added default store types
+
+## Version 1.5.0 (2024-04-22)
+
+** New Features and Improvements **
+
+- Added select store types
+
 ## Version 1.4.0 (2024-02-22)
 
 ** New Features and Improvements **

@@ -18,10 +18,14 @@ export async function GET() {
 
     const response = await extensions.product.query({ cursor: nextCursor, limit: 12 });
 
-    const items = (response.isError ? [] : response.data.items) as Product[];
+    const items = [] as Product[];
+
+    if (!response.isError && response.data.items != null) {
+      items.push(...response.data.items);
+    }
 
     fields.push(
-      ...items.map((product) => ({
+      ...items?.map((product) => ({
         loc: `${siteUrl}/${locale}${product._url}`,
         lastmod: new Date().toISOString(),
         changefreq: 'daily' as const,

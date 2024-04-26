@@ -38,13 +38,13 @@ export default async function Page({ params, searchParams }: PageProps) {
 
   sdk.defaultConfigure(locale);
 
-  const [response, accountResult, categoriesResult] = await Promise.all([
+  const [page, accountResult, categoriesResult] = await Promise.all([
     fetchPageData(slug as string[], searchParams),
     fetchAccount(),
     fetchCategories({ format: 'tree' }),
   ]);
 
-  if (response.isError) return redirect('/404');
+  if (page.isError) return redirect('/404');
 
   const translations = await getTranslations(
     [locale],
@@ -66,9 +66,9 @@ export default async function Page({ params, searchParams }: PageProps) {
   );
 
   return (
-    <Providers translations={translations} accountResult={accountResult}>
+    <Providers translations={translations} accountResult={accountResult} tracing={page.tracing}>
       <Renderer
-        data={response.data}
+        data={page.data}
         params={params}
         searchParams={searchParams}
         categories={categoriesResult.isError ? [] : categoriesResult.data.items}

@@ -36,7 +36,7 @@ import { Filter as QueryFilter, FilterTypes } from '@Types/query/Filter';
 import { FacetDefinition } from '@Types/product/FacetDefinition';
 import { FilteredFacetResult } from '@commercetools/platform-sdk/dist/declarations/src/generated/models/product';
 import { Locale } from '../Locale';
-import { ProductRouter } from '../utils/ProductRouter';
+import { ProductRouter } from '../utils/routers/ProductRouter';
 import LocalizedValue from '../utils/LocalizedValue';
 
 const TypeMap = new Map<string, string>([

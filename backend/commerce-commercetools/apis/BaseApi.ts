@@ -415,17 +415,22 @@ export abstract class BaseApi {
   protected currency: string;
   protected sessionData: any | null;
 
-  constructor(frontasticContext: Context, locale: string | null, currency: string | null, request?: Request | null) {
-    this.defaultLocale = frontasticContext.project.defaultLocale;
+  constructor(
+    commercetoolsFrontendContext: Context,
+    locale: string | null,
+    currency: string | null,
+    request?: Request | null,
+  ) {
+    this.defaultLocale = commercetoolsFrontendContext.project.defaultLocale;
     this.defaultCurrency = defaultCurrency;
 
     this.locale = locale !== null ? locale : this.defaultLocale;
     this.currency = currency;
 
     const engine = 'commercetools';
-    this.clientSettings = getConfig(frontasticContext, engine, this.locale);
+    this.clientSettings = getConfig(commercetoolsFrontendContext, engine, this.locale);
 
-    this.environment = frontasticContext.environment;
+    this.environment = commercetoolsFrontendContext.environment;
     this.projectKey = this.clientSettings.projectKey;
     this.productIdField = this.clientSettings?.productIdField || 'key';
     this.categoryIdField = this.clientSettings?.categoryIdField || 'key';
