@@ -932,10 +932,8 @@ export class CartApi extends BaseApi {
     // }
 
     const propertyList = [
-      'customerId',
       'customerEmail',
       'customerGroup',
-      'anonymousId',
       'store',
       'inventoryMode',
       'taxMode',
@@ -950,6 +948,11 @@ export class CartApi extends BaseApi {
       'shippingRateInput',
       'itemShippingAddresses',
     ];
+
+    // Commercetools cart only accepts customerId or anonymousId
+    primaryCommercetoolsCart.customerId !== undefined
+      ? propertyList.push('customerId')
+      : propertyList.push('anonymousId');
 
     for (const key of propertyList) {
       if (primaryCommercetoolsCart.hasOwnProperty(key)) {

@@ -24,12 +24,10 @@ export function middleware(request: NextRequest) {
     response = NextResponse.redirect(new URL(`/${locale}${path}`, request.url));
   } else {
     locale = path.split('/')[1];
-
-    const containsMultipleLocaleOccurrences = new RegExp(`(/${locale}){2,2}`, 'g').exec(path);
+    const containsMultipleLocaleOccurrences = new RegExp(`^/${locale}/.*(/${locale}/)`, 'g').test(path);
     if (containsMultipleLocaleOccurrences) {
-      response = NextResponse.redirect(
-        new URL(path.replace(new RegExp(`(/${locale}){2,2}`, 'g'), `/${locale}/`), request.url),
-      );
+      const correctedPath = path.replace(new RegExp(`^/${locale}/.*(/${locale}/)`), `/${locale}/`);
+      response = NextResponse.redirect(new URL(correctedPath, request.url));
     } else {
       response = NextResponse.next();
     }
@@ -41,6 +39,7 @@ export function middleware(request: NextRequest) {
 }
 
 export const config = {
-  matcher:
-    '/((?!api|_next|favicon|manifest|locales|storybook|images|sb-assets|sitemap|robots.txt|sw.js|workbox|icons).*)',
+  matcher: [
+    '/((?!api|_next|favicon|manifest|storybook|images|sb-assets|sitemap\\.xml|robots\\.txt|sw\\.js|workbox|icons).*)',
+  ],
 };

@@ -13,4 +13,5 @@ export interface Account {
   confirmed?: boolean;
   addresses?: Address[];
   apiToken?: string;
+  version?: number;
 }

@@ -20,5 +20,5 @@ tsconfig.tsbuildinfo
 /public/workbox-*.js
 /public/workbox-*.js.map
 /public/sitemap.xml
-/public/sitemap-*.xml
+/public/robots.txt
 /public/storybook/

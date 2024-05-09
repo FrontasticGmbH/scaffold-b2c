@@ -1,0 +1,20 @@
+{
+    "payment.methods": "Payment methods",
+    "payment.details": "Delete or add payment methods.",
+    "add.card": "Add new card",
+    "edit": "Edit",
+    "edit.payment": "Edit payment method",
+    "add.payment": "Add new payment method",
+    "card.holder": "Card holder *",
+    "card.number": "Card number *",
+    "expiration.date": "Expiration date *",
+    "security.number": "Security number *",
+    "save": "Save",
+    "cancel": "Cancel",
+    "delete": "Delete",
+    "delete.question": "Delete payment method?",
+    "delete.warning": "This action can not be undone.",
+    "card.number.error": "Please enter a valid credit card number",
+    "card.holder.error": "Insert card holder name",
+    "card.expiry.error": "Please select the card expiration date"
+}

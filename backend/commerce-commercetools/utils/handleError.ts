@@ -1,7 +1,7 @@
-import { Request } from '@frontastic/extension-types';
+import { Request, Response } from '@frontastic/extension-types';
 import { ExtensionError } from '@Commerce-commercetools/errors/Errors';
 
-const handleError = (error: ExtensionError | Error | unknown, request?: Request) => {
+const handleError = (error: ExtensionError | Error | unknown, request?: Request): Response => {
   if (error instanceof ExtensionError) {
     const statusCode = error.statusCode ?? 503;
 

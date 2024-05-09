@@ -7,7 +7,8 @@ interface Props {
 }
 
 const Overlay: React.FC<Props> = ({ zIndex, onClick }) => {
-  const z = `z-[${zIndex ?? 300}]`;
+  //eslint-disable-next-line tailwindcss/no-custom-classname
+  const z = `z-[${zIndex ?? 600}]`;
   return (
     <div className={useClassNames(['fixed left-0 top-0 h-screen w-screen bg-[#7f7f7f]/30', z])} onClick={onClick} />
   );

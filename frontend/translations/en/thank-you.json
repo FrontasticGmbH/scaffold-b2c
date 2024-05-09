@@ -1,0 +1,20 @@
+{
+  "thank.for.order": "Thank you for your order",
+  "email.sent": "An email confirmation has been sent to",
+  "order.number": "Order number",
+  "delivery.by": "Delivery by",
+  "delivery.to": "Delivery to",
+  "payment.by": "Payment by",
+
+  "user.title": "My orders",
+  "user.subtitle": "Manage, review or track your order.",
+  "user.cta": "Review order status",
+  "guest.title": "Save your details",
+  "guest.subtitle": "Enjoy faster checkout, order history and personal offers.",
+  "guest.cta": "Create account",
+
+  "order.details": "Order details",
+  "your.order": "Your order",
+
+  "print.invoice": "Print invoice"
+}

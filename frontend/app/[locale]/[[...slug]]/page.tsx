@@ -66,7 +66,7 @@ export default async function Page({ params, searchParams }: PageProps) {
   );
 
   return (
-    <Providers translations={translations} accountResult={accountResult} tracing={page.tracing}>
+    <Providers translations={translations} accountResult={accountResult} page={page}>
       <Renderer
         data={page.data}
         params={params}

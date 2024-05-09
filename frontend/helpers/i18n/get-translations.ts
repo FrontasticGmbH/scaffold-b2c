@@ -1,4 +1,3 @@
-import { constructOrigin } from 'helpers/server/construct-origin';
 import { Translations } from 'types/i18n';
 
 export const getTranslations = async (locales: string[], namespaces: string[]) => {
@@ -10,9 +9,7 @@ export const getTranslations = async (locales: string[], namespaces: string[]) =
 
       return await Promise.all(
         namespaces.map(async (namespace) => {
-          const data = await fetch(`${constructOrigin()}/locales/${locale}/${namespace}.json`).then((res) =>
-            res.json(),
-          );
+          const data = await import(`translations/${locale}/${namespace}.json`).then((m) => m.default);
 
           translations[locale][namespace] = data;
         }),

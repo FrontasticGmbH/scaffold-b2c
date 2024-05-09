@@ -69,9 +69,13 @@ const RegisterForm: FC<Props> = ({ termsOfUseLink }) => {
     //try registering the user with given credentials
     try {
       const response = await register(data);
-      if (!response.accountId) {
+      if (!response.success) {
         setError(
-          formatErrorMessage({ id: 'account.create.fail', defaultMessage: "Sorry. We couldn't create your account.." }),
+          response.error?.message ||
+            formatErrorMessage({
+              id: 'account.create.fail',
+              defaultMessage: "Sorry. We couldn't create your account..",
+            }),
         );
         setSuccess('');
       } else {

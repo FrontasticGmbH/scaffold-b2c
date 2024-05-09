@@ -40,7 +40,7 @@ export default async function Page({ params, searchParams }: PageProps) {
   );
 
   return (
-    <Providers translations={translations} tracing={page.tracing}>
+    <Providers translations={translations} page={page}>
       <PreviewRenderer
         data={page.data}
         params={params}

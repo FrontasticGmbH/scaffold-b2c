@@ -30,6 +30,7 @@ import { Address } from '@Types/account/Address';
 import { Order, OrderState, ReturnInfo, ReturnLineItem, ShipmentState } from '@Types/cart/Order';
 import { ShippingMethod } from '@Types/cart/ShippingMethod';
 import { ShippingRate } from '@Types/cart/ShippingRate';
+import { ShippingLocation } from '@Types/cart/ShippingLocation';
 import { ShippingInfo } from '@Types/cart/ShippingInfo';
 import { Payment } from '@Types/cart/Payment';
 import { Tax } from '@Types/cart/Tax';
@@ -227,7 +228,7 @@ export class CartMapper {
     locale: Locale,
     defaultLocale: string,
   ) => {
-    if (commercetoolsShippingInfo === undefined || !Object.keys(commercetoolsShippingInfo.shippingMethod.obj).length) {
+    if (commercetoolsShippingInfo === undefined) {
       return undefined;
     }
 
@@ -235,16 +236,13 @@ export class CartMapper {
       shippingMethodId: commercetoolsShippingInfo?.shippingMethod?.id,
     };
 
-    if (
-      commercetoolsShippingInfo.shippingMethod?.obj &&
-      Object.keys(commercetoolsShippingInfo.shippingMethod.obj).length > 0
-    ) {
+    if (commercetoolsShippingInfo.shippingMethod.obj) {
       shippingMethod = {
         ...CartMapper.commercetoolsShippingMethodToShippingMethod(
           commercetoolsShippingInfo.shippingMethod.obj,
           locale,
           defaultLocale,
-        )[0],
+        ),
       };
     }
 
@@ -298,38 +296,30 @@ export class CartMapper {
 
     commercetoolsZoneRates.forEach((commercetoolsZoneRate) => {
       const shippingRateId = commercetoolsZoneRate.zone.id;
-      const name = commercetoolsZoneRate.zone.obj?.name;
-
-      // It can be [] if the locations array is empty. Array.map() will return [] if its argument is an empty array, despite whatever the callback function does, so no need to check the array length.
-      const locations = commercetoolsZoneRate.zone.obj?.locations.map((location) => {
+      const name = commercetoolsZoneRate.zone?.obj?.name || undefined;
+      const locations = commercetoolsZoneRate.zone?.obj?.locations?.map((location) => {
         return {
           country: location.country,
           state: location.state,
-        };
+        } as ShippingLocation;
       });
 
       // When we tried to get only matching shipping methods, `isMatching` value will be returned.
       // In those cases, we'll only map the ones with value `true`.
-
-      // const matchingShippingRates = commercetoolsZoneRate.shippingRates.filter(function (shippingRate) {
-      //   if (shippingRate.isMatching !== undefined && shippingRate.isMatching !== true) {
-      //     return false; // skip
-      //   }
-      //   return true;
-      // });
-
-      // If `isMatching` is undefined, it's going to return true too! Replace suggestion:
-      const matchingShippingRates = commercetoolsZoneRate.shippingRates.filter((shippingRate) => {
-        return !!shippingRate.isMatching;
+      const matchingShippingRates = commercetoolsZoneRate.shippingRates.filter(function (shippingRate) {
+        if (shippingRate.isMatching !== undefined && shippingRate.isMatching !== true) {
+          return false; // skip
+        }
+        return true;
       });
 
-      matchingShippingRates.forEach((shippingRate) => {
-        const matchingShippingRatePriceTiers = shippingRate.tiers.filter(function (shippingRatePriceTier) {
+      matchingShippingRates.forEach((matchingShippingRates) => {
+        const matchingShippingRatePriceTiers = matchingShippingRates.tiers.filter(function (shippingRatePriceTier) {
           if (shippingRatePriceTier.isMatching !== true) {
             return false; // skip
           }
           return true;
-        }); // Same suggestion than above (although here, the undefined result is handled)
+        });
 
         shippingRates.push({
           shippingRateId: shippingRateId,
@@ -339,8 +329,8 @@ export class CartMapper {
             // If there are multiple matching price, we only consider the first match.
             matchingShippingRatePriceTiers.length > 0
               ? ProductMapper.commercetoolsMoneyToMoney(matchingShippingRatePriceTiers[0].price)
-              : ProductMapper.commercetoolsMoneyToMoney(shippingRate.price),
-        });
+              : ProductMapper.commercetoolsMoneyToMoney(matchingShippingRates.price),
+        } as ShippingRate);
       });
     });
 

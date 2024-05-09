@@ -2,6 +2,7 @@
 
 import { useParams } from 'next/navigation';
 import { SDKResponse } from '@commercetools/frontend-sdk';
+import { PageResponse } from '@commercetools/frontend-sdk/lib/types/api/page';
 import Toaster from 'components/commercetools-ui/atoms/toaster';
 import AddToCartOverlayProvider from 'context/add-to-cart-overlay';
 import { sdk } from 'sdk';
@@ -14,21 +15,16 @@ import { GetAccountActionReturn } from '../sdk/composable-commerce/types/actions
 interface ProvidersProps {
   translations: Translations;
   accountResult?: SDKResponse<GetAccountActionReturn>;
-  tracing: SDKResponse<unknown>['tracing'];
+  page: SDKResponse<PageResponse>;
 }
 
-export const Providers = ({
-  translations,
-  accountResult,
-  tracing,
-  children,
-}: React.PropsWithChildren<ProvidersProps>) => {
+export const Providers = ({ translations, accountResult, page, children }: React.PropsWithChildren<ProvidersProps>) => {
   const { locale } = useParams();
 
   sdk.defaultConfigure(locale);
 
   return (
-    <TracingProvider tracing={tracing}>
+    <TracingProvider page={page}>
       <I18nProvider translations={translations}>
         <SWRProvider value={{ fallback: { '/action/account/getAccount': accountResult } }}>
           <AddToCartOverlayProvider>{children}</AddToCartOverlayProvider>

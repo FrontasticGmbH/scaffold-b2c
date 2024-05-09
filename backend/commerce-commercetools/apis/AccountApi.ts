@@ -536,4 +536,21 @@ export class AccountApi extends BaseApi {
         throw new ExternalError({ statusCode: error.code, message: error.message, body: error.body });
       });
   }
+
+  async delete(account: Account) {
+    return this.requestBuilder()
+      .customers()
+      .withId({ ID: account.accountId })
+      .delete({
+        queryArgs: {
+          version: account.version,
+          dataErasure: true,
+        },
+      })
+      .execute()
+      .then((response) => response.body)
+      .catch((error) => {
+        throw new ExternalError({ statusCode: error.code, message: error.message, body: error.body });
+      });
+  }
 }

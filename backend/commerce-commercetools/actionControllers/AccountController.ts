@@ -187,6 +187,9 @@ export const register: ActionHook = async (request: Request, actionContext: Acti
       emailApi.sendAccountVerificationEmail(account);
     }
 
+    // We are unsetting the confirmationToken to avoid exposing it to the client
+    account.confirmationToken = null;
+
     const response: Response = {
       statusCode: 200,
       body: JSON.stringify(account),
@@ -601,6 +604,38 @@ export const setDefaultShippingAddress: ActionHook = async (request: Request, ac
         account,
       },
     } as Response;
+  } catch (error) {
+    return handleError(error, request);
+  }
+};
+
+export const deleteAccount: ActionHook = async (request: Request, actionContext: ActionContext) => {
+  try {
+    assertIsAuthenticated(request);
+
+    let account = fetchAccountFromSession(request);
+
+    const accountDeleteBody: { password: string } = JSON.parse(request.body);
+
+    const accountApi = getAccountApi(request, actionContext);
+
+    account = {
+      email: account.email,
+      password: accountDeleteBody.password,
+    } as Account;
+
+    account = await accountApi.login(account, undefined);
+
+    await accountApi.delete(account);
+
+    return {
+      statusCode: 200,
+      body: JSON.stringify(null),
+      sessionData: {
+        ...request.sessionData,
+        account: null,
+      },
+    };
   } catch (error) {
     return handleError(error, request);
   }

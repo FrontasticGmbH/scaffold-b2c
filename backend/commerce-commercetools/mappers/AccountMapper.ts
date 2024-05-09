@@ -18,6 +18,7 @@ export class AccountMapper {
       lastName: commercetoolsCustomer?.lastName,
       birthday: commercetoolsCustomer?.dateOfBirth ? new Date(commercetoolsCustomer.dateOfBirth) : undefined,
       confirmed: commercetoolsCustomer.isEmailVerified,
+      version: commercetoolsCustomer.version,
       addresses: this.commercetoolsAddressesToAddresses(
         commercetoolsCustomer.addresses,
         commercetoolsCustomer.defaultBillingAddressId,

@@ -1,8 +1,8 @@
 import React, { useMemo } from 'react';
-import stringToColor from 'string-to-color';
 import { FacetProps } from './types';
 import { useProductList } from '../../context';
 import { ColorFacet } from '../../types';
+import { textToColor } from 'helpers/textToColor/textToColor';
 
 const ColorFacet: React.FC<FacetProps> = ({ attribute }) => {
   const { facetsConfiguration, refine } = useProductList();
@@ -21,7 +21,7 @@ const ColorFacet: React.FC<FacetProps> = ({ attribute }) => {
             className={`h-40 w-40 rounded-full outline outline-1 outline-offset-1 ${
               selected ? 'outline-gray-500' : 'outline-transparent'
             }`}
-            style={{ backgroundColor: stringToColor(key) }}
+            style={{ backgroundColor: textToColor(key) }}
           />
           <span className="mt-4 block max-w-full truncate text-14" title={label}>
             {label}

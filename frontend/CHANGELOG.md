@@ -1,4 +1,16 @@
 
+## Version 1.11.5 (2024-05-09)
+
+** New Features and Improvements **
+
+- Update path correction in middleware
+- Add new 'textToColor' helper and integrate into components
+- Add more info logs in development mode
+- Add missing tastics warning in development mode
+- Updated @commercetools/frontend-sdk dependency to version 1.11.2
+- Enhance robots and sitemaps automated
+- Log frontastic request ID to browser console
+
 ## Version 1.11.4 (2024-04-26)
 
 ** New Feaures and Improvements **

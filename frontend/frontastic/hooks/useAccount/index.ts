@@ -76,12 +76,12 @@ const useAccount = () => {
     mutate('/action/wishlist/getWishlist');
   }, []);
 
-  const register = useCallback(async (account: RegisterAccount): Promise<Account> => {
+  const register = useCallback(async (account: RegisterAccount) => {
     const extensions = sdk.composableCommerce;
 
     const res = await extensions.account.register(account);
 
-    return res.isError ? ({} as Account) : res.data;
+    return res.isError ? { success: false, error: res.error } : { ...res.data, success: true };
   }, []);
 
   const confirm = useCallback(async (token: string): Promise<Account> => {
