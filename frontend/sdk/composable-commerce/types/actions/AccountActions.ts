@@ -14,6 +14,7 @@ import {
 	RemoveAccountAddressPayload,
 	SetDefaultAccountBillingAddressPayload,
 	SetDefaultAccountShippingAddressPayload,
+    DeleteAccountPayload
 } from "../payloads/AccountPayloads";
 
 type GetAccountActionReturn =
@@ -98,6 +99,13 @@ type SetDefaultAccountShippingAddressAction = (
 	options?: { serverOptions?: ServerOptions }
 ) => Promise<SDKResponse<Account>>;
 
+type DeleteAccountAction = (
+    payload: DeleteAccountPayload,
+    options?: {
+        serverOptions?: ServerOptions;
+    },
+) => Promise<SDKResponse<void>>;
+
 export {
 	type GetAccountActionReturn,
 	type GetAccountAction,
@@ -115,4 +123,5 @@ export {
 	type RemoveAccountAddressAction,
 	type SetDefaultAccountBillingAddressAction,
 	type SetDefaultAccountShippingAddressAction,
+    type DeleteAccountAction,
 };

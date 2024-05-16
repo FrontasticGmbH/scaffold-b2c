@@ -1,4 +1,11 @@
 
+## Version 1.11.6 (2024-05-16)
+
+
+* Removed addresses section from account
+* Updated @commercetools/frontend-sdk package to 1.12.0
+* Fix server sdk calls cache not working
+
 ## Version 1.11.5 (2024-05-09)
 
 ** New Features and Improvements **

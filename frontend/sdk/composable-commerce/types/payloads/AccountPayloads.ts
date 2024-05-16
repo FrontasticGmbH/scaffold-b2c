@@ -67,6 +67,10 @@ type SetDefaultAccountShippingAddressPayload = {
 	addressId: string;
 };
 
+type DeleteAccountPayload = {
+    password: string;
+};
+
 export {
 	type LoginAccountPayload,
 	type RegisterAccountPayload,
@@ -81,4 +85,5 @@ export {
 	type RemoveAccountAddressPayload,
 	type SetDefaultAccountBillingAddressPayload,
 	type SetDefaultAccountShippingAddressPayload,
+	type DeleteAccountPayload,
 };

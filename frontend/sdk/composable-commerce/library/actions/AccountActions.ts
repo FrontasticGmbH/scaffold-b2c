@@ -18,6 +18,7 @@ import {
 	SetDefaultAccountShippingAddressPayload,
 	UpdateAccountAddressPayload,
 	UpdateAccountPayload,
+    DeleteAccountPayload
 } from "../../types/payloads/AccountPayloads";
 import {
 	AddAccountAddressAction,
@@ -36,6 +37,7 @@ import {
 	SetDefaultAccountShippingAddressAction,
 	UpdateAccountAction,
 	UpdateAccountAddressAction,
+    DeleteAccountAction
 } from "../../types/actions/AccountActions";
 import { Account, Address } from "shared/types/account";
 import { ComposableCommerceEvents } from "../../types/events/ComposableCommerceEvents";
@@ -56,6 +58,7 @@ export type AccountActions = {
 	removeAddress: RemoveAccountAddressAction;
 	setDefaultBillingAddress: SetDefaultAccountBillingAddressAction;
 	setDefaultShippingAddress: SetDefaultAccountShippingAddressAction;
+    deleteAccount: DeleteAccountAction;
 };
 
 const addressesAreEqual = function (
@@ -447,5 +450,18 @@ export const getAccountActions = (
 			}
 			return response;
 		},
+        deleteAccount: async (
+            payload: DeleteAccountPayload,
+            options?: {
+                serverOptions?: ServerOptions;
+            }
+        ) => {
+            const response = await sdk.callAction<void>({
+                actionName: "account/deleteAccount",
+                payload,
+                serverOptions: options?.serverOptions,
+            });
+            return response;
+        },
 	};
 };

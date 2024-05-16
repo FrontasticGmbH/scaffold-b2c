@@ -411,6 +411,7 @@ export abstract class BaseApi {
   protected defaultLocale: string;
   protected defaultCurrency: string;
   protected clientHashKey: string;
+  protected checkoutHashKey: string;
   protected token: Token;
   protected currency: string;
   protected sessionData: any | null;
@@ -463,11 +464,11 @@ export abstract class BaseApi {
 
   setSessionCheckoutSessionToken(cartId: string, token: Token): void {
     this.sessionData.checkoutSessionToken = {};
-    this.sessionData.checkoutSessionToken[cartId] = token;
+    this.sessionData.checkoutSessionToken[this.getCheckoutHashKey(cartId)] = token;
   }
 
   getSessionCheckoutSessionToken(cartId: string): Token | undefined {
-    return this.sessionData?.checkoutSessionToken?.[cartId] ?? undefined;
+    return this.sessionData?.checkoutSessionToken?.[this.getCheckoutHashKey(cartId)] ?? undefined;
   }
 
   protected getAnonymousIdFromSessionData(): string {
@@ -688,6 +689,19 @@ export abstract class BaseApi {
 
       return { get, set };
     })();
+  }
+
+  private getCheckoutHashKey(cartId: string): string {
+    if (this.checkoutHashKey) {
+      return this.checkoutHashKey;
+    }
+
+    this.checkoutHashKey = crypto
+      .createHash('md5')
+      .update(this.clientSettings.checkoutApplicationKey + cartId)
+      .digest('hex');
+
+    return this.checkoutHashKey;
   }
 
   private getClientHashKey(): string {

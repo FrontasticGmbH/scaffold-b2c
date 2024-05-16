@@ -14,11 +14,11 @@ import Renderer from 'frontastic/renderer';
 export const dynamic = 'force-dynamic';
 
 export async function generateMetadata({ params, searchParams }: PageProps): Promise<Metadata> {
-  const { locale: nextLocale, slug } = params;
+  const { locale: nextLocale } = params;
 
   sdk.defaultConfigure(nextLocale);
 
-  const response = await fetchPageData(slug as string[], searchParams);
+  const response = await fetchPageData(params, searchParams);
 
   if (response.isError) return {};
 
@@ -34,12 +34,12 @@ export async function generateMetadata({ params, searchParams }: PageProps): Pro
 }
 
 export default async function Page({ params, searchParams }: PageProps) {
-  const { locale, slug } = params;
+  const { locale } = params;
 
   sdk.defaultConfigure(locale);
 
   const [page, accountResult, categoriesResult] = await Promise.all([
-    fetchPageData(slug as string[], searchParams),
+    fetchPageData(params, searchParams),
     fetchAccount(),
     fetchCategories({ format: 'tree' }),
   ]);

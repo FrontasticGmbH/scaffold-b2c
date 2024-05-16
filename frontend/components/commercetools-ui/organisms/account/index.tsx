@@ -10,8 +10,6 @@ import useHash from 'helpers/hooks/useHash';
 import { Reference } from 'types/reference';
 import { useAccount } from 'frontastic';
 import AccountTabsMobile from './account-atoms/account-tabs-mobile';
-import Addresses from './sections/addresses';
-import AddressForm from './sections/addresses/address-form';
 import CustomerSupport from './sections/customer-support';
 import MyAccount from './sections/my-account';
 import ChangePasswordForm from './sections/my-account/forms/change-password-form';
@@ -72,11 +70,11 @@ const AccountDetails: React.FC<AccountDetailsProps> = ({
         href: '?',
         isActive: hash === '',
       },
-      {
-        name: formatAccountMessage({ id: 'addresses', defaultMessage: 'Addresses' }),
-        href: '?hash=addresses',
-        isActive: hash === 'addresses',
-      },
+      //   {
+      //     name: formatAccountMessage({ id: 'addresses', defaultMessage: 'Addresses' }),
+      //     href: '?hash=addresses',
+      //     isActive: hash === 'addresses',
+      //   },
       {
         name: formatAccountMessage({ id: 'orders', defaultMessage: 'Orders' }),
         href: '?hash=orders',
@@ -108,9 +106,9 @@ const AccountDetails: React.FC<AccountDetailsProps> = ({
     [id, isLoading, accountPagesRef],
   );
 
-  const addresses = useMemo(() => {
-    return id?.startsWith('address') ? <AddressForm editedAddressId={id?.split('_')[1]} /> : <Addresses />;
-  }, [id]);
+  //   const addresses = useMemo(() => {
+  //     return id?.startsWith('address') ? <AddressForm editedAddressId={id?.split('_')[1]} /> : <Addresses />;
+  //   }, [id]);
 
   const orders = useMemo(() => {
     return id && id.startsWith('order') ? <OrderPage orderId={id.split('_')[1]} /> : <Orders />;
@@ -127,7 +125,7 @@ const AccountDetails: React.FC<AccountDetailsProps> = ({
 
   const mapping = {
     '': account,
-    addresses: addresses,
+    // addresses: addresses,
     orders: orders,
     // payment: Payment,
     support: (

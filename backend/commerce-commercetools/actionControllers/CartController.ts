@@ -18,6 +18,7 @@ import handleError from '@Commerce-commercetools/utils/handleError';
 import { fetchAccountFromSession } from '@Commerce-commercetools/utils/fetchAccountFromSession';
 import { CartNotMatchOrderError } from '@Commerce-commercetools/errors/CartNotMatchOrderError';
 import { ValidationError } from '@Commerce-commercetools/errors/ValidationError';
+import { Token } from '@Types/Token';
 
 type ActionHook = (request: Request, actionContext: ActionContext) => Promise<Response>;
 
@@ -590,10 +591,15 @@ export const getOrder: ActionHook = async (request, actionContext) => {
 
 export const getCheckoutSessionToken: ActionHook = async (request: Request, actionContext: ActionContext) => {
   try {
+    let checkoutSessionToken: Token;
     const cartApi = getCartApi(request, actionContext);
-    const cart = await CartFetcher.fetchCart(cartApi, request);
 
-    const checkoutSessionToken = await cartApi.getCheckoutSessionToken(cart.cartId);
+    // We are getting the cartId from the session data so carts that are not active can be used
+    const cartId = request.sessionData?.cartId;
+
+    if (cartId !== undefined) {
+      checkoutSessionToken = await cartApi.getCheckoutSessionToken(cartId);
+    }
 
     const response: Response = {
       statusCode: 200,

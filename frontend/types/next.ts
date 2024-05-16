@@ -4,9 +4,7 @@ export interface Params {
   [key: string]: string | string[] | undefined;
 }
 
-export interface SearchParams {
-  [key: string]: string | string[] | undefined;
-}
+export type SearchParams = Record<string, string>;
 
 export interface PageProps {
   params: Params;
