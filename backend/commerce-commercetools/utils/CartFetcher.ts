@@ -10,10 +10,6 @@ export class CartFetcher {
       return cart;
     }
 
-    if (request.sessionData?.account !== undefined) {
-      return await cartApi.getForUser(request.sessionData.account);
-    }
-
     return await cartApi.getAnonymous();
   }
 
@@ -24,6 +20,10 @@ export class CartFetcher {
       } catch (error) {
         console.info(`It was not possible to fetch the cart ${request.sessionData.cartId}. ${error}`);
       }
+    }
+
+    if (request.sessionData?.account !== undefined) {
+      return await cartApi.getForUser(request.sessionData.account);
     }
 
     return undefined;

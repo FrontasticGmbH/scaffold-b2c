@@ -78,7 +78,7 @@ export const getCart: ActionHook = async (request: Request, actionContext: Actio
 
       return {
         statusCode: 200,
-        body: cart ? JSON.stringify(cart) : '',
+        body: cart ? JSON.stringify(cart) : JSON.stringify({}),
         sessionData: {
           ...cartApi.getSessionData(),
           ...(cart ? { cartId: cart.cartId } : {}),

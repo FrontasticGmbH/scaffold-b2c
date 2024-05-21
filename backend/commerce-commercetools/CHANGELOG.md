@@ -1,4 +1,11 @@
 
+## Version 1.13.0 (2024-05-16)
+
+** New Features and Improvements **
+
+- Allowed not active cart to fetch the checkout session token
+- Used checkout hash key to identify checkout token in the session
+
 ## Version 1.12.1 (2024-05-09)
 
 ** New Features and Improvements **
