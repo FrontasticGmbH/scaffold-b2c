@@ -1,4 +1,10 @@
 
+## Version 1.14.1 (2024-05-23)
+
+** Bug fixes **
+
+- Rolled back hardcoded locale and implement tranlatable fields
+
 ## Version 1.14.0 (2024-05-23)
 
 ** New Features and Improvements **
