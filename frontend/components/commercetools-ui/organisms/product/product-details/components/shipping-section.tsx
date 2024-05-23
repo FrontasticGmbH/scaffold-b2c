@@ -73,7 +73,7 @@ const ShippingSection = () => {
         {shippingMethods.data?.map(({ shippingMethodId, name, description, rates }) => (
           <div
             key={shippingMethodId}
-            className="relative flex gap-24 px-17 py-11 first:border-b first:border-neutral-400 md:gap-12 lg:gap-24"
+            className="relative flex gap-24 border-b border-neutral-400 px-17 py-11 last:border-b-0 md:gap-12 lg:gap-24"
           >
             <div className="grid h-full items-center">
               <TruckIcon className="h-24 w-24 rounded-full border border-neutral-400 p-4" />

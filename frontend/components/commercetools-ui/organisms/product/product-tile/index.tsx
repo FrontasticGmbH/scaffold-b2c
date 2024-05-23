@@ -20,6 +20,7 @@ interface ProductTileProps {
   disableQuickView?: boolean;
   disableWishlistButton?: boolean;
   disableVariants?: boolean;
+  selectedVariantIndex?: number;
 }
 
 const ProductTile: FC<ProductTileProps> = ({
@@ -29,14 +30,13 @@ const ProductTile: FC<ProductTileProps> = ({
   disableQuickView = false,
   disableWishlistButton = false,
   disableVariants = false,
+  selectedVariantIndex = 0,
 }) => {
   const [isDesktopSize] = useMediaQuery(desktop);
-
   const { ref } = useTrack({ product });
-
   const variantWithDiscount = useVariantWithDiscount(product.variants) as Variant;
-
-  const [selectedVariant, setSelectedVariant] = useState(() => variantWithDiscount ?? product?.variants[0]);
+  const [userSelectedVariant, setUserSelectedVariant] = useState<Variant | undefined>(undefined);
+  const selectedVariant = userSelectedVariant ?? variantWithDiscount ?? product?.variants[selectedVariantIndex];
 
   const hasDiscount =
     selectedVariant.discountedPrice?.centAmount &&
@@ -164,7 +164,7 @@ const ProductTile: FC<ProductTileProps> = ({
                     style={{ backgroundColor: variant.attributes?.color || variant.attributes?.finish }}
                     onClick={(e) => {
                       e.preventDefault();
-                      setSelectedVariant(variant);
+                      setUserSelectedVariant(variant);
                     }}
                   ></span>
                 ))}

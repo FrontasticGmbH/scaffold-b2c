@@ -15,7 +15,10 @@ export const getConfig = (context: Context, engine: string, locale: string | nul
     productIdField: getFromProjectConfig(`${prefix}_PRODUCT_ID_FIELD`, context),
     categoryIdField: getFromProjectConfig(`${prefix}_CATEGORY_ID_FIELD`, context),
     sessionUrl: getFromProjectConfig(`${prefix}_SESSION_URL`, context),
-    checkoutApplicationKey: getFromProjectConfig(`${prefix}_CHECKOUT_APPLICATION_KEY`, context),
+    checkoutApplicationKey: {
+      US: getFromProjectConfig(`${prefix}_CHECKOUT_APPLICATION_KEY_US`, context),
+      DE: getFromProjectConfig(`${prefix}_CHECKOUT_APPLICATION_KEY_DE`, context),
+    },
   };
 
   if (!clientConfig.authUrl) {
@@ -51,7 +54,8 @@ export const getConfig = (context: Context, engine: string, locale: string | nul
   }
 
   if (!clientConfig.checkoutApplicationKey) {
-    clientConfig.checkoutApplicationKey = context.project.configuration?.[engine]?.checkoutApplicationKey;
+    clientConfig.checkoutApplicationKey['US'] = context.project.configuration?.[engine]?.checkoutApplicationKey?.['US'];
+    clientConfig.checkoutApplicationKey['DE'] = context.project.configuration?.[engine]?.checkoutApplicationKey?.['DE'];
   }
 
   // Normalize urls

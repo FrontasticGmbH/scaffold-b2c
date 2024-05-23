@@ -836,7 +836,8 @@ export class CartApi extends BaseApi {
   }
 
   async getCheckoutSessionToken(cartId: string): Promise<Token> {
-    return await this.generateCheckoutSessionToken(cartId);
+    const locale = await this.getCommercetoolsLocal();
+    return await this.generateCheckoutSessionToken(cartId, locale);
   }
 
   protected async updateCart(cartId: string, cartUpdate: CartUpdate, locale: Locale): Promise<CommercetoolsCart> {
