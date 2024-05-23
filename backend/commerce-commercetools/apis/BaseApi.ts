@@ -14,7 +14,6 @@ import { ClientConfig } from '../interfaces/ClientConfig';
 import { tokenHasExpired } from '../utils/Token';
 import { Guid } from '@Commerce-commercetools/utils/Guid';
 import { ExternalError } from '@Commerce-commercetools/errors/ExternalError';
-import { ConfigurationError } from '@Commerce-commercetools/errors/ConfigurationError';
 
 const defaultCurrency = 'USD';
 
@@ -463,15 +462,15 @@ export abstract class BaseApi {
     }
   }
 
-  async setSessionCheckoutSessionToken(cartId: string, token: Token, locale: Locale): Promise<void> {
-    const checkoutHashKey = await this.getCheckoutHashKey(cartId, locale);
+  async setSessionCheckoutSessionToken(cartId: string, token: Token): Promise<void> {
+    const checkoutHashKey = await this.getCheckoutHashKey(cartId);
 
     this.sessionData.checkoutSessionToken = {};
     this.sessionData.checkoutSessionToken[checkoutHashKey] = token;
   }
 
-  async getSessionCheckoutSessionToken(cartId: string, locale: Locale): Promise<Token | undefined> {
-    const checkoutHashKey = await this.getCheckoutHashKey(cartId, locale);
+  async getSessionCheckoutSessionToken(cartId: string): Promise<Token | undefined> {
+    const checkoutHashKey = await this.getCheckoutHashKey(cartId);
     return this.sessionData?.checkoutSessionToken?.[checkoutHashKey] ?? undefined;
   }
 
@@ -581,8 +580,8 @@ export abstract class BaseApi {
     return project;
   }
 
-  protected async generateCheckoutSessionToken(cartId: string, locale: Locale) {
-    const checkoutSessionToken = await this.getSessionCheckoutSessionToken(cartId, locale);
+  protected async generateCheckoutSessionToken(cartId: string) {
+    const checkoutSessionToken = await this.getSessionCheckoutSessionToken(cartId);
 
     if (!tokenHasExpired(checkoutSessionToken)) {
       // The token exist and is not expired, so we don't need to generate a new one.
@@ -591,7 +590,7 @@ export abstract class BaseApi {
 
     if (checkoutSessionToken) {
       try {
-        return await this.refreshCheckoutSessionToken(cartId, checkoutSessionToken, locale);
+        return await this.refreshCheckoutSessionToken(cartId, checkoutSessionToken);
       } catch (error) {
         // We are ignoring the error refreshing the token and trying to generate a new one
       }
@@ -606,14 +605,14 @@ export abstract class BaseApi {
         },
       },
       metadata: {
-        applicationKey: this.getCheckoutApplicationKey(locale),
+        applicationKey: this.clientSettings.checkoutApplicationKey,
       },
     });
 
-    return await this.fetchCheckoutSessionToken(cartId, url, body, locale);
+    return await this.fetchCheckoutSessionToken(cartId, url, body);
   }
 
-  private async refreshCheckoutSessionToken(cartId: string, checkoutSessionToken: Token, locale: Locale) {
+  private async refreshCheckoutSessionToken(cartId: string, checkoutSessionToken: Token) {
     const url = `${this.clientSettings.sessionUrl}/${this.projectKey}/sessions/${checkoutSessionToken.token}`;
 
     const body = JSON.stringify({
@@ -624,10 +623,10 @@ export abstract class BaseApi {
       ],
     });
 
-    return await this.fetchCheckoutSessionToken(cartId, url, body, locale);
+    return await this.fetchCheckoutSessionToken(cartId, url, body);
   }
 
-  private async fetchCheckoutSessionToken(cartId: string, url: string, body: string, locale: Locale) {
+  private async fetchCheckoutSessionToken(cartId: string, url: string, body: string) {
     const headers = {
       'Content-Type': 'application/json',
       Authorization: `Bearer ${this.token.token}`,
@@ -661,7 +660,7 @@ export abstract class BaseApi {
       expirationTime: response?.expiryAt ? new Date(response?.expiryAt).getTime() : undefined,
     };
 
-    await this.setSessionCheckoutSessionToken(cartId, token, locale);
+    await this.setSessionCheckoutSessionToken(cartId, token);
 
     return token;
   }
@@ -695,16 +694,14 @@ export abstract class BaseApi {
     })();
   }
 
-  private async getCheckoutHashKey(cartId: string, locale: Locale): Promise<string> {
+  private async getCheckoutHashKey(cartId: string): Promise<string> {
     if (this.checkoutHashKey) {
       return this.checkoutHashKey;
     }
 
-    const checkoutApplicationKey = this.getCheckoutApplicationKey(locale);
-
     this.checkoutHashKey = crypto
       .createHash('md5')
-      .update(checkoutApplicationKey + cartId)
+      .update(this.clientSettings.checkoutApplicationKey + cartId)
       .digest('hex');
 
     return this.checkoutHashKey;
@@ -744,17 +741,5 @@ export abstract class BaseApi {
     this.apiRoot = createApiBuilderFromCtpClient(client);
 
     return this.apiRoot;
-  }
-
-  private getCheckoutApplicationKey(locale: Locale): string {
-    const checkoutApplicationKey = this.clientSettings.checkoutApplicationKey[locale.country];
-
-    if (!checkoutApplicationKey) {
-      throw new ConfigurationError({
-        message: `There is no checkout application key defined for country ${locale.country} `,
-      });
-    }
-
-    return checkoutApplicationKey;
   }
 }

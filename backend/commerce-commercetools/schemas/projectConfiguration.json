@@ -60,17 +60,10 @@
           "required": true
         },
         {
-          "label": "Checkout Application Key US",
-          "field": "EXTENSION_COMMERCETOOLS_CHECKOUT_APPLICATION_KEY_US",
+          "label": "Checkout Application Key",
+          "field": "EXTENSION_COMMERCETOOLS_CHECKOUT_APPLICATION_KEY",
           "type": "string",
-          "translatable": false,
-          "required": false
-        },
-        {
-          "label": "Checkout Application Key DE",
-          "field": "EXTENSION_COMMERCETOOLS_CHECKOUT_APPLICATION_KEY_DE",
-          "type": "string",
-          "translatable": false,
+          "translatable": true,
           "required": false
         }
       ]

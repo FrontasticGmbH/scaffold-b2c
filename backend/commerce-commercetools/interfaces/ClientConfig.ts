@@ -8,5 +8,5 @@ export interface ClientConfig {
   productIdField?: string;
   categoryIdField?: string;
   sessionUrl: string;
-  checkoutApplicationKey: Record<string, string>;
+  checkoutApplicationKey: string;
 }

@@ -1,4 +1,14 @@
 
+## Version 1.14.0 (2024-05-23)
+
+** New Features and Improvements **
+
+-  Allow for different locales and checkout application keys 
+
+** Bug fixes **
+
+- Verified if account exist on session to fetch the cart 
+
 ## Version 1.13.0 (2024-05-16)
 
 ** New Features and Improvements **

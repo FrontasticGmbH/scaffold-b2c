@@ -1,4 +1,16 @@
 
+## Version 1.12.0 (2024-05-23)
+
+** New Features and Improvements **
+
+- Refactor variant selection in product tile
+- Update brand title and URL in Storybook theme configuration
+- Updated Storybook theme and added custom styles
+
+** Bug fixes **
+
+- Modify the classname for shipping methods missing border
+
 ## Version 1.11.6 (2024-05-16)
 
 
