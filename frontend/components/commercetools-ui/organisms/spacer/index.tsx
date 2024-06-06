@@ -1,5 +1,4 @@
-import React, { useCallback } from 'react';
-import useMediaQuery from 'helpers/hooks/useMediaQuery';
+import React, { useId } from 'react';
 import * as screensizes from 'helpers/utils/screensizes';
 
 export interface Props {
@@ -10,17 +9,29 @@ export interface Props {
 }
 
 const Spacer: React.FC<Props> = ({ customMobile, customTablet, customDesktop, backgroundColor = 'white' }) => {
-  const [isTablet] = useMediaQuery(screensizes.tablet);
-  const [isDesktop] = useMediaQuery(screensizes.desktop);
+  const id = useId().replace(/:/g, '');
 
-  const getSpacing = useCallback(() => {
-    if (isDesktop) return customDesktop;
-    if (isTablet) return customTablet;
-    return customMobile;
-  }, [isTablet, isDesktop, customMobile, customTablet, customDesktop]);
+  return (
+    <>
+      <style>
+        {`
+          #${id} {
+            height: ${customMobile}px;
 
-  /* eslint-disable-next-line tailwindcss/no-custom-classname */
-  return <div className={`bg-${backgroundColor}`} style={{ height: `${getSpacing() || 0}px` }}></div>;
+            @media screen and (min-width: ${screensizes.tablet}px) {
+              height: ${customTablet}px;
+            }
+
+            @media screen and (min-width: ${screensizes.desktop}px) {
+              height: ${customDesktop}px;
+            }
+          }
+        `}
+      </style>
+
+      <div id={id} className={backgroundColor === 'white' ? 'bg-white' : 'bg-neutral-200'}></div>
+    </>
+  );
 };
 
 export default Spacer;

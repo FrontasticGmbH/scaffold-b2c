@@ -1413,10 +1413,10 @@
   dependencies:
     "@swc/helpers" "0.5.10"
 
-"@commercetools/frontend-sdk@1.12.0":
-  version "1.12.0"
-  resolved "https://registry.yarnpkg.com/@commercetools/frontend-sdk/-/frontend-sdk-1.12.0.tgz#d1a9be65211f8fe88bae139a6b776dc13614aa24"
-  integrity sha512-qsUfUyJFqCOm70oHHWO2OPU3JFFHNi23pRKp7ln91MsmhLZKbyaBPcBRAaYr9dCveL8ELg6nqSapA+XW7V/G6Q==
+"@commercetools/frontend-sdk@1.12.1":
+  version "1.12.1"
+  resolved "https://registry.yarnpkg.com/@commercetools/frontend-sdk/-/frontend-sdk-1.12.1.tgz#9e77d1079640d7dfea13b0cefda7b5d4ab261e1e"
+  integrity sha512-Ey9NClRHCsvgmla1r5s7sqvrdAiik4yNZ5uJLm1KxZGfWUCI6zhXAvB/qIaV2YR8NdyzoeGp8MMK0KyZmE3VGw==
   dependencies:
     "@frontastic/extension-types" "^0.0.11"
     cookie "^0.5.0"

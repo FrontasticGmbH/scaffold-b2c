@@ -12,7 +12,7 @@ const Footer = () => {
         <Link link="#" className="underline decoration-secondary-black underline-offset-2">
           {formatCartMessage({ id: 'terms.and.conditions', defaultMessage: 'Terms & Conditions' })}
         </Link>{' '}
-        of The Good Store Home
+        of The B2C Retail Store
       </p>
     </div>
   );

@@ -33,6 +33,7 @@
   "password.current": "Current Password",
   "password.new": "New Password",
   "password.change": "Change your password",
+  "password.invalid": "Invalid Password!",
   "sign.in": "Log in",
   "sign.up": "Sign up",
   "profile": "Profile",

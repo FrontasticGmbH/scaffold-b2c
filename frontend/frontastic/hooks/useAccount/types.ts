@@ -11,6 +11,7 @@ export interface GetAccountResult {
 export interface UpdateAccount {
   firstName?: string;
   lastName?: string;
+  email?: string;
   salutation?: string;
   birthdayYear?: number;
   birthdayMonth?: number;

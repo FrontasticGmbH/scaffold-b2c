@@ -5,10 +5,10 @@ import ProductDetailsAdapter from 'components/commercetools-ui/organisms/product
 import { DataSource } from 'types/datasource';
 import { TasticProps } from 'frontastic/tastics/types';
 
-const ProductDetailsTastic = ({ data }: TasticProps<DataSource<{ product: Product }>>) => {
+const ProductDetailsTastic = ({ data, categories }: TasticProps<DataSource<{ product: Product }>>) => {
   if (!data?.data?.dataSource?.product) return null;
 
-  return <ProductDetailsAdapter product={data?.data?.dataSource.product} />;
+  return <ProductDetailsAdapter product={data?.data?.dataSource.product} categories={categories} />;
 };
 
 export default ProductDetailsTastic;

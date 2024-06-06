@@ -1,7 +1,7 @@
 import React from 'react';
 import { useRefinementList } from 'react-instantsearch-hooks-web';
-import { FacetProps } from './types';
 import { textToColor } from 'helpers/textToColor/textToColor';
+import { FacetProps } from './types';
 
 const ColorFacet: React.FC<FacetProps> = ({ attribute }) => {
   const { items, refine } = useRefinementList({ attribute });

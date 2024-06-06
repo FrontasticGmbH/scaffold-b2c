@@ -36,7 +36,8 @@ const PersonalInfoForm = () => {
 
   const handleSubmit = () => {
     setLoading(true);
-    update(data)
+
+    update({ ...data, email: data.email && data.email !== account?.email ? data.email : undefined })
       .then(() => notifyDataUpdated())
       .then(() => discardForm())
       .then(() => setLoading(false))

@@ -74,7 +74,7 @@ const Slider: FC<SliderProps> = ({
   const containerClassNames = useClassNames([
     containerClassName,
     'slider_container relative',
-    !init ? 'hidden' : 'block',
+    !init ? 'invisible' : 'visible',
     {
       'slider__container--fit': validToFit,
       'slider__container--with-thumbs': withThumbs,

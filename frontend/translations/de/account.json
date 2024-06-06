@@ -33,6 +33,7 @@
   "password.current": "Aktuelles Passwort",
   "password.new": "Neues Kennwort",
   "password.change": "Ändern Sie Ihr Passwort",
+  "password.invalid": "Ungültiges Passwort!",
   "sign.in": "Anmelden",
   "sign.up": "Konto erstellen",
   "profile": "Profil",

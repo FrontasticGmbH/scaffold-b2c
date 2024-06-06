@@ -94,49 +94,47 @@ const ProductSlider: FC<ProductSliderProps> = ({
           </div>
         )}
       </div>
-      <div className="mt-20 md:mt-24 lg:mt-20">
-        <div className="relative mt-6 w-full">
-          <Slider
-            slidesPerView={isTouchDevice ? 2.3 : 1.3}
-            slidesPerGroup={1}
-            dots={false}
-            arrows
-            innerArrows={innerArrows}
-            solidArrows={solidArrows}
-            nextButtonStyles={{ transform: 'translateY(-150%)' }}
-            prevButtonStyles={{ transform: 'translateY(-150%)' }}
-            allowTouchMove
-            spaceBetween={8}
-            breakpoints={{
-              [tablet]: {
-                slidesPerView: 2.3,
-                spaceBetween: 25,
-                ...(breakpoints[tablet] ?? {}),
-              },
-              [mediumDesktop]: {
-                slidesPerView: 4,
-                slidesPerGroup: 4,
-                spaceBetween: 25,
-                ...(breakpoints[mediumDesktop] ?? {}),
-              },
-            }}
-            {...props}
-          >
-            {products.map((product, index) => (
-              <Tile
-                key={product.productId}
-                disableQuickView={disableProductQuickView}
-                disableWishlistButton={disableProductWishlistButton}
-                disableVariants={disableProductVariants}
-                product={product}
-                onClick={() => {
-                  trackClick(product, index + 1);
-                  onProductClick?.(product);
-                }}
-              />
-            ))}
-          </Slider>
-        </div>
+      <div className="pt-20 md:pt-24 lg:pt-20">
+        <Slider
+          slidesPerView={isTouchDevice ? 2.3 : 1.3}
+          slidesPerGroup={1}
+          dots={false}
+          arrows
+          innerArrows={innerArrows}
+          solidArrows={solidArrows}
+          nextButtonStyles={{ transform: 'translateY(-150%)' }}
+          prevButtonStyles={{ transform: 'translateY(-150%)' }}
+          allowTouchMove
+          spaceBetween={8}
+          breakpoints={{
+            [tablet]: {
+              slidesPerView: 2.3,
+              spaceBetween: 25,
+              ...(breakpoints[tablet] ?? {}),
+            },
+            [mediumDesktop]: {
+              slidesPerView: 4,
+              slidesPerGroup: 4,
+              spaceBetween: 25,
+              ...(breakpoints[mediumDesktop] ?? {}),
+            },
+          }}
+          {...props}
+        >
+          {products.map((product, index) => (
+            <Tile
+              key={product.productId}
+              disableQuickView={disableProductQuickView}
+              disableWishlistButton={disableProductWishlistButton}
+              disableVariants={disableProductVariants}
+              product={product}
+              onClick={() => {
+                trackClick(product, index + 1);
+                onProductClick?.(product);
+              }}
+            />
+          ))}
+        </Slider>
       </div>
     </Wrapper>
   );

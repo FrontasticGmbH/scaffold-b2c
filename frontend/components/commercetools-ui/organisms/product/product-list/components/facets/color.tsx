@@ -1,13 +1,13 @@
 import React, { useMemo } from 'react';
+import { textToColor } from 'helpers/textToColor/textToColor';
 import { FacetProps } from './types';
 import { useProductList } from '../../context';
-import { ColorFacet } from '../../types';
-import { textToColor } from 'helpers/textToColor/textToColor';
+import { ColorFacet as ColorFacetType } from '../../types';
 
 const ColorFacet: React.FC<FacetProps> = ({ attribute }) => {
   const { facetsConfiguration, refine } = useProductList();
 
-  const facet = useMemo(() => facetsConfiguration[attribute] as ColorFacet, [facetsConfiguration, attribute]);
+  const facet = useMemo(() => facetsConfiguration[attribute] as ColorFacetType, [facetsConfiguration, attribute]);
 
   return (
     <div className="grid grid-cols-3 items-center justify-start gap-x-54 gap-y-36 lg:min-w-[340px]">
@@ -20,7 +20,7 @@ const ColorFacet: React.FC<FacetProps> = ({ attribute }) => {
           <div
             className={`h-40 w-40 rounded-full outline outline-1 outline-offset-1 ${
               selected ? 'outline-gray-500' : 'outline-transparent'
-            }`}
+            } ${key.toLowerCase() === 'white' ? 'border border-gray-500' : ''}`}
             style={{ backgroundColor: textToColor(key) }}
           />
           <span className="mt-4 block max-w-full truncate text-14" title={label}>

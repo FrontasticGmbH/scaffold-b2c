@@ -10,9 +10,7 @@ import Gallery from 'components/commercetools-ui/organisms/gallery';
 import { useAddToCartOverlay } from 'context/add-to-cart-overlay';
 import useClassNames from 'helpers/hooks/useClassNames';
 import { useFormat } from 'helpers/hooks/useFormat';
-import useMediaQuery from 'helpers/hooks/useMediaQuery';
-import { desktop } from 'helpers/utils/screensizes';
-import { useCart, useProduct } from 'frontastic';
+import { useCart } from 'frontastic';
 import AdditionalInfo from './components/additional-info';
 import ProductInformation from './components/product-information';
 import ShippingSection from './components/shipping-section';
@@ -23,6 +21,7 @@ export interface ProductDetailsProps {
   product: UIProduct;
   variant: Variant;
   url?: string;
+  category?: Category;
   onChangeVariant: (sku: string) => void;
   inModalVersion?: boolean;
   setIsOpen?: (value: boolean) => void;
@@ -32,6 +31,7 @@ export interface ProductDetailsProps {
 const ProductDetails: FC<ProductDetailsProps> = ({
   product,
   variant,
+  category,
   url,
   onChangeVariant,
   inModalVersion,
@@ -42,22 +42,9 @@ const ProductDetails: FC<ProductDetailsProps> = ({
   const { formatMessage } = useFormat({ name: 'cart' });
   const { formatMessage: formatProductMessage } = useFormat({ name: 'product' });
 
-  const [isDesktopSize] = useMediaQuery(desktop);
-  const [category, setCategory] = useState<Category>();
   const [quantity, setQuantity] = useState<number>(1);
   const [loading, setLoading] = useState(false);
   const [added, setAdded] = useState(false);
-
-  const { categories: categoriesWithDynamicPages } = useProduct();
-
-  useEffect(() => {
-    if (product && categoriesWithDynamicPages && !category) {
-      const currentCategory = categoriesWithDynamicPages.find((category) =>
-        product.categories?.find((productCategory) => productCategory.categoryId === category.categoryId),
-      );
-      setCategory(currentCategory);
-    }
-  }, [categoriesWithDynamicPages, category, product, product?.categories]);
 
   const { trackAddToCart } = useTrack({ product, inModalVersion });
 
@@ -105,8 +92,8 @@ const ProductDetails: FC<ProductDetailsProps> = ({
 
   return (
     <div className={wrapperClassName}>
-      {category && isDesktopSize && !inModalVersion && (
-        <Breadcrumb Separator="/" className="col-span-12 mb-24 w-fit">
+      {category && !inModalVersion && (
+        <Breadcrumb Separator="/" className="col-span-12 mb-24 hidden w-fit lg:block">
           <Link key={category.categoryId} link={category._url} className="text-14 text-primary-black">
             {category.name}
           </Link>
@@ -118,13 +105,14 @@ const ProductDetails: FC<ProductDetailsProps> = ({
       )}
 
       <div className={galleryContainerClassName}>
-        <Gallery images={variant?.images ?? []} inModalVersion={inModalVersion} />
+        <Gallery images={variant.images ?? []} inModalVersion={inModalVersion} />
       </div>
 
       <div className={informationContainerClassName}>
         <ProductInformation
           product={product}
           variant={variant}
+          category={category}
           onChangeVariant={onChangeVariant}
           inModalVersion={inModalVersion}
         />

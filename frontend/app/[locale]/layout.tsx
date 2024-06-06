@@ -19,7 +19,7 @@ export default async function RootLayout({ children, params }: LayoutProps) {
 
   return (
     <html lang={locale} className={classnames(inter.variable, libre.variable)}>
-      <body>{children}</body>
+      <body style={{ paddingTop: '184px' }}>{children}</body>
     </html>
   );
 }

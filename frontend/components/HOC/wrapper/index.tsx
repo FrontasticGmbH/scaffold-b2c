@@ -16,8 +16,7 @@ const Wrapper: FC<WrapperProps> = ({ children, background = 'white', className, 
   );
 
   return (
-    /* eslint-disable-next-line tailwindcss/no-custom-classname */
-    <div className={`bg-${background}`}>
+    <div className={background === 'white' ? 'bg-white' : 'bg-neutral-200'}>
       <div className={wrapperClassName}>{children}</div>
     </div>
   );

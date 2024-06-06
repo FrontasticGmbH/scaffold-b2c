@@ -1,4 +1,4 @@
-import { useMemo, useCallback } from 'react';
+import { useCallback, useMemo } from 'react';
 import { Account, Address } from 'shared/types/account';
 import useSWR, { mutate } from 'swr';
 import { sdk } from 'sdk';
@@ -231,6 +231,13 @@ const useAccount = () => {
     return res.isError ? ({} as Account) : res.data;
   }, []);
 
+  const deleteAccount = useCallback(async (password: string) => {
+    const res = await sdk.composableCommerce.account.deleteAccount({ password });
+
+    mutate('/action/account/getAccount');
+
+    return { success: !res.isError };
+  }, []);
   return {
     ...data,
     shippingAddresses,
@@ -243,6 +250,7 @@ const useAccount = () => {
     confirm,
     requestConfirmationEmail,
     changePassword,
+    deleteAccount,
     requestPasswordReset,
     resetPassword,
     update,

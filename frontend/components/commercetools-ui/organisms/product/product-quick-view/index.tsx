@@ -65,6 +65,7 @@ const QuickView: FC<QuickViewProps> = ({ buttonIsVisible, product, hideButton })
           />
           <ProductDetailsAdapter
             product={product}
+            categories={[]}
             inModalVersion={true}
             setIsOpen={setIsOpen}
             onAddToCart={() => closeModal(false)}

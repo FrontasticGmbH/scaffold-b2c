@@ -29,13 +29,27 @@ const ProductVariant: FC<ProductVariantProps> = ({
 
   const attributeToFilterTo = attribute == 'size' ? 'colorlabel' : 'size';
 
-  const variantsToUse: VariantType[] = useMemo(
-    () =>
-      currentVariant.attributes?.['size']
-        ? filterAttributeBasedVariants(variants, currentVariant, attributeToFilterTo)
-        : discardRepeatedValues(variants, attribute.toString()),
-    [attribute, attributeToFilterTo, currentVariant, variants],
+  const sortVariantsCmp = useCallback(
+    (a: VariantType, b: VariantType) => {
+      const first = a.attributes?.[attribute];
+      const second = b.attributes?.[attribute];
+
+      if (first > second) return 1;
+      if (first < second) return -1;
+      return 0;
+    },
+    [attribute],
   );
+
+  const variantsToUse: VariantType[] = useMemo(() => {
+    const result = currentVariant.attributes?.['size']
+      ? filterAttributeBasedVariants(variants, currentVariant, attributeToFilterTo)
+      : discardRepeatedValues(variants, attribute.toString());
+
+    result.sort(sortVariantsCmp);
+
+    return result;
+  }, [attribute, attributeToFilterTo, currentVariant, variants, sortVariantsCmp]);
 
   const hoverEffectClassName = useMemo(
     () => (variantsToUse && variantsToUse.length > 1 ? 'hover:cursor-pointer' : 'pointer-events-none'),
@@ -55,18 +69,6 @@ const ProductVariant: FC<ProductVariantProps> = ({
   const sizeVariantClassname = useClassNames(['text-14 p-12', hoverEffectClassName]);
   const variantContainerClassName = useClassNames(['mt-16 flex', attribute == 'size' ? 'gap-12' : 'gap-24']);
 
-  const sortVariantsCmp = useCallback(
-    (a: VariantType, b: VariantType) => {
-      const first = a.attributes?.[attribute];
-      const second = b.attributes?.[attribute];
-
-      if (first > second) return 1;
-      if (first < second) return -1;
-      return 0;
-    },
-    [attribute],
-  );
-
   return (
     <div className={className}>
       <div className={attribute == 'color' ? 'mt-4 grid gap-4' : ''}>
@@ -77,7 +79,7 @@ const ProductVariant: FC<ProductVariantProps> = ({
       </div>
 
       <div className={variantContainerClassName}>
-        {variantsToUse?.toSorted(sortVariantsCmp).map(({ attributes, id, sku }) => (
+        {(variantsToUse ?? []).map(({ attributes, id, sku }) => (
           <Typography
             key={id}
             onClick={() => onClick?.(sku)}

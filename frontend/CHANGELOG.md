@@ -1,4 +1,18 @@
 
+## Version 1.12.1 (2024-06-06)
+
+** New Features and Improvements **
+
+* Improve PDP performance (LCP & CLS)
+* PDP-variants-switcher-working
+* Hide sales filter on PLP when there are no sale items
+* Do not send email if not changed when updating account
+* Update color facet border styling in product list
+* Add confirmation prompt before account deletion
+* Added skipQueue and customHeaderValue options to SDk integration actions
+* Updated @commercetools/frontend-sdk dependency to 1.12.1
+* Add error handling for account deletion
+
 ## Version 1.12.0 (2024-05-23)
 
 ** New Features and Improvements **

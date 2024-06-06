@@ -1,11 +1,34 @@
+import { useState } from 'react';
 import PasswordInput from 'components/commercetools-ui/atoms/input-password';
 import { useFormat } from 'helpers/hooks/useFormat';
+import { useAccount } from '../../../../../../../frontastic';
 import AccountForm from '../../../account-atoms/account-form';
-import useDiscardForm from '../../../hooks/useDiscardForm';
 
 const DeleteAccountForm = () => {
-  const { discardForm } = useDiscardForm();
+  const { deleteAccount } = useAccount();
   const { formatMessage } = useFormat({ name: 'account' });
+  const [data, setData] = useState({ password: '' });
+  const [error, setError] = useState(false);
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setError(false);
+    setData({ ...data, [e.target.name]: e.target.value });
+  };
+  const onDeleteAccount = async (form: React.FormEvent) => {
+    form.preventDefault();
+    if (
+      confirm(
+        formatMessage({
+          id: 'delete.disclosure',
+          defaultMessage: "You can't regain access once it's deleted.",
+        }),
+      )
+    ) {
+      const deleteAccountState = await deleteAccount(data.password);
+      if (!deleteAccountState.success) {
+        setError(true);
+      }
+    }
+  };
 
   return (
     <AccountForm
@@ -17,9 +40,15 @@ const DeleteAccountForm = () => {
       defaultCTASection
       requiredLabelIsVisible
       ctaVariant="delete"
-      onSubmit={discardForm}
+      onSubmit={onDeleteAccount}
     >
-      <PasswordInput label="Password confirmation" required />
+      <PasswordInput
+        error={error ? formatMessage({ id: 'password.invalid', defaultMessage: 'Invalid password' }) : ''}
+        name={'password'}
+        onChange={handleChange}
+        label="Password confirmation"
+        required
+      />
     </AccountForm>
   );
 };

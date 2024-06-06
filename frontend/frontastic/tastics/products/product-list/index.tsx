@@ -100,6 +100,10 @@ const ProductListWrapped = ({
 
         return facet;
       })
+      .filter(
+        (facet) =>
+          facet.type !== 'boolean' || !!(facet as TermFacet).terms.find((term) => term.key === 'T' && term.count > 0),
+      )
       .reduce(
         (acc, configuration) => ({
           ...acc,

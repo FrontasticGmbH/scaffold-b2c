@@ -2,12 +2,12 @@ import React, { useMemo } from 'react';
 import Checkbox from 'components/commercetools-ui/atoms/checkbox';
 import { FacetProps } from './types';
 import { useProductList } from '../../context';
-import { TermFacet } from '../../types';
+import { TermFacet as TermFacetType } from '../../types';
 
 const TermFacet: React.FC<FacetProps> = ({ attribute }) => {
   const { facetsConfiguration, refine } = useProductList();
 
-  const facet = useMemo(() => facetsConfiguration[attribute] as TermFacet, [facetsConfiguration, attribute]);
+  const facet = useMemo(() => facetsConfiguration[attribute] as TermFacetType, [facetsConfiguration, attribute]);
 
   return (
     <div className="flex flex-col gap-47 py-22 lg:min-w-[340px]">

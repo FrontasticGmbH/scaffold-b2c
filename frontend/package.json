@@ -1,6 +1,6 @@
 {
   "name": "@b2cdev/poc-frontend",
-  "version": "1.12.0",
+  "version": "1.12.1",
   "license": "MIT",
   "main": "index.js",
   "private": true,
@@ -25,7 +25,7 @@
   "dependencies": {
     "@adyen/adyen-web": "^5.33.0",
     "@commercetools/checkout-browser-sdk": "^0.6.1",
-    "@commercetools/frontend-sdk": "1.12.0",
+    "@commercetools/frontend-sdk": "1.12.1",
     "@emotion/react": "^11.9.0",
     "@headlessui/react": "^1.7.17",
     "@heroicons/react": "^2.0.13",

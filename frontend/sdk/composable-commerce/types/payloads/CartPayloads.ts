@@ -1,65 +1,65 @@
-import { Address } from "shared/types/account";
+import { Address } from 'shared/types/account';
 
 type AddCartItemPayload = {
-	variant: {
-		sku: string;
-		count: number;
-	};
+  variant: {
+    sku: string;
+    count: number;
+  };
 };
 
 type RemoveCartItemPayload = {
-	lineItem: {
-		id: string;
-	};
+  lineItem: {
+    id: string;
+  };
 };
 
 type UpdateCartItemPayload = {
-	lineItem: {
-		id: string;
-		count: number;
-	};
+  lineItem: {
+    id: string;
+    count: number;
+  };
 };
 
 type UpdateCartPayload = {
-	account?: {
-		email: string;
-	};
-	shipping?: Address;
-	billing?: Address;
+  account?: {
+    email: string;
+  };
+  shipping?: Address;
+  billing?: Address;
 };
 
 type GetCartShippingMethodsPayload = {
-	query: {
-		onlyMatching: boolean;
-	};
+  query: {
+    onlyMatching: boolean;
+  };
 };
 
 type SetCartShippingMethodPayload = {
-	shippingMethod: {
-		id: string;
-	};
+  shippingMethod: {
+    id: string;
+  };
 };
 
 type RedeemDiscountCodePayload = {
-	code: string;
+  code: string;
 };
 
 type RemoveDiscountCodePayload = {
-	discountId: string;
+  discountId: string;
 };
 
 type CheckoutCartPayload = {
-    purchaseOrderNumber?: string;
+  purchaseOrderNumber?: string;
 };
 
 export {
-	type AddCartItemPayload,
-	type RemoveCartItemPayload,
-	type UpdateCartItemPayload,
-	type UpdateCartPayload,
-	type GetCartShippingMethodsPayload,
-	type SetCartShippingMethodPayload,
-	type RedeemDiscountCodePayload,
-	type RemoveDiscountCodePayload,
-	type CheckoutCartPayload,
+  type AddCartItemPayload,
+  type RemoveCartItemPayload,
+  type UpdateCartItemPayload,
+  type UpdateCartPayload,
+  type GetCartShippingMethodsPayload,
+  type SetCartShippingMethodPayload,
+  type RedeemDiscountCodePayload,
+  type RemoveDiscountCodePayload,
+  type CheckoutCartPayload,
 };

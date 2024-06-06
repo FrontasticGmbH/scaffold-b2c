@@ -1,12 +1,11 @@
 'use client';
 
-import React, { createContext, useCallback, useRef } from 'react';
+import React, { createContext } from 'react';
 import AnnouncementBar, { Props as AnnouncementBarProps } from 'components/commercetools-ui/organisms/announcement-bar';
 import Header from 'components/commercetools-ui/organisms/header';
 import { HeaderProps, Market } from 'components/commercetools-ui/organisms/header/types';
 import MaintenanceBar, { Props as MaintenanceBarProps } from 'components/commercetools-ui/organisms/maintenance-bar';
 import { MarketProvider } from 'context/market';
-import useResizeObserver from 'helpers/hooks/useResizeObserver';
 import { TasticProps } from '../types';
 
 const initialMarketState = {
@@ -17,18 +16,6 @@ const initialMarketState = {
 export const MarketContext = createContext(initialMarketState);
 
 const HeaderTastic = ({ data, categories }: TasticProps<HeaderProps & AnnouncementBarProps & MaintenanceBarProps>) => {
-  const headerRef = useRef<HTMLDivElement>(null);
-
-  const setPaddingTop = useCallback(() => {
-    if (headerRef.current) {
-      document.body.style.paddingTop = `${headerRef.current.clientHeight - 1}px`;
-    }
-  }, []);
-
-  const removePaddingTop = useCallback(() => (document.body.style.paddingTop = '0px'), []);
-
-  useResizeObserver(headerRef, setPaddingTop, removePaddingTop);
-
   const announcementBarData = {
     text: data.text,
     highlightedSubstring: data.highlightedSubstring,
@@ -42,7 +29,7 @@ const HeaderTastic = ({ data, categories }: TasticProps<HeaderProps & Announceme
 
   return (
     <MarketProvider>
-      <div id="header-container" className="fixed top-0 z-50 w-full" ref={headerRef}>
+      <div id="header-container" className="fixed top-0 z-50 w-full">
         <AnnouncementBar {...announcementBarData} />
         {maintenanceData.activateMaintenance && <MaintenanceBar {...maintenanceData} />}
         <Header

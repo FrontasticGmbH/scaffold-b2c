@@ -17,10 +17,7 @@ export const toUIProduct = (product: Product, variant: Variant, colors: UIColor[
       })) ?? [],
     colors,
     sizes,
-    description: `
-          <p>${product.description || ''}</p>
-        `,
-
+    description: product.description || '',
     details: [
       {
         name: 'Features',

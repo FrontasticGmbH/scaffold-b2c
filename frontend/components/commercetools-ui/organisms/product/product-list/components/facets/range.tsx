@@ -8,7 +8,7 @@ import { FacetProps } from './types';
 import { useProductList } from '../../context';
 import { refinementRemovedEventName, refinementsClearedEventName } from '../../context/constants';
 import { RefinementRemovedEvent } from '../../context/types';
-import { RangeFacet } from '../../types';
+import { RangeFacet as RangeFacetType } from '../../types';
 
 const RangeFacet: React.FC<FacetProps> = ({ attribute }) => {
   const { formatMessage: formatProductMessage } = useFormat({ name: 'product' });
@@ -23,7 +23,7 @@ const RangeFacet: React.FC<FacetProps> = ({ attribute }) => {
 
   const configuration = useMemo(() => pricesConfiguration[attribute], [pricesConfiguration, attribute]);
 
-  const facet = useMemo(() => facetsConfiguration[attribute] as RangeFacet, [facetsConfiguration, attribute]);
+  const facet = useMemo(() => facetsConfiguration[attribute] as RangeFacetType, [facetsConfiguration, attribute]);
 
   const [appliedOptions, setAppliedOptions] = useState<Array<number>>([]);
 
