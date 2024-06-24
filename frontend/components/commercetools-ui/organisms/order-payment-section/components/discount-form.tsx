@@ -18,6 +18,7 @@ const DiscountForm: React.FC<Props> = ({ className, accordionProps }) => {
   const [code, setCode] = useState('');
   const [discounts, setDiscounts] = useState<Discount[]>([]);
   const [codeIsInvalid, setCodeIsInvalid] = useState(false);
+  const [erroMessage, setErrorMessage] = useState('');
   const { redeemDiscountCode, removeDiscountCode, data } = useCart();
 
   const [processing, setProcessing] = useState(false);
@@ -45,7 +46,8 @@ const DiscountForm: React.FC<Props> = ({ className, accordionProps }) => {
 
     redeemDiscountCode?.(code)
       .then(() => setCode(''))
-      .catch(() => {
+      .catch((err: Error) => {
+        setErrorMessage(err.message);
         setCodeIsInvalid(true);
       })
       .finally(() => {
@@ -106,7 +108,8 @@ const DiscountForm: React.FC<Props> = ({ className, accordionProps }) => {
             </div>
             {codeIsInvalid && (
               <p className="mt-16 font-body text-12 font-medium leading-normal text-accent-red">
-                {formatCartMessage({ id: 'codeNotValid', defaultMessage: 'The discount code is not valid' })}
+                {erroMessage ??
+                  formatCartMessage({ id: 'codeNotValid', defaultMessage: 'The discount code is not valid' })}
               </p>
             )}
           </form>

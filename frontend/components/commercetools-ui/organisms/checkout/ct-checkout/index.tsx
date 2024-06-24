@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { useParams, useRouter } from 'next/navigation';
-import { checkout, init } from '@commercetools/checkout-browser-sdk';
+import { checkoutFlow } from '@commercetools/checkout-browser-sdk';
 import toast from 'react-hot-toast';
 import useTranslation from 'providers/i18n/hooks/useTranslation';
 import { useProjectSettings, useCheckout, useAccount } from 'frontastic';
@@ -31,19 +31,17 @@ const CommercetoolsCheckout = ({ logo }: CheckoutWrappedProps) => {
 
     initiatedCheckout.current = true;
 
-    init({
-      checkoutConfig: {
-        region: process.env.NEXT_PUBLIC_COMMERCETOOLS_CHECKOUT_REGION,
-        projectKey,
-        sessionId: session.token,
-        locale,
-        showTaxes: locale === 'en',
-        styles: {
-          '--font-family': "'Inter', sans-serif",
-          '--button': '#212121',
-          '--radio': '#343434',
-          '--checkbox': '#343434',
-        },
+    checkoutFlow({
+      region: process.env.NEXT_PUBLIC_COMMERCETOOLS_CHECKOUT_REGION,
+      projectKey,
+      sessionId: session.token,
+      locale,
+      showTaxes: locale === 'en',
+      styles: {
+        '--font-family': "'Inter', sans-serif",
+        '--button': '#212121',
+        '--radio': '#343434',
+        '--checkbox': '#343434',
       },
       onInfo: (message) => {
         switch (message.code) {
@@ -62,8 +60,6 @@ const CommercetoolsCheckout = ({ logo }: CheckoutWrappedProps) => {
         }
       },
     });
-
-    checkout({});
   }, [projectKey, locale, session, pushRoute]);
 
   const errorTriggered = useRef(false);

@@ -54,7 +54,7 @@ const Slider: FC<SliderProps> = ({
 
   const handleInit = useCallback(
     (swiper: SwiperType) => {
-      setTimeout(() => setInit(true));
+      setInit(true);
       onInit?.(swiper);
     },
     [onInit],

@@ -1,6 +1,6 @@
-import { ComposableCommerce, ComposableCommerceEvents } from './composable-commerce';
 import { SDK } from '@commercetools/frontend-sdk';
 import { getLocalizationInfo } from 'project.config';
+import { ComposableCommerce, ComposableCommerceEvents } from './composable-commerce';
 
 // Add other integration's custom events to the SDK's generic type here,
 // by extending ComposableCommerceEvents with their type using an intersection.

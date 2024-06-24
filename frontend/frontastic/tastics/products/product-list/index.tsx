@@ -14,7 +14,6 @@ import {
   PriceConfiguration,
 } from 'components/commercetools-ui/organisms/product/product-list/types';
 import { useFormat } from 'helpers/hooks/useFormat';
-import Redirect from 'helpers/redirect';
 import { flattenTree } from 'helpers/utils/flattenTree';
 import { DataSource } from 'types/datasource';
 import { TasticProps } from 'frontastic/tastics/types';
@@ -45,7 +44,7 @@ const ProductListWrapped = ({
 
   const { formatMessage: formatProductMessage } = useFormat({ name: 'product' });
 
-  const { updatePricesConfiguration, updateFacetsConfiguration, slug, searchQuery } = useProductList();
+  const { updatePricesConfiguration, updateFacetsConfiguration } = useProductList();
 
   const externalFacetsConfiguration = useMemo<Record<string, FacetConfiguration>>(() => {
     return (data.facetsConfiguration ?? []).reduce(
@@ -121,17 +120,7 @@ const ProductListWrapped = ({
     updateFacetsConfiguration(facetsConfiguration);
   }, [facetsConfiguration, updateFacetsConfiguration]);
 
-  const isValidCategoryOrSearchQuery = useMemo(() => {
-    if (searchQuery) return true;
-
-    return slug && !!flattenedCategories.find((c) => c.slug === slug);
-  }, [searchQuery, slug, flattenedCategories]);
-
-  if (!data?.data) return <></>;
-
-  if (!isValidCategoryOrSearchQuery) return <Redirect target="/404" />;
-
-  return <ProductList products={data.data.dataSource?.items ?? []} categories={flattenedCategories} />;
+  return <ProductList products={data.data?.dataSource?.items ?? []} categories={flattenedCategories} />;
 };
 
 const ProductListTastic = ({ data, ...props }: TasticProps<DataSource<DataSourceProps> & Props & ProductListProps>) => {

@@ -11,4 +11,4 @@ export interface PageProps {
   searchParams: SearchParams;
 }
 
-export type LayoutProps = React.PropsWithChildren<Pick<PageProps, 'params'>>;
+export type LayoutProps = React.PropsWithChildren<PageProps>;

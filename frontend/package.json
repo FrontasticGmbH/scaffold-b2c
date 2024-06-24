@@ -24,8 +24,8 @@
   },
   "dependencies": {
     "@adyen/adyen-web": "^5.33.0",
-    "@commercetools/checkout-browser-sdk": "^0.6.1",
-    "@commercetools/frontend-sdk": "1.12.1",
+    "@commercetools/checkout-browser-sdk": "^0.7.0",
+    "@commercetools/frontend-sdk": "1.13.1",
     "@emotion/react": "^11.9.0",
     "@headlessui/react": "^1.7.17",
     "@heroicons/react": "^2.0.13",

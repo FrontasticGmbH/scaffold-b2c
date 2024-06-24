@@ -113,6 +113,7 @@ export class CartApi extends BaseApi {
       country: locale.country,
       locale: locale.language,
       customerId: account.accountId,
+      customerEmail: account.email,
       inventoryMode: 'ReserveOnOrder',
     };
 
@@ -730,16 +731,47 @@ export class CartApi extends BaseApi {
       ],
     };
 
-    const commercetoolsCart = await this.updateCart(cart.cartId, cartUpdate, locale).catch((error) => {
-      if (error instanceof ExternalError) {
-        throw new CartRedeemDiscountCodeError({
-          message: `Redeem discount code '${code}' failed. ${error.message}`,
-          statusCode: error.statusCode,
-        });
-      }
+    const commercetoolsCart = await this.updateCart(cart.cartId, cartUpdate, locale)
+      .then((commercetoolsCart) => {
+        const commercetoolsDiscountCode = commercetoolsCart.discountCodes.find(
+          (discountCode) => discountCode.discountCode?.obj.code === code,
+        );
 
-      throw error;
-    });
+        if (commercetoolsDiscountCode.state !== 'MatchesCart') {
+          // Remove the discount code if status is different than MatchesCart
+          const cartUpdate: CartUpdate = {
+            version: +commercetoolsCart.version,
+            actions: [
+              {
+                action: 'removeDiscountCode',
+                discountCode: {
+                  typeId: 'discount-code',
+                  id: commercetoolsDiscountCode.discountCode.id,
+                },
+              } as CartRemoveDiscountCodeAction,
+            ],
+          };
+
+          this.updateCart(commercetoolsCart.id, cartUpdate, locale);
+
+          throw new CartRedeemDiscountCodeError({
+            message: `Redeem discount code '${code}' failed with state '${commercetoolsDiscountCode.state}'`,
+            statusCode: 409,
+          });
+        }
+
+        return commercetoolsCart;
+      })
+      .catch((error) => {
+        if (error instanceof ExternalError) {
+          throw new CartRedeemDiscountCodeError({
+            message: `Redeem discount code '${code}' failed. ${error.message}`,
+            statusCode: error.statusCode,
+          });
+        }
+
+        throw error;
+      });
 
     return this.buildCartWithAvailableShippingMethods(commercetoolsCart, locale);
   }

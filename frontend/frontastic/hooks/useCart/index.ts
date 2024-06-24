@@ -154,7 +154,7 @@ const useCart = (): UseCartReturn => {
     if (!res.isError && (res.data as Cart).cartId) {
       mutate('/action/cart/getCart', res);
     } else {
-      throw new Error('code not valid');
+      throw new Error((res.isError ? res.error.message : '') ?? 'code not valid');
     }
   }, []);
 

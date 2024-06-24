@@ -15,6 +15,13 @@
             "translatable": false
           },
           {
+            "label": "Localized Text query",
+            "field": "lquery",
+            "type": "text",
+            "default": "",
+            "translatable": false
+          },
+          {
             "label": "Product IDs",
             "field": "productIds",
             "type": "text",

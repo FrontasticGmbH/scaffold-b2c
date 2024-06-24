@@ -53,7 +53,7 @@ export class ProductQueryFactory {
     /**
      * Map query
      */
-    productQuery.query = queryParams?.query || undefined;
+    productQuery.query = queryParams?.query || queryParams?.lquery || undefined;
 
     /**
      * Map Categories

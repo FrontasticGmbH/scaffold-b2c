@@ -1,0 +1,48 @@
+@tailwind base;
+
+@layer base {
+  html[data-theme='default'] {
+    --color-primary-black: 33 33 33;
+    --color-primary-dark: 52 52 52;
+
+    --color-secondary-black: 73 73 73;
+    --color-secondary-grey: 71 71 71;
+
+    --color-accent-red: 209 66 83;
+
+    --color-gray-400: 127 127 127;
+    --color-gray-500: 118 118 118;
+    --color-gray-700: 26 26 26;
+
+    --color-neutral-100: 255 255 255;
+    --color-neutral-150: 247 249 252;
+    --color-neutral-200: 248 248 248;
+    --color-neutral-300: 239 240 245;
+    --color-neutral-400: 220 224 235;
+    --color-neutral-500: 149 149 149;
+
+    --color-green-100: 236 245 243;
+    --color-green-300: 168 219 205;
+    --color-green-500: 0 133 61;
+    --color-green-600: 34 149 117;
+    --color-green-700: 29 110 94;
+
+    --color-yellow-100: 252 239 212;
+    --color-yellow-300: 246 198 105;
+    --color-yellow-500: 242 174 41;
+    --color-yellow-600: 194 139 33;
+    --color-yellow-700: 145 104 25;
+
+    --color-red-100: 246 229 231;
+    --color-red-300: 224 145 154;
+    --color-red-500: 205 63 80;
+    --color-red-600: 174 29 50;
+    --color-red-700: 138 24 42;
+
+    --color-blue-100: 236 240 251;
+    --color-blue-300: 122 151 228;
+    --color-blue-500: 65 107 216;
+    --color-blue-600: 42 77 168;
+    --color-blue-700: 39 64 130;
+  }
+}

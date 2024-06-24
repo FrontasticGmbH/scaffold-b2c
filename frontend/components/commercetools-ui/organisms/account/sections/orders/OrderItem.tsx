@@ -36,7 +36,10 @@ const OrderItem: FC<Props> = ({ order }) => {
             <Typography className="text-14 font-medium text-primary-black lg:text-16">
               {formatOrdersMessage({ id: 'order.id', defaultMessage: 'Order ID: ' })}
             </Typography>
-            <Typography className="pl-5 text-14 text-primary-black lg:text-16">
+            <Typography
+              className="truncate pl-5 text-14 text-primary-black lg:text-16"
+              title={order?.orderId?.replaceAll('-', ' ')}
+            >
               {order?.orderId?.replaceAll('-', ' ')}
             </Typography>
           </div>

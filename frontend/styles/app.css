@@ -6,6 +6,7 @@
 @import url('./components/default-loader.css');
 @import url('./components/quick-search.css');
 @import url('./components/modal.css');
+@import url('./themes/default.css');
 
 body {
   width: 100%;

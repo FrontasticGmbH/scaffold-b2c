@@ -35,9 +35,11 @@ const Gallery: FC<GalleryProps> = ({ images, inModalVersion }) => {
   return (
     <div className="gap-y-34 px-4 md:mb-50">
       <div className={containerClassName}>
-        {isLoading ? (
-          <Image src={images[0]} loading="eager" suffix="large" style={{ objectFit: 'contain' }} fill />
-        ) : (
+        <div className={isLoading ? 'block' : 'hidden'}>
+          <Image src={images[0]} loading="eager" suffix="medium" style={{ objectFit: 'contain' }} fill />
+        </div>
+
+        <div className={isLoading ? 'hidden' : 'block'}>
           <Slider
             onSlideChange={handleSlide}
             onSwiper={(swiper) => {
@@ -58,14 +60,14 @@ const Gallery: FC<GalleryProps> = ({ images, inModalVersion }) => {
                 <Image
                   src={image}
                   loading={index === 0 ? 'eager' : 'lazy'}
-                  suffix="large"
+                  suffix="medium"
                   style={{ objectFit: 'contain' }}
                   fill
                 />
               </div>
             ))}
           </Slider>
-        )}
+        </div>
       </div>
 
       {!inModalVersion && (
