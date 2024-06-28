@@ -4,7 +4,7 @@ import AccountDropdownContent from '.';
 import AccountDropdown from '..';
 
 export default {
-  title: 'Components/Account Popover',
+  title: 'Organisms/Account Popover',
   component: AccountDropdown,
 } as ComponentMeta<typeof AccountDropdown>;
 

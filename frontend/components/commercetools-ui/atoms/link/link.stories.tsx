@@ -3,7 +3,7 @@ import Link, { LinkProps } from '.';
 import Typography from '../typography';
 
 export default {
-  title: 'Components/Link',
+  title: 'Atoms/Link',
   component: Link,
 } as Meta;
 

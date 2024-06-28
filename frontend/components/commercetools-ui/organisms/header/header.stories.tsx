@@ -7,7 +7,7 @@ import Header from './index';
 import { HeaderProps } from './types';
 
 export default {
-  title: 'Components/Header',
+  title: 'Organisms/Header',
   component: Header,
   argTypes: {},
 } as Meta;

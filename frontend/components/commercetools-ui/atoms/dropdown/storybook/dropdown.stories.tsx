@@ -4,7 +4,7 @@ import DropdownContent from './dropdown-content';
 import Dropdown, { DropdownProps } from '..';
 
 export default {
-  title: 'Components/Dropdown',
+  title: 'Atoms/Dropdown',
   component: Dropdown,
 } as Meta;
 

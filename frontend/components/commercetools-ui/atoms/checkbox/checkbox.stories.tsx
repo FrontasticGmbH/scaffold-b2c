@@ -3,7 +3,7 @@ import Checkbox from '.';
 import Typography from '../typography';
 
 export default {
-  title: 'Components/Checkbox',
+  title: 'Atoms/Checkbox',
   component: Checkbox,
 } as ComponentMeta<typeof Checkbox>;
 

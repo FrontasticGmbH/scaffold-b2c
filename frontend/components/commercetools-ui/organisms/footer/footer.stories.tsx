@@ -5,7 +5,7 @@ import { footerColumns, footerLogo, footerSocialMediaLinks } from 'helpers/mocks
 import Footer, { Props as FooterProps } from './index';
 
 export default {
-  title: 'Components/Footer',
+  title: 'Organisms/Footer',
   component: Footer,
   argTypes: {},
 } as Meta;

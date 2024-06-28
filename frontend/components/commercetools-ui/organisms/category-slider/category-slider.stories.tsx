@@ -4,7 +4,7 @@ import Typography from 'components/commercetools-ui/atoms/typography';
 import CategorySlider, { Props } from '.';
 
 export default {
-  title: 'Components/Category Slider',
+  title: 'Organisms/Category Slider',
   component: CategorySlider,
 } as ComponentMeta<typeof CategorySlider>;
 

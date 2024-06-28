@@ -5,7 +5,7 @@ import Typography from '..';
 import { fontSizes, tagTypesToUse, TypographyProps } from '../types';
 
 export default {
-  title: 'Components/Typography',
+  title: 'Atoms/Typography',
   component: Typography,
   argTypes: {
     fontFamily: { control: { type: 'select' }, options: ['libre', 'inter'], defaultValue: 'libre' },

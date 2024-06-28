@@ -2,6 +2,7 @@ import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { useParams, useRouter } from 'next/navigation';
 import { checkoutFlow } from '@commercetools/checkout-browser-sdk';
 import toast from 'react-hot-toast';
+import { useFormat } from 'helpers/hooks/useFormat';
 import useTranslation from 'providers/i18n/hooks/useTranslation';
 import { useProjectSettings, useCheckout, useAccount } from 'frontastic';
 import { CheckoutWrappedProps } from '..';
@@ -9,6 +10,8 @@ import Header from '../components/header';
 
 const CommercetoolsCheckout = ({ logo }: CheckoutWrappedProps) => {
   const { push: pushRoute } = useRouter();
+
+  const { formatMessage: formatCartMessage } = useFormat({ name: 'cart' });
 
   const { translate } = useTranslation();
 
@@ -43,6 +46,24 @@ const CommercetoolsCheckout = ({ logo }: CheckoutWrappedProps) => {
         '--radio': '#343434',
         '--checkbox': '#343434',
       },
+      languageOverrides: {
+        orderSummary: {
+          discountCode: {
+            invalid: {
+              singular: formatCartMessage({
+                id: 'voucher.max.usage.singular',
+                defaultMessage:
+                  'This discount code can no longer be redeemed as the maximum application has been reached. {codes}',
+              }),
+              plural: formatCartMessage({
+                id: 'voucher.max.usage.plural',
+                defaultMessage:
+                  'Theses discount codes can no longer be redeemed as the maximum application has been reached. {codes}',
+              }),
+            },
+          },
+        },
+      },
       onInfo: (message) => {
         switch (message.code) {
           case 'checkout_cancelled':
@@ -60,7 +81,7 @@ const CommercetoolsCheckout = ({ logo }: CheckoutWrappedProps) => {
         }
       },
     });
-  }, [projectKey, locale, session, pushRoute]);
+  }, [projectKey, locale, session, pushRoute, formatCartMessage]);
 
   const errorTriggered = useRef(false);
 

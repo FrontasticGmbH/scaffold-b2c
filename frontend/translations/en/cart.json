@@ -61,5 +61,7 @@
   "items": "Items",
   "we.accept": "We accept",
   "cart.empty.ask": "Your cart is empty. Continue shopping?",
-  "continue.shopping": "Continue shopping"
+  "continue.shopping": "Continue shopping",
+  "voucher.max.usage.singular": "This discount code can no longer be redeemed as the maximum application has been reached. {codes}",
+  "voucher.max.usage.plural": "Theses discount codes can no longer be redeemed as the maximum application has been reached. {codes}"
 }

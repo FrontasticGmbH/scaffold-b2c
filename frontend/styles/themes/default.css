@@ -1,7 +1,7 @@
 @tailwind base;
 
 @layer base {
-  html[data-theme='default'] {
+  [data-theme='default'] {
     --color-primary-black: 33 33 33;
     --color-primary-dark: 52 52 52;
 

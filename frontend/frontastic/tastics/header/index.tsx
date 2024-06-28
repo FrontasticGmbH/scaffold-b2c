@@ -29,6 +29,7 @@ const HeaderTastic = ({ data, categories }: TasticProps<HeaderProps & Announceme
 
   return (
     <MarketProvider>
+      <div className="pt-[148px] md:pt-[180px] lg:pt-[183px] xl:pt-[173px]" />
       <div id="header-container" className="fixed top-0 z-50 w-full">
         <AnnouncementBar {...announcementBarData} />
         {maintenanceData.activateMaintenance && <MaintenanceBar {...maintenanceData} />}

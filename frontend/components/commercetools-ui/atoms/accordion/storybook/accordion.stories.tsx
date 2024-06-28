@@ -4,7 +4,7 @@ import AccordionContent from './accordion-content';
 import Accordion from '../index';
 
 export default {
-  title: 'Components/Accordion',
+  title: 'Organisms/Accordion',
   component: Accordion,
   argTypes: {},
 } as Meta;

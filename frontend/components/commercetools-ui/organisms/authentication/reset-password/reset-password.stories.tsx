@@ -5,7 +5,7 @@ import ResetPassword, { ResetPasswordProps } from './index';
 import ResetPasswordForm from './reset-password-form';
 
 export default {
-  title: 'Components/Reset Password',
+  title: 'Organisms/Reset Password',
   component: ResetPassword,
   argTypes: {},
 } as Meta;

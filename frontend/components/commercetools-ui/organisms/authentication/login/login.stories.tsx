@@ -5,7 +5,7 @@ import Login, { LoginProps } from './index';
 import LoginForm from './login-form';
 
 export default {
-  title: 'Components/Login',
+  title: 'Organisms/Login',
   component: Login,
   argTypes: {},
 } as Meta;

@@ -6,7 +6,7 @@ import OrderSummary from './components/order-summary';
 import ThankYou from './index';
 
 export default {
-  title: 'Components/Order Summary',
+  title: 'Organisms/Order Summary',
   component: ThankYou,
   argTypes: {},
 } as Meta;

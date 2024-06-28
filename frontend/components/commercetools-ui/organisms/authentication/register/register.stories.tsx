@@ -5,7 +5,7 @@ import Register, { RegisterProps } from './index';
 import RegisterForm from './register-form';
 
 export default {
-  title: 'Components/Register',
+  title: 'Organisms/Register',
   component: Register,
   argTypes: {},
 } as Meta;

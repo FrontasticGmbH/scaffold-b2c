@@ -4,7 +4,7 @@ import Radio from '.';
 import Typography from '../typography';
 
 export default {
-  title: 'Components/Radio',
+  title: 'Atoms/Radio',
   component: Radio,
 } as ComponentMeta<typeof Radio>;
 

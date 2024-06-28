@@ -4,7 +4,7 @@ import ButtonContent from './button-content';
 import Button, { ButtonProps } from '..';
 
 export default {
-  title: 'Components/Button',
+  title: 'Atoms/Button',
   component: Button,
   argTypes: {},
 } as Meta;

@@ -3,6 +3,7 @@ import { Variant as VariantType } from 'shared/types/product';
 import Typography from 'components/commercetools-ui/atoms/typography';
 import useClassNames from 'helpers/hooks/useClassNames';
 import { useFormat } from 'helpers/hooks/useFormat';
+import { textToColor } from '../../../../../../helpers/textToColor/textToColor';
 import { discardRepeatedValues } from '../helpers/discardRepeatedValues';
 import { filterAttributeBasedVariants } from '../helpers/filterAttributeBasedVariants';
 
@@ -75,7 +76,11 @@ const ProductVariant: FC<ProductVariantProps> = ({
         <Typography className={labelClassName}>
           {formatMessage({ id: attributeString, defaultMessage: attributeString })}
         </Typography>
-        <Typography className="text-14 leading-loose">{currentVariant?.attributes?.[`${attribute}label`]}</Typography>
+        <Typography className="text-14 leading-loose">
+          {currentVariant?.attributes?.[`${attribute}label`].includes(':')
+            ? textToColor(currentVariant?.attributes?.[`${attribute}label`]).label
+            : currentVariant?.attributes?.[`${attribute}label`]}
+        </Typography>
       </div>
 
       <div className={variantContainerClassName}>

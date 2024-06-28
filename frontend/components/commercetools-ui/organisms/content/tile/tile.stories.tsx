@@ -6,7 +6,7 @@ import { Reference } from 'types/reference';
 import Tile, { TileProps } from './index';
 
 export default {
-  title: 'Components/Tile',
+  title: 'Molecules/Tile',
   component: Tile,
   argTypes: {},
 } as Meta;

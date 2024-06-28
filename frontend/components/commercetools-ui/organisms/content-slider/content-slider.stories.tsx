@@ -5,7 +5,7 @@ import ContentSlider from '.';
 import { ContentSliderProps } from './types';
 
 export default {
-  title: 'Components/Content Slider',
+  title: 'Organisms/Content Slider',
   component: ContentSlider,
 } as Meta;
 

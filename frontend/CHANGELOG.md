@@ -1,4 +1,34 @@
 
+## Version 1.14.0 (2024-06-28)
+
+** New Features and Improvements **
+
+* User is able to set theme in studio via project folder configuration
+* Color filter list items translated to correct language
+* New atoms, molecules and organisms added to storybook
+* CT checkout translation fixes
+* Checkout header size fix
+* Added German translations
+
+## Version 1.13.0 (2024-06-24)
+
+** New Features and Improvements **
+
+- Better error messages for discount form
+- Move theme application to layout
+- Updated @commercetools/frontend-sdk dependency to 1.13.1
+- Update checkout
+- Multiple themes support
+
+** Bug fixes **
+
+- Move theme application to layout
+- Remove unneeded redirection on PLP
+- Fix breakpoints gap between header and body
+- Fix slider buggy loading
+- PDP image sizes
+- Truncates order uuid
+
 ## Version 1.12.1 (2024-06-06)
 
 ** New Features and Improvements **

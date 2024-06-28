@@ -5,7 +5,7 @@ import { products } from 'helpers/mocks/mockCommonData';
 import ProductSlider, { ProductSliderProps } from '.';
 
 export default {
-  title: 'Components/ProductSlider',
+  title: 'Organisms/Product Slider',
   component: ProductSlider,
   argTypes: {},
 } as Meta;

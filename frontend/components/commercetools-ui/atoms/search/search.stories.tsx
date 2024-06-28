@@ -6,7 +6,7 @@ import SearchAlgolia from '../search-algolia';
 import Typography from '../typography';
 
 export default {
-  title: 'Components/Search',
+  title: 'Organisms/Search',
   component: Search,
 } as ComponentMeta<typeof Search>;
 

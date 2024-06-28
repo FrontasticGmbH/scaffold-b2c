@@ -1,4 +1,11 @@
 
+## Version 1.15.0 (2024-06-24)
+
+** New Features and Improvements **
+- Handled discount code states different from MatchesCart
+- Support localized attribute
+- Set account email on cart creation for logged in user
+
 ## Version 1.14.2 (2024-06-06)
 
 ## Version 1.14.1 (2024-05-23)

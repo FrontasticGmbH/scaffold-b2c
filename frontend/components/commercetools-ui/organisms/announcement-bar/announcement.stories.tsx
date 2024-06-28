@@ -4,7 +4,7 @@ import Typography from 'components/commercetools-ui/atoms/typography';
 import AnnouncementBar from '.';
 
 export default {
-  title: 'Components/Announcement Bar',
+  title: 'Organisms/Announcement Bar',
   component: AnnouncementBar,
 } as ComponentMeta<typeof AnnouncementBar>;
 

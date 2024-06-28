@@ -47,7 +47,23 @@ const DiscountForm: React.FC<Props> = ({ className, accordionProps }) => {
     redeemDiscountCode?.(code)
       .then(() => setCode(''))
       .catch((err: Error) => {
-        setErrorMessage(err.message);
+        console.log(err.message);
+        switch (err.message) {
+          case "Error: Redeem discount code 'BOGO' failed with state 'MaxApplicationReached'":
+            setErrorMessage(
+              formatCartMessage({
+                id: 'voucher.max.usage.singular',
+                defaultMessage:
+                  'This discount code can no longer be redeemed as the maximum application has been reached. {codes}',
+                values: { codes: '' },
+              }),
+            );
+            break;
+          default:
+            setErrorMessage(
+              formatCartMessage({ id: 'codeNotValid', defaultMessage: 'The discount code is not valid' }),
+            );
+        }
         setCodeIsInvalid(true);
       })
       .finally(() => {
@@ -107,10 +123,7 @@ const DiscountForm: React.FC<Props> = ({ className, accordionProps }) => {
               )}
             </div>
             {codeIsInvalid && (
-              <p className="mt-16 font-body text-12 font-medium leading-normal text-accent-red">
-                {erroMessage ??
-                  formatCartMessage({ id: 'codeNotValid', defaultMessage: 'The discount code is not valid' })}
-              </p>
+              <p className="mt-16 font-body text-12 font-medium leading-normal text-accent-red">{erroMessage}</p>
             )}
           </form>
 

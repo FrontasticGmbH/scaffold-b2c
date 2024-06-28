@@ -4,7 +4,7 @@ import DrawerContent from './drawer-content';
 import Drawer from '..';
 
 export default {
-  title: 'Components/Menus',
+  title: 'Organisms/Drawer',
   component: Drawer,
 } as ComponentMeta<typeof Drawer>;
 

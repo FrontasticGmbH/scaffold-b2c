@@ -23,7 +23,7 @@ export const parameters = {
   },
   options: {
     storySort: {
-      order: ['Style guide', '*'],
+      order: ['Style guide', 'Atoms', 'Molecules', 'Organisms', 'Pages', '*'],
     },
     showPanel: false,
   },
@@ -32,7 +32,11 @@ export const parameters = {
 const StoryWrapper = ({ Story }) => {
   sdk.defaultConfigure('en');
 
-  return <Story />;
+  return (
+    <div data-theme="default">
+      <Story />
+    </div>
+  );
 };
 
 export const decorators = [(Story) => <StoryWrapper Story={Story} />];

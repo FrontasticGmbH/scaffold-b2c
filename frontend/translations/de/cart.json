@@ -61,5 +61,7 @@
   "items": "Artikel",
   "we.accept": "Wir akzeptieren",
   "cart.empty.ask": "Ihr Warenkorb ist leer. Mit dem Einkaufen fortfahren?",
-  "continue.shopping": "Mit dem Einkaufen fortfahren"
+  "continue.shopping": "Mit dem Einkaufen fortfahren",
+  "voucher.max.usage.singular": "Dieser Rabattcode kann nicht mehr eingelöst werden, da die maximale Anwendung erreicht wurde. {codes}",
+  "voucher.max.usage.plural": "Diese Rabattcodes können nicht mehr eingelöst werden, da die maximale Anwendung erreicht wurde. {codes}"
 }
