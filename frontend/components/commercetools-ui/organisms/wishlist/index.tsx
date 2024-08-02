@@ -1,11 +1,11 @@
 import React from 'react';
 import Button from 'components/commercetools-ui/atoms/button';
+import WishlistItem from 'components/commercetools-ui/molecules/wishlist-item';
 import { EmptyState } from 'components/commercetools-ui/organisms/empty-state';
 import { FooterLink } from 'components/commercetools-ui/organisms/footer/atoms/column';
 import { useFormat } from 'helpers/hooks/useFormat';
 import { useWishlist } from 'frontastic';
 import { ImageProps } from 'frontastic/lib/image';
-import WishlistItem from './components/wishlist-item';
 
 export interface Props {
   emptyWishlistTitle: string;
@@ -42,9 +42,7 @@ const Wishlist: React.FC<Props> = ({
       ) : (
         <>
           <div className="h-[83vh] grow divide-y divide-neutral-400 overflow-auto px-12 md:px-22">
-            {wishlistData?.lineItems?.map((lineItem) => (
-              <WishlistItem key={lineItem.lineItemId} item={lineItem} />
-            ))}
+            {wishlistData?.lineItems?.map((lineItem) => <WishlistItem key={lineItem.lineItemId} item={lineItem} />)}
           </div>
           <div className="absolute bottom-0 h-88 w-full p-20">
             <Button onClick={handleDeleteWishlist} variant="secondary" className="w-full text-16">

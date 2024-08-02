@@ -73,7 +73,7 @@ const Orders = () => {
     <>
       {loading ? (
         <div className="px-12">
-          <Skeleton className="h-[30px]" />
+          <Skeleton className="h-30" />
         </div>
       ) : (
         <>
@@ -135,7 +135,7 @@ const Orders = () => {
 
           <div className="px-16 md:px-24 lg:px-44">
             <div className="relative hidden h-58 w-full border-b-2 border-neutral-400 pt-24 md:flex">
-              <div className="absolute flex h-fit w-[40%] justify-between">
+              <div className="absolute flex h-fit w-2/5 justify-between">
                 {statusTabs.map((tab) => (
                   <div
                     key={tab.slug}
@@ -150,9 +150,7 @@ const Orders = () => {
           </div>
 
           <div className="overflow-auto px-16 py-24 md:px-24 lg:px-44">
-            {orderHistoryContent?.map((order?: Order) => (
-              <OrderItem key={order?.orderId} order={order} />
-            ))}
+            {orderHistoryContent?.map((order?: Order) => <OrderItem key={order?.orderId} order={order} />)}
           </div>
         </>
       )}

@@ -23,7 +23,7 @@ const OrderInfoSection: FC<Props> = ({ order, shippingInfo, paymentInfo, shippin
   };
 
   return (
-    <div className="h-fit w-full rounded-none px-16 md:px-24 lg:rounded-md lg:border lg:p-44 2xl:w-[60%] 2xl:px-36">
+    <div className="h-fit w-full rounded-none px-16 md:px-24 lg:rounded-md lg:border lg:p-44 2xl:w-3/5 2xl:px-36">
       <div className="mb-24 block w-full lg:hidden">
         <div className="h-1 w-full bg-neutral-400 px-24" />
       </div>
@@ -81,7 +81,7 @@ const OrderInfoSection: FC<Props> = ({ order, shippingInfo, paymentInfo, shippin
 
       <div className="flex flex-col lg:mt-40 2xl:px-0">
         <div className="flex flex-col lg:grid lg:grid-cols-2 2xl:grid-cols-1 2xl:gap-y-16">
-          <div className="lg:w-full lg:pr-10 2xl:w-[276px] 2xl:pr-0">
+          <div className="lg:w-full lg:pr-10 2xl:w-276 2xl:pr-0">
             <Button variant="secondary" className="h-fit w-full" onClick={handlePrint}>
               <Typography className="text-center text-14 md:text-16">
                 {formatOrdersMessage({
@@ -93,7 +93,7 @@ const OrderInfoSection: FC<Props> = ({ order, shippingInfo, paymentInfo, shippin
           </div>
 
           {orderState === 'Confirmed' && (
-            <div className="mt-20 lg:mt-0 lg:w-full lg:pl-10 2xl:w-[276px] 2xl:pl-0">
+            <div className="mt-20 lg:mt-0 lg:w-full lg:pl-10 2xl:w-276 2xl:pl-0">
               <Button variant="secondary" className="h-fit w-full">
                 <Typography className="text-center text-14 md:text-16">
                   {formatOrdersMessage({
@@ -106,7 +106,7 @@ const OrderInfoSection: FC<Props> = ({ order, shippingInfo, paymentInfo, shippin
           )}
 
           {orderState === 'Complete' && (
-            <div className="mt-20 lg:mt-0 lg:w-full lg:pl-10 2xl:w-[276px] 2xl:pl-0">
+            <div className="mt-20 lg:mt-0 lg:w-full lg:pl-10 2xl:w-276 2xl:pl-0">
               <Button variant="secondary" className="h-fit w-full">
                 <Typography className="text-center text-14 md:text-16">
                   {formatOrdersMessage({

@@ -3,6 +3,8 @@ import { Category } from './Category';
 
 export interface Product {
   productId?: string;
+  productKey?: string;
+  productRef?: string;
   changed?: Date;
   version?: string;
   name?: string;

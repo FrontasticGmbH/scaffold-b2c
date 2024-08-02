@@ -10,7 +10,7 @@ export interface RegisterProps {
 const Register: React.FC<RegisterProps> = ({ termsOfUseLink }) => {
   return (
     <>
-      <div className="m-auto grid max-w-[480px] px-16">
+      <div className="m-auto grid max-w-screen-sm px-16">
         <RegisterForm termsOfUseLink={termsOfUseLink} />
       </div>
       <AlterForm page="login" />

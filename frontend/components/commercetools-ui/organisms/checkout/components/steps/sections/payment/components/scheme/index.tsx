@@ -96,7 +96,7 @@ const Scheme = () => {
           {resolveCCImage(paymentData.number) && (
             // eslint-disable-next-line
             <img
-              className="absolute right-8 top-1/2 w-[32px] -translate-y-1/2"
+              className="absolute right-8 top-1/2 w-32 -translate-y-1/2"
               src={resolveCCImage(paymentData.number)}
             />
           )}

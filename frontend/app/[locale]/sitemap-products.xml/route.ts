@@ -1,6 +1,6 @@
 import { NextRequest } from 'next/server';
 import { Product } from 'shared/types/product/Product';
-import { SiteMapField, generateSiteMap } from 'helpers/sitemap';
+import { generateSiteMap, SiteMapField } from 'helpers/sitemap';
 import { i18nConfig } from 'project.config';
 import { sdk } from 'sdk';
 
@@ -18,7 +18,7 @@ export async function GET(request: NextRequest, { params }: { params: { locale: 
   do {
     const extensions = sdk.composableCommerce;
 
-    const response = await extensions.product.query({ cursor: nextCursor, limit: 12 });
+    const response = await extensions.product.query({ cursor: nextCursor, limit: 500 });
 
     const items = [] as Product[];
 

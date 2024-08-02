@@ -8,7 +8,7 @@ const ColorFacet: React.FC<FacetProps> = ({ attribute }) => {
 
   return (
     <div className="grid grid-cols-3 items-center justify-start gap-x-54 gap-y-36 lg:min-w-[340px]">
-      {items.map(({ label, value, isRefined, count }) => {
+      {items.map(({ value, isRefined, count }) => {
         const color = textToColor(value);
         return (
           <div
@@ -23,9 +23,9 @@ const ColorFacet: React.FC<FacetProps> = ({ attribute }) => {
               style={{ backgroundColor: color.code }}
             />
             <span className="mt-4 block max-w-full truncate text-14" title={color.label}>
-              {label}
+              {color.label}
             </span>
-            <span className="mt-2 block text-14 text-secondary-black">{color.label}</span>
+            <span className="mt-2 block text-14 text-secondary-black">{count}</span>
           </div>
         );
       })}

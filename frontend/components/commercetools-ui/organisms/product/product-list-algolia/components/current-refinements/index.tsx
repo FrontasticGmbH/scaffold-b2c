@@ -36,8 +36,8 @@ const CurrentRefinements = () => {
       (acc, curr) => ({
         ...acc,
         [curr.attribute]: [
-          curr.operator?.includes('>') ? +curr.value : acc[curr.attribute]?.[0] ?? numericRanges[curr.attribute]?.[0],
-          curr.operator?.includes('<') ? +curr.value : acc[curr.attribute]?.[1] ?? numericRanges[curr.attribute]?.[1],
+          curr.operator?.includes('>') ? +curr.value : (acc[curr.attribute]?.[0] ?? numericRanges[curr.attribute]?.[0]),
+          curr.operator?.includes('<') ? +curr.value : (acc[curr.attribute]?.[1] ?? numericRanges[curr.attribute]?.[1]),
         ],
       }),
       {},
@@ -53,7 +53,7 @@ const CurrentRefinements = () => {
             locale,
             currency,
           )} - ${CurrencyHelpers.formatForCurrency(range[1], locale, currency)}`,
-        } as CurrentRefinementsConnectorParamsRefinement),
+        }) as CurrentRefinementsConnectorParamsRefinement,
     );
 
     return finalRefinements;

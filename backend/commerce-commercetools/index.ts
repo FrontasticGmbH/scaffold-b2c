@@ -15,7 +15,6 @@ import * as ProductActions from './actionControllers/ProductController';
 import * as CartActions from './actionControllers/CartController';
 import * as WishlistActions from './actionControllers/WishlistController';
 import * as ProjectActions from './actionControllers/ProjectController';
-
 import { getCurrency, getLocale, getPath } from './utils/Request';
 import { ProductRouter } from './utils/routers/ProductRouter';
 import { SearchRouter } from './utils/routers/SearchRouter';
@@ -32,6 +31,15 @@ const getPreviewPayload = (queryResult: ProductPaginatedResult) => {
       image: product?.variants[0]?.images[0],
     };
   });
+};
+
+// Master data source is only available in the context of a dynamic page
+const findDynamicPageMasterDataSource = (context: DataSourceContext, dataSourceType: string) => {
+  // Since the DataSourceConfiguration doesn't return the streamId, we need to access the private property directly.
+  // This needs to be refactored once the dataSourceId is returned in the DataSourceConfiguration.
+  return context.pageFolder.dataSourceConfigurations.find(
+    (dataSource) => (dataSource as any).streamId === '__master' && dataSource.type === dataSourceType,
+  );
 };
 
 export default {
@@ -135,13 +143,22 @@ export default {
     },
 
     'frontastic/similar-products': async (config: DataSourceConfiguration, context: DataSourceContext) => {
-      if (!context.hasOwnProperty('request')) {
-        throw new ValidationError({
-          message: `Request is not defined in context ${context}`,
-        });
-      }
-
       try {
+        if (!context.hasOwnProperty('request')) {
+          throw new ValidationError({
+            message: `Request is not defined in context ${context}`,
+          });
+        }
+
+        const masterDataSource = findDynamicPageMasterDataSource(context, 'frontastic/product');
+
+        if (!masterDataSource) {
+          return {
+            dataSourcePayload: {},
+            previewPayload: [],
+          };
+        }
+
         const productApi = new ProductApi(
           context.frontasticContext,
           getLocale(context.request),
@@ -149,15 +166,16 @@ export default {
           context.request,
         );
         const productQuery = ProductQueryFactory.queryFromParams(context.request, config);
+
+        // Since the DataSourceConfiguration doesn't return the preloadedValue, we need to access the private property directly.
+        // This needs to be refactored once the preloadedValue is returned in the DataSourceConfiguration.
+        const masterProduct = (masterDataSource as any)?.preloadedValue?.product as Product;
+
+        const masterProductCategories = [masterProduct.categories?.[0]?.categoryId];
+
         const query = {
           ...productQuery,
-          categories: [
-            (
-              context.pageFolder.dataSourceConfigurations.find(
-                (stream) => (stream as any).streamId === '__master',
-              ) as any
-            )?.preloadedValue?.product?.categories?.[0]?.categoryId,
-          ],
+          categories: masterProductCategories,
         };
 
         const queryResult = await productApi.query(query);
@@ -240,6 +258,57 @@ export default {
             items: shuffleArray(queryResult.items),
           },
         };
+      } catch (error) {
+        return {
+          dataSourcePayload: handleError(error, context.request),
+        };
+      }
+    },
+
+    'frontastic/referenced-products': async (config: DataSourceConfiguration, context: DataSourceContext) => {
+      try {
+        if (!context.hasOwnProperty('request')) {
+          throw new ValidationError({
+            message: `Request is not defined in context ${context}`,
+          });
+        }
+
+        const masterDataSource = findDynamicPageMasterDataSource(context, 'frontastic/product');
+
+        const referencedProductsIdField = config?.configuration?.referencedProductsIdField;
+
+        if (!masterDataSource || !referencedProductsIdField) {
+          return {
+            dataSourcePayload: {},
+            previewPayload: [],
+          };
+        }
+
+        // Since the DataSourceConfiguration doesn't return the preloadedValue, we need to access the private property directly.
+        // This needs to be refactored once the preloadedValue is returned in the DataSourceConfiguration.
+        const masterProduct = (masterDataSource as any)?.preloadedValue?.product as Product;
+
+        const masterProductReferencedProductIds = masterProduct.variants?.[0]?.attributes?.[referencedProductsIdField];
+
+        context.request.query['productIds'] = masterProductReferencedProductIds || [];
+
+        const productApi = new ProductApi(
+          context.frontasticContext,
+          getLocale(context.request),
+          getCurrency(context.request),
+          context.request,
+        );
+
+        const productQuery = ProductQueryFactory.queryFromParams(context.request, config);
+
+        const queryResult = await productApi.query(productQuery);
+
+        return !context.isPreview
+          ? { dataSourcePayload: queryResult }
+          : {
+              dataSourcePayload: queryResult,
+              previewPayload: getPreviewPayload(queryResult),
+            };
       } catch (error) {
         return {
           dataSourcePayload: handleError(error, context.request),

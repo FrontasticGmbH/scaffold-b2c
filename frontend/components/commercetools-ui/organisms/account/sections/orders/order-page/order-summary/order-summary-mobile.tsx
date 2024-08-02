@@ -62,11 +62,11 @@ const OrderSummaryMobile: FC<Props> = ({ order }) => {
 
   return (
     <Accordion customClosedButton={orderSummaryAccordion} className={accordionClassNames} buttonClassName="w-full">
-      <div className="grid max-h-[400px] w-full grid-cols-1 overflow-auto px-16 md:px-24 lg:px-44">
+      <div className="grid max-h-400 w-full grid-cols-1 overflow-auto px-16 md:px-24 lg:px-44">
         {order?.lineItems?.map((lineItem, index) => (
           <div key={lineItem.lineItemId} className={lineItemClassNames(order, index)}>
             {lineItem.variant?.images?.[0] && (
-              <div className="relative h-[104px] w-[88px] shrink-0">
+              <div className="relative h-104 w-88 shrink-0">
                 <Image fill src={lineItem.variant.images[0]} style={{ objectFit: 'contain' }} />
               </div>
             )}

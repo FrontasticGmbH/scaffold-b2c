@@ -39,7 +39,7 @@ const ProductDetailsAdapter: FC<ProductDetailsAdapterProps> = ({
     }
   });
 
-  usePreloadImages(product.variants.map((variant) => variant.images ?? []).flat(), 'medium');
+  usePreloadImages(product.variants.map((variant) => variant.images ?? []).flat(), 'large');
 
   const mappedProduct = toUIProduct(product, variant, toUIColor(product), toUISize(product));
 

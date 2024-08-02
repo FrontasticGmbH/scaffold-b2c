@@ -1,4 +1,13 @@
 
+## Version 1.7.0 (2024-08-01)
+
+** New Features and Improvements **
+
+- isMatchingaVariant is optional property
+- Added product id key and ref to product types, mappers
+
+## Version 1.6.0 (2024-06-28)
+
 ## Version 1.5.2 (2024-06-06)
 
 ## Version 1.5.1 (2024-05-09)

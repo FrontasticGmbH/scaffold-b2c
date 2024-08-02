@@ -34,6 +34,8 @@ const ProductInformation: FC<ProductInformationProps> = ({ product, variant, onC
     return {
       lineItemId: product?.productId ?? '',
       productId: product?.productId,
+      productKey: product?.productKey,
+      productRef: product?.productRef,
       name: product?.name,
       count: 1,
       variant: variant,
@@ -76,7 +78,7 @@ const ProductInformation: FC<ProductInformationProps> = ({ product, variant, onC
           </div>
 
           {
-            <span className="mb-8 ml-8 mt-10 flex h-[25px] w-[45px] items-center justify-center bg-accent-red text-11 text-neutral-100">
+            <span className="mb-8 ml-8 mt-10 flex h-25 w-45 items-center justify-center bg-accent-red text-11 text-neutral-100">
               {Math.round(discountPercentage)}%
             </span>
           }

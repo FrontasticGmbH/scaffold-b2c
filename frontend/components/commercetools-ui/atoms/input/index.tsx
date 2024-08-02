@@ -80,7 +80,7 @@ const Input: FC<InputProps> = ({
       ({
         primary: 'bg-white',
         secondary: 'bg-neutral-200',
-      }[variant]),
+      })[variant],
     [variant],
   );
 
@@ -142,7 +142,7 @@ const Input: FC<InputProps> = ({
           {...props}
         />
         {(isValid || (isValidProp && !isInActiveState)) && !isFocused && !hideCheckIcon && (
-          <CheckIcon className="absolute right-12 top-[50%] h-16 w-16 translate-y-[-50%] text-green-500" />
+          <CheckIcon className="absolute right-12 top-1/2 h-16 w-16 -translate-y-1/2 text-green-500" />
         )}
         {children}
       </div>

@@ -9,11 +9,11 @@ import { useFormat } from 'helpers/hooks/useFormat';
 import { useCart, useWishlist } from 'frontastic';
 import Image from 'frontastic/lib/image';
 
-export interface Props {
+export interface WishlistItemProps {
   item: LineItem;
 }
 
-const WishlistItem: FC<Props> = ({ item }) => {
+const WishlistItem: FC<WishlistItemProps> = ({ item }) => {
   const { locale } = useParams();
 
   const { formatMessage: formatWishlistMessage } = useFormat({ name: 'wishlist' });
@@ -27,7 +27,7 @@ const WishlistItem: FC<Props> = ({ item }) => {
 
   return (
     <div className="flex max-w-full items-stretch justify-start gap-10 py-18 md:gap-15">
-      <div className="h-[145px] w-[125px] shrink-0 bg-white p-12">
+      <div className="h-145 w-125 shrink-0 bg-white p-12">
         <div className="relative h-full w-full">
           <Image
             src={item.variant?.images?.[0]}

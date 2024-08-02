@@ -1,0 +1,19 @@
+{
+  "customDataSourceType": "frontastic/referenced-products",
+  "name": "Referenced products",
+	"category": "Products",
+	"icon": "picture_in_picture",
+	"schema": [
+		{
+			"name": "Referenced Products selection",
+			"fields": [
+				{
+					"label": "Referenced Products ID field",
+					"field": "referencedProductsIdField",
+					"type": "text",
+					"translatable": false
+				}
+			]
+		}
+	]
+}

@@ -69,7 +69,7 @@ const CartItem: React.FC<Props> = ({ item, classNames = {} }) => {
 
   return (
     <div className="flex max-w-full items-stretch justify-start gap-10 py-18 md:gap-15">
-      <div className="w-[125px] shrink-0 bg-white p-12">
+      <div className="w-125 shrink-0 bg-white p-12">
         <div className="relative h-full w-full rounded-sm">
           <Image src={item.variant?.images?.[0]} suffix="small" style={{ objectFit: 'contain' }} fill />
         </div>

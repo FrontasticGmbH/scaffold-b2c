@@ -39,7 +39,7 @@ const ClosedButton: FC<ClosedButtonProps> = ({ lineItems, hiddenItemsCount, open
             {lineItemOrderSummary?.map((lineItem) => (
               <div key={lineItem?.lineItemId} className="pr-16">
                 {lineItem?.variant?.images?.[0] && (
-                  <div key={lineItem?.lineItemId} className="relative mr-12 h-[104px] w-[88px] shrink-0">
+                  <div key={lineItem?.lineItemId} className="relative mr-12 h-104 w-88 shrink-0">
                     <Image fill src={lineItem.variant.images[0]} style={{ objectFit: 'contain' }} alt={lineItem.name} />
                   </div>
                 )}

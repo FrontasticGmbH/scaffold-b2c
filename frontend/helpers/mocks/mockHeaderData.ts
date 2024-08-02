@@ -3,9 +3,9 @@ import { Tile } from 'components/commercetools-ui/organisms/header/types';
 
 export const logo = {
   media: {
-    file: 'https://res.cloudinary.com/dlwdq84ig/image/upload/v1676462500/dzseuok3zjub8o70bgko.png',
-    mediaId: 'dzseuok3zjub8o70bgko',
-    name: 'Logo',
+    file: 'https://res.cloudinary.com/dlwdq84ig/image/upload/v1705066753/kp6wm6i2n15ofmuwlxu7.png',
+    mediaId: 'kp6wm6i2n15ofmuwlxu7',
+    name: 'B2C Retail Store',
     width: 4975,
     height: 481,
   },

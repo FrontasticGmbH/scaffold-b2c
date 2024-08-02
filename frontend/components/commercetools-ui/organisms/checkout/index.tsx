@@ -24,7 +24,7 @@ const CheckoutWrapped: React.FC<CheckoutWrappedProps> = ({ logo, ...emptyState }
   return (
     <div className="min-h-screen lg:bg-neutral-200">
       <Header logo={logo} {...emptyState} />
-      <div className="lg:mx-[48px]">
+      <div className="lg:mx-48">
         <Secure />
         <div className="flex-row-reverse items-start gap-24 lg:flex">
           <OrderSummary

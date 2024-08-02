@@ -1041,7 +1041,9 @@ export const shippingAddress: Address = {
 export const variant: Variant = {
   groupId: '78695',
   id: '1',
-  images: ['https://s3-eu-west-1.amazonaws.com/commercetools-maximilian/products/078695_1_large.jpg'],
+  images: [
+    'https://2eca75039cf911b9bbe5-79bfd3e36f011d786971804e873c4354.ssl.cf3.rackcdn.com/AdobeStock_378975371-myB5QCrw.jpeg',
+  ],
   sku: 'M0E20000000DSDJ',
   price: { centAmount: 71820, currencyCode: 'EUR', fractionDigits: 2 },
   isOnStock: true,
@@ -1093,7 +1095,9 @@ const lineItems: LineItem[] = [
     type: 'Clothes',
     variant: {
       sku: 'SKU',
-      images: ['https://tailwindui.com/img/ecommerce-images/checkout-page-03-product-04.jpg'],
+      images: [
+        'https://2eca75039cf911b9bbe5-79bfd3e36f011d786971804e873c4354.ssl.cf3.rackcdn.com/AdobeStock_308570068-ftaFzBEg.jpeg',
+      ],
     },
   },
   {
@@ -1105,7 +1109,9 @@ const lineItems: LineItem[] = [
     type: 'Clothes',
     variant: {
       sku: 'SKU',
-      images: ['https://tailwindui.com/img/ecommerce-images/shopping-cart-page-01-product-02.jpg'],
+      images: [
+        'https://2eca75039cf911b9bbe5-79bfd3e36f011d786971804e873c4354.ssl.cf3.rackcdn.com/AdobeStock_308570077-dEUwL6Ta.jpeg',
+      ],
     },
   },
   {
@@ -1121,7 +1127,7 @@ const lineItems: LineItem[] = [
     },
   },
 ];
-export const wishlist: Wishlist = {
+export const wishlist: Wishlist & { lineItems: LineItem[] } = {
   wishlistId: '0',
   anonymousId: 'an',
   name: 'Wishlist Items',

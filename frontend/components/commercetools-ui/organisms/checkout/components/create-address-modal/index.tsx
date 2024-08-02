@@ -2,7 +2,7 @@ import React, { useCallback, useMemo, useState } from 'react';
 import Button from 'components/commercetools-ui/atoms/button';
 import Checkbox from 'components/commercetools-ui/atoms/checkbox';
 import Dropdown from 'components/commercetools-ui/atoms/dropdown';
-import Modal from 'components/commercetools-ui/atoms/modal';
+import Modal from 'components/commercetools-ui/organisms/modal';
 import { useFormat } from 'helpers/hooks/useFormat';
 import useGeo from 'helpers/hooks/useGeo';
 import useI18n from 'helpers/hooks/useI18n';
@@ -35,7 +35,7 @@ const CreateAddressModal = () => {
 
   const closeModal = useCallback(() => setIsOpen(false), []);
 
-  const initialData = useMemo(() => ({ addressType: 'shipping' } as Address), []);
+  const initialData = useMemo(() => ({ addressType: 'shipping' }) as Address, []);
 
   const [data, setData] = useState<Address>(initialData);
 

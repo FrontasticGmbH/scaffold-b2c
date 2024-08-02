@@ -22,11 +22,11 @@ const CartSummary = () => {
             onClick={() => router.push(lineItem._url ?? '')}
           >
             <div className="flex items-start gap-16 py-16 md:gap-32">
-              <div className="relative h-[104px] w-[89px] shrink-0">
+              <div className="relative h-104 w-89 shrink-0">
                 <Image fill src={lineItem.variant?.images?.[0]} style={{ objectFit: 'contain' }} />
               </div>
               <div className="mt-10 grow overflow-hidden">
-                <span className="block max-w-[100%] truncate text-12 capitalize md:text-14">{lineItem.name}</span>
+                <span className="block max-w-full truncate text-12 capitalize md:text-14">{lineItem.name}</span>
                 <span className="mt-8 block text-12 font-medium md:hidden">
                   {CurrencyHelpers.formatForCurrency(lineItem.price ?? {}, locale)}
                 </span>

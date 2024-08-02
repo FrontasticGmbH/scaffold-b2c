@@ -34,7 +34,6 @@ import { RangeFacet as QueryRangeFacet } from '@Types/query/RangeFacet';
 import { Facet as QueryFacet } from '@Types/query/Facet';
 import { Filter as QueryFilter, FilterTypes } from '@Types/query/Filter';
 import { FacetDefinition } from '@Types/product/FacetDefinition';
-import { FilteredFacetResult } from '@commercetools/platform-sdk/dist/declarations/src/generated/models/product';
 import { Locale } from '../Locale';
 import { ProductRouter } from '../utils/routers/ProductRouter';
 import LocalizedValue from '../utils/LocalizedValue';
@@ -46,6 +45,7 @@ const TypeMap = new Map<string, string>([
   ['number', FilterFieldTypes.NUMBER],
   ['lenum', FilterFieldTypes.ENUM],
   ['ltext', FilterFieldTypes.TEXT],
+  ['reference', FilterFieldTypes.TEXT],
   ['money', FilterFieldTypes.MONEY],
 ]);
 
@@ -64,7 +64,9 @@ export class ProductMapper {
     defaultLocale: string,
   ) => {
     const product: Product = {
-      productId: commercetoolsProduct?.[productIdField],
+      productId: commercetoolsProduct?.id,
+      productKey: commercetoolsProduct?.key,
+      productRef: commercetoolsProduct?.[productIdField],
       version: commercetoolsProduct?.version?.toString(),
       name: LocalizedValue.getLocalizedValue(locale, defaultLocale, commercetoolsProduct?.name),
       slug: LocalizedValue.getLocalizedValue(locale, defaultLocale, commercetoolsProduct?.slug),
@@ -123,6 +125,7 @@ export class ProductMapper {
       isOnStock: commercetoolsVariant.availability?.isOnStock,
       restockableInDays: commercetoolsVariant.availability?.restockableInDays,
       availableQuantity: commercetoolsVariant.availability?.availableQuantity,
+      isMatchingVariant: commercetoolsVariant.isMatchingVariant,
     } as Variant;
   };
 
@@ -218,6 +221,10 @@ export class ProductMapper {
         key: commercetoolsAttributeValue['key'],
         label: ProductMapper.extractAttributeValue(commercetoolsAttributeValue['label'], locale),
       };
+    }
+
+    if (commercetoolsAttributeValue['typeId'] === 'product' && commercetoolsAttributeValue['id'] !== undefined) {
+      return commercetoolsAttributeValue['id'];
     }
 
     if (commercetoolsAttributeValue instanceof Array) {
@@ -420,8 +427,14 @@ export class ProductMapper {
           return;
         }
 
+        let attributeType = attribute.type.name;
+
+        if (attribute.type.name === 'set' && (attribute.type as AttributeSetType).elementType) {
+          attributeType = attribute.type.name + '_' + (attribute.type as AttributeSetType).elementType.name;
+        }
+
         const facetDefinition: FacetDefinition = {
-          attributeType: attribute.type.name,
+          attributeType: attributeType,
           attributeId: `variants.attributes.${attribute.name}`,
           attributeLabel:
             attribute.label[locale.language] !== undefined && attribute.label[locale.language].length > 0
@@ -429,6 +442,7 @@ export class ProductMapper {
               : attribute.name,
         };
 
+        // Store facets by attributeId to avoid duplicated attributes
         if (facetDefinition.attributeId) facetDefinitionsIndex[facetDefinition.attributeId] = facetDefinition;
       });
     });
@@ -513,7 +527,9 @@ export class ProductMapper {
           break;
         case 'lenum':
           filterQueries.push(
-            `${queryFilter.identifier}.label.${locale.language}:"${(queryFilter as QueryTermFacet).terms?.join('","')}"`,
+            `${queryFilter.identifier}.label.${locale.language}:"${(queryFilter as QueryTermFacet).terms?.join(
+              '","',
+            )}"`,
           );
           break;
         case 'ltext':
@@ -521,10 +537,12 @@ export class ProductMapper {
             `${queryFilter.identifier}.${locale.language}:"${(queryFilter as QueryTermFacet).terms?.join('","')}"`,
           );
           break;
+        case 'set_reference':
+          filterQueries.push(`${queryFilter.identifier}.id:"${(queryFilter as QueryTermFacet).terms?.join('","')}"`);
+          break;
         case 'number':
         case 'boolean':
         case 'text':
-        case 'reference':
         default:
           if (queryFilter.type === FilterTypes.TERM) {
             filterQueries.push(`${queryFilter.identifier}:"${(queryFilter as QueryTermFacet).terms?.join('","')}"`);
@@ -593,10 +611,12 @@ export class ProductMapper {
             `${queryFacet.identifier}.${locale.language}:"${(queryFacet as QueryTermFacet).terms?.join('","')}"`,
           );
           break;
+        case 'set_reference':
+          filterFacets.push(`${queryFacet.identifier}.id:"${(queryFacet as QueryTermFacet).terms?.join('","')}"`);
+          break;
         case 'number':
         case 'boolean':
         case 'text':
-        case 'reference':
         default:
           if (queryFacet.type === FilterTypes.TERM) {
             filterFacets.push(`${queryFacet.identifier}:"${(queryFacet as QueryTermFacet).terms?.join('","')}"`);

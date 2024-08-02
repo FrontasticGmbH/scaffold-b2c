@@ -12,7 +12,7 @@ export interface ResetPasswordProps {
 const ResetPassword: FC<ResetPasswordProps> = ({ token, accountLink, signInLink }) => {
   return (
     <>
-      <div className="m-auto grid max-w-[480px] px-16">
+      <div className="m-auto grid max-w-screen-sm px-16">
         <ResetPasswordForm token={token} accountLink={accountLink} signInLink={signInLink} />
       </div>
       <AlterForm page="register" />

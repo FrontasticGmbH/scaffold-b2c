@@ -11,12 +11,12 @@ import MobileFacets from './components/mobile-facets';
 import SearchHeader from './components/search-header';
 import { useProductList } from './context';
 
-export interface Props {
+export interface ProductListProps {
   categories: Category[];
   products: Product[];
 }
 
-const ProductList: React.FC<Props> = ({ products, categories }) => {
+const ProductList: React.FC<ProductListProps> = ({ products, categories }) => {
   const { slug, searchQuery } = useProductList();
 
   const category = useMemo(() => categories.find((category) => category.slug === slug), [categories, slug]);

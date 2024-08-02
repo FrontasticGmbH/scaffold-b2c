@@ -9,8 +9,8 @@ export default {
 
 const Template: ComponentStory<typeof Checkbox> = (args) => (
   <div className="ml-44">
-    <Typography className="mt-40 w-[40%] text-28 font-bold text-black">Checkbox</Typography>
-    <Typography className="mt-20 w-[60%] text-20 leading-loose text-neutral-700">
+    <Typography className="mt-40 w-2/5 text-28 font-bold text-black">Checkbox</Typography>
+    <Typography className="mt-20 w-3/5 text-20 leading-loose text-neutral-700">
       The Checkbox component allows customers to select one or more items from a list of options.
     </Typography>
 

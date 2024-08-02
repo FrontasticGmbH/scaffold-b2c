@@ -7,8 +7,8 @@ import AccountDropdown from '..';
 const AccountDropdownContent: FC = () => {
   return (
     <div className="ml-44">
-      <Typography className="mt-40 w-[40%] text-28 font-bold text-black">Account Popover</Typography>
-      <Typography className="mt-20 w-[60%] text-20 leading-loose text-neutral-700">
+      <Typography className="mt-40 w-2/5 text-28 font-bold text-black">Account Popover</Typography>
+      <Typography className="mt-20 w-3/5 text-20 leading-loose text-neutral-700">
         The Account Popover displays customer account information and options in a dropdown menu. It consists of an icon
         that on click, opens a menu. The menu has a logged out and a logged in state, presenting options of login and
         register, or account related actions.
@@ -39,7 +39,7 @@ const AccountDropdownContent: FC = () => {
           </div>
         </div>
       </div>
-      <div className="mt-44 flex w-[50%] justify-start gap-x-50">
+      <div className="mt-44 flex w-1/2 justify-start gap-x-50">
         <div>
           <Popover className="relative shadow-300">
             <div className="z-[310] rounded-sm bg-white shadow-400">

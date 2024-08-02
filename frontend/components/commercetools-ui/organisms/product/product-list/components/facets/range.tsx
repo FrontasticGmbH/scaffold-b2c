@@ -174,7 +174,7 @@ const RangeFacet: React.FC<FacetProps> = ({ attribute }) => {
       <form className="mt-36 flex items-center gap-16" onSubmit={handleRangeSubmit}>
         <label
           htmlFor="min"
-          className="flex w-[85px] items-center gap-4 border border-neutral-500 bg-white p-7"
+          className="flex w-85 items-center gap-4 border border-neutral-500 bg-white p-7"
           aria-label="min"
         >
           <input
@@ -193,7 +193,7 @@ const RangeFacet: React.FC<FacetProps> = ({ attribute }) => {
 
         <label
           htmlFor="max"
-          className="flex w-[85px] items-center gap-4 border border-neutral-500 bg-white p-7"
+          className="flex w-85 items-center gap-4 border border-neutral-500 bg-white p-7"
           aria-label="max"
         >
           <input

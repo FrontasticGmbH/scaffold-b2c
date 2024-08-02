@@ -11,24 +11,27 @@ export default {
   argTypes: {},
 } as Meta;
 
-const Template: Story<TileProps> = (args) => (
+const Template: Story<TileProps> = () => (
   <div className="ml-44">
-    <Typography className="mt-40 w-[40%] text-28 font-bold text-black">Tile Component</Typography>
-    <Typography className="mt-20 w-[60%] text-20 leading-loose text-neutral-700">
-      The Tile Component displays content in a two grid layout. It displays an image, title, short description and a CTA
+    <Typography className="mt-40 w-2/5 text-28 font-bold text-black">Tile Component</Typography>
+    <Typography className="mt-20 w-3/5 text-20 leading-loose text-neutral-700">
+      The Tile Component displays content in a grid layout. It displays an image, title, short description and a CTA
       button.
     </Typography>
-    <div className="ml-80 mt-44">
+    <div className="mt-44 w-400 pr-20">
       <Tile
-        {...args}
         image={{
-          src: 'https://res.cloudinary.com/dlwdq84ig/image/upload/w_1920,q_auto,c_scale/bwew6xc0u3s9ctxyirle',
+          media: {
+            mediaId: 'w6m0l0rw2j8okyyv0twm',
+            file: 'https://res.cloudinary.com/dlwdq84ig/image/upload/v1704277263/w6m0l0rw2j8okyyv0twm.jpg',
+          },
+          fill: true,
         }}
         title="Here are some lovely texts just for testing if things go great, hopefully so"
         subtitle="Here are some lovely Subtitle texts just for testing"
         ctaLabel="Call To Action"
         ctaReference={headerButtonLink as Reference}
-        className="h-[550px] w-[85%]"
+        className="h-320 lg:h-[475px]"
       />
     </div>
   </div>

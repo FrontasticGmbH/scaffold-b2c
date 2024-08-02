@@ -41,7 +41,6 @@ const ProductVariant: FC<ProductVariantProps> = ({
     },
     [attribute],
   );
-
   const variantsToUse: VariantType[] = useMemo(() => {
     const result = currentVariant.attributes?.['size']
       ? filterAttributeBasedVariants(variants, currentVariant, attributeToFilterTo)
@@ -77,9 +76,8 @@ const ProductVariant: FC<ProductVariantProps> = ({
           {formatMessage({ id: attributeString, defaultMessage: attributeString })}
         </Typography>
         <Typography className="text-14 leading-loose">
-          {currentVariant?.attributes?.[`${attribute}label`].includes(':')
-            ? textToColor(currentVariant?.attributes?.[`${attribute}label`]).label
-            : currentVariant?.attributes?.[`${attribute}label`]}
+          {currentVariant?.attributes?.[`${attribute}label`] ??
+            textToColor(currentVariant?.attributes?.[attribute]).label}
         </Typography>
       </div>
 
@@ -89,7 +87,7 @@ const ProductVariant: FC<ProductVariantProps> = ({
             key={id}
             onClick={() => onClick?.(sku)}
             className={getVariantClassName(id)}
-            style={attribute !== 'size' ? { backgroundColor: attributes?.[attribute] } : {}}
+            style={attribute !== 'size' ? { backgroundColor: textToColor(attributes?.[attribute]).code } : {}}
           >
             {attribute == 'size' && attributes?.[attribute]}
           </Typography>

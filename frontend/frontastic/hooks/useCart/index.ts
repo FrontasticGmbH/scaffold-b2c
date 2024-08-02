@@ -82,7 +82,7 @@ const useCart = (): UseCartReturn => {
   const orderHistory = useCallback(async () => {
     const extensions = sdk.composableCommerce;
 
-    const res = await extensions.cart.queryOrders();
+    const res = await extensions.cart.queryOrders({ sortAttributes: [{ createdAt: 'desc' }] });
 
     return res.isError ? ([] as Order[]) : (res.data.items as Order[]);
   }, []);

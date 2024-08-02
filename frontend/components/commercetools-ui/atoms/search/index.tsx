@@ -116,7 +116,7 @@ const Search: React.FC<Props> = ({ categories }) => {
             {value && (
               <button
                 type="reset"
-                className="absolute right-[70px] top-1/2 block -translate-y-1/2"
+                className="absolute right-70 top-1/2 block -translate-y-1/2"
                 onClick={cleanUp}
                 onMouseDown={(e) => e.preventDefault()}
               >

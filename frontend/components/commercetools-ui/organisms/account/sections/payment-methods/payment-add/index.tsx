@@ -28,7 +28,7 @@ const PaymentAdd = () => {
       </div>
 
       <div className="mt-0 w-full px-16 py-0 md:px-24 lg:mt-36 lg:w-[65%] lg:rounded-md lg:border lg:px-24 lg:py-32">
-        <div className="mt-24 md:w-[375px] lg:mt-0">
+        <div className="mt-24 md:w-375 lg:mt-0">
           <div className="relative">
             <Typography as="label" className="text-14 font-medium text-secondary-black">
               {formatPaymentMessage({ id: 'card.number', defaultMessage: 'Card number *' })}
@@ -48,14 +48,14 @@ const PaymentAdd = () => {
             {resolveCCImage(paymentAddData.cardNumberFormatted) && (
               // eslint-disable-next-line
               <img
-                className="absolute right-8 top-52 w-[32px] -translate-y-1/2"
+                className="absolute right-8 top-52 w-32 -translate-y-1/2"
                 src={resolveCCImage(paymentAddData.cardNumberFormatted)}
               />
             )}
           </div>
 
           <div className="mt-24 w-full flex-col gap-8 md:max-w-[436px] lg:mt-12 lg:flex lg:flex-row">
-            <div className="w-full lg:w-[60%]">
+            <div className="w-full lg:w-3/5">
               <Typography as="label" className="text-14 font-medium text-secondary-black">
                 {formatPaymentMessage({ id: 'expiration.date', defaultMessage: 'Expiration date *' })}
               </Typography>
@@ -87,7 +87,7 @@ const PaymentAdd = () => {
           )}
         </div>
         <div className="mt-32 flex">
-          <Button variant="secondary" className="w-[112px]" onClick={() => router.push('/account#payment')}>
+          <Button variant="secondary" className="w-112" onClick={() => router.push('/account#payment')}>
             <Typography as="h2" className="text-center text-14 text-primary-black">
               {formatPaymentMessage({
                 id: 'cancel',
@@ -96,7 +96,7 @@ const PaymentAdd = () => {
             </Typography>
           </Button>
 
-          <Button variant="primary" className="ml-12 w-[112px]" onClick={paymentAddData.handleAddClick}>
+          <Button variant="primary" className="ml-12 w-112" onClick={paymentAddData.handleAddClick}>
             <Typography as="h2" className="text-center text-14">
               {formatPaymentMessage({
                 id: 'save',

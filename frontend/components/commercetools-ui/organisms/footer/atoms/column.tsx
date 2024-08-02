@@ -18,7 +18,7 @@ const Column: React.FC<Props> = ({ header, links, className }) => {
   return (
     <div className={className}>
       {header && <Typography className="self-start font-medium text-neutral-200 sm:pb-20">{header}</Typography>}
-      <ul role="list" className="mb-3 flex flex-col items-start  gap-y-18 self-start">
+      <ul role="list" className="mb-3 flex flex-col items-start gap-y-18 self-start">
         {links.map((item, i) => (
           <li key={i}>
             <Link variant="primary" link={item.reference}>

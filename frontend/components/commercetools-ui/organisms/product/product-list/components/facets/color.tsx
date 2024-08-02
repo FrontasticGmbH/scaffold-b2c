@@ -11,7 +11,7 @@ const ColorFacet: React.FC<FacetProps> = ({ attribute }) => {
 
   return (
     <div className="grid grid-cols-3 items-center justify-start gap-x-54 gap-y-36 lg:min-w-[340px]">
-      {facet.terms.map(({ identifier, key, label, selected, count }) => {
+      {facet.terms.map(({ identifier, key, selected, count }) => {
         const color = textToColor(key);
         return (
           <div
@@ -22,7 +22,7 @@ const ColorFacet: React.FC<FacetProps> = ({ attribute }) => {
             <div
               className={`h-40 w-40 rounded-full outline outline-1 outline-offset-1 ${
                 selected ? 'outline-gray-500' : 'outline-transparent'
-              } ${color.code === '#FFFFFF' ? 'border border-gray-500' : ''}`}
+              } ${['#ffffff', 'transparent'].includes(color.code.toLowerCase()) ? 'border border-gray-500' : ''}`}
               style={{ backgroundColor: color.code }}
             />
             <span className="mt-4 block max-w-full truncate text-14" title={color.label}>

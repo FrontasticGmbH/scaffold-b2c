@@ -11,8 +11,8 @@ export default {
 
 const Template: ComponentStory<typeof PasswordInput> = (args) => (
   <div className="ml-44">
-    <Typography className="mt-40 w-[40%] text-28 font-bold text-black">Input Field</Typography>
-    <Typography className="mt-20 w-[60%] text-20 leading-loose text-neutral-700">
+    <Typography className="mt-40 w-2/5 text-28 font-bold text-black">Input Field</Typography>
+    <Typography className="mt-20 w-3/5 text-20 leading-loose text-neutral-700">
       The Password Input Field allows customers to enter a password. It has a top label, placeholder and validation.
     </Typography>
 

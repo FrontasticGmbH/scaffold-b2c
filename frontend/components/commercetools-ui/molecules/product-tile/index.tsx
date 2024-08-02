@@ -5,15 +5,16 @@ import { Product } from 'shared/types/product/Product';
 import { LineItem } from 'shared/types/wishlist/LineItem';
 import OutOfStock from 'components/commercetools-ui/atoms/out-of-stock';
 import QuickView from 'components/commercetools-ui/organisms/product/product-quick-view';
-import Prices from 'components/commercetools-ui/organisms/product/product-tile/prices';
 import WishlistButton from 'components/commercetools-ui/organisms/wishlist/components/wishlist-button';
 import useMediaQuery from 'helpers/hooks/useMediaQuery';
 import useVariantWithDiscount from 'helpers/hooks/useVariantWithDiscount';
+import { textToColor } from 'helpers/textToColor/textToColor';
 import { desktop } from 'helpers/utils/screensizes';
 import Image from 'frontastic/lib/image';
+import Prices from './prices';
 import useTrack from './useTrack';
 
-interface ProductTileProps {
+export interface ProductTileProps {
   product: Product;
   onClick?: () => void;
   isSearchResult?: boolean;
@@ -68,6 +69,8 @@ const ProductTile: FC<ProductTileProps> = ({
       return {
         lineItemId: product.productId ?? '',
         productId: product.productId,
+        productKey: product.productKey,
+        productRef: product.productRef,
         name: product.name,
         count: 1,
         variant: selectedVariant,
@@ -107,13 +110,13 @@ const ProductTile: FC<ProductTileProps> = ({
               </div>
             </div>
             <span
-              className="absolute right-0 top-0 z-10 flex h-[32px] w-[32px] cursor-pointer items-center justify-center md:h-[48px] md:w-[48px]"
+              className="absolute right-0 top-0 z-10 flex h-32 w-32 cursor-pointer items-center justify-center md:h-48 md:w-48"
               onClick={(e) => e.preventDefault()}
             >
               {!disableWishlistButton && productToWishlistLineItem && (
                 <WishlistButton
                   lineItem={productToWishlistLineItem}
-                  className="h-[16px] w-[16px] md:h-[20px] md:w-[20px] lg:h-[24px] lg:w-[24px]"
+                  className="h-16 w-16 md:h-20 md:w-20 lg:h-24 lg:w-24"
                 />
               )}
             </span>
@@ -127,7 +130,7 @@ const ProductTile: FC<ProductTileProps> = ({
         >
           <div className="w-full text-center">
             {hasDiscount && (
-              <span className="mb-8 ml-8 flex h-[25px] w-[45px] items-center justify-center bg-accent-red text-12 text-neutral-100">
+              <span className="mb-8 ml-8 flex h-25 w-45 items-center justify-center bg-accent-red text-12 text-neutral-100">
                 {Math.round(discountPercentage)}%
               </span>
             )}
@@ -153,15 +156,20 @@ const ProductTile: FC<ProductTileProps> = ({
               {product?.variants
                 .filter(
                   (variant, index, arr) =>
-                    arr.findIndex((v) => v.attributes?.color === variant.attributes?.color) === index,
+                    arr.findIndex(
+                      (v) => textToColor(v.attributes?.color).code === textToColor(variant.attributes?.color).code,
+                    ) === index,
                 )
                 .map((variant, index) => (
                   <span
                     key={index}
-                    className={`block cursor-pointer rounded-full border p-[6px] ${
+                    className={`block cursor-pointer rounded-full border p-6 ${
                       variant.sku !== selectedVariant.sku ? 'border-neutral-300' : 'border-neutral-500'
                     }`}
-                    style={{ backgroundColor: variant.attributes?.color || variant.attributes?.finish }}
+                    style={{
+                      backgroundColor:
+                        textToColor(variant.attributes?.color).code || textToColor(variant.attributes?.finish).code,
+                    }}
                     onClick={(e) => {
                       e.preventDefault();
                       setUserSelectedVariant(variant);

@@ -1,7 +1,7 @@
 import { FC } from 'react';
 import { XMarkIcon } from '@heroicons/react/24/outline';
-import Modal from 'components/commercetools-ui/atoms/modal';
 import Typography from 'components/commercetools-ui/atoms/typography';
+import Modal from 'components/commercetools-ui/organisms/modal';
 import { useFormat } from 'helpers/hooks/useFormat';
 import SaveOrCancel from '../../account-atoms/save-or-cancel';
 

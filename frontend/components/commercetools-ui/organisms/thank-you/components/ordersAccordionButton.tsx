@@ -9,9 +9,9 @@ const OrdersAccordionButton: FC<OrdersAccordionButtonProps> = ({ order }) => {
   const hiddenItemsCount = (order?.lineItems?.length ?? 0) - 3;
   return (
     <div className="hidden w-full justify-between gap-20 lg:flex">
-      <div className={`grid max-h-[104px] grid-cols-3 gap-20 overflow-hidden`}>
+      <div className={`grid max-h-104 grid-cols-3 gap-20 overflow-hidden`}>
         {order?.lineItems?.map((lineItem) => (
-          <div key={lineItem.lineItemId} className="relative h-[104px] w-[88px] shrink-0">
+          <div key={lineItem.lineItemId} className="relative h-104 w-88 shrink-0">
             <Image
               fill
               src={lineItem.variant?.images?.[0]}

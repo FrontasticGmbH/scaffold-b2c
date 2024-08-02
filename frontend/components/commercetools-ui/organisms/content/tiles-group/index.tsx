@@ -1,6 +1,6 @@
 import React from 'react';
 import useImageSizes from 'helpers/hooks/useImageSizes';
-import Tile, { TileProps } from '../tile';
+import Tile, { TileProps } from '../../../molecules/tile';
 
 export interface Props {
   tiles: TileProps[];
@@ -17,7 +17,7 @@ const TilesGroup: React.FC<Props> = ({ tiles }) => {
             key={index}
             {...tile}
             image={{ ...tile.image, fill: true, sizes: imageSizes, alt: tile.title ?? '' }}
-            className="h-[320px] lg:h-[475px]"
+            className="h-320 lg:h-[475px]"
           />
         ))}
       </div>

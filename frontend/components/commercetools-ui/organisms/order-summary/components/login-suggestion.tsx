@@ -1,8 +1,8 @@
 import { useCallback, useState } from 'react';
 import { XMarkIcon as CloseIcon } from '@heroicons/react/24/solid';
 import Button from 'components/commercetools-ui/atoms/button';
-import Modal from 'components/commercetools-ui/atoms/modal';
 import Typography from 'components/commercetools-ui/atoms/typography';
+import Modal from 'components/commercetools-ui/organisms/modal';
 import { useFormat } from 'helpers/hooks/useFormat';
 import Login from '../../authentication/login';
 

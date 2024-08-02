@@ -36,7 +36,7 @@ const Gallery: FC<GalleryProps> = ({ images, inModalVersion }) => {
     <div className="gap-y-34 px-4 md:mb-50">
       <div className={containerClassName}>
         <div className={isLoading ? 'block' : 'hidden'}>
-          <Image src={images[0]} loading="eager" suffix="medium" style={{ objectFit: 'contain' }} fill />
+          <Image src={images[0]} loading="eager" suffix="large" style={{ objectFit: 'contain' }} fill />
         </div>
 
         <div className={isLoading ? 'hidden' : 'block'}>
@@ -56,11 +56,11 @@ const Gallery: FC<GalleryProps> = ({ images, inModalVersion }) => {
             onInit={() => setIsLoading(false)}
           >
             {images?.map((image, index) => (
-              <div key={index} className={classnames('relative w-full', inModalVersion ? 'h-[250px]' : 'h-[447px]')}>
+              <div key={index} className={classnames('relative w-full', inModalVersion ? 'h-250' : 'h-[447px]')}>
                 <Image
                   src={image}
                   loading={index === 0 ? 'eager' : 'lazy'}
-                  suffix="medium"
+                  suffix="large"
                   style={{ objectFit: 'contain' }}
                   fill
                 />

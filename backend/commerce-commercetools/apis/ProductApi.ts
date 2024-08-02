@@ -47,8 +47,25 @@ export class ProductApi extends BaseApi {
 
     const queryArgFacets = ProductMapper.facetDefinitionsToCommercetoolsQueryArgFacets(facetDefinitions, locale);
 
+    // Handle productRefs base on value set in productIdField
+    if (productQuery.productRefs !== undefined && productQuery.productRefs.length !== 0) {
+      switch (this.productIdField) {
+        case 'id':
+          productQuery.productIds.push(...productQuery.productRefs);
+          break;
+        case 'key':
+        default:
+          productQuery.productKeys.push(...productQuery.productRefs);
+          break;
+      }
+    }
+
     if (productQuery.productIds !== undefined && productQuery.productIds.length !== 0) {
-      filterQuery.push(`${this.productIdField}:"${productQuery.productIds.join('","')}"`);
+      filterQuery.push(`id:"${productQuery.productIds.join('","')}"`);
+    }
+
+    if (productQuery.productKeys !== undefined && productQuery.productKeys.length !== 0) {
+      filterQuery.push(`key:"${productQuery.productKeys.join('","')}"`);
     }
 
     if (productQuery.skus !== undefined && productQuery.skus.length !== 0) {
@@ -119,6 +136,7 @@ export class ProductApi extends BaseApi {
         'filter.query': filterQuery.length > 0 ? filterQuery : undefined,
         [`text.${locale.language}`]: productQuery.query,
         expand: ['categories[*].ancestors[*]', 'categories[*].parent'],
+        markMatchingVariants: true,
         fuzzy: true,
       },
     };

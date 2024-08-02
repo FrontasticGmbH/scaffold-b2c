@@ -43,7 +43,7 @@ export const EmptyState: React.FC<Props> = ({
           <li key={category.name} onClick={handleCategoryClick}>
             <Link link={category.reference}>
               <Button
-                className="w-200 rounded-[4px] border border-primary-black text-16 text-secondary-black"
+                className="w-200 rounded-md border border-primary-black text-16 text-secondary-black"
                 variant="secondary"
               >
                 {category.name}

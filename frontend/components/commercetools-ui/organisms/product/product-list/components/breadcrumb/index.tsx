@@ -1,7 +1,7 @@
 import React, { useMemo } from 'react';
 import { Category } from 'shared/types/product/Category';
-import Breadcrumb from 'components/commercetools-ui/atoms/breadcrumb';
 import Link from 'components/commercetools-ui/atoms/link';
+import Breadcrumb from 'components/commercetools-ui/molecules/breadcrumb';
 import { useFormat } from 'helpers/hooks/useFormat';
 import usePath from 'helpers/hooks/usePath';
 

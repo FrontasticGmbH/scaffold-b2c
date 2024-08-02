@@ -16,7 +16,7 @@ const LoggedIn = () => {
   };
 
   return (
-    <div className="w-[235px] p-14">
+    <div className="w-235 p-14">
       <Popover.Button className="w-full">
         <Link link="/account#" className="mt-10 block w-fit">
           <Typography className="text-primary-black hover:underline">

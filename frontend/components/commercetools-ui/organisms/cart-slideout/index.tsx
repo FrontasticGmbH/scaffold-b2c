@@ -33,9 +33,7 @@ const CartSlideout: FC<CartSlideoutProps> = ({
         />
       ) : (
         <div className="h-[65vh] grow divide-y divide-neutral-400 overflow-auto px-12 md:px-22">
-          {data?.lineItems?.map((lineItem) => (
-            <CartItem key={lineItem.lineItemId} item={lineItem} />
-          ))}
+          {data?.lineItems?.map((lineItem) => <CartItem key={lineItem.lineItemId} item={lineItem} />)}
         </div>
       )}
       <OrderPaymentSection

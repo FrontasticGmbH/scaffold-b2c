@@ -5,6 +5,8 @@ import { UIColor, UIProduct, UISize } from 'components/commercetools-ui/organism
 export const toUIProduct = (product: Product, variant: Variant, colors: UIColor[], sizes: UISize[]) => {
   const mappedProduct: UIProduct = {
     productId: product.productId,
+    productKey: product.productKey,
+    productRef: product.productRef,
     name: product?.name ?? '',
     variants: product?.variants,
     price: variant?.price ?? {},

@@ -32,7 +32,7 @@ const Hero: React.FC<HeroProps> = ({ image, title, subtitle, ctaLabel, ctaRefere
   return (
     <div className="relative w-full">
       {image && (
-        <div className="relative h-[296px] md:h-[532px] lg:h-[668px]">
+        <div className="relative h-296 md:h-[532px] lg:h-[668px]">
           <Image
             {...image}
             priority

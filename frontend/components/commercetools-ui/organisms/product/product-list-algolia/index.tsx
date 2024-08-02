@@ -2,6 +2,7 @@ import React, { useMemo } from 'react';
 import { useParams } from 'next/navigation';
 import { Configure, InfiniteHits } from 'react-instantsearch-hooks-web';
 import { Category } from 'shared/types/product/Category';
+import ProductTile from 'components/commercetools-ui/molecules/product-tile';
 import Wrapper from 'components/HOC/wrapper';
 import { mapProduct } from 'helpers/algolia/map-product';
 import { PLP_PRODUCT_CLICKED } from 'helpers/constants/events';
@@ -13,7 +14,6 @@ import DesktopFacets from './components/desktop-facets';
 import MobileFacets from './components/mobile-facets';
 import SearchHeader from './components/search-header';
 import { FacetConfiguration } from './types';
-import ProductTile from '../product-tile';
 
 interface Props {
   slug?: string;

@@ -92,7 +92,7 @@ const Slideout: React.FC<SlideOutProps> = ({
             handleCategoryClick={onClose}
           />
         ),
-      }[state as MenuState] ?? <></>),
+      })[state as MenuState] ?? <></>,
     [
       emptyCartCategories,
       emptyCartImage,
@@ -119,7 +119,7 @@ const Slideout: React.FC<SlideOutProps> = ({
             >
               <div className={wishlistClassName} />
               {totalWishlistItems > 0 && (
-                <span className="absolute right-[-8px] top-[-3px] h-10 w-10 rounded-full bg-green-500" />
+                <span className="absolute -right-8 -top-3 h-10 w-10 rounded-full bg-green-500" />
               )}
               <HeartIcon className="w-28" stroke="#494949" />
             </div>

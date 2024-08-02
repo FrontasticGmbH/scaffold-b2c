@@ -7,12 +7,12 @@ import Typography from '../../typography';
 const DropdownContent = () => {
   return (
     <div className="ml-44">
-      <Typography className="mt-40 w-[40%] text-28 font-bold text-black">Dropdown</Typography>
-      <Typography className="mt-20 w-[60%] text-20 leading-loose text-neutral-700">
+      <Typography className="mt-40 w-2/5 text-28 font-bold text-black">Dropdown</Typography>
+      <Typography className="mt-20 w-3/5 text-20 leading-loose text-neutral-700">
         The Dropdown component allows customers to select one option from a list of options.
       </Typography>
 
-      <div className="mt-40 w-[40%]">
+      <div className="mt-40 w-2/5">
         <Dropdown items={dropdownItems} />
       </div>
 

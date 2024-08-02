@@ -34,7 +34,8 @@ const HeaderNavigationDesktop: React.FC<Props> = ({ links, tiles }) => {
 
   const handleMouseIn = (category: Category) => {
     clearShowTimeout();
-    if (activeCategory) showSubMenu(category); //Already opened do not delay
+    if (activeCategory)
+      showSubMenu(category); //Already opened do not delay
     else showTimeout.current = setTimeout(() => showSubMenu(category), 500);
   };
 

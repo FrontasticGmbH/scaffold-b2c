@@ -1,12 +1,16 @@
 import { OrderState } from 'shared/types/cart';
 
+type SortAttribute = {
+  [key: string]: 'asc' | 'desc';
+};
+
 type QueryOrdersQuery = {
   limit?: number;
   cursor?: string;
   orderIds?: string[];
   orderNumbers?: string[];
   orderStates?: OrderState[];
-  // sortAttributes?: any;  // TODO find accurate type and add
+  sortAttributes?: SortAttribute[];
   query?: string;
 };
 

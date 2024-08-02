@@ -21,7 +21,7 @@ const MyAccount: React.FC<Props> = ({ isLoading }) => {
       {/* Title and subtitle */}
       <div className="mb-32 grid gap-20 md:mb-42 lg:mb-56 lg:gap-24">
         {isLoading ? (
-          <Skeleton className="h-[30px] max-w-[300px]" />
+          <Skeleton className="h-30 max-w-[300px]" />
         ) : (
           <Typography as="h3" className="hidden text-20 text-primary-black md:block lg:text-24">
             {`${formatMessage({ id: 'hello', defaultMessage: 'Hi, ' })}${account?.firstName ?? ''}`}
@@ -39,7 +39,7 @@ const MyAccount: React.FC<Props> = ({ isLoading }) => {
       {/* Sections */}
       <div className="grid gap-32 md:gap-24 lg:gap-48">
         {isLoading ? (
-          <Skeleton className="h-[350px]" />
+          <Skeleton className="h-350" />
         ) : (
           <>
             <PersonalInfo account={account as Account} />

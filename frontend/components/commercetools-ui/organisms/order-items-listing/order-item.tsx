@@ -15,7 +15,7 @@ const OrderItem: FC<OrderItemProps> = ({ lineItem }) => {
   return (
     <div key={lineItem.lineItemId} className="flex justify-start border-b py-16">
       {lineItem.variant?.images?.[0] && (
-        <div className="relative h-[104px] w-[88px] shrink-0">
+        <div className="relative h-104 w-88 shrink-0">
           <Image fill src={lineItem.variant.images[0]} style={{ objectFit: 'contain' }} alt={lineItem.name} />
         </div>
       )}

@@ -26,7 +26,7 @@ const DesktopFacets: React.FC = () => {
             </Menu.Button>
             <Menu.Items
               static
-              className={`absolute left-0 max-h-[316px] min-w-[320px] origin-top-right translate-y-[10px] overflow-auto rounded-md bg-white px-36 py-24 shadow-lg transition ${
+              className={`absolute left-0 max-h-316 min-w-[320px] origin-top-right translate-y-10 overflow-auto rounded-md bg-white px-36 py-24 shadow-lg transition ${
                 styles.desktop_facet_container
               } ${open ? 'z-20 scale-100' : 'z-[-1] scale-95 opacity-0'}`}
             >
@@ -53,7 +53,7 @@ const DesktopFacets: React.FC = () => {
             </Menu.Button>
             <Menu.Items
               static
-              className={`absolute right-0 min-w-[280px] origin-top-right translate-y-[10px] rounded-md bg-white shadow-lg transition ${
+              className={`absolute right-0 min-w-[280px] origin-top-right translate-y-10 rounded-md bg-white shadow-lg transition ${
                 open ? 'z-20 scale-100' : 'z-[-1] scale-95 opacity-0'
               }`}
             >

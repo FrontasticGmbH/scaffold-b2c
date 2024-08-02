@@ -35,7 +35,7 @@ const Login: React.FC<LoginProps> = ({ onLogin }) => {
 
   return (
     <>
-      <div className="m-auto grid max-w-[480px] px-16">
+      <div className="m-auto grid max-w-screen-sm px-16">
         <LoginForm onLogin={onLogin} />
       </div>
       <AlterForm page="register" />

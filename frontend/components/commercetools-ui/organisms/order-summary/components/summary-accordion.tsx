@@ -46,11 +46,11 @@ const SummaryAccordion: FC<Props> = ({ className, order, cart }) => {
       buttonClassName="w-full"
       customClosedButton={<AccordionButton open={open} toggleAccordion={toggleAccordion} total={total} />}
     >
-      <div className="grid max-h-[400px] w-full grid-cols-1 overflow-auto">
+      <div className="grid max-h-400 w-full grid-cols-1 overflow-auto">
         {data?.lineItems?.map((lineItem, index) => (
           <div key={lineItem.lineItemId} className={lineItemClassNames(index)}>
             {lineItem.variant?.images?.[0] && (
-              <div className="relative h-[104px] w-[88px] shrink-0">
+              <div className="relative h-104 w-88 shrink-0">
                 <Image
                   fill
                   src={lineItem.variant.images[0]}

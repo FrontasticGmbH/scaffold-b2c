@@ -1,6 +1,6 @@
 import React, { FC } from 'react';
 import { Product } from 'shared/types/product/Product';
-import ProductTile from 'components/commercetools-ui/organisms/product/product-tile';
+import ProductTile from 'components/commercetools-ui/molecules/product-tile';
 import useSelectedColorFilterVariant from '../../../../../../../helpers/hooks/useSelectedColorFilterVariant';
 
 interface ProductTileWrapperProps {

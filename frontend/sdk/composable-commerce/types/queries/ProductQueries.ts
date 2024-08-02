@@ -1,8 +1,10 @@
 import { ProductQuery } from 'shared/types/query';
 
 type GetProductQuery = {
-  id: string;
-  sku: string;
+  id?: string;
+  key?: string;
+  ref?: string;
+  sku?: string;
 };
 
 type ProductQueryQuery = {
@@ -10,6 +12,8 @@ type ProductQueryQuery = {
   cursor?: string;
   categories?: string[];
   productIds?: string[];
+  productKeys?: string[];
+  productRefs?: string[];
   productType?: string;
   skus?: string[];
   query?: string;

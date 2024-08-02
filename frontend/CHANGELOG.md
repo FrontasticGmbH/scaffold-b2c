@@ -1,4 +1,28 @@
 
+## Version 1.15.0 (2024-08-01)
+
+** New Features and Improvements **
+- Added not found page to storybook
+- Add molecules folder and stories per each
+
+** Bug fixes **
+- Updated image storybook src for image
+- Update mock images sources
+- User modal is not above search bar fix
+- Use env variable in netlify.toml for ignore paths
+- Upgrade prettier and re lint codebase
+- Increase product and category query limits in sitemap generation.
+- Update color facet in product list component
+- Filters non matching variants in the product list tastic
+- Update pdp image quality to large
+- Update facet color mapping and product variant display logic
+- Ads missing sortAttributes type for b2c orders
+- Fix themes bug for b2b and b2c
+- Move modal to organisms
+- Remove stores links on storybook for b2b and b2c
+- Add missing organisms to storybook
+- Update molecules stories
+
 ## Version 1.14.0 (2024-06-28)
 
 ** New Features and Improvements **

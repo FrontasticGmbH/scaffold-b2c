@@ -1,11 +1,11 @@
 import React, { FC, useEffect, useState } from 'react';
 import { Variant } from 'shared/types/product';
 import { Category } from 'shared/types/product/Category';
-import Breadcrumb from 'components/commercetools-ui/atoms/breadcrumb';
 import Button from 'components/commercetools-ui/atoms/button';
 import Dropdown from 'components/commercetools-ui/atoms/dropdown';
 import Link from 'components/commercetools-ui/atoms/link';
 import Typography from 'components/commercetools-ui/atoms/typography';
+import Breadcrumb from 'components/commercetools-ui/molecules/breadcrumb';
 import Gallery from 'components/commercetools-ui/organisms/gallery';
 import { useAddToCartOverlay } from 'context/add-to-cart-overlay';
 import useClassNames from 'helpers/hooks/useClassNames';

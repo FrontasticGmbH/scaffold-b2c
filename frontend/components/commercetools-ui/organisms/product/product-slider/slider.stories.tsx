@@ -12,12 +12,12 @@ export default {
 
 const Template: Story<ProductSliderProps> = (args) => (
   <div className="ml-44">
-    <Typography className="mt-40 w-[40%] text-28 font-bold text-black">Product Slider</Typography>
-    <Typography className="mt-20 w-[60%] text-20 leading-loose text-neutral-700">
+    <Typography className="mt-40 w-2/5 text-28 font-bold text-black">Product Slider</Typography>
+    <Typography className="mt-20 w-3/5 text-20 leading-loose text-neutral-700">
       The Product Slider showcases a selection of products. It consists of a horizontal strip of cards that can be
       scrolled through using arrows or swiping. It includes product name, price, images and a Quick-view button.
     </Typography>
-    <div className="mt-40 w-[80%] pl-44">
+    <div className="mt-40 w-4/5 pl-44">
       <ProductSlider
         {...args}
         products={products}

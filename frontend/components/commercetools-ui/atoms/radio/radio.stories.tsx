@@ -10,8 +10,8 @@ export default {
 
 const Template: ComponentStory<typeof Radio> = (args) => (
   <div className="ml-44">
-    <Typography className="mt-40 w-[40%] text-28 font-bold text-black">Radio Button</Typography>
-    <Typography className="mt-20 w-[60%] text-20 leading-loose text-neutral-700">
+    <Typography className="mt-40 w-2/5 text-28 font-bold text-black">Radio Button</Typography>
+    <Typography className="mt-20 w-3/5 text-20 leading-loose text-neutral-700">
       The Radio Button allows customers to select a single option from a list of predefined choices.
     </Typography>
 

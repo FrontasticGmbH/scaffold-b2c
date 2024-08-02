@@ -1,6 +1,6 @@
+import { ShipmentState } from 'shared/types/cart';
 import { LineItem } from 'shared/types/cart/LineItem';
 import { Order } from 'shared/types/cart/Order';
-import { ShipmentState } from 'shared/types/cart';
 import { ShippingMethod } from 'shared/types/cart/ShippingMethod';
 import { Product } from 'shared/types/product/Product';
 import { Reference } from 'types/reference';
@@ -37,10 +37,7 @@ export const lineItems: LineItem[] = [
       id: '1',
       sku: 'GRCG-01',
       images: [
-        'https://2eca75039cf911b9bbe5-79bfd3e36f011d786971804e873c4354.ssl.cf3.rackcdn.com/AdobeStock_324635452-6Chpt8Bw.jpeg',
-        'https://2eca75039cf911b9bbe5-79bfd3e36f011d786971804e873c4354.ssl.cf3.rackcdn.com/AdobeStock_345693811-mWzNB9BD.jpeg',
-        'https://2eca75039cf911b9bbe5-79bfd3e36f011d786971804e873c4354.ssl.cf3.rackcdn.com/AdobeStock_344282685-LkqxUcRQ.jpeg',
-        'https://2eca75039cf911b9bbe5-79bfd3e36f011d786971804e873c4354.ssl.cf3.rackcdn.com/AdobeStock_347188911-LBNwmq_K.jpeg',
+        'https://images.cdn.europe-west1.gcp.commercetools.com/a79de97d-1218-4218-a80f-29109baae7b0/sample-data_goodstor-rFyoxXme.jpeg',
       ],
       attributes: {
         productspec: '- Set of 5 glasses\n- Imported crystal\n- Gold polish on the rims',
@@ -97,9 +94,9 @@ export const lineItems: LineItem[] = [
       id: '1',
       sku: 'TTSS-01',
       images: [
-        'https://2eca75039cf911b9bbe5-79bfd3e36f011d786971804e873c4354.ssl.cf3.rackcdn.com/AdobeStock_305670594-0wqoZ-dr.jpeg',
-        'https://2eca75039cf911b9bbe5-79bfd3e36f011d786971804e873c4354.ssl.cf3.rackcdn.com/AdobeStock_305670456-WsI7wbFD.jpeg',
-        'https://2eca75039cf911b9bbe5-79bfd3e36f011d786971804e873c4354.ssl.cf3.rackcdn.com/AdobeStock_305671593-4T4P-rfg.jpeg',
+        'https://95dfeffbda96db953574-a645c2420e466d4e59dabbadeebf9a9e.ssl.cf3.rackcdn.com/AdobeStock_305670594-Svpdrrw1.jpeg',
+        'https://95dfeffbda96db953574-a645c2420e466d4e59dabbadeebf9a9e.ssl.cf3.rackcdn.com/AdobeStock_305670456-7LLjHhlw.jpeg',
+        'https://95dfeffbda96db953574-a645c2420e466d4e59dabbadeebf9a9e.ssl.cf3.rackcdn.com/AdobeStock_305671593-0TIoFOzl.jpeg',
       ],
       attributes: {
         productspec: '- Three seater sofa\n- Velvet upholstery\n- Assembly on site',
@@ -265,9 +262,9 @@ export const products: Product[] = [
         id: '1',
         sku: 'TTSS-01',
         images: [
-          'https://2eca75039cf911b9bbe5-79bfd3e36f011d786971804e873c4354.ssl.cf3.rackcdn.com/AdobeStock_305670594-0wqoZ-dr.jpeg',
-          'https://2eca75039cf911b9bbe5-79bfd3e36f011d786971804e873c4354.ssl.cf3.rackcdn.com/AdobeStock_305670456-WsI7wbFD.jpeg',
-          'https://2eca75039cf911b9bbe5-79bfd3e36f011d786971804e873c4354.ssl.cf3.rackcdn.com/AdobeStock_305671593-4T4P-rfg.jpeg',
+          'https://95dfeffbda96db953574-a645c2420e466d4e59dabbadeebf9a9e.ssl.cf3.rackcdn.com/AdobeStock_305670594-Svpdrrw1.jpeg',
+          'https://95dfeffbda96db953574-a645c2420e466d4e59dabbadeebf9a9e.ssl.cf3.rackcdn.com/AdobeStock_305670456-7LLjHhlw.jpeg',
+          'https://95dfeffbda96db953574-a645c2420e466d4e59dabbadeebf9a9e.ssl.cf3.rackcdn.com/AdobeStock_305671593-0TIoFOzl.jpeg',
         ],
         attributes: {
           productspec: '- Three seater sofa\n- Velvet upholstery\n- Assembly on site',
@@ -362,10 +359,7 @@ export const products: Product[] = [
         id: '1',
         sku: 'GRCG-01',
         images: [
-          'https://2eca75039cf911b9bbe5-79bfd3e36f011d786971804e873c4354.ssl.cf3.rackcdn.com/AdobeStock_324635452-6Chpt8Bw.jpeg',
-          'https://2eca75039cf911b9bbe5-79bfd3e36f011d786971804e873c4354.ssl.cf3.rackcdn.com/AdobeStock_345693811-mWzNB9BD.jpeg',
-          'https://2eca75039cf911b9bbe5-79bfd3e36f011d786971804e873c4354.ssl.cf3.rackcdn.com/AdobeStock_344282685-LkqxUcRQ.jpeg',
-          'https://2eca75039cf911b9bbe5-79bfd3e36f011d786971804e873c4354.ssl.cf3.rackcdn.com/AdobeStock_347188911-LBNwmq_K.jpeg',
+          'https://images.cdn.europe-west1.gcp.commercetools.com/a79de97d-1218-4218-a80f-29109baae7b0/sample-data_goodstor-rFyoxXme.jpeg',
         ],
         attributes: {
           productspec: '- Set of 5 glasses\n- Imported crystal\n- Gold polish on the rims',

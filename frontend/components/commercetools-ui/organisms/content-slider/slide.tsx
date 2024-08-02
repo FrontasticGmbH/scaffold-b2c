@@ -12,7 +12,7 @@ const ContentSliderSlide: FC<ContentSliderSlideProps> = ({ image, title, ctaLabe
   return (
     <Link link={ctaReference} className="w-full overflow-hidden">
       {image && (
-        <div className="relative h-[220px] md:h-[356px]">
+        <div className="relative h-220 md:h-356">
           <div className="absolute z-10 h-full w-full rounded-md bg-black opacity-20"></div>
           <Image {...image} sizes={tileImageSizes} className="mb-5 rounded-md" fill style={{ objectFit: 'cover' }} />
         </div>

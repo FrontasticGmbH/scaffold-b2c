@@ -12,7 +12,7 @@ const LoggedOut = () => {
   const goToLoginPage = () => router.push('/login');
 
   return (
-    <div className="w-[235px] p-14">
+    <div className="w-235 p-14">
       <Popover.Button as="div" className="w-full">
         <Button variant="primary" className="w-full py-12 text-16 leading-[16px]" onClick={goToLoginPage}>
           {formatAccountMessage({ id: 'sign.in', defaultMessage: 'Sign in' })}
@@ -23,7 +23,7 @@ const LoggedOut = () => {
           {formatAccountMessage({ id: 'membership.info', defaultMessage: 'Membership info' })}
         </Link>
       </Popover.Button>
-      <div className="mt-32 flex pb-10 ">
+      <div className="mt-32 flex pb-10">
         <span className="whitespace-nowrap">
           {formatAccountMessage({ id: 'not.member', defaultMessage: 'Not a member' })}?
         </span>

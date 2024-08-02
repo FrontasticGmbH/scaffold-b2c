@@ -24,6 +24,18 @@ export const getProduct: ActionHook = async (request: Request, actionContext: Ac
       };
     }
 
+    if ('key' in request.query) {
+      productQuery = {
+        productKeys: [request.query['key']],
+      };
+    }
+
+    if ('ref' in request.query) {
+      productQuery = {
+        productRefs: [request.query['ref']],
+      };
+    }
+
     if ('sku' in request.query) {
       productQuery = {
         skus: [request.query['sku']],

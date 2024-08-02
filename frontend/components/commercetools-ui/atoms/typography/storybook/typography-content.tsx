@@ -4,8 +4,8 @@ import Typography from '..';
 const TypographyContent = () => {
   return (
     <div className="ml-44">
-      <Typography className="mt-40 w-[40%] text-28 font-bold text-black">Typography</Typography>
-      <Typography className="mt-20 w-[60%] text-20 leading-loose text-neutral-700">
+      <Typography className="mt-40 w-2/5 text-28 font-bold text-black">Typography</Typography>
+      <Typography className="mt-20 w-3/5 text-20 leading-loose text-neutral-700">
         The Typography Component consists of pre-defined styles for various text elements. The Typography components can
         be used to create a consistent and visually appealing typography system and includes font size, line height,
         color, and spacing.

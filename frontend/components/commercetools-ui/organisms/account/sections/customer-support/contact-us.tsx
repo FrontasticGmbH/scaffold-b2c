@@ -109,7 +109,7 @@ const ContactUs: React.FC<Props> = ({
           <Typography as="span" className="pb-4 text-14 text-secondary-black">
             {cityAndPostalCode}
           </Typography>
-          <Typography as="span" className="text-14  text-secondary-black">
+          <Typography as="span" className="text-14 text-secondary-black">
             {country}
           </Typography>
         </div>

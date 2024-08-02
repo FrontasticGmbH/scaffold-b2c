@@ -11,11 +11,8 @@ const Template: StoryFn<ImageProps> = (args) => <Image {...args} />;
 export const Optimized = Template.bind({});
 Optimized.args = {
   media: {
-    mediaId: 'ynxtwuvnvlluue6fexog',
-    resourceType: 'image',
-    name: 'AdobeStock 510169269',
-    tags: ['__none'],
-    file: 'https://res.cloudinary.com/dlwdq84ig/image/upload/ynxtwuvnvlluue6fexog',
+    mediaId: 'w6m0l0rw2j8okyyv0twm',
+    file: 'https://res.cloudinary.com/dlwdq84ig/image/upload/v1704277263/w6m0l0rw2j8okyyv0twm.jpg',
     size: 516362,
     width: 1378,
     height: 1378,
@@ -25,7 +22,7 @@ Optimized.args = {
 
 export const UnOptimized = Template.bind({});
 UnOptimized.args = {
-  src: 'https://res.cloudinary.com/dlwdq84ig/image/upload/ynxtwuvnvlluue6fexog',
+  src: 'https://res.cloudinary.com/dlwdq84ig/image/upload/v1704277263/w6m0l0rw2j8okyyv0twm.jpg',
   width: 680,
   height: 340,
 };

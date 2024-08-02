@@ -74,14 +74,14 @@ const PaymentEdit = () => {
             {resolveCCImage(cardNumberFormatted) && (
               // eslint-disable-next-line
               <img
-                className="absolute right-8 top-52 w-[32px] -translate-y-1/2"
+                className="absolute right-8 top-52 w-32 -translate-y-1/2"
                 src={resolveCCImage(cardNumberFormatted)}
               />
             )}
           </div>
 
           <div className="mt-24 w-full flex-col gap-8 md:max-w-[436px] lg:mt-12 lg:flex lg:flex-row">
-            <div className="w-full lg:w-[60%]">
+            <div className="w-full lg:w-3/5">
               <Typography as="label" className="text-14 font-medium text-secondary-black">
                 {formatPaymentMessage({ id: 'expiration.date', defaultMessage: 'Expiration date *' })}
               </Typography>
@@ -118,11 +118,7 @@ const PaymentEdit = () => {
           </Button>
 
           <div className="mt-32 flex lg:mt-0">
-            <Button
-              variant="secondary"
-              className="ml-0 w-[112px] lg:ml-64"
-              onClick={() => router.push('/account#payment')}
-            >
+            <Button variant="secondary" className="ml-0 w-112 lg:ml-64" onClick={() => router.push('/account#payment')}>
               <Typography as="h2" className="text-center text-14 text-primary-black">
                 {formatPaymentMessage({
                   id: 'cancel',
@@ -131,7 +127,7 @@ const PaymentEdit = () => {
               </Typography>
             </Button>
 
-            <Button variant="primary" className="ml-12 w-[112px]" onClick={paymentEditData.handleSaveClick}>
+            <Button variant="primary" className="ml-12 w-112" onClick={paymentEditData.handleSaveClick}>
               <Typography as="h2" className="text-center text-14">
                 {formatPaymentMessage({
                   id: 'save',

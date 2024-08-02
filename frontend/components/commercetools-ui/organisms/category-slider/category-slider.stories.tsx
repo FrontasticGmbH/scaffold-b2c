@@ -10,11 +10,11 @@ export default {
 
 const Template: ComponentStory<typeof CategorySlider> = (args) => (
   <div className="ml-44">
-    <Typography className="mt-40 w-[40%] text-28 font-bold text-black">Category Slider</Typography>
-    <Typography className="mt-20 w-[60%] text-20 leading-loose text-neutral-700">
+    <Typography className="mt-40 w-2/5 text-28 font-bold text-black">Category Slider</Typography>
+    <Typography className="mt-20 w-3/5 text-20 leading-loose text-neutral-700">
       The Product Category Slider displays a selection of product categories.
     </Typography>
-    <div className="mt-44  justify-start">
+    <div className="mt-44 justify-start">
       <CategorySlider {...args} />
     </div>
   </div>

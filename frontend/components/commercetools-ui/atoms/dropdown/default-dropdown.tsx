@@ -60,7 +60,7 @@ const DefaultDropdown: FC<DropdownProps> = ({
           ))}
         </select>
 
-        <ChevronDownIcon className="absolute right-5 top-[50%] z-0 h-20 w-30 translate-y-[-50%] stroke-1 text-secondary-black" />
+        <ChevronDownIcon className="absolute right-5 top-1/2 z-0 h-20 w-30 -translate-y-1/2 stroke-1 text-secondary-black" />
       </div>
     </div>
   );

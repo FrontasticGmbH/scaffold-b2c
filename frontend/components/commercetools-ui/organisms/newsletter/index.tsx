@@ -170,7 +170,7 @@ export default function Newsletter({
             <h2 className="mt-2 text-center text-2xl font-bold tracking-[0.010em] lg:text-3xl">
               <Typography as="fragment">{successTitle || fallbackSuccessTitle}</Typography>
             </h2>
-            <p className="mx-auto mt-1 max-w-2xl text-center text-sm ">
+            <p className="mx-auto mt-1 max-w-2xl text-center text-sm">
               <Typography as="fragment">{successMessage || fallbackSuccessMessage}</Typography>
             </p>
           </div>

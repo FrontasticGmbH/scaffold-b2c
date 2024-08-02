@@ -4,7 +4,7 @@ import React, { useEffect, useMemo } from 'react';
 import { useParams, useSearchParams } from 'next/navigation';
 import { Product } from 'shared/types/product/Product';
 import { Facet } from 'shared/types/result/Facet';
-import ProductList, { Props as ProductListProps } from 'components/commercetools-ui/organisms/product/product-list';
+import ProductList, { ProductListProps } from 'components/commercetools-ui/organisms/product/product-list';
 import ProductListProvider, {
   useProductList,
 } from 'components/commercetools-ui/organisms/product/product-list/context';
@@ -123,6 +123,13 @@ const ProductListWrapped = ({
   return <ProductList products={data.data?.dataSource?.items ?? []} categories={flattenedCategories} />;
 };
 
+const filterMatchingVariants = (items: Product[]) => {
+  return items.map((item) => ({
+    ...item,
+    variants: item.variants.filter((variant) => variant.isMatchingVariant !== false),
+  }));
+};
+
 const ProductListTastic = ({ data, ...props }: TasticProps<DataSource<DataSourceProps> & Props & ProductListProps>) => {
   const { slug } = useParams();
 
@@ -131,6 +138,21 @@ const ProductListTastic = ({ data, ...props }: TasticProps<DataSource<DataSource
   const searchQuery = searchParams.get('query') as string;
 
   if (!data?.data?.dataSource) return <></>;
+
+  // Apply the filter to the items
+  const filteredItems = filterMatchingVariants(data.data.dataSource.items);
+
+  // Update the data object with filtered items
+  const updatedData = {
+    ...data,
+    data: {
+      ...data.data,
+      dataSource: {
+        ...data.data.dataSource,
+        items: filteredItems,
+      },
+    },
+  };
 
   return (
     <ProductListProvider
@@ -142,7 +164,7 @@ const ProductListTastic = ({ data, ...props }: TasticProps<DataSource<DataSource
         totalItems: data.data.dataSource.total,
       }}
     >
-      <ProductListWrapped data={data} {...props} />
+      <ProductListWrapped data={updatedData} {...props} />
     </ProductListProvider>
   );
 };

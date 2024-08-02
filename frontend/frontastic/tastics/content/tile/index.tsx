@@ -1,7 +1,7 @@
 'use client';
 
 import React from 'react';
-import Tile, { TileProps } from 'components/commercetools-ui/organisms/content/tile';
+import Tile, { TileProps } from 'components/commercetools-ui/molecules/tile';
 import { TasticProps } from 'frontastic/tastics/types';
 
 const TileTastic = ({ data }: TasticProps<TileProps>) => {

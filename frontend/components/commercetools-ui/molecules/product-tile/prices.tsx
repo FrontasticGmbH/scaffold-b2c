@@ -1,8 +1,8 @@
 import React from 'react';
 import { useParams } from 'next/navigation';
 import { Money } from 'shared/types/product/Money';
+import Typography from 'components/commercetools-ui/atoms/typography';
 import { CurrencyHelpers } from 'helpers/currencyHelpers';
-import Typography from '../../../atoms/typography';
 
 interface Props {
   discountedPrice?: Money;

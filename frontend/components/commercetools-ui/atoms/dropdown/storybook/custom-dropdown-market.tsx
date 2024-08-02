@@ -30,7 +30,7 @@ const CustomDropdownMarket = () => {
   }, [selectedMarket]);
 
   return (
-    <div className="mt-24 w-[40%]">
+    <div className="mt-24 w-2/5">
       <Dropdown customButtonElement={marketButtonElement}>
         {dropDownMarkets.map((market) => (
           <Menu.Item key={market.locale}>

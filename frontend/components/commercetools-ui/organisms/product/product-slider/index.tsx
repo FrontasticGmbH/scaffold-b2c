@@ -4,6 +4,7 @@ import { SwiperOptions } from 'swiper';
 import Slider from 'components/commercetools-ui/atoms/slider';
 import Subtitle, { SubtitleProps } from 'components/commercetools-ui/atoms/subtitle';
 import Typography from 'components/commercetools-ui/atoms/typography';
+import ProductTile from 'components/commercetools-ui/molecules/product-tile';
 import Wrapper from 'components/HOC/wrapper';
 import useClassNames from 'helpers/hooks/useClassNames';
 import useTouchDevice from 'helpers/hooks/useTouchDevice';
@@ -11,7 +12,6 @@ import { mediumDesktop, tablet } from 'helpers/utils/screensizes';
 import { Reference } from 'types/reference';
 import useTrack from './useTrack';
 import Link from '../../content/link';
-import Tile from '../product-tile';
 
 export interface ProductSliderProps extends Partial<SwiperOptions> {
   products: Product[];
@@ -122,7 +122,7 @@ const ProductSlider: FC<ProductSliderProps> = ({
           {...props}
         >
           {products.map((product, index) => (
-            <Tile
+            <ProductTile
               key={product.productId}
               disableQuickView={disableProductQuickView}
               disableWishlistButton={disableProductWishlistButton}

@@ -31,7 +31,7 @@ const List: React.FC<Props> = ({ products }) => {
         ))}
       </div>
       <button
-        className="mx-auto mt-[90px] block rounded-md bg-primary-black px-48 py-12 text-16 font-medium text-white transition hover:bg-gray-500 disabled:bg-neutral-400 disabled:opacity-0"
+        className="mx-auto mt-90 block rounded-md bg-primary-black px-48 py-12 text-16 font-medium text-white transition hover:bg-gray-500 disabled:bg-neutral-400 disabled:opacity-0"
         disabled={loadedAll}
         onClick={loadMore}
       >

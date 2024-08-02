@@ -35,6 +35,7 @@ const StoryWrapper = ({ Story }) => {
   return (
     <div data-theme="default">
       <Story />
+      <div id="react-modal-custom-portal" />
     </div>
   );
 };

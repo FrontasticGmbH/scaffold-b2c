@@ -13,13 +13,13 @@ import Accordion from '../index';
 const AccordionContent = () => {
   return (
     <div className="ml-44">
-      <Typography className="mt-40 w-[40%] text-28 font-bold text-black">Accordion</Typography>
-      <Typography className="mt-20 w-[60%] text-20 leading-loose text-neutral-700">
+      <Typography className="mt-40 w-2/5 text-28 font-bold text-black">Accordion</Typography>
+      <Typography className="mt-20 w-3/5 text-20 leading-loose text-neutral-700">
         The Accordion component allows customers to toggle between showing and hiding content within a single space.
       </Typography>
 
-      <Typography className="mt-40 w-[40%] text-24 font-medium text-black">Normal accordion</Typography>
-      <div className="mt-16 flex w-[50%] justify-start">
+      <Typography className="mt-40 w-2/5 text-24 font-medium text-black">Normal accordion</Typography>
+      <div className="mt-16 flex w-1/2 justify-start">
         <div className="flex w-full flex-col items-stretch gap-8">
           {accordionMockItems.map((item, index) => (
             <Accordion
@@ -36,9 +36,9 @@ const AccordionContent = () => {
         </div>
       </div>
 
-      <Typography className="mt-32 w-[40%] text-24 font-medium text-black">FAQ accordion</Typography>
+      <Typography className="mt-32 w-2/5 text-24 font-medium text-black">FAQ accordion</Typography>
 
-      <div className="mt-16 flex w-[50%] flex-col items-stretch gap-8">
+      <div className="mt-16 flex w-1/2 flex-col items-stretch gap-8">
         {accordionFAQMockItems.map((item, index) => (
           <Accordion
             key={index}
@@ -53,7 +53,7 @@ const AccordionContent = () => {
         ))}
       </div>
 
-      <Typography className="mt-32 w-[40%] text-24 font-medium text-black">Custom accordion</Typography>
+      <Typography className="mt-32 w-2/5 text-24 font-medium text-black">Custom accordion</Typography>
 
       <div className="mt-16">
         <Accordion
@@ -62,9 +62,9 @@ const AccordionContent = () => {
           panelClassName="w-[24%] border-0"
           customClosedButton={
             <div className="hidden gap-20 lg:flex">
-              <div className="grid max-h-[104px] grid-cols-3 gap-16 overflow-hidden">
+              <div className="grid max-h-104 grid-cols-3 gap-16 overflow-hidden">
                 {lineItems?.map((lineItem) => (
-                  <div key={lineItem.lineItemId} className="relative h-[104px] w-[88px] shrink-0">
+                  <div key={lineItem.lineItemId} className="relative h-104 w-88 shrink-0">
                     {lineItem?.variant?.images?.[0] ? (
                       <Image fill src={variant?.images?.[0]} style={{ objectFit: 'contain' }} />
                     ) : (
@@ -85,7 +85,7 @@ const AccordionContent = () => {
             {lineItems?.map((lineItem, index) => (
               <div key={index} className="flex items-center justify-between">
                 <div className="flex items-start gap-16 py-16 md:gap-32">
-                  <div className="relative h-[104px] w-[89px] shrink-0">
+                  <div className="relative h-104 w-89 shrink-0">
                     {lineItem?.variant?.images?.[0] ? (
                       <Image fill src={variant?.images?.[0]} style={{ objectFit: 'contain' }} />
                     ) : (
@@ -95,7 +95,7 @@ const AccordionContent = () => {
                   <div className="mt-10 grow overflow-hidden">
                     <Typography
                       asSkeleton={!lineItem.name}
-                      className="block max-w-[100%] truncate text-12 capitalize md:text-14"
+                      className="block max-w-full truncate text-12 capitalize md:text-14"
                     >
                       {lineItem.name ?? 'product name'}
                     </Typography>

@@ -1,14 +1,14 @@
 import { FC, useRef, useState } from 'react';
 import { XMarkIcon } from '@heroicons/react/24/outline';
 import { Product } from 'shared/types/product/Product';
-import Modal from 'components/commercetools-ui/atoms/modal';
+import Modal from 'components/commercetools-ui/organisms/modal';
 import useClassNames from 'helpers/hooks/useClassNames';
 import { useFormat } from 'helpers/hooks/useFormat';
 import useOnClickOutside from 'helpers/hooks/useOnClickOutside';
 import useScrollBlock from 'helpers/hooks/useScrollBlock';
 import ProductDetailsAdapter from '../product-details/helpers/adapter';
 
-type QuickViewProps = {
+export type QuickViewProps = {
   buttonIsVisible: boolean;
   product: Product;
   hideButton: () => void;

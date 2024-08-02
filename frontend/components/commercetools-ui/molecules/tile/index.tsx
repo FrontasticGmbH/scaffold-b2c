@@ -35,7 +35,7 @@ const Tile: React.FC<TileProps> = ({
         <Typography className="text-shadow text-center text-14 leading-loose text-white md:text-16 lg:font-medium">
           {subtitle}
         </Typography>
-        <Typography as="h2" className="text-shadow mt-18 text-center text-26 font-medium  text-white lg:text-28">
+        <Typography as="h2" className="text-shadow mt-18 text-center text-26 font-medium text-white lg:text-28">
           {title}
         </Typography>
         {ctaLabel && (

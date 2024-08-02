@@ -5,11 +5,11 @@ import useMediaQuery from 'helpers/hooks/useMediaQuery';
 //import useScrollBlock from 'helpers/hooks/useScrollBlock';
 import { desktop } from 'helpers/utils/screensizes';
 
-export interface Props extends ReactModalProps {
+export interface ModalProps extends ReactModalProps {
   closeButton?: boolean;
 }
 
-const Modal: FC<Props> = ({ children, style, preventScroll, closeButton, className = '', ...props }) => {
+const Modal: FC<ModalProps> = ({ children, style, preventScroll, closeButton, className = '', ...props }) => {
   const [isDesktopSize] = useMediaQuery(desktop);
 
   //const { blockScroll } = useScrollBlock();
@@ -48,6 +48,7 @@ const Modal: FC<Props> = ({ children, style, preventScroll, closeButton, classNa
       style={modalStyle}
       preventScroll={preventScroll}
       className={`${className} relative`}
+      parentSelector={() => document.getElementById('react-modal-custom-portal') ?? document.body}
     >
       {closeButton && (
         <CloseIcon

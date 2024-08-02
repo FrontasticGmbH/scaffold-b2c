@@ -118,7 +118,7 @@ const DiscountForm: React.FC<Props> = ({ className, accordionProps }) => {
                     resetCode();
                   }}
                 >
-                  <CloseIcon className=" h-10 w-10 cursor-pointer" />
+                  <CloseIcon className="h-10 w-10 cursor-pointer" />
                 </span>
               )}
             </div>

@@ -1,4 +1,17 @@
 
+## Version 1.17.0 (2024-08-01)
+
+** New Features and Improvements **
+
+- Filter results shows corresponding variants that matches the price interval
+- Added a method to find master data source and comments on private data access
+- Added spare parts datasource, refactored referenced products, added product id type
+- Added type map for reference and aligned types
+
+## Version 1.16.0 (2024-06-28)
+
+** New Features and Improvements **
+
 ## Version 1.15.0 (2024-06-24)
 
 ** New Features and Improvements **

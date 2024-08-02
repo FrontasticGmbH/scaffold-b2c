@@ -17,7 +17,7 @@ const HeaderDropdownTile: FC<Props> = ({ tileContent }) => {
   const tileButtonClassName = useClassNames(['border-b-2 drop-shadow-xl', tileContent?.tileButtonLabelDecoration]);
 
   return (
-    <div className="relative mt-2 h-[265px] w-[30%] xl:pl-20">
+    <div className="relative mt-2 h-265 w-[30%] xl:pl-20">
       <Image
         media={tileContent?.tileImage.media}
         fill

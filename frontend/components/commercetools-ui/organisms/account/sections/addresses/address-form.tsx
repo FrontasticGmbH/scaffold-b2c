@@ -268,7 +268,7 @@ const AddressForm: React.FC<AddressFormProps> = ({ editedAddressId }) => {
       <div className="grid h-fit items-center justify-between gap-32 md:mt-20 md:flex md:gap-0">
         {editedAddressId && (
           <div
-            className="flex items-center gap-8 hover:cursor-pointer hover:opacity-[0.7]"
+            className="flex items-center gap-8 hover:cursor-pointer hover:opacity-70"
             onClick={() => setModalIsOpen(true)}
           >
             <TrashIcon className="h-20 w-20 text-secondary-black" />

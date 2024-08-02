@@ -24,14 +24,14 @@ const ButtonContent = () => {
 
   return (
     <div className="ml-44">
-      <Typography className="mt-40 w-[40%] text-28 font-bold text-black">Button</Typography>
-      <Typography className="mt-20 w-[60%] text-20 leading-loose text-neutral-700">
+      <Typography className="mt-40 w-2/5 text-28 font-bold text-black">Button</Typography>
+      <Typography className="mt-20 w-3/5 text-20 leading-loose text-neutral-700">
         The base button component that can be styled in a variety of ways, including different sizes and colors.
       </Typography>
 
       <div className="mt-32 flex w-full justify-start">
         <div className="flex w-full flex-col">
-          <Typography className="mt-12 w-[40%] text-24 font-medium text-black">Button sizing</Typography>
+          <Typography className="mt-12 w-2/5 text-24 font-medium text-black">Button sizing</Typography>
           <div className="mt-40 flex items-center">
             <Typography className="w-200 text-14 text-secondary-black">Size icon:</Typography>
             <div className="ml-16">
@@ -88,7 +88,7 @@ const ButtonContent = () => {
         </div>
 
         <div className="flex w-full flex-col">
-          <Typography className="mt-12 w-[40%] text-24 font-medium text-black">Button stylings</Typography>
+          <Typography className="mt-12 w-2/5 text-24 font-medium text-black">Button stylings</Typography>
           <div className="mt-40 flex w-full items-center">
             <Typography className="w-200 text-14 text-secondary-black">Ghost button:</Typography>
             <div className="ml-16 w-[30%]">

@@ -1,8 +1,8 @@
 import React, { FC } from 'react';
 import { XMarkIcon } from '@heroicons/react/24/outline';
 import Button from 'components/commercetools-ui/atoms/button';
-import Modal from 'components/commercetools-ui/atoms/modal';
 import Typography from 'components/commercetools-ui/atoms/typography';
+import Modal from 'components/commercetools-ui/organisms/modal';
 import { useFormat } from 'helpers/hooks/useFormat';
 
 export interface Props {
@@ -24,7 +24,7 @@ const PaymentDelete: FC<Props> = ({ modalIsOpen, closeModal, handleCancelClick, 
       style={{ content: { width: 400, height: 280, overflow: 'hidden' } }}
       contentLabel={formatMessage({ id: 'quick.view', defaultMessage: 'Quick view' })}
       onRequestClose={closeModal}
-      className="h-[280px] w-[400px] rounded-md border bg-neutral-100"
+      className="h-280 w-400 rounded-md border bg-neutral-100"
     >
       <div className="mx-auto p-24 md:ml-24 lg:ml-0">
         <div className="flex w-full cursor-pointer justify-end" onClick={closeModal}>
@@ -44,7 +44,7 @@ const PaymentDelete: FC<Props> = ({ modalIsOpen, closeModal, handleCancelClick, 
             })}
           </Typography>
           <div className="mt-24 flex">
-            <Button variant="secondary" className="w-[112px]" onClick={handleCancelClick}>
+            <Button variant="secondary" className="w-112" onClick={handleCancelClick}>
               <Typography as="h2" className="text-center text-14 text-primary-black">
                 {formatPaymentMessage({
                   id: 'cancel',
@@ -53,7 +53,7 @@ const PaymentDelete: FC<Props> = ({ modalIsOpen, closeModal, handleCancelClick, 
               </Typography>
             </Button>
 
-            <Button variant="warning" className="ml-12 w-[112px]" onClick={handleDeleteClick}>
+            <Button variant="warning" className="ml-12 w-112" onClick={handleDeleteClick}>
               <Typography as="h2" className="text-center text-14">
                 {formatPaymentMessage({
                   id: 'delete',

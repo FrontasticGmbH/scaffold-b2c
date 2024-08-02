@@ -162,7 +162,7 @@ const AccountDetails: React.FC<AccountDetailsProps> = ({
 
   return (
     <div className="relative flex bg-neutral-100">
-      <div className="sticky top-[175px] w-0 self-start md:h-[calc(100vh-200px)] md:w-[25%]">
+      <div className="sticky top-175 w-0 self-start md:h-[calc(100vh-200px)] md:w-1/4">
         <div className="hidden h-full w-full flex-col justify-between pt-24 md:flex lg:pt-44">
           <div className="grid gap-36 px-28 lg:px-56">
             {tabs.map((tab) => (
@@ -177,7 +177,7 @@ const AccountDetails: React.FC<AccountDetailsProps> = ({
           </div>
           <div className="px-20 py-16 lg:px-40">
             {isLoading ? (
-              <Skeleton className="h-[30px]" />
+              <Skeleton className="h-30" />
             ) : (
               <Button
                 onClick={handleLogout}
