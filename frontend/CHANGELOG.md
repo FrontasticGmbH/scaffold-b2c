@@ -1,4 +1,11 @@
 
+## Version 1.16.0 (2024-08-15)
+
+** New Features and Improvements **
+
+- Do not skip builds for empty commits
+- PDP performance improvement, reduce query calls by adding skip queue parameter to product calls
+
 ## Version 1.15.0 (2024-08-01)
 
 ** New Features and Improvements **

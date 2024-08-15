@@ -1,4 +1,11 @@
 
+## Version 1.18.0 (2024-08-15)
+
+** New Features and Improvements **
+
+- Concatenated product type name to the attribute name on searchableAttributes
+- Used label as key for searchable attributes
+
 ## Version 1.17.0 (2024-08-01)
 
 ** New Features and Improvements **
