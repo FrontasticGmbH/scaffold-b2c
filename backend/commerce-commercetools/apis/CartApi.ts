@@ -43,8 +43,8 @@ import { ProductApi } from './ProductApi';
 import { BaseApi } from './BaseApi';
 import { ProductMapper } from '@Commerce-commercetools/mappers/ProductMapper';
 import { getOffsetFromCursor } from '@Commerce-commercetools/utils/Pagination';
-import { CartNotActiveError } from '@Commerce-commercetools/errors/CartNotActiveError';
 import { ExternalError } from '@Commerce-commercetools/errors/ExternalError';
+import { Guid } from '@Commerce-commercetools/utils/Guid';
 
 export class CartApi extends BaseApi {
   productApi: ProductApi;
@@ -81,6 +81,8 @@ export class CartApi extends BaseApi {
   }
 
   async getForUser(account: Account): Promise<Cart> {
+    this.invalidateSessionCheckoutData();
+
     const locale = await this.getCommercetoolsLocal();
 
     const response = await this.requestBuilder()
@@ -105,8 +107,6 @@ export class CartApi extends BaseApi {
     if (response.body.count >= 1) {
       return this.buildCartWithAvailableShippingMethods(response.body.results[0], locale);
     }
-
-    this.invalidateSessionCheckoutData();
 
     const cartDraft: CartDraft = {
       currency: locale.currency,
@@ -139,6 +139,8 @@ export class CartApi extends BaseApi {
   }
 
   async getAnonymous(): Promise<Cart> {
+    this.invalidateSessionCheckoutData();
+
     const locale = await this.getCommercetoolsLocal();
 
     const response = await this.requestBuilder()
@@ -151,7 +153,7 @@ export class CartApi extends BaseApi {
             'discountCodes[*].discountCode',
             'paymentInfo.payments[*]',
           ],
-          where: [`anonymousId="${this.getAnonymousIdFromSessionData()}"`, `cartState="Active"`],
+          where: [`anonymousId="${Guid.newGuid()}"`, `cartState="Active"`],
           sort: 'createdAt desc',
         },
       })
@@ -164,14 +166,11 @@ export class CartApi extends BaseApi {
       return this.buildCartWithAvailableShippingMethods(response.body.results[0], locale);
     }
 
-    // If there is no active cart for the anonymous ID, we invalidate it
-    this.invalidateSessionAnonymousId();
-
     const cartDraft: CartDraft = {
       currency: locale.currency,
       country: locale.country,
       locale: locale.language,
-      anonymousId: this.getAnonymousIdFromSessionData(),
+      anonymousId: Guid.newGuid(),
       inventoryMode: 'ReserveOnOrder',
     };
 
@@ -196,7 +195,7 @@ export class CartApi extends BaseApi {
       });
   }
 
-  async getActiveCartById(cartId: string): Promise<Cart> {
+  async getById(cartId: string): Promise<Cart> {
     const locale = await this.getCommercetoolsLocal();
 
     return await this.requestBuilder()
@@ -216,9 +215,6 @@ export class CartApi extends BaseApi {
       })
       .execute()
       .then((response) => {
-        if (response.body.cartState !== 'Active') {
-          throw new CartNotActiveError({ message: `Cart ${cartId} is not active.` });
-        }
         return this.buildCartWithAvailableShippingMethods(response.body, locale);
       })
       .catch((error) => {
@@ -870,6 +866,10 @@ export class CartApi extends BaseApi {
   async getCheckoutSessionToken(cartId: string): Promise<Token> {
     return await this.generateCheckoutSessionToken(cartId);
   }
+
+  assertCartIsActive: (cart: Cart) => boolean = (cart: Cart) => {
+    return cart.cartState === 'Active';
+  };
 
   protected async updateCart(cartId: string, cartUpdate: CartUpdate, locale: Locale): Promise<CommercetoolsCart> {
     return await this.requestBuilder()

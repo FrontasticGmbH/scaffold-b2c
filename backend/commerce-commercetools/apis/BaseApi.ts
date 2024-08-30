@@ -446,14 +446,7 @@ export abstract class BaseApi {
   }
 
   invalidateSessionCheckoutData(): void {
-    this.invalidateSessionAnonymousId();
     this.invalidateSessionCheckoutSessionToken();
-  }
-
-  invalidateSessionAnonymousId(): void {
-    if (this.sessionData?.anonymousId) {
-      this.sessionData.anonymousId = undefined;
-    }
   }
 
   invalidateSessionCheckoutSessionToken(): void {
@@ -465,6 +458,10 @@ export abstract class BaseApi {
   async setSessionCheckoutSessionToken(cartId: string, token: Token): Promise<void> {
     const checkoutHashKey = await this.getCheckoutHashKey(cartId);
 
+    if (!this.sessionData) {
+      this.sessionData = {};
+    }
+
     this.sessionData.checkoutSessionToken = {};
     this.sessionData.checkoutSessionToken[checkoutHashKey] = token;
   }
@@ -472,19 +469,6 @@ export abstract class BaseApi {
   async getSessionCheckoutSessionToken(cartId: string): Promise<Token | undefined> {
     const checkoutHashKey = await this.getCheckoutHashKey(cartId);
     return this.sessionData?.checkoutSessionToken?.[checkoutHashKey] ?? undefined;
-  }
-
-  protected getAnonymousIdFromSessionData(): string {
-    if (this.sessionData?.anonymousId) {
-      return this.sessionData.anonymousId;
-    }
-
-    this.sessionData = {
-      ...this.sessionData,
-      anonymousId: Guid.newGuid(),
-    };
-
-    return this.sessionData.anonymousId;
   }
 
   protected requestBuilder() {

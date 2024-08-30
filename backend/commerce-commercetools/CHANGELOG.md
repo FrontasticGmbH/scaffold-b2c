@@ -1,4 +1,12 @@
 
+## Version 1.19.0 (2024-08-30)
+
+** New Features and Improvements **
+
+- Add region extraction from commercetools host
+- Cleanup traces of first checkout implementation
+- Removed product type from facet name
+
 ## Version 1.18.0 (2024-08-15)
 
 ** New Features and Improvements **

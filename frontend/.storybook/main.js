@@ -4,10 +4,10 @@ const webpack = require('webpack');
 
 module.exports = {
   stories: [
+    './docs/**/*.stories.mdx',
+    './docs/**/*.stories.@(js|jsx|ts|tsx)',
     '../components/**/*.stories.mdx',
     '../components/**/*.stories.@(js|jsx|ts|tsx)',
-    '../.storybook/**/*.stories.mdx',
-    '../.storybook/**/*.stories.@(js|jsx|ts|tsx)',
     '../frontastic/lib/**/*.stories.@(js|jsx|ts|tsx)',
   ],
   addons: [

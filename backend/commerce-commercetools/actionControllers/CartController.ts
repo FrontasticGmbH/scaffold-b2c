@@ -7,6 +7,7 @@ import { Payment, PaymentStatuses } from '@Types/cart/Payment';
 import { Discount } from '@Types/cart/Discount';
 import { SortAttributes, SortOrder } from '@Types/query/ProductQuery';
 import { OrderQuery } from '@Types/query';
+import { Token } from '@Types/Token';
 import { CartFetcher } from '../utils/CartFetcher';
 import { CartApi } from '../apis/CartApi';
 import { getCurrency, getLocale } from '../utils/Request';
@@ -18,7 +19,6 @@ import handleError from '@Commerce-commercetools/utils/handleError';
 import { fetchAccountFromSession } from '@Commerce-commercetools/utils/fetchAccountFromSession';
 import { CartNotMatchOrderError } from '@Commerce-commercetools/errors/CartNotMatchOrderError';
 import { ValidationError } from '@Commerce-commercetools/errors/ValidationError';
-import { Token } from '@Types/Token';
 
 type ActionHook = (request: Request, actionContext: ActionContext) => Promise<Response>;
 
@@ -74,7 +74,7 @@ export const getCart: ActionHook = async (request: Request, actionContext: Actio
     const cartApi = getCartApi(request, actionContext);
 
     try {
-      const cart = await CartFetcher.fetchCartFromSession(cartApi, request);
+      const cart = await CartFetcher.fetchActiveCartFromSession(cartApi, request);
 
       return {
         statusCode: 200,

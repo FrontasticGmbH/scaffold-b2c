@@ -8,11 +8,7 @@ export const injectDataSources = (block: TasticConfiguration, dataSources: DataS
     if (key === 'dataSourceId') {
       return { ...acc, [key]: value, dataSource: dataSources[value] };
     } else {
-      if (Array.isArray(value)) {
-        return { ...acc, [key]: value };
-      }
-
-      if (typeof value === 'object' && value !== null) {
+      if (value !== null && typeof value === 'object' && !Array.isArray(value)) {
         // if the value is another object, traverse deeper into the tree
         return { ...acc, [key]: injectDataSources(value, dataSources) };
       } else {

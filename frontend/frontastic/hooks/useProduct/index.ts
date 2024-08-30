@@ -20,10 +20,7 @@ const useProduct = (): UseProductReturn => {
   const query = useCallback(async (productQuery: ProductQuery) => {
     const extensions = sdk.composableCommerce;
 
-    const res = await extensions.product.query(
-      { limit: productQuery.limit, query: productQuery.query },
-      { skipQueue: true },
-    );
+    const res = await extensions.product.query(productQuery, { skipQueue: true });
 
     return res;
   }, []);

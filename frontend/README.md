@@ -1,8 +1,8 @@
-# Frontastic Next.js Starter
+# Store Launchpad for B2C Next.js Starter
 
-> :information_source: Full documentation can be found [Here](https://docs.frontastic.cloud/docs)
+> :information_source: Full documentation can be found [Here](https://docs.commercetools.com/docs/frontend)
 
-This is a Frontastic starter project that uses Next.js
+This is a commercetools Launchpad project that uses Next.js
 
 # Getting Started With Frontend:
 
@@ -21,6 +21,18 @@ yarn dev
 yarn install
 yarn build
 yarn start
+```
+
+### Running storybook
+
+```
+yarn storybook
+```
+
+### Build a production storybook
+
+```
+yarn storybook:rebuild
 ```
 
 ## 2- Create a basic component
@@ -93,17 +105,9 @@ export const tastics = {
 
 ## Linting
 
-This project uses linting rules that improve the Core Web Vitals of frontastic storefront which are also the recommended rules by Next.js.
+This project uses linting rules that improve the Core Web Vitals of the storefront which are also the recommended rules by Next.js in addition to some other rules for react hooks, typescript, jest, etc...
 
-In addition, the following
-rules are included as well to get reasonable defaults:
-
-`eslint:recommended`
-`plugin:react/recommended` see [eslint-plugin-react](https://www.npmjs.com/package/eslint-plugin-react)
-`plugin:react-hooks/recommended` see [eslint-plugin-react-hooks](https://www.npmjs.com/package/eslint-plugin-react-hooks)
-
-If you want more fine-grained configuration, all of the above can be configured,
-deactivated and/or extended in the `.eslintrc.json` in the project root folder.
+If you want more fine-grained configuration, feel free to configure the eslint rules by deactivating and/or extending them in the `.eslintrc.json` in the `frontend` folder.
 
 To run the linter, just run
 
@@ -114,11 +118,10 @@ yarn lint
 To fix erros that can be automatically fixed, run
 
 ```
-yarn lint --fix
+yarn lint:fix
 ```
 
-We recommend to add linting directly to your code editor or development environment,
-to get immediate feedback.
+We recommend to add linting directly to your code editor or development environment, to get immediate feedback.
 
 ### Linting in vim
 
@@ -135,24 +138,6 @@ Once ESLint is installed in Visual Studio Code, you’ll notice colorful underli
 
 ## Prettier / Code formatting
 
+Prettier is integrated with the linter so when running `yarn lint:fix` you'll have your code auto formatted as well.
+
 We also recommend to setup your editor to use prettier to format a document on save.
-
-To prettify your code, just run
-
-```
-yarn prettify
-```
-
-### Prettier in vim
-
-### Prettier in Visual Studio Code
-
-## Full code formatting
-
-To run linter with `--fix` flag and also prettify your code, you can run
-
-```
-yarn fix
-```
-
-This is typically equivalent to running `yarn lint --fix` and `yarn prettify` 

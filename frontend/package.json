@@ -1,9 +1,10 @@
 {
   "name": "@b2cdev/poc-frontend",
-  "version": "1.16.0",
+  "version": "1.17.0",
   "license": "MIT",
   "main": "index.js",
   "private": true,
+  "packageManager": "yarn@1.22.22",
   "scripts": {
     "dev": "concurrently -n NEXT,TSC -c magenta,cyan \"next dev\" \"yarn ts --watch\"",
     "prod": "concurrently -n NEXT,TSC -c magenta,cyan \"NODE_ENV=production next dev\" \"yarn ts --watch\"",

@@ -1,4 +1,17 @@
 
+## Version 1.17.0 (2024-08-30)
+
+** New Features and Improvements **
+
+- Add missing links to intro page
+- Update ReadME & Add intro storybook page
+- Configure Lighthouse CI in netlify.toml
+
+** Bug fixes **
+
+* fix: [B2C] Data injection bug
+* fix: [B2C] Data injection bug
+
 ## Version 1.16.0 (2024-08-15)
 
 ** New Features and Improvements **

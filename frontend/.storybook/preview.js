@@ -23,7 +23,7 @@ export const parameters = {
   },
   options: {
     storySort: {
-      order: ['Style guide', 'Atoms', 'Molecules', 'Organisms', 'Pages', '*'],
+      order: ['Introduction', 'Style guide', 'Atoms', 'Molecules', 'Organisms', 'Pages', '*'],
     },
     showPanel: false,
   },

@@ -4,6 +4,7 @@
   "license": "MIT",
   "private": true,
   "main": "./index.ts",
+  "packageManager": "yarn@1.22.22",
   "engines": {
     "node": "16.14 - 18.x"
   },
