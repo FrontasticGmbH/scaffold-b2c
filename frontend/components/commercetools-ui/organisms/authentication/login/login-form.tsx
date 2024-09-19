@@ -1,4 +1,4 @@
-import React, { FC, useContext, useState } from 'react';
+import React, { FC, useState } from 'react';
 import { ArrowLeftIcon } from '@heroicons/react/24/solid';
 import Button from 'components/commercetools-ui/atoms/button';
 import Checkbox, { CheckboxProps } from 'components/commercetools-ui/atoms/checkbox';
@@ -6,8 +6,8 @@ import Input from 'components/commercetools-ui/atoms/input';
 import PasswordInput from 'components/commercetools-ui/atoms/input-password';
 import Link from 'components/commercetools-ui/atoms/link';
 import Typography from 'components/commercetools-ui/atoms/typography';
-import { AccountContext } from 'context/account';
 import { useFormat } from 'helpers/hooks/useFormat';
+import { useAccount } from 'frontastic';
 import Feedback from '../../account/account-atoms/feedback';
 
 interface Props {
@@ -21,7 +21,7 @@ const LoginForm: FC<Props> = ({ onLogin }) => {
   const { formatMessage } = useFormat({ name: 'common' });
 
   //account actions
-  const { login, requestConfirmationEmail, requestPasswordReset } = useContext(AccountContext);
+  const { login, requestConfirmationEmail, requestPasswordReset } = useAccount();
 
   //login data
   const [data, setData] = useState({ email: '', password: '', rememberMe: false });
@@ -110,7 +110,6 @@ const LoginForm: FC<Props> = ({ onLogin }) => {
   const resendPasswordResetForUser = async () => {
     try {
       const response = await requestPasswordReset(data.email);
-      console.log('🚀 ~ resendPasswordResetForUser ~ requestPasswordReset:', requestPasswordReset);
 
       if (response.error)
         setError(formatErrorMessage({ id: 'wentWrong', defaultMessage: 'Sorry. Something went wrong..' }));

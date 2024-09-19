@@ -1,8 +1,8 @@
 import { FC } from 'react';
 import { useParams } from 'next/navigation';
+import { LineItem } from 'shared/types/cart/LineItem';
 import Typography from 'components/commercetools-ui/atoms/typography';
 import { CurrencyHelpers } from 'helpers/currencyHelpers';
-import { LineItem } from 'types/entity/cart';
 import Image from 'frontastic/lib/image';
 
 type OrderItemProps = {

@@ -1,8 +1,7 @@
 import React from 'react';
 import { Story, Meta } from '@storybook/react';
 import Typography from 'components/commercetools-ui/atoms/typography';
-import { products, shippingMethods } from 'helpers/mocks/mockCommonData';
-import { wishlist } from 'helpers/mocks/mockData';
+import { products } from 'helpers/mocks/mockCommonData';
 import ProductTile, { ProductTileProps } from '.';
 
 export default {
@@ -18,7 +17,7 @@ const Template: Story<ProductTileProps> = () => (
       The Product Tile component displays product details in a card layout and can be used in product sliders and grids.
     </Typography>
     <div className="mt-44 w-330 border-x border-neutral-400 px-20">
-      <ProductTile product={products[0]} wishlist={wishlist} shippingMethods={shippingMethods} />
+      <ProductTile product={products[0]} />
     </div>
   </div>
 );

@@ -1,10 +1,10 @@
-import React, { useContext, useMemo, useState } from 'react';
+import { useMemo, useState } from 'react';
 import toast from 'react-hot-toast';
 import { InputProps } from 'components/commercetools-ui/atoms/input';
 import PasswordInput from 'components/commercetools-ui/atoms/input-password';
-import { AccountContext } from 'context/account';
 import { useFormat } from 'helpers/hooks/useFormat';
 import useValidate from 'helpers/hooks/useValidate';
+import { useAccount } from 'frontastic';
 import AccountForm from '../../../account-atoms/account-form';
 import useDiscardForm from '../../../hooks/useDiscardForm';
 
@@ -17,10 +17,9 @@ type ChangePasswordFormData = {
 const ChangePasswordForm = () => {
   const { formatMessage: formatErrorMessage } = useFormat({ name: 'error' });
   const { formatMessage: formatAccountMessage } = useFormat({ name: 'account' });
+  const { changePassword } = useAccount();
   const { discardForm } = useDiscardForm();
   const { validatePassword } = useValidate();
-
-  const { changePassword } = useContext(AccountContext);
 
   const defaultData: ChangePasswordFormData = { password: '', newPassword: '', confirmPassword: '' };
   const [data, setData] = useState<ChangePasswordFormData>(defaultData);

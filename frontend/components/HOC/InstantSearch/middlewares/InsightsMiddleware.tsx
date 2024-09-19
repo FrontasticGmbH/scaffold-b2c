@@ -1,10 +1,10 @@
-import { useContext, useEffect } from 'react';
+import { useEffect } from 'react';
 import { createInsightsMiddleware } from 'instantsearch.js/es/middlewares';
 import { Configure, useInstantSearch } from 'react-instantsearch-hooks-web';
 import aa from 'search-insights';
 import { v4 as uuidv4 } from 'uuid';
-import { AccountContext } from 'context/account';
 import { ANONYMOUS_USER_TOKEN, LAST_ALGOLIA_QUERY_ID } from 'helpers/constants/localStorage';
+import { useAccount } from 'frontastic';
 
 const InsightsMiddleware: React.FC = () => {
   const {
@@ -12,7 +12,7 @@ const InsightsMiddleware: React.FC = () => {
     results: { queryID },
   } = useInstantSearch();
 
-  const { account } = useContext(AccountContext);
+  const { account } = useAccount();
 
   useEffect(() => {
     const middleware = createInsightsMiddleware({

@@ -1,20 +1,18 @@
-import { useContext, useState } from 'react';
+import { useState } from 'react';
+import { Account } from 'shared/types/account';
 import Input, { InputProps } from 'components/commercetools-ui/atoms/input';
 import useFeedbackToasts from 'components/commercetools-ui/organisms/account/hooks/useFeedbackToasts';
-import { AccountContext } from 'context/account';
 import { useFormat } from 'helpers/hooks/useFormat';
 import useValidate from 'helpers/hooks/useValidate';
-import { Account } from 'types/entity/account';
+import { useAccount } from 'frontastic';
 import AccountForm from '../../../account-atoms/account-form';
 import useDiscardForm from '../../../hooks/useDiscardForm';
 
 type inputNameType = 'firstName' | 'lastName' | 'email';
 
 const PersonalInfoForm = () => {
+  const { account, update } = useAccount();
   const { discardForm } = useDiscardForm();
-
-  const { account, update } = useContext(AccountContext);
-
   const [data, setData] = useState<Account>(account as Account);
   const [loading, setLoading] = useState(false);
 

@@ -1,15 +1,14 @@
-import React, { useCallback, useContext, useMemo, useState } from 'react';
+import React, { useCallback, useMemo, useState } from 'react';
 import toast from 'react-hot-toast';
 import * as yup from 'yup';
 import Button from 'components/commercetools-ui/atoms/button';
 import Checkbox from 'components/commercetools-ui/atoms/checkbox';
 import Info from 'components/commercetools-ui/atoms/info';
-import { AccountContext } from 'context/account';
 import { useFormat } from 'helpers/hooks/useFormat';
 import useGeo from 'helpers/hooks/useGeo';
 import useProcessing from 'helpers/hooks/useProcessing';
 import useValidate from 'helpers/hooks/useValidate';
-import { Cart } from 'types/entity/cart';
+import { useAccount, useCart } from 'frontastic';
 import { CartDetails } from 'frontastic/hooks/useCart/types';
 import AccountAddresses from './components/account-addresses';
 import AddressForm from './components/address-form';
@@ -18,18 +17,19 @@ import useMappers from './hooks/useMappers';
 import { Address } from './types';
 
 export interface Props {
-  onUpdateCart?: (payload: CartDetails) => Promise<Cart>;
   goToNextStep: () => void;
 }
 
-const Addresses: React.FC<Props> = ({ goToNextStep, onUpdateCart }) => {
+const Addresses: React.FC<Props> = ({ goToNextStep }) => {
   const { formatMessage } = useFormat({ name: 'common' });
   const { formatMessage: formatCheckoutMessage } = useFormat({ name: 'checkout' });
   const { formatMessage: formatCartMessage } = useFormat({ name: 'cart' });
 
-  const { account, loggedIn, shippingAddresses } = useContext(AccountContext);
+  const { account, loggedIn, shippingAddresses } = useAccount();
 
   const { getInfoByZipcode } = useGeo();
+
+  const { updateCart } = useCart();
 
   const { addressToAccountAddress } = useMappers();
 
@@ -120,11 +120,11 @@ const Addresses: React.FC<Props> = ({ goToNextStep, onUpdateCart }) => {
       billing: addressToAccountAddress(currentBillingAddress),
     } as CartDetails;
 
-    const res = await onUpdateCart?.(data);
+    const res = await updateCart(data);
 
     stopProcessing();
 
-    if (res?.cartId) goToNextStep();
+    if (res.cartId) goToNextStep();
     else
       toast.error(
         formatCheckoutMessage({
@@ -140,7 +140,7 @@ const Addresses: React.FC<Props> = ({ goToNextStep, onUpdateCart }) => {
     shippingAddress,
     currentBillingAddress,
     addressToAccountAddress,
-    onUpdateCart,
+    updateCart,
     goToNextStep,
     formatCheckoutMessage,
     processing,

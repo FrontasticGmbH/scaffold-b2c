@@ -1,23 +1,20 @@
-import React, { createContext, useCallback, useContext, useMemo } from 'react';
+import React, { createContext, useCallback, useContext, useMemo, useState } from 'react';
 import { useParams, useRouter, useSearchParams } from 'next/navigation';
 import cloneDeep from 'lodash/cloneDeep';
 import { CurrencyHelpers } from 'helpers/currencyHelpers';
 import useI18n from 'helpers/hooks/useI18n';
 import usePath from 'helpers/hooks/usePath';
-import { ShippingMethod } from 'types/entity/cart';
-import { Category } from 'types/entity/category';
-import { Variant } from 'types/entity/product';
-import { LineItem as WishlistLineItem, Wishlist } from 'types/entity/wishlist';
 import { refinementRemovedEventName, refinementsClearedEventName } from './constants';
 import { ActiveRefinement, ProductListContextShape, RefinementRemovedEvent, Sort, UiState } from './types';
 import { BooleanFacet, FacetConfiguration, PriceConfiguration, RangeFacet, TermFacet } from '../types';
 
 export const ProductListContext = createContext<ProductListContextShape>({
-  categories: [],
   pricesConfiguration: {},
   facetsConfiguration: {},
   totalItems: 0,
   activeRefinements: [],
+  updatePricesConfiguration() {},
+  updateFacetsConfiguration() {},
   refine() {},
   refineRange() {},
   replaceSort() {},
@@ -27,28 +24,9 @@ export const ProductListContext = createContext<ProductListContextShape>({
 
 export interface ProductListPropsProps {
   uiState: UiState;
-  categories: Category[];
-  shippingMethods?: ShippingMethod[];
-  pricesConfiguration: Record<string, PriceConfiguration>;
-  facetsConfiguration: Record<string, FacetConfiguration>;
-  wishlist?: Wishlist;
-  addToWishlist?: (lineItem: WishlistLineItem, count: number) => Promise<void>;
-  removeFromWishlist?: (item: WishlistLineItem) => Promise<void>;
-  onAddToCart?: (variant: Variant, quantity: number) => Promise<void>;
 }
 
-const ProductListProvider = ({
-  children,
-  categories,
-  shippingMethods,
-  uiState,
-  facetsConfiguration,
-  pricesConfiguration,
-  wishlist,
-  addToWishlist,
-  removeFromWishlist,
-  onAddToCart,
-}: React.PropsWithChildren<ProductListPropsProps>) => {
+const ProductListProvider = ({ children, uiState }: React.PropsWithChildren<ProductListPropsProps>) => {
   const router = useRouter();
 
   const { pathWithoutQuery } = usePath();
@@ -60,6 +38,10 @@ const ProductListProvider = ({
   const limit = searchParams.get('limit');
 
   const { currency } = useI18n();
+
+  const [facetsConfiguration, setFacetsConfiguration] = useState<Record<string, FacetConfiguration>>({});
+
+  const [pricesConfiguration, setPricesConfiguration] = useState<Record<string, PriceConfiguration>>({});
 
   const activeSort = useMemo<Sort | undefined>(() => {
     for (const q in searchParams.entries()) {
@@ -74,6 +56,14 @@ const ProductListProvider = ({
   const activeLimit = useMemo<number>(() => {
     return limit ? +limit : limitStep;
   }, [limit, limitStep]);
+
+  const updatePricesConfiguration = useCallback((newPricesConfiguration: Record<string, PriceConfiguration>) => {
+    setPricesConfiguration(newPricesConfiguration);
+  }, []);
+
+  const updateFacetsConfiguration = useCallback((newFacetsConfiguration: Record<string, FacetConfiguration>) => {
+    setFacetsConfiguration(newFacetsConfiguration);
+  }, []);
 
   const applyRefinements = useCallback(
     (facetsConfiguration: Record<string, FacetConfiguration>, sort?: Sort, limit?: number) => {
@@ -243,22 +233,18 @@ const ProductListProvider = ({
     <ProductListContext.Provider
       value={{
         ...uiState,
-        categories,
-        shippingMethods,
         facetsConfiguration,
         pricesConfiguration,
         activeSort,
         activeLimit,
         activeRefinements,
+        updateFacetsConfiguration,
+        updatePricesConfiguration,
         refine,
         refineRange,
         replaceSort,
         removeAllRefinements,
         loadMore,
-        wishlist,
-        addToWishlist,
-        removeFromWishlist,
-        onAddToCart,
       }}
     >
       {children}

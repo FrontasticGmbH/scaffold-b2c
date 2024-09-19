@@ -1,15 +1,14 @@
-import React, { useCallback, useContext, useEffect, useRef, useState } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { useParams, useRouter } from 'next/navigation';
 import { checkoutFlow } from '@commercetools/checkout-browser-sdk';
 import toast from 'react-hot-toast';
-import { AccountContext } from 'context/account';
 import { useFormat } from 'helpers/hooks/useFormat';
 import useTranslation from 'providers/i18n/hooks/useTranslation';
-import { useProjectSettings, useCheckout } from 'frontastic';
+import { useProjectSettings, useCheckout, useAccount } from 'frontastic';
 import { CheckoutWrappedProps } from '..';
 import Header from '../components/header';
 
-const CommercetoolsCheckout = ({ logo }: Pick<CheckoutWrappedProps, 'logo'>) => {
+const CommercetoolsCheckout = ({ logo }: CheckoutWrappedProps) => {
   const { push: pushRoute } = useRouter();
 
   const { formatMessage: formatCartMessage } = useFormat({ name: 'cart' });
@@ -28,7 +27,7 @@ const CommercetoolsCheckout = ({ logo }: Pick<CheckoutWrappedProps, 'logo'>) => 
 
   const { session, isExpired } = useCheckout();
 
-  const { account, logout } = useContext(AccountContext);
+  const { account, logout } = useAccount();
 
   useEffect(() => {
     if (initiatedCheckout.current || !projectKey || !session?.token) return;

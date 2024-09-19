@@ -1,33 +1,31 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { XMarkIcon } from '@heroicons/react/24/outline';
+import { Discount } from 'shared/types/cart';
 import AccordionBtn, { AccordionProps } from 'components/commercetools-ui/atoms/accordion';
 import CloseIcon from 'components/icons/close';
 import useClassNames from 'helpers/hooks/useClassNames';
 import { useFormat } from 'helpers/hooks/useFormat';
-import { Discount } from 'types/entity/cart';
+import { useCart } from 'frontastic';
 
 export interface Props {
   className?: string;
   accordionProps?: AccordionProps;
-  discounts: Discount[];
-  onApplyDiscountCode?: (code: string) => Promise<void>;
-  onRemoveDiscountCode?: (discount: Discount) => Promise<void>;
 }
 
-const DiscountForm: React.FC<Props> = ({
-  className,
-  accordionProps,
-  discounts,
-  onApplyDiscountCode,
-  onRemoveDiscountCode,
-}) => {
+const DiscountForm: React.FC<Props> = ({ className, accordionProps }) => {
   const { formatMessage: formatCartMessage } = useFormat({ name: 'cart' });
 
   const [code, setCode] = useState('');
+  const [discounts, setDiscounts] = useState<Discount[]>([]);
   const [codeIsInvalid, setCodeIsInvalid] = useState(false);
   const [erroMessage, setErrorMessage] = useState('');
+  const { redeemDiscountCode, removeDiscountCode, data } = useCart();
 
   const [processing, setProcessing] = useState(false);
+
+  useEffect(() => {
+    setDiscounts(data?.discountCodes ?? []);
+  }, [data]);
 
   const inputClassName = useClassNames([
     'h-40 w-full border rounded-sm px-10 py-12 text-14 placeholder:text-secondary-black disabled:bg-neutral-300 focus:outline-none',
@@ -46,22 +44,26 @@ const DiscountForm: React.FC<Props> = ({
 
     setProcessing(true);
 
-    onApplyDiscountCode?.(code)
+    redeemDiscountCode?.(code)
       .then(() => setCode(''))
       .catch((err: Error) => {
-        if (err.message.includes('MaxApplicationReached')) {
-          setErrorMessage(
-            formatCartMessage({
-              id: 'voucher.max.usage.singular',
-              defaultMessage:
-                'This discount code can no longer be redeemed as the maximum application has been reached. {codes}',
-              values: { codes: '' },
-            }),
-          );
-        } else {
-          setErrorMessage(formatCartMessage({ id: 'codeNotValid', defaultMessage: 'The discount code is not valid' }));
+        console.log(err.message);
+        switch (err.message) {
+          case "Error: Redeem discount code 'BOGO' failed with state 'MaxApplicationReached'":
+            setErrorMessage(
+              formatCartMessage({
+                id: 'voucher.max.usage.singular',
+                defaultMessage:
+                  'This discount code can no longer be redeemed as the maximum application has been reached. {codes}',
+                values: { codes: '' },
+              }),
+            );
+            break;
+          default:
+            setErrorMessage(
+              formatCartMessage({ id: 'codeNotValid', defaultMessage: 'The discount code is not valid' }),
+            );
         }
-
         setCodeIsInvalid(true);
       })
       .finally(() => {
@@ -75,7 +77,7 @@ const DiscountForm: React.FC<Props> = ({
   };
 
   const handleRemove = (discount: Discount) => {
-    onRemoveDiscountCode?.(discount);
+    removeDiscountCode?.(discount);
   };
 
   const handleSubmit = (e: React.FormEvent) => {

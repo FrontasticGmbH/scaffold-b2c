@@ -1,13 +1,12 @@
-import { useCallback, useContext } from 'react';
+import { useCallback } from 'react';
 import { useRouter } from 'next/navigation';
-import { AccountContext } from 'context/account';
 import useI18n from 'helpers/hooks/useI18n';
-import { useCart } from 'frontastic/hooks';
+import { useAccount, useCart } from 'frontastic/hooks';
 
 const useUpdateCartAddresses = () => {
   const router = useRouter();
 
-  const { account, accountLoading } = useContext(AccountContext);
+  const { account, accountLoading } = useAccount();
   const { updateCart } = useCart();
   const { country } = useI18n();
 
@@ -23,7 +22,8 @@ const useUpdateCartAddresses = () => {
         shipping: shippingAddress,
         billing: billingAddress,
       });
-    } else if (!accountLoading) {
+    } else if (accountLoading) {
+    } else {
       router.push('login');
     }
   }, [account, router, updateCart, accountLoading, country]);

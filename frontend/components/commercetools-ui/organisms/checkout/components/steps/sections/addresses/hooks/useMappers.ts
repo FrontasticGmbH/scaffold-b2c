@@ -1,11 +1,11 @@
-import { useCallback, useContext } from 'react';
+import { useCallback } from 'react';
 import { Address as AccountAddress } from 'shared/types/account';
-import { AccountContext } from 'context/account';
 import useI18n from 'helpers/hooks/useI18n';
+import { useAccount } from 'frontastic';
 import { Address } from '../types';
 
 const useMappers = () => {
-  const { account } = useContext(AccountContext);
+  const { account } = useAccount();
   const { country } = useI18n();
 
   const accountAddressToAddress = useCallback(

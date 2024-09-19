@@ -1,4 +1,6 @@
 import React, { FC, useEffect, useState } from 'react';
+import { Variant } from 'shared/types/product';
+import { Category } from 'shared/types/product/Category';
 import Button from 'components/commercetools-ui/atoms/button';
 import Dropdown from 'components/commercetools-ui/atoms/dropdown';
 import Link from 'components/commercetools-ui/atoms/link';
@@ -8,10 +10,7 @@ import Gallery from 'components/commercetools-ui/organisms/gallery';
 import { useAddToCartOverlay } from 'context/add-to-cart-overlay';
 import useClassNames from 'helpers/hooks/useClassNames';
 import { useFormat } from 'helpers/hooks/useFormat';
-import { ShippingMethod } from 'types/entity/cart';
-import { Category } from 'types/entity/category';
-import { Variant } from 'types/entity/product';
-import { LineItem, Wishlist } from 'types/entity/wishlist';
+import { useCart } from 'frontastic';
 import AdditionalInfo from './components/additional-info';
 import ProductInformation from './components/product-information';
 import ShippingSection from './components/shipping-section';
@@ -23,14 +22,10 @@ export interface ProductDetailsProps {
   variant: Variant;
   url?: string;
   category?: Category;
-  wishlist?: Wishlist;
-  shippingMethods?: ShippingMethod[];
-  inModalVersion?: boolean;
   onChangeVariant: (sku: string) => void;
+  inModalVersion?: boolean;
   setIsOpen?: (value: boolean) => void;
-  removeLineItem?: (item: LineItem) => Promise<void>;
-  addToWishlist?: (lineItem: LineItem, count: number) => Promise<void>;
-  onAddToCart?: (variant: Variant, quantity: number) => Promise<void>;
+  onAddToCart?: () => void;
 }
 
 const ProductDetails: FC<ProductDetailsProps> = ({
@@ -38,15 +33,12 @@ const ProductDetails: FC<ProductDetailsProps> = ({
   variant,
   category,
   url,
-  wishlist,
-  shippingMethods,
-  inModalVersion,
   onChangeVariant,
+  inModalVersion,
   setIsOpen,
-  removeLineItem,
-  addToWishlist,
   onAddToCart,
 }) => {
+  const { addItem } = useCart();
   const { formatMessage } = useFormat({ name: 'cart' });
   const { formatMessage: formatProductMessage } = useFormat({ name: 'product' });
 
@@ -65,7 +57,7 @@ const ProductDetails: FC<ProductDetailsProps> = ({
   const handleAddToCart = async () => {
     setLoading(true);
 
-    onAddToCart?.(variant, quantity).then(() => {
+    addItem(variant, quantity).then(() => {
       setLoading(false);
 
       setAdded(true);
@@ -75,6 +67,7 @@ const ProductDetails: FC<ProductDetailsProps> = ({
       }, 1000);
 
       show(product, variant, quantity);
+      onAddToCart?.();
     });
     trackAddToCart();
   };
@@ -122,9 +115,6 @@ const ProductDetails: FC<ProductDetailsProps> = ({
           category={category}
           onChangeVariant={onChangeVariant}
           inModalVersion={inModalVersion}
-          wishlist={wishlist}
-          removeLineItem={removeLineItem}
-          addToWishlist={addToWishlist}
         />
 
         {!variant.isOnStock && (
@@ -162,7 +152,7 @@ const ProductDetails: FC<ProductDetailsProps> = ({
           </Button>
         </div>
 
-        {!inModalVersion && <ShippingSection shippingMethods={shippingMethods} />}
+        {!inModalVersion && <ShippingSection />}
 
         {inModalVersion && (
           <Link

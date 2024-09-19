@@ -968,8 +968,14 @@ export class CartApi extends BaseApi {
       'taxMode',
       'taxRoundingMode',
       'taxCalculationMode',
+      'shippingAddress',
+      'billingAddress',
+      'shippingMethod',
+      'externalTaxRateForShippingMethod',
       'deleteDaysAfterLastModification',
       'origin',
+      'shippingRateInput',
+      'itemShippingAddresses',
     ];
 
     // Commercetools cart only accepts customerId or anonymousId

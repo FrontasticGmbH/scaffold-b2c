@@ -1,7 +1,7 @@
-import { FC, useContext } from 'react';
+import { FC } from 'react';
 import Button from 'components/commercetools-ui/atoms/button';
 import Typography from 'components/commercetools-ui/atoms/typography';
-import { AccountContext } from 'context/account';
+import { useAccount } from 'frontastic';
 import useBottomSectionProps from '../hooks/useBottomSectionProps';
 
 type ThankYouFooterProps = {
@@ -9,7 +9,7 @@ type ThankYouFooterProps = {
 };
 
 const ThankYouFooter: FC<ThankYouFooterProps> = ({ loading }) => {
-  const { loggedIn } = useContext(AccountContext);
+  const { loggedIn } = useAccount();
 
   const { bottomSectionProps } = useBottomSectionProps(loggedIn);
 

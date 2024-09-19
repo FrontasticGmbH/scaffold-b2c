@@ -1,13 +1,11 @@
 import { useMemo } from 'react';
-import { ShippingMethod } from 'types/entity/cart';
-import { Order } from 'types/entity/order';
+import { Order } from 'shared/types/cart/Order';
+import { ShippingMethod } from 'shared/types/cart/ShippingMethod';
+import useOrderFetch from './useOrderFetch';
 
-type UseOrderDataProps = {
-  order?: Order;
-  shippingMethods: ShippingMethod[];
-};
+const useOrderData = (order?: Order) => {
+  const { shippingMethods } = useOrderFetch();
 
-const useOrderData = ({ order, shippingMethods }: UseOrderDataProps) => {
   const orderDateCreated = useMemo(() => {
     return order?.createdAt && new Date(order?.createdAt);
   }, [order]);
@@ -48,7 +46,7 @@ const useOrderData = ({ order, shippingMethods }: UseOrderDataProps) => {
   }, [orderDateDelivery]);
 
   const shippingName = useMemo(() => {
-    return shippingMethods.find(
+    return shippingMethods.data?.find(
       (shippingMethod: ShippingMethod) => shippingMethod.shippingMethodId === order?.shippingInfo?.shippingMethodId,
     )?.name;
   }, [order, shippingMethods]);

@@ -1,10 +1,13 @@
 import React from 'react';
 import useClassNames from 'helpers/hooks/useClassNames';
-import useControllableState from 'helpers/hooks/useControllable';
 
 interface Props extends Omit<React.ComponentProps<'input'>, 'key'> {
   className?: string;
   inputClassName?: string;
+  onChecked?: () => void;
+}
+
+interface Props extends React.InputHTMLAttributes<HTMLInputElement> {
   onChecked?: () => void;
 }
 
@@ -13,13 +16,10 @@ const Radio: React.FC<Props> = ({
   inputClassName = '',
   onChecked,
   children,
-  checked: checkedProp,
-  defaultChecked,
+  checked,
   onChange,
   ...props
 }) => {
-  const [checked, setChecked] = useControllableState(checkedProp, defaultChecked);
-
   const labelClassName = useClassNames([
     'grid place-content-center w-20 h-20 border border-secondary-black rounded-full',
     className,
@@ -30,7 +30,6 @@ const Radio: React.FC<Props> = ({
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     onChange?.(e);
     onChecked?.();
-    setChecked(true);
   };
 
   return (

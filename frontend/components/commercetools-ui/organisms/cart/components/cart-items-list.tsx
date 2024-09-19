@@ -1,32 +1,25 @@
 import { useMemo } from 'react';
 import { useFormat } from 'helpers/hooks/useFormat';
+import { useCart } from 'frontastic';
 import CartItem from './cart-item';
-import { CartProps } from '../types';
 
-type Props = Pick<CartProps, 'cart' | 'onRemoveItem' | 'onUpdateItem' | 'OnMoveToWishlist'>;
-
-const CartItemsList = ({ cart, onRemoveItem, onUpdateItem, OnMoveToWishlist }: Props) => {
+const CartItemsList = () => {
+  const { data } = useCart();
   const { formatMessage: formatProductMessage } = useFormat({ name: 'product' });
 
   const lineItems = useMemo(() => {
-    return (cart?.lineItems ?? []).filter((lineItem) => lineItem.variant?.isOnStock);
-  }, [cart?.lineItems]);
+    return (data?.lineItems ?? []).filter((lineItem) => lineItem.variant?.isOnStock);
+  }, [data?.lineItems]);
 
   const soldOutItems = useMemo(() => {
-    return (cart?.lineItems ?? []).filter((lineItem) => !lineItem.variant?.isOnStock);
-  }, [cart?.lineItems]);
+    return (data?.lineItems ?? []).filter((lineItem) => !lineItem.variant?.isOnStock);
+  }, [data?.lineItems]);
 
   return (
     <div className="mt-12 divide-y divide-neutral-400 border-t border-neutral-400 lg:mt-34 lg:border-none">
       {lineItems.map((lineItem) => (
         <div key={lineItem.lineItemId}>
-          <CartItem
-            item={lineItem}
-            classNames={{ moveToWishlist: 'text-14' }}
-            onRemoveItem={() => onRemoveItem(lineItem.lineItemId as string)}
-            onUpdateItem={(quantity) => onUpdateItem(lineItem.lineItemId as string, quantity)}
-            OnMoveToWishlist={() => OnMoveToWishlist(lineItem)}
-          />
+          <CartItem item={lineItem} classNames={{ moveToWishlist: 'text-14' }} />
         </div>
       ))}
 
@@ -38,13 +31,7 @@ const CartItemsList = ({ cart, onRemoveItem, onUpdateItem, OnMoveToWishlist }: P
           <div className="mt-52">
             {soldOutItems.map((lineItem) => (
               <div key={lineItem.lineItemId}>
-                <CartItem
-                  item={lineItem}
-                  classNames={{ moveToWishlist: 'text-14' }}
-                  onRemoveItem={() => onRemoveItem(lineItem.lineItemId as string)}
-                  onUpdateItem={(quantity) => onUpdateItem(lineItem.lineItemId as string, quantity)}
-                  OnMoveToWishlist={() => OnMoveToWishlist(lineItem)}
-                />
+                <CartItem item={lineItem} classNames={{ moveToWishlist: 'text-14' }} />
               </div>
             ))}
           </div>

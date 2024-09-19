@@ -38,5 +38,4 @@ const Template: ComponentStory<typeof Search> = (args) => (
 export const DefaultSearch = Template.bind({});
 DefaultSearch.args = {
   categories: [],
-  items: [],
 };

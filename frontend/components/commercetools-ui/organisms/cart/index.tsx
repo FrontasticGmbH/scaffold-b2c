@@ -1,23 +1,19 @@
 import React, { useMemo } from 'react';
 import useCloseFlyouts from 'helpers/hooks/useCloseFlyouts';
 import { useFormat } from 'helpers/hooks/useFormat';
+import { useCart } from 'frontastic';
 import CartContent from './components/cart-content';
 import { CartProps } from './types';
 import OrderSummary from '../order-summary';
 import CheckoutButton from '../order-summary/components/checkout-button';
 import { CheckoutButtonProps } from '../order-summary/types';
 
-const Cart = ({
-  isEmpty,
-  hasOutOfStockItems,
-  onApplyDiscountCode,
-  onRemoveDiscountCode,
-  paymentMethods,
-  ...props
-}: CartProps) => {
+const Cart: React.FC<CartProps> = ({ paymentMethods, ...props }) => {
   const { formatMessage: formatCartMessage } = useFormat({ name: 'cart' });
 
   const closeFlyouts = useCloseFlyouts();
+
+  const { isEmpty, hasOutOfStockItems } = useCart();
 
   const defaultCheckoutButtonProps: CheckoutButtonProps = useMemo(() => {
     return {
@@ -42,9 +38,6 @@ const Cart = ({
           includeLoginSuggestion
           paymentMethods={paymentMethods}
           button={<CheckoutButton className="hidden md:block" {...defaultCheckoutButtonProps} />}
-          discounts={props.cart?.discountCodes ?? []}
-          onApplyDiscountCode={onApplyDiscountCode}
-          onRemoveDiscountCode={onRemoveDiscountCode}
         />
       </div>
 

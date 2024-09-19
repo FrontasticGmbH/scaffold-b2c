@@ -1,29 +1,14 @@
 import React from 'react';
 import { Story, Meta } from '@storybook/react';
 import Typography from 'components/commercetools-ui/atoms/typography';
-import { products, shippingMethods } from 'helpers/mocks/mockCommonData';
-import { categories, wishlist } from 'helpers/mocks/mockData';
+import { products } from 'helpers/mocks/mockCommonData';
+import { categories } from 'helpers/mocks/mockData';
 import ProductList, { ProductListProps } from '.';
-import ProductListProvider from './context';
 
 export default {
   title: 'Organisms/Product List',
   component: ProductList,
   argTypes: {},
-  decorators: [
-    (Story) => (
-      <ProductListProvider
-        uiState={{ totalItems: products.length }}
-        facetsConfiguration={{}}
-        pricesConfiguration={{}}
-        categories={categories}
-        shippingMethods={shippingMethods}
-        wishlist={wishlist}
-      >
-        <Story />
-      </ProductListProvider>
-    ),
-  ],
 } as Meta;
 
 const Template: Story<ProductListProps> = () => (
@@ -33,7 +18,7 @@ const Template: Story<ProductListProps> = () => (
       The Product List component displays the list of products with their details and actions like adding to cart.
     </Typography>
     <div className="mt-44">
-      <ProductList products={products} />
+      <ProductList categories={categories} products={products} />
     </div>
   </div>
 );

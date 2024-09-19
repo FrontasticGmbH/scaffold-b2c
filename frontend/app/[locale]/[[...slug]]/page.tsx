@@ -9,7 +9,6 @@ import { getLocalizationInfo } from 'project.config';
 import { Providers } from 'providers';
 import { sdk } from 'sdk';
 import { PageProps } from 'types/next';
-import { RedirectResponse } from 'frontastic';
 import Renderer from 'frontastic/renderer';
 
 export const dynamic = 'force-dynamic';
@@ -21,7 +20,7 @@ export async function generateMetadata({ params, searchParams }: PageProps): Pro
 
   const response = await fetchPageData(params, searchParams);
 
-  if (response.isError || !response.data.pageFolder) return {};
+  if (response.isError) return {};
 
   const { seoTitle, seoDescription, seoKeywords } = response.data.pageFolder.configuration;
 
@@ -46,9 +45,6 @@ export default async function Page({ params, searchParams }: PageProps) {
   ]);
 
   if (page.isError) return redirect('/404');
-
-  const redirectResponse = page.data as unknown as RedirectResponse;
-  if (typeof redirectResponse.target === 'string') redirect(redirectResponse.target);
 
   const translations = await getTranslations(
     [locale],

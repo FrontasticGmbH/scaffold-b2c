@@ -18,7 +18,7 @@ const Template: Story<WishlistItemProps> = () => (
       cart page or slideout.
     </Typography>
     <div className="mt-44 border-y border-neutral-400 pr-20">
-      <WishlistItem item={wishlist.lineItems[0]} onRemove={async () => {}} onMoveToCart={async () => {}} />
+      <WishlistItem item={wishlist.lineItems[0]} />
     </div>
   </div>
 );

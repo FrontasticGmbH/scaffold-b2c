@@ -1,23 +1,14 @@
+import { FC } from 'react';
 import { useFormat } from 'helpers/hooks/useFormat';
+import { useCart } from 'frontastic';
 import CartItemsList from './cart-items-list';
 import EmptyCart from './empty-cart';
-import { CartProps } from '../types';
+import { CartContentProps } from '../types';
 
-type Props = Omit<CartProps, 'paymentMethods'> & {
-  className?: string;
-};
-
-const CartContent = ({
-  className,
-  isEmpty,
-  totalItems,
-  cart,
-  onRemoveItem,
-  onUpdateItem,
-  OnMoveToWishlist,
-  ...props
-}: Props) => {
+const CartContent: FC<CartContentProps> = ({ className, ...props }) => {
   const { formatMessage: formatCartMessage } = useFormat({ name: 'cart' });
+
+  const { isEmpty, totalItems } = useCart();
 
   return (
     <div className={className}>
@@ -33,16 +24,7 @@ const CartContent = ({
         </h3>
       </div>
 
-      {!isEmpty ? (
-        <CartItemsList
-          cart={cart}
-          onRemoveItem={onRemoveItem}
-          onUpdateItem={onUpdateItem}
-          OnMoveToWishlist={OnMoveToWishlist}
-        />
-      ) : (
-        <EmptyCart {...props} />
-      )}
+      {!isEmpty ? <CartItemsList /> : <EmptyCart {...props} />}
     </div>
   );
 };

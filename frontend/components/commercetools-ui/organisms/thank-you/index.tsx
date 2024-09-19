@@ -1,20 +1,32 @@
-import React from 'react';
+import React, { FC, useEffect, useState } from 'react';
+import { useSearchParams } from 'next/navigation';
+import { Order } from 'shared/types/cart/Order';
 import { useFormat } from 'helpers/hooks/useFormat';
-import { ShippingMethod } from 'types/entity/cart';
-import { Order } from 'types/entity/order';
+import { useCart } from 'frontastic';
 import ThankYouOrderInfo from './components/order-info';
 import PrintButton from './components/printButton';
 import ThankYouFooter from './components/thank-you-footer';
 import ThankYouHeader from './components/thank-you-header';
 import OrderSummary from '../order-summary';
 
-type ThankYouProps = {
-  order?: Order;
-  shippingMethods: ShippingMethod[];
-};
-
-const ThankYouContent: React.FC<ThankYouProps> = ({ order, shippingMethods }) => {
+const ThankYouContent: FC = () => {
   const { formatMessage } = useFormat({ name: 'thank-you' });
+
+  const searchParams = useSearchParams();
+
+  const orderId = searchParams.get('orderId');
+
+  const [order, setOrder] = useState<Order>();
+  const { getOrder, resetCart } = useCart();
+
+  useEffect(() => {
+    if (!order) {
+      getOrder(orderId as string).then((res) => {
+        setOrder(res);
+        resetCart?.();
+      });
+    }
+  }, [getOrder, order, orderId, resetCart]);
 
   const handlePrint = () => {
     window.print();
@@ -25,18 +37,11 @@ const ThankYouContent: React.FC<ThankYouProps> = ({ order, shippingMethods }) =>
       <div className="flex flex-col lg:flex-row lg:items-start lg:gap-26 lg:px-20 lg:py-48 xl:px-48">
         <div className="bg-white px-16 md:px-24 lg:w-[65%] lg:rounded-md lg:py-36">
           <ThankYouHeader email={order?.email} onPrint={handlePrint} />
-          <ThankYouOrderInfo
-            firstName={order?.shippingAddress?.firstName}
-            order={order}
-            shippingMethods={shippingMethods}
-          />
+          <ThankYouOrderInfo firstName={order?.shippingAddress?.firstName} order={order} />
           <ThankYouFooter loading={!order?.sum} />
         </div>
 
         <OrderSummary
-          discounts={[]}
-          onApplyDiscountCode={async () => {}}
-          onRemoveDiscountCode={async () => {}}
           className="bg-white px-16 pb-24 md:px-24 lg:mt-0 lg:block lg:min-w-[35%] lg:p-36"
           title={formatMessage({ id: 'order?.details', defaultMessage: 'Order details' })}
           order={order}

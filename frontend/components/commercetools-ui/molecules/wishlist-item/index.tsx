@@ -2,21 +2,28 @@ import React, { FC } from 'react';
 import { useParams } from 'next/navigation';
 import { TrashIcon } from '@heroicons/react/24/outline';
 import { LineItem } from 'shared/types/wishlist/LineItem';
+import { Wishlist } from 'shared/types/wishlist/Wishlist';
 import Button from 'components/commercetools-ui/atoms/button';
 import { CurrencyHelpers } from 'helpers/currencyHelpers';
 import { useFormat } from 'helpers/hooks/useFormat';
+import { useCart, useWishlist } from 'frontastic';
 import Image from 'frontastic/lib/image';
 
 export interface WishlistItemProps {
   item: LineItem;
-  onRemove: () => Promise<void>;
-  onMoveToCart: () => Promise<void>;
 }
 
-const WishlistItem: FC<WishlistItemProps> = ({ item, onRemove, onMoveToCart }) => {
+const WishlistItem: FC<WishlistItemProps> = ({ item }) => {
   const { locale } = useParams();
 
   const { formatMessage: formatWishlistMessage } = useFormat({ name: 'wishlist' });
+  const { data: wishlist, removeLineItem } = useWishlist();
+  const { addItem } = useCart();
+
+  const moveToCart = () => {
+    if (wishlist) removeLineItem(wishlist, item);
+    if (item.variant) addItem(item.variant, 1);
+  };
 
   return (
     <div className="flex max-w-full items-stretch justify-start gap-10 py-18 md:gap-15">
@@ -36,7 +43,7 @@ const WishlistItem: FC<WishlistItemProps> = ({ item, onRemove, onMoveToCart }) =
           <p className="max-w-[150px] overflow-hidden text-ellipsis whitespace-pre text-14 uppercase leading-loose">
             {item.name}
           </p>
-          <i onClick={onRemove} className="block cursor-pointer">
+          <i onClick={() => removeLineItem(wishlist as Wishlist, item)} className="block cursor-pointer">
             <TrashIcon stroke="#494949" className="w-20" />
           </i>
         </div>
@@ -57,7 +64,7 @@ const WishlistItem: FC<WishlistItemProps> = ({ item, onRemove, onMoveToCart }) =
           )}
         </div>
         <div className="mt-16 leading-normal">
-          <Button variant="primary" onClick={onMoveToCart} disabled={!item.variant?.isOnStock} className="py-8 text-14">
+          <Button variant="primary" onClick={moveToCart} disabled={!item.variant?.isOnStock} className="py-8 text-14">
             {formatWishlistMessage({ id: 'wishlist.add.to.cart', defaultMessage: 'Add to cart' })}
           </Button>
         </div>

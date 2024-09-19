@@ -13,21 +13,20 @@ export interface CartDetails {
   billing?: Address;
 }
 
-export interface Transaction {
-  isEstimatedShipping?: boolean;
-  subtotal: Required<Money>;
-  discount: Required<Money>;
-  shipping: Required<Money>;
-  tax: Required<Money>;
-  total: Required<Money>;
-}
 export interface UseCartReturn {
   data?: Cart;
   totalItems: number;
   isEmpty: boolean;
   isShippingAccurate: boolean;
   hasOutOfStockItems: boolean;
-  transaction: Transaction;
+  transaction: {
+    isEstimatedShipping?: boolean;
+    subtotal: Required<Money>;
+    discount: Required<Money>;
+    shipping: Required<Money>;
+    tax: Required<Money>;
+    total: Required<Money>;
+  };
   addItem: (variant: Variant, quantity: number) => Promise<void>;
   updateCart: (payload: CartDetails) => Promise<Cart>;
   setShippingMethod: (shippingMethodId: string) => Promise<void>;

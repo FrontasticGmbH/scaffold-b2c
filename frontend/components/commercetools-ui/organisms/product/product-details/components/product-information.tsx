@@ -11,15 +11,7 @@ import { ProductDetailsProps } from '..';
 
 type ProductInformationProps = Omit<ProductDetailsProps, 'onAddToCart'>;
 
-const ProductInformation: FC<ProductInformationProps> = ({
-  product,
-  variant,
-  onChangeVariant,
-  inModalVersion,
-  wishlist,
-  removeLineItem,
-  addToWishlist,
-}) => {
+const ProductInformation: FC<ProductInformationProps> = ({ product, variant, onChangeVariant, inModalVersion }) => {
   const router = useRouter();
 
   const { locale } = useParams();
@@ -72,12 +64,7 @@ const ProductInformation: FC<ProductInformationProps> = ({
           {product?.name}
         </Typography>
 
-        <WishlistButton
-          lineItem={productToWishlistLineItem}
-          data={wishlist}
-          removeFromWishlist={removeLineItem}
-          addToWishlist={addToWishlist}
-        />
+        <WishlistButton lineItem={productToWishlistLineItem} />
       </div>
       {discountPercentage ? (
         <div className="flex flex-row justify-between">

@@ -21,9 +21,6 @@ const Template: Story<HeaderProps> = () => (
     </Typography>
     <div className="mt-40 pr-40">
       <Header
-        onRemoveItem={async () => {}}
-        onUpdateItem={async () => {}}
-        OnMoveToWishlist={async () => {}}
         navLinks={links}
         logo={logo}
         categories={links}
@@ -39,7 +36,6 @@ const Template: Story<HeaderProps> = () => (
         emptyWishlistImage={logo}
         emptyWishlistCategories={[]}
         tiles={tiles}
-        searchItems={[]}
       />
     </div>
   </div>

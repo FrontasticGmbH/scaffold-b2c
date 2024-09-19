@@ -1,10 +1,10 @@
 import React, { useCallback, useMemo } from 'react';
 import { useRouter } from 'next/navigation';
+import { Category } from 'shared/types/product/Category';
+import { Product } from 'shared/types/product/Product';
 // import { Variant } from 'ct-types/product';
 import { AUTOCOMPLETE_PRODUCT_CLICKED } from 'helpers/constants/events';
 // import useVariantWithDiscount from 'helpers/hooks/useVariantWithDiscount';
-import { Category } from 'types/entity/category';
-import { Product } from 'types/entity/product';
 import Image from 'frontastic/lib/image';
 import Link from '../../link';
 // import Prices from '../prices';

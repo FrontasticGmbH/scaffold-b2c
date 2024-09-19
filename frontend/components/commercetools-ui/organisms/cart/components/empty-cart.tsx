@@ -1,11 +1,10 @@
+import { FC } from 'react';
 import Button from 'components/commercetools-ui/atoms/button';
 import Link from 'components/commercetools-ui/atoms/link';
 import { useFormat } from 'helpers/hooks/useFormat';
-import { CartProps } from '../types';
+import { EmptyCartProps } from '../types';
 
-type Props = Pick<CartProps, 'categories' | 'emptyStateDescription'>;
-
-const EmptyCart = ({ categories, emptyStateDescription }: Props) => {
+const EmptyCart: FC<EmptyCartProps> = ({ categories, emptyStateDescription }) => {
   const { formatMessage: formatCartMessage } = useFormat({ name: 'cart' });
 
   return (

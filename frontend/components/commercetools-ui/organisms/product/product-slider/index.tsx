@@ -1,4 +1,5 @@
 import React, { FC } from 'react';
+import { Product } from 'shared/types/product/Product';
 import { SwiperOptions } from 'swiper';
 import Slider from 'components/commercetools-ui/atoms/slider';
 import Subtitle, { SubtitleProps } from 'components/commercetools-ui/atoms/subtitle';
@@ -8,17 +9,12 @@ import Wrapper from 'components/HOC/wrapper';
 import useClassNames from 'helpers/hooks/useClassNames';
 import useTouchDevice from 'helpers/hooks/useTouchDevice';
 import { mediumDesktop, tablet } from 'helpers/utils/screensizes';
-import { ShippingMethod } from 'types/entity/cart';
-import { Product, Variant } from 'types/entity/product';
-import { LineItem, Wishlist } from 'types/entity/wishlist';
 import { Reference } from 'types/reference';
 import useTrack from './useTrack';
 import Link from '../../content/link';
 
 export interface ProductSliderProps extends Partial<SwiperOptions> {
   products: Product[];
-  wishlist?: Wishlist;
-  shippingMethods?: ShippingMethod[];
   title: string;
   titleVariant?: 'xs' | 'sm' | 'lg';
   subline?: string;
@@ -37,19 +33,15 @@ export interface ProductSliderProps extends Partial<SwiperOptions> {
     title?: string;
   };
   variant?: 'normal' | 'cart';
-  addToWishlist?: (lineItem: LineItem, count: number) => Promise<void>;
-  removeLineItem?: (item: LineItem) => Promise<void>;
-  onAddToCart?: (variant: Variant, quantity: number) => Promise<void>;
 }
 
 const ProductSlider: FC<ProductSliderProps> = ({
   products,
-  wishlist,
-  shippingMethods,
   title,
   subline,
   ctaLabel,
   ctaLink,
+  onProductClick,
   titleVariant = 'lg',
   subtitleVariant = 'lg',
   clearDefaultWrapperStyles = false,
@@ -60,10 +52,6 @@ const ProductSlider: FC<ProductSliderProps> = ({
   solidArrows = true,
   breakpoints = {},
   classNames = {},
-  addToWishlist,
-  removeLineItem,
-  onProductClick,
-  onAddToCart,
   ...props
 }) => {
   const { isTouchDevice } = useTouchDevice();
@@ -136,8 +124,6 @@ const ProductSlider: FC<ProductSliderProps> = ({
           {products.map((product, index) => (
             <ProductTile
               key={product.productId}
-              wishlist={wishlist}
-              shippingMethods={shippingMethods}
               disableQuickView={disableProductQuickView}
               disableWishlistButton={disableProductWishlistButton}
               disableVariants={disableProductVariants}
@@ -146,9 +132,6 @@ const ProductSlider: FC<ProductSliderProps> = ({
                 trackClick(product, index + 1);
                 onProductClick?.(product);
               }}
-              addToWishlist={addToWishlist}
-              removeLineItem={removeLineItem}
-              onAddToCart={onAddToCart}
             />
           ))}
         </Slider>

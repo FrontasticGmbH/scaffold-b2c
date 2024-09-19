@@ -1,36 +1,30 @@
-import { useCallback, useContext } from 'react';
+import { useCallback } from 'react';
 import { useParams, useRouter } from 'next/navigation';
 import toast from 'react-hot-toast';
 import * as uuid from 'uuid';
 import { PaymentResponse } from 'components/commercetools-ui/organisms/checkout/provider/payment/types';
-import { AccountContext } from 'context/account';
 import { useFormat } from 'helpers/hooks/useFormat';
 import useI18n from 'helpers/hooks/useI18n';
 import { Guid } from 'helpers/utils/guid';
 import { getLocalizationInfo } from 'project.config';
 import { sdk } from 'sdk';
-import { Cart } from 'types/entity/cart';
-import { Transaction } from 'frontastic/hooks/useCart/types';
+import { useAccount, useCart } from 'frontastic';
 import { useCheckout } from '../provider';
 
-interface Options {
-  cart?: Cart;
-  transaction: Transaction;
-  hasOutOfStockItems?: boolean;
-}
-const usePurchase = ({ cart, transaction, hasOutOfStockItems }: Options) => {
+const usePurchase = () => {
   const { formatMessage: formatCheckoutMessage } = useFormat({ name: 'checkout' });
 
   const router = useRouter();
   const { locale } = useParams();
   const { country } = useI18n();
-  const { account } = useContext(AccountContext);
+  const { account } = useAccount();
+  const { transaction, data, hasOutOfStockItems } = useCart();
   const { makePayment, makeKlarnaPayment, paymentData, paymentDataIsValid, handleThreeDS2Action, setProcessing } =
     useCheckout();
 
   const handlePaymentResponse = useCallback(
     async (response: PaymentResponse, orderNumber: string) => {
-      if (['Authorised', 'RedirectShopper', 'IdentifyShopper', 'ChallengeShopper'].includes(response?.resultCode)) {
+      if (['Authorised', 'RedirectShopper', 'IdentifyShopper', 'ChallengeShopper'].includes(response.resultCode)) {
         if (!response.action) {
           await sdk.callAction({ actionName: 'cart/resetCart' });
           router.push(`/thank-you?orderId=${orderNumber}`);
@@ -61,10 +55,10 @@ const usePurchase = ({ cart, transaction, hasOutOfStockItems }: Options) => {
   );
 
   const purchase = useCallback(async () => {
-    if (!cart?.shippingAddress || !cart?.billingAddress || !cart?.shippingInfo) return;
+    if (!data?.shippingAddress || !data?.billingAddress || !data?.shippingInfo) return;
 
     if (hasOutOfStockItems) {
-      const outOfStockItems = cart?.lineItems?.filter((lineItem) => lineItem.variant?.isOnStock) ?? [];
+      const outOfStockItems = data?.lineItems?.filter((lineItem) => lineItem.variant?.isOnStock) ?? [];
 
       toast.error(
         `${formatCheckoutMessage({
@@ -119,7 +113,7 @@ const usePurchase = ({ cart, transaction, hasOutOfStockItems }: Options) => {
           timeZoneOffset: new Date().getTimezoneOffset(),
           userAgent: navigator.userAgent,
         },
-        metadata: { cartId: cart.cartId },
+        metadata: { cartId: data.cartId },
       });
     }
 
@@ -131,7 +125,7 @@ const usePurchase = ({ cart, transaction, hasOutOfStockItems }: Options) => {
         shopperReference: account?.accountId ?? uuid.v4(),
         countryCode: country,
         shopperLocale: getLocalizationInfo(locale).locale,
-        lineItems: (cart?.lineItems ?? []).map((lineItem) => ({
+        lineItems: (data?.lineItems ?? []).map((lineItem) => ({
           id: lineItem.lineItemId as string,
           quantity: (lineItem.count ?? 1).toString() as string,
           description: lineItem.name as string,
@@ -139,7 +133,7 @@ const usePurchase = ({ cart, transaction, hasOutOfStockItems }: Options) => {
           productUrl: lineItem._url,
           imageUrl: lineItem.variant?.images?.[0],
         })),
-        metadata: { cartId: cart.cartId },
+        metadata: { cartId: data.cartId },
       });
     }
 
@@ -147,7 +141,6 @@ const usePurchase = ({ cart, transaction, hasOutOfStockItems }: Options) => {
 
     setProcessing(false);
   }, [
-    cart,
     setProcessing,
     makePayment,
     hasOutOfStockItems,
@@ -157,6 +150,7 @@ const usePurchase = ({ cart, transaction, hasOutOfStockItems }: Options) => {
     makeKlarnaPayment,
     account?.accountId,
     country,
+    data,
     paymentDataIsValid,
     handlePaymentResponse,
     formatCheckoutMessage,
