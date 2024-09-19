@@ -2,7 +2,8 @@ import React from 'react';
 import { Story, Meta } from '@storybook/react';
 import Typography from 'components/commercetools-ui/atoms/typography';
 import { toUIProduct } from 'helpers/mappers/toUIProduct';
-import { products } from 'helpers/mocks/mockCommonData';
+import { products, shippingMethods } from 'helpers/mocks/mockCommonData';
+import { wishlist } from 'helpers/mocks/mockData';
 import ProductDetails, { ProductDetailsProps } from '.';
 
 export default {
@@ -22,7 +23,13 @@ const Template: Story<ProductDetailsProps> = () => {
         The Product Details component displays the product information, images, and actions like adding to cart.
       </Typography>
       <div className="mt-44">
-        <ProductDetails product={product} variant={variant} onChangeVariant={() => {}} />
+        <ProductDetails
+          product={product}
+          wishlist={wishlist}
+          shippingMethods={shippingMethods}
+          variant={variant}
+          onChangeVariant={() => {}}
+        />
       </div>
     </div>
   );

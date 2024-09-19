@@ -27,7 +27,7 @@ const useWishlist = () => {
     });
   }, []);
 
-  const removeLineItem = useCallback(async (wishlist: Wishlist, lineItem: LineItem) => {
+  const removeLineItem = useCallback(async (wishlist: Wishlist, lineItem: Partial<LineItem>) => {
     const extensions = sdk.composableCommerce;
 
     const newWishlist = {
@@ -35,7 +35,7 @@ const useWishlist = () => {
       lineItems: wishlist.lineItems?.filter((item) => item.lineItemId !== lineItem.lineItemId) ?? [],
     };
 
-    const res = extensions.wishlist.removeItem({ lineItem: { id: lineItem.lineItemId } });
+    const res = extensions.wishlist.removeItem({ lineItem: { id: lineItem.lineItemId as string } });
     await mutate('/action/wishlist/getWishlist', res, {
       optimisticData: { data: newWishlist },
       rollbackOnError: true,

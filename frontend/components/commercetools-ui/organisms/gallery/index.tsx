@@ -6,11 +6,10 @@ import useMediaQuery from 'helpers/hooks/useMediaQuery';
 import { classnames } from 'helpers/utils/classnames';
 import { desktop, tablet } from 'helpers/utils/screensizes';
 import Image from 'frontastic/lib/image';
-import { ProductDetailsProps } from '../product/product-details';
 
 interface GalleryProps {
   images: Array<string>;
-  inModalVersion?: ProductDetailsProps['inModalVersion'];
+  inModalVersion?: boolean;
 }
 
 const Gallery: FC<GalleryProps> = ({ images, inModalVersion }) => {

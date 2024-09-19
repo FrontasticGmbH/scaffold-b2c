@@ -1,20 +1,37 @@
 import { FC, useRef, useState } from 'react';
 import { XMarkIcon } from '@heroicons/react/24/outline';
 import { Product } from 'shared/types/product/Product';
+import { LineItem, Wishlist } from 'shared/types/wishlist';
 import Modal from 'components/commercetools-ui/organisms/modal';
 import useClassNames from 'helpers/hooks/useClassNames';
 import { useFormat } from 'helpers/hooks/useFormat';
 import useOnClickOutside from 'helpers/hooks/useOnClickOutside';
 import useScrollBlock from 'helpers/hooks/useScrollBlock';
+import { ShippingMethod } from 'types/entity/cart';
+import { Variant } from 'types/entity/product';
 import ProductDetailsAdapter from '../product-details/helpers/adapter';
 
 export type QuickViewProps = {
   buttonIsVisible: boolean;
   product: Product;
+  wishlist?: Wishlist;
+  shippingMethods?: ShippingMethod[];
   hideButton: () => void;
+  addToWishlist?: (lineItem: LineItem, count: number) => Promise<void>;
+  removeFromWishlist?: (item: LineItem) => Promise<void>;
+  onAddToCart?: (variant: Variant, quantity: number) => Promise<void>;
 };
 
-const QuickView: FC<QuickViewProps> = ({ buttonIsVisible, product, hideButton }) => {
+const QuickView: FC<QuickViewProps> = ({
+  buttonIsVisible,
+  wishlist,
+  shippingMethods,
+  product,
+  hideButton,
+  addToWishlist,
+  removeFromWishlist,
+  onAddToCart,
+}) => {
   const [modalIsOpen, setIsOpen] = useState(false);
 
   const { blockScroll } = useScrollBlock();
@@ -65,10 +82,17 @@ const QuickView: FC<QuickViewProps> = ({ buttonIsVisible, product, hideButton })
           />
           <ProductDetailsAdapter
             product={product}
+            wishlist={wishlist}
+            shippingMethods={shippingMethods}
             categories={[]}
             inModalVersion={true}
             setIsOpen={setIsOpen}
-            onAddToCart={() => closeModal(false)}
+            onAddToCart={async (variant, quantity) => {
+              await onAddToCart?.(variant, quantity);
+              closeModal(false);
+            }}
+            addToWishlist={addToWishlist}
+            removeLineItem={removeFromWishlist}
           />
         </div>
       </Modal>

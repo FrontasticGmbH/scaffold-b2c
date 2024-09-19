@@ -1,15 +1,15 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { useRouter } from 'next/navigation';
 import { Popover } from '@headlessui/react';
 import Link from 'components/commercetools-ui/atoms/link';
 import Typography from 'components/commercetools-ui/atoms/typography';
+import { AccountContext } from 'context/account';
 import { useFormat } from 'helpers/hooks/useFormat';
-import { useAccount } from 'frontastic';
 
 const LoggedIn = () => {
   const router = useRouter();
   const { formatMessage: formatAccountMessage } = useFormat({ name: 'account' });
-  const { logout } = useAccount();
+  const { logout } = useContext(AccountContext);
 
   const handleLogout = () => {
     logout().then(() => router.push('/login'));

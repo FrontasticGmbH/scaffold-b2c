@@ -1,3 +1,7 @@
+import { ShippingMethod } from 'types/entity/cart';
+import { Category } from 'types/entity/category';
+import { Variant } from 'types/entity/product';
+import { LineItem as WishlistLineItem, Wishlist } from 'types/entity/wishlist';
 import { FacetConfiguration, PriceConfiguration } from '../types';
 
 export interface RefinementRemovedEvent {
@@ -24,16 +28,20 @@ export interface ActiveRefinement {
 }
 
 export interface ProductListContextShape extends UiState {
+  categories: Category[];
+  shippingMethods?: ShippingMethod[];
   pricesConfiguration: Record<string, PriceConfiguration>;
   facetsConfiguration: Record<string, FacetConfiguration>;
   activeSort?: Sort;
   activeLimit?: number;
   activeRefinements: Array<ActiveRefinement>;
-  updatePricesConfiguration: (newPricesConfiguration: Record<string, PriceConfiguration>) => void;
-  updateFacetsConfiguration: (newFacetsConfiguration: Record<string, FacetConfiguration>) => void;
   refine: (attribute: string, key: string) => void;
   refineRange: (attribute: string, value: [number, number]) => void;
   replaceSort: (newSort: Sort) => void;
   removeAllRefinements: () => void;
   loadMore: () => void;
+  wishlist?: Wishlist;
+  addToWishlist?: (lineItem: WishlistLineItem, count: number) => Promise<void>;
+  removeFromWishlist?: (item: WishlistLineItem) => Promise<void>;
+  onAddToCart?: (variant: Variant, quantity: number) => Promise<void>;
 }

@@ -1,7 +1,6 @@
 import React, { useMemo } from 'react';
 import { useParams } from 'next/navigation';
 import { Configure, InfiniteHits } from 'react-instantsearch-hooks-web';
-import { Category } from 'shared/types/product/Category';
 import ProductTile from 'components/commercetools-ui/molecules/product-tile';
 import Wrapper from 'components/HOC/wrapper';
 import { mapProduct } from 'helpers/algolia/map-product';
@@ -13,19 +12,20 @@ import CurrentRefinements from './components/current-refinements';
 import DesktopFacets from './components/desktop-facets';
 import MobileFacets from './components/mobile-facets';
 import SearchHeader from './components/search-header';
-import { FacetConfiguration } from './types';
+import { useProductList } from './context';
 
 interface Props {
   slug?: string;
   searchQuery?: string;
-  categories: Category[];
-  facetsConfiguration: Record<string, FacetConfiguration>;
 }
 
-const ProductListAlgolia: React.FC<Props> = ({ slug, searchQuery, categories, facetsConfiguration }) => {
+const ProductListAlgolia: React.FC<Props> = ({ slug, searchQuery }) => {
   const { formatMessage: formatProductMessage } = useFormat({ name: 'product' });
 
   const { locale } = useParams();
+
+  const { categories, facetsConfiguration, wishlist, shippingMethods, addToWishlist, removeFromWishlist, onAddToCart } =
+    useProductList();
 
   const category = useMemo(() => categories.find((category) => category.slug === slug), [categories, slug]);
 
@@ -56,10 +56,15 @@ const ProductListAlgolia: React.FC<Props> = ({ slug, searchQuery, categories, fa
           hitComponent={({ hit }) => (
             <ProductTile
               product={mapProduct(hit, locale)}
+              wishlist={wishlist}
+              shippingMethods={shippingMethods}
               isSearchResult={!!searchQuery}
               onClick={() => {
                 gtag('event', PLP_PRODUCT_CLICKED, hit);
               }}
+              addToWishlist={addToWishlist}
+              removeLineItem={removeFromWishlist}
+              onAddToCart={onAddToCart}
             />
           )}
           classNames={{

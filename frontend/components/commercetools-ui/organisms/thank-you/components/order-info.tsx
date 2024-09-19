@@ -1,21 +1,23 @@
 import { FC } from 'react';
-import { Account } from 'shared/types/account';
-import { Order } from 'shared/types/cart/Order';
 import Typography from 'components/commercetools-ui/atoms/typography';
 import { useFormat } from 'helpers/hooks/useFormat';
+import { Account } from 'types/entity/account';
+import { ShippingMethod } from 'types/entity/cart';
+import { Order } from 'types/entity/order';
 import useOrderInfoData from '../hooks/useOrderInfoData';
 
 type ThankYouOrderInfoProps = {
   firstName?: Account['firstName'];
   order?: Order;
+  shippingMethods: ShippingMethod[];
 };
 
-const ThankYouOrderInfo: FC<ThankYouOrderInfoProps> = ({ firstName, order }) => {
+const ThankYouOrderInfo: FC<ThankYouOrderInfoProps> = ({ firstName, order, shippingMethods }) => {
   const { formatMessage } = useFormat({ name: 'thank-you' });
 
   const loading = !order;
 
-  const { orderNumber, deliveryMethod, shippingAddress, paymentInfo } = useOrderInfoData(order);
+  const { orderNumber, deliveryMethod, shippingAddress, paymentInfo } = useOrderInfoData({ order, shippingMethods });
 
   const orderInfo = [
     { label: formatMessage({ id: 'order.number', defaultMessage: 'Order number' }), value: orderNumber || '-' },

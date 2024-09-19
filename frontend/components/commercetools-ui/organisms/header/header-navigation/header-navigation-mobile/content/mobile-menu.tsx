@@ -1,8 +1,8 @@
 import React, { FC } from 'react';
-import { Category } from 'shared/types/product/Category';
 import Link from 'components/commercetools-ui/atoms/link';
 import Typography from 'components/commercetools-ui/atoms/typography';
 import { useFormat } from 'helpers/hooks/useFormat';
+import { Category } from 'types/entity/category';
 import MobileMenuNavButton from '../atoms/menu-nav-button';
 
 export interface Props {

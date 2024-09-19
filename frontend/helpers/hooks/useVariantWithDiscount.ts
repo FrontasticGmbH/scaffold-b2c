@@ -1,5 +1,5 @@
 import { useMemo } from 'react';
-import { Variant } from 'shared/types/product';
+import { Variant } from 'types/entity/product';
 
 const useVariantWithDiscount = (variants: Partial<Variant>[]) => {
   const variant = useMemo(() => {

@@ -1,7 +1,7 @@
-import { useCallback } from 'react';
+import { useCallback, useContext } from 'react';
+import { AccountContext } from 'context/account';
 import { useFormat } from 'helpers/hooks/useFormat';
 import useI18n from 'helpers/hooks/useI18n';
-import { useAccount } from 'frontastic';
 import { AddressFormData } from './address-form';
 
 const usePropsToAddressType = () => {
@@ -9,7 +9,9 @@ const usePropsToAddressType = () => {
   const { formatMessage } = useFormat({ name: 'checkout' });
 
   const { addBillingAddress, addShippingAddress, setDefaultBillingAddress, setDefaultShippingAddress, updateAddress } =
-    useAccount();
+    useContext(AccountContext);
+
+  const {} = useContext(AccountContext);
 
   const getAddressType = useCallback((address: AddressFormData) => {
     if (address?.addressType) return address?.addressType;

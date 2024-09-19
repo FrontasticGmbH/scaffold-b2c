@@ -1,20 +1,15 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import Skeleton from 'react-loading-skeleton';
-import { Account } from 'shared/types/account';
 import Typography from 'components/commercetools-ui/atoms/typography';
+import { AccountContext } from 'context/account';
 import { useFormat } from 'helpers/hooks/useFormat';
-import { useAccount } from 'frontastic';
 import Integrity from './sections/integrity';
 import PersonalInfo from './sections/personal-info';
 
-interface Props {
-  isLoading?: boolean;
-}
-
-const MyAccount: React.FC<Props> = ({ isLoading }) => {
-  const { account } = useAccount();
-
+const MyAccount: React.FC = () => {
   const { formatMessage } = useFormat({ name: 'account' });
+
+  const { account, accountLoading: isLoading } = useContext(AccountContext);
 
   return (
     <div className="mt-20 px-16 md:px-24 lg:mt-42 lg:px-44">
@@ -42,7 +37,7 @@ const MyAccount: React.FC<Props> = ({ isLoading }) => {
           <Skeleton className="h-350" />
         ) : (
           <>
-            <PersonalInfo account={account as Account} />
+            <PersonalInfo />
 
             <Integrity />
           </>

@@ -1,7 +1,7 @@
 import React from 'react';
 import { Story, Meta } from '@storybook/react';
 import Typography from 'components/commercetools-ui/atoms/typography';
-import { products } from 'helpers/mocks/mockCommonData';
+import { products, shippingMethods } from 'helpers/mocks/mockCommonData';
 import ProductSlider, { ProductSliderProps } from '.';
 
 export default {
@@ -21,9 +21,11 @@ const Template: Story<ProductSliderProps> = (args) => (
       <ProductSlider
         {...args}
         products={products}
+        shippingMethods={shippingMethods}
         title="This is a Product Slider"
         ctaLabel="A Call to Action"
         classNames={{ title: 'pt-20' }}
+        onAddToCart={async () => {}}
       />
     </div>
   </div>

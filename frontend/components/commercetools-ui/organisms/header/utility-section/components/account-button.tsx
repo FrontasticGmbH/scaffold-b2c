@@ -1,14 +1,14 @@
-import React, { useMemo } from 'react';
+import React, { useContext, useMemo } from 'react';
 import { Popover } from '@headlessui/react';
 import { UserIcon } from '@heroicons/react/24/outline';
 import Link from 'components/commercetools-ui/atoms/link';
 import Typography from 'components/commercetools-ui/atoms/typography';
 import AccountDropdown from 'components/commercetools-ui/organisms/account/account-atoms/account-dropdown';
+import { AccountContext } from 'context/account';
 import { useFormat } from 'helpers/hooks/useFormat';
-import { useAccount } from 'frontastic';
 
 const AccountButton = () => {
-  const { account, loggedIn } = useAccount();
+  const { account, loggedIn } = useContext(AccountContext);
   const { formatMessage: formatAccountMessage } = useFormat({ name: 'account' });
   const userName = useMemo(() => {
     return `${account?.salutation ?? formatAccountMessage({ id: 'hello', defaultMessage: 'Hi, ' })} ${

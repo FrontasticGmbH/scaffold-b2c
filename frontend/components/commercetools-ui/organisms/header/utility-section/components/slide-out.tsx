@@ -7,12 +7,26 @@ import Wishlist from 'components/commercetools-ui/organisms/wishlist';
 import CartIcon from 'components/icons/cart';
 import useClassNames from 'helpers/hooks/useClassNames';
 import { useFormat } from 'helpers/hooks/useFormat';
-import { useCart, useWishlist } from 'frontastic';
+import { Cart as CartShape, Discount, LineItem as CartLineItem } from 'types/entity/cart';
+import { LineItem as WishlistLineItem, Wishlist as WishlistShape } from 'types/entity/wishlist';
 import { ImageProps } from 'frontastic/lib/image';
 
 export type MenuState = 'wishlist' | 'cart';
 
 export interface SlideOutProps {
+  cart?: CartShape;
+  isEmpty?: boolean;
+  onApplyDiscountCode?: (code: string) => Promise<void>;
+  onRemoveDiscountCode?: (discount: Discount) => Promise<void>;
+  totalCartItems?: number;
+  totalWishlistItems?: number;
+  onRemoveItem(itemId: string): Promise<void>;
+  onUpdateItem(itemId: string, quantity: number): Promise<void>;
+  OnMoveToWishlist(lineItem: CartLineItem): Promise<void>;
+  wishlist?: WishlistShape;
+  onRemoveFromWishlist?: (lineItemId: string) => Promise<void>;
+  onMoveToCart?: (lineItem: WishlistLineItem) => Promise<void>;
+  onClearWishlist?: () => Promise<void>;
   state?: MenuState;
   changeState?: (newState?: MenuState) => void;
   onClose?: () => void;
@@ -29,6 +43,19 @@ export interface SlideOutProps {
 }
 
 const Slideout: React.FC<SlideOutProps> = ({
+  cart,
+  isEmpty,
+  totalCartItems = 0,
+  onApplyDiscountCode,
+  onRemoveDiscountCode,
+  totalWishlistItems = 0,
+  onRemoveItem,
+  onUpdateItem,
+  OnMoveToWishlist,
+  wishlist,
+  onRemoveFromWishlist,
+  onMoveToCart,
+  onClearWishlist,
   state,
   changeState,
   onClose,
@@ -45,10 +72,6 @@ const Slideout: React.FC<SlideOutProps> = ({
 }) => {
   const { formatMessage: formatCartMessage } = useFormat({ name: 'cart' });
   const { formatMessage: formatWishlistMessage } = useFormat({ name: 'wishlist' });
-
-  const { totalItems: totalCartItems } = useCart();
-
-  const { totalItems: totalWishlistItems } = useWishlist();
 
   const title = useMemo(() => {
     switch (state) {
@@ -76,15 +99,26 @@ const Slideout: React.FC<SlideOutProps> = ({
       ({
         cart: (
           <Cart
+            cart={cart}
+            isEmpty={isEmpty}
+            onApplyDiscountCode={onApplyDiscountCode}
+            onRemoveDiscountCode={onRemoveDiscountCode}
             emptyStateImage={emptyCartImage}
             emptyStateTitle={emptyCartTitle}
             emptyStateSubtitle={emptyCartSubtitle}
             emptyStateCategories={emptyCartCategories}
             handleCategoryClick={onClose}
+            onRemoveItem={onRemoveItem}
+            onUpdateItem={onUpdateItem}
+            OnMoveToWishlist={OnMoveToWishlist}
           />
         ),
         wishlist: (
           <Wishlist
+            wishlist={wishlist}
+            onRemoveFromWishlist={onRemoveFromWishlist}
+            onMoveToCart={onMoveToCart}
+            onClearWishlist={onClearWishlist}
             emptyWishlistTitle={emptyWishlistTitle}
             emptyWishlistSubtitle={emptyWishlistSubtitle}
             emptyWishlistImage={emptyWishlistImage}
@@ -94,6 +128,17 @@ const Slideout: React.FC<SlideOutProps> = ({
         ),
       })[state as MenuState] ?? <></>,
     [
+      cart,
+      isEmpty,
+      onApplyDiscountCode,
+      onRemoveDiscountCode,
+      onRemoveItem,
+      onUpdateItem,
+      OnMoveToWishlist,
+      wishlist,
+      onRemoveFromWishlist,
+      onMoveToCart,
+      onClearWishlist,
       emptyCartCategories,
       emptyCartImage,
       emptyCartSubtitle,

@@ -6,7 +6,6 @@ import Input from 'components/commercetools-ui/atoms/input';
 import Typography from 'components/commercetools-ui/atoms/typography';
 import { CurrencyHelpers } from 'helpers/currencyHelpers';
 import { useFormat } from 'helpers/hooks/useFormat';
-import { useCart } from 'frontastic';
 import { clearSpaces, getEstimationPhrase } from '../helpers';
 
 type Error = {
@@ -14,9 +13,8 @@ type Error = {
   shippingMethodId: ShippingMethod['shippingMethodId'];
 };
 
-const ShippingSection = () => {
+const ShippingSection = ({ shippingMethods }: { shippingMethods?: ShippingMethod[] }) => {
   const { locale } = useParams();
-  const { shippingMethods } = useCart();
   const { formatMessage } = useFormat({ name: 'cart' });
 
   const [input, setInput] = useState<string>('');
@@ -62,15 +60,25 @@ const ShippingSection = () => {
   };
 
   const getRateToUse = (rates: ShippingMethod['rates']) => {
-    const DEFAULT_SHIPPING_RATE_ID =
-      locale == 'en' ? 'f51d093a-07a4-43ac-90a2-ae072a4aabf5' : '34717e18-4b4d-41f9-af68-158142015ea3';
-    return rates?.find(({ shippingRateId }) => shippingRateId === DEFAULT_SHIPPING_RATE_ID);
+    const localeToCountries = {
+      en: ['US', 'GB'],
+      de: ['DE'],
+    };
+
+    return (
+      rates?.find(
+        (rate) =>
+          !!rate.locations?.find((loc) =>
+            localeToCountries[locale as keyof typeof localeToCountries]?.includes(loc.country as string),
+          ),
+      ) ?? rates?.[0]
+    );
   };
 
   return (
     <>
       <div className="mt-28 grid border border-neutral-400">
-        {shippingMethods.data?.map(({ shippingMethodId, name, description, rates }) => (
+        {shippingMethods?.map(({ shippingMethodId, name, description, rates }) => (
           <div
             key={shippingMethodId}
             className="relative flex gap-24 border-b border-neutral-400 px-17 py-11 last:border-b-0 md:gap-12 lg:gap-24"

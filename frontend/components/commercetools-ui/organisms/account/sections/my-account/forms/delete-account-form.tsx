@@ -1,18 +1,21 @@
-import { useState } from 'react';
+import { useContext, useState } from 'react';
 import PasswordInput from 'components/commercetools-ui/atoms/input-password';
+import { AccountContext } from 'context/account';
 import { useFormat } from 'helpers/hooks/useFormat';
-import { useAccount } from '../../../../../../../frontastic';
 import AccountForm from '../../../account-atoms/account-form';
 
 const DeleteAccountForm = () => {
-  const { deleteAccount } = useAccount();
   const { formatMessage } = useFormat({ name: 'account' });
   const [data, setData] = useState({ password: '' });
   const [error, setError] = useState(false);
+
+  const { deleteAccount } = useContext(AccountContext);
+
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setError(false);
     setData({ ...data, [e.target.name]: e.target.value });
   };
+
   const onDeleteAccount = async (form: React.FormEvent) => {
     form.preventDefault();
     if (
@@ -24,7 +27,7 @@ const DeleteAccountForm = () => {
       )
     ) {
       const deleteAccountState = await deleteAccount(data.password);
-      if (!deleteAccountState.success) {
+      if (!deleteAccountState?.success) {
         setError(true);
       }
     }

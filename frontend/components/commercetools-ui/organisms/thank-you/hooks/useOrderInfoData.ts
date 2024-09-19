@@ -1,12 +1,14 @@
 import { useCallback, useEffect, useState } from 'react';
-import { Order } from 'shared/types/cart/Order';
-import { ShippingMethod } from 'shared/types/cart/ShippingMethod';
 import { shippingMethods as shippingMethodsMock } from 'helpers/mocks/mockCommonData';
-import { useCart } from 'frontastic';
+import { ShippingMethod } from 'types/entity/cart';
+import { Order } from 'types/entity/order';
 
-const useOrderInfoData = (order?: Order) => {
-  const { shippingMethods } = useCart();
+type UseOrderInfoDataProps = {
+  order?: Order;
+  shippingMethods: ShippingMethod[];
+};
 
+const useOrderInfoData = ({ order, shippingMethods }: UseOrderInfoDataProps) => {
   const [orderNumber, setOrderNumber] = useState('');
   const [deliveryMethod, setDeliveryMethod] = useState('');
   const [shippingAddress, setShippingAddress] = useState('');
@@ -18,7 +20,7 @@ const useOrderInfoData = (order?: Order) => {
   }, [order?.orderId]);
 
   const updateDeliveryMethod = useCallback(() => {
-    const shippingMethod = shippingMethods.data?.find(
+    const shippingMethod = shippingMethods?.find(
       (method) => method.shippingMethodId === order?.shippingInfo?.shippingMethodId,
     ) as ShippingMethod;
 
@@ -31,7 +33,7 @@ const useOrderInfoData = (order?: Order) => {
     }`;
 
     setDeliveryMethod(label);
-  }, [order?.shippingInfo?.shippingMethodId, shippingMethods.data]);
+  }, [order?.shippingInfo?.shippingMethodId, shippingMethods]);
 
   const updateShippingAddress = useCallback(() => {
     if (order?.shippingAddress) {

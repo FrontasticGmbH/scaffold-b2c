@@ -1,6 +1,6 @@
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useContext, useEffect, useMemo, useState } from 'react';
 import Radio from 'components/commercetools-ui/atoms/radio';
-import { useAccount } from 'frontastic';
+import { AccountContext } from 'context/account';
 import useMappers from '../../hooks/useMappers';
 import { Address } from '../../types';
 
@@ -11,7 +11,8 @@ interface Props {
 }
 
 const AccountAddresses: React.FC<Props> = ({ className = '', type, onSelectAddress }) => {
-  const { shippingAddresses, billingAddresses, defaultBillingAddress, defaultShippingAddress } = useAccount();
+  const { shippingAddresses, billingAddresses, defaultBillingAddress, defaultShippingAddress } =
+    useContext(AccountContext);
 
   const { accountAddressToAddress } = useMappers();
 

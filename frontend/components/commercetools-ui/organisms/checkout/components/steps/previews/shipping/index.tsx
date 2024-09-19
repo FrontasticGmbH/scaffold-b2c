@@ -1,25 +1,28 @@
 import React, { useCallback, useMemo } from 'react';
 import { useParams } from 'next/navigation';
 import { CurrencyHelpers } from 'helpers/currencyHelpers';
-import { useCart } from 'frontastic';
+import { Cart, ShippingMethod } from 'types/entity/cart';
 import Preview from '../wrapper';
 
-const ShippingPreview = () => {
+interface Props {
+  cart?: Cart;
+  shippingMethods: ShippingMethod[];
+}
+
+const ShippingPreview = ({ cart, shippingMethods }: Props) => {
   const { locale } = useParams();
 
-  const { data, shippingMethods } = useCart();
-
   const shippingMethod = useMemo(() => {
-    if (!data?.shippingInfo) return;
+    if (!cart?.shippingInfo) return;
 
-    const method = shippingMethods?.data?.find((m) => m.shippingMethodId === data.shippingInfo?.shippingMethodId);
+    const method = shippingMethods?.find((m) => m.shippingMethodId === cart.shippingInfo?.shippingMethodId);
 
     return {
       name: method?.name ?? '',
-      price: data?.shippingInfo.price,
+      price: cart?.shippingInfo.price,
       description: method?.description,
     };
-  }, [data, shippingMethods?.data]);
+  }, [cart, shippingMethods]);
 
   const getEstimatedDate = useCallback((days: number) => {
     if (isNaN(days)) return '';

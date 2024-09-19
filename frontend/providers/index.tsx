@@ -4,6 +4,7 @@ import { useParams } from 'next/navigation';
 import { SDKResponse } from '@commercetools/frontend-sdk';
 import { PageResponse } from '@commercetools/frontend-sdk/lib/types/api/page';
 import Toaster from 'components/commercetools-ui/atoms/toaster';
+import { AccountProvider } from 'context/account';
 import AddToCartOverlayProvider from 'context/add-to-cart-overlay';
 import { sdk } from 'sdk';
 import { Translations } from 'types/i18n';
@@ -27,7 +28,9 @@ export const Providers = ({ translations, accountResult, page, children }: React
     <TracingProvider page={page}>
       <I18nProvider translations={translations}>
         <SWRProvider value={{ fallback: { '/action/account/getAccount': accountResult } }}>
-          <AddToCartOverlayProvider>{children}</AddToCartOverlayProvider>
+          <AddToCartOverlayProvider>
+            <AccountProvider>{children}</AccountProvider>
+          </AddToCartOverlayProvider>
           <Toaster />
         </SWRProvider>
       </I18nProvider>

@@ -1,8 +1,8 @@
 import { useEffect, useMemo, useState } from 'react';
-import { Money } from 'shared/types/product/Money';
 import { useFormat } from 'helpers/hooks/useFormat';
 import useI18n from 'helpers/hooks/useI18n';
 import mapCosts from 'helpers/utils/mapCosts';
+import { Money } from 'types/entity/product';
 import { useCart } from 'frontastic';
 import { CostsProps, CostRef } from '../types';
 

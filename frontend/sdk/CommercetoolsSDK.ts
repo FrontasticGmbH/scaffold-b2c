@@ -32,7 +32,7 @@ class CommercetoolsSDK extends SDK<ComposableCommerceEvents> {
   defaultConfigure(localeString: string) {
     const { locale, currency } = getLocalizationInfo(localeString);
 
-    sdk.configure({
+    this.configure({
       locale,
       currency,
       extensionVersion: process.env.NEXT_PUBLIC_EXT_BUILD_ID ?? 'dev',

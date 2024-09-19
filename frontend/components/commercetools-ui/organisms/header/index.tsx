@@ -10,6 +10,19 @@ const AlgoliaSearch = dynamic(() => import('components/commercetools-ui/atoms/se
 const CommercetoolsSearch = dynamic(() => import('components/commercetools-ui/atoms/search'));
 
 const Header: React.FC<HeaderProps> = ({
+  cart,
+  isEmpty,
+  onRemoveDiscountCode,
+  onApplyDiscountCode,
+  totalCartItems,
+  totalWishlistItems,
+  onRemoveItem,
+  onUpdateItem,
+  OnMoveToWishlist,
+  wishlist,
+  onMoveToCart,
+  onRemoveFromWishlist,
+  onClearWishlist,
   navLinks,
   categories,
   logo,
@@ -17,6 +30,8 @@ const Header: React.FC<HeaderProps> = ({
   logoLink,
   logoLinkMobile,
   tiles,
+  searchItems,
+  onSearchQueryUpdate,
   emptyCartTitle,
   emptyCartSubtitle,
   emptyCartImage,
@@ -43,10 +58,23 @@ const Header: React.FC<HeaderProps> = ({
         </div>
 
         <div className="relative hidden w-full px-16 py-12 md:px-32 lg:px-20 xl:block xl:px-60">
-          <Search categories={categories} />
+          <Search categories={categories} items={searchItems} onQueryUpdate={onSearchQueryUpdate} />
         </div>
 
         <UtilitySection
+          cart={cart}
+          onRemoveDiscountCode={onRemoveDiscountCode}
+          onApplyDiscountCode={onApplyDiscountCode}
+          isEmpty={isEmpty}
+          onRemoveItem={onRemoveItem}
+          onUpdateItem={onUpdateItem}
+          OnMoveToWishlist={OnMoveToWishlist}
+          wishlist={wishlist}
+          onRemoveFromWishlist={onRemoveFromWishlist}
+          onMoveToCart={onMoveToCart}
+          onClearWishlist={onClearWishlist}
+          totalCartItems={totalCartItems}
+          totalWishlistItems={totalWishlistItems}
           emptyCartTitle={emptyCartTitle}
           emptyCartSubtitle={emptyCartSubtitle}
           emptyCartImage={emptyCartImage}
@@ -59,7 +87,7 @@ const Header: React.FC<HeaderProps> = ({
       </div>
 
       <div className="relative block w-full border-t border-neutral-400 px-16 py-8 md:px-24 lg:px-20 xl:hidden xl:px-48">
-        <Search categories={categories} />
+        <Search categories={categories} items={searchItems} onQueryUpdate={onSearchQueryUpdate} />
       </div>
 
       <HeaderNavigationDesktop links={navLinks} tiles={tiles ?? []} />

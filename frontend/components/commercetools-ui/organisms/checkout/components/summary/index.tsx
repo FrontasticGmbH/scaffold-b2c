@@ -38,6 +38,9 @@ const Summary: React.FC<Props> = ({ isFinalStep, onPurchase }) => {
       {data?.lineItems && <OrderItemsListing className="border-t border-neutral-400" lineItems={data?.lineItems} />}
 
       <OrderPaymentSection
+        discounts={[]}
+        onApplyDiscountCode={async () => {}}
+        onRemoveDiscountCode={async () => {}}
         className="mt-16 hidden bg-white py-16 pb-24 text-16 lg:block lg:pb-0"
         classNames={{
           applyDiscountButton: 'py-14 text-16',
@@ -59,6 +62,9 @@ const Summary: React.FC<Props> = ({ isFinalStep, onPurchase }) => {
       />
 
       <DiscountForm
+        discounts={[]}
+        onApplyDiscountCode={async () => {}}
+        onRemoveDiscountCode={async () => {}}
         className="border-transparent lg:hidden"
         accordionProps={{
           closedSectionTitle: formatCheckoutMessage({ id: 'discount.apply', defaultMessage: 'Apply a discount' }),

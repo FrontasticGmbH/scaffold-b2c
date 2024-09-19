@@ -7,10 +7,9 @@ import Link from 'components/commercetools-ui/atoms/link';
 import Typography from 'components/commercetools-ui/atoms/typography';
 import { useFormat } from 'helpers/hooks/useFormat';
 import { resolveReferenceTarget } from 'helpers/reference';
-import { useAccount } from 'frontastic';
 import { ResetPasswordProps } from '.';
 
-const ResetPasswordForm: FC<ResetPasswordProps> = ({ token, accountLink, signInLink }) => {
+const ResetPasswordForm: FC<ResetPasswordProps> = ({ token, accountLink, signInLink, resetPassword }) => {
   //i18n messages
   const { formatMessage: formatErrorMessage } = useFormat({ name: 'error' });
   const { formatMessage: formatAccountMessage } = useFormat({ name: 'account' });
@@ -19,7 +18,6 @@ const ResetPasswordForm: FC<ResetPasswordProps> = ({ token, accountLink, signInL
   const router = useRouter();
 
   //account actions
-  const { resetPassword } = useAccount();
 
   //register data
   const [data, setData] = useState({ email: '', password: '', confirmPassword: '' });

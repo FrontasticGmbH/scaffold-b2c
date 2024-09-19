@@ -1,6 +1,7 @@
 import { ReactElement } from 'react';
 import { Order } from 'shared/types/cart';
 import { PaymentMethod } from 'components/commercetools-ui/organisms/checkout/provider/payment/types';
+import { Cart, Discount } from 'types/entity/cart';
 
 export type CheckoutButtonProps = {
   className?: string;
@@ -22,6 +23,11 @@ export interface ClassNames {
 
 export type OrderSummaryProps = {
   title?: string;
+  cart?: Cart;
+  isEmpty?: boolean;
+  discounts: Discount[];
+  onApplyDiscountCode?: (code: string) => Promise<void>;
+  onRemoveDiscountCode?: (discount: Discount) => Promise<void>;
   className?: string;
   classNames?: ClassNames;
   order?: Order;

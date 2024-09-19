@@ -1,10 +1,10 @@
 import { FC } from 'react';
 import { ChevronDownIcon } from '@heroicons/react/24/outline';
-import { Money } from 'shared/types/product/Money';
 import Typography from 'components/commercetools-ui/atoms/typography';
 import { CurrencyHelpers } from 'helpers/currencyHelpers';
 import useClassNames from 'helpers/hooks/useClassNames';
 import { useFormat } from 'helpers/hooks/useFormat';
+import { Money } from 'types/entity/product';
 
 type AccordionButtonProps = {
   open: boolean;

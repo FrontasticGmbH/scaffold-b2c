@@ -1,9 +1,9 @@
 import React, { useRef, useState } from 'react';
-import { Category } from 'shared/types/product/Category';
 import HeaderNavigationButtonDesktop from 'components/commercetools-ui/organisms/header/header-navigation/header-navigation-desktop/header-navigation-button';
 import { Tile } from 'components/commercetools-ui/organisms/header/types';
 import useClassNames from 'helpers/hooks/useClassNames';
 import useScrollDirection from 'helpers/hooks/useScrollDirection';
+import { Category } from 'types/entity/category';
 import MenuDropdown from './menu-dropdown';
 
 export interface Props {
