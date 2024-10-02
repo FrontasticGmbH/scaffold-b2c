@@ -42,7 +42,7 @@ export const dropdownItems: DropdownProps['items'] = Array(5)
   .map((val, index) => {
     return {
       label: `${val}  ${index + 1}`,
-      value: val,
+      value: `${val}-${index + 1}`,
     };
   });
 

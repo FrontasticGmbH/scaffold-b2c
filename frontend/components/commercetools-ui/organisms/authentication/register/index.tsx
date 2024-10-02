@@ -1,17 +1,12 @@
 import React from 'react';
-import { Reference } from 'types/reference';
-import RegisterForm from './register-form';
+import RegisterForm, { RegisterFormProps } from './register-form';
 import AlterForm from '../../account/account-atoms/alter-form';
 
-export interface RegisterProps {
-  termsOfUseLink?: Reference;
-}
-
-const Register: React.FC<RegisterProps> = ({ termsOfUseLink }) => {
+const Register: React.FC<RegisterFormProps> = ({ termsOfUseLink, register, loggedIn }) => {
   return (
     <>
       <div className="m-auto grid max-w-screen-sm px-16">
-        <RegisterForm termsOfUseLink={termsOfUseLink} />
+        <RegisterForm termsOfUseLink={termsOfUseLink} register={register} loggedIn={loggedIn} />
       </div>
       <AlterForm page="login" />
     </>

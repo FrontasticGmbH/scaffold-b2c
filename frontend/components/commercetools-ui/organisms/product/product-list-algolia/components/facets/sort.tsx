@@ -1,5 +1,5 @@
 import React from 'react';
-import { useSortBy, UseSortByProps } from 'react-instantsearch-hooks';
+import { useSortBy, UseSortByProps } from 'react-instantsearch';
 
 const SortFacet: React.FC<UseSortByProps> = (props) => {
   const { currentRefinement, options, refine } = useSortBy(props);

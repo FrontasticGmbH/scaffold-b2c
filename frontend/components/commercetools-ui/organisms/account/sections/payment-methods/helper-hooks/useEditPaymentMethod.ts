@@ -1,9 +1,9 @@
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { Option } from 'components/commercetools-ui/atoms/dropdown';
+import { payments } from '..';
 import useCardNumberFormatter from './useFormatCredit';
 import usePaymentHelpers from './usePaymentHelpers';
-import { payments } from '..';
 
 const useEditPaymentMethods = (paymentId: string) => {
   const router = useRouter();

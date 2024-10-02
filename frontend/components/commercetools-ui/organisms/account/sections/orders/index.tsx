@@ -1,13 +1,12 @@
 import React, { useRef, useEffect, useLayoutEffect, useMemo, useState, useCallback } from 'react';
 import Skeleton from 'react-loading-skeleton';
-import { Order } from 'shared/types/cart/Order';
 import Slider from 'components/commercetools-ui/atoms/slider';
 import Typography from 'components/commercetools-ui/atoms/typography';
 import Wrapper from 'components/HOC/wrapper';
 import useClassNames from 'helpers/hooks/useClassNames';
 import { useFormat } from 'helpers/hooks/useFormat';
 import useMediaQuery from 'helpers/hooks/useMediaQuery';
-import useOrderFetch from './helper-hooks/useOrderFetch';
+import { Order } from 'types/entity/order';
 import OrderItem from './OrderItem';
 
 export interface StatusTab {
@@ -15,8 +14,12 @@ export interface StatusTab {
   slug: string;
 }
 
-const Orders = () => {
-  const { orders, loading } = useOrderFetch();
+interface Props {
+  orders: Order[];
+  loading?: boolean;
+}
+
+const Orders = ({ orders, loading }: Props) => {
   const ref = useRef<HTMLDivElement>(null);
   const [isLargeMobileScreen] = useMediaQuery(325);
   const { formatMessage: formatOrdersMessage } = useFormat({ name: 'orders' });

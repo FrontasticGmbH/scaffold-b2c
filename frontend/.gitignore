@@ -1,5 +1,6 @@
 .next
 .netlify
+.yarn
 
 .env.build
 .env.local
@@ -8,6 +9,8 @@
 !.env
 
 node_modules/
+
+coverage/
 
 npm-debug.log*
 yarn-debug.log*

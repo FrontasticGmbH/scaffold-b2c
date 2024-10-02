@@ -1,6 +1,6 @@
 import React from 'react';
 import { useParams } from 'next/navigation';
-import { Index } from 'react-instantsearch-hooks';
+import { Index } from 'react-instantsearch';
 import {
   productsIndex_DE,
   productsIndex_US,

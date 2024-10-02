@@ -1,7 +1,6 @@
 import React, { useMemo } from 'react';
-import { Category } from 'shared/types/product/Category';
-import { Product } from 'shared/types/product/Product';
 import Wrapper from 'components/HOC/wrapper';
+import { Product } from 'types/entity/product';
 import AccumalativeTrace from './components/accumalative-trace';
 import Breadcrumbs from './components/breadcrumb';
 import CurrentRefinements from './components/current-refinements';
@@ -12,12 +11,11 @@ import SearchHeader from './components/search-header';
 import { useProductList } from './context';
 
 export interface ProductListProps {
-  categories: Category[];
   products: Product[];
 }
 
-const ProductList: React.FC<ProductListProps> = ({ products, categories }) => {
-  const { slug, searchQuery } = useProductList();
+const ProductList: React.FC<ProductListProps> = ({ products }) => {
+  const { slug, searchQuery, categories } = useProductList();
 
   const category = useMemo(() => categories.find((category) => category.slug === slug), [categories, slug]);
 

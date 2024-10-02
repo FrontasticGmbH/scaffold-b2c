@@ -1,12 +1,11 @@
 import React from 'react';
 import { ChevronDownIcon } from '@heroicons/react/24/outline';
 import Skeleton from 'react-loading-skeleton';
-import { parameters } from '.storybook/preview';
+import Image from 'components/commercetools-ui/atoms/image';
 import { CurrencyHelpers } from 'helpers/currencyHelpers';
-import { accordionMockItems, accordionFAQMockItems } from 'helpers/mocks/mockAtomsData';
+import { accordionFAQMockItems, accordionMockItems } from 'helpers/mocks/mockAtomsData';
 import { lineItems } from 'helpers/mocks/mockCommonData';
 import { variant } from 'helpers/mocks/mockData';
-import Image from 'frontastic/lib/image';
 import Typography from '../../typography';
 import Accordion from '../index';
 
@@ -68,7 +67,7 @@ const AccordionContent = () => {
                     {lineItem?.variant?.images?.[0] ? (
                       <Image fill src={variant?.images?.[0]} style={{ objectFit: 'contain' }} />
                     ) : (
-                      <Skeleton className="h-full w-full" />
+                      <Skeleton className="size-full" />
                     )}
                   </div>
                 ))}
@@ -89,7 +88,7 @@ const AccordionContent = () => {
                     {lineItem?.variant?.images?.[0] ? (
                       <Image fill src={variant?.images?.[0]} style={{ objectFit: 'contain' }} />
                     ) : (
-                      <Skeleton className="h-full w-full" />
+                      <Skeleton className="size-full" />
                     )}
                   </div>
                   <div className="mt-10 grow overflow-hidden">
@@ -103,15 +102,15 @@ const AccordionContent = () => {
                       asSkeleton={!lineItem.name}
                       className="mt-8 block text-12 font-medium md:hidden lg:block lg:text-14"
                     >
-                      {CurrencyHelpers.formatForCurrency(lineItem.price ?? 111, parameters.nextRouter.locale)}
+                      {CurrencyHelpers.formatForCurrency(lineItem.price ?? 111, 'en')}
                     </Typography>
                     <Typography asSkeleton={!lineItem.name} className="mt-12 text-14 text-secondary-black">
-                      {'x ' + lineItem.count ?? '2'}
+                      {'x ' + (lineItem.count ?? '2')}
                     </Typography>
                   </div>
                 </div>
                 <Typography asSkeleton={!lineItem.name} className="mt-8 hidden font-medium md:block lg:hidden">
-                  {CurrencyHelpers.formatForCurrency(lineItem.price ?? 111, parameters.nextRouter.locale)}
+                  {CurrencyHelpers.formatForCurrency(lineItem.price ?? 111, 'en')}
                 </Typography>
               </div>
             ))}

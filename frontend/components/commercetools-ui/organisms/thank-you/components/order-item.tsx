@@ -2,9 +2,9 @@ import { FC } from 'react';
 import { useParams } from 'next/navigation';
 import Skeleton from 'react-loading-skeleton';
 import { LineItem } from 'shared/types/cart/LineItem';
+import Image from 'components/commercetools-ui/atoms/image';
 import Typography from 'components/commercetools-ui/atoms/typography';
 import { CurrencyHelpers } from 'helpers/currencyHelpers';
-import Image from 'frontastic/lib/image';
 
 const OrderLineItem: FC<LineItem> = ({ name, price, count, variant }) => {
   const { locale } = useParams();
@@ -16,7 +16,7 @@ const OrderLineItem: FC<LineItem> = ({ name, price, count, variant }) => {
           {variant?.images?.[0] ? (
             <Image fill src={variant?.images?.[0]} style={{ objectFit: 'contain' }} alt={variant?.sku ?? ''} />
           ) : (
-            <Skeleton className="h-full w-full" />
+            <Skeleton className="size-full" />
           )}
         </div>
         <div className="mt-10 grow overflow-hidden">

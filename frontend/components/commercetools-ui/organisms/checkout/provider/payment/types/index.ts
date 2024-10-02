@@ -10,7 +10,7 @@ export type PaymentMethodType =
   | 'multibanco'
   | 'ideal';
 
-export interface PaymentMethod {
+export interface PaymentProviderMethod {
   name: string;
   type: PaymentMethodType;
   image: {
@@ -141,7 +141,7 @@ export interface PaymentProvider {
   processing: boolean;
   setProcessing: (val: boolean) => void;
   setPaymentData: (data: PaymentData) => void;
-  getPaymentMethods: () => Promise<PaymentMethod[]>;
+  getPaymentMethods: () => Promise<PaymentProviderMethod[]>;
   makePayment: (data: Omit<SchemePaymentRequestPayload, 'paymentMethod'>) => Promise<PaymentResponse>;
   makeKlarnaPayment: (
     data: Omit<KlarnaPaymentRequestPayload, 'paymentMethod' | 'shopperEmail' | 'shopperName'>,

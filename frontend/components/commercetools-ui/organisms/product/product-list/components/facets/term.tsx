@@ -10,7 +10,7 @@ const TermFacet: React.FC<FacetProps> = ({ attribute }) => {
   const facet = useMemo(() => facetsConfiguration[attribute] as TermFacetType, [facetsConfiguration, attribute]);
 
   return (
-    <div className="flex flex-col gap-47 py-22 lg:min-w-[340px]">
+    <div className="flex flex-col gap-47 py-22 lg:min-w-340">
       {facet.terms.map((term) => (
         <div key={term.identifier} className="flex items-center justify-between gap-8">
           <div>{term.label}</div>

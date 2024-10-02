@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { XMarkIcon } from '@heroicons/react/24/solid';
-import { Story, Meta } from '@storybook/react';
+import { Meta, StoryFn } from '@storybook/react';
 import Button from 'components/commercetools-ui/atoms/button';
 import Typography from 'components/commercetools-ui/atoms/typography';
 import Modal, { ModalProps } from '.';
@@ -11,7 +11,7 @@ export default {
   argTypes: {},
 } as Meta;
 
-const Template: Story<ModalProps> = () => {
+const Template: StoryFn<ModalProps> = () => {
   const [isOpen, setIsOpen] = useState(false);
 
   return (
@@ -33,7 +33,7 @@ const Template: Story<ModalProps> = () => {
         >
           <div className="px-20 py-50">
             <XMarkIcon
-              className="absolute right-15 top-15 h-24 w-24 hover:cursor-pointer"
+              className="absolute right-15 top-15 size-24 hover:cursor-pointer"
               strokeWidth={1}
               color="#494949"
               onClick={() => setIsOpen(false)}

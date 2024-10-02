@@ -3,18 +3,18 @@
   "payment.details": "Zahlungsmethoden löschen oder hinzufügen.",
   "add.card": "Neue Karte hinzufügen",
   "edit": "Bearbeiten",
-  "edit.payment": "Zahlungsmethode bearbeiten",
+  "edit.payment": "Zahlungsart bearbeiten",
   "add.payment": "Neue Zahlungsmethode hinzufügen",
-  "card.holder": "Fahrzeughalter",
+  "card.holder": "Kartenhalter *",
   "card.number": "Kartennummer *",
   "expiration.date": "Verfallsdatum *",
   "security.number": "Sicherheitsnummer *",
   "save": "Speichern",
   "cancel": "Stornieren",
   "delete": "Löschen",
-  "delete.question": "Zahlungsmethode löschen?",
+  "delete.question": "Zahlungsart löschen?",
   "delete.warning": "Diese Aktion kann nicht rückgängig gemacht werden.",
   "card.number.error": "Bitte geben Sie eine gültige Kreditkartennummer ein",
-  "card.holder.error": "Karteninhabernamen eingeben",
-  "card.expiry.error": "Bitte wählen Sie das Ablaufdatum der Karte aus"
+  "card.holder.error": "Geben Sie den Namen des Karteninhabers ein",
+  "card.expiry.error": "Bitte wählen Sie das Ablaufdatum der Karte"
 }

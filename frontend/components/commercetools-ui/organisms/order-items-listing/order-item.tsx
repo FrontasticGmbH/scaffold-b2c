@@ -1,9 +1,9 @@
 import { FC } from 'react';
 import { useParams } from 'next/navigation';
-import { LineItem } from 'shared/types/cart/LineItem';
+import Image from 'components/commercetools-ui/atoms/image';
 import Typography from 'components/commercetools-ui/atoms/typography';
 import { CurrencyHelpers } from 'helpers/currencyHelpers';
-import Image from 'frontastic/lib/image';
+import { LineItem } from 'types/entity/cart';
 
 type OrderItemProps = {
   lineItem: LineItem;

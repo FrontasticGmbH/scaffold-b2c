@@ -8,7 +8,7 @@ import { Category } from 'shared/types/product/Category';
 import { Money } from 'shared/types/product/Money';
 import { LineItem } from 'shared/types/wishlist/LineItem';
 import { Wishlist } from 'shared/types/wishlist/Wishlist';
-import { ImageProps } from 'frontastic/lib/image';
+import { ImageProps } from 'components/commercetools-ui/atoms/image';
 
 export const categories: Category[] = [
   {

@@ -1,36 +1,15 @@
-import { useEffect } from 'react';
-import { createInsightsMiddleware } from 'instantsearch.js/es/middlewares';
-import { Configure, useInstantSearch } from 'react-instantsearch-hooks-web';
+import { useContext, useEffect } from 'react';
+import { Configure } from 'react-instantsearch';
 import aa from 'search-insights';
 import { v4 as uuidv4 } from 'uuid';
-import { ANONYMOUS_USER_TOKEN, LAST_ALGOLIA_QUERY_ID } from 'helpers/constants/localStorage';
-import { useAccount } from 'frontastic';
+import { AccountContext } from 'context/account';
+import { ANONYMOUS_USER_TOKEN } from 'helpers/constants/localStorage';
 
 const InsightsMiddleware: React.FC = () => {
-  const {
-    addMiddlewares,
-    results: { queryID },
-  } = useInstantSearch();
-
-  const { account } = useAccount();
+  const { account } = useContext(AccountContext);
 
   useEffect(() => {
-    const middleware = createInsightsMiddleware({
-      insightsClient: aa,
-      onEvent({ insightsMethod, payload }, insightsClient) {
-        const isExcluded = ['Hits Viewed'].includes((payload as Record<string, string>).eventName);
-
-        if (!insightsMethod || isExcluded) return;
-
-        insightsClient(insightsMethod, payload as Record<string, string>);
-      },
-    });
-
-    return addMiddlewares(middleware);
-  }, [addMiddlewares]);
-
-  useEffect(() => {
-    if (account?.accountId) aa('setUserToken', account.accountId);
+    if (account?.accountId) aa('setAuthenticatedUserToken', account.accountId);
     else {
       const token = window.localStorage.getItem(ANONYMOUS_USER_TOKEN);
 
@@ -43,15 +22,7 @@ const InsightsMiddleware: React.FC = () => {
     }
   }, [account?.accountId]);
 
-  useEffect(() => {
-    if (queryID) window.localStorage.setItem(LAST_ALGOLIA_QUERY_ID, queryID);
-  }, [queryID]);
-
-  return (
-    <>
-      <Configure clickAnalytics={true} />
-    </>
-  );
+  return <Configure analytics clickAnalytics />;
 };
 
 export default InsightsMiddleware;

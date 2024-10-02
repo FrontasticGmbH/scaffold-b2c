@@ -1,12 +1,12 @@
-import React, { FC, useLayoutEffect, useRef, useState } from 'react';
+import React, { FC, useContext, useLayoutEffect, useRef, useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { Category } from 'shared/types/product/Category';
 import Button from 'components/commercetools-ui/atoms/button';
 import Link from 'components/commercetools-ui/atoms/link';
 import Typography from 'components/commercetools-ui/atoms/typography';
 import MarketButtonMobile from 'components/commercetools-ui/organisms/market-button/market-button-mobile';
+import { AccountContext } from 'context/account';
 import { useFormat } from 'helpers/hooks/useFormat';
-import { useAccount } from 'frontastic';
+import { Category } from 'types/entity/category';
 import MobileMenuNavButton from '../atoms/menu-nav-button';
 
 export interface Props {
@@ -20,7 +20,7 @@ const MobileMenuFooter: FC<Props> = ({ showMenu, hideHeaderMenu, insertCategory 
   const { formatMessage } = useFormat({ name: 'common' });
   const { formatMessage: formatAccountMessage } = useFormat({ name: 'account' });
   const marketButtonRef = useRef<HTMLDivElement>(null);
-  const { account, logout } = useAccount();
+  const { account, logout } = useContext(AccountContext);
   const [languageMenuTop, setLanguageMenuTop] = useState(false);
 
   const tabs = [

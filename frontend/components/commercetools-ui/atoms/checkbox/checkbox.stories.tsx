@@ -1,13 +1,13 @@
-import { ComponentMeta, ComponentStory } from '@storybook/react';
+import { Meta, StoryFn } from '@storybook/react';
 import Checkbox from '.';
 import Typography from '../typography';
 
 export default {
   title: 'Atoms/Checkbox',
   component: Checkbox,
-} as ComponentMeta<typeof Checkbox>;
+} as Meta<typeof Checkbox>;
 
-const Template: ComponentStory<typeof Checkbox> = (args) => (
+const Template: StoryFn<typeof Checkbox> = (args) => (
   <div className="ml-44">
     <Typography className="mt-40 w-2/5 text-28 font-bold text-black">Checkbox</Typography>
     <Typography className="mt-20 w-3/5 text-20 leading-loose text-neutral-700">

@@ -1,6 +1,6 @@
 import { Order } from 'shared/types/cart';
 import { Money } from 'shared/types/product/Money';
-import { PaymentMethod } from 'components/commercetools-ui/organisms/checkout/provider/payment/types';
+import { FrontasticImage } from 'components/commercetools-ui/atoms/image';
 import { UseCartReturn } from 'frontastic/hooks/useCart/types';
 
 export type CostsProps = {
@@ -21,6 +21,11 @@ export type CostsValueRef = {
   [key in 'cart' | 'order']: {
     [key in CostsLabel]: Money;
   };
+};
+
+export type PaymentMethod = {
+  name: string;
+  image: Pick<FrontasticImage, 'media'>;
 };
 
 export type PaymentMethodsProps = {

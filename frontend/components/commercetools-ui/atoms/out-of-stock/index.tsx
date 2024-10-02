@@ -1,10 +1,8 @@
 import React from 'react';
-import { Variant } from 'shared/types/product';
 import useClassNames from 'helpers/hooks/useClassNames';
 import { useFormat } from 'helpers/hooks/useFormat';
 
 interface Props {
-  variant?: Variant;
   className?: string;
 }
 

@@ -1,14 +1,17 @@
-import React, { useCallback, useMemo } from 'react';
+import React, { useCallback, useContext, useMemo } from 'react';
 import { useRouter } from 'next/navigation';
 import Skeleton from 'react-loading-skeleton';
 import Button from 'components/commercetools-ui/atoms/button';
 import Link from 'components/commercetools-ui/atoms/link';
 import Typography from 'components/commercetools-ui/atoms/typography';
+import { AccountContext } from 'context/account';
 import useClassNames from 'helpers/hooks/useClassNames';
 import { useFormat } from 'helpers/hooks/useFormat';
-import useHash from 'helpers/hooks/useHash';
+import { Account } from 'types/entity/account';
+import { ShippingMethod } from 'types/entity/cart';
+import { Order } from 'types/entity/order';
 import { Reference } from 'types/reference';
-import { useAccount } from 'frontastic';
+import { UpdateAccount } from 'frontastic/hooks/useAccount/types';
 import AccountTabsMobile from './account-atoms/account-tabs-mobile';
 import CustomerSupport from './sections/customer-support';
 import MyAccount from './sections/my-account';
@@ -27,7 +30,8 @@ export interface FAQ {
   question: string;
   answer: string;
 }
-export interface AccountDetailsProps {
+
+export type AccountInfo = {
   loginLink?: Reference;
   phoneNumber: string;
   workingHoursWeekdays: string;
@@ -37,9 +41,26 @@ export interface AccountDetailsProps {
   cityAndPostalCode: string;
   country: string;
   faqs: FAQ[];
-}
+};
+
+export type AccountDetailsProps = AccountInfo & {
+  hash: string;
+  id: string | null;
+  orders: Order[];
+  shippingMethods: ShippingMethod[];
+  ordersLoading?: boolean;
+  account?: Account;
+  changePassword?: (oldPassword: string, newPassword: string) => Promise<Account>;
+  deleteAccount?: (password: string) => Promise<{ success: boolean }>;
+  update?: (payload: UpdateAccount) => Promise<Account>;
+};
 
 const AccountDetails: React.FC<AccountDetailsProps> = ({
+  id,
+  hash,
+  orders,
+  shippingMethods,
+  ordersLoading,
   phoneNumber,
   workingHoursWeekdays,
   workingHoursWeekends,
@@ -48,19 +69,19 @@ const AccountDetails: React.FC<AccountDetailsProps> = ({
   cityAndPostalCode,
   country: organizationCountry,
   faqs,
+  account,
+  changePassword,
+  deleteAccount,
+  update,
 }) => {
   const router = useRouter();
 
-  const { logout } = useAccount();
+  const { accountLoading, logout } = useContext(AccountContext);
 
   const { formatMessage: formatAccountMessage } = useFormat({ name: 'account' });
 
-  const [hash, id] = useHash();
-
-  const isLoading = false;
-
   const handleLogout = () => {
-    logout().then(() => router.push('/login'));
+    logout?.().then(() => router.push('/login'));
   };
 
   const tabs = useMemo<AccountTab[]>(() => {
@@ -95,24 +116,31 @@ const AccountDetails: React.FC<AccountDetailsProps> = ({
 
   const accountPagesRef = useMemo(() => {
     return {
-      'edit-personal-info': <PersonalInfoForm />,
-      'change-password': <ChangePasswordForm />,
-      'delete-account': <DeleteAccountForm />,
+      'edit-personal-info': <PersonalInfoForm account={account} update={update} />,
+      'change-password': <ChangePasswordForm changePassword={changePassword} />,
+      'delete-account': <DeleteAccountForm deleteAccount={deleteAccount} />,
     };
-  }, []);
+  }, [account, changePassword, deleteAccount, update]);
 
-  const account = useMemo(
-    () => accountPagesRef[id as keyof typeof accountPagesRef] ?? <MyAccount isLoading={isLoading} />,
-    [id, isLoading, accountPagesRef],
+  const AccountSection = useMemo(
+    () => accountPagesRef[id as keyof typeof accountPagesRef] ?? <MyAccount />,
+    [accountPagesRef, id],
   );
 
   //   const addresses = useMemo(() => {
   //     return id?.startsWith('address') ? <AddressForm editedAddressId={id?.split('_')[1]} /> : <Addresses />;
   //   }, [id]);
 
-  const orders = useMemo(() => {
-    return id && id.startsWith('order') ? <OrderPage orderId={id.split('_')[1]} /> : <Orders />;
-  }, [id]);
+  const OrdersSection = useMemo(() => {
+    return id && id.startsWith('order') ? (
+      <OrderPage
+        order={orders.find((o) => o.orderId === id.split('_')[1]) as Order}
+        shippingMethods={shippingMethods}
+      />
+    ) : (
+      <Orders orders={orders} loading={ordersLoading} />
+    );
+  }, [id, orders, ordersLoading, shippingMethods]);
 
   //   const paymentPagesRef = useMemo(() => {
   //     return { add: <PaymentAdd />, edit: <PaymentEdit /> };
@@ -124,9 +152,9 @@ const AccountDetails: React.FC<AccountDetailsProps> = ({
   //   );
 
   const mapping = {
-    '': account,
+    '': AccountSection,
     // addresses: addresses,
-    orders: orders,
+    orders: OrdersSection,
     // payment: Payment,
     support: (
       <CustomerSupport
@@ -150,7 +178,7 @@ const AccountDetails: React.FC<AccountDetailsProps> = ({
 
   const Content = mapping[hash as keyof typeof mapping];
 
-  const tabButtonClassNames = useClassNames(['whitespace-nowrap', isLoading ? 'cursor-default' : '']);
+  const tabButtonClassNames = useClassNames(['whitespace-nowrap', accountLoading ? 'cursor-default' : '']);
 
   const tabButtonLabelClassNames = useCallback(
     (tab: AccountTab) => {
@@ -163,11 +191,11 @@ const AccountDetails: React.FC<AccountDetailsProps> = ({
   return (
     <div className="relative flex bg-neutral-100">
       <div className="sticky top-175 w-0 self-start md:h-[calc(100vh-200px)] md:w-1/4">
-        <div className="hidden h-full w-full flex-col justify-between pt-24 md:flex lg:pt-44">
+        <div className="hidden size-full flex-col justify-between pt-24 md:flex lg:pt-44">
           <div className="grid gap-36 px-28 lg:px-56">
             {tabs.map((tab) => (
-              <Link link={isLoading ? '' : tab.href} key={tab.name} className={tabButtonClassNames}>
-                {isLoading ? (
+              <Link link={accountLoading ? '' : tab.href} key={tab.name} className={tabButtonClassNames}>
+                {accountLoading ? (
                   <Skeleton />
                 ) : (
                   <Typography className={tabButtonLabelClassNames(tab)}>{tab.name}</Typography>
@@ -176,7 +204,7 @@ const AccountDetails: React.FC<AccountDetailsProps> = ({
             ))}
           </div>
           <div className="px-20 py-16 lg:px-40">
-            {isLoading ? (
+            {accountLoading ? (
               <Skeleton className="h-30" />
             ) : (
               <Button

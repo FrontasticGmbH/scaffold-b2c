@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { useParams } from 'next/navigation';
-import { useHits, useRange } from 'react-instantsearch-hooks-web';
+import { useHits, useRange } from 'react-instantsearch';
 import Checkbox from 'components/commercetools-ui/atoms/checkbox';
 import { CurrencyHelpers } from 'helpers/currencyHelpers';
 import { useFormat } from 'helpers/hooks/useFormat';

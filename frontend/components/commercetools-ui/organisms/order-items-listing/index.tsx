@@ -1,9 +1,9 @@
 import React, { FC, useMemo, useState } from 'react';
-import { LineItem } from 'shared/types/cart/LineItem';
 import Accordion from 'components/commercetools-ui/atoms/accordion';
 import Typography from 'components/commercetools-ui/atoms/typography';
 import useClassNames from 'helpers/hooks/useClassNames';
 import { useFormat } from 'helpers/hooks/useFormat';
+import { LineItem } from 'types/entity/cart';
 import ClosedButton from './closed-button';
 import OrderItem from './order-item';
 import OrderItemsList from './order-items-list';

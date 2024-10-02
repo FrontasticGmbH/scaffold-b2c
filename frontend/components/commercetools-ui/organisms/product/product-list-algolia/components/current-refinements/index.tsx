@@ -2,7 +2,7 @@ import React, { useMemo } from 'react';
 import { useParams } from 'next/navigation';
 import { XMarkIcon as CloseIcon } from '@heroicons/react/24/solid';
 import { CurrentRefinementsConnectorParamsRefinement } from 'instantsearch.js/es/connectors/current-refinements/connectCurrentRefinements';
-import { useCurrentRefinements } from 'react-instantsearch-hooks';
+import { useCurrentRefinements } from 'react-instantsearch';
 import { CurrencyHelpers } from 'helpers/currencyHelpers';
 import { useFormat } from 'helpers/hooks/useFormat';
 import useI18n from 'helpers/hooks/useI18n';

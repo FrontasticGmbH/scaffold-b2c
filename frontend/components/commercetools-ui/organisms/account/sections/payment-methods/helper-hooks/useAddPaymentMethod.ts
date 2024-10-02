@@ -2,9 +2,9 @@ import { useCallback, useMemo, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { Option } from 'components/commercetools-ui/atoms/dropdown';
 import { useFormat } from 'helpers/hooks/useFormat';
+import { payments } from '..';
 import useCardNumberFormatter from './useFormatCredit';
 import usePaymentHelpers from './usePaymentHelpers';
-import { payments } from '..';
 
 const useAddPaymentMethod = () => {
   const router = useRouter();

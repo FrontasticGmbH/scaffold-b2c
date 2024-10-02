@@ -6,16 +6,16 @@ import { default as RocketIcon } from 'components/icons/rocket';
 export const renderIcon = (name: string) => {
   switch (name) {
     case 'rocket':
-      return <RocketIcon className="h-6 w-6 text-gray-400" aria-hidden="true" />;
+      return <RocketIcon className="size-6 text-gray-400" aria-hidden="true" />;
     case 'loop':
-      return <LoopIcon className="h-6 w-6 text-gray-400" aria-hidden="true" />;
+      return <LoopIcon className="size-6 text-gray-400" aria-hidden="true" />;
     case 'question':
-      return <QuestionMarkCircleIcon className="h-6 w-6 text-gray-400" aria-hidden="true" />;
+      return <QuestionMarkCircleIcon className="size-6 text-gray-400" aria-hidden="true" />;
     case 'inbox':
-      return <InboxIcon className="h-6 w-6 text-gray-400" aria-hidden="true" />;
+      return <InboxIcon className="size-6 text-gray-400" aria-hidden="true" />;
     case 'speaker':
-      return <SpeakerWaveIcon className="h-6 w-6 text-gray-400" aria-hidden="true" />;
+      return <SpeakerWaveIcon className="size-6 text-gray-400" aria-hidden="true" />;
     default:
-      return <LockIcon className="h-4 w-4 text-gray-400" aria-hidden="true" />;
+      return <LockIcon className="size-4 text-gray-400" aria-hidden="true" />;
   }
 };

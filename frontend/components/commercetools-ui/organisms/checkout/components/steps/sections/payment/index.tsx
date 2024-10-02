@@ -1,10 +1,9 @@
 import React, { useCallback, useEffect, useState } from 'react';
-//import { PaymentMethod, PaymentMethodType } from 'shared/types/cart/Payment';
 import Button from 'components/commercetools-ui/atoms/button';
 import Radio from 'components/commercetools-ui/atoms/radio';
 import { useCheckout } from 'components/commercetools-ui/organisms/checkout/provider';
 import {
-  PaymentMethod,
+  PaymentProviderMethod,
   PaymentMethodType,
   PaymentData,
 } from 'components/commercetools-ui/organisms/checkout/provider/payment/types';
@@ -21,7 +20,7 @@ const Payment: React.FC<Props> = ({ goToNextStep }) => {
 
   const { getPaymentMethods, setPaymentData, paymentData, paymentDataIsValid } = useCheckout();
 
-  const [paymentMethods, setPaymentMethods] = useState<PaymentMethod[]>([]);
+  const [paymentMethods, setPaymentMethods] = useState<PaymentProviderMethod[]>([]);
 
   const [selectedType, setSelectedType] = useState<PaymentMethodType>('scheme');
 
@@ -83,7 +82,7 @@ const Payment: React.FC<Props> = ({ goToNextStep }) => {
       <div className="mt-24">
         <Button
           variant="primary"
-          className="w-full min-w-[200px] md:text-16 lg:w-fit lg:px-36"
+          className="w-full min-w-200 md:text-16 lg:w-fit lg:px-36"
           type="submit"
           onClick={submit}
           disabled={!paymentDataIsValid}

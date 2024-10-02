@@ -1,5 +1,5 @@
 import React from 'react';
-import { Story, Meta } from '@storybook/react';
+import { Meta, StoryFn } from '@storybook/react';
 import Typography from 'components/commercetools-ui/atoms/typography';
 import ContentSlider from '.';
 import { ContentSliderProps } from './types';
@@ -9,7 +9,7 @@ export default {
   component: ContentSlider,
 } as Meta;
 
-const Template: Story<ContentSliderProps> = () => {
+const Template: StoryFn<ContentSliderProps> = () => {
   const slides: ContentSliderProps['slides'] = Array(3).fill({
     image: {
       media: {

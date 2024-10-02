@@ -2,71 +2,52 @@ import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { Transition } from '@headlessui/react';
 import { MagnifyingGlassIcon as SearchIcon, XMarkIcon as CloseIcon } from '@heroicons/react/24/solid';
-import debounce from 'lodash.debounce';
-import { Category } from 'shared/types/product/Category';
-import { Product } from 'shared/types/product/Product';
 import { useFormat } from 'helpers/hooks/useFormat';
 import useScrollBlock from 'helpers/hooks/useScrollBlock';
-import { useProduct } from 'frontastic';
+import { Category } from 'types/entity/category';
+import { Product } from 'types/entity/product';
 import SearchItem from './search-item';
 import Overlay from '../overlay';
 
 interface Props {
   categories: Category[];
+  items: Product[];
+  onQueryUpdate?: (query: string) => void;
 }
 
-const Search: React.FC<Props> = ({ categories }) => {
+const Search: React.FC<Props> = ({ categories, items, onQueryUpdate }) => {
+  const router = useRouter();
+
+  const { formatMessage } = useFormat({ name: 'common' });
+
   const form = useRef<HTMLFormElement>(null);
   const input = useRef<HTMLInputElement>(null);
 
-  const { query: queryProducts } = useProduct();
-
-  const [items, setItems] = useState<Product[]>([]);
+  const [value, setValue] = useState('');
 
   const [focused, setFocused] = useState(false);
 
   const onFocus = useCallback(() => setFocused(true), []);
   const onBlur = useCallback(() => setFocused(false), []);
 
-  const { formatMessage } = useFormat({ name: 'common' });
-
   const { blockScroll } = useScrollBlock();
-
-  const router = useRouter();
-
-  const [value, setValue] = useState('');
-  const [query, setQuery] = useState('');
 
   useEffect(() => {
     blockScroll(focused);
   }, [blockScroll, focused]);
 
-  const fetchResults = useCallback(async () => {
-    const results = await queryProducts({ query, limit: 6 });
-
-    if (results.isError) return;
-
-    setItems((results.data.items as Product[]) ?? []);
-  }, [query, queryProducts]);
-
-  //eslint-disable-next-line react-hooks/exhaustive-deps
-  const updateQuery = useCallback(
-    debounce((value: string) => setQuery(value), 150),
-    [],
-  );
-
   const onChange = useCallback(
     (e: React.ChangeEvent<HTMLInputElement>) => {
       setValue(e.target.value);
-      updateQuery(e.target.value);
+      onQueryUpdate?.(e.target.value);
     },
-    [updateQuery],
+    [onQueryUpdate],
   );
 
   const cleanUp = useCallback(() => {
-    updateQuery('');
+    onQueryUpdate?.('');
     setValue('');
-  }, [updateQuery]);
+  }, [onQueryUpdate]);
 
   const onSubmit = useCallback(
     (e: React.FormEvent) => {
@@ -79,10 +60,6 @@ const Search: React.FC<Props> = ({ categories }) => {
     },
     [value, router],
   );
-
-  useEffect(() => {
-    fetchResults();
-  }, [fetchResults]);
 
   return (
     <>
@@ -111,7 +88,7 @@ const Search: React.FC<Props> = ({ categories }) => {
                 focused ? 'bg-primary-black' : 'bg-white'
               }`}
             >
-              <SearchIcon className={`h-24 w-24 stroke-0 ${focused ? 'fill-white' : 'fill-secondary-black'}`} />
+              <SearchIcon className={`size-24 stroke-0 ${focused ? 'fill-white' : 'fill-secondary-black'}`} />
             </button>
             {value && (
               <button

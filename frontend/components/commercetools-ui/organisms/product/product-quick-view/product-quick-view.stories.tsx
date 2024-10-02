@@ -1,7 +1,8 @@
 import React from 'react';
-import { Story, Meta } from '@storybook/react';
+import { Meta, StoryFn } from '@storybook/react';
 import Typography from 'components/commercetools-ui/atoms/typography';
-import { products } from 'helpers/mocks/mockCommonData';
+import { products, shippingMethods } from 'helpers/mocks/mockCommonData';
+import { wishlist } from 'helpers/mocks/mockData';
 import QuickView, { QuickViewProps } from '.';
 
 export default {
@@ -10,7 +11,7 @@ export default {
   argTypes: {},
 } as Meta;
 
-const Template: Story<QuickViewProps> = () => {
+const Template: StoryFn<QuickViewProps> = () => {
   return (
     <div className="ml-44 pr-20">
       <Typography className="mt-40 w-2/5 text-28 font-bold text-black">Quick View Component</Typography>
@@ -18,7 +19,13 @@ const Template: Story<QuickViewProps> = () => {
         The Quick View component is used to display a quick view of a product. It is used in the product list page.
       </Typography>
       <div className="mt-44 w-200">
-        <QuickView product={products[0]} buttonIsVisible hideButton={() => {}} />
+        <QuickView
+          product={products[0]}
+          wishlist={wishlist}
+          shippingMethods={shippingMethods}
+          buttonIsVisible
+          hideButton={() => {}}
+        />
       </div>
     </div>
   );

@@ -1,14 +1,15 @@
 import React, { FC, useMemo, useState } from 'react';
 import { useParams } from 'next/navigation';
-import { Cart, Order } from 'shared/types/cart';
 import Accordion from 'components/commercetools-ui/atoms/accordion';
+import Image from 'components/commercetools-ui/atoms/image';
 import Typography from 'components/commercetools-ui/atoms/typography';
 import Costs from 'components/commercetools-ui/organisms/order-payment-section/components/costs';
 import { CurrencyHelpers } from 'helpers/currencyHelpers';
 import useClassNames from 'helpers/hooks/useClassNames';
 import useI18n from 'helpers/hooks/useI18n';
 import mapCosts from 'helpers/utils/mapCosts';
-import Image from 'frontastic/lib/image';
+import { Cart } from 'types/entity/cart';
+import { Order } from 'types/entity/order';
 import AccordionButton from './accordion-button';
 
 export interface Props {

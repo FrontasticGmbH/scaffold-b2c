@@ -28,6 +28,7 @@ const Link = ({
   className = '',
   variant,
   title = '',
+  locale: localeProp,
   ...props
 }: React.PropsWithChildren<LinkProps>) => {
   const { locale } = useParams();
@@ -54,7 +55,7 @@ const Link = ({
     <NextLink
       {...props}
       {...linkProps}
-      href={linkUrl ? (linkMissingLocale ? `/${locale}${linkUrl}` : linkUrl) : '#'}
+      href={linkUrl ? (linkMissingLocale ? `/${localeProp ?? locale}${linkUrl}` : linkUrl) : '#'}
       className={linkClassNames}
       title={title}
     >

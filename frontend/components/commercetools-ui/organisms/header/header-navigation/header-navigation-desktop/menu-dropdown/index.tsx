@@ -1,9 +1,9 @@
 import React, { FC } from 'react';
-import { Category } from 'shared/types/product/Category';
 import Link from 'components/commercetools-ui/atoms/link';
 import Typography from 'components/commercetools-ui/atoms/typography';
 import { Tile } from 'components/commercetools-ui/organisms/header/types';
 import useClassNames from 'helpers/hooks/useClassNames';
+import { Category } from 'types/entity/category';
 import HeaderDropdownTile from './header-menu-tile';
 
 export interface Props {

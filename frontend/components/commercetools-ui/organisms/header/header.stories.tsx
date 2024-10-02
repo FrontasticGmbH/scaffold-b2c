@@ -1,8 +1,8 @@
 import React from 'react';
-import { Story, Meta } from '@storybook/react';
+import { Meta, StoryFn } from '@storybook/react';
 import Typography from 'components/commercetools-ui/atoms/typography';
 import { linkReferenceOne } from 'helpers/mocks/mockCommonData';
-import { logo, links, tiles } from 'helpers/mocks/mockHeaderData';
+import { links, logo, tiles } from 'helpers/mocks/mockHeaderData';
 import Header from './index';
 import { HeaderProps } from './types';
 
@@ -12,7 +12,7 @@ export default {
   argTypes: {},
 } as Meta;
 
-const Template: Story<HeaderProps> = () => (
+const Template: StoryFn<HeaderProps> = () => (
   <div className="ml-44">
     <Typography className="mt-40 w-2/5 text-28 font-bold text-black">Page Header</Typography>
     <Typography className="mt-20 w-3/5 text-20 leading-loose text-black">
@@ -21,6 +21,9 @@ const Template: Story<HeaderProps> = () => (
     </Typography>
     <div className="mt-40 pr-40">
       <Header
+        onRemoveItem={async () => {}}
+        onUpdateItem={async () => {}}
+        OnMoveToWishlist={async () => {}}
         navLinks={links}
         logo={logo}
         categories={links}
@@ -36,6 +39,7 @@ const Template: Story<HeaderProps> = () => (
         emptyWishlistImage={logo}
         emptyWishlistCategories={[]}
         tiles={tiles}
+        searchItems={[]}
       />
     </div>
   </div>

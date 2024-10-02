@@ -2,6 +2,7 @@ import React, { useRef, useEffect } from 'react';
 import { useSearchParams, useRouter } from 'next/navigation';
 import toast from 'react-hot-toast';
 import { useFormat } from 'helpers/hooks/useFormat';
+import { Account } from 'types/entity/account';
 import { Reference } from 'types/reference';
 import LoginForm from './login-form';
 import AlterForm from '../../account/account-atoms/alter-form';
@@ -9,10 +10,12 @@ import AlterForm from '../../account/account-atoms/alter-form';
 export interface LoginProps {
   signInLink: Reference;
   accountLink?: Reference;
-  onLogin?: () => void;
+  login?: (email: string, password: string, rememberMe?: boolean) => Promise<Account>;
+  requestConfirmationEmail?: (email: string, password: string) => Promise<{ error?: boolean; message?: string }>;
+  requestPasswordReset?: (email: string) => Promise<{ error?: boolean; message?: string }>;
 }
 
-const Login: React.FC<LoginProps> = ({ onLogin }) => {
+const Login: React.FC<LoginProps> = ({ login, requestConfirmationEmail, requestPasswordReset }) => {
   const router = useRouter();
 
   const { formatMessage: formatAccountMessage } = useFormat({ name: 'account' });
@@ -36,7 +39,11 @@ const Login: React.FC<LoginProps> = ({ onLogin }) => {
   return (
     <>
       <div className="m-auto grid max-w-screen-sm px-16">
-        <LoginForm onLogin={onLogin} />
+        <LoginForm
+          login={login}
+          requestConfirmationEmail={requestConfirmationEmail}
+          requestPasswordReset={requestPasswordReset}
+        />
       </div>
       <AlterForm page="register" />
     </>

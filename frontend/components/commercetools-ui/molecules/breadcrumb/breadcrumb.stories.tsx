@@ -1,5 +1,5 @@
 import React from 'react';
-import { Story, Meta } from '@storybook/react';
+import { Meta, StoryFn } from '@storybook/react';
 import Link from 'components/commercetools-ui/atoms/link';
 import Typography from 'components/commercetools-ui/atoms/typography';
 import Breadcrumb, { BreadcrumbProps } from '.';
@@ -10,7 +10,7 @@ export default {
   argTypes: {},
 } as Meta;
 
-const Template: Story<BreadcrumbProps> = () => (
+const Template: StoryFn<BreadcrumbProps> = () => (
   <div className="ml-44">
     <Typography className="mt-40 w-2/5 text-28 font-bold text-black">Breadcrumb Component</Typography>
     <Typography className="mt-20 w-3/5 text-20 leading-loose text-neutral-700">

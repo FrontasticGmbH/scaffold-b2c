@@ -1,13 +1,17 @@
 import React from 'react';
 import Button from 'components/commercetools-ui/atoms/button';
+import { ImageProps } from 'components/commercetools-ui/atoms/image';
 import WishlistItem from 'components/commercetools-ui/molecules/wishlist-item';
 import { EmptyState } from 'components/commercetools-ui/organisms/empty-state';
 import { FooterLink } from 'components/commercetools-ui/organisms/footer/atoms/column';
 import { useFormat } from 'helpers/hooks/useFormat';
-import { useWishlist } from 'frontastic';
-import { ImageProps } from 'frontastic/lib/image';
+import { LineItem, Wishlist as WishlistShape } from 'types/entity/wishlist';
 
 export interface Props {
+  wishlist?: WishlistShape;
+  onRemoveFromWishlist?: (lineItemId: string) => Promise<void>;
+  onMoveToCart?: (lineItem: LineItem) => Promise<void>;
+  onClearWishlist?: () => Promise<void>;
   emptyWishlistTitle: string;
   emptyWishlistSubtitle: string;
   emptyWishlistImage: ImageProps;
@@ -15,6 +19,10 @@ export interface Props {
   handleCategoryClick?: () => void;
 }
 const Wishlist: React.FC<Props> = ({
+  wishlist,
+  onRemoveFromWishlist,
+  onMoveToCart,
+  onClearWishlist,
   emptyWishlistTitle,
   emptyWishlistSubtitle,
   emptyWishlistImage,
@@ -22,14 +30,10 @@ const Wishlist: React.FC<Props> = ({
   handleCategoryClick,
 }) => {
   const { formatMessage: formatWishlistMessage } = useFormat({ name: 'wishlist' });
-  const { data: wishlistData, deleteWishlist } = useWishlist();
-  const handleDeleteWishlist = async () => {
-    if (wishlistData) await deleteWishlist(wishlistData);
-  };
 
   return (
     <>
-      {!wishlistData?.lineItems?.length ? (
+      {!wishlist?.lineItems?.length ? (
         <>
           <EmptyState
             title={emptyWishlistTitle}
@@ -42,10 +46,17 @@ const Wishlist: React.FC<Props> = ({
       ) : (
         <>
           <div className="h-[83vh] grow divide-y divide-neutral-400 overflow-auto px-12 md:px-22">
-            {wishlistData?.lineItems?.map((lineItem) => <WishlistItem key={lineItem.lineItemId} item={lineItem} />)}
+            {wishlist?.lineItems?.map((lineItem) => (
+              <WishlistItem
+                key={lineItem.lineItemId}
+                item={lineItem}
+                onRemove={async () => onRemoveFromWishlist?.(lineItem.lineItemId as string)}
+                onMoveToCart={async () => onMoveToCart?.(lineItem)}
+              />
+            ))}
           </div>
           <div className="absolute bottom-0 h-88 w-full p-20">
-            <Button onClick={handleDeleteWishlist} variant="secondary" className="w-full text-16">
+            <Button onClick={onClearWishlist} variant="secondary" className="w-full text-16">
               {formatWishlistMessage({ id: 'wishlist.clear.list', defaultMessage: 'Clear the list' })}
             </Button>
           </div>

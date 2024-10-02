@@ -1,5 +1,5 @@
 import React from 'react';
-import { Story, Meta } from '@storybook/react';
+import { Meta, StoryFn } from '@storybook/react';
 import Typography from 'components/commercetools-ui/atoms/typography';
 import { headerButtonLink } from 'helpers/mocks/mockData';
 import { Reference } from 'types/reference';
@@ -11,7 +11,7 @@ export default {
   argTypes: {},
 } as Meta;
 
-const Template: Story<TileProps> = () => (
+const Template: StoryFn<TileProps> = () => (
   <div className="ml-44">
     <Typography className="mt-40 w-2/5 text-28 font-bold text-black">Tile Component</Typography>
     <Typography className="mt-20 w-3/5 text-20 leading-loose text-neutral-700">

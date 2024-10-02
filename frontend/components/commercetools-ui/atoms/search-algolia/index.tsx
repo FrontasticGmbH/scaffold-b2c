@@ -1,8 +1,7 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { useParams, useRouter } from 'next/navigation';
 import { Transition } from '@headlessui/react';
-import { Hits, Configure, SearchBox } from 'react-instantsearch-hooks-web';
-import { Category } from 'shared/types/product/Category';
+import { Configure, Hits, SearchBox } from 'react-instantsearch';
 import InstantSearch from 'components/HOC/InstantSearch';
 import GoogleAnalyticsMiddleware from 'components/HOC/InstantSearch/middlewares/GoogleAnalyticsMiddleware';
 import { mapProduct } from 'helpers/algolia/map-product';
@@ -11,6 +10,7 @@ import useMediaQuery from 'helpers/hooks/useMediaQuery';
 import useScrollBlock from 'helpers/hooks/useScrollBlock';
 import { mediumDesktop } from 'helpers/utils/screensizes';
 import LocalizedIndex from 'providers/algolia/localized-index';
+import { Category } from 'types/entity/category';
 import SearchItem from './search-item';
 import SearchSuggestion, { Props as SearchSuggestionProps } from './search-suggestion';
 import Overlay from '../overlay';
@@ -59,6 +59,7 @@ const Search: React.FC<Props> = ({ categories }) => {
   return (
     <InstantSearch>
       <GoogleAnalyticsMiddleware />
+
       <Configure enablePersonalization={!query} />
 
       {focused && <Overlay />}

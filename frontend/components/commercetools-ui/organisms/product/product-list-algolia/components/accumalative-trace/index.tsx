@@ -1,5 +1,5 @@
 import React, { useMemo } from 'react';
-import { useHits } from 'react-instantsearch-hooks';
+import { useHits } from 'react-instantsearch';
 import { useFormat } from 'helpers/hooks/useFormat';
 
 const AccumalativeTrace = () => {

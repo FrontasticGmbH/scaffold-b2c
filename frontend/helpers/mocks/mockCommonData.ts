@@ -3,6 +3,7 @@ import { LineItem } from 'shared/types/cart/LineItem';
 import { Order } from 'shared/types/cart/Order';
 import { ShippingMethod } from 'shared/types/cart/ShippingMethod';
 import { Product } from 'shared/types/product/Product';
+import { PaymentMethod } from 'components/commercetools-ui/organisms/order-payment-section/types';
 import { Reference } from 'types/reference';
 
 export const linkReferenceOne: Reference = {
@@ -446,5 +447,100 @@ export const orders: Order[] = [
     ],
 
     lineItems: lineItems,
+  },
+];
+
+export const paymentMethods: PaymentMethod[] = [
+  {
+    name: 'Visa',
+    image: {
+      media: {
+        _type: 'Frontastic\\Backstage\\MediaApiBundle\\Domain\\MediaApi\\Media',
+        mediaId: 'rh4uscyphitwjmm2lb7g',
+        resourceType: 'image',
+        name: 'Visa-Emblem',
+        filename: '',
+        description: '',
+        file: 'https://res.cloudinary.com/dlwdq84ig/image/upload/v1704277232/rh4uscyphitwjmm2lb7g.jpg',
+        size: 88583,
+        width: 3840,
+        height: 2160,
+        alt: '',
+        format: 'jpg',
+        created: '2024-01-03T10:20:32+00:00',
+        updateDate: null,
+        metaData: [],
+        tags: ['__none'],
+      },
+    },
+  },
+  {
+    name: 'MasterCard',
+    image: {
+      media: {
+        _type: 'Frontastic\\Backstage\\MediaApiBundle\\Domain\\MediaApi\\Media',
+        mediaId: 'yzykpfpqh8doyuwhraze',
+        resourceType: 'image',
+        name: 'Mastercard-Logo',
+        filename: '',
+        description: '',
+        file: 'https://res.cloudinary.com/dlwdq84ig/image/upload/v1704277235/yzykpfpqh8doyuwhraze.png',
+        size: 19116,
+        width: 3840,
+        height: 2160,
+        alt: '',
+        format: 'png',
+        created: '2024-01-03T10:20:35+00:00',
+        updateDate: null,
+        metaData: [],
+        tags: ['__none'],
+      },
+    },
+  },
+  {
+    name: 'Apple Pay',
+    image: {
+      media: {
+        _type: 'Frontastic\\Backstage\\MediaApiBundle\\Domain\\MediaApi\\Media',
+        mediaId: 'avvlzr9w4oubmulzmxik',
+        resourceType: 'image',
+        name: 'Apple-pay-logo-F68C9AC252-seeklogo.com',
+        filename: '',
+        description: '',
+        file: 'https://res.cloudinary.com/dlwdq84ig/image/upload/v1704277237/avvlzr9w4oubmulzmxik.png',
+        size: 4472,
+        width: 300,
+        height: 142,
+        alt: '',
+        format: 'png',
+        created: '2024-01-03T10:20:37+00:00',
+        updateDate: null,
+        metaData: [],
+        tags: ['__none'],
+      },
+    },
+  },
+  {
+    name: 'Paypal',
+    image: {
+      media: {
+        _type: 'Frontastic\\Backstage\\MediaApiBundle\\Domain\\MediaApi\\Media',
+        mediaId: 'ml2wbnfrjxhyrj8iu6eu',
+        resourceType: 'image',
+        name: 'PayPal-Symbol',
+        filename: '',
+        description: '',
+        file: 'https://res.cloudinary.com/dlwdq84ig/image/upload/v1704277181/ml2wbnfrjxhyrj8iu6eu.png',
+        size: 14918,
+        width: 1024,
+        height: 1024,
+        alt: '',
+        format: 'png',
+        created: '2024-01-03T10:19:41+00:00',
+        updateDate: null,
+        metaData: [],
+        tags: ['__none'],
+      },
+    },
   },
 ];

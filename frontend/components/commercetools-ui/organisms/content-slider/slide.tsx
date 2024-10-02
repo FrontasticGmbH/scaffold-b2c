@@ -1,8 +1,8 @@
 import { FC } from 'react';
 import { ArrowLongRightIcon } from '@heroicons/react/24/outline';
+import Image from 'components/commercetools-ui/atoms/image';
 import Typography from 'components/commercetools-ui/atoms/typography';
 import useImageSizes from 'helpers/hooks/useImageSizes';
-import Image from 'frontastic/lib/image';
 import { ContentSliderSlideProps } from './types';
 import Link from '../../atoms/link';
 
@@ -13,7 +13,7 @@ const ContentSliderSlide: FC<ContentSliderSlideProps> = ({ image, title, ctaLabe
     <Link link={ctaReference} className="w-full overflow-hidden">
       {image && (
         <div className="relative h-220 md:h-356">
-          <div className="absolute z-10 h-full w-full rounded-md bg-black opacity-20"></div>
+          <div className="absolute z-10 size-full rounded-md bg-black opacity-20"></div>
           <Image {...image} sizes={tileImageSizes} className="mb-5 rounded-md" fill style={{ objectFit: 'cover' }} />
         </div>
       )}

@@ -1,6 +1,9 @@
-import { Category } from 'shared/types/product/Category';
+import { ImageProps } from 'components/commercetools-ui/atoms/image';
+import { Cart, Discount, LineItem as CartLineItem } from 'types/entity/cart';
+import { Category } from 'types/entity/category';
+import { Product } from 'types/entity/product';
+import { Wishlist, LineItem as WishlistLineItem } from 'types/entity/wishlist';
 import { Reference } from 'types/reference';
-import { ImageProps } from 'frontastic/lib/image';
 
 export interface Link {
   name: string;
@@ -43,6 +46,19 @@ export interface EmptyStateProps {
 }
 
 export interface HeaderProps extends EmptyStateProps {
+  cart?: Cart;
+  onApplyDiscountCode?: (code: string) => Promise<void>;
+  onRemoveDiscountCode?: (discount: Discount) => Promise<void>;
+  isEmpty?: boolean;
+  totalCartItems?: number;
+  totalWishlistItems?: number;
+  onRemoveItem(itemId: string): Promise<void>;
+  onUpdateItem(itemId: string, quantity: number): Promise<void>;
+  OnMoveToWishlist(lineItem: CartLineItem): Promise<void>;
+  wishlist?: Wishlist;
+  onRemoveFromWishlist?: (lineItemId: string) => Promise<void>;
+  onMoveToCart?: (lineItem: WishlistLineItem) => Promise<void>;
+  onClearWishlist?: () => Promise<void>;
   categories: Category[];
   logo: ImageProps;
   logoMobile: ImageProps;
@@ -50,4 +66,6 @@ export interface HeaderProps extends EmptyStateProps {
   logoLinkMobile: Reference;
   tiles?: Tile[];
   enableAlgoliaSearch?: boolean;
+  searchItems: Product[];
+  onSearchQueryUpdate?: (query: string) => void;
 }

@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from 'react';
+import { useContext, useEffect, useMemo, useState } from 'react';
 import { TrashIcon } from '@heroicons/react/24/outline';
 import toast from 'react-hot-toast';
 import { Account } from 'shared/types/account';
@@ -7,11 +7,11 @@ import Checkbox from 'components/commercetools-ui/atoms/checkbox';
 import Dropdown from 'components/commercetools-ui/atoms/dropdown';
 import Input from 'components/commercetools-ui/atoms/input';
 import Typography from 'components/commercetools-ui/atoms/typography';
+import { AccountContext } from 'context/account';
 import { useFormat } from 'helpers/hooks/useFormat';
 import useI18n from 'helpers/hooks/useI18n';
 import useValidate from 'helpers/hooks/useValidate';
 import countryStates from 'static/states.json';
-import { useAccount } from 'frontastic';
 import DeleteModal from './deleteModal';
 import usePropsToAddressType from './mapPropsToAddressType';
 import AccountForm from '../../account-atoms/account-form';
@@ -43,7 +43,7 @@ const AddressForm: React.FC<AddressFormProps> = ({ editedAddressId }) => {
 
   const { validateTextExists, validatePostalCode } = useValidate();
 
-  const { removeAddress, account } = useAccount();
+  const { removeAddress, account } = useContext(AccountContext);
   const { mapPropsToAddress } = usePropsToAddressType();
   const { discardForm } = useDiscardForm();
   const { notifyDataUpdated, notifyWentWrong } = useFeedbackToasts();
@@ -271,7 +271,7 @@ const AddressForm: React.FC<AddressFormProps> = ({ editedAddressId }) => {
             className="flex items-center gap-8 hover:cursor-pointer hover:opacity-70"
             onClick={() => setModalIsOpen(true)}
           >
-            <TrashIcon className="h-20 w-20 text-secondary-black" />
+            <TrashIcon className="size-20 text-secondary-black" />
             <Typography className="text-14 leading-[114%] text-secondary-black" as="span">
               {formatMessage({ id: 'delete', defaultMessage: 'Delete' })}
             </Typography>

@@ -18,7 +18,7 @@ const Typography: React.FC<TypographyProps> = ({
 
   const getContent = useCallback(() => {
     // Check if the children has different locales
-    if (typeof children !== 'string') {
+    if (children !== undefined && typeof children !== 'string') {
       // Update text based on locale
       return children?.[locale as string];
     }

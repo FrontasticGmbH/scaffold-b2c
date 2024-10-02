@@ -1,7 +1,7 @@
 import { useLayoutEffect } from 'react';
 import { Middleware, UiState } from 'instantsearch.js';
 import debounce from 'lodash.debounce';
-import { useInstantSearch } from 'react-instantsearch-hooks';
+import { useInstantSearch } from 'react-instantsearch';
 
 const middleware: Middleware = () => {
   const sendDebouncedEvent = debounce((uiState: UiState) => {

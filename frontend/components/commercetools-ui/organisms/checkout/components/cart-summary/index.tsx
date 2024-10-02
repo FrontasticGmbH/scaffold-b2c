@@ -1,9 +1,9 @@
 import React from 'react';
 import { useParams, useRouter } from 'next/navigation';
+import Image from 'components/commercetools-ui/atoms/image';
 import Costs from 'components/commercetools-ui/organisms/order-payment-section/components/costs';
 import { CurrencyHelpers } from 'helpers/currencyHelpers';
 import { useCart } from 'frontastic';
-import Image from 'frontastic/lib/image';
 
 const CartSummary = () => {
   const router = useRouter();

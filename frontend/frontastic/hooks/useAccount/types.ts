@@ -1,5 +1,5 @@
 import { Account, Address } from 'shared/types/account';
-import { ResponseError } from 'frontastic';
+import { ResponseError, useAccount } from 'frontastic';
 
 export interface GetAccountResult {
   loggedIn: boolean;
@@ -24,3 +24,5 @@ export interface RegisterAccount extends UpdateAccount {
   billingAddress?: Address;
   shippingAddress?: Address;
 }
+
+export type UseAccountReturn = ReturnType<typeof useAccount>;

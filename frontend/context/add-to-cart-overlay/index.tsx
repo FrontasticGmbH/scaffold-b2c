@@ -2,8 +2,6 @@ import React, { useCallback, useContext, useState } from 'react';
 import { useParams } from 'next/navigation';
 import { Transition } from '@headlessui/react';
 import { XMarkIcon as CloseIcon } from '@heroicons/react/24/solid';
-import { Variant } from 'shared/types/product';
-import { Product } from 'shared/types/product/Product';
 import Link from 'components/commercetools-ui/atoms/link';
 import Overlay from 'components/commercetools-ui/atoms/overlay';
 import ProductSlider from 'components/commercetools-ui/organisms/product/product-slider';
@@ -12,8 +10,9 @@ import { useFormat } from 'helpers/hooks/useFormat';
 import useScrollBlock from 'helpers/hooks/useScrollBlock';
 import useTouchDevice from 'helpers/hooks/useTouchDevice';
 import { mediumDesktop, tablet } from 'helpers/utils/screensizes';
-import { useProduct } from 'frontastic';
-import Image from 'frontastic/lib/image';
+import { Product, Variant } from 'types/entity/product';
+import { useCart, useProduct, useWishlist } from 'frontastic';
+import Image from 'components/commercetools-ui/atoms/image';
 import { AddToCartOverlayContextShape, StateProduct } from './types';
 
 const AddToCartOverlayContext = React.createContext<AddToCartOverlayContextShape>({
@@ -26,6 +25,10 @@ const AddToCartOverlayContext = React.createContext<AddToCartOverlayContextShape
 
 const AddToCartOverlayProvider = ({ children }: React.PropsWithChildren) => {
   const { locale } = useParams();
+
+  const { data, addToWishlist, removeLineItem } = useWishlist();
+
+  const { shippingMethods } = useCart();
 
   const { isTouchDevice } = useTouchDevice();
 
@@ -88,7 +91,7 @@ const AddToCartOverlayProvider = ({ children }: React.PropsWithChildren) => {
             </h4>
 
             <CloseIcon
-              className="absolute right-[18px] top-[16px] h-28 w-28 cursor-pointer fill-secondary-black stroke-0 md:top-[16px]"
+              className="absolute right-18 top-16 h-28 w-28 cursor-pointer fill-secondary-black stroke-0 md:top-16"
               onClick={hide}
             />
 
@@ -135,6 +138,14 @@ const AddToCartOverlayProvider = ({ children }: React.PropsWithChildren) => {
             <ProductSlider
               clearDefaultWrapperStyles
               products={relatedProducts}
+              wishlist={data}
+              shippingMethods={shippingMethods.data}
+              addToWishlist={async (lineItem, count) => {
+                if (data) await addToWishlist(data, lineItem, count);
+              }}
+              removeLineItem={async (lineItem) => {
+                if (data) await removeLineItem(data, lineItem);
+              }}
               title={formatProductMessage({ id: 'bought.together', defaultMessage: 'Frequently bought together' })}
               titleVariant="xs"
               innerArrows={false}

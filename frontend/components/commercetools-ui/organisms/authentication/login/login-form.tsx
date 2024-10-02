@@ -7,21 +7,20 @@ import PasswordInput from 'components/commercetools-ui/atoms/input-password';
 import Link from 'components/commercetools-ui/atoms/link';
 import Typography from 'components/commercetools-ui/atoms/typography';
 import { useFormat } from 'helpers/hooks/useFormat';
-import { useAccount } from 'frontastic';
+import { Account } from 'types/entity/account';
 import Feedback from '../../account/account-atoms/feedback';
 
 interface Props {
-  onLogin?: () => void;
+  login?: (email: string, password: string, rememberMe?: boolean) => Promise<Account>;
+  requestConfirmationEmail?: (email: string, password: string) => Promise<{ error?: boolean; message?: string }>;
+  requestPasswordReset?: (email: string) => Promise<{ error?: boolean; message?: string }>;
 }
 
-const LoginForm: FC<Props> = ({ onLogin }) => {
+const LoginForm: FC<Props> = ({ login, requestConfirmationEmail, requestPasswordReset }) => {
   //i18n messages
   const { formatMessage: formatErrorMessage } = useFormat({ name: 'error' });
   const { formatMessage: formatAccountMessage } = useFormat({ name: 'account' });
   const { formatMessage } = useFormat({ name: 'common' });
-
-  //account actions
-  const { login, requestConfirmationEmail, requestPasswordReset } = useAccount();
 
   //login data
   const [data, setData] = useState({ email: '', password: '', rememberMe: false });
@@ -76,10 +75,10 @@ const LoginForm: FC<Props> = ({ onLogin }) => {
   //login user
   const loginUser = async () => {
     try {
-      const response = await login(data.email, data.password, data.rememberMe);
+      const response = await login?.(data.email, data.password, data.rememberMe);
 
-      if (response.accountId) onLogin?.();
-      else setError(formatErrorMessage({ id: 'auth.wrong', defaultMessage: 'Wrong email address or password' }));
+      if (!response?.accountId)
+        setError(formatErrorMessage({ id: 'auth.wrong', defaultMessage: 'Wrong email address or password' }));
     } catch (err) {
       setError(formatErrorMessage({ id: 'wentWrong', defaultMessage: 'Sorry. Something went wrong..' }));
     }
@@ -88,9 +87,9 @@ const LoginForm: FC<Props> = ({ onLogin }) => {
   //resend verification email for user
   const resendVerificationEmailForUser = async () => {
     try {
-      const response = await requestConfirmationEmail(data.email, data.password);
+      const response = await requestConfirmationEmail?.(data.email, data.password);
 
-      if (response.error)
+      if (response?.error)
         setError(formatErrorMessage({ id: 'wentWrong', defaultMessage: 'Sorry. Something went wrong..' }));
       else {
         setSuccess(
@@ -109,9 +108,9 @@ const LoginForm: FC<Props> = ({ onLogin }) => {
   //request a password reset for user
   const resendPasswordResetForUser = async () => {
     try {
-      const response = await requestPasswordReset(data.email);
+      const response = await requestPasswordReset?.(data.email);
 
-      if (response.error)
+      if (response?.error)
         setError(formatErrorMessage({ id: 'wentWrong', defaultMessage: 'Sorry. Something went wrong..' }));
       else {
         setSuccess(

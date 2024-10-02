@@ -1,18 +1,22 @@
 import { useState } from 'react';
-import { Account } from 'shared/types/account';
 import Input, { InputProps } from 'components/commercetools-ui/atoms/input';
 import useFeedbackToasts from 'components/commercetools-ui/organisms/account/hooks/useFeedbackToasts';
 import { useFormat } from 'helpers/hooks/useFormat';
 import useValidate from 'helpers/hooks/useValidate';
-import { useAccount } from 'frontastic';
+import { Account } from 'types/entity/account';
+import { UpdateAccount } from 'frontastic/hooks/useAccount/types';
 import AccountForm from '../../../account-atoms/account-form';
 import useDiscardForm from '../../../hooks/useDiscardForm';
 
 type inputNameType = 'firstName' | 'lastName' | 'email';
 
-const PersonalInfoForm = () => {
-  const { account, update } = useAccount();
+interface Props {
+  account?: Account;
+  update?: (payload: UpdateAccount) => Promise<Account>;
+}
+const PersonalInfoForm = ({ account, update }: Props) => {
   const { discardForm } = useDiscardForm();
+
   const [data, setData] = useState<Account>(account as Account);
   const [loading, setLoading] = useState(false);
 
@@ -37,7 +41,7 @@ const PersonalInfoForm = () => {
   const handleSubmit = () => {
     setLoading(true);
 
-    update({ ...data, email: data.email && data.email !== account?.email ? data.email : undefined })
+    update?.({ ...data, email: data.email && data.email !== account?.email ? data.email : undefined })
       .then(() => notifyDataUpdated())
       .then(() => discardForm())
       .then(() => setLoading(false))

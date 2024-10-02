@@ -1,10 +1,10 @@
 import React from 'react';
 import Button from 'components/commercetools-ui/atoms/button';
+import Image, { ImageProps } from 'components/commercetools-ui/atoms/image';
 import Link from 'components/commercetools-ui/atoms/link';
 import Typography from 'components/commercetools-ui/atoms/typography';
 import { Link as CategoryLink } from 'components/commercetools-ui/organisms/header/types';
 import useClassNames from 'helpers/hooks/useClassNames';
-import Image, { ImageProps } from 'frontastic/lib/image';
 
 type Props = {
   image: ImageProps;

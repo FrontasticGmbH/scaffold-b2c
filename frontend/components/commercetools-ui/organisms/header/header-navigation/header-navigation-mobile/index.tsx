@@ -1,11 +1,11 @@
 import React, { FC, useState } from 'react';
 import { Bars3Icon } from '@heroicons/react/24/outline';
-import { Category } from 'shared/types/product/Category';
 import Button from 'components/commercetools-ui/atoms/button';
 import Drawer from 'components/commercetools-ui/atoms/drawer';
+import { ImageProps } from 'components/commercetools-ui/atoms/image';
 import { useFormat } from 'helpers/hooks/useFormat';
+import { Category } from 'types/entity/category';
 import { Reference } from 'types/reference';
-import { ImageProps } from 'frontastic/lib/image';
 import MobileMenu from './content/mobile-menu';
 import MobileMenuFooter from './content/mobile-menu-footer';
 import MobileMenuHeader from './content/mobile-menu-header';

@@ -45,7 +45,7 @@ const AnnouncementBar: React.FC<Props> = ({ text, highlightedSubstring, target }
         </p>
       </div>
 
-      <div className="flex h-full w-full items-center justify-end pr-20 xl:pr-48">
+      <div className="flex size-full items-center justify-end pr-20 xl:pr-48">
         <MarketButton />
       </div>
     </div>

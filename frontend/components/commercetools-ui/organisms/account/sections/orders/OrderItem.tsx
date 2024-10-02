@@ -2,7 +2,6 @@ import React, { FC } from 'react';
 import { useParams } from 'next/navigation';
 import { ChevronRightIcon } from '@heroicons/react/24/outline';
 import toast from 'react-hot-toast';
-import { Order } from 'shared/types/cart/Order';
 import Button from 'components/commercetools-ui/atoms/button';
 import Link from 'components/commercetools-ui/atoms/link';
 import Typography from 'components/commercetools-ui/atoms/typography';
@@ -10,6 +9,7 @@ import { CurrencyHelpers } from 'helpers/currencyHelpers';
 import { useFormat } from 'helpers/hooks/useFormat';
 import useI18n from 'helpers/hooks/useI18n';
 import mapCosts from 'helpers/utils/mapCosts';
+import { Order } from 'types/entity/order';
 
 interface Props {
   order?: Order;

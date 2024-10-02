@@ -4,9 +4,11 @@ import { useParams } from 'next/navigation';
 import { SDKResponse } from '@commercetools/frontend-sdk';
 import { PageResponse } from '@commercetools/frontend-sdk/lib/types/api/page';
 import Toaster from 'components/commercetools-ui/atoms/toaster';
+import { AccountProvider } from 'context/account';
 import AddToCartOverlayProvider from 'context/add-to-cart-overlay';
 import { sdk } from 'sdk';
 import { Translations } from 'types/i18n';
+import { useAccount } from 'frontastic';
 import I18nProvider from './i18n';
 import { SWRProvider } from './swr';
 import TracingProvider from './tracing';
@@ -21,13 +23,17 @@ interface ProvidersProps {
 export const Providers = ({ translations, accountResult, page, children }: React.PropsWithChildren<ProvidersProps>) => {
   const { locale } = useParams();
 
+  const { ...accountReturn } = useAccount();
+
   sdk.defaultConfigure(locale);
 
   return (
     <TracingProvider page={page}>
       <I18nProvider translations={translations}>
         <SWRProvider value={{ fallback: { '/action/account/getAccount': accountResult } }}>
-          <AddToCartOverlayProvider>{children}</AddToCartOverlayProvider>
+          <AddToCartOverlayProvider>
+            <AccountProvider value={{ ...accountReturn }}>{children}</AccountProvider>
+          </AddToCartOverlayProvider>
           <Toaster />
         </SWRProvider>
       </I18nProvider>

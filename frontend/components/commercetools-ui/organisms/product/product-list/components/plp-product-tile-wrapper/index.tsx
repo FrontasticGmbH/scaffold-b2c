@@ -1,7 +1,8 @@
 import React, { FC } from 'react';
-import { Product } from 'shared/types/product/Product';
 import ProductTile from 'components/commercetools-ui/molecules/product-tile';
-import useSelectedColorFilterVariant from '../../../../../../../helpers/hooks/useSelectedColorFilterVariant';
+import useSelectedColorFilterVariantIndex from 'helpers/hooks/useSelectedColorFilterVariant';
+import { Product } from 'types/entity/product';
+import { useProductList } from '../../context';
 
 interface ProductTileWrapperProps {
   product: Product;
@@ -13,13 +14,21 @@ interface ProductTileWrapperProps {
 }
 
 const PlpProductTileWrapper: FC<ProductTileWrapperProps> = ({ product, isSearchResult, onClick }) => {
-  const selectedColorVariantIndex = useSelectedColorFilterVariant(product.variants);
+  const { wishlist, shippingMethods, addToWishlist, removeFromWishlist, onAddToCart } = useProductList();
+
+  const selectedColorVariantIndex = useSelectedColorFilterVariantIndex(product.variants);
+
   return (
     <ProductTile
       product={product}
+      wishlist={wishlist}
+      shippingMethods={shippingMethods}
       selectedVariantIndex={selectedColorVariantIndex}
       isSearchResult={isSearchResult}
       onClick={onClick}
+      addToWishlist={addToWishlist}
+      removeLineItem={removeFromWishlist}
+      onAddToCart={onAddToCart}
     />
   );
 };

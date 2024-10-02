@@ -77,7 +77,7 @@ const Shipping: React.FC<Props> = ({ goToNextStep }) => {
       <div className="mt-24">
         <Button
           variant="primary"
-          className="w-full min-w-[200px] md:text-16 lg:w-fit lg:px-36"
+          className="w-full min-w-200 md:text-16 lg:w-fit lg:px-36"
           loading={processing}
           type="submit"
           onClick={submit}

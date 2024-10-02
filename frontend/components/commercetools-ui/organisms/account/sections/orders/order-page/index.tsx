@@ -1,23 +1,23 @@
 import React, { FC } from 'react';
-import { Address } from 'shared/types/account';
-import { ShipmentState } from 'shared/types/cart';
 import OrderSummary from 'components/commercetools-ui/organisms/order-summary';
+import { Address } from 'types/entity/account';
+import { ShippingMethod } from 'types/entity/cart';
+import { Order, ShipmentState } from 'types/entity/order';
 import OrderInfoSection from './order-info';
 import OrderNumber from './order-number';
 import OrderStatusBar from './order-status-bar';
 import useOrderData from '../helper-hooks/useOrderData';
-import useOrderFetch from '../helper-hooks/useOrderFetch';
 
 export interface Props {
-  orderId?: string;
+  order: Order;
+  shippingMethods: ShippingMethod[];
 }
 
-const OrderPage: FC<Props> = ({ orderId }) => {
-  const { orders } = useOrderFetch();
-
-  const order = orders.find((order) => order.orderId === orderId);
-  const { formattedOrderDate, formattedShippingDate, formattedDeliveryDate, shippingInfo, paymentInfo } =
-    useOrderData(order);
+const OrderPage: FC<Props> = ({ order, shippingMethods }) => {
+  const { formattedOrderDate, formattedShippingDate, formattedDeliveryDate, shippingInfo, paymentInfo } = useOrderData({
+    order,
+    shippingMethods,
+  });
 
   return (
     <div className="md:mt-20 lg:mt-40">
@@ -45,6 +45,9 @@ const OrderPage: FC<Props> = ({ orderId }) => {
             />
 
             <OrderSummary
+              discounts={[]}
+              onApplyDiscountCode={async () => {}}
+              onRemoveDiscountCode={async () => {}}
               order={order}
               includeItemsList
               includeSummaryAccordion

@@ -1,10 +1,10 @@
 'use client';
 
-import React, { useMemo } from 'react';
+import React, { useContext, useMemo } from 'react';
 import { useSearchParams } from 'next/navigation';
 import Login, { LoginProps } from 'components/commercetools-ui/organisms/authentication/login';
+import { AccountContext } from 'context/account';
 import Redirect from 'helpers/redirect';
-import { useAccount } from 'frontastic/hooks';
 import { TasticProps } from 'frontastic/tastics/types';
 
 const AccountLoginTastic = ({ data }: TasticProps<LoginProps>) => {
@@ -18,13 +18,18 @@ const AccountLoginTastic = ({ data }: TasticProps<LoginProps>) => {
     return lastVisitedPage;
   }, [data.accountLink, lvp]);
 
-  const { loggedIn } = useAccount();
+  const { loggedIn, login, requestConfirmationEmail, requestPasswordReset } = useContext(AccountContext);
 
   if (loggedIn) return <Redirect target={redirectLink} />;
 
   return (
     <div className="mb-36 md:mb-56 lg:mb-84">
-      <Login {...data} />
+      <Login
+        {...data}
+        login={login}
+        requestConfirmationEmail={requestConfirmationEmail}
+        requestPasswordReset={requestPasswordReset}
+      />
     </div>
   );
 };

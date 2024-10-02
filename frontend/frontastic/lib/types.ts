@@ -1,4 +1,4 @@
-import { InstantSearchServerState } from 'react-instantsearch-hooks';
+import { InstantSearchServerState } from 'react-instantsearch';
 import { Category } from 'shared/types/product/Category';
 
 type ViewData = {

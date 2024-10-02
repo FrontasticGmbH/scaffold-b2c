@@ -25,7 +25,7 @@ const useTranslation = () => {
       let message = translations[locale]?.[namespace]?.[key] ?? fallbackMessage;
 
       for (const placeholder of Object.keys(values)) {
-        message = message.replace(new RegExp(`\{${placeholder}\}`, 'g'), values[placeholder].toString());
+        message = message.replace(new RegExp(`{${placeholder}}`, 'g'), (values[placeholder] ?? '').toString());
       }
 
       return message;

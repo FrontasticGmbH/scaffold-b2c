@@ -1,13 +1,13 @@
-import { ComponentMeta, ComponentStory } from '@storybook/react';
+import { Meta, StoryFn } from '@storybook/react';
 import Input from '.';
 import Typography from '../typography';
 
 export default {
   title: 'Atoms/Input',
   component: Input,
-} as ComponentMeta<typeof Input>;
+} as Meta<typeof Input>;
 
-const Template: ComponentStory<typeof Input> = (args) => (
+const Template: StoryFn<typeof Input> = (args) => (
   <div className="ml-44">
     <Typography className="mt-40 w-2/5 text-28 font-bold text-black">Input Field</Typography>
     <Typography className="mt-20 w-3/5 text-20 leading-loose text-neutral-700">

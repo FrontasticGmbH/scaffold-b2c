@@ -1,12 +1,15 @@
 'use client';
 
-import React from 'react';
+import React, { useContext } from 'react';
 import { useSearchParams } from 'next/navigation';
 import ResetPassword, { ResetPasswordProps } from 'components/commercetools-ui/organisms/authentication/reset-password';
+import { AccountContext } from 'context/account';
 import Redirect from 'helpers/redirect';
 import { TasticProps } from 'frontastic/tastics/types';
 
 const ResetPasswordTastic = ({ data }: TasticProps<ResetPasswordProps>) => {
+  const { resetPassword } = useContext(AccountContext);
+
   //next/navigation
   const searchParams = useSearchParams();
 
@@ -15,7 +18,7 @@ const ResetPasswordTastic = ({ data }: TasticProps<ResetPasswordProps>) => {
 
   if (!token) return <Redirect target="/login" />;
 
-  return <ResetPassword token={token} {...data} />;
+  return <ResetPassword {...data} token={token} resetPassword={(password) => resetPassword(token, password)} />;
 };
 
 export default ResetPasswordTastic;

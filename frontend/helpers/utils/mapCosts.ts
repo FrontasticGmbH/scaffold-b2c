@@ -1,5 +1,5 @@
-import { Cart } from 'shared/types/cart/Cart';
-import { Order } from 'shared/types/cart/Order';
+import { Cart } from 'types/entity/cart';
+import { Order } from 'types/entity/order';
 import { UseCartReturn } from 'frontastic/hooks/useCart/types';
 
 type MapCosts = (props: {
@@ -43,9 +43,9 @@ const mapCosts: MapCosts = ({ reference = 'order', cart, order, currency }) => {
     data.lineItems
       .filter((item) => !item.taxRate?.includedInPrice)
       .reduce((acc, curr) => acc + (curr.taxed?.taxAmount?.centAmount ?? 0), 0) +
-    (!data.shippingInfo?.taxIncludedInPrice ? data.shippingInfo?.taxed?.taxAmount?.centAmount ?? 0 : 0);
+    (!data.shippingInfo?.taxIncludedInPrice ? (data.shippingInfo?.taxed?.taxAmount?.centAmount ?? 0) : 0);
 
-  const totalTax = totalAmount > 0 ? data.taxed?.taxAmount?.centAmount ?? 0 : 0;
+  const totalTax = totalAmount > 0 ? (data.taxed?.taxAmount?.centAmount ?? 0) : 0;
 
   const totalShipping =
     totalAmount > 0

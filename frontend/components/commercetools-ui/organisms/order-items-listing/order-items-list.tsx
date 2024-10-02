@@ -1,6 +1,6 @@
 import { FC } from 'react';
-import { LineItem } from 'shared/types/cart/LineItem';
 import useClassNames from 'helpers/hooks/useClassNames';
+import { LineItem } from 'types/entity/cart';
 import OrderItem from './order-item';
 
 type OrderItemsListProps = {

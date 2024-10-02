@@ -58,7 +58,7 @@ const PaymentMethods = () => {
       <Button
         variant="primary"
         onClick={() => router.push('?hash=payment&id=add')}
-        className="mt-24 min-w-full md:min-w-[150px] lg:mt-36 lg:min-w-[200px]"
+        className="mt-24 min-w-full md:min-w-150 lg:mt-36 lg:min-w-200"
       >
         {formatPaymentMessage({
           id: 'add.card',

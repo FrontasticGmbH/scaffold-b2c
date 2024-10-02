@@ -1,8 +1,6 @@
 import React, { FC, useMemo, useState } from 'react';
-import NextLink from 'next/link';
-import { Variant } from 'shared/types/product';
-import { Product } from 'shared/types/product/Product';
-import { LineItem } from 'shared/types/wishlist/LineItem';
+import Image from 'components/commercetools-ui/atoms/image';
+import Link from 'components/commercetools-ui/atoms/link';
 import OutOfStock from 'components/commercetools-ui/atoms/out-of-stock';
 import QuickView from 'components/commercetools-ui/organisms/product/product-quick-view';
 import WishlistButton from 'components/commercetools-ui/organisms/wishlist/components/wishlist-button';
@@ -10,33 +8,49 @@ import useMediaQuery from 'helpers/hooks/useMediaQuery';
 import useVariantWithDiscount from 'helpers/hooks/useVariantWithDiscount';
 import { textToColor } from 'helpers/textToColor/textToColor';
 import { desktop } from 'helpers/utils/screensizes';
-import Image from 'frontastic/lib/image';
+import { ShippingMethod } from 'types/entity/cart';
+import { Product, Variant } from 'types/entity/product';
+import { LineItem, Wishlist } from 'types/entity/wishlist';
 import Prices from './prices';
 import useTrack from './useTrack';
 
 export interface ProductTileProps {
   product: Product;
-  onClick?: () => void;
   isSearchResult?: boolean;
   disableQuickView?: boolean;
   disableWishlistButton?: boolean;
   disableVariants?: boolean;
   selectedVariantIndex?: number;
+  wishlist?: Wishlist;
+  shippingMethods?: ShippingMethod[];
+  onClick?: () => void;
+  removeLineItem?: (item: LineItem) => Promise<void>;
+  addToWishlist?: (lineItem: LineItem, count: number) => Promise<void>;
+  onAddToCart?: (variant: Variant, quantity: number) => Promise<void>;
 }
 
 const ProductTile: FC<ProductTileProps> = ({
   product,
-  onClick,
   isSearchResult = false,
   disableQuickView = false,
   disableWishlistButton = false,
   disableVariants = false,
   selectedVariantIndex = 0,
+  wishlist,
+  shippingMethods,
+  onClick,
+  addToWishlist,
+  removeLineItem,
+  onAddToCart,
 }) => {
   const [isDesktopSize] = useMediaQuery(desktop);
+
   const { ref } = useTrack({ product });
+
   const variantWithDiscount = useVariantWithDiscount(product.variants) as Variant;
+
   const [userSelectedVariant, setUserSelectedVariant] = useState<Variant | undefined>(undefined);
+
   const selectedVariant = userSelectedVariant ?? variantWithDiscount ?? product?.variants[selectedVariantIndex];
 
   const hasDiscount =
@@ -91,9 +105,10 @@ const ProductTile: FC<ProductTileProps> = ({
   return (
     <div onClick={onClick} ref={ref}>
       <div className="relative">
-        <NextLink href={productUrl}>
+        <Link link={productUrl}>
           <div
             className="relative w-full"
+            data-testid="image-container"
             onMouseEnter={() => setImageHovered(true)}
             onMouseLeave={() => setImageHovered(false)}
           >
@@ -110,18 +125,21 @@ const ProductTile: FC<ProductTileProps> = ({
               </div>
             </div>
             <span
-              className="absolute right-0 top-0 z-10 flex h-32 w-32 cursor-pointer items-center justify-center md:h-48 md:w-48"
+              className="absolute right-0 top-0 z-10 flex size-32 cursor-pointer items-center justify-center md:size-48"
               onClick={(e) => e.preventDefault()}
             >
               {!disableWishlistButton && productToWishlistLineItem && (
                 <WishlistButton
+                  data={wishlist}
                   lineItem={productToWishlistLineItem}
-                  className="h-16 w-16 md:h-20 md:w-20 lg:h-24 lg:w-24"
+                  className="size-16 md:size-20 lg:size-24"
+                  addToWishlist={addToWishlist}
+                  removeFromWishlist={removeLineItem}
                 />
               )}
             </span>
           </div>
-        </NextLink>
+        </Link>
 
         <div
           className="absolute bottom-0 z-10 w-full"
@@ -138,15 +156,26 @@ const ProductTile: FC<ProductTileProps> = ({
           <div className="w-full text-center">
             {!selectedVariant.isOnStock && (
               <div className="mb-8 ml-8">
-                <OutOfStock variant={selectedVariant} />
+                <OutOfStock />
               </div>
             )}
           </div>
-          <QuickView buttonIsVisible={buttonIsVisible && !disableQuickView} hideButton={hideButton} product={product} />
+          <QuickView
+            buttonIsVisible={buttonIsVisible && !disableQuickView}
+            product={product}
+            wishlist={wishlist}
+            shippingMethods={shippingMethods}
+            hideButton={hideButton}
+            addToWishlist={addToWishlist}
+            removeFromWishlist={removeLineItem}
+            onAddToCart={async (variant, quantity: number) => {
+              await onAddToCart?.(variant, quantity);
+            }}
+          />
         </div>
       </div>
 
-      <NextLink href={productUrl}>
+      <Link link={productUrl}>
         <div>
           <div className="mt-4 block max-w-[80%] overflow-hidden text-ellipsis whitespace-pre text-12 uppercase leading-loose md:mt-12 md:text-14">
             {product?.name}
@@ -163,6 +192,7 @@ const ProductTile: FC<ProductTileProps> = ({
                 .map((variant, index) => (
                   <span
                     key={index}
+                    data-testid="product-variant"
                     className={`block cursor-pointer rounded-full border p-6 ${
                       variant.sku !== selectedVariant.sku ? 'border-neutral-300' : 'border-neutral-500'
                     }`}
@@ -182,7 +212,7 @@ const ProductTile: FC<ProductTileProps> = ({
             <Prices price={selectedVariant?.price} discountedPrice={discountedPrice} />
           </div>
         </div>
-      </NextLink>
+      </Link>
     </div>
   );
 };

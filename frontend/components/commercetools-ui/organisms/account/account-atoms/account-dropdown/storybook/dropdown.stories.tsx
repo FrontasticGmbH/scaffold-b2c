@@ -1,12 +1,12 @@
 import React from 'react';
-import { ComponentMeta, ComponentStory } from '@storybook/react';
+import { Meta, StoryFn } from '@storybook/react';
 import AccountDropdownContent from '.';
 import AccountDropdown from '..';
 
 export default {
   title: 'Organisms/Account Popover',
   component: AccountDropdown,
-} as ComponentMeta<typeof AccountDropdown>;
+} as Meta<typeof AccountDropdown>;
 
-const Template: ComponentStory<typeof AccountDropdown> = () => <AccountDropdownContent />;
+const Template: StoryFn<typeof AccountDropdown> = () => <AccountDropdownContent />;
 export const Default = Template.bind({});

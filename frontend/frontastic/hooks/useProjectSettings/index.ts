@@ -5,7 +5,7 @@ import { ProjectSettings } from './types';
 
 const useProjectSettings = () => {
   const response = useSWR<SDKResponse<ProjectSettings>>('action/project/getProjectSettings', () =>
-    sdk.callAction({ actionName: 'project/getProjectSettings' }),
+    sdk.callAction<ProjectSettings>({ actionName: 'project/getProjectSettings' }),
   );
 
   const data = response.data?.isError ? {} : response.data?.data;

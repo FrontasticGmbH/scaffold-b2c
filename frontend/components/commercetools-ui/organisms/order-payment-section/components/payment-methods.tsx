@@ -1,6 +1,6 @@
 import { FC } from 'react';
+import Image from 'components/commercetools-ui/atoms/image';
 import { useFormat } from 'helpers/hooks/useFormat';
-import Image from 'frontastic/lib/image';
 import { PaymentMethodsProps } from '../types';
 
 const PaymentMethods: FC<PaymentMethodsProps> = ({ paymentMethods }) => {
@@ -15,7 +15,7 @@ const PaymentMethods: FC<PaymentMethodsProps> = ({ paymentMethods }) => {
       </div>
       <div className="mt-26 flex items-center justify-start gap-14 md:justify-center lg:mt-16 lg:justify-start">
         {paymentMethods.map(({ name, image }) => (
-          <div key={name} className="relative h-30 w-30">
+          <div key={name} className="relative size-30">
             <Image {...image} fill style={{ objectFit: 'contain' }} />
           </div>
         ))}

@@ -1,10 +1,10 @@
 import { FC, useMemo } from 'react';
 import { ChevronDownIcon } from '@heroicons/react/24/outline';
 import { LineItem } from 'shared/types/cart/LineItem';
+import Image from 'components/commercetools-ui/atoms/image';
 import Typography from 'components/commercetools-ui/atoms/typography';
 import useClassNames from 'helpers/hooks/useClassNames';
 import { useFormat } from 'helpers/hooks/useFormat';
-import Image from 'frontastic/lib/image';
 
 type ClosedButtonProps = {
   hiddenItemsCount: number;

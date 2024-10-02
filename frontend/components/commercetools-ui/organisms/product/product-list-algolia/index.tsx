@@ -1,31 +1,25 @@
 import React, { useMemo } from 'react';
-import { useParams } from 'next/navigation';
-import { Configure, InfiniteHits } from 'react-instantsearch-hooks-web';
-import { Category } from 'shared/types/product/Category';
-import ProductTile from 'components/commercetools-ui/molecules/product-tile';
+import { Configure, InfiniteHits } from 'react-instantsearch';
 import Wrapper from 'components/HOC/wrapper';
-import { mapProduct } from 'helpers/algolia/map-product';
-import { PLP_PRODUCT_CLICKED } from 'helpers/constants/events';
 import { useFormat } from 'helpers/hooks/useFormat';
 import AccumalativeTrace from './components/accumalative-trace';
 import Breadcrumbs from './components/breadcrumb';
 import CurrentRefinements from './components/current-refinements';
 import DesktopFacets from './components/desktop-facets';
+import HitComponent from './components/hit-component';
 import MobileFacets from './components/mobile-facets';
 import SearchHeader from './components/search-header';
-import { FacetConfiguration } from './types';
+import { useProductList } from './context';
 
 interface Props {
   slug?: string;
   searchQuery?: string;
-  categories: Category[];
-  facetsConfiguration: Record<string, FacetConfiguration>;
 }
 
-const ProductListAlgolia: React.FC<Props> = ({ slug, searchQuery, categories, facetsConfiguration }) => {
+const ProductListAlgolia: React.FC<Props> = ({ slug, searchQuery }) => {
   const { formatMessage: formatProductMessage } = useFormat({ name: 'product' });
 
-  const { locale } = useParams();
+  const { categories, facetsConfiguration } = useProductList();
 
   const category = useMemo(() => categories.find((category) => category.slug === slug), [categories, slug]);
 
@@ -53,15 +47,7 @@ const ProductListAlgolia: React.FC<Props> = ({ slug, searchQuery, categories, fa
 
         <InfiniteHits
           showPrevious={false}
-          hitComponent={({ hit }) => (
-            <ProductTile
-              product={mapProduct(hit, locale)}
-              isSearchResult={!!searchQuery}
-              onClick={() => {
-                gtag('event', PLP_PRODUCT_CLICKED, hit);
-              }}
-            />
-          )}
+          hitComponent={HitComponent}
           classNames={{
             root: 'pt-32',
             list: 'grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-16 lg:gap-24',

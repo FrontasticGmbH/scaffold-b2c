@@ -4,9 +4,16 @@ import Button from 'components/commercetools-ui/atoms/button';
 import Typography from 'components/commercetools-ui/atoms/typography';
 import Modal from 'components/commercetools-ui/organisms/modal';
 import { useFormat } from 'helpers/hooks/useFormat';
+import { Account } from 'types/entity/account';
 import Login from '../../authentication/login';
 
-const LoginSuggestion = () => {
+interface Props {
+  login?: (email: string, password: string, rememberMe?: boolean) => Promise<Account>;
+  requestConfirmationEmail?: (email: string, password: string) => Promise<{ error?: boolean; message?: string }>;
+  requestPasswordReset?: (email: string) => Promise<{ error?: boolean; message?: string }>;
+}
+
+const LoginSuggestion = ({ login, requestConfirmationEmail, requestPasswordReset }: Props) => {
   const { formatMessage: formatCartMessage } = useFormat({ name: 'cart' });
   const { formatMessage: formatAccountMessage } = useFormat({ name: 'account' });
 
@@ -42,11 +49,20 @@ const LoginSuggestion = () => {
         closeTimeoutMS={200}
       >
         <CloseIcon
-          className="absolute right-20 top-20 h-24 w-24 cursor-pointer text-secondary-black"
+          className="absolute right-20 top-20 size-24 cursor-pointer text-secondary-black"
           onClick={closeLoginModal}
         />
         <div className="p-1 pb-48 pt-72">
-          <Login onLogin={closeLoginModal} signInLink={{ type: 'link', link: loginLink }} />
+          <Login
+            login={async (email, password, rememberMe) => {
+              const res = await login?.(email, password, rememberMe);
+              if (!!res?.accountId) closeLoginModal();
+              return res as Account;
+            }}
+            requestConfirmationEmail={requestConfirmationEmail}
+            requestPasswordReset={requestPasswordReset}
+            signInLink={{ type: 'link', link: loginLink }}
+          />
         </div>
       </Modal>
     </>

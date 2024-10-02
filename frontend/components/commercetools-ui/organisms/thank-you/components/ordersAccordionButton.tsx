@@ -1,7 +1,7 @@
 import { FC } from 'react';
 import { ChevronDownIcon } from '@heroicons/react/24/outline';
 import { Order } from 'shared/types/cart/Order';
-import Image from 'frontastic/lib/image';
+import Image from 'components/commercetools-ui/atoms/image';
 
 type OrdersAccordionButtonProps = { order?: Order };
 

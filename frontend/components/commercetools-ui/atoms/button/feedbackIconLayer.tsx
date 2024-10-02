@@ -27,7 +27,11 @@ const FeedbackIconLayer: FC<FeedbackIconLayerProps> = ({ loading, variant = 'pri
 
   return (
     <span className={layerClassName}>
-      {loading ? <LoadingIcon className={loadingIconClassName} /> : <CheckIcon className={checkIconClassName} />}
+      {loading ? (
+        <LoadingIcon className={loadingIconClassName} />
+      ) : (
+        <CheckIcon data-testid="check-icon" className={checkIconClassName} />
+      )}
     </span>
   );
 };

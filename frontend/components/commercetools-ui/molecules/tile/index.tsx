@@ -1,9 +1,9 @@
 import Button from 'components/commercetools-ui/atoms/button';
+import Image, { ImageProps } from 'components/commercetools-ui/atoms/image';
 import Link from 'components/commercetools-ui/atoms/link';
 import Typography from 'components/commercetools-ui/atoms/typography';
 import useClassNames from 'helpers/hooks/useClassNames';
 import { Reference } from 'types/reference';
-import Image, { ImageProps } from 'frontastic/lib/image';
 
 export interface TileProps {
   image?: ImageProps;

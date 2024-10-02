@@ -1,9 +1,9 @@
 import React, { FC } from 'react';
+import Image from 'components/commercetools-ui/atoms/image';
 import Link from 'components/commercetools-ui/atoms/link';
 import Typography from 'components/commercetools-ui/atoms/typography';
 import { Tile } from 'components/commercetools-ui/organisms/header/types';
 import useClassNames from 'helpers/hooks/useClassNames';
-import Image from 'frontastic/lib/image';
 
 export interface Props {
   tileContent: Tile;

@@ -1,5 +1,5 @@
+import { ImageProps } from 'components/commercetools-ui/atoms/image';
 import { Reference } from 'types/reference';
-import { ImageProps } from 'frontastic/lib/image';
 
 export type ContentSliderSlideProps = {
   image: ImageProps;

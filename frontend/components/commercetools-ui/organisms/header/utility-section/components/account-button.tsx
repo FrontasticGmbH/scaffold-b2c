@@ -1,14 +1,14 @@
-import React, { useMemo } from 'react';
+import React, { useContext, useMemo } from 'react';
 import { Popover } from '@headlessui/react';
 import { UserIcon } from '@heroicons/react/24/outline';
 import Link from 'components/commercetools-ui/atoms/link';
 import Typography from 'components/commercetools-ui/atoms/typography';
 import AccountDropdown from 'components/commercetools-ui/organisms/account/account-atoms/account-dropdown';
+import { AccountContext } from 'context/account';
 import { useFormat } from 'helpers/hooks/useFormat';
-import { useAccount } from 'frontastic';
 
 const AccountButton = () => {
-  const { account, loggedIn } = useAccount();
+  const { account, loggedIn } = useContext(AccountContext);
   const { formatMessage: formatAccountMessage } = useFormat({ name: 'account' });
   const userName = useMemo(() => {
     return `${account?.salutation ?? formatAccountMessage({ id: 'hello', defaultMessage: 'Hi, ' })} ${
@@ -44,7 +44,7 @@ const AccountButton = () => {
             <Popover.Overlay className="fixed inset-0 z-[310] bg-secondary-black opacity-30" />
             <Popover.Panel className="absolute left-15 top-50 z-[351] animate-[appearDropdown_0.15s_ease-in-out] rounded-sm bg-white shadow-400">
               <div className="absolute -top-20 left-1/2 z-10 w-31 -translate-x-1/2 overflow-hidden">
-                <div className="h-21 w-21 origin-bottom-left rotate-45 bg-white" />
+                <div className="size-21 origin-bottom-left rotate-45 bg-white" />
               </div>
               <AccountDropdown loggedIn={loggedIn} />
             </Popover.Panel>

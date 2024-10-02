@@ -1,11 +1,11 @@
 import { useCallback } from 'react';
-import { sdk } from 'sdk';
 import {
-  PaymentMethod,
   PaymentResponse,
   PaymentRequestPayload,
   KlarnaPaymentRequestPayload,
+  PaymentProviderMethod,
 } from 'components/commercetools-ui/organisms/checkout/provider/payment/types';
+import { sdk } from 'sdk';
 
 const useAdyen = () => {
   const getPaymentMethods = useCallback(async () => {
@@ -13,7 +13,7 @@ const useAdyen = () => {
       actionName: 'adyen/getPaymentMethods',
     });
 
-    return response.isError ? [] : (response.data as PaymentMethod[]);
+    return response.isError ? [] : (response.data as PaymentProviderMethod[]);
   }, []);
 
   const makePayment = useCallback(async (data: PaymentRequestPayload | KlarnaPaymentRequestPayload) => {

@@ -1,5 +1,5 @@
 import { useMemo } from 'react';
-import { useHits } from 'react-instantsearch-hooks';
+import { useHits } from 'react-instantsearch';
 import BooleanFacet from '../components/facets/boolean';
 import ColorFacet from '../components/facets/color';
 import RangeFacet from '../components/facets/range';

@@ -32,7 +32,7 @@ const withBundleAnalyzer = require('@next/bundle-analyzer')({
 
 /** @type {import('next').NextConfig} */
 const config = {
-  reactStrictMode: true,  
+  reactStrictMode: true,
   trailingSlash: true,
   images: {
     loader: 'custom',
@@ -41,7 +41,12 @@ const config = {
   },
   productionBrowserSourceMaps: true,
   env: {
-    NEXT_PUBLIC_EXT_BUILD_ID: process.env.NEXT_PUBLIC_EXT_BUILD_ID ?? JSON.stringify(process.env.NETLIFY ? process.env.COMMIT_REF.substring(0, 7) : 'staging'),
+    NEXT_PUBLIC_EXT_BUILD_ID:
+      process.env.NEXT_PUBLIC_EXT_BUILD_ID ??
+      JSON.stringify(process.env.NETLIFY ? process.env.COMMIT_REF.substring(0, 7) : 'staging'),
+  },
+  compiler: {
+    reactRemoveProperties: { properties: ['^data-test'] },
   },
   webpack(config) {
     config.module.rules.push({

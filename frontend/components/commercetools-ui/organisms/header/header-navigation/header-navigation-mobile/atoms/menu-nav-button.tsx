@@ -1,9 +1,9 @@
 import React, { FC } from 'react';
 import { ChevronRightIcon } from '@heroicons/react/24/outline';
-import { Category } from 'shared/types/product/Category';
 import Link from 'components/commercetools-ui/atoms/link';
 import Typography from 'components/commercetools-ui/atoms/typography';
 import useClassNames from 'helpers/hooks/useClassNames';
+import { Category } from 'types/entity/category';
 
 export interface Props {
   link: Category;

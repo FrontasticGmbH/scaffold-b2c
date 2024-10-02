@@ -1,27 +1,37 @@
 import { FC, useState } from 'react';
-import { Category } from 'shared/types/product';
-import { Product } from 'shared/types/product/Product';
 import usePath from 'helpers/hooks/usePath';
 import usePreloadImages from 'helpers/hooks/usePreloadImages';
 import { toUIColor } from 'helpers/mappers/toUIColor';
 import { toUIProduct } from 'helpers/mappers/toUIProduct';
 import { toUISize } from 'helpers/mappers/toUIsize';
+import { ShippingMethod } from 'types/entity/cart';
+import { Category } from 'types/entity/category';
+import { Product, Variant } from 'types/entity/product';
+import { LineItem, Wishlist } from 'types/entity/wishlist';
 import ProductDetails, { ProductDetailsProps } from '..';
 
 type ProductDetailsAdapterProps = {
   product: Product;
   inModalVersion?: ProductDetailsProps['inModalVersion'];
   categories: Category[];
+  wishlist?: Wishlist;
+  shippingMethods?: ShippingMethod[];
   setIsOpen?: (value: boolean) => void;
-  onAddToCart?: () => void;
+  removeLineItem?: (item: LineItem) => Promise<void>;
+  addToWishlist?: (lineItem: LineItem, count: number) => Promise<void>;
+  onAddToCart?: (variant: Variant, quantity: number) => Promise<void>;
 };
 
 const ProductDetailsAdapter: FC<ProductDetailsAdapterProps> = ({
   product,
   inModalVersion,
-  setIsOpen,
   categories,
+  wishlist,
+  shippingMethods,
+  setIsOpen,
   onAddToCart,
+  removeLineItem,
+  addToWishlist,
 }) => {
   const { path } = usePath();
 
@@ -56,9 +66,13 @@ const ProductDetailsAdapter: FC<ProductDetailsAdapterProps> = ({
       category={category}
       url={product._url}
       inModalVersion={inModalVersion}
+      wishlist={wishlist}
+      shippingMethods={shippingMethods}
       onChangeVariant={handleChangeVariant}
       setIsOpen={setIsOpen}
       onAddToCart={onAddToCart}
+      removeLineItem={removeLineItem}
+      addToWishlist={addToWishlist}
     />
   );
 };

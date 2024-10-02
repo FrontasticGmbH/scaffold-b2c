@@ -19,7 +19,7 @@
       }
     }
   },
-  "ignorePatterns": ["node_modules", "out", "*.config.js"],
+  "ignorePatterns": ["node_modules", "jest", "out", "*.config.js"],
   "rules": {
     "@typescript-eslint/no-empty-function": "off",
     "tailwindcss/classnames-order": ["warn", { "officialSorting": true }],
@@ -72,5 +72,15 @@
         }
       }
     ]
-  }
+  },
+  "overrides": [
+    {
+      "files": ["**/*.spec.{ts,tsx}"],
+      "extends": ["plugin:jest/recommended"],
+      "env": {
+        "jest": true
+      },
+      "plugins": ["jest"]
+    }
+  ]
 }

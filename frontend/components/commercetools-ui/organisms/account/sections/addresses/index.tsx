@@ -1,9 +1,9 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useContext, useEffect, useState } from 'react';
 import { Address as AddressType } from 'shared/types/account';
 import Link from 'components/commercetools-ui/atoms/link';
 import Typography from 'components/commercetools-ui/atoms/typography';
+import { AccountContext } from 'context/account';
 import { useFormat } from 'helpers/hooks/useFormat';
-import { useAccount } from 'frontastic';
 import Address from './address';
 import { AddressFormData } from './address-form';
 import usePropsToAddressType from './mapPropsToAddressType';
@@ -13,7 +13,7 @@ const Addresses = () => {
 
   const { mapPropsToAddress } = usePropsToAddressType();
 
-  const { account, defaultBillingAddress, defaultShippingAddress } = useAccount();
+  const { account, defaultBillingAddress, defaultShippingAddress } = useContext(AccountContext);
   const addresses = account?.addresses;
 
   const [selectedBillingAddress, setSelectedBillingAddress] = useState<AddressType>();

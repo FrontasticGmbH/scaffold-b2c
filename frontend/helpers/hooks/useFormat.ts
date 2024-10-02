@@ -26,7 +26,7 @@ export const useFormat = (args?: Pick<FormatMessageParams, 'name'>) => {
       //if the returned translated message is the same as the id, thus the key is not existent
       //if that's the case we return the default message
       //--In case the defualt message is not passed as well, we basically return the id
-      translatedMessage = translatedMessage === key ? defaultMessage ?? key : translatedMessage;
+      translatedMessage = translatedMessage === key ? (defaultMessage ?? key) : translatedMessage;
 
       return translatedMessage;
     },

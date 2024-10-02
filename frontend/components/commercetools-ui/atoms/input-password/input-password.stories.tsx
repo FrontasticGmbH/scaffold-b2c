@@ -1,5 +1,5 @@
 import React from 'react';
-import { ComponentStory, Meta } from '@storybook/react';
+import { Meta, StoryFn } from '@storybook/react';
 import PasswordInput from '.';
 import Typography from '../typography';
 
@@ -9,7 +9,7 @@ export default {
   argTypes: {},
 } as Meta;
 
-const Template: ComponentStory<typeof PasswordInput> = (args) => (
+const Template: StoryFn<typeof PasswordInput> = (args) => (
   <div className="ml-44">
     <Typography className="mt-40 w-2/5 text-28 font-bold text-black">Input Field</Typography>
     <Typography className="mt-20 w-3/5 text-20 leading-loose text-neutral-700">

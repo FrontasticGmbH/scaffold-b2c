@@ -1,30 +1,36 @@
-import { useCallback } from 'react';
+import { useCallback, useContext } from 'react';
 import { useParams, useRouter } from 'next/navigation';
 import toast from 'react-hot-toast';
 import * as uuid from 'uuid';
 import { PaymentResponse } from 'components/commercetools-ui/organisms/checkout/provider/payment/types';
+import { AccountContext } from 'context/account';
 import { useFormat } from 'helpers/hooks/useFormat';
 import useI18n from 'helpers/hooks/useI18n';
 import { Guid } from 'helpers/utils/guid';
 import { getLocalizationInfo } from 'project.config';
 import { sdk } from 'sdk';
-import { useAccount, useCart } from 'frontastic';
+import { Cart } from 'types/entity/cart';
+import { Transaction } from 'frontastic/hooks/useCart/types';
 import { useCheckout } from '../provider';
 
-const usePurchase = () => {
+interface Options {
+  cart?: Cart;
+  transaction: Transaction;
+  hasOutOfStockItems?: boolean;
+}
+const usePurchase = ({ cart, transaction, hasOutOfStockItems }: Options) => {
   const { formatMessage: formatCheckoutMessage } = useFormat({ name: 'checkout' });
 
   const router = useRouter();
   const { locale } = useParams();
   const { country } = useI18n();
-  const { account } = useAccount();
-  const { transaction, data, hasOutOfStockItems } = useCart();
+  const { account } = useContext(AccountContext);
   const { makePayment, makeKlarnaPayment, paymentData, paymentDataIsValid, handleThreeDS2Action, setProcessing } =
     useCheckout();
 
   const handlePaymentResponse = useCallback(
     async (response: PaymentResponse, orderNumber: string) => {
-      if (['Authorised', 'RedirectShopper', 'IdentifyShopper', 'ChallengeShopper'].includes(response.resultCode)) {
+      if (['Authorised', 'RedirectShopper', 'IdentifyShopper', 'ChallengeShopper'].includes(response?.resultCode)) {
         if (!response.action) {
           await sdk.callAction({ actionName: 'cart/resetCart' });
           router.push(`/thank-you?orderId=${orderNumber}`);
@@ -55,10 +61,10 @@ const usePurchase = () => {
   );
 
   const purchase = useCallback(async () => {
-    if (!data?.shippingAddress || !data?.billingAddress || !data?.shippingInfo) return;
+    if (!cart?.shippingAddress || !cart?.billingAddress || !cart?.shippingInfo) return;
 
     if (hasOutOfStockItems) {
-      const outOfStockItems = data?.lineItems?.filter((lineItem) => lineItem.variant?.isOnStock) ?? [];
+      const outOfStockItems = cart?.lineItems?.filter((lineItem) => lineItem.variant?.isOnStock) ?? [];
 
       toast.error(
         `${formatCheckoutMessage({
@@ -113,7 +119,7 @@ const usePurchase = () => {
           timeZoneOffset: new Date().getTimezoneOffset(),
           userAgent: navigator.userAgent,
         },
-        metadata: { cartId: data.cartId },
+        metadata: { cartId: cart.cartId },
       });
     }
 
@@ -125,7 +131,7 @@ const usePurchase = () => {
         shopperReference: account?.accountId ?? uuid.v4(),
         countryCode: country,
         shopperLocale: getLocalizationInfo(locale).locale,
-        lineItems: (data?.lineItems ?? []).map((lineItem) => ({
+        lineItems: (cart?.lineItems ?? []).map((lineItem) => ({
           id: lineItem.lineItemId as string,
           quantity: (lineItem.count ?? 1).toString() as string,
           description: lineItem.name as string,
@@ -133,7 +139,7 @@ const usePurchase = () => {
           productUrl: lineItem._url,
           imageUrl: lineItem.variant?.images?.[0],
         })),
-        metadata: { cartId: data.cartId },
+        metadata: { cartId: cart.cartId },
       });
     }
 
@@ -141,6 +147,7 @@ const usePurchase = () => {
 
     setProcessing(false);
   }, [
+    cart,
     setProcessing,
     makePayment,
     hasOutOfStockItems,
@@ -150,7 +157,6 @@ const usePurchase = () => {
     makeKlarnaPayment,
     account?.accountId,
     country,
-    data,
     paymentDataIsValid,
     handlePaymentResponse,
     formatCheckoutMessage,

@@ -398,7 +398,7 @@ export class ProductMapper {
 
     for (const value of commercetoolsAttributeValues) {
       const attributeValueLabel =
-        commercetoolsAttributeTypeName === 'enum' ? value.label : value.label?.[locale.language] ?? value.key;
+        commercetoolsAttributeTypeName === 'enum' ? value.label : (value.label?.[locale.language] ?? value.key);
 
       filterFieldValues.push({
         value: attributeValueLabel,

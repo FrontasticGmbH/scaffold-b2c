@@ -9,6 +9,7 @@ type Props = {
 
 const Icon: FC<Props> = ({ className, onClick, pathClassName = '' }) => (
   <svg
+    data-testid="heart-icon"
     className={className}
     width="24"
     height="24"

@@ -10,7 +10,7 @@ const ColorFacet: React.FC<FacetProps> = ({ attribute }) => {
   const facet = useMemo(() => facetsConfiguration[attribute] as ColorFacetType, [facetsConfiguration, attribute]);
 
   return (
-    <div className="grid grid-cols-3 items-center justify-start gap-x-54 gap-y-36 lg:min-w-[340px]">
+    <div className="grid grid-cols-3 items-center justify-start gap-x-54 gap-y-36 lg:min-w-340">
       {facet.terms.map(({ identifier, key, selected, count }) => {
         const color = textToColor(key);
         return (
@@ -20,7 +20,7 @@ const ColorFacet: React.FC<FacetProps> = ({ attribute }) => {
             onClick={() => refine(attribute, key)}
           >
             <div
-              className={`h-40 w-40 rounded-full outline outline-1 outline-offset-1 ${
+              className={`size-40 rounded-full outline outline-1 outline-offset-1 ${
                 selected ? 'outline-gray-500' : 'outline-transparent'
               } ${['#ffffff', 'transparent'].includes(color.code.toLowerCase()) ? 'border border-gray-500' : ''}`}
               style={{ backgroundColor: color.code }}

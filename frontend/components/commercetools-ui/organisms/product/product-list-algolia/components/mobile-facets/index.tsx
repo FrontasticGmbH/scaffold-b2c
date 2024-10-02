@@ -1,7 +1,7 @@
 import { useMemo, useState } from 'react';
 import { XMarkIcon as CloseIcon } from '@heroicons/react/24/outline';
 import { AdjustmentsHorizontalIcon as FiltersIcon } from '@heroicons/react/24/solid';
-import { useHits } from 'react-instantsearch-hooks-web';
+import { useHits } from 'react-instantsearch';
 import Accordion from 'components/commercetools-ui/atoms/accordion';
 import Drawer from 'components/commercetools-ui/atoms/drawer';
 import { useFormat } from 'helpers/hooks/useFormat';
@@ -81,7 +81,7 @@ const MobileFacets: React.FC<Props> = ({ facetsConfiguration }) => {
       <div className="flex items-center justify-between border-b border-neutral-400 pb-16 pt-40 lg:hidden">
         <div>
           <button
-            className="flex min-w-[80px] cursor-pointer items-center gap-8 rounded-md border border-transparent bg-white px-12 py-6 text-14 leading-[20px] transition hover:border-gray-500"
+            className="flex min-w-80 cursor-pointer items-center gap-8 rounded-md border border-transparent bg-white px-12 py-6 text-14 leading-[20px] transition hover:border-gray-500"
             onClick={() => setIsOpen(true)}
           >
             <span className="text-14">
@@ -96,12 +96,7 @@ const MobileFacets: React.FC<Props> = ({ facetsConfiguration }) => {
           </span>
         </div>
       </div>
-      <Drawer
-        isOpen={isOpen}
-        onClose={() => setIsOpen(false)}
-        direction="left"
-        className="w-[90%] max-w-[400px] bg-white"
-      >
+      <Drawer isOpen={isOpen} onClose={() => setIsOpen(false)} direction="left" className="w-[90%] max-w-400 bg-white">
         <div className="flex items-center justify-between border-b border-neutral-400 px-12 py-16">
           <h3 className="text-18">{formatProductMessage({ id: 'sortAndFilter', defaultMessage: 'Filter & Sort' })}</h3>
           <CloseIcon className="w-24 stroke-secondary-black" onClick={() => setIsOpen(false)} />

@@ -1,5 +1,5 @@
 import React from 'react';
-import { useRefinementList } from 'react-instantsearch-hooks-web';
+import { useRefinementList } from 'react-instantsearch';
 import Checkbox from 'components/commercetools-ui/atoms/checkbox';
 import { FacetProps } from './types';
 import useRefinementHelpers from '../../hooks/useRefinementHelpers';
@@ -11,7 +11,7 @@ const TermFacet: React.FC<FacetProps> = ({ attribute }) => {
 
   return (
     <div>
-      <div className="flex flex-col gap-47 py-22 lg:min-w-[340px]">
+      <div className="flex flex-col gap-47 py-22 lg:min-w-340">
         {items.map((term) => (
           <div key={term.value} className="flex items-center justify-between gap-8">
             <div>{resolveLabel(attribute, term.label)}</div>

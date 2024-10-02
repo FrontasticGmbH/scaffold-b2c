@@ -66,10 +66,14 @@ const Select: React.FC<Props> = ({
       <Listbox value={selected} onChange={handleChange}>
         {({ open }) => (
           <div className="relative w-full">
-            <Listbox.Button className={buttonClassNames(open)}>
+            <Listbox.Button className={buttonClassNames(open)} data-test-error={error ? '1' : '0'}>
               <span className="text-14">{selected?.name}</span>
               <span className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-8">
-                <ChevronDownIcon className="h-20 w-20 text-secondary-black" aria-hidden="true" />
+                <ChevronDownIcon
+                  data-testid="chevron-down-icon"
+                  className="size-20 text-secondary-black"
+                  aria-hidden="true"
+                />
               </span>
             </Listbox.Button>
             <Transition
@@ -105,7 +109,7 @@ const Select: React.FC<Props> = ({
                         </span>
                         {selected ? (
                           <span className="absolute inset-y-0 left-0 flex items-center pl-3">
-                            <CheckIcon className="h-5 w-5" aria-hidden="true" />
+                            <CheckIcon className="size-5" aria-hidden="true" />
                           </span>
                         ) : null}
                       </>

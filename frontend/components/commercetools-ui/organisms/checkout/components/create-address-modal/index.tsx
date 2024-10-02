@@ -1,14 +1,14 @@
-import React, { useCallback, useMemo, useState } from 'react';
+import React, { useCallback, useContext, useMemo, useState } from 'react';
 import Button from 'components/commercetools-ui/atoms/button';
 import Checkbox from 'components/commercetools-ui/atoms/checkbox';
 import Dropdown from 'components/commercetools-ui/atoms/dropdown';
 import Modal from 'components/commercetools-ui/organisms/modal';
+import { AccountContext } from 'context/account';
 import { useFormat } from 'helpers/hooks/useFormat';
 import useGeo from 'helpers/hooks/useGeo';
 import useI18n from 'helpers/hooks/useI18n';
 import useProcessing from 'helpers/hooks/useProcessing';
 import countryStates from 'static/states.json';
-import { useAccount } from 'frontastic';
 import AddressForm from '../steps/sections/addresses/components/address-form';
 import { Fields, FieldsOptions } from '../steps/sections/addresses/components/address-form/types';
 import useMappers from '../steps/sections/addresses/hooks/useMappers';
@@ -25,7 +25,7 @@ const CreateAddressModal = () => {
 
   const { addressToAccountAddress } = useMappers();
 
-  const { addShippingAddress, addBillingAddress, loggedIn } = useAccount();
+  const { addShippingAddress, addBillingAddress, loggedIn } = useContext(AccountContext);
 
   const { country } = useI18n();
 

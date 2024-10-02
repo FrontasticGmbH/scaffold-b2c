@@ -15,8 +15,8 @@ const EditCTA: FC<EditCTAProps> = ({ editHref }) => {
       <Typography className="hidden border-b border-transparent text-14 font-medium text-primary-black hover:cursor-pointer hover:border-primary-black md:block">
         {formatMessage({ id: 'edit', defaultMessage: 'Edit' })}
       </Typography>
-      <div className="relative grid h-40 w-40 items-center justify-items-center rounded-full bg-neutral-200 shadow-100 md:hidden">
-        <PencilSquareIcon className="absolute h-20 w-20 text-secondary-black" />
+      <div className="relative grid size-40 items-center justify-items-center rounded-full bg-neutral-200 shadow-100 md:hidden">
+        <PencilSquareIcon className="absolute size-20 text-secondary-black" />
       </div>
     </Link>
   );

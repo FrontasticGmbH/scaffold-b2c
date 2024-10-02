@@ -1,6 +1,7 @@
 import React, { ComponentProps, FC, MutableRefObject, useCallback, useEffect, useMemo, useState } from 'react';
 import { CheckIcon } from '@heroicons/react/24/outline';
 import useClassNames from 'helpers/hooks/useClassNames';
+import useControllableState from 'helpers/hooks/useControllable';
 import Typography from '../typography';
 
 export interface InputProps extends Omit<ComponentProps<'input'>, 'onChange' | 'key'> {
@@ -28,14 +29,16 @@ const Input: FC<InputProps> = ({
   labelPosition = 'top',
   className = '',
   innerRef,
-  value,
+  value: valueProp,
   errorMessage,
   validation,
   children,
   hideCheckIcon,
   isValid: isValidProp,
+  defaultValue = '',
   ...props
 }) => {
+  const [value, setValue] = useControllableState(valueProp, defaultValue);
   const [isFocused, setIsFocused] = useState(false);
   const [isTouched, setIsTouched] = useState(false);
   const [isValid, setIsValid] = useState(false);
@@ -54,9 +57,10 @@ const Input: FC<InputProps> = ({
   const handleChange = useCallback(
     (event: React.ChangeEvent<HTMLInputElement>) => {
       onChange?.(event);
+      setValue(event.target.value);
       setIsEdited(true);
     },
-    [onChange],
+    [onChange, setValue],
   );
 
   const handleFocus = useCallback(
@@ -142,7 +146,10 @@ const Input: FC<InputProps> = ({
           {...props}
         />
         {(isValid || (isValidProp && !isInActiveState)) && !isFocused && !hideCheckIcon && (
-          <CheckIcon className="absolute right-12 top-1/2 h-16 w-16 -translate-y-1/2 text-green-500" />
+          <CheckIcon
+            data-testid="check-icon"
+            className="absolute right-12 top-1/2 size-16 -translate-y-1/2 text-green-500"
+          />
         )}
         {children}
       </div>

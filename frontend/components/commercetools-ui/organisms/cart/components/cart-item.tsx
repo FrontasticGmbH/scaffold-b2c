@@ -1,32 +1,29 @@
-import React, { useCallback, useMemo, useState } from 'react';
+import React, { useCallback, useState } from 'react';
 import { useParams } from 'next/navigation';
 import { TrashIcon } from '@heroicons/react/24/outline';
-import { LineItem } from 'shared/types/cart/LineItem';
-import { LineItem as LineItemWishlist } from 'shared/types/wishlist/LineItem';
+import { LineItem as CartLineItem } from 'shared/types/cart/LineItem';
+import Image from 'components/commercetools-ui/atoms/image';
 import OutOfStock from 'components/commercetools-ui/atoms/out-of-stock';
 import { CurrencyHelpers } from 'helpers/currencyHelpers';
 import useClassNames from 'helpers/hooks/useClassNames';
 import { useFormat } from 'helpers/hooks/useFormat';
-import { useCart, useWishlist } from 'frontastic';
-import Image from 'frontastic/lib/image';
 
 interface ClassNames {
   moveToWishlist?: string;
 }
 
-export interface Props {
-  item: LineItem;
+interface Props {
+  item: CartLineItem;
   classNames?: ClassNames;
+  onRemoveItem(): Promise<void>;
+  onUpdateItem(quantity: number): Promise<void>;
+  OnMoveToWishlist(): Promise<void>;
 }
 
-const CartItem: React.FC<Props> = ({ item, classNames = {} }) => {
+const CartItem: React.FC<Props> = ({ item, onRemoveItem, onUpdateItem, OnMoveToWishlist, classNames = {} }) => {
   const { locale } = useParams();
 
   const { formatMessage: formatCartMessage } = useFormat({ name: 'cart' });
-
-  const { removeItem, updateItem } = useCart();
-
-  const { data: wishlist, addToWishlist } = useWishlist();
 
   const [processing, setProcessing] = useState(false);
 
@@ -35,42 +32,47 @@ const CartItem: React.FC<Props> = ({ item, classNames = {} }) => {
     processing ? 'cursor-not-allowed bg-neutral-300' : 'cursor-pointer bg-white',
   ]);
 
-  const updateCartItem = useCallback(
-    async (newQuantity: number) => {
+  const deleteButtonClassName = useClassNames(['block', processing ? 'cursor-not-allowed' : 'cursor-pointer']);
+
+  const wishlistButtonClassName = useClassNames([
+    'text-secondary-black decoration-secondary-black decoration-solid hover:underline hover:underline-offset-2',
+    classNames.moveToWishlist,
+    processing ? 'cursor-not-allowed' : 'cursor-pointer',
+  ]);
+
+  const handleUpdateItem = useCallback(
+    async (quantity: number) => {
       if (processing) return;
 
       setProcessing(true);
 
-      if (newQuantity < 1) await removeItem(item.lineItemId as string);
-      else await updateItem(item.lineItemId as string, newQuantity);
+      await (quantity < 1 ? onRemoveItem() : onUpdateItem(quantity));
 
       setProcessing(false);
     },
-    [updateItem, removeItem, processing, item],
+    [onUpdateItem, onRemoveItem, processing],
   );
 
-  const cartLineItemToWishlistLineItem = useMemo<LineItemWishlist>(() => {
-    return {
-      lineItemId: item.lineItemId ?? '',
-      productId: item.productId,
-      name: item.name,
-      type: item.type,
-      count: 1,
-      variant: item.variant,
-      addedAt: new Date(),
-      _url: item._url,
-    };
-  }, [item]);
+  const handleRemoveItem = useCallback(async () => {
+    if (processing) return;
 
-  const moveToWishlist = useCallback(async () => {
-    if (item.lineItemId) await removeItem(item.lineItemId);
-    if (wishlist) addToWishlist(wishlist, cartLineItemToWishlistLineItem, 1);
-  }, [removeItem, item.lineItemId, addToWishlist, wishlist, cartLineItemToWishlistLineItem]);
+    setProcessing(true);
+    await onRemoveItem();
+    setProcessing(false);
+  }, [onRemoveItem, processing]);
+
+  const handleMoveToWishlist = useCallback(async () => {
+    if (processing) return;
+
+    setProcessing(true);
+    await OnMoveToWishlist();
+    setProcessing(false);
+  }, [OnMoveToWishlist, processing]);
 
   return (
     <div className="flex max-w-full items-stretch justify-start gap-10 py-18 md:gap-15">
       <div className="w-125 shrink-0 bg-white p-12">
-        <div className="relative h-full w-full rounded-sm">
+        <div className="relative size-full rounded-sm">
           <Image src={item.variant?.images?.[0]} suffix="small" style={{ objectFit: 'contain' }} fill />
         </div>
       </div>
@@ -82,13 +84,13 @@ const CartItem: React.FC<Props> = ({ item, classNames = {} }) => {
           >
             {item.name}
           </p>
-          <i onClick={() => removeItem(item.lineItemId ?? '')} className="block cursor-pointer">
+          <i onClick={handleRemoveItem} className={deleteButtonClassName}>
             <TrashIcon stroke="#494949" className="w-20" />
           </i>
         </div>
         {!item.variant?.isOnStock && (
           <div className="mt-8">
-            <OutOfStock variant={item.variant} />
+            <OutOfStock />
           </div>
         )}
         <div className="mt-8">
@@ -110,14 +112,14 @@ const CartItem: React.FC<Props> = ({ item, classNames = {} }) => {
         <div className="mt-16">
           <div className={counterClassName}>
             <button
-              onClick={() => updateCartItem((item.count as number) - 1)}
+              onClick={() => handleUpdateItem((item.count as number) - 1)}
               className="cursor-[inherit] py-3 pl-12 text-secondary-black"
             >
               -
             </button>
             <span className="py-3 text-14 text-secondary-black">{item.count}</span>
             <button
-              onClick={() => updateCartItem((item.count as number) + 1)}
+              onClick={() => handleUpdateItem((item.count as number) + 1)}
               className="cursor-[inherit] py-3 pr-12 text-secondary-black"
             >
               +
@@ -125,12 +127,7 @@ const CartItem: React.FC<Props> = ({ item, classNames = {} }) => {
           </div>
         </div>
         <div className="mt-16 text-12">
-          <p
-            className={`cursor-pointer text-secondary-black decoration-secondary-black decoration-solid hover:underline hover:underline-offset-2 ${
-              classNames.moveToWishlist ?? ''
-            }`}
-            onClick={moveToWishlist}
-          >
+          <p className={wishlistButtonClassName} onClick={handleMoveToWishlist}>
             {formatCartMessage({ id: 'move.to.wishlist', defaultMessage: 'Move to wishlist' })}
           </p>
         </div>

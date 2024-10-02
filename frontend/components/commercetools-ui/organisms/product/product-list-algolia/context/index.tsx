@@ -1,36 +1,53 @@
-import React, { createContext, useCallback, useContext, useMemo, useState } from 'react';
+import React, { createContext, useCallback, useContext, useState } from 'react';
 import { CurrentRefinementsConnectorParamsRefinement } from 'instantsearch.js/es/connectors/current-refinements/connectCurrentRefinements';
-import { useClearRefinements, useCurrentRefinements } from 'react-instantsearch-hooks';
+import { useClearRefinements, useCurrentRefinements } from 'react-instantsearch';
+import { ShippingMethod } from 'types/entity/cart';
+import { Category } from 'types/entity/category';
+import { Variant } from 'types/entity/product';
+import { Wishlist, LineItem as WishlistLineItem } from 'types/entity/wishlist';
 import { refinementRemovedEventName, refinementsClearedEventName } from './constants';
 import { ProductListContextShape, RefinementRemovedEvent } from './types';
 import { FacetConfiguration, PriceConfiguration } from '../types';
 
 export const ProductListContext = createContext<ProductListContextShape>({
+  categories: [],
+  shippingMethods: [],
   pricesConfiguration: {},
   facetsConfiguration: {},
   numericRanges: {},
   updateNumericRange() {},
-  updateFacetsConfiguration() {},
-  updatePricesConfiguration() {},
   removeRefinement() {},
   removeAllRefinements() {},
 });
 
-const ProductListProvider = ({ children }: React.PropsWithChildren) => {
-  const [facetsConfiguration, setFacetsConfiguration] = useState<Record<string, FacetConfiguration>>({});
-  const [pricesConfiguration, setPricesConfiguration] = useState<Record<string, PriceConfiguration>>({});
+interface ProductListProviderProps {
+  searchQuery?: string;
+  categories: Category[];
+  shippingMethods?: ShippingMethod[];
+  pricesConfiguration: Record<string, PriceConfiguration>;
+  facetsConfiguration: Record<string, FacetConfiguration>;
+  wishlist?: Wishlist;
+  addToWishlist?: (lineItem: WishlistLineItem, count: number) => Promise<void>;
+  removeFromWishlist?: (item: WishlistLineItem) => Promise<void>;
+  onAddToCart?: (variant: Variant, quantity: number) => Promise<void>;
+}
+
+const ProductListProvider = ({
+  children,
+  searchQuery,
+  categories,
+  shippingMethods,
+  pricesConfiguration,
+  facetsConfiguration,
+  wishlist,
+  addToWishlist,
+  removeFromWishlist,
+  onAddToCart,
+}: React.PropsWithChildren<ProductListProviderProps>) => {
   const [numericRanges, setNumericRanges] = useState<Record<string, [number, number]>>({});
 
   const { items, refine } = useCurrentRefinements();
   const { refine: clearAllRefinements } = useClearRefinements();
-
-  const updateFacetsConfiguration = useCallback((newFacetsConfiguration: Record<string, FacetConfiguration>) => {
-    setFacetsConfiguration(newFacetsConfiguration);
-  }, []);
-
-  const updatePricesConfiguration = useCallback((newPricesConfiguration: Record<string, PriceConfiguration>) => {
-    setPricesConfiguration(newPricesConfiguration);
-  }, []);
 
   const updateNumericRange = useCallback((attribute: string, range: [number, number]) => {
     setNumericRanges((numericRanges) => ({ ...numericRanges, [attribute]: range }));
@@ -67,30 +84,27 @@ const ProductListProvider = ({ children }: React.PropsWithChildren) => {
     window.dispatchEvent(new CustomEvent(refinementsClearedEventName));
   }, [clearAllRefinements]);
 
-  const value = useMemo(
-    () => ({
-      facetsConfiguration,
-      pricesConfiguration,
-      numericRanges,
-      updateNumericRange,
-      updateFacetsConfiguration,
-      updatePricesConfiguration,
-      removeRefinement,
-      removeAllRefinements,
-    }),
-    [
-      facetsConfiguration,
-      pricesConfiguration,
-      numericRanges,
-      updateNumericRange,
-      updateFacetsConfiguration,
-      updatePricesConfiguration,
-      removeRefinement,
-      removeAllRefinements,
-    ],
+  return (
+    <ProductListContext.Provider
+      value={{
+        searchQuery,
+        categories,
+        shippingMethods,
+        facetsConfiguration,
+        pricesConfiguration,
+        numericRanges,
+        wishlist,
+        updateNumericRange,
+        removeRefinement,
+        removeAllRefinements,
+        onAddToCart,
+        addToWishlist,
+        removeFromWishlist,
+      }}
+    >
+      {children}
+    </ProductListContext.Provider>
   );
-
-  return <ProductListContext.Provider value={value}>{children}</ProductListContext.Provider>;
 };
 
 export default ProductListProvider;

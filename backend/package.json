@@ -4,7 +4,7 @@
   "license": "MIT",
   "private": true,
   "main": "./index.ts",
-  "packageManager": "yarn@1.22.22",
+  "packageManager": "yarn@4.4.1",
   "engines": {
     "node": "16.14 - 18.x"
   },
@@ -36,9 +36,9 @@
     "core-js": "^3.20.0",
     "crypto-js": "^4.2.0",
     "dc-delivery-sdk-js": "^0.11.0",
+    "node-fetch": "^2.6.7",
     "nodemailer": "^6.9.10",
     "performance-now": "^2.1.0",
-    "node-fetch": "^2.6.7",
     "qs": "^6.10.1",
     "regenerator-runtime": "^0.13.9"
   },

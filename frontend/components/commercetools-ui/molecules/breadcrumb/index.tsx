@@ -8,7 +8,7 @@ export type BreadcrumbProps = {
 
 const Breadcrumb = ({
   children,
-  Separator,
+  Separator = '/',
   className = '',
   listClassName,
 }: React.PropsWithChildren<BreadcrumbProps>) => {

@@ -2,11 +2,9 @@
 
 import { useEffect, useMemo } from 'react';
 import { useParams, useSearchParams } from 'next/navigation';
-import { InstantSearchServerState, useClearRefinements } from 'react-instantsearch-hooks';
+import { useClearRefinements } from 'react-instantsearch';
 import ProductList from 'components/commercetools-ui/organisms/product/product-list-algolia';
-import ProductListProvider, {
-  useProductList,
-} from 'components/commercetools-ui/organisms/product/product-list-algolia/context';
+import ProductListProvider from 'components/commercetools-ui/organisms/product/product-list-algolia/context';
 import {
   FacetConfiguration,
   PriceConfiguration,
@@ -17,30 +15,22 @@ import Redirect from 'helpers/redirect';
 import { flattenTree } from 'helpers/utils/flattenTree';
 import { getLocalizationInfo } from 'project.config';
 import LocalizedIndex from 'providers/algolia/localized-index';
+import { useCart, useWishlist } from 'frontastic/hooks';
 import { TasticProps } from 'frontastic/tastics/types';
+import useFacetsConfiguration from './hooks/useFacetsConfiguration';
+import usePricesConfiguration from './hooks/usePricesConfiguration';
 
 export interface Props {
   slug?: string;
   searchQuery?: string;
   facetsConfiguration: FacetConfiguration[];
   pricesConfiguration: PriceConfiguration[];
-  serverUrl: string;
-  serverState?: InstantSearchServerState;
 }
 
-function ProductListTastic({ categories, data }: TasticProps<Props>) {
-  const flattenedCategories = useMemo(
-    () => categories.map((category) => flattenTree(category, 'subCategories')).flat(),
-    [categories],
-  );
+function ProductListTastic({ categories }: TasticProps<Props>) {
+  const { slug } = useParams();
 
-  const { updateFacetsConfiguration, updatePricesConfiguration } = useProductList();
-
-  const { locale, slug } = useParams();
-
-  const { currency } = getLocalizationInfo(locale);
-
-  const categorySlug = (slug as string).split('/').at(-1);
+  const categorySlug = slug.at(-1);
 
   const searchParams = useSearchParams();
 
@@ -50,36 +40,6 @@ function ProductListTastic({ categories, data }: TasticProps<Props>) {
 
   const { pathWithoutQuery } = usePath();
 
-  const facetsConfiguration = useMemo<Record<string, FacetConfiguration>>(() => {
-    return (data.facetsConfiguration ?? []).reduce(
-      (acc, configuration) => ({
-        ...acc,
-        [configuration.key.replace(/\{currency\}/, currency)]: {
-          type: configuration.type,
-          label: configuration.label,
-        } as FacetConfiguration,
-      }),
-      {},
-    );
-  }, [data.facetsConfiguration, currency]);
-
-  const pricesConfiguration = useMemo<Record<string, PriceConfiguration>>(() => {
-    return (data.pricesConfiguration ?? []).reduce(
-      (acc, configuration) => ({
-        ...acc,
-        [configuration.key]: {
-          ranges: configuration.ranges,
-        } as PriceConfiguration,
-      }),
-      {},
-    );
-  }, [data.pricesConfiguration]);
-
-  useEffect(() => {
-    updateFacetsConfiguration(facetsConfiguration);
-    updatePricesConfiguration(pricesConfiguration);
-  }, [facetsConfiguration, pricesConfiguration, updateFacetsConfiguration, updatePricesConfiguration]);
-
   useEffect(() => {
     clearAllRefinements();
   }, [clearAllRefinements, pathWithoutQuery]);
@@ -88,27 +48,52 @@ function ProductListTastic({ categories, data }: TasticProps<Props>) {
     if (searchQuery) return true;
     if (!categorySlug) return true;
 
-    return !!flattenedCategories?.find((category) => category.slug === categorySlug);
-  }, [searchQuery, flattenedCategories, categorySlug]);
+    return !!categories?.find((category) => category.slug === categorySlug);
+  }, [searchQuery, categories, categorySlug]);
 
   if (!isCategoryFoundOrSearchQueryExists) return <Redirect target="/404" />;
 
-  return (
-    <ProductList
-      slug={categorySlug}
-      searchQuery={searchQuery}
-      categories={flattenedCategories}
-      facetsConfiguration={facetsConfiguration}
-    />
-  );
+  return <ProductList slug={categorySlug} searchQuery={searchQuery} />;
 }
 
-function ProductListAlgoliaTastic({ data, ...props }: TasticProps<Props>) {
+function ProductListAlgoliaTastic({ data, categories, ...props }: TasticProps<Props>) {
+  const { locale } = useParams();
+
+  const searchParams = useSearchParams();
+
+  const searchQuery = searchParams.get('query') as string;
+
+  const { currency } = getLocalizationInfo(locale);
+
+  const { data: wishlist, addToWishlist, removeLineItem } = useWishlist();
+
+  const { addItem, shippingMethods } = useCart();
+
+  const flattenedCategories = categories.map((category) => flattenTree(category, 'subCategories')).flat();
+
+  const facetsConfiguration = useFacetsConfiguration({ facetsConfiguration: data.facetsConfiguration, currency });
+
+  const pricesConfiguration = usePricesConfiguration({ pricesConfiguration: data.pricesConfiguration });
+
   return (
     <InstantSearch>
       <LocalizedIndex type="products">
-        <ProductListProvider>
-          <ProductListTastic data={{ ...data }} {...props} />
+        <ProductListProvider
+          searchQuery={searchQuery}
+          categories={flattenedCategories}
+          shippingMethods={shippingMethods.data}
+          facetsConfiguration={facetsConfiguration}
+          pricesConfiguration={pricesConfiguration}
+          wishlist={wishlist}
+          addToWishlist={async (lineItem, count) => {
+            if (wishlist) await addToWishlist(wishlist, lineItem, count);
+          }}
+          removeFromWishlist={async (lineItem) => {
+            if (wishlist) await removeLineItem(wishlist, lineItem);
+          }}
+          onAddToCart={addItem}
+        >
+          <ProductListTastic data={{ ...data }} categories={flattenedCategories} {...props} />
         </ProductListProvider>
       </LocalizedIndex>
     </InstantSearch>

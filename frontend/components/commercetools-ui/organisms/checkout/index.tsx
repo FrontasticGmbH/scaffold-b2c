@@ -1,6 +1,8 @@
-import React, { FC, useState } from 'react';
+import React, { useState } from 'react';
 import Button from 'components/commercetools-ui/atoms/button';
 import { useFormat } from 'helpers/hooks/useFormat';
+import { Cart, Discount, ShippingMethod } from 'types/entity/cart';
+import { CartDetails, Transaction } from 'frontastic/hooks/useCart/types';
 import Footer from './components/footer';
 import Header, { Props as HeaderProps } from './components/header';
 import Secure from './components/secure';
@@ -9,9 +11,27 @@ import usePurchase from './hooks/usePurchase';
 import CheckoutProvider, { useCheckout } from './provider';
 import OrderSummary from '../order-summary';
 
-export type CheckoutWrappedProps = HeaderProps;
+export type CheckoutWrappedProps = HeaderProps & {
+  cart?: Cart;
+  transaction: Transaction;
+  hasOutOfStockItems?: boolean;
+  shippingMethods: ShippingMethod[];
+  onApplyDiscountCode?: (code: string) => Promise<void>;
+  onRemoveDiscountCode?: (discount: Discount) => Promise<void>;
+  onUpdateCart?: (payload: CartDetails) => Promise<Cart>;
+};
 
-const CheckoutWrapped: React.FC<CheckoutWrappedProps> = ({ logo, ...emptyState }) => {
+export const CheckoutWrapped = ({
+  logo,
+  cart,
+  transaction,
+  totalCartItems,
+  hasOutOfStockItems,
+  shippingMethods,
+  onApplyDiscountCode,
+  onRemoveDiscountCode,
+  onUpdateCart,
+}: CheckoutWrappedProps) => {
   const { formatMessage: formatCheckoutMessage } = useFormat({ name: 'checkout' });
   const { formatMessage: formatCartMessage } = useFormat({ name: 'cart' });
 
@@ -19,15 +39,18 @@ const CheckoutWrapped: React.FC<CheckoutWrappedProps> = ({ logo, ...emptyState }
 
   const { processing } = useCheckout();
 
-  const { purchase } = usePurchase();
+  const { purchase } = usePurchase({ cart, transaction, hasOutOfStockItems });
 
   return (
     <div className="min-h-screen lg:bg-neutral-200">
-      <Header logo={logo} {...emptyState} />
+      <Header logo={logo} totalCartItems={totalCartItems} />
       <div className="lg:mx-48">
         <Secure />
         <div className="flex-row-reverse items-start gap-24 lg:flex">
           <OrderSummary
+            discounts={cart?.discountCodes ?? []}
+            onApplyDiscountCode={onApplyDiscountCode}
+            onRemoveDiscountCode={onRemoveDiscountCode}
             className="bg-white px-16 md:px-24 lg:w-[30%] lg:rounded-md lg:p-36 xl:px-48"
             includeSummaryAccordion
             title={formatCartMessage({ id: 'order.summary', defaultMessage: 'Order summary' })}
@@ -49,7 +72,13 @@ const CheckoutWrapped: React.FC<CheckoutWrappedProps> = ({ logo, ...emptyState }
               </Button>
             }
           />
-          <Steps onPurchase={purchase} onFinalStepChange={setIsFinalStep} />
+          <Steps
+            cart={cart}
+            onUpdateCart={onUpdateCart}
+            shippingMethods={shippingMethods}
+            onPurchase={purchase}
+            onFinalStepChange={setIsFinalStep}
+          />
         </div>
       </div>
       <Footer />
@@ -57,7 +86,7 @@ const CheckoutWrapped: React.FC<CheckoutWrappedProps> = ({ logo, ...emptyState }
   );
 };
 
-const Checkout: FC<CheckoutWrappedProps> = (props) => (
+const Checkout = (props: CheckoutWrappedProps) => (
   <CheckoutProvider>
     <CheckoutWrapped {...props} />
   </CheckoutProvider>

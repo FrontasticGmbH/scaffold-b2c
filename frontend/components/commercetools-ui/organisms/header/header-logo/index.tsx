@@ -1,7 +1,7 @@
 import React, { FC } from 'react';
+import Image, { ImageProps } from 'components/commercetools-ui/atoms/image';
 import Link from 'components/commercetools-ui/atoms/link';
 import { Reference } from 'types/reference';
-import Image, { ImageProps } from 'frontastic/lib/image';
 
 export interface Props {
   logo: ImageProps;

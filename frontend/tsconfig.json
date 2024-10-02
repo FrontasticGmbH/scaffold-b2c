@@ -19,7 +19,7 @@
     "jsx": "preserve",
     "baseUrl": ".",
     "incremental": true,
-    "typeRoots": ["./node_modules/@types", "./node_modules/@headlessui/react"],
+    "types": ["jest", "@testing-library/jest-dom"],
     "plugins": [
       {
         "name": "next"

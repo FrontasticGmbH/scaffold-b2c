@@ -1,6 +1,7 @@
-import React, { ChangeEvent, ComponentProps, FC, useState } from 'react';
+import React, { ChangeEvent, ComponentProps, FC } from 'react';
 import { ChevronDownIcon } from '@heroicons/react/24/outline';
 import useClassNames from 'helpers/hooks/useClassNames';
+import useControllableState from 'helpers/hooks/useControllable';
 import Typography from '../typography';
 
 export interface DropdownProps extends ComponentProps<'select'> {
@@ -23,7 +24,7 @@ const DefaultDropdown: FC<DropdownProps> = ({
   value,
   ...props
 }) => {
-  const [selectedValue, setSelectedValue] = useState(value);
+  const [selectedValue, setSelectedValue] = useControllableState(value);
 
   const handleChange = (e: ChangeEvent<HTMLSelectElement>) => {
     const value = e.target.value;
@@ -51,8 +52,8 @@ const DefaultDropdown: FC<DropdownProps> = ({
         </Typography>
       )}
 
-      <div className="relative h-40 min-w-[64px] overflow-hidden rounded-sm border border-neutral-500">
-        <select className={selectClassName} value={value || selectedValue} onChange={handleChange} {...props}>
+      <div className="relative h-40 min-w-64 overflow-hidden rounded-sm border border-neutral-500">
+        <select className={selectClassName} value={selectedValue} onChange={handleChange} {...props}>
           {items.map(({ label, value }, index) => (
             <option key={index} value={value}>
               {label}
@@ -60,7 +61,10 @@ const DefaultDropdown: FC<DropdownProps> = ({
           ))}
         </select>
 
-        <ChevronDownIcon className="absolute right-5 top-1/2 z-0 h-20 w-30 -translate-y-1/2 stroke-1 text-secondary-black" />
+        <ChevronDownIcon
+          data-testid="chevron-down-icon"
+          className="absolute right-5 top-1/2 z-0 h-20 w-30 -translate-y-1/2 stroke-1 text-secondary-black"
+        />
       </div>
     </div>
   );

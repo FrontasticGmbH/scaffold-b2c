@@ -1,14 +1,14 @@
 import React from 'react';
-import { ComponentMeta, ComponentStory } from '@storybook/react';
+import { Meta, StoryFn } from '@storybook/react';
 import Typography from 'components/commercetools-ui/atoms/typography';
 import AnnouncementBar from '.';
 
 export default {
   title: 'Organisms/Announcement Bar',
   component: AnnouncementBar,
-} as ComponentMeta<typeof AnnouncementBar>;
+} as Meta<typeof AnnouncementBar>;
 
-const Template: ComponentStory<typeof AnnouncementBar> = (args) => (
+const Template: StoryFn<typeof AnnouncementBar> = (args) => (
   <div className="ml-44">
     <Typography className="mt-40 w-2/5 text-28 font-bold text-black">Announcement Bar</Typography>
     <Typography className="mt-20 w-3/5 text-20 leading-loose text-neutral-700">

@@ -11,7 +11,7 @@ const BooleanFacet: React.FC<React.PropsWithChildren<FacetProps>> = ({ attribute
 
   return (
     <div>
-      <div className="flex flex-col gap-47 py-22 lg:min-w-[340px]">
+      <div className="flex flex-col gap-47 py-22 lg:min-w-340">
         {facet.terms
           .filter((term) => term.key === 'T')
           .map((term) => (

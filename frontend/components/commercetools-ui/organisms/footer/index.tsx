@@ -1,7 +1,7 @@
 import React from 'react';
 import Accordion from 'components/commercetools-ui/atoms/accordion';
+import { ImageProps } from 'components/commercetools-ui/atoms/image';
 import { Reference } from 'types/reference';
-import { ImageProps } from 'frontastic/lib/image';
 import Column, { FooterLink } from './atoms/column';
 import FooterBottom from './footer-bottom';
 

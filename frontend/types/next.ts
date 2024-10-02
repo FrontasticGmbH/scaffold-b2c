@@ -1,6 +1,6 @@
 export interface Params {
   locale: string;
-  slug?: string[] | string;
+  slug: string[];
   [key: string]: string | string[] | undefined;
 }
 

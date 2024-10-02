@@ -1,7 +1,7 @@
 import React from 'react';
+import Image, { ImageProps } from 'components/commercetools-ui/atoms/image';
 import useImageSizes from 'helpers/hooks/useImageSizes';
 import { Reference } from 'types/reference';
-import Image, { ImageProps } from 'frontastic/lib/image';
 import Link from '../../atoms/link';
 import Typography from '../../atoms/typography';
 

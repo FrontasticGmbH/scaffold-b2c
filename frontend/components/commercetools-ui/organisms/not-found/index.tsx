@@ -1,9 +1,8 @@
 import React from 'react';
 import Button from 'components/commercetools-ui/atoms/button';
+import Image from 'components/commercetools-ui/atoms/image';
 import Link from 'components/commercetools-ui/atoms/link';
 import { useFormat } from 'helpers/hooks/useFormat';
-import Image404 from 'public/images/shy-lens.png';
-import Image from 'frontastic/lib/image';
 
 const NotFound = () => {
   const { formatMessage } = useFormat({ name: 'common' });
@@ -11,8 +10,11 @@ const NotFound = () => {
   return (
     <div className="relative h-[80vh] lg:h-[60vh]">
       <div className="absolute left-1/2 top-1/2 flex w-full -translate-x-1/2 -translate-y-1/2 flex-col items-center justify-center gap-0 pb-60 lg:flex-row-reverse lg:gap-50">
-        <div className="relative h-300 w-300 lg:h-350 lg:w-350">
-          <Image src={Image404} alt={formatMessage({ id: 'page.notFound', defaultMessage: 'Page not found' })} />
+        <div className="relative size-300 lg:size-350">
+          <Image
+            src="/images/shy-lens.png"
+            alt={formatMessage({ id: 'page.notFound', defaultMessage: 'Page not found' })}
+          />
         </div>
         <div className="mt-5 text-center lg:text-left">
           <h1 className="text-32">{formatMessage({ id: 'page.notFound', defaultMessage: 'Page not found' })}</h1>

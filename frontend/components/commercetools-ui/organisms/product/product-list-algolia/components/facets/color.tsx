@@ -1,5 +1,5 @@
 import React from 'react';
-import { useRefinementList } from 'react-instantsearch-hooks-web';
+import { useRefinementList } from 'react-instantsearch';
 import { textToColor } from 'helpers/textToColor/textToColor';
 import { FacetProps } from './types';
 
@@ -7,7 +7,7 @@ const ColorFacet: React.FC<FacetProps> = ({ attribute }) => {
   const { items, refine } = useRefinementList({ attribute });
 
   return (
-    <div className="grid grid-cols-3 items-center justify-start gap-x-54 gap-y-36 lg:min-w-[340px]">
+    <div className="grid grid-cols-3 items-center justify-start gap-x-54 gap-y-36 lg:min-w-340">
       {items.map(({ value, isRefined, count }) => {
         const color = textToColor(value);
         return (
@@ -17,7 +17,7 @@ const ColorFacet: React.FC<FacetProps> = ({ attribute }) => {
             onClick={() => refine(value)}
           >
             <div
-              className={`h-40 w-40 rounded-full outline outline-1 outline-offset-1 ${
+              className={`size-40 rounded-full outline outline-1 outline-offset-1 ${
                 isRefined ? 'outline-gray-500' : 'outline-transparent'
               }`}
               style={{ backgroundColor: color.code }}

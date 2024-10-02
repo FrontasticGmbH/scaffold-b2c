@@ -1,6 +1,7 @@
-import React, { useCallback, useEffect, useRef, useState } from 'react';
+import React, { useCallback, useRef, useState } from 'react';
 import { CheckIcon } from '@heroicons/react/24/outline';
 import useClassNames from 'helpers/hooks/useClassNames';
+import useControllableState from 'helpers/hooks/useControllable';
 import useMediaQuery from 'helpers/hooks/useMediaQuery';
 import { desktop } from 'helpers/utils/screensizes';
 import Typography from '../typography';
@@ -27,15 +28,11 @@ const Checkbox: React.FC<CheckboxProps> = ({
   ...props
 }) => {
   const [isHovered, setIsHovered] = useState(false);
-  const [isChecked, setIsChecked] = useState(checked ?? defaultChecked ?? false);
+  const [isChecked, setIsChecked] = useControllableState(checked, defaultChecked);
 
   const [isDesktopSize] = useMediaQuery(desktop);
 
   const checkboxRef = useRef<HTMLInputElement>(null);
-
-  useEffect(() => {
-    if (typeof checked !== 'undefined') setIsChecked(checked);
-  }, [checked]);
 
   const handleContainerClick = () => {
     if (!isDesktopSize) {
@@ -45,8 +42,9 @@ const Checkbox: React.FC<CheckboxProps> = ({
 
   const toggleIsChecked = useCallback(() => {
     onChange?.({ name: props.name ?? '', checked: !isChecked });
+
     setIsChecked(!isChecked);
-  }, [isChecked, onChange, props.name]);
+  }, [isChecked, onChange, props.name, setIsChecked]);
 
   const handleMouseOver = (e: React.MouseEvent<HTMLInputElement>) => {
     setIsHovered(isDesktopSize);
@@ -81,7 +79,7 @@ const Checkbox: React.FC<CheckboxProps> = ({
   ]);
 
   const LabelElement = (
-    <Typography as="label" className="text-14 text-secondary-black">
+    <Typography id="input-label" as="label" className="text-14 text-secondary-black">
       {label}
     </Typography>
   );
@@ -94,6 +92,7 @@ const Checkbox: React.FC<CheckboxProps> = ({
         <input
           ref={checkboxRef}
           type="checkbox"
+          aria-labelledby="input-label"
           checked={isChecked}
           className={inputClassName}
           onMouseOver={handleMouseOver}

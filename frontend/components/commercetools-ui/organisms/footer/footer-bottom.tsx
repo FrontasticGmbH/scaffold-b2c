@@ -1,8 +1,8 @@
 import React, { FC } from 'react';
+import Image, { ImageProps } from 'components/commercetools-ui/atoms/image';
 import Link from 'components/commercetools-ui/atoms/link';
 import Typography from 'components/commercetools-ui/atoms/typography';
 import { useFormat } from 'helpers/hooks/useFormat';
-import Image, { ImageProps } from 'frontastic/lib/image';
 import { SocialMedia } from '.';
 
 interface Props {

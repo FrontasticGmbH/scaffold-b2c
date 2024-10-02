@@ -1,7 +1,7 @@
 import React from 'react';
-import { Story, Meta } from '@storybook/react';
-import TypographyContent from './typography-content';
+import { Meta, StoryFn } from '@storybook/react';
 import Typography from '..';
+import TypographyContent from './typography-content';
 import { fontSizes, tagTypesToUse, TypographyProps } from '../types';
 
 export default {
@@ -16,7 +16,7 @@ export default {
   },
 } as Meta;
 
-const Template: Story<TypographyProps> = () => <TypographyContent />;
+const Template: StoryFn<TypographyProps> = () => <TypographyContent />;
 
 export const Default = Template.bind({});
 Default.args = {

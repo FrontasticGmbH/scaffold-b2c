@@ -5,7 +5,7 @@
   "phone": "Telefon",
   "email": "Email",
   "address": "Adresse",
-  "weekdays": "Montag- Freitag: ",
-  "weekends": "Samstag- Sonntag: ",
+  "weekdays": "Mo-Fr:",
+  "weekends": "Sa-So:",
   "faq": "FAQ"
 }

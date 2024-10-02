@@ -1,5 +1,5 @@
 import React from 'react';
-import { Story, Meta } from '@storybook/react';
+import { Meta, StoryFn } from '@storybook/react';
 import Typography from 'components/commercetools-ui/atoms/typography';
 import { orders } from 'helpers/mocks/mockCommonData';
 import OrderSummary from './components/order-summary';
@@ -11,7 +11,7 @@ export default {
   argTypes: {},
 } as Meta;
 
-const Template: Story = (args) => (
+const Template: StoryFn = (args) => (
   <div className="ml-44">
     <Typography className="mt-40 w-2/5 text-28 font-bold text-black">Order Summary</Typography>
     <Typography className="mt-20 w-3/5 text-20 leading-loose text-neutral-700">

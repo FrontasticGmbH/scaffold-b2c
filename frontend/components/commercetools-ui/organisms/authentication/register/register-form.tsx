@@ -8,22 +8,21 @@ import { useFormat } from 'helpers/hooks/useFormat';
 import useValidate from 'helpers/hooks/useValidate';
 import Redirect from 'helpers/redirect';
 import { Reference } from 'types/reference';
-import { useAccount } from 'frontastic';
+import { UseAccountReturn } from 'frontastic/hooks/useAccount/types';
 import Feedback from '../../account/account-atoms/feedback';
 
-interface Props {
+export interface RegisterFormProps {
   termsOfUseLink?: Reference;
+  loggedIn: UseAccountReturn['loggedIn'];
+  register: UseAccountReturn['register'];
 }
 
-const RegisterForm: FC<Props> = ({ termsOfUseLink }) => {
+const RegisterForm: FC<RegisterFormProps> = ({ termsOfUseLink, loggedIn, register }) => {
   const { formatMessage: formatErrorMessage } = useFormat({ name: 'error' });
   const { formatMessage: formatAccountMessage } = useFormat({ name: 'account' });
   const { formatMessage } = useFormat({ name: 'common' });
 
   const { validatePassword } = useValidate();
-
-  //account actions
-  const { register, loggedIn } = useAccount();
 
   //register data
   const [data, setData] = useState({ firstName: '', lastName: '', email: '', password: '' });

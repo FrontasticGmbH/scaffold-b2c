@@ -1,5 +1,6 @@
 import React from 'react';
-import { ComponentMeta, ComponentStory } from '@storybook/react';
+import { Meta, StoryFn } from '@storybook/react';
+import { products } from 'helpers/mocks/mockCommonData';
 import { categories } from 'helpers/mocks/mockData';
 import Search from '.';
 import SearchAlgolia from '../search-algolia';
@@ -8,9 +9,9 @@ import Typography from '../typography';
 export default {
   title: 'Organisms/Search',
   component: Search,
-} as ComponentMeta<typeof Search>;
+} as Meta<typeof Search>;
 
-const Template: ComponentStory<typeof Search> = (args) => (
+const Template: StoryFn<typeof Search> = (args) => (
   <div className="ml-44 h-full">
     <Typography className="mt-36 w-[45%] text-28 font-bold text-black">Default Search and Algolia Search</Typography>
     <Typography className="mt-20 w-3/5 text-20 leading-loose text-neutral-700">
@@ -30,12 +31,13 @@ const Template: ComponentStory<typeof Search> = (args) => (
     </Typography>
 
     <div className="mt-20 w-[70%]">
-      <SearchAlgolia {...args} categories={categories} />
+      <SearchAlgolia {...args} />
     </div>
   </div>
 );
 
 export const DefaultSearch = Template.bind({});
 DefaultSearch.args = {
-  categories: [],
+  categories: categories,
+  items: products,
 };

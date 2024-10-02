@@ -3,6 +3,7 @@ import { useParams } from 'next/navigation';
 import { ChevronDownIcon } from '@heroicons/react/24/outline';
 import { Order } from 'shared/types/cart/Order';
 import Accordion from 'components/commercetools-ui/atoms/accordion';
+import Image from 'components/commercetools-ui/atoms/image';
 import Typography from 'components/commercetools-ui/atoms/typography';
 import Costs from 'components/commercetools-ui/organisms/order-payment-section/components/costs';
 import { CurrencyHelpers } from 'helpers/currencyHelpers';
@@ -10,7 +11,6 @@ import useClassNames from 'helpers/hooks/useClassNames';
 import { useFormat } from 'helpers/hooks/useFormat';
 import useI18n from 'helpers/hooks/useI18n';
 import mapCosts from 'helpers/utils/mapCosts';
-import Image from 'frontastic/lib/image';
 
 export interface Props {
   order?: Order;

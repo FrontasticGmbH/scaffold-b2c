@@ -26,7 +26,7 @@ const DeleteModal: FC<DeleteModalProps> = ({ modalIsOpen, loading, closeModal, h
     >
       <>
         <XMarkIcon
-          className="absolute right-15 top-15 h-24 w-24 hover:cursor-pointer"
+          className="absolute right-15 top-15 size-24 hover:cursor-pointer"
           strokeWidth={1}
           color="#494949"
           onClick={closeModal}

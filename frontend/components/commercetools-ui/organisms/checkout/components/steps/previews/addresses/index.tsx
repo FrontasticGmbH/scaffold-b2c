@@ -1,11 +1,14 @@
 import React from 'react';
-import { useCart } from 'frontastic';
+import { Cart } from 'types/entity/cart';
 import Preview from '../wrapper';
 
-const AddressesPreview = () => {
-  const { data } = useCart();
+interface Props {
+  cart?: Cart;
+}
 
-  const shippingAddress = data?.shippingAddress ?? {};
+const AddressesPreview = ({ cart }: Props) => {
+  const shippingAddress = cart?.shippingAddress ?? {};
+
   return (
     <Preview>
       <div className="border-neutral-400 lg:border lg:p-16">

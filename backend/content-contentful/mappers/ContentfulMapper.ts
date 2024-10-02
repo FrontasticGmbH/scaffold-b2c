@@ -1,7 +1,8 @@
-import { Entry, Asset as ContentfulAsset, ContentType, EntryFields, RichTextContent } from 'contentful';
+import { Asset as ContentfulAsset, ContentType, Entry, EntryFields, RichTextContent } from 'contentful';
 import { Attributes, Content } from '@Types/content/Content';
 import { Asset } from '@Types/content/Asset';
-import RichText = EntryFields.RichText;
+
+type RichText = EntryFields.RichText;
 
 export class ContentfulMapper {
   static contentfulEntryToContent(contentfulEntry: Entry<unknown>, contentfulContentType: ContentType): Content {

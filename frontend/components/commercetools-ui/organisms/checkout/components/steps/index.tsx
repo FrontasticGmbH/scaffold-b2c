@@ -3,6 +3,8 @@ import { useRouter, useSearchParams } from 'next/navigation';
 import Button from 'components/commercetools-ui/atoms/button';
 import { useFormat } from 'helpers/hooks/useFormat';
 import usePath from 'helpers/hooks/usePath';
+import { Cart, ShippingMethod } from 'types/entity/cart';
+import { CartDetails } from 'frontastic/hooks/useCart/types';
 import AddressesPreview from './previews/addresses';
 import PaymentPreview from './previews/payment';
 import ShippingPreview from './previews/shipping';
@@ -14,11 +16,14 @@ import CreateAddressModal from '../create-address-modal';
 import Step from '../step';
 
 interface Props {
+  cart?: Cart;
+  shippingMethods: ShippingMethod[];
+  onUpdateCart?: (payload: CartDetails) => Promise<Cart>;
   onPurchase: () => void;
   onFinalStepChange: (isFinalStep: boolean) => void;
 }
 
-const Steps: React.FC<Props> = ({ onPurchase, onFinalStepChange }) => {
+const Steps: React.FC<Props> = ({ cart, shippingMethods, onUpdateCart, onPurchase, onFinalStepChange }) => {
   const { formatMessage: formatCartMessage } = useFormat({ name: 'cart' });
   const { formatMessage: formatCheckoutMessage } = useFormat({ name: 'checkout' });
 
@@ -49,14 +54,14 @@ const Steps: React.FC<Props> = ({ onPurchase, onFinalStepChange }) => {
     return [
       {
         label: formatCartMessage({ id: 'addresses', defaultMessage: 'Addresses' }),
-        Component: <Addresses goToNextStep={goToNextStep} />,
-        Preview: <AddressesPreview />,
+        Component: <Addresses onUpdateCart={onUpdateCart} goToNextStep={goToNextStep} />,
+        Preview: <AddressesPreview cart={cart} />,
         CTA: <CreateAddressModal />,
       },
       {
         label: formatCartMessage({ id: 'shipping', defaultMessage: 'Shipping' }),
         Component: <Shipping goToNextStep={goToNextStep} />,
-        Preview: <ShippingPreview />,
+        Preview: <ShippingPreview cart={cart} shippingMethods={shippingMethods} />,
       },
       {
         label: formatCartMessage({ id: 'payment', defaultMessage: 'Payment' }),
@@ -64,7 +69,7 @@ const Steps: React.FC<Props> = ({ onPurchase, onFinalStepChange }) => {
         Preview: <PaymentPreview />,
       },
     ];
-  }, [formatCartMessage, goToNextStep]);
+  }, [formatCartMessage, goToNextStep, cart, shippingMethods, onUpdateCart]);
 
   const isFinalStep = useMemo(() => active === steps.length, [active, steps.length]);
 

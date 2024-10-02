@@ -67,6 +67,7 @@ const Dropdown: FC<DropdownProps> = ({
           defaultValue={selectDefaultValue}
           options={selectOptions}
           onChange={selectOnChange}
+          required={props.required}
         />
       ) : (
         <DefaultDropdown

@@ -1,10 +1,10 @@
-import { useMemo, useState } from 'react';
+import React, { useMemo, useState } from 'react';
 import toast from 'react-hot-toast';
 import { InputProps } from 'components/commercetools-ui/atoms/input';
 import PasswordInput from 'components/commercetools-ui/atoms/input-password';
 import { useFormat } from 'helpers/hooks/useFormat';
 import useValidate from 'helpers/hooks/useValidate';
-import { useAccount } from 'frontastic';
+import { Account } from 'types/entity/account';
 import AccountForm from '../../../account-atoms/account-form';
 import useDiscardForm from '../../../hooks/useDiscardForm';
 
@@ -14,10 +14,13 @@ type ChangePasswordFormData = {
   confirmPassword: string;
 };
 
-const ChangePasswordForm = () => {
+interface Props {
+  changePassword?: (oldPassword: string, newPassword: string) => Promise<Account>;
+}
+
+const ChangePasswordForm = ({ changePassword }: Props) => {
   const { formatMessage: formatErrorMessage } = useFormat({ name: 'error' });
   const { formatMessage: formatAccountMessage } = useFormat({ name: 'account' });
-  const { changePassword } = useAccount();
   const { discardForm } = useDiscardForm();
   const { validatePassword } = useValidate();
 
@@ -53,7 +56,7 @@ const ChangePasswordForm = () => {
     } else {
       setLoading(true);
       // Request update password
-      changePassword(data.password, data.newPassword).then((account) => {
+      changePassword?.(data.password, data.newPassword).then((account) => {
         if (account.accountId) {
           toast.success(formatAccountMessage({ id: 'data.updated', defaultMessage: 'Data updated successfully.' }));
           setLoading(false);

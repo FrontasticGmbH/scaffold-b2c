@@ -1,5 +1,5 @@
 import React from 'react';
-import { useRefinementList } from 'react-instantsearch-hooks-web';
+import { useRefinementList } from 'react-instantsearch';
 import Checkbox from 'components/commercetools-ui/atoms/checkbox';
 import { useFormat } from 'helpers/hooks/useFormat';
 import { FacetProps } from './types';
@@ -11,7 +11,7 @@ const BooleanFacet: React.FC<FacetProps> = ({ attribute, label }) => {
 
   return (
     <div>
-      <div className="flex flex-col gap-47 py-22 lg:min-w-[340px]">
+      <div className="flex flex-col gap-47 py-22 lg:min-w-340">
         {items
           .filter((term) => term.value === 'true')
           .map((term) => (

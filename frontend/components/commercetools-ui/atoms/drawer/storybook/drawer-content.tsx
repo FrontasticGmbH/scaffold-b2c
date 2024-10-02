@@ -42,7 +42,7 @@ const DrawerContent = () => {
           Open left drawer
         </button>
         <Drawer direction="left" isOpen={isOpenLeftMenu} onClose={() => setIsOpenLeftMenu(false)}>
-          <div className="h-full w-full min-w-[300px] bg-white p-24">
+          <div className="size-full min-w-300 bg-white p-24">
             Hello there, I&apos;m a left Menu; click outside to close me!
           </div>
         </Drawer>
@@ -56,7 +56,7 @@ const DrawerContent = () => {
           Open right drawer
         </button>
         <Drawer direction="right" isOpen={isOpenRightMenu} onClose={() => setIsOpenRightMenu(false)}>
-          <div className="h-full w-full min-w-[300px] bg-white p-24">
+          <div className="size-full min-w-300 bg-white p-24">
             Hello there, I&apos;m a right Menu; click outside to close me!
           </div>
         </Drawer>
@@ -70,7 +70,7 @@ const DrawerContent = () => {
           Open top drawer
         </button>
         <Drawer direction="top" isOpen={isOpenTopMenu} onClose={() => setIsOpenTopMenu(false)}>
-          <div className="h-full w-full min-w-[300px] bg-white p-24">
+          <div className="size-full min-w-300 bg-white p-24">
             Hello there, I&apos;m a Top Menu; click outside to close me!
           </div>
         </Drawer>
@@ -84,7 +84,7 @@ const DrawerContent = () => {
           Open bottom drawer
         </button>
         <Drawer direction="bottom" isOpen={isOpenBottomMenu} onClose={() => setIsOpenBottomMenu(false)}>
-          <div className="h-full w-full min-w-[300px] bg-white p-24">
+          <div className="size-full min-w-300 bg-white p-24">
             Hello there, I&apos;m a Bottom Menu; click outside to close me!
           </div>
         </Drawer>
@@ -106,7 +106,7 @@ const DrawerContent = () => {
           Open modal
         </button>
         <Modal isOpen={isOpenModal} onRequestClose={() => setIsOpenModal(false)}>
-          <div className="min-h-[300px] bg-white p-24">Hello there! I&apos;m a modal click outside to close me</div>
+          <div className="min-h-300 bg-white p-24">Hello there! I&apos;m a modal click outside to close me</div>
         </Modal>
       </div>
 

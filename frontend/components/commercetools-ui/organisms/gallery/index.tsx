@@ -1,16 +1,15 @@
 import { FC, useRef, useState } from 'react';
 import Swiper from 'swiper';
+import Image from 'components/commercetools-ui/atoms/image';
 import Slider from 'components/commercetools-ui/atoms/slider';
 import useClassNames from 'helpers/hooks/useClassNames';
 import useMediaQuery from 'helpers/hooks/useMediaQuery';
 import { classnames } from 'helpers/utils/classnames';
 import { desktop, tablet } from 'helpers/utils/screensizes';
-import Image from 'frontastic/lib/image';
-import { ProductDetailsProps } from '../product/product-details';
 
 interface GalleryProps {
   images: Array<string>;
-  inModalVersion?: ProductDetailsProps['inModalVersion'];
+  inModalVersion?: boolean;
 }
 
 const Gallery: FC<GalleryProps> = ({ images, inModalVersion }) => {
@@ -75,11 +74,11 @@ const Gallery: FC<GalleryProps> = ({ images, inModalVersion }) => {
           {images?.map((image, index) => (
             <div
               key={index}
-              className={`relative h-112 w-112 rounded-md border p-7 ${
+              className={`relative size-112 rounded-md border p-7 ${
                 index == activeSlide % images.length ? 'border-neutral-500' : 'border-neutral-400'
               }`}
             >
-              <div className="relative h-full w-full">
+              <div className="relative size-full">
                 <Image
                   src={image}
                   suffix="small"

@@ -1,12 +1,12 @@
 import React, { FC } from 'react';
 import { ChevronLeftIcon, XMarkIcon } from '@heroicons/react/24/outline';
-import { Category } from 'shared/types/product/Category';
 import Button from 'components/commercetools-ui/atoms/button';
+import { ImageProps } from 'components/commercetools-ui/atoms/image';
 import Typography from 'components/commercetools-ui/atoms/typography';
 import HeaderLogo from 'components/commercetools-ui/organisms/header/header-logo';
 import { useFormat } from 'helpers/hooks/useFormat';
+import { Category } from 'types/entity/category';
 import { Reference } from 'types/reference';
-import { ImageProps } from 'frontastic/lib/image';
 
 export interface Props {
   logo: ImageProps;

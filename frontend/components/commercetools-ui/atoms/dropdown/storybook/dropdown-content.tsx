@@ -1,7 +1,7 @@
 import React from 'react';
 import { dropdownItems } from 'helpers/mocks/mockAtomsData';
-import CustomDropdownMarket from './custom-dropdown-market';
 import Dropdown from '..';
+import CustomDropdownMarket from './custom-dropdown-market';
 import Typography from '../../typography';
 
 const DropdownContent = () => {

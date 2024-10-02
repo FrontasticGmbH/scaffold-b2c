@@ -2,13 +2,13 @@ import React, { useCallback, useMemo } from 'react';
 import { useRouter } from 'next/navigation';
 // import { Variant } from 'ct-types/product';
 import { Hit } from 'instantsearch.js';
-import { Highlight } from 'react-instantsearch-hooks-web';
-import { Category } from 'shared/types/product/Category';
-import { Product } from 'shared/types/product/Product';
+import { Highlight } from 'react-instantsearch';
+import Image from 'components/commercetools-ui/atoms/image';
 import { AUTOCOMPLETE_PRODUCT_CLICKED } from 'helpers/constants/events';
+import { Category } from 'types/entity/category';
+import { Product } from 'types/entity/product';
 import { Subset } from 'types/subset';
 // import useVariantWithDiscount from 'helpers/hooks/useVariantWithDiscount';
-import Image from 'frontastic/lib/image';
 import Link from '../../link';
 // import Prices from '../prices';
 

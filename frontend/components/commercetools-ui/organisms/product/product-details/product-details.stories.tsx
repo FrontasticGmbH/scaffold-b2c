@@ -1,8 +1,9 @@
 import React from 'react';
-import { Story, Meta } from '@storybook/react';
+import { Meta, StoryFn } from '@storybook/react';
 import Typography from 'components/commercetools-ui/atoms/typography';
 import { toUIProduct } from 'helpers/mappers/toUIProduct';
-import { products } from 'helpers/mocks/mockCommonData';
+import { products, shippingMethods } from 'helpers/mocks/mockCommonData';
+import { wishlist } from 'helpers/mocks/mockData';
 import ProductDetails, { ProductDetailsProps } from '.';
 
 export default {
@@ -11,7 +12,7 @@ export default {
   argTypes: {},
 } as Meta;
 
-const Template: Story<ProductDetailsProps> = () => {
+const Template: StoryFn<ProductDetailsProps> = () => {
   const variant = products[0].variants[0];
   const product = toUIProduct(products[0], variant, [], []);
 
@@ -22,7 +23,13 @@ const Template: Story<ProductDetailsProps> = () => {
         The Product Details component displays the product information, images, and actions like adding to cart.
       </Typography>
       <div className="mt-44">
-        <ProductDetails product={product} variant={variant} onChangeVariant={() => {}} />
+        <ProductDetails
+          product={product}
+          wishlist={wishlist}
+          shippingMethods={shippingMethods}
+          variant={variant}
+          onChangeVariant={() => {}}
+        />
       </div>
     </div>
   );
