@@ -37,7 +37,7 @@ const SummaryAccordion: FC<Props> = ({ className, order, cart }) => {
   };
 
   const total = useMemo(
-    () => (order ? mapCosts({ order, currency }).total : mapCosts({ reference: 'cart', cart, currency }).total),
+    () => (order ? mapCosts({ cart: order, currency }).total : mapCosts({ cart, currency }).total),
     [cart, currency, order],
   );
 

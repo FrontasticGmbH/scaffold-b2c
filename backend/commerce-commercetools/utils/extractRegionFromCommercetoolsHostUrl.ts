@@ -20,15 +20,14 @@ import { Context } from '@frontastic/extension-types';
  * @returns {string} The extracted region and cloud provider, or an empty string if they cannot be determined.
  *
  * @see {@link https://docs.commercetools.com/api/general-concepts#regions} for more details on commercetools regions.
- * @param {Context} context - The context object containing the project configuration.
+ * @param hostUrl
  */
-const extractRegionFromCommercetoolsHostUrl = (context: Context): string => {
+const extractRegionFromCommercetoolsHostUrl = (hostUrl: string): string => {
   try {
-    const host = context.project.configuration.commercetools.hostUrl ?? '';
-    if (!host) {
+    if (!hostUrl) {
       return '';
     }
-    const url = new URL(host);
+    const url = new URL(hostUrl);
     const hostname = url.hostname;
 
     const regionMatch = hostname.match(/^api\.([\w-]+\.(?:gcp|aws|azure))\.commercetools\.(com|cn)$/);

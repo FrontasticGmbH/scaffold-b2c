@@ -31,13 +31,13 @@ const Breadcrumbs: React.FC<Props> = ({ categoryId, categories }) => {
     return categories.find((c) => c.categoryId === currentCategory.parentId);
   }, [categories, currentCategory]);
 
-  const subCategories = useMemo(() => {
-    return ((categories.find((category) => category.categoryId === categoryId) as Category)?.subCategories ??
+  const descendants = useMemo(() => {
+    return ((categories.find((category) => category.categoryId === categoryId) as Category)?.descendants ??
       []) as Category[];
   }, [categories, categoryId]);
 
   const siblingCategories = useMemo(() => {
-    return parentCategory?.subCategories ?? [];
+    return parentCategory?.descendants ?? [];
   }, [parentCategory]);
 
   if (!categoryId) return <></>;
@@ -58,7 +58,7 @@ const Breadcrumbs: React.FC<Props> = ({ categoryId, categories }) => {
         )}
       </Breadcrumb>
       <h1 className="mt-20 text-22 leading-[35px] md:text-26 lg:text-28">{currentCategory.name}</h1>
-      {subCategories.length > 0 && (
+      {descendants.length > 0 && (
         <Breadcrumb className="mx-auto mt-32 py-6 lg:py-8" listClassName="gap-x-8">
           <Link
             link={currentCategory._url}
@@ -66,7 +66,7 @@ const Breadcrumbs: React.FC<Props> = ({ categoryId, categories }) => {
           >
             {formatProductMessage({ id: 'items.all', defaultMessage: 'All items' })}
           </Link>
-          {subCategories.map((category) => (
+          {descendants.map((category) => (
             <Link
               key={category.categoryId}
               link={category._url}
@@ -78,7 +78,7 @@ const Breadcrumbs: React.FC<Props> = ({ categoryId, categories }) => {
         </Breadcrumb>
       )}
 
-      {subCategories.length === 0 && siblingCategories.length > 0 && (
+      {descendants.length === 0 && siblingCategories.length > 0 && (
         <Breadcrumb className="mx-auto mt-32 py-6 lg:py-8" listClassName="gap-x-8">
           <Link
             link={parentCategory?._url}

@@ -12,7 +12,6 @@ import { Locale } from '../Locale';
 import { LocaleError } from '../errors/LocaleError';
 import { ClientConfig } from '../interfaces/ClientConfig';
 import { tokenHasExpired } from '../utils/Token';
-import { Guid } from '@Commerce-commercetools/utils/Guid';
 import { ExternalError } from '@Commerce-commercetools/errors/ExternalError';
 
 const defaultCurrency = 'USD';
@@ -332,7 +331,7 @@ const parseLocale = (locale: string, currency?: string): ParsedLocale => {
   };
 };
 
-const projectCacheTtlMilliseconds = 10 * 60 * 1000;
+const cacheTtlMilliseconds = 60 * 1000;
 const projectCache: {
   [projectKey: string]: { project: Project; expiryTime: number };
 } = {};
@@ -407,6 +406,7 @@ export abstract class BaseApi {
   protected projectKey: string;
   protected productIdField: string;
   protected categoryIdField: string;
+  protected productSelectionIdField: string;
   protected locale: string;
   protected defaultLocale: string;
   protected defaultCurrency: string;
@@ -435,6 +435,7 @@ export abstract class BaseApi {
     this.projectKey = this.clientSettings.projectKey;
     this.productIdField = this.clientSettings?.productIdField || 'key';
     this.categoryIdField = this.clientSettings?.categoryIdField || 'key';
+    this.productSelectionIdField = this.clientSettings?.productSelectionIdField || 'key';
 
     this.token = clientTokensStored.get(this.getClientHashKey());
 
@@ -507,7 +508,7 @@ export abstract class BaseApi {
     });
   }
 
-  protected async getProductTypes() {
+  protected async getCommercetoolsProductTypes(): Promise<ProductType[]> {
     const now = Date.now();
 
     if (this.projectKey in productTypesCache) {
@@ -527,7 +528,7 @@ export abstract class BaseApi {
 
         productTypesCache[this.projectKey] = {
           productTypes,
-          expiryTime: projectCacheTtlMilliseconds * 1000 + now,
+          expiryTime: cacheTtlMilliseconds + now,
         };
 
         return productTypes;
@@ -558,7 +559,7 @@ export abstract class BaseApi {
 
     projectCache[this.projectKey] = {
       project,
-      expiryTime: projectCacheTtlMilliseconds * 1000 + now,
+      expiryTime: cacheTtlMilliseconds + now,
     };
 
     return project;
@@ -722,7 +723,7 @@ export abstract class BaseApi {
       refreshToken,
     );
 
-    this.apiRoot = createApiBuilderFromCtpClient(client);
+    this.apiRoot = createApiBuilderFromCtpClient(client, this.clientSettings.hostUrl);
 
     return this.apiRoot;
   }

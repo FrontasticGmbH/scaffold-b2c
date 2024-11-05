@@ -216,6 +216,11 @@ export class CartMapper {
       ),
       payments: CartMapper.commercetoolsPaymentInfoToPayments(commercetoolsOrder.paymentInfo, locale),
       shipmentState: CartMapper.commercetoolsShipmentStateToShipmentState(commercetoolsOrder.shipmentState),
+      shippingInfo: CartMapper.commercetoolsShippingInfoToShippingInfo(
+        commercetoolsOrder.shippingInfo,
+        locale,
+        defaultLocale,
+      ),
     };
   };
 

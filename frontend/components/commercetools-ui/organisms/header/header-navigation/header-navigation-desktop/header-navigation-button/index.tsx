@@ -28,7 +28,7 @@ const HeaderNavigationButtonDesktop: FC<Props> = ({ show, link, updateSubMenu })
     <div onClick={updateSubMenu} className="h-52 px-10 py-12">
       <Link link={link?._url} title={link?.name} className={navLinkClassNames}>
         <Typography as="span">{link?.name}</Typography>
-        {link?.subCategories && link?.subCategories.length > 0 && (
+        {link?.descendants && link?.descendants.length > 0 && (
           <ChevronDownIcon className="ml-10 w-16 text-secondary-black" />
         )}
       </Link>

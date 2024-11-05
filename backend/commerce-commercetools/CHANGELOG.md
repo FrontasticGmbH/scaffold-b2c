@@ -1,4 +1,15 @@
 
+## Version 1.20.0 (2024-10-02)
+
+** New Features and Improvements **
+
+- Upgrades to support version Next.js version 14.2.9, React v18.3.1, Yarn4 .4.1 and Typescript version 5.5.4
+- Removed unused method that call APIHub directly
+
+** Bug fixes **
+
+- Remove unneeded cart fields during recreation
+
 ## Version 1.19.0 (2024-08-30)
 
 ** New Features and Improvements **

@@ -30,7 +30,7 @@ export interface Props {
 function ProductListTastic({ categories }: TasticProps<Props>) {
   const { slug } = useParams();
 
-  const categorySlug = slug.at(-1);
+  const categorySlug = slug?.at(-1);
 
   const searchParams = useSearchParams();
 
@@ -69,7 +69,7 @@ function ProductListAlgoliaTastic({ data, categories, ...props }: TasticProps<Pr
 
   const { addItem, shippingMethods } = useCart();
 
-  const flattenedCategories = categories.map((category) => flattenTree(category, 'subCategories')).flat();
+  const flattenedCategories = categories.map((category) => flattenTree(category, 'descendants')).flat();
 
   const facetsConfiguration = useFacetsConfiguration({ facetsConfiguration: data.facetsConfiguration, currency });
 

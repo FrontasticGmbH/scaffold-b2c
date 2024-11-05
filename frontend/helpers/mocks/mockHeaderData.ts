@@ -130,7 +130,7 @@ export const links: Category[] = [
     name: 'New Arrivals',
     slug: '076ab018-de9f-4a55-a436-ffd18d22fc66',
     depth: 0,
-    subCategories: [],
+    descendants: [],
     _url: '/076ab018-de9f-4a55-a436-ffd18d22fc66',
   },
   {
@@ -138,19 +138,19 @@ export const links: Category[] = [
     name: 'Furniture',
     slug: 'furniture',
     depth: 0,
-    subCategories: [
+    descendants: [
       {
         categoryId: 'c9f2b968-f5d3-4040-be9e-529219ef11ac',
         name: 'Bedroom Furniture',
         slug: 'bedroom-furniture',
         depth: 1,
-        subCategories: [
+        descendants: [
           {
             categoryId: '7165ecef-961d-4809-ab16-1a8c15531edc',
             name: 'Beds',
             slug: '7165ecef-961d-4809-ab16-1a8c15531edc',
             depth: 2,
-            subCategories: [],
+            descendants: [],
             _url: '/furniture/bedroom-furniture/7165ecef-961d-4809-ab16-1a8c15531edc',
           },
           {
@@ -158,7 +158,7 @@ export const links: Category[] = [
             name: 'Dressers',
             slug: '1c9de70f-5559-44b9-a48f-63b90cba8976',
             depth: 2,
-            subCategories: [],
+            descendants: [],
             _url: '/furniture/bedroom-furniture/1c9de70f-5559-44b9-a48f-63b90cba8976',
           },
           {
@@ -166,7 +166,7 @@ export const links: Category[] = [
             name: 'Bedside Tables',
             slug: 'fffcaf52-62c5-45a7-a0ec-4768e7d33d48',
             depth: 2,
-            subCategories: [],
+            descendants: [],
             _url: '/furniture/bedroom-furniture/fffcaf52-62c5-45a7-a0ec-4768e7d33d48',
           },
         ],
@@ -177,13 +177,13 @@ export const links: Category[] = [
         name: 'Living Room Furniture',
         slug: 'c5a3d83f-0ada-408f-84fc-a754d6aca8be',
         depth: 1,
-        subCategories: [
+        descendants: [
           {
             categoryId: '9e3934ee-d53f-4f3c-af09-5bb279f30672',
             name: 'Sofas',
             slug: '9e3934ee-d53f-4f3c-af09-5bb279f30672',
             depth: 2,
-            subCategories: [],
+            descendants: [],
             _url: '/furniture/c5a3d83f-0ada-408f-84fc-a754d6aca8be/9e3934ee-d53f-4f3c-af09-5bb279f30672',
           },
           {
@@ -191,7 +191,7 @@ export const links: Category[] = [
             name: 'Chairs',
             slug: '826ab7ee-eb45-4f4f-9ae0-5cd6eea53c4b',
             depth: 2,
-            subCategories: [],
+            descendants: [],
             _url: '/furniture/c5a3d83f-0ada-408f-84fc-a754d6aca8be/826ab7ee-eb45-4f4f-9ae0-5cd6eea53c4b',
           },
           {
@@ -199,7 +199,7 @@ export const links: Category[] = [
             name: 'Coffee Tables',
             slug: '2e51af19-440f-428d-9783-c9dd614abee2',
             depth: 2,
-            subCategories: [],
+            descendants: [],
             _url: '/furniture/c5a3d83f-0ada-408f-84fc-a754d6aca8be/2e51af19-440f-428d-9783-c9dd614abee2',
           },
           {
@@ -207,7 +207,7 @@ export const links: Category[] = [
             name: 'Side Tables',
             slug: 'fae26257-81b4-4c57-9997-a0efefd77271',
             depth: 2,
-            subCategories: [],
+            descendants: [],
             _url: '/furniture/c5a3d83f-0ada-408f-84fc-a754d6aca8be/fae26257-81b4-4c57-9997-a0efefd77271',
           },
         ],
@@ -218,13 +218,13 @@ export const links: Category[] = [
         name: 'Home Office Furniture',
         slug: 'bb26c6ec-244e-4390-962a-da377f1df8ff',
         depth: 1,
-        subCategories: [
+        descendants: [
           {
             categoryId: '92584630-d632-4449-b830-503077bc509e',
             name: 'Desks and Chairs',
             slug: '92584630-d632-4449-b830-503077bc509e',
             depth: 2,
-            subCategories: [],
+            descendants: [],
             _url: '/furniture/bb26c6ec-244e-4390-962a-da377f1df8ff/92584630-d632-4449-b830-503077bc509e',
           },
           {
@@ -232,7 +232,7 @@ export const links: Category[] = [
             name: 'Bookcases',
             slug: '6fc735c1-6a8d-40f8-9ec7-261088659738',
             depth: 2,
-            subCategories: [],
+            descendants: [],
             _url: '/furniture/bb26c6ec-244e-4390-962a-da377f1df8ff/6fc735c1-6a8d-40f8-9ec7-261088659738',
           },
         ],
@@ -243,13 +243,13 @@ export const links: Category[] = [
         name: 'Collections',
         slug: '3df55be6-ebce-4887-934e-bff43e183858',
         depth: 1,
-        subCategories: [
+        descendants: [
           {
             categoryId: '7c3f060a-0548-4d9c-90d5-718e23498ef4',
             name: 'The Modernist',
             slug: '7c3f060a-0548-4d9c-90d5-718e23498ef4',
             depth: 2,
-            subCategories: [],
+            descendants: [],
             _url: '/furniture/3df55be6-ebce-4887-934e-bff43e183858/7c3f060a-0548-4d9c-90d5-718e23498ef4',
           },
           {
@@ -257,7 +257,7 @@ export const links: Category[] = [
             name: 'The Traditionalist',
             slug: '9c5ec253-dfc8-45c4-b79c-0686262c57d3',
             depth: 2,
-            subCategories: [],
+            descendants: [],
             _url: '/furniture/3df55be6-ebce-4887-934e-bff43e183858/9c5ec253-dfc8-45c4-b79c-0686262c57d3',
           },
           {
@@ -265,7 +265,7 @@ export const links: Category[] = [
             name: 'The Minimalist',
             slug: 'de27ed3f-9c2e-4ada-aa06-1ca86a972c43',
             depth: 2,
-            subCategories: [],
+            descendants: [],
             _url: '/furniture/3df55be6-ebce-4887-934e-bff43e183858/de27ed3f-9c2e-4ada-aa06-1ca86a972c43',
           },
         ],
@@ -279,19 +279,19 @@ export const links: Category[] = [
     name: 'Home Decor',
     slug: '575a0a47-dfbf-4033-9dfa-ce83c02df046',
     depth: 0,
-    subCategories: [
+    descendants: [
       {
         categoryId: 'fae8b9af-3b41-474b-9301-772745e395b7',
         name: 'Planters',
         slug: 'fae8b9af-3b41-474b-9301-772745e395b7',
         depth: 1,
-        subCategories: [
+        descendants: [
           {
             categoryId: 'a4dea945-8878-41ea-b34a-823d54a62932',
             name: 'Outdoor Planters',
             slug: 'a4dea945-8878-41ea-b34a-823d54a62932',
             depth: 2,
-            subCategories: [],
+            descendants: [],
             _url: '/575a0a47-dfbf-4033-9dfa-ce83c02df046/fae8b9af-3b41-474b-9301-772745e395b7/a4dea945-8878-41ea-b34a-823d54a62932',
           },
           {
@@ -299,7 +299,7 @@ export const links: Category[] = [
             name: 'Indoor Planters',
             slug: '61bbf560-a5d4-4143-a79d-9b3fe40d3595',
             depth: 2,
-            subCategories: [],
+            descendants: [],
             _url: '/575a0a47-dfbf-4033-9dfa-ce83c02df046/fae8b9af-3b41-474b-9301-772745e395b7/61bbf560-a5d4-4143-a79d-9b3fe40d3595',
           },
         ],
@@ -310,13 +310,13 @@ export const links: Category[] = [
         name: 'Wall Art',
         slug: 'b525d872-5fc3-402f-a2e7-f034b5246bde',
         depth: 1,
-        subCategories: [
+        descendants: [
           {
             categoryId: '08ac4b0c-0d5d-499b-a1b6-428549d3e2d6',
             name: 'Sculptures',
             slug: '08ac4b0c-0d5d-499b-a1b6-428549d3e2d6',
             depth: 2,
-            subCategories: [],
+            descendants: [],
             _url: '/575a0a47-dfbf-4033-9dfa-ce83c02df046/b525d872-5fc3-402f-a2e7-f034b5246bde/08ac4b0c-0d5d-499b-a1b6-428549d3e2d6',
           },
           {
@@ -324,7 +324,7 @@ export const links: Category[] = [
             name: 'Classical Art',
             slug: '52be52f3-f2e9-466e-baf5-c9408c75a65b',
             depth: 2,
-            subCategories: [],
+            descendants: [],
             _url: '/575a0a47-dfbf-4033-9dfa-ce83c02df046/b525d872-5fc3-402f-a2e7-f034b5246bde/52be52f3-f2e9-466e-baf5-c9408c75a65b',
           },
           {
@@ -332,7 +332,7 @@ export const links: Category[] = [
             name: 'Modern Art',
             slug: 'a850800b-2c64-460d-84d5-48123d5682fc',
             depth: 2,
-            subCategories: [],
+            descendants: [],
             _url: '/575a0a47-dfbf-4033-9dfa-ce83c02df046/b525d872-5fc3-402f-a2e7-f034b5246bde/a850800b-2c64-460d-84d5-48123d5682fc',
           },
         ],
@@ -343,13 +343,13 @@ export const links: Category[] = [
         name: 'Pillows',
         slug: 'a2b7fb69-4696-4929-944d-e238dab709c7',
         depth: 1,
-        subCategories: [
+        descendants: [
           {
             categoryId: '20f6d3d8-5243-4790-8cd9-8914ee45c6a6',
             name: 'Pillow Covers',
             slug: '20f6d3d8-5243-4790-8cd9-8914ee45c6a6',
             depth: 2,
-            subCategories: [],
+            descendants: [],
             _url: '/575a0a47-dfbf-4033-9dfa-ce83c02df046/a2b7fb69-4696-4929-944d-e238dab709c7/20f6d3d8-5243-4790-8cd9-8914ee45c6a6',
           },
           {
@@ -357,7 +357,7 @@ export const links: Category[] = [
             name: 'Memory Foam',
             slug: '9789ac68-5615-4f07-bbb8-3ce0ef070585',
             depth: 2,
-            subCategories: [],
+            descendants: [],
             _url: '/575a0a47-dfbf-4033-9dfa-ce83c02df046/a2b7fb69-4696-4929-944d-e238dab709c7/9789ac68-5615-4f07-bbb8-3ce0ef070585',
           },
           {
@@ -365,7 +365,7 @@ export const links: Category[] = [
             name: 'Feather',
             slug: '92ee3331-372a-47b4-a345-31f22946885c',
             depth: 2,
-            subCategories: [],
+            descendants: [],
             _url: '/575a0a47-dfbf-4033-9dfa-ce83c02df046/a2b7fb69-4696-4929-944d-e238dab709c7/92ee3331-372a-47b4-a345-31f22946885c',
           },
         ],
@@ -376,13 +376,13 @@ export const links: Category[] = [
         name: 'Room Decor',
         slug: 'cbae1758-bda1-415e-833a-e298d4f44e54',
         depth: 1,
-        subCategories: [
+        descendants: [
           {
             categoryId: 'c6d01af9-703d-411a-822d-60db50fbe32b',
             name: 'Vases',
             slug: 'c6d01af9-703d-411a-822d-60db50fbe32b',
             depth: 2,
-            subCategories: [],
+            descendants: [],
             _url: '/575a0a47-dfbf-4033-9dfa-ce83c02df046/cbae1758-bda1-415e-833a-e298d4f44e54/c6d01af9-703d-411a-822d-60db50fbe32b',
           },
           {
@@ -390,7 +390,7 @@ export const links: Category[] = [
             name: 'Candles',
             slug: '82bd0a34-4b93-4ba9-aa7b-e339083aee06',
             depth: 2,
-            subCategories: [],
+            descendants: [],
             _url: '/575a0a47-dfbf-4033-9dfa-ce83c02df046/cbae1758-bda1-415e-833a-e298d4f44e54/82bd0a34-4b93-4ba9-aa7b-e339083aee06',
           },
           {
@@ -398,7 +398,7 @@ export const links: Category[] = [
             name: 'Baskets',
             slug: '023d9c67-2ad0-4fe8-ba33-5d93fe1de09f',
             depth: 2,
-            subCategories: [],
+            descendants: [],
             _url: '/575a0a47-dfbf-4033-9dfa-ce83c02df046/cbae1758-bda1-415e-833a-e298d4f44e54/023d9c67-2ad0-4fe8-ba33-5d93fe1de09f',
           },
         ],
@@ -412,19 +412,19 @@ export const links: Category[] = [
     name: 'Kitchen',
     slug: 'cdb77397-cf53-4afc-bbf7-b3db5f99dfe4',
     depth: 0,
-    subCategories: [
+    descendants: [
       {
         categoryId: '3f30317c-ef62-4c59-a646-3b9e382f46df',
         name: 'Serveware',
         slug: '3f30317c-ef62-4c59-a646-3b9e382f46df',
         depth: 1,
-        subCategories: [
+        descendants: [
           {
             categoryId: '66951be4-a3ce-461e-9529-5c5f268479c3',
             name: 'Bakeware',
             slug: '66951be4-a3ce-461e-9529-5c5f268479c3',
             depth: 2,
-            subCategories: [],
+            descendants: [],
             _url: '/cdb77397-cf53-4afc-bbf7-b3db5f99dfe4/3f30317c-ef62-4c59-a646-3b9e382f46df/66951be4-a3ce-461e-9529-5c5f268479c3',
           },
           {
@@ -432,7 +432,7 @@ export const links: Category[] = [
             name: 'Cheese Trays',
             slug: '286156f7-b6de-4962-92d3-38023db1c2e6',
             depth: 2,
-            subCategories: [],
+            descendants: [],
             _url: '/cdb77397-cf53-4afc-bbf7-b3db5f99dfe4/3f30317c-ef62-4c59-a646-3b9e382f46df/286156f7-b6de-4962-92d3-38023db1c2e6',
           },
           {
@@ -440,7 +440,7 @@ export const links: Category[] = [
             name: 'Serving Platters',
             slug: 'f4784457-09e7-4bb5-bc18-1fabd0ec5dc9',
             depth: 2,
-            subCategories: [],
+            descendants: [],
             _url: '/cdb77397-cf53-4afc-bbf7-b3db5f99dfe4/3f30317c-ef62-4c59-a646-3b9e382f46df/f4784457-09e7-4bb5-bc18-1fabd0ec5dc9',
           },
         ],
@@ -451,13 +451,13 @@ export const links: Category[] = [
         name: 'Bar and Glassware',
         slug: '0190c54c-de58-42f2-9790-81c2a6a6bd77',
         depth: 1,
-        subCategories: [
+        descendants: [
           {
             categoryId: '3cdb27f4-673f-42a5-9f7e-48ea10fef85d',
             name: 'Bar Accessories',
             slug: '3cdb27f4-673f-42a5-9f7e-48ea10fef85d',
             depth: 2,
-            subCategories: [],
+            descendants: [],
             _url: '/cdb77397-cf53-4afc-bbf7-b3db5f99dfe4/0190c54c-de58-42f2-9790-81c2a6a6bd77/3cdb27f4-673f-42a5-9f7e-48ea10fef85d',
           },
           {
@@ -465,7 +465,7 @@ export const links: Category[] = [
             name: 'Coasters',
             slug: 'f7850832-e22f-4487-8460-d62edd6e5804',
             depth: 2,
-            subCategories: [],
+            descendants: [],
             _url: '/cdb77397-cf53-4afc-bbf7-b3db5f99dfe4/0190c54c-de58-42f2-9790-81c2a6a6bd77/f7850832-e22f-4487-8460-d62edd6e5804',
           },
           {
@@ -473,7 +473,7 @@ export const links: Category[] = [
             name: 'Glassware',
             slug: '36c8214a-68e1-48fb-ac27-0d2763bbf5c3',
             depth: 2,
-            subCategories: [],
+            descendants: [],
             _url: '/cdb77397-cf53-4afc-bbf7-b3db5f99dfe4/0190c54c-de58-42f2-9790-81c2a6a6bd77/36c8214a-68e1-48fb-ac27-0d2763bbf5c3',
           },
         ],
@@ -484,13 +484,13 @@ export const links: Category[] = [
         name: 'Dinnerware',
         slug: 'bb10ed31-b247-4aef-9166-4463ded2e32b',
         depth: 1,
-        subCategories: [
+        descendants: [
           {
             categoryId: '47a52b0f-6c52-41f9-af0d-7b71886ec40e',
             name: 'Plates',
             slug: '47a52b0f-6c52-41f9-af0d-7b71886ec40e',
             depth: 2,
-            subCategories: [],
+            descendants: [],
             _url: '/cdb77397-cf53-4afc-bbf7-b3db5f99dfe4/bb10ed31-b247-4aef-9166-4463ded2e32b/47a52b0f-6c52-41f9-af0d-7b71886ec40e',
           },
           {
@@ -498,7 +498,7 @@ export const links: Category[] = [
             name: 'Bowls',
             slug: '76b0a5c2-cd33-45e6-aaaa-ad29a116c05e',
             depth: 2,
-            subCategories: [],
+            descendants: [],
             _url: '/cdb77397-cf53-4afc-bbf7-b3db5f99dfe4/bb10ed31-b247-4aef-9166-4463ded2e32b/76b0a5c2-cd33-45e6-aaaa-ad29a116c05e',
           },
           {
@@ -506,7 +506,7 @@ export const links: Category[] = [
             name: 'Mugs',
             slug: '9b8d2c88-e859-44fb-a5fd-5576e3621bc2',
             depth: 2,
-            subCategories: [],
+            descendants: [],
             _url: '/cdb77397-cf53-4afc-bbf7-b3db5f99dfe4/bb10ed31-b247-4aef-9166-4463ded2e32b/9b8d2c88-e859-44fb-a5fd-5576e3621bc2',
           },
         ],

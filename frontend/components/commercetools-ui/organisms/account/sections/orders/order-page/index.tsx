@@ -23,7 +23,7 @@ const OrderPage: FC<Props> = ({ order, shippingMethods }) => {
     <div className="md:mt-20 lg:mt-40">
       {order && (
         <>
-          <OrderNumber orderNumber={order.orderId ?? ''} />
+          <OrderNumber orderNumber={order.orderNumber ?? ''} />
 
           <div className="mt-12">
             <OrderStatusBar

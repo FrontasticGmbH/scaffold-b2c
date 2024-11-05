@@ -1,4 +1,20 @@
 
+## Version 1.18.0 (2024-10-02)
+
+** New Features and Improvements **
+
+- Unit tests in B2C
+- Upgrades to support version Next.js version 14.2.9, React v18.3.1, Yarn4 .4.1 and Typescript version 5.5.4
+- Refactored Makret Button and all consequest needed props passing accordingly
+- Separated business logic from auth components
+
+** Bug fixes **
+
+- Login modal not closing upon login
+- Fix broken auth components
+- Removed remainig business logic in UI components
+- Updated wishlist data prop as optional
+
 ## Version 1.17.0 (2024-08-30)
 
 ** New Features and Improvements **

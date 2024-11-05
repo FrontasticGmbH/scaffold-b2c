@@ -20,7 +20,7 @@ const OrderItem: FC<Props> = ({ order }) => {
   const { locale } = useParams();
 
   const { formatMessage: formatOrdersMessage } = useFormat({ name: 'orders' });
-  const { total: getTotal } = mapCosts({ order, currency });
+  const { total: getTotal } = mapCosts({ cart: order, currency });
 
   const handleReturnClick = () => {
     toast.success(formatOrdersMessage({ id: 'return.success', defaultMessage: 'Return created' }));
@@ -34,13 +34,13 @@ const OrderItem: FC<Props> = ({ order }) => {
         <div className="flex-col">
           <div className="flex whitespace-nowrap pb-16">
             <Typography className="text-14 font-medium text-primary-black lg:text-16">
-              {formatOrdersMessage({ id: 'order.id', defaultMessage: 'Order ID: ' })}
+              {formatOrdersMessage({ id: 'order.number', defaultMessage: 'Order number ' })}
             </Typography>
             <Typography
               className="truncate pl-5 text-14 text-primary-black lg:text-16"
-              title={order?.orderId?.replaceAll('-', ' ')}
+              title={order?.orderNumber?.replaceAll('-', ' ')}
             >
-              {order?.orderId?.replaceAll('-', ' ')}
+              {order?.orderNumber?.replaceAll('-', ' ')}
             </Typography>
           </div>
 

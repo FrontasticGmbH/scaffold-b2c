@@ -38,7 +38,7 @@ const useCart = (): UseCartReturn => {
 
   const hasOutOfStockItems = !!data?.data?.lineItems?.some((lineItem) => !lineItem.variant?.isOnStock);
 
-  const transaction = useMemo(() => mapCosts({ reference: 'cart', cart: data.data, currency }), [data.data, currency]);
+  const transaction = useMemo(() => mapCosts({ cart: data.data, currency }), [data.data, currency]);
 
   const addItem = useCallback(async (variant: Variant, quantity: number) => {
     const extensions = sdk.composableCommerce;

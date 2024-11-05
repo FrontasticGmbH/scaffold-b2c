@@ -5,7 +5,6 @@ import { getTranslations } from 'helpers/i18n/get-translations';
 import fetchAccount from 'helpers/server/fetch-account';
 import fetchCategories from 'helpers/server/fetch-categories';
 import fetchPageData from 'helpers/server/fetch-page-data';
-import { getLocalizationInfo } from 'project.config';
 import { Providers } from 'providers';
 import { sdk } from 'sdk';
 import { PageProps } from 'types/next';
@@ -25,12 +24,10 @@ export async function generateMetadata({ params, searchParams }: PageProps): Pro
 
   const { seoTitle, seoDescription, seoKeywords } = response.data.pageFolder.configuration;
 
-  const { locale } = getLocalizationInfo(nextLocale);
-
   return {
-    title: seoTitle?.[locale],
-    description: seoDescription?.[locale],
-    keywords: seoKeywords?.[locale],
+    title: seoTitle,
+    description: seoDescription,
+    keywords: seoKeywords,
   };
 }
 

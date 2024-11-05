@@ -1418,15 +1418,16 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@commercetools/platform-sdk@npm:7.3.0":
-  version: 7.3.0
-  resolution: "@commercetools/platform-sdk@npm:7.3.0"
+"@commercetools/platform-sdk@npm:7.9.0":
+  version: 7.9.0
+  resolution: "@commercetools/platform-sdk@npm:7.9.0"
   dependencies:
-    "@commercetools/sdk-client-v2": "npm:^2.2.2"
+    "@commercetools/sdk-client-v2": "npm:^2.5.0"
     "@commercetools/sdk-middleware-auth": "npm:^7.0.0"
     "@commercetools/sdk-middleware-http": "npm:^7.0.0"
     "@commercetools/sdk-middleware-logger": "npm:^3.0.0"
-  checksum: 10c0/59c10217365f9ec1a1060d955a47b243ffc87b478a33b55ed35b163a2b6043211b2283fa1253507cb69a0e7eba9704886aed5d3f1aa06bf4e4ffb9f17283c636
+    "@commercetools/ts-client": "npm:^2.0.0"
+  checksum: 10c0/e8a002049986956b2970dc8ea1a69c8103257a405ea5957a7ceccd69f1acd500e7bc28c1b2af9668c6eeb8b05f771090f7b784b71208d5d2c67243e43ff316a7
   languageName: node
   linkType: hard
 
@@ -1440,7 +1441,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@commercetools/sdk-client-v2@npm:^2.2.2":
+"@commercetools/sdk-client-v2@npm:^2.5.0":
   version: 2.5.0
   resolution: "@commercetools/sdk-client-v2@npm:2.5.0"
   dependencies:
@@ -1470,6 +1471,16 @@ __metadata:
   version: 3.0.0
   resolution: "@commercetools/sdk-middleware-logger@npm:3.0.0"
   checksum: 10c0/2d05b59d020c4db0d93ff29f658ef1facbae4cf5a0499c453fac7ede533afc65c9ab0d76108e31bf1e6762dd01c7b64c7b36ba0f83efad3fb0fdd9896e74ec6b
+  languageName: node
+  linkType: hard
+
+"@commercetools/ts-client@npm:^2.0.0":
+  version: 2.1.0
+  resolution: "@commercetools/ts-client@npm:2.1.0"
+  dependencies:
+    abort-controller: "npm:3.0.0"
+    node-fetch: "npm:^2.6.1"
+  checksum: 10c0/345281604b28efd7eff0c6fcb4952ad51690606bef2e4a964b5ea6a1614c63ce2de5e43f0dba2869b3ddfbe3e3d0da61b4e265196fd9847cc703b3fd0033b941
   languageName: node
   linkType: hard
 
@@ -1703,7 +1714,7 @@ __metadata:
     "@babel/preset-env": "npm:^7.16.5"
     "@babel/runtime": "npm:^7.16.5"
     "@bloomreach/spa-sdk": "npm:^22.0.0"
-    "@commercetools/platform-sdk": "npm:7.3.0"
+    "@commercetools/platform-sdk": "npm:7.9.0"
     "@commercetools/sdk-client-v2": "npm:2.3.0"
     "@frontastic/extension-types": "npm:0.0.11"
     "@sendgrid/mail": "npm:^7.7.0"
@@ -2567,6 +2578,15 @@ __metadata:
   version: 2.0.0
   resolution: "abbrev@npm:2.0.0"
   checksum: 10c0/f742a5a107473946f426c691c08daba61a1d15942616f300b5d32fd735be88fef5cba24201757b6c407fd564555fb48c751cfa33519b2605c8a7aadd22baf372
+  languageName: node
+  linkType: hard
+
+"abort-controller@npm:3.0.0":
+  version: 3.0.0
+  resolution: "abort-controller@npm:3.0.0"
+  dependencies:
+    event-target-shim: "npm:^5.0.0"
+  checksum: 10c0/90ccc50f010250152509a344eb2e71977fbf8db0ab8f1061197e3275ddf6c61a41a6edfd7b9409c664513131dd96e962065415325ef23efa5db931b382d24ca5
   languageName: node
   linkType: hard
 
@@ -4333,6 +4353,13 @@ __metadata:
   version: 2.0.3
   resolution: "esutils@npm:2.0.3"
   checksum: 10c0/9a2fe69a41bfdade834ba7c42de4723c97ec776e40656919c62cbd13607c45e127a003f05f724a1ea55e5029a4cf2de444b13009f2af71271e42d93a637137c7
+  languageName: node
+  linkType: hard
+
+"event-target-shim@npm:^5.0.0":
+  version: 5.0.1
+  resolution: "event-target-shim@npm:5.0.1"
+  checksum: 10c0/0255d9f936215fd206156fd4caa9e8d35e62075d720dc7d847e89b417e5e62cf1ce6c9b4e0a1633a9256de0efefaf9f8d26924b1f3c8620cffb9db78e7d3076b
   languageName: node
   linkType: hard
 

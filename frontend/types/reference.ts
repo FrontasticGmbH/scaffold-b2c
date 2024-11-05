@@ -15,7 +15,7 @@ export interface PageFolderReference {
     };
     _url: string;
   };
-  openInNewWindow: boolean;
+  openInNewWindow?: boolean;
 }
 
 export type Reference = LinkReference | PageFolderReference;

@@ -36,6 +36,7 @@ const Cart = ({
       <div className="flex flex-col lg:flex-row lg:items-start lg:gap-26 lg:px-20 lg:py-48 xl:px-48">
         <CartContent
           className="bg-white px-16 py-12 md:px-24 md:py-12 lg:w-[70%] lg:rounded-md lg:px-20 lg:py-36 xl:px-48"
+          isEmpty={isEmpty}
           {...props}
         />
 

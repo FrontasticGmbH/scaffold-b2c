@@ -34,8 +34,8 @@ const MenuDropdown: FC<Props> = ({ show, links, tileContent, onClick }) => {
                     <Typography className="text-14">{link.name}</Typography>
                   </Link>
                 </div>
-                {link.subCategories &&
-                  link.subCategories.map((field) => (
+                {link.descendants &&
+                  link.descendants.map((field) => (
                     <div key={field.categoryId} onClick={onClick} className="w-min pb-8">
                       <Link link={field?._url} variant="menu-item" className="whitespace-nowrap">
                         <Typography className="text-14">{field.name}</Typography>

@@ -1,7 +1,7 @@
 import React, { FC, useEffect, useState } from 'react';
 import Button from 'components/commercetools-ui/atoms/button';
-import Dropdown from 'components/commercetools-ui/atoms/dropdown';
 import Link from 'components/commercetools-ui/atoms/link';
+import QuantitySelector from 'components/commercetools-ui/atoms/quantity-selector';
 import Typography from 'components/commercetools-ui/atoms/typography';
 import Breadcrumb from 'components/commercetools-ui/molecules/breadcrumb';
 import Gallery from 'components/commercetools-ui/organisms/gallery';
@@ -50,17 +50,13 @@ const ProductDetails: FC<ProductDetailsProps> = ({
   const { formatMessage } = useFormat({ name: 'cart' });
   const { formatMessage: formatProductMessage } = useFormat({ name: 'product' });
 
-  const [quantity, setQuantity] = useState<number>(1);
+  const [quantity, setQuantity] = useState<number>(variant.isOnStock ? 1 : 0);
   const [loading, setLoading] = useState(false);
   const [added, setAdded] = useState(false);
 
   const { trackAddToCart } = useTrack({ product, inModalVersion });
 
   const { show, fetchRelatedProducts } = useAddToCartOverlay();
-
-  const handleQuantityChange = (e: React.FormEvent) => {
-    setQuantity(+(e.target as HTMLSelectElement).value);
-  };
 
   const handleAddToCart = async () => {
     setLoading(true);
@@ -136,19 +132,11 @@ const ProductDetails: FC<ProductDetailsProps> = ({
         )}
 
         <div className="flex gap-8 pt-20">
-          <Dropdown
-            className="h-full rounded-sm"
-            value={quantity.toString()}
-            items={Array(10)
-              .fill(0)
-              .map((_, index) => {
-                const value = `${index + 1}`;
-                return {
-                  label: value,
-                  value,
-                };
-              })}
-            onChange={handleQuantityChange}
+          <QuantitySelector
+            value={quantity}
+            minValue={variant.isOnStock ? 1 : 0}
+            disabled={!variant.isOnStock}
+            onChange={setQuantity}
           />
           <Button
             className="w-full rounded-sm text-14 font-medium"
@@ -158,7 +146,9 @@ const ProductDetails: FC<ProductDetailsProps> = ({
             added={added}
             disabled={!variant.isOnStock}
           >
-            {formatMessage({ id: 'cart.add', defaultMessage: 'Add to cart' })}
+            {variant.isOnStock
+              ? formatMessage({ id: 'cart.add', defaultMessage: 'Add to cart' })
+              : formatProductMessage({ id: 'currently.unavailable', defaultMessage: 'Currently unavailable' })}
           </Button>
         </div>
 

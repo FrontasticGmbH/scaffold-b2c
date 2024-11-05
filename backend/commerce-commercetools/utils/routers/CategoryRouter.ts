@@ -32,7 +32,7 @@ export class CategoryRouter {
         return null;
       }
 
-      request.query.categories = [(categoryQueryResult.items[0] as Category).categoryId];
+      request.query.categories = [(categoryQueryResult.items[0] as Category).categoryRef];
 
       const productQuery = ProductQueryFactory.queryFromParams({
         ...request,

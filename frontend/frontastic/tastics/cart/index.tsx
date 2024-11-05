@@ -19,6 +19,7 @@ const CartTastic = ({ data, categories }: TasticProps<CartProps>) => {
     updateItem,
     redeemDiscountCode,
     removeDiscountCode,
+    totalItems,
   } = useCart();
 
   const { data: wishlist, addToWishlist } = useWishlist();
@@ -53,6 +54,7 @@ const CartTastic = ({ data, categories }: TasticProps<CartProps>) => {
       {...data}
       cart={cart}
       isEmpty={isEmpty}
+      totalItems={totalItems}
       hasOutOfStockItems={hasOutOfStockItems}
       onApplyDiscountCode={redeemDiscountCode}
       onRemoveDiscountCode={removeDiscountCode}

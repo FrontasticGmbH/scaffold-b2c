@@ -51,7 +51,7 @@ const OrderSummaryMobile: FC<Props> = ({ order }) => {
 
           <div className="flex">
             <Typography className="hidden pr-8 font-medium text-primary-black md:block">
-              {CurrencyHelpers.formatForCurrency(mapCosts({ order, currency }).total)}
+              {CurrencyHelpers.formatForCurrency(mapCosts({ cart: order, currency }).total)}
             </Typography>
             <ChevronDownIcon width={20} strokeWidth={1.5} className={arrowClassNames} />
           </div>

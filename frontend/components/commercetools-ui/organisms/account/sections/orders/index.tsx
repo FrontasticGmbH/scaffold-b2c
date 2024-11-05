@@ -55,7 +55,7 @@ const Orders = ({ orders, loading }: Props) => {
     'h-fit w-full',
     leftArrowAppear === true ? 'pl-36' : 'pl-16',
     rightArrowAppear === true ? 'pr-36' : 'pr-16',
-    !overflow && 'flex justify-center px-16',
+    { 'flex justify-center px-16': !overflow },
   ]);
 
   const swiperReachBeginning = useCallback(() => {

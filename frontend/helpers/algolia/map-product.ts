@@ -27,7 +27,7 @@ export const mapProduct = (hit: Hit<BaseHit>, locale: string): Product => {
   return {
     productId: productHit.productId,
     name: productHit.name,
-    categories: productHit.categories.map((category) => ({ categoryId: category.id, subCategories: [] })),
+    categories: productHit.categories.map((category) => ({ categoryId: category.id, descendants: [] })),
     variants: productHit.variants.map((variant) => ({
       ...variant,
       price: { ...variant.prices[currency], currencyCode: currency },

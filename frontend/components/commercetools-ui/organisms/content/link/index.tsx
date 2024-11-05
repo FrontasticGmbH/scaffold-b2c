@@ -17,7 +17,7 @@ const Link: React.FC<React.PropsWithChildren<Props>> = ({
   withArrow = false,
   className = '',
 }) => {
-  const classNames = useClassNames([underlined && 'underline', className]);
+  const classNames = useClassNames([{ underline: underlined }, className]);
 
   return (
     <ReferenceLink

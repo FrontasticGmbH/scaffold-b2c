@@ -19,7 +19,7 @@ const MobileMenuNavButton: FC<Props> = ({ link, categoriesNavigator, onClick, hi
   ]);
   return (
     <div key={link.categoryId} className="cursor-pointer">
-      {link?.subCategories && link?.subCategories?.length > 0 ? (
+      {link?.descendants && link?.descendants?.length > 0 ? (
         <div onClick={onClick} className={linkClassNames}>
           <Typography className="text-primary-black">{link.name}</Typography>
           <ChevronRightIcon className="w-20 text-secondary-black" />

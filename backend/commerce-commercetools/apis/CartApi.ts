@@ -1,6 +1,7 @@
 import { Cart } from '@Types/cart/Cart';
 import {
   Cart as CommercetoolsCart,
+  Order as CommercetoolsOrder,
   CartAddDiscountCodeAction,
   CartAddLineItemAction,
   CartAddPaymentAction,
@@ -17,6 +18,7 @@ import {
   CartUpdate,
   OrderFromCartDraft,
   OrderState,
+  OrderUpdate,
   OrderUpdateAction,
   PaymentDraft,
   PaymentState,
@@ -45,6 +47,13 @@ import { ProductMapper } from '@Commerce-commercetools/mappers/ProductMapper';
 import { getOffsetFromCursor } from '@Commerce-commercetools/utils/Pagination';
 import { ExternalError } from '@Commerce-commercetools/errors/ExternalError';
 import { Guid } from '@Commerce-commercetools/utils/Guid';
+
+const CART_EXPANDS = [
+  'lineItems[*].discountedPrice.includedDiscounts[*].discount',
+  'discountCodes[*].discountCode',
+  'paymentInfo.payments[*]',
+];
+const ORDER_EXPANDS = [...CART_EXPANDS, 'orderState'];
 
 export class CartApi extends BaseApi {
   productApi: ProductApi;
@@ -90,11 +99,7 @@ export class CartApi extends BaseApi {
       .get({
         queryArgs: {
           limit: 1,
-          expand: [
-            'lineItems[*].discountedPrice.includedDiscounts[*].discount',
-            'discountCodes[*].discountCode',
-            'paymentInfo.payments[*]',
-          ],
+          expand: CART_EXPANDS,
           where: [`customerId="${account.accountId}"`, `cartState="Active"`],
           sort: 'lastModifiedAt desc',
         },
@@ -121,11 +126,7 @@ export class CartApi extends BaseApi {
       .carts()
       .post({
         queryArgs: {
-          expand: [
-            'lineItems[*].discountedPrice.includedDiscounts[*].discount',
-            'discountCodes[*].discountCode',
-            'paymentInfo.payments[*]',
-          ],
+          expand: CART_EXPANDS,
         },
         body: cartDraft,
       })
@@ -148,11 +149,7 @@ export class CartApi extends BaseApi {
       .get({
         queryArgs: {
           limit: 1,
-          expand: [
-            'lineItems[*].discountedPrice.includedDiscounts[*].discount',
-            'discountCodes[*].discountCode',
-            'paymentInfo.payments[*]',
-          ],
+          expand: CART_EXPANDS,
           where: [`anonymousId="${Guid.newGuid()}"`, `cartState="Active"`],
           sort: 'createdAt desc',
         },
@@ -178,11 +175,7 @@ export class CartApi extends BaseApi {
       .carts()
       .post({
         queryArgs: {
-          expand: [
-            'lineItems[*].discountedPrice.includedDiscounts[*].discount',
-            'discountCodes[*].discountCode',
-            'paymentInfo.payments[*]',
-          ],
+          expand: CART_EXPANDS,
         },
         body: cartDraft,
       })
@@ -206,11 +199,7 @@ export class CartApi extends BaseApi {
       .get({
         queryArgs: {
           limit: 1,
-          expand: [
-            'lineItems[*].discountedPrice.includedDiscounts[*].discount',
-            'discountCodes[*].discountCode',
-            'paymentInfo.payments[*]',
-          ],
+          expand: CART_EXPANDS,
         },
       })
       .execute()
@@ -375,11 +364,7 @@ export class CartApi extends BaseApi {
       .orders()
       .post({
         queryArgs: {
-          expand: [
-            'lineItems[*].discountedPrice.includedDiscounts[*].discount',
-            'discountCodes[*].discountCode',
-            'paymentInfo.payments[*]',
-          ],
+          expand: CART_EXPANDS,
         },
         body: orderFromCartDraft,
       })
@@ -399,11 +384,7 @@ export class CartApi extends BaseApi {
       .orders()
       .get({
         queryArgs: {
-          expand: [
-            'lineItems[*].discountedPrice.includedDiscounts[*].discount',
-            'discountCodes[*].discountCode',
-            'paymentInfo.payments[*]',
-          ],
+          expand: CART_EXPANDS,
           where: `customerId="${account.accountId}"`,
           sort: 'createdAt desc',
         },
@@ -831,12 +812,12 @@ export class CartApi extends BaseApi {
 
     const searchQuery = orderQuery.query && orderQuery.query;
 
-    return this.requestBuilder()
+    const queryResult = await this.requestBuilder()
       .orders()
       .get({
         queryArgs: {
           where: whereClause,
-          expand: ['orderState'],
+          expand: ORDER_EXPANDS,
           limit: limit,
           offset: getOffsetFromCursor(orderQuery.cursor),
           sort: sortAttributes,
@@ -861,6 +842,18 @@ export class CartApi extends BaseApi {
       .catch((error) => {
         throw new ExternalError({ statusCode: error.code, message: error.message, body: error.body });
       });
+
+    // If the order was created without an order number, set one now
+    queryResult.items = await Promise.all(
+      queryResult.items.map(async (order) => {
+        if (!order.orderNumber) {
+          return await this.setOrderNumber(order);
+        }
+        return order;
+      }),
+    );
+
+    return queryResult;
   }
 
   async getCheckoutSessionToken(cartId: string): Promise<Token> {
@@ -871,6 +864,28 @@ export class CartApi extends BaseApi {
     return cart.cartState === 'Active';
   };
 
+  protected async setOrderNumber(order: Order): Promise<Order> {
+    const locale = await this.getCommercetoolsLocal();
+
+    // By default, the order number is generated using the order creation date
+    const date = new Date(order.createdAt);
+    const orderNumber = `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}-${String(Date.now()).slice(-6, -1)}`;
+
+    const orderUpdate: OrderUpdate = {
+      version: +order.orderVersion,
+      actions: [
+        {
+          action: 'setOrderNumber',
+          orderNumber,
+        },
+      ],
+    };
+
+    const commercetoolsOrder = await this.updateOrder(order.orderId, orderUpdate);
+
+    return CartMapper.commercetoolsOrderToOrder(commercetoolsOrder, locale, this.defaultLocale);
+  }
+
   protected async updateCart(cartId: string, cartUpdate: CartUpdate, locale: Locale): Promise<CommercetoolsCart> {
     return await this.requestBuilder()
       .carts()
@@ -879,13 +894,30 @@ export class CartApi extends BaseApi {
       })
       .post({
         queryArgs: {
-          expand: [
-            'lineItems[*].discountedPrice.includedDiscounts[*].discount',
-            'discountCodes[*].discountCode',
-            'paymentInfo.payments[*]',
-          ],
+          expand: CART_EXPANDS,
         },
         body: cartUpdate,
+      })
+      .execute()
+      .then((response) => {
+        return response.body;
+      })
+      .catch((error) => {
+        throw new ExternalError({ statusCode: error.code, message: error.message, body: error.body });
+      });
+  }
+
+  protected async updateOrder(orderId: string, orderUpdate: OrderUpdate): Promise<CommercetoolsOrder> {
+    return await this.requestBuilder()
+      .orders()
+      .withId({
+        ID: orderId,
+      })
+      .post({
+        queryArgs: {
+          expand: ORDER_EXPANDS,
+        },
+        body: orderUpdate,
       })
       .execute()
       .then((response) => {
@@ -987,11 +1019,7 @@ export class CartApi extends BaseApi {
       .carts()
       .post({
         queryArgs: {
-          expand: [
-            'lineItems[*].discountedPrice.includedDiscounts[*].discount',
-            'discountCodes[*].discountCode',
-            'paymentInfo.payments[*]',
-          ],
+          expand: CART_EXPANDS,
         },
         body: cartDraft,
       })

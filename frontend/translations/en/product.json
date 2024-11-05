@@ -49,5 +49,6 @@
   "available.in.weeks": "Available in {weeks} weeks",
   "available.in.days": "Available in {days} days",
   "sold.out": "Sold out",
-  "regular": "Regular"
+  "regular": "Regular",
+  "currently.unavailable": "Currently unavailable"
 }

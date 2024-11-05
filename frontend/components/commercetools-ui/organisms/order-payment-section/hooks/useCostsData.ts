@@ -60,7 +60,7 @@ const useCostsData: UseCostsData = ({ dataReference = 'cart', order }) => {
 
     if (!dataIsHydrated) return [];
 
-    const costsToUse = dataReference === 'cart' ? transaction : mapCosts({ order, currency });
+    const costsToUse = dataReference === 'cart' ? transaction : mapCosts({ cart: order, currency });
 
     const costs = [...skeletonCosts].map(({ key, label }) => {
       return {
@@ -80,7 +80,7 @@ const useCostsData: UseCostsData = ({ dataReference = 'cart', order }) => {
   const total: CostRef = {
     key: 'total',
     label: formatCartMessage({ id: 'total', defaultMessage: 'Total' }),
-    value: dataReference === 'order' ? mapCosts({ order, currency }).total : transaction.total,
+    value: dataReference === 'order' ? mapCosts({ cart: order, currency }).total : transaction.total,
   };
 
   return { loading, costsToRender: loading ? skeletonCosts : costsToRender, total };

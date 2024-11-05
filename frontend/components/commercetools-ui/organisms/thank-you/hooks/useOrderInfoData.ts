@@ -15,9 +15,9 @@ const useOrderInfoData = ({ order, shippingMethods }: UseOrderInfoDataProps) => 
   const [paymentInfo, setPaymentInfo] = useState('');
 
   const updateOrderNumber = useCallback(() => {
-    const label = order?.orderId?.split('-').join(' ') ?? '';
+    const label = order?.orderNumber?.split('-').join(' ') ?? '';
     setOrderNumber(label);
-  }, [order?.orderId]);
+  }, [order?.orderNumber]);
 
   const updateDeliveryMethod = useCallback(() => {
     const shippingMethod = shippingMethods?.find(

@@ -56,5 +56,6 @@
   "items.outOfStock": "Die folgenden Artikel sind nicht vorrätig",
   "payment.failed": "Wir konnten Ihre Zahlung nicht verarbeiten. Bitte versuchen Sie es später noch einmal.",
   "discount.apply": "Einen Rabatt gewähren",
-  "expiry.date": "Verfallsdatum"
+  "expiry.date": "Verfallsdatum",
+  "your.token.has.expired": "Ihr Token ist abgelaufen. Bitte melden Sie sich erneut an, um fortzufahren."
 }

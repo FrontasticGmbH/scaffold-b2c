@@ -17,6 +17,7 @@ type ProductQueryQuery = {
   productType?: string;
   skus?: string[];
   query?: string;
+  productSelectionIds?: string[];
 };
 
 type QueryProductCategoriesQuery = {

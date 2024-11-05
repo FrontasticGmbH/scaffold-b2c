@@ -14,6 +14,7 @@ export const getConfig = (context: Context, engine: string, locale: string | nul
     projectKey: getFromProjectConfig(`${prefix}_PROJECT_KEY`, context),
     productIdField: getFromProjectConfig(`${prefix}_PRODUCT_ID_FIELD`, context),
     categoryIdField: getFromProjectConfig(`${prefix}_CATEGORY_ID_FIELD`, context),
+    productSelectionIdField: getFromProjectConfig(`${prefix}_PRODUCT_SELECTIONS_ID_FIELD`, context),
     sessionUrl: getFromProjectConfig(`${prefix}_SESSION_URL`, context),
     checkoutApplicationKey: getFromProjectConfig(`${prefix}_CHECKOUT_APPLICATION_KEY`, context),
   };
@@ -44,6 +45,10 @@ export const getConfig = (context: Context, engine: string, locale: string | nul
 
   if (!clientConfig.categoryIdField) {
     clientConfig.categoryIdField = context.project.configuration?.[engine]?.categoryIdField;
+  }
+
+  if (!clientConfig.productSelectionIdField) {
+    clientConfig.productSelectionIdField = context.project.configuration?.[engine]?.productSelectionIdField;
   }
 
   if (!clientConfig.sessionUrl) {

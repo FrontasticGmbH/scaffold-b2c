@@ -8,7 +8,7 @@ import MobileMenuNavButton from '../atoms/menu-nav-button';
 export interface Props {
   links: Category[];
   hideHeaderMenu: () => void;
-  categoriesNavigator?: Category[]; //This is a navigator where you push a subcategory to show it's contents
+  categoriesNavigator?: Category[]; //This is a navigator where you push a descendant to show it's contents
   insertCategory: (category: Category) => void;
 }
 
@@ -47,7 +47,7 @@ const MobileMenu: FC<Props> = ({ links, categoriesNavigator, insertCategory, hid
       ) : (
         <>
           {categoriesNavigator &&
-            categoriesNavigator[categoriesNavigator.length - 1].subCategories?.map((nav) => (
+            categoriesNavigator[categoriesNavigator.length - 1].descendants?.map((nav) => (
               <MobileMenuNavButton
                 key={nav.categoryId}
                 categoriesNavigator={categoriesNavigator}

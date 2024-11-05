@@ -1,12 +1,12 @@
 import React, { useCallback, useState } from 'react';
-import { useParams } from 'next/navigation';
 import { TrashIcon } from '@heroicons/react/24/outline';
 import { LineItem as CartLineItem } from 'shared/types/cart/LineItem';
 import Image from 'components/commercetools-ui/atoms/image';
 import OutOfStock from 'components/commercetools-ui/atoms/out-of-stock';
-import { CurrencyHelpers } from 'helpers/currencyHelpers';
+import QuantitySelector from 'components/commercetools-ui/atoms/quantity-selector';
 import useClassNames from 'helpers/hooks/useClassNames';
 import { useFormat } from 'helpers/hooks/useFormat';
+import CartItemPrice from './cart-item-price';
 
 interface ClassNames {
   moveToWishlist?: string;
@@ -21,16 +21,9 @@ interface Props {
 }
 
 const CartItem: React.FC<Props> = ({ item, onRemoveItem, onUpdateItem, OnMoveToWishlist, classNames = {} }) => {
-  const { locale } = useParams();
-
   const { formatMessage: formatCartMessage } = useFormat({ name: 'cart' });
 
   const [processing, setProcessing] = useState(false);
-
-  const counterClassName = useClassNames([
-    'flex w-fit items-center gap-12 rounded-sm border border-neutral-400 transition hover:border-neutral-800',
-    processing ? 'cursor-not-allowed bg-neutral-300' : 'cursor-pointer bg-white',
-  ]);
 
   const deleteButtonClassName = useClassNames(['block', processing ? 'cursor-not-allowed' : 'cursor-pointer']);
 
@@ -94,37 +87,16 @@ const CartItem: React.FC<Props> = ({ item, onRemoveItem, onUpdateItem, OnMoveToW
           </div>
         )}
         <div className="mt-8">
-          {item.discountedPrice ? (
-            <div className="flex items-center gap-5">
-              <span className="text-14 font-medium leading-loose text-accent-red">
-                {CurrencyHelpers.formatForCurrency(item.discountedPrice, locale)}
-              </span>
-              <span className="text-12 font-normal leading-loose text-gray-500 line-through">
-                {CurrencyHelpers.formatForCurrency(item.price ?? 0, locale)}
-              </span>
-            </div>
-          ) : (
-            <span className="text-14 font-medium leading-loose">
-              {CurrencyHelpers.formatForCurrency(item.price ?? 0, locale)}
-            </span>
-          )}
+          <CartItemPrice item={item} />
         </div>
         <div className="mt-16">
-          <div className={counterClassName}>
-            <button
-              onClick={() => handleUpdateItem((item.count as number) - 1)}
-              className="cursor-[inherit] py-3 pl-12 text-secondary-black"
-            >
-              -
-            </button>
-            <span className="py-3 text-14 text-secondary-black">{item.count}</span>
-            <button
-              onClick={() => handleUpdateItem((item.count as number) + 1)}
-              className="cursor-[inherit] py-3 pr-12 text-secondary-black"
-            >
-              +
-            </button>
-          </div>
+          <QuantitySelector
+            value={item.count}
+            defaultValue={1}
+            minValue={0}
+            disabled={processing}
+            onChange={handleUpdateItem}
+          />
         </div>
         <div className="mt-16 text-12">
           <p className={wishlistButtonClassName} onClick={handleMoveToWishlist}>

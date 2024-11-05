@@ -146,20 +146,20 @@ const ProductTile: FC<ProductTileProps> = ({
           onMouseEnter={() => setButtonHovered(true)}
           onMouseLeave={() => setButtonHovered(false)}
         >
-          <div className="w-full text-center">
-            {hasDiscount && (
+          {hasDiscount && (
+            <div className="w-full text-center">
               <span className="mb-8 ml-8 flex h-25 w-45 items-center justify-center bg-accent-red text-12 text-neutral-100">
                 {Math.round(discountPercentage)}%
               </span>
-            )}
-          </div>
-          <div className="w-full text-center">
-            {!selectedVariant.isOnStock && (
+            </div>
+          )}
+          {!selectedVariant.isOnStock && (
+            <div className="w-full text-center">
               <div className="mb-8 ml-8">
                 <OutOfStock />
               </div>
-            )}
-          </div>
+            </div>
+          )}
           <QuickView
             buttonIsVisible={buttonIsVisible && !disableQuickView}
             product={product}

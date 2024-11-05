@@ -10,9 +10,9 @@ const Subtitle: React.FC<SubtitleProps> = ({ subtitle, className = '', variant =
   const fontClassName = useMemo(() => {
     switch (variant) {
       case 'sm':
-        return 'text-12 md:text-12 lg:text-14';
+        return 'text-12 lg:text-14';
       case 'lg':
-        return 'text-14 md:text-14 lg:text-16';
+        return 'text-14 lg:text-16';
       default:
         return '';
     }

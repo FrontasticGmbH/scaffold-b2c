@@ -3,28 +3,27 @@ import { Meta } from '@storybook/addon-docs';
 <Meta title="Style guide/Borders" />
 
 <div data-theme="default">
-  <h1 style={{ color: '#000000', fontFamily: 'Inter, sans-serif' }}>
-    Borders - radius and width
-  </h1>
+    <h1 className='mb-8' style={{ color: '#000000', fontFamily: 'Inter, sans-serif' }}>Borders - radius and width</h1>
 
-  <p style={{ color: '#000000', fontFamily: 'Inter, sans-serif' }}>
-    Almost all components are slightly rounded. Our radius system follows a rule of multiple of 2.
-    <br />
-    Scale creates a visual balance that makes it easier to understand the interface.
-    <br /><br />
-    Border width is primarily used to outline the frame of a component or to structure content.
-    <br />
-    We use an inset border width of 1px in form elements and shadow buttons.
-  </p>
+    <div style={{ color: '#000000', fontFamily: 'Inter, sans-serif' }}>
+        <p className='text-16 m-0'>Almost all components are slightly rounded. Our radius system follows a rule of multiple of 2. Scale creates a visual balance that makes it easier to understand the interface.</p>
+        {""}
+        <p className='text-16 m-0'>Border width is primarily used to outline the frame of a component or to structure content. We use an inset border width of 1 px in form elements and shadow buttons.</p>
+    </div>
 
   <br /><br />
   <div className="flex h-[600px] w-full items-center justify-center rounded-lg bg-neutral-150">
-    <div className="flex flex-col justify-start">
+    <div className="flex flex-col justify-start gap-56">
 
-      <div className="flex items-center mb-[64px]">
-        <div className="h-120 w-120 rounded-sm bg-neutral-100 mr-[64px]" />
+      <div className="flex items-center gap-65">
+      
+        <div className='grid gap-12'>
+            <div className="h-96 w-100 border-secondary-black border rounded-sm bg-neutral-100 mr-[64px]" />
+            <p style={{margin: 0}} className='font-bold text-16 text-center'>rounded-sm</p>
+        </div>
+
         <div>
-          <div className="font-bold">S - 2px</div>
+          <div className="font-bold">2px</div>
           <div
             className="w-[350px]"
             style={{ color: '#000000', fontFamily: 'Inter, sans-serif' }}
@@ -34,15 +33,15 @@ import { Meta } from '@storybook/addon-docs';
         </div>
       </div>
 
-      <div className="flex items-center mb-[64px]">
-        <div className="h-120 w-120 rounded-md bg-neutral-100 mr-[64px]" />
+       <div className="flex items-center gap-65">
+      
+        <div className='grid gap-12'>
+            <div className="h-96 w-100 border-secondary-black border rounded-md bg-neutral-100 mr-[64px]" />
+            <p style={{margin: 0}} className='font-bold text-16 text-center'>rounded-md</p>
+        </div>
+
         <div>
-          <div
-            className="font-bold"
-            style={{ color: '#000000', fontFamily: 'Inter, sans-serif' }}
-          >
-            Default M - 4px
-          </div>
+          <div className="font-bold">4px</div>
           <div
             className="w-[350px]"
             style={{ color: '#000000', fontFamily: 'Inter, sans-serif' }}
@@ -52,25 +51,25 @@ import { Meta } from '@storybook/addon-docs';
         </div>
       </div>
 
-      <div className="flex items-center">
-        <div className="h-120 w-120 rounded-lg bg-neutral-100 mr-[64px]" />
+       <div className="flex items-center gap-65">
+      
+        <div className='grid gap-12'>
+            <div className="h-96 w-100 border-secondary-black border rounded-lg bg-neutral-100 mr-[64px]" />
+            <p style={{margin: 0}} className='font-bold text-16 text-center'>rounded-lg</p>
+        </div>
+
         <div>
-          <div
-            className="font-bold"
-            style={{ color: '#000000', fontFamily: 'Inter, sans-serif' }}
-          >
-            L - 8px
-          </div>
+          <div className="font-bold">8px</div>
           <div
             className="w-[350px]"
             style={{ color: '#000000', fontFamily: 'Inter, sans-serif' }}
           >
-            Full rounding is used sparingly in large components such as image borders, large containers, cards, modals
-            etc.
+            Full rounding is used in large components such as image borders, large containers, cards, modals etc.
           </div>
         </div>
       </div>
 
     </div>
+
   </div>
 </div>

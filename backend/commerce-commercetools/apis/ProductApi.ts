@@ -5,170 +5,65 @@ import { CategoryQuery, CategoryQueryFormat } from '@Types/query/CategoryQuery';
 import { Category } from '@Types/product/Category';
 import { FacetDefinition } from '@Types/product/FacetDefinition';
 import { PaginatedResult, ProductPaginatedResult } from '@Types/result';
-
+import { Filter, TermFilter } from '@Types/query';
 import { ProductMapper } from '../mappers/ProductMapper';
 import { BaseApi } from './BaseApi';
 import { ExternalError } from '@Commerce-commercetools/errors/ExternalError';
+import { ProductSearchFactory } from '@Commerce-commercetools/utils/ProductSearchQueryFactory';
 
 export class ProductApi extends BaseApi {
-  async query(productQuery: ProductQuery): Promise<ProductPaginatedResult> {
+  query: (productQuery: ProductQuery) => Promise<ProductPaginatedResult> = async (productQuery: ProductQuery) => {
     const locale = await this.getCommercetoolsLocal();
-
-    // TODO: get default from constant
-    const limit = +productQuery.limit || 24;
-
-    const filterQuery: string[] = [];
-    const filterFacets: string[] = [];
-    const sortAttributes: string[] = [];
+    productQuery.categories = await this.hydrateCategories(productQuery);
+    productQuery.filters = await this.hydrateFilters(productQuery);
+    productQuery.productSelectionIds = await this.hydrateProductSelectionIds(productQuery);
 
     const facetDefinitions: FacetDefinition[] = [
-      ...ProductMapper.commercetoolsProductTypesToFacetDefinitions(await this.getProductTypes(), locale),
-      // Include Category facet
-      {
-        attributeId: 'categories.id',
-        attributeType: 'text',
-      },
-      // Include Scoped Price facet
-      {
-        attributeId: 'variants.scopedPrice.value',
-        attributeType: 'money',
-      },
+      ...ProductMapper.commercetoolsProductTypesToFacetDefinitions(await this.getCommercetoolsProductTypes(), locale),
       // Include Price facet
       {
-        attributeId: 'variants.price',
+        attributeId: 'variants.prices',
         attributeType: 'money',
-      },
-      // Include Scoped Price discount facet
-      {
-        attributeId: 'variants.scopedPriceDiscounted',
-        attributeType: 'boolean',
       },
     ];
 
-    const queryArgFacets = ProductMapper.facetDefinitionsToCommercetoolsQueryArgFacets(facetDefinitions, locale);
-
-    // Handle productRefs base on value set in productIdField
-    if (productQuery.productRefs !== undefined && productQuery.productRefs.length !== 0) {
-      switch (this.productIdField) {
-        case 'id':
-          productQuery.productIds.push(...productQuery.productRefs);
-          break;
-        case 'key':
-        default:
-          productQuery.productKeys.push(...productQuery.productRefs);
-          break;
-      }
-    }
-
-    if (productQuery.productIds !== undefined && productQuery.productIds.length !== 0) {
-      filterQuery.push(`id:"${productQuery.productIds.join('","')}"`);
-    }
-
-    if (productQuery.productKeys !== undefined && productQuery.productKeys.length !== 0) {
-      filterQuery.push(`key:"${productQuery.productKeys.join('","')}"`);
-    }
-
-    if (productQuery.skus !== undefined && productQuery.skus.length !== 0) {
-      filterQuery.push(`variants.sku:"${productQuery.skus.join('","')}"`);
-    }
-
-    if (productQuery.categories !== undefined && productQuery.categories.length !== 0) {
-      let categoryIds = productQuery.categories.filter(function uniqueCategories(value, index, self) {
-        return self.indexOf(value) === index;
-      });
-
-      // commercetools only allows filter categories by id. If we are using something different as categoryIdField,
-      // we need first to fetch the category to get the correspondent category id.
-      if (this.categoryIdField !== 'id') {
-        const categoriesMethodArgs = {
-          queryArgs: {
-            where: [`key in ("${categoryIds.join('","')}")`],
-          },
-        };
-
-        categoryIds = await this.getCommercetoolsCategoryPagedQueryResponse(categoriesMethodArgs).then((response) => {
-          return response.body.results.map((category) => {
-            return category.id;
-          });
-        });
-      }
-
-      filterQuery.push(
-        `categories.id: ${categoryIds.map((category) => {
-          return `subtree("${category}")`;
-        })}`,
+    const commercetoolsProductSearchRequest =
+      ProductSearchFactory.createCommercetoolsProductSearchRequestFromProductQuery(
+        productQuery,
+        facetDefinitions,
+        locale,
+        this.productIdField,
       );
-    }
 
-    if (productQuery.filters !== undefined) {
-      filterQuery.push(
-        ...ProductMapper.facetDefinitionsToFilterQueries(productQuery.filters, facetDefinitions, locale),
-      );
-    }
-
-    if (productQuery.facets !== undefined) {
-      filterFacets.push(...ProductMapper.facetDefinitionsToFilterFacets(productQuery.facets, facetDefinitions, locale));
-    }
-
-    switch (true) {
-      case productQuery.sortAttributes !== undefined:
-        Object.keys(productQuery.sortAttributes).map((field, directionIndex) => {
-          sortAttributes.push(`${field} ${Object.values(productQuery.sortAttributes)[directionIndex]}`);
-        });
-        break;
-      default:
-        // By default, in CoCo, search results are sorted descending by their relevancy with respect to the provided
-        // text (that is their “score”). Sorting by score and then by id will ensure consistent products order
-        // across several search requests for products that have the same relevance score.
-        sortAttributes.push(`score desc`, `id desc`);
-    }
-
-    const methodArgs = {
-      queryArgs: {
-        sort: sortAttributes,
-        limit: limit,
-        offset: this.getOffsetFromCursor(productQuery.cursor),
-        priceCurrency: locale.currency,
-        priceCountry: locale.country,
-        facet: queryArgFacets.length > 0 ? queryArgFacets : undefined,
-        filter: filterFacets.length > 0 ? filterFacets : undefined,
-        'filter.facets': filterFacets.length > 0 ? filterFacets : undefined,
-        'filter.query': filterQuery.length > 0 ? filterQuery : undefined,
-        [`text.${locale.language}`]: productQuery.query,
-        expand: ['categories[*].ancestors[*]', 'categories[*].parent'],
-        markMatchingVariants: true,
-        fuzzy: true,
-      },
-    };
-
-    return await this.requestBuilder()
-      .productProjections()
+    return this.requestBuilder()
+      .products()
       .search()
-      .get(methodArgs)
+      .post({
+        body: commercetoolsProductSearchRequest,
+      })
       .execute()
       .then((response) => {
         const items = response.body.results.map((product) =>
-          ProductMapper.commercetoolsProductProjectionToProduct(
+          ProductMapper.commercetoolsProductSearchResultToProduct(
             product,
             this.productIdField,
             this.categoryIdField,
             locale,
-            this.defaultLocale,
           ),
         );
-
+        const count = response.body.results.length;
         const result: ProductPaginatedResult = {
           total: response.body.total,
-          items: items,
-          count: response.body.count,
+          items,
+          count,
           facets: ProductMapper.commercetoolsFacetResultsToFacets(
-            facetDefinitions,
             response.body.facets,
+            commercetoolsProductSearchRequest,
+            facetDefinitions,
             productQuery,
-            locale,
           ),
-          previousCursor: ProductMapper.calculatePreviousCursor(response.body.offset, response.body.count),
-          nextCursor: ProductMapper.calculateNextCursor(response.body.offset, response.body.count, response.body.total),
+          previousCursor: ProductMapper.calculatePreviousCursor(response.body.offset, count),
+          nextCursor: ProductMapper.calculateNextCursor(response.body.offset, count, response.body.total),
           query: productQuery,
         };
 
@@ -177,7 +72,7 @@ export class ProductApi extends BaseApi {
       .catch((error) => {
         throw new ExternalError({ statusCode: error.code, message: error.message, body: error.body });
       });
-  }
+  };
 
   async getProduct(productQuery: ProductQuery): Promise<Product> {
     const result = await this.query(productQuery);
@@ -251,6 +146,7 @@ export class ProductApi extends BaseApi {
         offset: this.getOffsetFromCursor(categoryQuery.cursor),
         where: where.length > 0 ? where : undefined,
         expand: ['ancestors[*]', 'parent'],
+        sort: 'orderHint',
       },
     };
 
@@ -296,5 +192,113 @@ export class ProductApi extends BaseApi {
       .catch((error) => {
         throw new ExternalError({ statusCode: error.code, message: error.message, body: error.body });
       });
+  }
+
+  protected async getCommercetoolsProductSelectionPagedQueryResponse(methodArgs: object) {
+    return await this.requestBuilder()
+      .productSelections()
+      .get(methodArgs)
+      .execute()
+      .catch((error) => {
+        throw new ExternalError({ statusCode: error.code, message: error.message, body: error.body });
+      });
+  }
+
+  protected async hydrateCategories(productQuery: ProductQuery): Promise<string[]> {
+    if (productQuery.categories !== undefined && productQuery.categories.length !== 0) {
+      let categoryIds = productQuery.categories.filter(function uniqueCategories(value, index, self) {
+        return self.indexOf(value) === index;
+      });
+
+      // commercetools only allows filter categories by id. If we are using something different as categoryIdField,
+      // we need first to fetch the category to get the correspondent category id.
+      if (this.categoryIdField !== 'id') {
+        const categoriesMethodArgs = {
+          queryArgs: {
+            where: [`key in ("${categoryIds.join('","')}")`],
+          },
+        };
+
+        categoryIds = await this.getCommercetoolsCategoryPagedQueryResponse(categoriesMethodArgs).then((response) => {
+          return response.body.results.map((category) => {
+            return category.id;
+          });
+        });
+      }
+
+      return categoryIds;
+    }
+    return [];
+  }
+
+  protected async hydrateFilters(productQuery: ProductQuery): Promise<Filter[]> {
+    if (productQuery.filters !== undefined && productQuery.filters.length !== 0) {
+      const categoryIds = productQuery.filters
+        .filter((filter) => filter.identifier === 'categoriesSubTree')
+        .map((filter) => (filter as TermFilter).terms?.map((term) => term))
+        .filter(function uniqueCategories(value, index, self) {
+          return self.indexOf(value) === index;
+        });
+
+      // commercetools only allows filter categories by id. If we are using something different as categoryIdField,
+      // we need first to fetch the category to get the correspondent category id.
+      if (this.categoryIdField !== 'id' && categoryIds.length !== 0) {
+        const categoriesMethodArgs = {
+          queryArgs: {
+            where: [`key in ("${categoryIds.join('","')}")`],
+          },
+        };
+
+        const categories = await this.getCommercetoolsCategoryPagedQueryResponse(categoriesMethodArgs).then(
+          (response) => {
+            return response.body.results;
+          },
+        );
+
+        productQuery.filters = productQuery.filters.map((filter) => {
+          if (filter.identifier === 'categoriesSubTree') {
+            return {
+              ...filter,
+              terms: categories
+                ?.filter((category) => (filter as TermFilter).terms?.includes(category.key))
+                ?.map((category) => category.id),
+            };
+          }
+          return filter;
+        });
+      }
+
+      return productQuery.filters;
+    }
+    return [];
+  }
+
+  protected async hydrateProductSelectionIds(productQuery: ProductQuery): Promise<string[]> {
+    if (productQuery.productSelectionIds !== undefined && productQuery.productSelectionIds.length !== 0) {
+      let productSelectionIds = productQuery.productSelectionIds.filter(function uniqueCategories(value, index, self) {
+        return self.indexOf(value) === index;
+      });
+
+      // commercetools only allows filter productSelection by id. If we are using something different as productSelectionField,
+      // we need first to fetch the productSelectionIds to get the correspondent productSelectionField id.
+      if (this.productSelectionIdField !== 'id') {
+        const categoriesMethodArgs = {
+          queryArgs: {
+            where: [`key in ("${productSelectionIds.join('","')}")`],
+          },
+        };
+
+        productSelectionIds = await this.getCommercetoolsProductSelectionPagedQueryResponse(categoriesMethodArgs).then(
+          (response) => {
+            return response.body.results.map((category) => {
+              return category.id;
+            });
+          },
+        );
+      }
+
+      return productSelectionIds;
+    }
+    return [];
   }
 }

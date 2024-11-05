@@ -49,5 +49,6 @@
   "available.in.weeks": "Verfügbar in {weeks} Wochen",
   "available.in.days": "Verfügbar in {days} Tagen",
   "sold.out": "Ausverkauft",
-  "regular": "Regulär"
+  "regular": "Regulär",
+  "currently.unavailable": "Zur Zeit nicht verfügbar"
 }

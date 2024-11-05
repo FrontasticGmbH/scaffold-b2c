@@ -24,7 +24,7 @@ const Tile: React.FC<TileProps> = ({
   roundedBorders = true,
   className = '',
 }) => {
-  const imageClassName = useClassNames([roundedBorders && 'lg:rounded-md']);
+  const imageClassName = useClassNames([{ 'lg:rounded-md': roundedBorders }]);
 
   return (
     <div className={`relative w-full ${className}`}>

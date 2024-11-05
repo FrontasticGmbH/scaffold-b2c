@@ -10,7 +10,7 @@
   "expiration.date": "Verfallsdatum *",
   "security.number": "Sicherheitsnummer *",
   "save": "Speichern",
-  "cancel": "Stornieren",
+  "cancel": "Abbrechen",
   "delete": "Löschen",
   "delete.question": "Zahlungsart löschen?",
   "delete.warning": "Diese Aktion kann nicht rückgängig gemacht werden.",

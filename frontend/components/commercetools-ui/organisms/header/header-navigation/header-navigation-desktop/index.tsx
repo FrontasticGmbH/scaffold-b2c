@@ -66,9 +66,9 @@ const HeaderNavigationDesktop: React.FC<Props> = ({ links, tiles }) => {
             ))}
           </div>
           <MenuDropdown
-            show={!!activeCategory && activeCategory.subCategories && activeCategory.subCategories.length > 0}
+            show={!!activeCategory && activeCategory.descendants && activeCategory.descendants.length > 0}
             onClick={hideSubMenu}
-            links={activeCategory?.subCategories ?? []}
+            links={activeCategory?.descendants ?? []}
             tileContent={tileContent[0]}
           />
         </div>

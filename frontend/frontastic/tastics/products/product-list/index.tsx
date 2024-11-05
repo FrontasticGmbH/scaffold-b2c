@@ -54,7 +54,7 @@ const ProductListTastic = ({
 
   const searchQuery = searchParams.get('query') as string;
 
-  const flattenedCategories = categories.map((category) => flattenTree(category, 'subCategories')).flat();
+  const flattenedCategories = categories.map((category) => flattenTree(category, 'descendants')).flat();
 
   const facetsConfiguration = useFacetsConfiguration({
     facets: data.data?.dataSource?.facets ?? [],
@@ -91,7 +91,7 @@ const ProductListTastic = ({
     <ProductListProvider
       uiState={{
         searchQuery,
-        slug: slug.at(-1),
+        slug: slug?.at(-1),
         previousCursor: data.data.dataSource.previousCursor,
         nextCursor: data.data.dataSource.nextCursor,
         totalItems: data.data.dataSource.total,

@@ -44,8 +44,8 @@ const Gallery: FC<GalleryProps> = ({ images, inModalVersion }) => {
             onSwiper={(swiper) => {
               swiperRef.current = swiper;
             }}
-            arrows={isTabletSize}
-            dots={!isTabletSize}
+            arrows={isTabletSize && images.length > 1}
+            dots={!isTabletSize && images.length > 1}
             prevButtonStyles={{ left: isDesktopSize ? -10 : -4 }}
             nextButtonStyles={{ right: isDesktopSize ? -10 : -4 }}
             compactNavigation={inModalVersion}

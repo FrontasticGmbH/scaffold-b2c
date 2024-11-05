@@ -22,6 +22,7 @@ describe('[Component] Product tile', () => {
       />,
     );
   };
+
   it('Renders tile correclty', () => {
     renderProductTile({});
 
@@ -37,7 +38,7 @@ describe('[Component] Product tile', () => {
 
     expect(screen.queryAllByTestId('product-variant').length).toBe(1);
 
-    expect(screen.queryByText('US$100.00')).toBeInTheDocument();
+    expect(screen.queryByText('$100.00')).toBeInTheDocument();
   });
 
   it('Has quick view functionality working correctly', async () => {
@@ -73,10 +74,10 @@ describe('[Component] Product tile', () => {
       },
     });
 
-    expect(screen.queryByText('US$100.00')).toBeInTheDocument();
-    expect(screen.getByText('US$100.00')).toHaveClass('line-through');
+    expect(screen.queryByText('$100.00')).toBeInTheDocument();
+    expect(screen.getByText('$100.00')).toHaveClass('line-through');
 
-    expect(screen.queryByText('US$50.00')).toBeInTheDocument();
+    expect(screen.queryByText('$50.00')).toBeInTheDocument();
 
     expect(screen.queryByText('50%')).toBeInTheDocument();
   });
@@ -124,8 +125,8 @@ describe('[Component] Product tile', () => {
 
     expect(screen.getAllByTestId('product-variant').length).toBe(2);
     expect(screen.queryByText('Sold out')).toBeInTheDocument();
-    expect(screen.queryByText('US$100.00')).not.toBeInTheDocument();
-    expect(screen.queryByText('US$50.00')).toBeInTheDocument();
+    expect(screen.queryByText('$100.00')).not.toBeInTheDocument();
+    expect(screen.queryByText('$50.00')).toBeInTheDocument();
   });
 
   it('Switches between variants correctly', async () => {
@@ -149,14 +150,14 @@ describe('[Component] Product tile', () => {
     });
 
     expect(screen.queryByText('Sold out')).not.toBeInTheDocument();
-    expect(screen.queryByText('US$100.00')).toBeInTheDocument();
-    expect(screen.queryByText('US$50.00')).not.toBeInTheDocument();
+    expect(screen.queryByText('$100.00')).toBeInTheDocument();
+    expect(screen.queryByText('$50.00')).not.toBeInTheDocument();
 
     await act(async () => userEvent.click(screen.getAllByTestId('product-variant')[1]));
 
     expect(screen.queryByText('Sold out')).toBeInTheDocument();
-    expect(screen.queryByText('US$100.00')).not.toBeInTheDocument();
-    expect(screen.queryByText('US$50.00')).toBeInTheDocument();
+    expect(screen.queryByText('$100.00')).not.toBeInTheDocument();
+    expect(screen.queryByText('$50.00')).toBeInTheDocument();
   });
 
   it('Hides duplicate variants with respect to their colors', () => {
