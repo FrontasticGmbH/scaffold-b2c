@@ -8,7 +8,6 @@ import { AccountProvider } from 'context/account';
 import AddToCartOverlayProvider from 'context/add-to-cart-overlay';
 import { sdk } from 'sdk';
 import { Translations } from 'types/i18n';
-import { useAccount } from 'frontastic';
 import I18nProvider from './i18n';
 import { SWRProvider } from './swr';
 import TracingProvider from './tracing';
@@ -23,8 +22,6 @@ interface ProvidersProps {
 export const Providers = ({ translations, accountResult, page, children }: React.PropsWithChildren<ProvidersProps>) => {
   const { locale } = useParams();
 
-  const { ...accountReturn } = useAccount();
-
   sdk.defaultConfigure(locale);
 
   return (
@@ -32,7 +29,7 @@ export const Providers = ({ translations, accountResult, page, children }: React
       <I18nProvider translations={translations}>
         <SWRProvider value={{ fallback: { '/action/account/getAccount': accountResult } }}>
           <AddToCartOverlayProvider>
-            <AccountProvider value={{ ...accountReturn }}>{children}</AccountProvider>
+            <AccountProvider>{children}</AccountProvider>
           </AddToCartOverlayProvider>
           <Toaster />
         </SWRProvider>

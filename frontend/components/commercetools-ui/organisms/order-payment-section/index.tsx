@@ -19,10 +19,11 @@ const OrderPaymentSection: FC<OrderSummaryProps> = ({
   ...props
 }) => {
   const infoContainerClassName = useClassNames(['border-t border-neutral-400 bg-white', classNames?.infoContainer]);
+  const isCartWithItems = !isEmpty && !order;
 
   return (
     <div className={className} {...props}>
-      {!isEmpty && !order && (
+      {isCartWithItems && (
         <DiscountForm
           className={classNames?.applyDiscountButton}
           discounts={discounts}

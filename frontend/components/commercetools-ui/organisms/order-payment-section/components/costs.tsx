@@ -31,15 +31,15 @@ const Costs: FC<CostsProps> = ({
   return (
     <div className={className}>
       <div className={subCostsContainerClassNames}>
-        {costsToRender.map(({ key, label, value }) =>
-          value?.centAmount && value.centAmount > 0 ? (
-            <div key={key} className={subCostsClassNames}>
-              <Typography asSkeleton={loading}>{label}</Typography>
-              <Typography asSkeleton={loading}>{CurrencyHelpers.formatForCurrency(value, locale)}</Typography>
-            </div>
-          ) : (
-            <span key={key}></span>
-          ),
+        {costsToRender.map(
+          ({ key, label, value }) =>
+            !!value?.centAmount &&
+            value.centAmount > 0 && (
+              <div key={key} className={subCostsClassNames}>
+                <Typography asSkeleton={loading}>{label}</Typography>
+                <Typography asSkeleton={loading}>{CurrencyHelpers.formatForCurrency(value, locale)}</Typography>
+              </div>
+            ),
         )}
       </div>
       <div className={totalAmountClassNames}>

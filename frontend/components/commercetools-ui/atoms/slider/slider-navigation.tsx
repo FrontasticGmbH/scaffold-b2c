@@ -39,7 +39,7 @@ const SliderNavigation: FC<SliderNavigationProps> = ({
 
   if (compactNavigation)
     return (
-      <div className="mt-10 flex justify-center gap-16" style={{ display: arrows ? 'block' : 'none' }}>
+      <div className="mt-10 justify-center gap-16" style={{ display: arrows ? 'flex' : 'none' }}>
         <ChevronLeftIcon {...compactNavigationArrowsStyle} onClick={() => swiperRef?.slidePrev()} />
         <div className="flex font-body text-14 font-regular leading-loose text-secondary-black">
           <span>{((swiperRef?.activeIndex ?? 0) % (totalSlides ?? 1)) + 1}</span>

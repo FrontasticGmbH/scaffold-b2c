@@ -31,16 +31,16 @@ const Renderer = ({
     <div className="flex min-h-screen flex-col items-stretch justify-start">
       {sections.filter(Boolean).map((section) => (
         <Grid
-          key={section.sectionId}
+          key={section?.sectionId}
           gridClassName={gridClassName}
           wrapperClassName={classnames(
             'relative w-full',
             wrapperClassName,
-            highlight(currentHighlight === section.sectionId),
-            sectionsClassNames[section.sectionId],
+            highlight(currentHighlight === section?.sectionId),
+            sectionsClassNames[section?.sectionId ?? ''],
           )}
         >
-          {section.layoutElements?.map((layoutElement) => (
+          {section?.layoutElements?.map((layoutElement) => (
             <Cell
               key={layoutElement.layoutElementId}
               configuration={layoutElement.configuration}

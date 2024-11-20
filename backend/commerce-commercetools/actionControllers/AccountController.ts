@@ -515,11 +515,11 @@ export const updateAddress: ActionHook = async (request: Request, actionContext:
 
     let account = fetchAccountFromSession(request);
 
-    const address: Address = JSON.parse(request.body);
+    const requestBody: { address: Address } = JSON.parse(request.body);
 
     const accountApi = new AccountApi(actionContext.frontasticContext, getLocale(request), getCurrency(request));
 
-    account = await accountApi.updateAddress(account, address);
+    account = await accountApi.updateAddress(account, requestBody.address);
 
     return {
       statusCode: 200,

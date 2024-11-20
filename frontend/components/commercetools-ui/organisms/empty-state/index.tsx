@@ -23,7 +23,7 @@ export const EmptyState: React.FC<Props> = ({
   handleCategoryClick,
   className = '',
 }: Props) => {
-  const titleClassNames = useClassNames(['py-36 text-center', className]);
+  const titleClassNames = useClassNames(['py-36 text-center overflow-auto', className]);
 
   return (
     <div className={titleClassNames}>
@@ -31,7 +31,7 @@ export const EmptyState: React.FC<Props> = ({
         {title}
       </Typography>
       <div className="hidden w-full justify-center md:flex">
-        <div className="relative h-92 w-197 px-10 text-center md:mb-120 md:mt-55">
+        <div className="relative h-92 w-197 px-10 text-center md:mb-32 md:mt-55">
           <Image media={image?.media} fill style={{ objectFit: 'contain' }} alt={image?.title} />
         </div>
       </div>

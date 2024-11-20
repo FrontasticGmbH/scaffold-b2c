@@ -14,6 +14,11 @@ export default {
 const Template: StoryFn<CartProps> = () => (
   <Cart
     cart={{ cartId: '', lineItems: lineItemsOrderHistory }}
+    emptyStateTitle="Nothing in your cart yet!"
+    emptyStateDescription="Continue shopping to find exactly what you're looking for."
+    emptyStateImage={{ src: '/images/empty-cart.png' }}
+    emptyStateLinkText="Explore items"
+    emptyStateReference={{ type: 'link', link: '#' }}
     categories={categories}
     paymentMethods={paymentMethods}
     onRemoveItem={async () => {}}

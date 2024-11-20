@@ -34,9 +34,35 @@
       "name": "Empty State",
       "fields": [
         {
+          "label": "Title",
+          "field": "emptyStateTitle",
+          "type": "string",
+          "required": true
+        },
+        {
           "label": "Description",
           "field": "emptyStateDescription",
-          "type": "string"
+          "type": "string",
+          "required": true
+        },
+        {
+          "label": "Image",
+          "field": "emptyStateImage",
+          "type": "media",
+          "required": true
+        },
+        {
+          "label": "Link",
+          "field": "emptyStateLinkText",
+          "description": "CTA button shown only when user is not logged in",
+          "type": "string",
+          "required": true
+        },
+        {
+          "label": "Link destination",
+          "field": "emptyStateReference",
+          "type": "reference",
+          "required": true
         }
       ]
     }

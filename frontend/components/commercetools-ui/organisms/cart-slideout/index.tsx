@@ -53,6 +53,7 @@ const CartSlideout: FC<CartSlideoutProps> = ({
         discounts={cart?.discountCodes ?? []}
         onApplyDiscountCode={onApplyDiscountCode}
         onRemoveDiscountCode={onRemoveDiscountCode}
+        isEmpty={isEmpty}
         classNames={{
           applyDiscountButton: 'px-12 py-24 md:px-22',
           infoContainer: 'px-12 p-16 md:px-22',
@@ -61,6 +62,7 @@ const CartSlideout: FC<CartSlideoutProps> = ({
         }}
         button={
           <CheckoutButton
+            disabled={isEmpty}
             text={formatCartMessage({ id: 'cart.go', defaultMessage: 'Go to cart' })}
             link="/cart"
             onClick={closeFlyouts}

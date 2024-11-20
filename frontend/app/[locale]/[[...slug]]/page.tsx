@@ -1,14 +1,15 @@
 import { Metadata } from 'next';
 import { redirect } from 'next/navigation';
+import { RedirectResponse } from '@commercetools/frontend-sdk';
 import GASnippet from 'components/headless/GASnippet';
 import { getTranslations } from 'helpers/i18n/get-translations';
 import fetchAccount from 'helpers/server/fetch-account';
 import fetchCategories from 'helpers/server/fetch-categories';
 import fetchPageData from 'helpers/server/fetch-page-data';
+import { isRedirectResponse } from 'helpers/server/is-redirect-response';
 import { Providers } from 'providers';
 import { sdk } from 'sdk';
 import { PageProps } from 'types/next';
-import { RedirectResponse } from 'frontastic';
 import Renderer from 'frontastic/renderer';
 
 export const dynamic = 'force-dynamic';
@@ -20,14 +21,16 @@ export async function generateMetadata({ params, searchParams }: PageProps): Pro
 
   const response = await fetchPageData(params, searchParams);
 
-  if (response.isError || !response.data.pageFolder) return {};
+  if (response.isError || isRedirectResponse(response.data)) {
+    return {};
+  }
 
-  const { seoTitle, seoDescription, seoKeywords } = response.data.pageFolder.configuration;
+  const { seoTitle, seoDescription, seoKeywords } = response.data.pageFolder?.configuration ?? {};
 
   return {
-    title: seoTitle,
-    description: seoDescription,
-    keywords: seoKeywords,
+    title: seoTitle ?? '',
+    description: seoDescription ?? '',
+    keywords: seoKeywords ?? '',
   };
 }
 
@@ -42,10 +45,13 @@ export default async function Page({ params, searchParams }: PageProps) {
     fetchCategories({ format: 'tree' }),
   ]);
 
-  if (page.isError) return redirect('/404');
+  if (page.isError) {
+    return redirect('/404');
+  }
 
-  const redirectResponse = page.data as unknown as RedirectResponse;
-  if (typeof redirectResponse.target === 'string') redirect(redirectResponse.target);
+  if (isRedirectResponse(page.data)) {
+    redirect((page.data as RedirectResponse).target);
+  }
 
   const translations = await getTranslations(
     [locale],
@@ -68,7 +74,7 @@ export default async function Page({ params, searchParams }: PageProps) {
 
   return (
     <div data-theme={(!page.isError && page.data.pageFolder.configuration.displayTheme) ?? 'default'}>
-      <Providers translations={translations} accountResult={accountResult} page={page}>
+      <Providers translations={translations} accountResult={accountResult} page={{ ...page, data: page.data }}>
         <Renderer
           data={page.data}
           params={params}

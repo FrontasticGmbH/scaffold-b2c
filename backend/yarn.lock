@@ -1729,7 +1729,7 @@ __metadata:
     "@typescript-eslint/eslint-plugin": "npm:^5.1.0"
     "@typescript-eslint/parser": "npm:^5.1.0"
     axios: "npm:^0.26.1"
-    contentful: "npm:^9.2.5"
+    contentful: "npm:^9.3.7"
     contentstack: "npm:^3.17.0"
     core-js: "npm:^3.20.0"
     crypto-js: "npm:^4.2.0"
@@ -3405,7 +3405,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"contentful@npm:^9.2.5":
+"contentful@npm:^9.3.7":
   version: 9.3.7
   resolution: "contentful@npm:9.3.7"
   dependencies:

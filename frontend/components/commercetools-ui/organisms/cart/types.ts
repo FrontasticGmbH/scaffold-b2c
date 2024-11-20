@@ -1,6 +1,8 @@
+import { FrontasticImage } from 'components/commercetools-ui/atoms/image';
 import { Account } from 'types/entity/account';
 import { Cart, Discount, LineItem as CartLineItem } from 'types/entity/cart';
 import { Category } from 'types/entity/category';
+import { Reference } from 'types/reference';
 import { PaymentMethod } from '../order-payment-section/types';
 
 export interface CartProps {
@@ -10,7 +12,11 @@ export interface CartProps {
   totalItems?: number;
   paymentMethods: Array<PaymentMethod>;
   categories: Category[];
-  emptyStateDescription?: string;
+  emptyStateTitle: string;
+  emptyStateDescription: string;
+  emptyStateImage: FrontasticImage;
+  emptyStateLinkText: string;
+  emptyStateReference: Reference;
   onRemoveItem(itemId: string): Promise<void>;
   onApplyDiscountCode?: (code: string) => Promise<void>;
   OnMoveToWishlist(lineItem: CartLineItem): Promise<void>;

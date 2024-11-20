@@ -24,14 +24,14 @@ export const getWishlistActions = (sdk: SDK<ComposableCommerceEvents>): Wishlist
   return {
     getWishlist: async (
       options: {
-        skipQueue?: boolean;
+        parallel?: boolean;
         customHeaderValue?: string;
         serverOptions?: ServerOptions;
       } = {},
     ) => {
       const response = await sdk.callAction<Wishlist>({
         actionName: 'wishlist/getWishlist',
-        skipQueue: options.skipQueue,
+        parallel: options.parallel,
         customHeaderValue: options.customHeaderValue,
         serverOptions: options.serverOptions,
       });
@@ -51,7 +51,7 @@ export const getWishlistActions = (sdk: SDK<ComposableCommerceEvents>): Wishlist
     addItem: async (
       payload: AddToWishlistPayload,
       options: {
-        skipQueue?: boolean;
+        parallel?: boolean;
         customHeaderValue?: string;
         serverOptions?: ServerOptions;
       } = {},
@@ -59,7 +59,7 @@ export const getWishlistActions = (sdk: SDK<ComposableCommerceEvents>): Wishlist
       const response = await sdk.callAction<Wishlist>({
         actionName: 'wishlist/addToWishlist',
         payload,
-        skipQueue: options.skipQueue,
+        parallel: options.parallel,
         customHeaderValue: options.customHeaderValue,
         serverOptions: options.serverOptions,
       });
@@ -82,7 +82,7 @@ export const getWishlistActions = (sdk: SDK<ComposableCommerceEvents>): Wishlist
     removeItem: async (
       payload: RemoveFromWishlistPayload,
       options: {
-        skipQueue?: boolean;
+        parallel?: boolean;
         customHeaderValue?: string;
         serverOptions?: ServerOptions;
       } = {},
@@ -90,7 +90,7 @@ export const getWishlistActions = (sdk: SDK<ComposableCommerceEvents>): Wishlist
       const response = await sdk.callAction<Wishlist>({
         actionName: 'wishlist/removeLineItem',
         payload,
-        skipQueue: options.skipQueue,
+        parallel: options.parallel,
         customHeaderValue: options.customHeaderValue,
         serverOptions: options.serverOptions,
       });
@@ -110,7 +110,7 @@ export const getWishlistActions = (sdk: SDK<ComposableCommerceEvents>): Wishlist
     updateItem: async (
       payload: UpdateWishlistItemPayload,
       options: {
-        skipQueue?: boolean;
+        parallel?: boolean;
         customHeaderValue?: string;
         serverOptions?: ServerOptions;
       } = {},
@@ -118,7 +118,7 @@ export const getWishlistActions = (sdk: SDK<ComposableCommerceEvents>): Wishlist
       const response = await sdk.callAction<Wishlist>({
         actionName: 'wishlist/updateLineItemCount',
         payload,
-        skipQueue: options.skipQueue,
+        parallel: options.parallel,
         customHeaderValue: options.customHeaderValue,
         serverOptions: options.serverOptions,
       });

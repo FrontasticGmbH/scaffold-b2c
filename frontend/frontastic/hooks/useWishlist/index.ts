@@ -8,7 +8,7 @@ import { revalidateOptions } from 'frontastic';
 const useWishlist = () => {
   const extensions = sdk.composableCommerce;
 
-  const result = useSWR('/action/wishlist/getWishlist', extensions.wishlist.getWishlist, revalidateOptions);
+  const result = useSWR('/action/wishlist/getWishlist', () => extensions.wishlist.getWishlist(), revalidateOptions);
 
   const data = (result.data?.isError ? {} : { data: result.data?.data }) as SWRResponse<Wishlist>;
 

@@ -1,4 +1,4 @@
-import { rememberMeCookieAsync, Event, SDK, ServerOptions } from '@commercetools/frontend-sdk';
+import { rememberMeCookie, Event, SDK, ServerOptions } from '@commercetools/frontend-sdk';
 import {
   AddAccountAddressPayload,
   ChangeAccountPasswordPayload,
@@ -82,14 +82,14 @@ export const getAccountActions = (sdk: SDK<ComposableCommerceEvents>): AccountAc
   return {
     getAccount: async (
       options: {
-        skipQueue?: boolean;
+        parallel?: boolean;
         customHeaderValue?: string;
         serverOptions?: ServerOptions;
       } = {},
     ) => {
       const response = await sdk.callAction<GetAccountActionReturn>({
         actionName: 'account/getAccount',
-        skipQueue: options.skipQueue,
+        parallel: options.parallel,
         customHeaderValue: options.customHeaderValue,
         serverOptions: options.serverOptions,
       });
@@ -109,7 +109,7 @@ export const getAccountActions = (sdk: SDK<ComposableCommerceEvents>): AccountAc
     login: async (
       payload: LoginAccountPayload,
       options: {
-        skipQueue?: boolean;
+        parallel?: boolean;
         customHeaderValue?: string;
         serverOptions?: ServerOptions;
       } = {},
@@ -120,14 +120,14 @@ export const getAccountActions = (sdk: SDK<ComposableCommerceEvents>): AccountAc
       const response = await sdk.callAction<Account>({
         actionName: 'account/login',
         payload,
-        skipQueue: options.skipQueue,
+        parallel: options.parallel,
         customHeaderValue: options.customHeaderValue,
         serverOptions: options.serverOptions,
       });
 
       if (!response.isError) {
         if (remember) {
-          await rememberMeCookieAsync.set(true, options.serverOptions);
+          await rememberMeCookie.set(true, options.serverOptions);
         }
         sdk.trigger(
           new Event({
@@ -143,20 +143,20 @@ export const getAccountActions = (sdk: SDK<ComposableCommerceEvents>): AccountAc
     },
     logout: async (
       options: {
-        skipQueue?: boolean;
+        parallel?: boolean;
         customHeaderValue?: string;
         serverOptions?: ServerOptions;
       } = {},
     ) => {
       const response = await sdk.callAction<void>({
         actionName: 'account/logout',
-        skipQueue: options.skipQueue,
+        parallel: options.parallel,
         customHeaderValue: options.customHeaderValue,
         serverOptions: options.serverOptions,
       });
 
       if (!response.isError) {
-        await rememberMeCookieAsync.remove(options.serverOptions);
+        await rememberMeCookie.remove(options.serverOptions);
         sdk.trigger(
           new Event({
             eventName: 'userLoggedOut',
@@ -169,7 +169,7 @@ export const getAccountActions = (sdk: SDK<ComposableCommerceEvents>): AccountAc
     register: async (
       payload: RegisterAccountPayload,
       options: {
-        skipQueue?: boolean;
+        parallel?: boolean;
         customHeaderValue?: string;
         serverOptions?: ServerOptions;
       } = {},
@@ -177,7 +177,7 @@ export const getAccountActions = (sdk: SDK<ComposableCommerceEvents>): AccountAc
       const response = await sdk.callAction<Account>({
         actionName: 'account/register',
         payload,
-        skipQueue: options.skipQueue,
+        parallel: options.parallel,
         customHeaderValue: options.customHeaderValue,
         serverOptions: options.serverOptions,
       });
@@ -197,7 +197,7 @@ export const getAccountActions = (sdk: SDK<ComposableCommerceEvents>): AccountAc
     confirm: async (
       payload: ConfirmAccountPayload,
       options: {
-        skipQueue?: boolean;
+        parallel?: boolean;
         customHeaderValue?: string;
         serverOptions?: ServerOptions;
       } = {},
@@ -205,7 +205,7 @@ export const getAccountActions = (sdk: SDK<ComposableCommerceEvents>): AccountAc
       const response = await sdk.callAction<Account>({
         actionName: 'account/confirm',
         payload,
-        skipQueue: options.skipQueue,
+        parallel: options.parallel,
         customHeaderValue: options.customHeaderValue,
         serverOptions: options.serverOptions,
       });
@@ -225,7 +225,7 @@ export const getAccountActions = (sdk: SDK<ComposableCommerceEvents>): AccountAc
     requestConfirmationEmail: async (
       payload: RequestAccountConfirmationEmailPayload,
       options: {
-        skipQueue?: boolean;
+        parallel?: boolean;
         customHeaderValue?: string;
         serverOptions?: ServerOptions;
       } = {},
@@ -233,7 +233,7 @@ export const getAccountActions = (sdk: SDK<ComposableCommerceEvents>): AccountAc
       const response = await sdk.callAction<void>({
         actionName: 'account/requestConfirmationEmail',
         payload,
-        skipQueue: options.skipQueue,
+        parallel: options.parallel,
         customHeaderValue: options.customHeaderValue,
         serverOptions: options.serverOptions,
       });
@@ -253,7 +253,7 @@ export const getAccountActions = (sdk: SDK<ComposableCommerceEvents>): AccountAc
     changePassword: async (
       payload: ChangeAccountPasswordPayload,
       options: {
-        skipQueue?: boolean;
+        parallel?: boolean;
         customHeaderValue?: string;
         serverOptions?: ServerOptions;
       } = {},
@@ -261,7 +261,7 @@ export const getAccountActions = (sdk: SDK<ComposableCommerceEvents>): AccountAc
       const response = await sdk.callAction<Account>({
         actionName: 'account/password',
         payload,
-        skipQueue: options.skipQueue,
+        parallel: options.parallel,
         customHeaderValue: options.customHeaderValue,
         serverOptions: options.serverOptions,
       });
@@ -279,7 +279,7 @@ export const getAccountActions = (sdk: SDK<ComposableCommerceEvents>): AccountAc
     requestResetPassword: async (
       payload: RequestAccountPasswordResetPayload,
       options: {
-        skipQueue?: boolean;
+        parallel?: boolean;
         customHeaderValue?: string;
         serverOptions?: ServerOptions;
       } = {},
@@ -287,7 +287,7 @@ export const getAccountActions = (sdk: SDK<ComposableCommerceEvents>): AccountAc
       const response = await sdk.callAction<void>({
         actionName: 'account/requestReset',
         payload,
-        skipQueue: options.skipQueue,
+        parallel: options.parallel,
         customHeaderValue: options.customHeaderValue,
         serverOptions: options.serverOptions,
       });
@@ -305,7 +305,7 @@ export const getAccountActions = (sdk: SDK<ComposableCommerceEvents>): AccountAc
     resetPassword: async (
       payload: ResetAccountPasswordPayload,
       options: {
-        skipQueue?: boolean;
+        parallel?: boolean;
         customHeaderValue?: string;
         serverOptions?: ServerOptions;
       } = {},
@@ -313,7 +313,7 @@ export const getAccountActions = (sdk: SDK<ComposableCommerceEvents>): AccountAc
       const response = await sdk.callAction<Account>({
         actionName: 'account/reset',
         payload,
-        skipQueue: options.skipQueue,
+        parallel: options.parallel,
         customHeaderValue: options.customHeaderValue,
         serverOptions: options.serverOptions,
       });
@@ -331,7 +331,7 @@ export const getAccountActions = (sdk: SDK<ComposableCommerceEvents>): AccountAc
     updateAccount: async (
       payload: UpdateAccountPayload,
       options: {
-        skipQueue?: boolean;
+        parallel?: boolean;
         customHeaderValue?: string;
         serverOptions?: ServerOptions;
       } = {},
@@ -339,7 +339,7 @@ export const getAccountActions = (sdk: SDK<ComposableCommerceEvents>): AccountAc
       const response = await sdk.callAction<Account>({
         actionName: 'account/update',
         payload,
-        skipQueue: options.skipQueue,
+        parallel: options.parallel,
         customHeaderValue: options.customHeaderValue,
         serverOptions: options.serverOptions,
       });
@@ -359,7 +359,7 @@ export const getAccountActions = (sdk: SDK<ComposableCommerceEvents>): AccountAc
     addAddress: async (
       payload: AddAccountAddressPayload,
       options: {
-        skipQueue?: boolean;
+        parallel?: boolean;
         customHeaderValue?: string;
         serverOptions?: ServerOptions;
       } = {},
@@ -367,7 +367,7 @@ export const getAccountActions = (sdk: SDK<ComposableCommerceEvents>): AccountAc
       const response = await sdk.callAction<Account>({
         actionName: 'account/addAddress',
         payload,
-        skipQueue: options.skipQueue,
+        parallel: options.parallel,
         customHeaderValue: options.customHeaderValue,
         serverOptions: options.serverOptions,
       });
@@ -390,7 +390,7 @@ export const getAccountActions = (sdk: SDK<ComposableCommerceEvents>): AccountAc
     updateAddress: async (
       payload: UpdateAccountAddressPayload,
       options: {
-        skipQueue?: boolean;
+        parallel?: boolean;
         customHeaderValue?: string;
         serverOptions?: ServerOptions;
       } = {},
@@ -398,13 +398,15 @@ export const getAccountActions = (sdk: SDK<ComposableCommerceEvents>): AccountAc
       const response = await sdk.callAction<Account>({
         actionName: 'account/updateAddress',
         payload,
-        skipQueue: options.skipQueue,
+        parallel: options.parallel,
         customHeaderValue: options.customHeaderValue,
         serverOptions: options.serverOptions,
       });
 
       if (!response.isError) {
-        const newAddress = response.data.addresses?.find((address) => addressesAreEqual(address, payload, true));
+        const newAddress = response.data.addresses?.find((address) =>
+          addressesAreEqual(address, payload.address, true),
+        );
         if (newAddress) {
           sdk.trigger(
             new Event({
@@ -421,7 +423,7 @@ export const getAccountActions = (sdk: SDK<ComposableCommerceEvents>): AccountAc
     removeAddress: async (
       payload: RemoveAccountAddressPayload,
       options: {
-        skipQueue?: boolean;
+        parallel?: boolean;
         customHeaderValue?: string;
         serverOptions?: ServerOptions;
       } = {},
@@ -429,7 +431,7 @@ export const getAccountActions = (sdk: SDK<ComposableCommerceEvents>): AccountAc
       const response = await sdk.callAction<Account>({
         actionName: 'account/removeAddress',
         payload,
-        skipQueue: options.skipQueue,
+        parallel: options.parallel,
         customHeaderValue: options.customHeaderValue,
         serverOptions: options.serverOptions,
       });
@@ -451,7 +453,7 @@ export const getAccountActions = (sdk: SDK<ComposableCommerceEvents>): AccountAc
     setDefaultBillingAddress: async (
       payload: SetDefaultAccountBillingAddressPayload,
       options: {
-        skipQueue?: boolean;
+        parallel?: boolean;
         customHeaderValue?: string;
         serverOptions?: ServerOptions;
       } = {},
@@ -459,7 +461,7 @@ export const getAccountActions = (sdk: SDK<ComposableCommerceEvents>): AccountAc
       const response = await sdk.callAction<Account>({
         actionName: 'account/setDefaultBillingAddress',
         payload,
-        skipQueue: options.skipQueue,
+        parallel: options.parallel,
         customHeaderValue: options.customHeaderValue,
         serverOptions: options.serverOptions,
       });
@@ -482,7 +484,7 @@ export const getAccountActions = (sdk: SDK<ComposableCommerceEvents>): AccountAc
     setDefaultShippingAddress: async (
       payload: SetDefaultAccountShippingAddressPayload,
       options: {
-        skipQueue?: boolean;
+        parallel?: boolean;
         customHeaderValue?: string;
         serverOptions?: ServerOptions;
       } = {},
@@ -490,7 +492,7 @@ export const getAccountActions = (sdk: SDK<ComposableCommerceEvents>): AccountAc
       const response = await sdk.callAction<Account>({
         actionName: 'account/setDefaultShippingAddress',
         payload,
-        skipQueue: options.skipQueue,
+        parallel: options.parallel,
         customHeaderValue: options.customHeaderValue,
         serverOptions: options.serverOptions,
       });
@@ -513,7 +515,7 @@ export const getAccountActions = (sdk: SDK<ComposableCommerceEvents>): AccountAc
     deleteAccount: async (
       payload: DeleteAccountPayload,
       options: {
-        skipQueue?: boolean;
+        parallel?: boolean;
         customHeaderValue?: string;
         serverOptions?: ServerOptions;
       } = {},
@@ -521,7 +523,7 @@ export const getAccountActions = (sdk: SDK<ComposableCommerceEvents>): AccountAc
       const response = await sdk.callAction<void>({
         actionName: 'account/deleteAccount',
         payload,
-        skipQueue: options.skipQueue,
+        parallel: options.parallel,
         customHeaderValue: options.customHeaderValue,
         serverOptions: options?.serverOptions,
       });

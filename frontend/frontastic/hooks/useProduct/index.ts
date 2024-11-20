@@ -8,7 +8,7 @@ import { Product } from 'types/entity/product';
 
 const useProduct = ({ query, limit }: Partial<ProductQuery> = {}) => {
   const { data: productsData } = useSWR(['/action/product/query', query, limit], () =>
-    sdk.composableCommerce.product.query({ query, limit }, { skipQueue: true }),
+    sdk.composableCommerce.product.query({ query, limit }),
   );
 
   const products = (productsData?.isError ? [] : (productsData?.data?.items as Product[])) ?? [];
@@ -17,7 +17,6 @@ const useProduct = ({ query, limit }: Partial<ProductQuery> = {}) => {
     sdk.callAction<ProductPaginatedResult>({
       actionName: 'product/queryCategories',
       query: { format: 'tree' },
-      skipQueue: true,
     }),
   );
 
@@ -26,7 +25,7 @@ const useProduct = ({ query, limit }: Partial<ProductQuery> = {}) => {
   const queryProducts = useCallback(async (productQuery: ProductQuery) => {
     const extensions = sdk.composableCommerce;
 
-    const res = await extensions.product.query(productQuery, { skipQueue: true });
+    const res = await extensions.product.query(productQuery);
 
     return res;
   }, []);

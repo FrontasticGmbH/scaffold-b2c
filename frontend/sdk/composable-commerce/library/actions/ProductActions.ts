@@ -22,7 +22,7 @@ export const getProductActions = (sdk: SDK<ComposableCommerceEvents>): ProductAc
     getProduct: async (
       query: GetProductQuery,
       options: {
-        skipQueue?: boolean;
+        parallel?: boolean;
         customHeaderValue?: string;
         serverOptions?: ServerOptions;
       } = {},
@@ -30,7 +30,7 @@ export const getProductActions = (sdk: SDK<ComposableCommerceEvents>): ProductAc
       const response = await sdk.callAction<Product>({
         actionName: 'product/getProduct',
         query,
-        skipQueue: options.skipQueue,
+        parallel: options.parallel,
         customHeaderValue: options.customHeaderValue,
         serverOptions: options.serverOptions,
       });
@@ -50,7 +50,7 @@ export const getProductActions = (sdk: SDK<ComposableCommerceEvents>): ProductAc
     query: async (
       query: ProductQueryQuery,
       options: {
-        skipQueue?: boolean;
+        parallel?: boolean;
         customHeaderValue?: string;
         serverOptions?: ServerOptions;
       } = {},
@@ -58,7 +58,7 @@ export const getProductActions = (sdk: SDK<ComposableCommerceEvents>): ProductAc
       const response = await sdk.callAction<ProductPaginatedResult>({
         actionName: 'product/query',
         query,
-        skipQueue: options.skipQueue,
+        parallel: options.parallel,
         customHeaderValue: options.customHeaderValue,
         serverOptions: options.serverOptions,
       });
@@ -79,7 +79,7 @@ export const getProductActions = (sdk: SDK<ComposableCommerceEvents>): ProductAc
     queryCategories: async (
       query: QueryProductCategoriesQuery,
       options: {
-        skipQueue?: boolean;
+        parallel?: boolean;
         customHeaderValue?: string;
         serverOptions?: ServerOptions;
       } = {},
@@ -87,7 +87,7 @@ export const getProductActions = (sdk: SDK<ComposableCommerceEvents>): ProductAc
       const response = await sdk.callAction<PaginatedResult<Category>>({
         actionName: 'product/queryCategories',
         query,
-        skipQueue: options.skipQueue,
+        parallel: options.parallel,
         customHeaderValue: options.customHeaderValue,
         serverOptions: options.serverOptions,
       });
@@ -107,14 +107,14 @@ export const getProductActions = (sdk: SDK<ComposableCommerceEvents>): ProductAc
     },
     getSearchableAttributes: async (
       options: {
-        skipQueue?: boolean;
+        parallel?: boolean;
         customHeaderValue?: string;
         serverOptions?: ServerOptions;
       } = {},
     ) => {
       const response = await sdk.callAction<FilterField[]>({
         actionName: 'product/searchableAttributes',
-        skipQueue: options.skipQueue,
+        parallel: options.parallel,
         customHeaderValue: options.customHeaderValue,
         serverOptions: options.serverOptions,
       });

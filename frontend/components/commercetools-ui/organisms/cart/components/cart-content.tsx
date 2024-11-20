@@ -21,25 +21,26 @@ const CartContent = ({
 
   return (
     <div className={className}>
-      <div className="flex items-center justify-between">
-        <h3 className="text-16 md:text-18 lg:text-22">
-          {formatCartMessage({ id: 'cart', defaultMessage: 'Cart' })}
-          {!isEmpty && ': '}
-          {!isEmpty && (
-            <span className="text-secondary-black">
-              ({totalItems} {formatCartMessage({ id: 'items', defaultMessage: 'Items' })})
-            </span>
-          )}
-        </h3>
-      </div>
-
       {!isEmpty ? (
-        <CartItemsList
-          cart={cart}
-          onRemoveItem={onRemoveItem}
-          onUpdateItem={onUpdateItem}
-          OnMoveToWishlist={OnMoveToWishlist}
-        />
+        <div>
+          <div className="flex items-center justify-between">
+            <h3 className="text-16 md:text-18 lg:text-22">
+              {formatCartMessage({ id: 'cart', defaultMessage: 'Cart' })}
+              {!isEmpty && ': '}
+              {!isEmpty && (
+                <span className="text-secondary-black">
+                  ({totalItems} {formatCartMessage({ id: 'items', defaultMessage: 'Items' })})
+                </span>
+              )}
+            </h3>
+          </div>
+          <CartItemsList
+            cart={cart}
+            onRemoveItem={onRemoveItem}
+            onUpdateItem={onUpdateItem}
+            OnMoveToWishlist={OnMoveToWishlist}
+          />
+        </div>
       ) : (
         <EmptyCart {...props} />
       )}

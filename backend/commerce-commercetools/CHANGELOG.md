@@ -1,4 +1,18 @@
 
+## Version 1.13.0 (2024-11-05)
+
+** New Features and Improvements **
+
+- Added hostURl to the CoCo SDK client to see that url into the dev logs
+- Handled multi level category and included categoryId and categoryRef fields
+- Moved child categories only if parent exist and refactor descentants
+- Implement new product search
+
+** Bug fixes **
+
+- Verify that matching variants exist before use the allMatched property 
+- Return payment information on order details
+
 ## Version 1.20.0 (2024-10-02)
 
 ** New Features and Improvements **

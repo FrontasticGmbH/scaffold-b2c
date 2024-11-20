@@ -18,15 +18,3 @@ declare module 'next/navigation' {
   export function useParams(): Params;
   export function usePathname(): string;
 }
-
-interface Page extends BasePage {
-  sections: Record<string, Section>;
-}
-
-declare module '@commercetools/frontend-sdk/lib/types/api/page/PageResponse' {
-  interface PageResponse {
-    page: Page;
-    pageFolder: PageFolder;
-    data: PageViewData;
-  }
-}

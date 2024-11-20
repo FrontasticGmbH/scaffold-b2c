@@ -1,4 +1,22 @@
 
+## Version 1.19.0 (2024-11-05)
+
+** New Features and Improvements **
+
+- Change order ID to order number on B2C 
+- Handled multi level category and included categoryId and categoryRef fields
+- PDP gallery hide arrows with only 1 image product
+
+** Bug fixes **
+
+- Showing correct discount amount in the cart 
+- Remove superfluous divs
+- Fix SEO values
+- Remove duplicate breadcrumb entries for current category 
+- Adjust default value for quantity widget when out of stock
+- Enhance disabled state for PDP when out of stock
+- Introduce quantity selector component
+
 ## Version 1.18.0 (2024-10-02)
 
 ** New Features and Improvements **

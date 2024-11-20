@@ -1,4 +1,16 @@
 
+## Version 1.10.0 (2024-11-05)
+
+** New Features and Improvements **
+
+- Handled multi level category and included categoryId and categoryRef fields 
+- Included filters for product selection id
+- Added api method and mappers for new search
+
+** Bug fixes **
+
+- Moved child categories only if parent exist and refactor descentants
+
 ## Version 1.9.0 (2024-10-02)
 
 ** New Features and Improvements **

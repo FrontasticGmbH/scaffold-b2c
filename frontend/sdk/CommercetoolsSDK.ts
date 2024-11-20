@@ -18,7 +18,18 @@ class CommercetoolsSDK extends SDK<ComposableCommerceEvents> {
     this.on('errorCaught', (event) => {
       // Globally handle any errors caught by the SDK and integrations. For
       // example, log error, fire notification, etc.
-      console.log('SDK error: ', event.data);
+      console.log(`SDK error: `, event.data);
+    });
+
+    this.on('fetchCalled', (event) => {
+      console.log(`${event.data.type === 'action' ? event.data.actionName : event.data.method} called: `, event.data);
+    });
+
+    this.on('fetchSuccessful', (event) => {
+      console.log(
+        `${event.data.type === 'action' ? event.data.actionName : event.data.method}  successful: `,
+        event.data,
+      );
     });
 
     // Set up any other custom global event handlers here.

@@ -4,6 +4,8 @@ import {
   AttributeDefinition as CommercetoolsAttributeDefinition,
   AttributeEnumType,
   AttributeLocalizedEnumType,
+  AttributeLocalizedEnumValue,
+  AttributePlainEnumValue,
   AttributeSetType,
   Category as CommercetoolsCategory,
   CategoryReference,
@@ -416,8 +418,23 @@ export class ProductMapper {
     const filterFieldValues: FilterFieldValue[] = [];
 
     for (const value of commercetoolsAttributeValues) {
-      const attributeValueLabel =
-        commercetoolsAttributeTypeName === 'enum' ? value.label : (value.label?.[locale.language] ?? value.key);
+      let attributeValueLabel: string;
+
+      switch (commercetoolsAttributeTypeName) {
+        case 'enum': {
+          const enumValue = value as AttributePlainEnumValue;
+          attributeValueLabel = typeof enumValue.label === 'string' ? enumValue.label : value.key;
+          break;
+        }
+        case 'lenum': {
+          const lenumValue = value as AttributeLocalizedEnumValue;
+          const label = lenumValue.label?.[locale.language];
+          attributeValueLabel = typeof label === 'string' ? label : value.key;
+          break;
+        }
+        default:
+          attributeValueLabel = value.key;
+      }
 
       filterFieldValues.push({
         value: attributeValueLabel,

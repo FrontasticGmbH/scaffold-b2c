@@ -53,7 +53,9 @@ type UpdateAccountPayload = {
 
 type AddAccountAddressPayload = Omit<Address, 'addressId'>;
 
-type UpdateAccountAddressPayload = Address;
+type UpdateAccountAddressPayload = {
+  address: Address;
+};
 
 type RemoveAccountAddressPayload = {
   addressId: string;

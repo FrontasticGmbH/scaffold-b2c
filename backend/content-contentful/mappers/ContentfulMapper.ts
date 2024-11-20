@@ -1,6 +1,7 @@
-import { Asset as ContentfulAsset, ContentType, Entry, EntryFields, RichTextContent } from 'contentful';
+import { Asset as ContentfulAsset, ContentType, Entry, RichTextContent } from 'contentful';
 import { Attributes, Content } from '@Types/content/Content';
 import { Asset } from '@Types/content/Asset';
+import type { EntryFields } from 'contentful';
 
 type RichText = EntryFields.RichText;
 

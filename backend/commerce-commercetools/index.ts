@@ -171,7 +171,7 @@ export default {
         // This needs to be refactored once the preloadedValue is returned in the DataSourceConfiguration.
         const masterProduct = (masterDataSource as any)?.preloadedValue?.product as Product;
 
-        const masterProductCategories = [masterProduct.categories?.[0]?.categoryId];
+        const masterProductCategories = masterProduct ? [masterProduct.categories?.[0]?.categoryId] : [];
 
         const query = {
           ...productQuery,

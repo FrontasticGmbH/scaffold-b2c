@@ -11,14 +11,14 @@ export const getProjectActions = (sdk: SDK<ComposableCommerceEvents>): ProjectAc
   return {
     getSettings: async (
       options: {
-        skipQueue?: boolean;
+        parallel?: boolean;
         customHeaderValue?: string;
         serverOptions?: ServerOptions;
       } = {},
     ) => {
       const response = await sdk.callAction<ProjectSettings>({
         actionName: 'project/getProjectSettings',
-        skipQueue: options.skipQueue,
+        parallel: options.parallel,
         customHeaderValue: options.customHeaderValue,
         serverOptions: options.serverOptions,
       });

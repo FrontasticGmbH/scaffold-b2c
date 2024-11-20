@@ -8,7 +8,7 @@ import { GetAccountResult, RegisterAccount, UpdateAccount } from './types';
 const useAccount = () => {
   const extensions = sdk.composableCommerce;
 
-  const result = useSWR('/action/account/getAccount', extensions.account.getAccount, {
+  const result = useSWR('/action/account/getAccount', () => extensions.account.getAccount(), {
     ...revalidateOptions,
     revalidateOnMount: true,
   });
@@ -194,7 +194,7 @@ const useAccount = () => {
   const updateAddress = useCallback(async (address: Address): Promise<Account> => {
     const extensions = sdk.composableCommerce;
 
-    const res = await extensions.account.updateAddress(address);
+    const res = await extensions.account.updateAddress({ address });
 
     mutate('/action/account/getAccount');
 
