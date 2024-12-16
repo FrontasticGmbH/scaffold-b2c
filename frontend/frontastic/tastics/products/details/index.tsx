@@ -9,7 +9,7 @@ import { TasticProps } from 'frontastic/tastics/types';
 const ProductDetailsTastic = ({ data, categories }: TasticProps<DataSource<{ product: Product }>>) => {
   const { data: wishlist, addToWishlist, removeLineItem } = useWishlist();
 
-  const { addItem, shippingMethods } = useCart();
+  const { addItem, shippingMethods, data: cart } = useCart();
 
   if (!data?.data?.dataSource?.product) return null;
 
@@ -17,6 +17,7 @@ const ProductDetailsTastic = ({ data, categories }: TasticProps<DataSource<{ pro
     <ProductDetailsAdapter
       product={data?.data?.dataSource.product}
       wishlist={wishlist}
+      cart={cart}
       shippingMethods={shippingMethods.data}
       categories={categories}
       onAddToCart={addItem}

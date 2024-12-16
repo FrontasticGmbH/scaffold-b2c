@@ -1,5 +1,6 @@
 import React, { useMemo } from 'react';
 import Wrapper from 'components/HOC/wrapper';
+import { Cart } from 'types/entity/cart';
 import { Product } from 'types/entity/product';
 import AccumalativeTrace from './components/accumalative-trace';
 import Breadcrumbs from './components/breadcrumb';
@@ -12,9 +13,10 @@ import { useProductList } from './context';
 
 export interface ProductListProps {
   products: Product[];
+  cart?: Cart;
 }
 
-const ProductList: React.FC<ProductListProps> = ({ products }) => {
+const ProductList: React.FC<ProductListProps> = ({ products, cart }) => {
   const { slug, searchQuery, categories } = useProductList();
 
   const category = useMemo(() => categories.find((category) => category.slug === slug), [categories, slug]);
@@ -35,7 +37,7 @@ const ProductList: React.FC<ProductListProps> = ({ products }) => {
 
         <CurrentRefinements />
 
-        <List products={products} />
+        <List products={products} cart={cart} />
 
         <AccumalativeTrace currentItems={products.length} />
       </Wrapper>

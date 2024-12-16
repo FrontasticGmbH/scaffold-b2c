@@ -1,5 +1,5 @@
 import { CurrentRefinementsConnectorParamsRefinement } from 'instantsearch.js/es/connectors/current-refinements/connectCurrentRefinements';
-import { ShippingMethod } from 'types/entity/cart';
+import { Cart, ShippingMethod } from 'types/entity/cart';
 import { Category } from 'types/entity/category';
 import { Variant } from 'types/entity/product';
 import { LineItem as WishlistLineItem, Wishlist } from 'types/entity/wishlist';
@@ -20,6 +20,7 @@ export interface ProductListContextShape {
   removeRefinement: (refinement: CurrentRefinementsConnectorParamsRefinement) => void;
   removeAllRefinements: () => void;
   wishlist?: Wishlist;
+  cart?: Cart;
   addToWishlist?: (lineItem: WishlistLineItem, count: number) => Promise<void>;
   removeFromWishlist?: (item: WishlistLineItem) => Promise<void>;
   onAddToCart?: (variant: Variant, quantity: number) => Promise<void>;

@@ -31,7 +31,7 @@ const OrderPage: FC<Props> = ({ order, shippingMethods }) => {
               orderShippingDate={formattedShippingDate ?? ''}
               orderDeliveryDate={formattedDeliveryDate ?? ''}
               orderState={order.orderState ?? 'Registered'}
-              orderShippingState={'Pending' as ShipmentState}
+              orderShippingState={order.shipmentState || ('Pending' as ShipmentState)}
             />
           </div>
 

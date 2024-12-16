@@ -9,12 +9,14 @@ import { useProductList } from '../../context';
 const HitComponent = ({ hit }: { hit: Hit<BaseHit> }) => {
   const { locale } = useParams();
 
-  const { searchQuery, wishlist, shippingMethods, addToWishlist, removeFromWishlist, onAddToCart } = useProductList();
+  const { searchQuery, wishlist, cart, shippingMethods, addToWishlist, removeFromWishlist, onAddToCart } =
+    useProductList();
 
   return (
     <ProductTile
       product={mapProduct(hit, locale)}
       wishlist={wishlist}
+      cart={cart}
       shippingMethods={shippingMethods}
       isSearchResult={!!searchQuery}
       onClick={() => {

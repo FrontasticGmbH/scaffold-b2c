@@ -28,7 +28,7 @@ const ProductVariant: FC<ProductVariantProps> = ({
 
   const attributeString = attribute.toString();
 
-  const attributeToFilterTo = attribute == 'size' ? 'colorlabel' : 'size';
+  const attributeToFilterTo = attribute == 'size' ? 'color' : 'size';
 
   const sortVariantsCmp = useCallback(
     (a: VariantType, b: VariantType) => {

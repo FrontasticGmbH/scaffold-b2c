@@ -1,6 +1,7 @@
 import React, { FC } from 'react';
 import Image, { ImageProps } from 'components/commercetools-ui/atoms/image';
 import Link from 'components/commercetools-ui/atoms/link';
+import useImageSizes from 'helpers/hooks/useImageSizes';
 import { Reference } from 'types/reference';
 
 export interface Props {
@@ -11,10 +12,12 @@ export interface Props {
 }
 
 const HeaderLogo: FC<Props> = ({ logoLink, logo, imageClassName, onClick }) => {
+  const logoImageSizes = useImageSizes({ sm: 1, md: 0.5, lg: 0.15, defaultSize: 0.15 });
+
   return (
     <div className="relative px-10 md:mt-0" onClick={onClick}>
       <Link className={imageClassName} link={logoLink}>
-        <Image media={logo?.media} fill style={{ objectFit: 'contain' }} alt={logo?.title} />
+        <Image media={logo?.media} fill style={{ objectFit: 'contain' }} alt={logo?.title} sizes={logoImageSizes} />
       </Link>
     </div>
   );

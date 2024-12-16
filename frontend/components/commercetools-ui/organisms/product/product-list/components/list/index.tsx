@@ -2,14 +2,16 @@ import React, { useMemo } from 'react';
 import { Product } from 'shared/types/product/Product';
 import { PLP_PRODUCT_CLICKED } from 'helpers/constants/events';
 import { useFormat } from 'helpers/hooks/useFormat';
+import { Cart } from 'types/entity/cart';
 import { useProductList } from '../../context';
 import PlpProductTileWrapper from '../plp-product-tile-wrapper';
 
 interface Props {
   products: Product[];
+  cart?: Cart;
 }
 
-const List: React.FC<Props> = ({ products }) => {
+const List: React.FC<Props> = ({ products, cart }) => {
   const { formatMessage: formatProductMessage } = useFormat({ name: 'product' });
 
   const { searchQuery, loadMore, totalItems } = useProductList();
@@ -23,6 +25,7 @@ const List: React.FC<Props> = ({ products }) => {
           <PlpProductTileWrapper
             key={product.productId}
             product={product}
+            cart={cart}
             isSearchResult={!!searchQuery}
             onClick={() => {
               gtag('event', PLP_PRODUCT_CLICKED, product);

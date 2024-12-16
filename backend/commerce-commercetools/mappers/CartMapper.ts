@@ -155,19 +155,19 @@ export class CartMapper {
     commercetoolsShipmentState: CommercetoolsShipmentState | undefined,
   ) => ShipmentState | undefined = (commercetoolsShipmentState: CommercetoolsShipmentState | undefined) => {
     switch (commercetoolsShipmentState) {
-      case 'backorder':
+      case 'Backorder':
         return ShipmentState.BACKORDER;
-      case 'delayed':
+      case 'Delayed':
         return ShipmentState.DELAYED;
-      case 'delivered':
+      case 'Delivered':
         return ShipmentState.DELIVERED;
-      case 'partial':
+      case 'Partial':
         return ShipmentState.PARTIAL;
-      case 'ready':
+      case 'Ready':
         return ShipmentState.READY;
-      case 'shipped':
+      case 'Shipped':
         return ShipmentState.SHIPPED;
-      case 'pending':
+      case 'Pending':
       default:
         return ShipmentState.PENDING;
     }

@@ -7,7 +7,7 @@ import { ContentSliderSlideProps } from './types';
 import Link from '../../atoms/link';
 
 const ContentSliderSlide: FC<ContentSliderSlideProps> = ({ image, title, ctaLabel, summary, ctaReference }) => {
-  const tileImageSizes = useImageSizes({ md: 1, lg: 0.33, defaultSize: 0.33 });
+  const tileImageSizes = useImageSizes({ defaultSize: 0.25 });
 
   return (
     <Link link={ctaReference} className="w-full overflow-hidden">

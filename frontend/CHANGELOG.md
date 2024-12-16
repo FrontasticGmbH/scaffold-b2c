@@ -1,4 +1,92 @@
 
+## Version 2.0.0 (2024-11-20)
+
+
+** New Features & Improvements **
+
+misc: Tagged release 1.19.0 for frontend
+misc: Update translations bundle
+feat(FP-8009): fix for showing incorrect discount amount in the cart
+feat(FP-7988): handled multi level category and included categoryId and categoryRef fields
+feat(FP-7696): [B2C] PDP gallery hide arrows with only 1 image product
+feat(FP-7698): [B2C] Introduce quantity selector component
+refactor(FP-7988): rename subcategories to descentant on category type
+feat(FP-7907): Matching borders storybook with Figma reference
+feat(FP-7880): included filters for product selection ids
+feat(FP-7750): [B2C] Use correct order number instead of order ID
+misc: Fix failing build & tests for b2c
+feat(FP-7823): [B2C] Add unit tests for useClassNames
+feat(FP-7822): [B2C] Add unit tests for string helpers
+feat(FP-7820): [B2C] Add unit tests for errorLogger
+feat(FP-7821): [B2C] Add unit tests for reference util
+chore(FP-7829): [B2C] Remove unused adyen hook
+feat(FP-7824): [B2C] Add unit tests for mapCosts
+feat(FP-7819): [B2C] Add unit tests for currencyHelpers
+feat(FP-7818): [B2C] Add unit tests for subtitle
+feat(FP-7629): bug fix for cart items
+feat(FP-7825): [B2C] Add useTranlations tests
+feat(FP-7816,FP-7817): [B2C] Add unit tests for image loaders
+
+
+** Bug Fixes **
+
+fix(b2c): remove superfluous divs
+fix(FP-7989): fix SEO values
+fix(FP-7989): fix SEO values
+fix(FP-7989): fix SEO values
+fix(b2c): remove duplicate breadcrumb entries for current category
+fix: [B2C] Adjust default value for quantity widget when out of stock
+fix(FP-7336): modify text tags
+fix(FP-7698): [B2C] Enhance disabled state for PDP when out of stock
+fix(FP-7336): add translations
+fix(FP-7336): modify cart for gift line items
+fix(FP-7734): [B2C] Empty cart not showing
+fix: [b2c] category page preview
+
+## Version 2.0.0 (2024-11-20)
+
+
+** New Features & Improvements **
+
+misc: Tagged release 1.19.0 for frontend
+misc: Update translations bundle
+feat(FP-8009): fix for showing incorrect discount amount in the cart
+feat(FP-7988): handled multi level category and included categoryId and categoryRef fields
+feat(FP-7696): [B2C] PDP gallery hide arrows with only 1 image product
+feat(FP-7698): [B2C] Introduce quantity selector component
+refactor(FP-7988): rename subcategories to descentant on category type
+feat(FP-7907): Matching borders storybook with Figma reference
+feat(FP-7880): included filters for product selection ids
+feat(FP-7750): [B2C] Use correct order number instead of order ID
+misc: Fix failing build & tests for b2c
+feat(FP-7823): [B2C] Add unit tests for useClassNames
+feat(FP-7822): [B2C] Add unit tests for string helpers
+feat(FP-7820): [B2C] Add unit tests for errorLogger
+feat(FP-7821): [B2C] Add unit tests for reference util
+chore(FP-7829): [B2C] Remove unused adyen hook
+feat(FP-7824): [B2C] Add unit tests for mapCosts
+feat(FP-7819): [B2C] Add unit tests for currencyHelpers
+feat(FP-7818): [B2C] Add unit tests for subtitle
+feat(FP-7629): bug fix for cart items
+feat(FP-7825): [B2C] Add useTranlations tests
+feat(FP-7816,FP-7817): [B2C] Add unit tests for image loaders
+
+
+** Bug Fixes **
+
+fix(b2c): remove superfluous divs
+fix(FP-7989): fix SEO values
+fix(FP-7989): fix SEO values
+fix(FP-7989): fix SEO values
+fix(b2c): remove duplicate breadcrumb entries for current category
+fix: [B2C] Adjust default value for quantity widget when out of stock
+fix(FP-7336): modify text tags
+fix(FP-7698): [B2C] Enhance disabled state for PDP when out of stock
+fix(FP-7336): add translations
+fix(FP-7336): modify cart for gift line items
+fix(FP-7734): [B2C] Empty cart not showing
+fix: [b2c] category page preview
+
 ## Version 1.19.0 (2024-11-05)
 
 ** New Features and Improvements **

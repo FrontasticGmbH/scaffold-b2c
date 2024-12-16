@@ -1,4 +1,5 @@
 import React, { useMemo } from 'react';
+import { useHits } from 'react-instantsearch';
 import Link from 'components/commercetools-ui/atoms/link';
 import Breadcrumb from 'components/commercetools-ui/molecules/breadcrumb';
 import { useFormat } from 'helpers/hooks/useFormat';
@@ -12,6 +13,8 @@ interface Props {
 
 const Breadcrumbs: React.FC<Props> = ({ categoryId, categories }) => {
   const { formatMessage: formatProductMessage } = useFormat({ name: 'product' });
+
+  const { results } = useHits();
 
   const { pathWithoutQuery } = usePath();
 
@@ -58,6 +61,9 @@ const Breadcrumbs: React.FC<Props> = ({ categoryId, categories }) => {
         )}
       </Breadcrumb>
       <h1 className="mt-20 text-22 leading-[35px] md:text-26 lg:text-28">{currentCategory.name}</h1>
+      <h6 className="text-14 text-secondary-black">
+        {results?.nbHits ?? 0} {formatProductMessage({ id: 'items', defaultMessage: 'Items' })}
+      </h6>
       {descendants.length > 0 && (
         <Breadcrumb className="mx-auto mt-32 py-6 lg:py-8" listClassName="gap-x-8">
           <Link

@@ -7,7 +7,7 @@ import useClassNames from 'helpers/hooks/useClassNames';
 import { useFormat } from 'helpers/hooks/useFormat';
 import useOnClickOutside from 'helpers/hooks/useOnClickOutside';
 import useScrollBlock from 'helpers/hooks/useScrollBlock';
-import { ShippingMethod } from 'types/entity/cart';
+import { Cart, ShippingMethod } from 'types/entity/cart';
 import { Variant } from 'types/entity/product';
 import ProductDetailsAdapter from '../product-details/helpers/adapter';
 
@@ -15,6 +15,7 @@ export type QuickViewProps = {
   buttonIsVisible: boolean;
   product: Product;
   wishlist?: Wishlist;
+  cart?: Cart;
   shippingMethods?: ShippingMethod[];
   hideButton: () => void;
   addToWishlist?: (lineItem: LineItem, count: number) => Promise<void>;
@@ -25,6 +26,7 @@ export type QuickViewProps = {
 const QuickView: FC<QuickViewProps> = ({
   buttonIsVisible,
   wishlist,
+  cart,
   shippingMethods,
   product,
   hideButton,
@@ -83,6 +85,7 @@ const QuickView: FC<QuickViewProps> = ({
           <ProductDetailsAdapter
             product={product}
             wishlist={wishlist}
+            cart={cart}
             shippingMethods={shippingMethods}
             categories={[]}
             inModalVersion={true}

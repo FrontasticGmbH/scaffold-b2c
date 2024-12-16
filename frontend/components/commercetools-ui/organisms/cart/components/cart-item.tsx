@@ -94,6 +94,7 @@ const CartItem: React.FC<Props> = ({ item, onRemoveItem, onUpdateItem, OnMoveToW
             value={item.count}
             defaultValue={1}
             minValue={0}
+            maxValue={item.variant?.availableQuantity}
             disabled={processing}
             onChange={handleUpdateItem}
           />

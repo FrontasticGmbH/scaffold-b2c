@@ -62,11 +62,13 @@ const ProductListProvider = ({
   const { currency } = useI18n();
 
   const activeSort = useMemo<Sort | undefined>(() => {
-    for (const q in searchParams.entries()) {
-      const match = q.match(/sortAttributes\[0\]\[(.+)\]/);
+    for (const q of searchParams.entries()) {
+      const match = q[0].match(/sortAttributes\[0\]\[(.+)\]/);
 
-      if (match?.[1]) return { attribute: match[1], value: searchParams.get(q) as 'asc' | 'desc' };
+      if (match?.[1]) return { attribute: match[1], value: q[1] as 'asc' | 'desc' };
     }
+
+    return { attribute: '', value: 'desc' }; //Relevance
   }, [searchParams]);
 
   const limitStep = useMemo(() => 24, []);
@@ -104,7 +106,7 @@ const ProductListProvider = ({
         }
       });
 
-      if (sort) params.set(`sortAttributes[0][${sort.attribute}]`, sort.value);
+      if (sort && sort.attribute) params.set(`sortAttributes[0][${sort.attribute}]`, sort.value);
 
       if (limit) params.set('limit', limit.toString());
 

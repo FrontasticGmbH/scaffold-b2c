@@ -1,7 +1,7 @@
 import React, { createContext, useCallback, useContext, useState } from 'react';
 import { CurrentRefinementsConnectorParamsRefinement } from 'instantsearch.js/es/connectors/current-refinements/connectCurrentRefinements';
 import { useClearRefinements, useCurrentRefinements } from 'react-instantsearch';
-import { ShippingMethod } from 'types/entity/cart';
+import { Cart, ShippingMethod } from 'types/entity/cart';
 import { Category } from 'types/entity/category';
 import { Variant } from 'types/entity/product';
 import { Wishlist, LineItem as WishlistLineItem } from 'types/entity/wishlist';
@@ -27,6 +27,7 @@ interface ProductListProviderProps {
   pricesConfiguration: Record<string, PriceConfiguration>;
   facetsConfiguration: Record<string, FacetConfiguration>;
   wishlist?: Wishlist;
+  cart?: Cart;
   addToWishlist?: (lineItem: WishlistLineItem, count: number) => Promise<void>;
   removeFromWishlist?: (item: WishlistLineItem) => Promise<void>;
   onAddToCart?: (variant: Variant, quantity: number) => Promise<void>;
@@ -40,6 +41,7 @@ const ProductListProvider = ({
   pricesConfiguration,
   facetsConfiguration,
   wishlist,
+  cart,
   addToWishlist,
   removeFromWishlist,
   onAddToCart,
@@ -94,6 +96,7 @@ const ProductListProvider = ({
         pricesConfiguration,
         numericRanges,
         wishlist,
+        cart,
         updateNumericRange,
         removeRefinement,
         removeAllRefinements,

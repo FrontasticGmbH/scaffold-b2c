@@ -4,7 +4,7 @@ import usePreloadImages from 'helpers/hooks/usePreloadImages';
 import { toUIColor } from 'helpers/mappers/toUIColor';
 import { toUIProduct } from 'helpers/mappers/toUIProduct';
 import { toUISize } from 'helpers/mappers/toUIsize';
-import { ShippingMethod } from 'types/entity/cart';
+import { Cart, ShippingMethod } from 'types/entity/cart';
 import { Category } from 'types/entity/category';
 import { Product, Variant } from 'types/entity/product';
 import { LineItem, Wishlist } from 'types/entity/wishlist';
@@ -15,6 +15,7 @@ type ProductDetailsAdapterProps = {
   inModalVersion?: ProductDetailsProps['inModalVersion'];
   categories: Category[];
   wishlist?: Wishlist;
+  cart?: Cart;
   shippingMethods?: ShippingMethod[];
   setIsOpen?: (value: boolean) => void;
   removeLineItem?: (item: LineItem) => Promise<void>;
@@ -27,6 +28,7 @@ const ProductDetailsAdapter: FC<ProductDetailsAdapterProps> = ({
   inModalVersion,
   categories,
   wishlist,
+  cart,
   shippingMethods,
   setIsOpen,
   onAddToCart,
@@ -48,6 +50,8 @@ const ProductDetailsAdapter: FC<ProductDetailsAdapterProps> = ({
       return product.variants[currentVariantIndex] ?? product.variants?.[0];
     }
   });
+
+  const inCartQuantity = cart?.lineItems?.find((lineItem) => lineItem.variant?.sku === variant.sku)?.count ?? 0;
 
   usePreloadImages(product.variants.map((variant) => variant.images ?? []).flat(), 'large');
 
@@ -73,6 +77,7 @@ const ProductDetailsAdapter: FC<ProductDetailsAdapterProps> = ({
       onAddToCart={onAddToCart}
       removeLineItem={removeLineItem}
       addToWishlist={addToWishlist}
+      inCartQuantity={inCartQuantity}
     />
   );
 };

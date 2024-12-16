@@ -4,6 +4,7 @@ import Breadcrumb from 'components/commercetools-ui/molecules/breadcrumb';
 import { useFormat } from 'helpers/hooks/useFormat';
 import usePath from 'helpers/hooks/usePath';
 import { Category } from 'types/entity/category';
+import { useProductList } from '../../context';
 
 interface Props {
   categoryId?: string;
@@ -12,6 +13,8 @@ interface Props {
 
 const Breadcrumbs: React.FC<Props> = ({ categoryId, categories }) => {
   const { formatMessage: formatProductMessage } = useFormat({ name: 'product' });
+
+  const { totalItems } = useProductList();
 
   const { path } = usePath();
 
@@ -59,7 +62,10 @@ const Breadcrumbs: React.FC<Props> = ({ categoryId, categories }) => {
           </Link>
         )}
       </Breadcrumb>
-      <h1 className="mt-20 text-22 leading-[35px] md:text-26 lg:text-28">{currentCategory.name}</h1>
+      <h1 className="mt-20 text-22 md:text-26 lg:text-28">{currentCategory.name}</h1>
+      <h6 className="text-14 text-secondary-black">
+        {totalItems} {formatProductMessage({ id: 'items', defaultMessage: 'Items' })}
+      </h6>
       {descendants.length > 0 && (
         <Breadcrumb className="mx-auto mt-32 py-6 lg:py-8" listClassName="gap-x-8">
           <Link

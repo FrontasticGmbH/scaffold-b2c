@@ -8,7 +8,7 @@ import Wrapper from 'components/HOC/wrapper';
 import useClassNames from 'helpers/hooks/useClassNames';
 import useTouchDevice from 'helpers/hooks/useTouchDevice';
 import { mediumDesktop, tablet } from 'helpers/utils/screensizes';
-import { ShippingMethod } from 'types/entity/cart';
+import { Cart, ShippingMethod } from 'types/entity/cart';
 import { Product, Variant } from 'types/entity/product';
 import { LineItem, Wishlist } from 'types/entity/wishlist';
 import { Reference } from 'types/reference';
@@ -18,6 +18,7 @@ import Link from '../../content/link';
 export interface ProductSliderProps extends Partial<SwiperOptions> {
   products: Product[];
   wishlist?: Wishlist;
+  cart?: Cart;
   shippingMethods?: ShippingMethod[];
   title: string;
   titleVariant?: 'xs' | 'sm' | 'lg';
@@ -45,6 +46,7 @@ export interface ProductSliderProps extends Partial<SwiperOptions> {
 const ProductSlider: FC<ProductSliderProps> = ({
   products,
   wishlist,
+  cart,
   shippingMethods,
   title,
   subline,
@@ -137,6 +139,7 @@ const ProductSlider: FC<ProductSliderProps> = ({
             <ProductTile
               key={product.productId}
               wishlist={wishlist}
+              cart={cart}
               shippingMethods={shippingMethods}
               disableQuickView={disableProductQuickView}
               disableWishlistButton={disableProductWishlistButton}

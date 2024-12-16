@@ -8,7 +8,7 @@ import useMediaQuery from 'helpers/hooks/useMediaQuery';
 import useVariantWithDiscount from 'helpers/hooks/useVariantWithDiscount';
 import { textToColor } from 'helpers/textToColor/textToColor';
 import { desktop } from 'helpers/utils/screensizes';
-import { ShippingMethod } from 'types/entity/cart';
+import { ShippingMethod, Cart } from 'types/entity/cart';
 import { Product, Variant } from 'types/entity/product';
 import { LineItem, Wishlist } from 'types/entity/wishlist';
 import Prices from './prices';
@@ -22,6 +22,7 @@ export interface ProductTileProps {
   disableVariants?: boolean;
   selectedVariantIndex?: number;
   wishlist?: Wishlist;
+  cart?: Cart;
   shippingMethods?: ShippingMethod[];
   onClick?: () => void;
   removeLineItem?: (item: LineItem) => Promise<void>;
@@ -37,6 +38,7 @@ const ProductTile: FC<ProductTileProps> = ({
   disableVariants = false,
   selectedVariantIndex = 0,
   wishlist,
+  cart,
   shippingMethods,
   onClick,
   addToWishlist,
@@ -164,6 +166,7 @@ const ProductTile: FC<ProductTileProps> = ({
             buttonIsVisible={buttonIsVisible && !disableQuickView}
             product={product}
             wishlist={wishlist}
+            cart={cart}
             shippingMethods={shippingMethods}
             hideButton={hideButton}
             addToWishlist={addToWishlist}

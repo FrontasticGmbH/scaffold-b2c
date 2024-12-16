@@ -1,4 +1,18 @@
 
+## Version 2.0.0 (2024-11-20)
+
+
+** New Features & Improvements **
+
+* Modify attribute values to test CI lint
+* fix weak cryptographic algorithm
+* Updated core SDK to V2 alpha, added support
+
+
+** Bug Fixes **
+
+* Fixed similar products issue in preview
+
 ## Version 1.13.0 (2024-11-05)
 
 ** New Features and Improvements **

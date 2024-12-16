@@ -10,7 +10,7 @@ import SortFacet from '../facets/sort';
 const DesktopFacets: React.FC = () => {
   const { formatMessage: formatProductMessage } = useFormat({ name: 'product' });
 
-  const { facetsConfiguration, totalItems } = useProductList();
+  const { facetsConfiguration } = useProductList();
 
   const facets = useDynamicFacets({
     configuration: facetsConfiguration,
@@ -40,30 +40,12 @@ const DesktopFacets: React.FC = () => {
 
   const sortFacet = useMemo(
     () => (
-      <Menu as="div" className="relative">
-        {({ open }) => (
-          <>
-            <Menu.Button>
-              <div className="flex items-center gap-8">
-                <span className="text-14 text-secondary-black">
-                  {formatProductMessage({ id: 'sortBy', defaultMessage: 'Sort by' })}
-                </span>
-                <ArrowIcon className="mt-2 w-16 stroke-secondary-black" />
-              </div>
-            </Menu.Button>
-            <Menu.Items
-              static
-              className={`absolute right-0 min-w-280 origin-top-right translate-y-10 rounded-md bg-white shadow-lg transition ${
-                open ? 'z-20 scale-100' : 'z-[-1] scale-95 opacity-0'
-              }`}
-            >
-              <Menu.Item>
-                <SortFacet />
-              </Menu.Item>
-            </Menu.Items>
-          </>
-        )}
-      </Menu>
+      <div className="flex items-center gap-8">
+        <span className="text-14 text-secondary-black">
+          {formatProductMessage({ id: 'sortBy', defaultMessage: 'Sort by' })}
+        </span>
+        <SortFacet />
+      </div>
     ),
     [formatProductMessage],
   );
@@ -72,9 +54,6 @@ const DesktopFacets: React.FC = () => {
     <div className="hidden items-center justify-between border-b border-neutral-400 pb-16 pt-48 lg:flex">
       <div className="flex max-w-[70%] flex-wrap items-center gap-12">{facets}</div>
       <div className="flex items-center gap-18">
-        <span className="text-14 text-secondary-black">
-          {totalItems} {formatProductMessage({ id: 'items', defaultMessage: 'Items' })}
-        </span>
         <div>{sortFacet}</div>
       </div>
     </div>

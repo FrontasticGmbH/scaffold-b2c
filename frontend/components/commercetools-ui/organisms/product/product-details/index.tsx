@@ -31,6 +31,7 @@ export interface ProductDetailsProps {
   removeLineItem?: (item: LineItem) => Promise<void>;
   addToWishlist?: (lineItem: LineItem, count: number) => Promise<void>;
   onAddToCart?: (variant: Variant, quantity: number) => Promise<void>;
+  inCartQuantity?: number;
 }
 
 const ProductDetails: FC<ProductDetailsProps> = ({
@@ -46,6 +47,7 @@ const ProductDetails: FC<ProductDetailsProps> = ({
   removeLineItem,
   addToWishlist,
   onAddToCart,
+  inCartQuantity = 0,
 }) => {
   const { formatMessage } = useFormat({ name: 'cart' });
   const { formatMessage: formatProductMessage } = useFormat({ name: 'product' });
@@ -67,7 +69,7 @@ const ProductDetails: FC<ProductDetailsProps> = ({
       setAdded(true);
       setTimeout(() => {
         setAdded(false);
-        setQuantity(1);
+        setQuantity(inCartQuantity + quantity >= (variant.availableQuantity ?? 0) ? 0 : 1);
       }, 1000);
 
       show(product, variant, quantity);
@@ -134,7 +136,8 @@ const ProductDetails: FC<ProductDetailsProps> = ({
         <div className="flex gap-8 pt-20">
           <QuantitySelector
             value={quantity}
-            minValue={variant.isOnStock ? 1 : 0}
+            minValue={inCartQuantity >= (variant.availableQuantity ?? 0) ? 0 : Number(variant.isOnStock)}
+            maxValue={(variant.availableQuantity ?? Infinity) - inCartQuantity}
             disabled={!variant.isOnStock}
             onChange={setQuantity}
           />

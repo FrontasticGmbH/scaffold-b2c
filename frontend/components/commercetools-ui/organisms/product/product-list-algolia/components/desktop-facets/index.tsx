@@ -49,37 +49,19 @@ const DesktopFacets: React.FC<Props> = ({ facetsConfiguration }) => {
 
   const sortFacet = useMemo(
     () => (
-      <Menu as="div" className="relative">
-        {({ open }) => (
-          <>
-            <Menu.Button>
-              <div className="flex items-center gap-8">
-                <span className="text-14 text-secondary-black">
-                  {formatProductMessage({ id: 'sortBy', defaultMessage: 'Sort by' })}
-                </span>
-                <ArrowIcon className="mt-2 w-16 stroke-secondary-black" />
-              </div>
-            </Menu.Button>
-            <Menu.Items
-              static
-              className={`absolute right-0 min-w-280 origin-top-right translate-y-10 rounded-md bg-white shadow-lg transition ${
-                open ? 'z-20 scale-100' : 'z-[-1] scale-95 opacity-0'
-              }`}
-            >
-              <Menu.Item>
-                <SortFacet
-                  items={[
-                    {
-                      label: formatProductMessage({ id: 'relevance', defaultMessage: 'Relevance' }),
-                      value: productsIndex,
-                    },
-                  ]}
-                />
-              </Menu.Item>
-            </Menu.Items>
-          </>
-        )}
-      </Menu>
+      <div className="flex items-center gap-8">
+        <span className="text-14 text-secondary-black">
+          {formatProductMessage({ id: 'sortBy', defaultMessage: 'Sort by' })}
+        </span>
+        <SortFacet
+          items={[
+            {
+              label: formatProductMessage({ id: 'relevance', defaultMessage: 'Relevance' }),
+              value: productsIndex,
+            },
+          ]}
+        />
+      </div>
     ),
     [formatProductMessage, productsIndex],
   );
@@ -87,12 +69,7 @@ const DesktopFacets: React.FC<Props> = ({ facetsConfiguration }) => {
   return (
     <div className="hidden items-center justify-between border-b border-neutral-400 pb-16 pt-48 lg:flex">
       <div className="flex items-center gap-12">{facets}</div>
-      <div className="flex items-center gap-18">
-        <span className="text-14 text-secondary-black">
-          {results?.nbHits ?? 0} {formatProductMessage({ id: 'items', defaultMessage: 'Items' })}
-        </span>
-        <div>{sortFacet}</div>
-      </div>
+      <div>{sortFacet}</div>
     </div>
   );
 };

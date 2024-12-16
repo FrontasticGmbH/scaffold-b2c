@@ -12,18 +12,18 @@ const QuantitySelector = ({
   className: classNameProp,
   onChange,
 }: QuantitySelectorProps) => {
-  const normalizeValue = useCallback(
-    (val: number) => Math.max(minValue, Math.min(maxValue, val)),
-    [minValue, maxValue],
-  );
-
-  const [value, setValue] = useControllableState(valueProp ? normalizeValue(valueProp) : undefined, defaultValue);
+  const [value, setValue] = useControllableState(valueProp, defaultValue);
 
   const className = useClassNames([
     'flex w-fit items-center gap-12 rounded-sm border border-neutral-400 transition hover:border-neutral-800',
     disabled ? 'cursor-not-allowed bg-neutral-200 text-gray-400' : 'cursor-pointer bg-white text-secondary-black',
     classNameProp,
   ]);
+
+  const normalizeValue = useCallback(
+    (val: number) => Math.max(minValue, Math.min(maxValue, val)),
+    [minValue, maxValue],
+  );
 
   const handleChange = useCallback(
     (val: number) => {
@@ -39,11 +39,19 @@ const QuantitySelector = ({
 
   return (
     <div className={className}>
-      <button onClick={() => handleChange(value - 1)} className="cursor-[inherit] py-3 pl-12">
+      <button
+        disabled={value <= minValue}
+        onClick={() => handleChange(value - 1)}
+        className="w-36 cursor-[inherit] self-stretch border-r border-neutral-200 px-12 py-3 disabled:cursor-not-allowed disabled:bg-neutral-200 disabled:text-gray-400"
+      >
         -
       </button>
       <span className="py-3 text-14">{value}</span>
-      <button onClick={() => handleChange(value + 1)} className="cursor-[inherit] py-3 pr-12">
+      <button
+        disabled={value >= maxValue}
+        onClick={() => handleChange(value + 1)}
+        className="w-36 cursor-[inherit] self-stretch border-l border-neutral-200 px-12 py-3 disabled:cursor-not-allowed disabled:bg-neutral-200 disabled:text-gray-400"
+      >
         +
       </button>
     </div>

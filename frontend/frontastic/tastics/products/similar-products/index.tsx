@@ -9,7 +9,7 @@ import { TasticProps } from 'frontastic/tastics/types';
 function SimilarProductsTastic({ data }: TasticProps<DataSource<{ items: Product[] }> & ProductSliderProps>) {
   const { data: wishlist, addToWishlist, removeLineItem } = useWishlist();
 
-  const { addItem, shippingMethods } = useCart();
+  const { addItem, shippingMethods, data: cart } = useCart();
 
   if (!data?.data?.dataSource?.items) return <p>No products found.</p>;
 
@@ -20,6 +20,7 @@ function SimilarProductsTastic({ data }: TasticProps<DataSource<{ items: Product
     <ProductSlider
       {...props}
       wishlist={wishlist}
+      cart={cart}
       shippingMethods={shippingMethods.data}
       products={data.data.dataSource.items}
       onAddToCart={addItem}

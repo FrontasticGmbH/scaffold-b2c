@@ -33,7 +33,9 @@ interface DataSourceProps {
 }
 
 const ProductListWrapped = ({ data }: TasticProps<DataSource<DataSourceProps> & Props & ProductListProps>) => {
-  return <ProductList products={data.data?.dataSource?.items ?? []} />;
+  const { data: cart } = useCart();
+
+  return <ProductList products={data.data?.dataSource?.items ?? []} cart={cart} />;
 };
 
 const filterMatchingVariants = (items: Product[]) => {
