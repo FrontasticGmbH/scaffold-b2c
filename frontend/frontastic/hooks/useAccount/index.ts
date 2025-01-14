@@ -1,4 +1,5 @@
 import { useCallback, useMemo } from 'react';
+import { FetchError } from '@commercetools/frontend-sdk';
 import { Account, Address } from 'shared/types/account';
 import useSWR, { mutate } from 'swr';
 import { sdk } from 'sdk';
@@ -76,13 +77,18 @@ const useAccount = () => {
     mutate('/action/wishlist/getWishlist');
   }, []);
 
-  const register = useCallback(async (account: RegisterAccount) => {
-    const extensions = sdk.composableCommerce;
+  const register = useCallback(
+    async (
+      account: RegisterAccount,
+    ): Promise<{ success: false; error: FetchError } | { success: true; account: Account }> => {
+      const extensions = sdk.composableCommerce;
 
-    const res = await extensions.account.register(account);
+      const res = await extensions.account.register(account);
 
-    return res.isError ? { success: false, error: res.error } : { ...res.data, success: true };
-  }, []);
+      return res.isError ? { success: false, error: res.error } : { success: true, account: res.data };
+    },
+    [],
+  );
 
   const confirm = useCallback(async (token: string): Promise<Account> => {
     const extensions = sdk.composableCommerce;

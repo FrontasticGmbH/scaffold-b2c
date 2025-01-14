@@ -1,4 +1,10 @@
 
+## Version 2.1.0 (2024-12-16)
+
+** New Features and Improvements **
+
+* Map and pass shipping state correctly
+
 ## Version 2.0.0 (2024-11-20)
 
 

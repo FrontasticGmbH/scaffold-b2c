@@ -82,6 +82,7 @@ const Search: React.FC<Props> = ({ categories, items, onQueryUpdate }) => {
               placeholder={`${formatMessage({ id: 'search.placeholder', defaultMessage: 'Type to search' })}...`}
             />
             <button
+              data-testid="submit-button"
               type="submit"
               title={formatMessage({ id: 'search', defaultMessage: 'Search' })}
               className={`shrink-0 border-l border-neutral-400 px-16 py-10 transition ${
@@ -92,6 +93,7 @@ const Search: React.FC<Props> = ({ categories, items, onQueryUpdate }) => {
             </button>
             {value && (
               <button
+                data-testid="reset-button"
                 type="reset"
                 className="absolute right-70 top-1/2 block -translate-y-1/2"
                 onClick={cleanUp}
@@ -113,7 +115,7 @@ const Search: React.FC<Props> = ({ categories, items, onQueryUpdate }) => {
           leaveFrom="opacity-100"
           leaveTo="opacity-0"
         >
-          <div className="grid grid-cols-1 gap-30 md:grid-cols-2">
+          <div data-testid="search-panel" className="grid grid-cols-1 gap-30 md:grid-cols-2">
             {items.slice(0, 6).map((item) => (
               <SearchItem key={item.productId} hit={item} categories={categories} />
             ))}

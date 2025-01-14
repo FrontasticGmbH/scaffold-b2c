@@ -7,7 +7,7 @@ import CartIcon from 'components/icons/cart';
 import WishlistIcon from 'components/icons/wishlist';
 import { useFormat } from 'helpers/hooks/useFormat';
 import { Cart, Discount, LineItem as CartLineItem } from 'types/entity/cart';
-import { Wishlist, LineItem as WishlistLineItem } from 'types/entity/wishlist';
+import { LineItem as WishlistLineItem, Wishlist } from 'types/entity/wishlist';
 import AccountButton from './components/account-button';
 
 export interface Props {
@@ -79,18 +79,18 @@ const UtilitySection: React.FC<Props> = ({
         <AccountButton />
 
         <div className="h-40 w-fit">
-          <div
-            title={formatWishlistMessage({ id: 'wishlist', defaultMessage: 'Wishlist' })}
+          <button
+            aria-label={formatWishlistMessage({ id: 'myWishlist', defaultMessage: 'My wishlist' })}
             className="relative h-fit cursor-pointer border-secondary-black pb-8 hover:border-b-2"
             onClick={onWishlistClicked}
           >
             <WishlistIcon totalWishlistItems={totalWishlistItems} className="w-28 text-secondary-black" />
-          </div>
+          </button>
         </div>
 
         <div className="h-40 w-fit">
-          <div
-            title={formatCartMessage({ id: 'myCart', defaultMessage: 'My Cart' })}
+          <button
+            aria-label={formatCartMessage({ id: 'myCart', defaultMessage: 'My Cart' })}
             className="h-fit cursor-pointer border-secondary-black pb-8 hover:border-b-2"
             onClick={onCartClicked}
           >
@@ -99,7 +99,7 @@ const UtilitySection: React.FC<Props> = ({
               totalCartItems={totalCartItems}
               counterClassName="-translate-y-1/4"
             />
-          </div>
+          </button>
         </div>
       </div>
 

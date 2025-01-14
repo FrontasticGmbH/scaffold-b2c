@@ -30,6 +30,8 @@ const withBundleAnalyzer = require('@next/bundle-analyzer')({
   enabled: process.env.ANALYZE === 'true',
 });
 
+const isProd = process.env.NODE_ENV === 'production';
+
 /** @type {import('next').NextConfig} */
 const config = {
   reactStrictMode: true,
@@ -52,12 +54,13 @@ const config = {
   },
 
   compiler: {
-    reactRemoveProperties: { properties: ['^data-test'] },
+    reactRemoveProperties: isProd ? { properties: ['^data-test'] } : false,
   },
 
   webpack(config) {
     config.module.rules.push({
       test: /\.svg$/,
+      exclude: /flag-icons/, // Exclude flag-icons
       use: ['@svgr/webpack'],
     });
 

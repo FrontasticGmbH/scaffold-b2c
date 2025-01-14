@@ -1,4 +1,40 @@
 
+## Version 2.2.0 (2025-01-13)
+
+** New Features & Improvements **
+
+* Refactor selectors and random string generation.
+* Improve unit test coverage.
+
+** Bug Fixes **
+
+* Adapted manifest and images
+* Removing unused images
+* Removing unused code
+* Replace custom heart icon with heroicons
+* Replacing flags with library allowing any country to be displayed without the need of adding additonal flags
+* Fix default fraction digits for currency
+* Fix register error & success feedbacks
+* Timeout related issues and search UI update
+* Checkout total calculations to include shipping discount
+
+## Version 2.1.0 (2024-12-16)
+
+** New Features & Improvements **
+
+- PLP Sort facet redesign
+- Size images properly
+
+
+** Bug Fixes **
+
+- Map and pass shipping state correctly
+- Used correct attribute in product variant component
+- Quantity selector disabled wrong color
+- Sort widget + quantity selector mini refactor
+- Consider max quantity to be added to cart
+- Fix active sort not showing in plp
+
 ## Version 2.0.0 (2024-11-20)
 
 

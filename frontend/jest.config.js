@@ -4,7 +4,7 @@ const config = {
   testEnvironment: 'jsdom',
   transform: {
     '^.+\\.tsx?$': ['ts-jest', { tsconfig: './tsconfig.test.json', diagnostics: { ignoreCodes: [2307, 7016, 2304] } }],
-    '^.+\\.jsx?$': [
+    '^.+\\.m?jsx?$': [
       'babel-jest',
       {
         presets: ['@babel/preset-env'],
@@ -21,7 +21,11 @@ const config = {
     '<rootDir>/frontastic/hooks/',
     '<rootDir>/frontastic/lib/',
     '<rootDir>/project.config.ts',
+    '<rootDir>/helpers/utils/breakpoints/index.ts',
+    '<rootDir>/helpers/utils/environment/index.ts',
+    '<rootDir>/helpers/utils/i18n/index.ts',
   ],
+  testPathIgnorePatterns: ['<rootDir>/e2e/'],
   moduleFileExtensions: ['js', 'jsx', 'ts', 'tsx', 'json'],
   moduleDirectories: ['node_modules', '<rootDir>'],
   moduleNameMapper: {

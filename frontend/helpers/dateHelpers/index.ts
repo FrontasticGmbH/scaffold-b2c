@@ -1,6 +1,6 @@
 export class DateHelpers {
   /**
-   * formatTime takes a date and returns a fomatted string, for example 12:34PM
+   * formatTime takes a date and returns a formatted string, for example 12:34PM
    */
   static formatTime = (date: Date) => {
     let hours = date.getHours();

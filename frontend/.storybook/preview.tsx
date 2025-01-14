@@ -1,5 +1,6 @@
 import type { Preview } from '@storybook/react';
 import 'tailwindcss/tailwind.css';
+import 'flag-icons/css/flag-icons.min.css';
 import '../styles/app.css';
 import 'react-loading-skeleton/dist/skeleton.css';
 import theme from './theme';

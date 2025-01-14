@@ -10,7 +10,11 @@ const Overlay: React.FC<Props> = ({ zIndex, onClick }) => {
   //eslint-disable-next-line tailwindcss/no-custom-classname
   const z = `z-[${zIndex ?? 600}]`;
   return (
-    <div className={useClassNames(['fixed left-0 top-0 h-screen w-screen bg-[#7f7f7f]/30', z])} onClick={onClick} />
+    <div
+      data-testid="overlay"
+      className={useClassNames(['fixed left-0 top-0 h-screen w-screen bg-[#7f7f7f]/30', z])}
+      onClick={onClick}
+    />
   );
 };
 

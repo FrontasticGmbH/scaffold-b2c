@@ -1,8 +1,8 @@
 import { FC } from 'react';
-import { LineItem } from 'shared/types/cart';
-import { CurrencyHelpers } from 'helpers/currencyHelpers';
 import { useParams } from 'next/navigation';
+import { LineItem } from 'shared/types/cart';
 import Typography from 'components/commercetools-ui/atoms/typography';
+import { CurrencyHelpers } from 'helpers/currencyHelpers';
 
 const CartItemPrice: FC<{ item: LineItem }> = ({ item }) => {
   const { locale } = useParams();

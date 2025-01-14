@@ -125,7 +125,7 @@ const Input: FC<InputProps> = ({
     <div className="relative">
       <div className={labelContainerClassName}>
         {label && (
-          <Typography as="label" className={labelClassName}>
+          <Typography as="label" className={labelClassName} htmlFor={props.name}>
             {props.required ? `${label} *` : label}
           </Typography>
         )}
@@ -143,6 +143,7 @@ const Input: FC<InputProps> = ({
           onBlur={handleBlur}
           ref={innerRef}
           value={value}
+          id={props.name}
           {...props}
         />
         {(isValid || (isValidProp && !isInActiveState)) && !isFocused && !hideCheckIcon && (

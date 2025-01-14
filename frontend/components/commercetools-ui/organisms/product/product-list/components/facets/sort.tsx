@@ -37,7 +37,10 @@ const SortFacet: React.FC = () => {
 
   return (
     <Popover className="relative">
-      <Popover.Button className="items-center rounded-md border border-gray-300 bg-white py-8 pl-12 pr-4">
+      <Popover.Button
+        name="Sort Option"
+        className="items-center rounded-md border border-gray-300 bg-white py-8 pl-12 pr-4"
+      >
         <div className="relative flex w-32 min-w-230 items-center justify-between">
           <span className="text-14 text-gray-600">
             {options.find((option) => option.attribute === activeSort?.attribute)?.label}

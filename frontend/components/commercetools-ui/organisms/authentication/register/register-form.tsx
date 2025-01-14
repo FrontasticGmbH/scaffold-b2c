@@ -53,6 +53,7 @@ const RegisterForm: FC<RegisterFormProps> = ({ termsOfUseLink, loggedIn, registe
           defaultMessage: 'Password has to be at least 8 characters long and have at least one uppercase letter.',
         }),
       );
+    setSuccess('');
 
     //return a boolean representing the data validity
     return validPassword;
@@ -84,6 +85,7 @@ const RegisterForm: FC<RegisterFormProps> = ({ termsOfUseLink, loggedIn, registe
             defaultMessage: 'A verification email was sent to your mail address!',
           }),
         );
+        setError('');
       }
     } catch (err) {
       setError(formatErrorMessage({ id: 'wentWrong', defaultMessage: 'Sorry. Something went wrong..' }));

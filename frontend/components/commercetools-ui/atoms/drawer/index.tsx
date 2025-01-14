@@ -8,7 +8,7 @@ import Overlay from '../overlay';
 export interface DrawerProps {
   className?: string;
   isOpen: boolean;
-  direction: 'left' | 'top' | 'right' | 'bottom';
+  direction?: 'left' | 'top' | 'right' | 'bottom';
   blockScrolling?: boolean;
   onClose?: () => void;
 }

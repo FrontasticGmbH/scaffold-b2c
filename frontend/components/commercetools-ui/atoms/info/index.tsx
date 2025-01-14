@@ -12,6 +12,7 @@ const Info: React.FC<Props> = ({ message }) => {
   return (
     <div className="relative">
       <InfoIcon
+        data-testid="info-icon"
         className="size-24 cursor-default stroke-secondary-black"
         onMouseOver={() => setIsShowing(true)}
         onMouseOut={() => setIsShowing(false)}

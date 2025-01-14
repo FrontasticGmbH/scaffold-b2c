@@ -23,7 +23,11 @@ const ThankYouTastic = () => {
     }
   }, [getOrder, order, orderId, resetCart]);
 
-  return <ThankYou order={order} shippingMethods={shippingMethods.data ?? []} />;
+  return (
+    <div data-testid={`order-${orderId}`}>
+      <ThankYou order={order} shippingMethods={shippingMethods.data ?? []} />
+    </div>
+  );
 };
 
 export default ThankYouTastic;

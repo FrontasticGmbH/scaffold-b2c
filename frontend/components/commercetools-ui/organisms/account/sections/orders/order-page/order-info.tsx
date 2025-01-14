@@ -126,7 +126,7 @@ const OrderInfoSection: FC<Props> = ({ order, shippingInfo, paymentInfo, shippin
           })}
         </Typography>
 
-        <Link link={'#support'} className="mt-16 flex cursor-pointer">
+        <Link link={'?hash=support'} className="mt-16 flex cursor-pointer">
           <Typography className="w-full text-center text-14 font-medium text-primary-black hover:underline md:text-16 lg:text-left 2xl:text-left">
             {formatOrdersMessage({
               id: 'contact.support',

@@ -11,7 +11,7 @@ const ColorFacet: React.FC<FacetProps> = ({ attribute }) => {
       {items.map(({ value, isRefined, count }) => {
         const color = textToColor(value);
         return (
-          <div
+          <button
             key={value}
             className="flex cursor-pointer flex-col items-center text-center"
             onClick={() => refine(value)}
@@ -26,7 +26,7 @@ const ColorFacet: React.FC<FacetProps> = ({ attribute }) => {
               {color.label}
             </span>
             <span className="mt-2 block text-14 text-secondary-black">{count}</span>
-          </div>
+          </button>
         );
       })}
     </div>

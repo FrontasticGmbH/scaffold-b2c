@@ -1,11 +1,11 @@
 import React, { useState, FC, Children, CSSProperties, useRef, useCallback } from 'react';
-import SwiperType, { Navigation, Pagination, Thumbs } from 'swiper';
+import SwiperType from 'swiper';
+import { Navigation, Pagination, Thumbs } from 'swiper/modules';
 import { Swiper, SwiperProps, SwiperSlide } from 'swiper/react'; // eslint-disable-line import/no-unresolved
 import 'swiper/css'; // eslint-disable-line import/no-unresolved
 import 'swiper/css/navigation'; // eslint-disable-line import/no-unresolved
 import 'swiper/css/pagination'; // eslint-disable-line import/no-unresolved
 import 'swiper/css/scrollbar'; // eslint-disable-line import/no-unresolved
-import { NavigationOptions } from 'swiper/types';
 import useClassNames from 'helpers/hooks/useClassNames';
 import useTouchDevice from 'helpers/hooks/useTouchDevice';
 import SliderNavigation, { SliderNavigationProps } from './slider-navigation';
@@ -97,11 +97,6 @@ const Slider: FC<SliderProps> = ({
     }
   };
 
-  const handleOnBeforeInit = (swiper: SwiperType) => {
-    (swiper.params.navigation as NavigationOptions).prevEl = navigationPrevRef.current;
-    (swiper.params.navigation as NavigationOptions).nextEl = navigationNextRef.current;
-  };
-
   return (
     <div className={containerClassNames}>
       <Swiper
@@ -118,7 +113,6 @@ const Slider: FC<SliderProps> = ({
           nextEl: navigationNextRef.current,
         }}
         onSwiper={handleOnSwiper}
-        onBeforeInit={handleOnBeforeInit}
         observer
         observeParents
         onInit={handleInit}

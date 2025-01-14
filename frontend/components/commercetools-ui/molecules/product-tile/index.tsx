@@ -105,7 +105,7 @@ const ProductTile: FC<ProductTileProps> = ({
   }, [product, selectedVariant, isSearchResult]);
 
   return (
-    <div onClick={onClick} ref={ref}>
+    <div onClick={onClick} ref={ref} data-testid="product-tile">
       <div className="relative">
         <Link link={productUrl}>
           <div
@@ -129,12 +129,13 @@ const ProductTile: FC<ProductTileProps> = ({
             <span
               className="absolute right-0 top-0 z-10 flex size-32 cursor-pointer items-center justify-center md:size-48"
               onClick={(e) => e.preventDefault()}
+              data-testid="wishlist-button"
             >
               {!disableWishlistButton && productToWishlistLineItem && (
                 <WishlistButton
                   data={wishlist}
                   lineItem={productToWishlistLineItem}
-                  className="size-16 md:size-20 lg:size-24"
+                  className="size-12 md:size-20 lg:size-32"
                   addToWishlist={addToWishlist}
                   removeFromWishlist={removeLineItem}
                 />

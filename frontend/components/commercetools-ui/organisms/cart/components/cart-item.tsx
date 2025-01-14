@@ -77,7 +77,7 @@ const CartItem: React.FC<Props> = ({ item, onRemoveItem, onUpdateItem, OnMoveToW
           >
             {item.name}
           </p>
-          <i onClick={handleRemoveItem} className={deleteButtonClassName}>
+          <i data-testid="remove-button" onClick={handleRemoveItem} className={deleteButtonClassName}>
             <TrashIcon stroke="#494949" className="w-20" />
           </i>
         </div>

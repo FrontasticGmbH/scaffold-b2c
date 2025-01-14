@@ -230,7 +230,7 @@ describe('[Component] Product tile', () => {
       wishlist: { wishlistId: '', lineItems: [{ lineItemId: '', variant: { sku: '123' } }] },
     });
 
-    expect(screen.getByTestId('heart-icon').querySelector('path')).toHaveClass('fill-accent-red');
+    expect(screen.getByTestId('heart-icon')).toHaveClass('fill-accent-red');
 
     await act(async () => userEvent.click(screen.getByTestId('heart-icon')));
 

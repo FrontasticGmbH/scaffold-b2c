@@ -26,7 +26,7 @@ const LoggedIn = () => {
       </Popover.Button>
 
       <Popover.Button className="w-full">
-        <Link link="/account#support" className="mt-32 block w-fit">
+        <Link link="/account/?hash=support" className="mt-32 block w-fit">
           <Typography className="text-primary-black hover:underline">
             {formatAccountMessage({ id: 'customer.support', defaultMessage: 'Customer support' })}
           </Typography>

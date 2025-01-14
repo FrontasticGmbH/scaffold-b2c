@@ -50,8 +50,7 @@ const Gallery: FC<GalleryProps> = ({ images, inModalVersion }) => {
             nextButtonStyles={{ right: isDesktopSize ? -10 : -4 }}
             compactNavigation={inModalVersion}
             slidesPerView={1}
-            loop
-            loopedSlides={images.length}
+            loop={!!images.length}
             onInit={() => setIsLoading(false)}
           >
             {images?.map((image, index) => (

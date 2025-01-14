@@ -24,16 +24,11 @@ const MobileMenuFooter: FC<Props> = ({ showMenu, hideHeaderMenu, insertCategory 
   const [languageMenuTop, setLanguageMenuTop] = useState(false);
 
   const tabs = [
-    { name: formatAccountMessage({ id: 'my.account', defaultMessage: 'My Account' }), href: '/account#' },
-    { name: formatAccountMessage({ id: 'orders', defaultMessage: 'Orders' }), href: '/account#orders' },
-    {
-      name: formatAccountMessage({ id: 'payment.methods', defaultMessage: 'Payment methods' }),
-      href: '/account#payment',
-    },
-    { name: formatAccountMessage({ id: 'addresses', defaultMessage: 'Addresses' }), href: '/account#addresses' },
+    { name: formatAccountMessage({ id: 'my.account', defaultMessage: 'My Account' }), href: '/account' },
+    { name: formatAccountMessage({ id: 'orders', defaultMessage: 'Orders' }), href: '/account/?hash=orders' },
     {
       name: formatAccountMessage({ id: 'customer.support', defaultMessage: 'Customer support' }),
-      href: '/account#support',
+      href: '/account/?hash=support',
     },
   ];
 

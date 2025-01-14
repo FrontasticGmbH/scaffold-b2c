@@ -76,9 +76,9 @@ const Slideout: React.FC<SlideOutProps> = ({
   const title = useMemo(() => {
     switch (state) {
       case 'cart':
-        return formatCartMessage({ id: 'myCart', defaultMessage: 'My Cart' });
+        return formatCartMessage({ id: 'myCart', defaultMessage: 'Cart' });
       case 'wishlist':
-        return formatWishlistMessage({ id: 'my.wishlist', defaultMessage: 'My Wishlist' });
+        return formatWishlistMessage({ id: 'my.wishlist', defaultMessage: 'Wishlist' });
     }
   }, [formatCartMessage, formatWishlistMessage, state]);
 
@@ -158,33 +158,33 @@ const Slideout: React.FC<SlideOutProps> = ({
         <h3 className="text-18 font-medium leading-normal md:text-20">{title}</h3>
         <div className="flex h-full items-center gap-24">
           {enableWishlistState && (
-            <div
+            <button
               className="relative h-full cursor-pointer transition hover:opacity-80"
               onClick={() => changeState?.('wishlist')}
+              aria-label={formatWishlistMessage({ id: 'wishlist', defaultMessage: 'Wishlist' })}
             >
               <div className={wishlistClassName} />
               {totalWishlistItems > 0 && (
                 <span className="absolute -right-8 -top-3 size-10 rounded-full bg-green-500" />
               )}
               <HeartIcon className="w-28" stroke="#494949" />
-            </div>
+            </button>
           )}
           {enableCartState && (
-            <div
+            <button
               className="relative h-full cursor-pointer transition hover:opacity-80"
               onClick={() => changeState?.('cart')}
+              aria-label={formatCartMessage({ id: 'myCart', defaultMessage: 'My Cart' })}
             >
-              <>
-                <div className={cartClassName} />
-                <div className="relative">
-                  <CartIcon className="w-28" totalCartItems={totalCartItems} counterClassName="-translate-y-1/4" />
-                </div>
-              </>
-            </div>
+              <div className={cartClassName} />
+              <div className="relative">
+                <CartIcon className="w-28" totalCartItems={totalCartItems} counterClassName="-translate-y-1/4" />
+              </div>
+            </button>
           )}
-          <div onClick={onClose} className="cursor-pointer transition hover:opacity-80">
+          <button onClick={onClose} className="cursor-pointer transition hover:opacity-80" data-testid="close-icon">
             <CloseIcon className="w-28" stroke="#494949" />
-          </div>
+          </button>
         </div>
       </div>
       {ActiveSection}

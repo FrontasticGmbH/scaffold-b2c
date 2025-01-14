@@ -45,8 +45,8 @@ export class CurrencyHelpers {
     return Intl.NumberFormat(CurrencyHelpers.getLocaleFromShortenedLocale(locale as string), {
       style: 'currency',
       currency: price?.currencyCode ?? 'USD',
-      maximumFractionDigits: price?.fractionDigits ?? 0,
-      minimumFractionDigits: price?.fractionDigits ?? 0,
+      maximumFractionDigits: price?.fractionDigits ?? 2,
+      minimumFractionDigits: price?.fractionDigits ?? 2,
     }).format((price?.centAmount ?? 0) / 100);
   };
 

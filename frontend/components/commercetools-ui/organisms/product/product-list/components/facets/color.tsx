@@ -10,13 +10,13 @@ const ColorFacet: React.FC<FacetProps> = ({ attribute }) => {
   const facet = useMemo(() => facetsConfiguration[attribute] as ColorFacetType, [facetsConfiguration, attribute]);
 
   return (
-    <div className="grid grid-cols-3 items-center justify-start gap-x-54 gap-y-36 lg:min-w-340">
+    <div className="grid grid-cols-3 items-center justify-start gap-x-54 gap-y-32 lg:min-w-340">
       {facet.terms.map(({ identifier, key, selected, count }) => {
         const color = textToColor(key);
         return (
-          <div
+          <button
             key={identifier}
-            className="flex cursor-pointer flex-col items-center text-center"
+            className="flex flex-col items-center py-2 text-center"
             onClick={() => refine(attribute, key)}
           >
             <div
@@ -29,7 +29,7 @@ const ColorFacet: React.FC<FacetProps> = ({ attribute }) => {
               {color.label}
             </span>
             <span className="mt-2 block text-14 text-secondary-black">{count}</span>
-          </div>
+          </button>
         );
       })}
     </div>

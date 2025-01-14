@@ -1,7 +1,7 @@
-import { FC, useState } from 'react';
+import React, { FC, useState } from 'react';
+import { HeartIcon } from '@heroicons/react/24/outline';
 import { Wishlist } from 'shared/types/wishlist';
 import { LineItem } from 'shared/types/wishlist/LineItem';
-import HeartIcon from 'components/icons/heart';
 import useClassNames from 'helpers/hooks/useClassNames';
 
 interface WishlistButtonProps {
@@ -22,7 +22,7 @@ const WishlistButton: FC<WishlistButtonProps> = ({ lineItem, className, data, re
     onWishlist ? 'fill-accent-red stroke-accent-red' : 'fill-white stroke-secondary-black',
   ]);
 
-  const buttonClassName = className || 'absolute top-3 right-0 h-20 w-20 cursor-pointer';
+  const buttonClassName = className || 'absolute top-3 right-0 h-24 w-24 cursor-pointer';
 
   const handleAddToWishList = async () => {
     await addToWishlist?.(lineItem, 1);
@@ -47,7 +47,14 @@ const WishlistButton: FC<WishlistButtonProps> = ({ lineItem, className, data, re
     setProcessing(false);
   };
 
-  return <HeartIcon className={buttonClassName} pathClassName={pathClassNames} onClick={onClick} />;
+  return (
+    <HeartIcon
+      className={buttonClassName + ' ' + pathClassNames}
+      strokeWidth={'0.75'}
+      onClick={onClick}
+      data-testid="heart-icon"
+    />
+  );
 };
 
 export default WishlistButton;

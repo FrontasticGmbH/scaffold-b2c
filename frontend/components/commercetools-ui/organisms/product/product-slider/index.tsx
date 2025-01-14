@@ -1,5 +1,5 @@
 import React, { FC } from 'react';
-import { SwiperOptions } from 'swiper';
+import { SwiperProps } from 'swiper/react'; // eslint-disable-line import/no-unresolved
 import Slider from 'components/commercetools-ui/atoms/slider';
 import Subtitle, { SubtitleProps } from 'components/commercetools-ui/atoms/subtitle';
 import Typography from 'components/commercetools-ui/atoms/typography';
@@ -15,7 +15,7 @@ import { Reference } from 'types/reference';
 import useTrack from './useTrack';
 import Link from '../../content/link';
 
-export interface ProductSliderProps extends Partial<SwiperOptions> {
+export interface ProductSliderProps extends Partial<SwiperProps> {
   products: Product[];
   wishlist?: Wishlist;
   cart?: Cart;
@@ -66,6 +66,7 @@ const ProductSlider: FC<ProductSliderProps> = ({
   removeLineItem,
   onProductClick,
   onAddToCart,
+  spaceBetween = 8,
   ...props
 }) => {
   const { isTouchDevice } = useTouchDevice();
@@ -119,7 +120,7 @@ const ProductSlider: FC<ProductSliderProps> = ({
           nextButtonStyles={{ transform: 'translateY(-150%)' }}
           prevButtonStyles={{ transform: 'translateY(-150%)' }}
           allowTouchMove
-          spaceBetween={8}
+          spaceBetween={spaceBetween as number}
           breakpoints={{
             [tablet]: {
               slidesPerView: 2.3,
