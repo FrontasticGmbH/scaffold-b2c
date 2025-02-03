@@ -40,6 +40,7 @@ import { TaxRate } from '@Types/cart';
 import { ProductRouter } from '../utils/routers/ProductRouter';
 import { Locale } from '../Locale';
 import LocalizedValue from '../utils/LocalizedValue';
+import { AccountMapper } from './AccountMapper';
 import { ProductMapper } from './ProductMapper';
 
 export class CartMapper {
@@ -83,6 +84,7 @@ export class CartMapper {
           defaultLocale,
         ),
       ],
+      accountGroup: AccountMapper.commercetoolsCustomerGroupToAccountGroup(commercetoolsCart.customerGroup?.obj),
     };
   };
 
@@ -221,6 +223,7 @@ export class CartMapper {
         locale,
         defaultLocale,
       ),
+      accountGroup: AccountMapper.commercetoolsCustomerGroupToAccountGroup(commercetoolsOrder.customerGroup?.obj),
     };
   };
 

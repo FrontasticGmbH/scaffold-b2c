@@ -86,9 +86,6 @@ const config = {
       { source: '/:locale/__preview/:path*', destination: '/:locale/preview/:path*' },
     ];
   },
-  experimental: {
-    appDir: true,
-  },
 };
 
 module.exports = () => {

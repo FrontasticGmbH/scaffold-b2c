@@ -1,20 +1,21 @@
-import { FC, useCallback, useContext, useMemo } from 'react';
+import { FC, useCallback, useMemo } from 'react';
 import { Menu } from '@headlessui/react';
 import { ChevronDownIcon } from '@heroicons/react/24/outline';
 import Button from 'components/commercetools-ui/atoms/button';
 import Dropdown from 'components/commercetools-ui/atoms/dropdown';
 import Typography from 'components/commercetools-ui/atoms/typography';
 import FlagIcons from 'components/icons/flags';
-import { MarketContext } from 'context/market';
 import useClassNames from 'helpers/hooks/useClassNames';
-import { Market } from '../header/types';
+import { useFormat } from '../../../../helpers/hooks/useFormat';
+import { useShipAndLanguage } from '../../../../providers/ship-and-language';
 
 export interface Props {
   menuTop?: boolean;
 }
 
 const MarketButtonMobile: FC<Props> = ({ menuTop }) => {
-  const { market: selectedMarket, markets, handleMarket } = useContext(MarketContext);
+  const { formatMessage } = useFormat({ name: 'common' });
+  const { locations, selectedLocation, selectedLanguage, onLocationSelect, onLanguageSelect } = useShipAndLanguage();
 
   const marketButtonClassNames = useCallback(
     (open?: boolean) => {
@@ -42,53 +43,99 @@ const MarketButtonMobile: FC<Props> = ({ menuTop }) => {
     [menuTop],
   );
 
-  const handleMarketClick = (market: Market) => {
-    handleMarket(market);
-  };
-
   const marketButtonElement = useMemo(() => {
     return (
       <div className="flex w-full cursor-pointer justify-between">
         <div className="flex w-fit items-center justify-start">
-          <FlagIcons flagName={selectedMarket?.flag} className="my-auto mr-8" />
-          <Typography className="text-14 text-secondary-black">{selectedMarket?.region}</Typography>
+          {selectedLocation && <FlagIcons flagName={selectedLocation?.flagName} className="my-auto mr-8" />}
+          <Typography className="text-14 text-secondary-black">{selectedLocation?.label}</Typography>
         </div>
         <div className="flex justify-end">
           <ChevronDownIcon strokeWidth={2} className="w-16 text-secondary-black" />
         </div>
       </div>
     );
-  }, [selectedMarket]);
+  }, [selectedLocation]);
+
+  const languageButtonElement = useMemo(() => {
+    return (
+      <div className="flex w-full cursor-pointer justify-between">
+        <div className="flex w-fit items-center justify-start">
+          <Typography className="text-14 text-secondary-black">{selectedLanguage?.name}</Typography>
+        </div>
+        <div className="flex justify-end">
+          <ChevronDownIcon strokeWidth={2} className="w-16 text-secondary-black" />
+        </div>
+      </div>
+    );
+  }, [selectedLanguage]);
 
   return (
     <>
-      {markets && markets.length !== 0 && (
-        <Dropdown
-          customButtonElement={marketButtonElement}
-          customMenuWrapperClassNames={marketMenuWrapperClassNames}
-          customButtonClassNames={marketButtonClassNames}
-          customMenuClassNames={marketMenuClassNames}
-        >
-          {markets.map((market) => (
-            <Menu.Item key={market.locale}>
-              <div className="overflow-y-scroll hover:bg-neutral-200 active:bg-neutral-200">
-                <Button
-                  variant="ghost"
-                  size="full"
-                  onClick={() => handleMarketClick(market)}
-                  className="flex w-full items-center justify-start px-16 py-12"
-                >
-                  <div className="flex w-fit items-center justify-start">
-                    <FlagIcons flagName={market.flag} className="mr-8" />
-                    <Typography as="span" className="text-14 font-normal text-secondary-black">
-                      {market?.region}
-                    </Typography>
-                  </div>
-                </Button>
-              </div>
-            </Menu.Item>
-          ))}
-        </Dropdown>
+      {locations && locations.length !== 0 && (
+        <>
+          <Typography className="pb-2 text-14 font-semibold text-gray-800">
+            {formatMessage({ id: 'shop.ship.title', defaultMessage: 'Shop and ship to' })}
+          </Typography>
+          <Dropdown
+            customButtonElement={marketButtonElement}
+            customMenuWrapperClassNames={marketMenuWrapperClassNames}
+            customButtonClassNames={marketButtonClassNames}
+            customMenuClassNames={marketMenuClassNames}
+          >
+            {locations.map((location) => (
+              <Menu.Item key={location.label}>
+                <div className="overflow-y-scroll hover:bg-neutral-200 active:bg-neutral-200">
+                  <Button
+                    variant="ghost"
+                    size="full"
+                    onClick={() => onLocationSelect(location.value)}
+                    className="flex w-full items-center justify-start px-16 py-12"
+                  >
+                    <div className="flex w-fit items-center justify-start">
+                      <FlagIcons flagName={location.flagName} className="mr-8" />
+                      <Typography as="span" className="text-14 font-normal text-secondary-black">
+                        {location.label}
+                      </Typography>
+                    </div>
+                  </Button>
+                </div>
+              </Menu.Item>
+            ))}
+          </Dropdown>
+        </>
+      )}
+      {selectedLocation?.languages && selectedLocation.languages.length > 1 && (
+        <div className="pt-5">
+          <Typography className="pb-2 text-14 font-semibold text-gray-800">
+            {formatMessage({ id: 'language', defaultMessage: 'Language' })}
+          </Typography>
+          <Dropdown
+            customButtonElement={languageButtonElement}
+            customMenuWrapperClassNames={marketMenuWrapperClassNames}
+            customButtonClassNames={marketButtonClassNames}
+            customMenuClassNames={marketMenuClassNames}
+          >
+            {selectedLocation.languages.map((language) => (
+              <Menu.Item key={language.value}>
+                <div className="overflow-y-scroll hover:bg-neutral-200 active:bg-neutral-200">
+                  <Button
+                    variant="ghost"
+                    size="full"
+                    onClick={() => onLanguageSelect(language.value)}
+                    className="flex w-full items-center justify-start px-16 py-12"
+                  >
+                    <div className="flex w-fit items-center justify-start">
+                      <Typography as="span" className="text-14 font-normal text-secondary-black">
+                        {language.name}
+                      </Typography>
+                    </div>
+                  </Button>
+                </div>
+              </Menu.Item>
+            ))}
+          </Dropdown>
+        </div>
       )}
     </>
   );

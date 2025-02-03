@@ -11,6 +11,10 @@ export interface SortAttributes {
   [key: string]: any;
 }
 
+export interface LocalizedString {
+  [key: string]: string;
+}
+
 export interface ProductQuery extends PaginatedQuery {
   categories?: string[];
   productIds?: string[];

@@ -1,9 +1,7 @@
-import { ShipmentState } from 'shared/types/cart';
-import { LineItem } from 'shared/types/cart/LineItem';
-import { Order } from 'shared/types/cart/Order';
-import { ShippingMethod } from 'shared/types/cart/ShippingMethod';
-import { Product } from 'shared/types/product/Product';
 import { PaymentMethod } from 'components/commercetools-ui/organisms/order-payment-section/types';
+import { LineItem, ShippingMethod } from 'types/entity/cart';
+import { Order, ShipmentState } from 'types/entity/order';
+import { Product } from 'types/entity/product';
 import { Reference } from 'types/reference';
 
 export const linkReferenceOne: Reference = {

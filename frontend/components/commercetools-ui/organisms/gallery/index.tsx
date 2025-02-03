@@ -13,7 +13,7 @@ interface GalleryProps {
 }
 
 const Gallery: FC<GalleryProps> = ({ images, inModalVersion }) => {
-  const swiperRef = useRef<Swiper>();
+  const swiperRef = useRef<Swiper>(undefined);
   const [activeSlide, setActiveSlide] = useState(0);
 
   const [isTabletSize] = useMediaQuery(tablet);

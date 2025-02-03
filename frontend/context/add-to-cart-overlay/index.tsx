@@ -2,6 +2,7 @@ import React, { useCallback, useContext, useState } from 'react';
 import { useParams } from 'next/navigation';
 import { Transition } from '@headlessui/react';
 import { XMarkIcon as CloseIcon } from '@heroicons/react/24/solid';
+import Image from 'components/commercetools-ui/atoms/image';
 import Link from 'components/commercetools-ui/atoms/link';
 import Overlay from 'components/commercetools-ui/atoms/overlay';
 import ProductSlider from 'components/commercetools-ui/organisms/product/product-slider';
@@ -12,7 +13,6 @@ import useTouchDevice from 'helpers/hooks/useTouchDevice';
 import { mediumDesktop, tablet } from 'helpers/utils/screensizes';
 import { Product, Variant } from 'types/entity/product';
 import { useCart, useProduct, useWishlist } from 'frontastic';
-import Image from 'components/commercetools-ui/atoms/image';
 import { AddToCartOverlayContextShape, StateProduct } from './types';
 
 const AddToCartOverlayContext = React.createContext<AddToCartOverlayContextShape>({
@@ -91,7 +91,7 @@ const AddToCartOverlayProvider = ({ children }: React.PropsWithChildren) => {
             </h4>
 
             <CloseIcon
-              className="absolute right-18 top-16 h-28 w-28 cursor-pointer fill-secondary-black stroke-0 md:top-16"
+              className="absolute right-18 top-16 size-28 cursor-pointer fill-secondary-black stroke-0 md:top-16"
               onClick={hide}
             />
 

@@ -10,6 +10,7 @@ import {
   PriceConfiguration,
 } from 'components/commercetools-ui/organisms/product/product-list-algolia/types';
 import InstantSearch from 'components/HOC/InstantSearch';
+import { mapCategotry } from 'helpers/entity-mappers/map-category';
 import usePath from 'helpers/hooks/usePath';
 import Redirect from 'helpers/redirect';
 import { flattenTree } from 'helpers/utils/flattenTree';
@@ -80,7 +81,7 @@ function ProductListAlgoliaTastic({ data, categories, ...props }: TasticProps<Pr
       <LocalizedIndex type="products">
         <ProductListProvider
           searchQuery={searchQuery}
-          categories={flattenedCategories}
+          categories={flattenedCategories.map((category) => mapCategotry(category, { locale }))}
           shippingMethods={shippingMethods.data}
           facetsConfiguration={facetsConfiguration}
           pricesConfiguration={pricesConfiguration}

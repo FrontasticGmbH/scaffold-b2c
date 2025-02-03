@@ -1,4 +1,4 @@
-import { useMemo } from 'react';
+import { useMemo, type JSX } from 'react';
 import BooleanFacet from '../components/facets/boolean';
 import ColorFacet from '../components/facets/color';
 import RangeFacet from '../components/facets/range';

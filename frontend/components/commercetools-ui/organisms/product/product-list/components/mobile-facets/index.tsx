@@ -1,4 +1,5 @@
 import { useMemo, useState } from 'react';
+import { Popover } from '@headlessui/react';
 import { XMarkIcon as CloseIcon } from '@heroicons/react/24/outline';
 import { AdjustmentsHorizontalIcon as FiltersIcon } from '@heroicons/react/24/solid';
 import Accordion from 'components/commercetools-ui/atoms/accordion';
@@ -36,7 +37,9 @@ const MobileFacets: React.FC = () => {
         variant="arrow"
         iconClassName={accordionClassNames.icon}
       >
-        <div className="px-16 py-28">{Component}</div>
+        <div className="px-16 py-28">
+          <Popover>{Component}</Popover>
+        </div>
       </Accordion>
     ),
   });

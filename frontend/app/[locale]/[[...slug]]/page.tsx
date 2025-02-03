@@ -14,7 +14,9 @@ import Renderer from 'frontastic/renderer';
 
 export const dynamic = 'force-dynamic';
 
-export async function generateMetadata({ params, searchParams }: PageProps): Promise<Metadata> {
+export async function generateMetadata(props: PageProps): Promise<Metadata> {
+  const searchParams = await props.searchParams;
+  const params = await props.params;
   const { locale: nextLocale } = params;
 
   sdk.defaultConfigure(nextLocale);
@@ -34,15 +36,18 @@ export async function generateMetadata({ params, searchParams }: PageProps): Pro
   };
 }
 
-export default async function Page({ params, searchParams }: PageProps) {
+export default async function Page(props: PageProps) {
+  const searchParams = await props.searchParams;
+  const params = await props.params;
   const { locale } = params;
 
   sdk.defaultConfigure(locale);
 
-  const [page, accountResult, categoriesResult] = await Promise.all([
+  const [page, accountResult, categoriesResult, flattenedCategoriesResult] = await Promise.all([
     fetchPageData(params, searchParams),
     fetchAccount(),
     fetchCategories({ format: 'tree' }),
+    fetchCategories({ format: 'flat' }),
   ]);
 
   if (page.isError) {
@@ -74,12 +79,18 @@ export default async function Page({ params, searchParams }: PageProps) {
 
   return (
     <div data-theme={(!page.isError && page.data.pageFolder.configuration.displayTheme) ?? 'default'}>
-      <Providers translations={translations} accountResult={accountResult} page={{ ...page, data: page.data }}>
+      <Providers
+        translations={translations}
+        accountResult={accountResult}
+        flattenedCategories={flattenedCategoriesResult.isError ? [] : flattenedCategoriesResult.data.items}
+        page={{ ...page, data: page.data }}
+      >
         <Renderer
           data={page.data}
           params={params}
           searchParams={searchParams}
           categories={categoriesResult.isError ? [] : categoriesResult.data.items}
+          flattenedCategories={flattenedCategoriesResult.isError ? [] : flattenedCategoriesResult.data.items}
         />
         <GASnippet />
       </Providers>

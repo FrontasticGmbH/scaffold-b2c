@@ -33,6 +33,8 @@ describe('mapProduct', () => {
         {
           categoryId: 'ae7004cf-69b0-420e-af6c-f235b8c92017',
           descendants: [],
+          _url: undefined,
+          _urls: {},
         },
       ],
       variants: [

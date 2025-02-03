@@ -1,4 +1,4 @@
-import React, { CSSProperties, FC, LegacyRef } from 'react';
+import React, { CSSProperties, FC, Ref } from 'react';
 import { ChevronLeftIcon, ChevronRightIcon } from '@heroicons/react/24/outline';
 import SwiperType from 'swiper';
 
@@ -13,8 +13,8 @@ export type SliderNavigationProps = {
   nextArrowStyles?: CSSProperties;
   totalSlides?: number;
   swiperRef?: SwiperType;
-  navigationPrevRef?: LegacyRef<HTMLDivElement>;
-  navigationNextRef?: LegacyRef<HTMLDivElement>;
+  navigationPrevRef?: Ref<HTMLDivElement>;
+  navigationNextRef?: Ref<HTMLDivElement>;
 };
 
 const SliderNavigation: FC<SliderNavigationProps> = ({

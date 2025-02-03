@@ -4,11 +4,11 @@ import { Address } from 'shared/types/account/Address';
 import { LineItem as CartLineItem } from 'shared/types/cart/LineItem';
 import { ShippingInfo } from 'shared/types/cart/ShippingInfo';
 import { Variant } from 'shared/types/product';
-import { Category } from 'shared/types/product/Category';
 import { Money } from 'shared/types/product/Money';
 import { LineItem } from 'shared/types/wishlist/LineItem';
 import { Wishlist } from 'shared/types/wishlist/Wishlist';
 import { ImageProps } from 'components/commercetools-ui/atoms/image';
+import { Category } from 'types/entity/category';
 
 export const categories: Category[] = [
   {
@@ -24,6 +24,7 @@ export const categories: Category[] = [
         depth: 2,
         descendants: [],
         _url: '/furniture/bedroom-furniture/7165ecef-961d-4809-ab16-1a8c15531edc',
+        _urls: {},
       },
       {
         categoryId: '1c9de70f-5559-44b9-a48f-63b90cba8976',
@@ -32,6 +33,7 @@ export const categories: Category[] = [
         depth: 2,
         descendants: [],
         _url: '/furniture/bedroom-furniture/1c9de70f-5559-44b9-a48f-63b90cba8976',
+        _urls: {},
       },
       {
         categoryId: 'fffcaf52-62c5-45a7-a0ec-4768e7d33d48',
@@ -40,9 +42,11 @@ export const categories: Category[] = [
         depth: 2,
         descendants: [],
         _url: '/furniture/bedroom-furniture/fffcaf52-62c5-45a7-a0ec-4768e7d33d48',
+        _urls: {},
       },
     ],
     _url: '/furniture/bedroom-furniture',
+    _urls: {},
   },
   {
     categoryId: 'c5a3d83f-0ada-408f-84fc-a754d6aca8be',
@@ -57,6 +61,7 @@ export const categories: Category[] = [
         depth: 2,
         descendants: [],
         _url: '/furniture/c5a3d83f-0ada-408f-84fc-a754d6aca8be/9e3934ee-d53f-4f3c-af09-5bb279f30672',
+        _urls: {},
       },
       {
         categoryId: '826ab7ee-eb45-4f4f-9ae0-5cd6eea53c4b',
@@ -65,6 +70,7 @@ export const categories: Category[] = [
         depth: 2,
         descendants: [],
         _url: '/furniture/c5a3d83f-0ada-408f-84fc-a754d6aca8be/826ab7ee-eb45-4f4f-9ae0-5cd6eea53c4b',
+        _urls: {},
       },
       {
         categoryId: '2e51af19-440f-428d-9783-c9dd614abee2',
@@ -73,6 +79,7 @@ export const categories: Category[] = [
         depth: 2,
         descendants: [],
         _url: '/furniture/c5a3d83f-0ada-408f-84fc-a754d6aca8be/2e51af19-440f-428d-9783-c9dd614abee2',
+        _urls: {},
       },
       {
         categoryId: 'fae26257-81b4-4c57-9997-a0efefd77271',
@@ -81,9 +88,11 @@ export const categories: Category[] = [
         depth: 2,
         descendants: [],
         _url: '/furniture/c5a3d83f-0ada-408f-84fc-a754d6aca8be/fae26257-81b4-4c57-9997-a0efefd77271',
+        _urls: {},
       },
     ],
     _url: '/furniture/c5a3d83f-0ada-408f-84fc-a754d6aca8be',
+    _urls: {},
   },
   {
     categoryId: '3f30317c-ef62-4c59-a646-3b9e382f46df',
@@ -98,6 +107,7 @@ export const categories: Category[] = [
         depth: 2,
         descendants: [],
         _url: '/cdb77397-cf53-4afc-bbf7-b3db5f99dfe4/3f30317c-ef62-4c59-a646-3b9e382f46df/66951be4-a3ce-461e-9529-5c5f268479c3',
+        _urls: {},
       },
       {
         categoryId: '286156f7-b6de-4962-92d3-38023db1c2e6',
@@ -106,6 +116,7 @@ export const categories: Category[] = [
         depth: 2,
         descendants: [],
         _url: '/cdb77397-cf53-4afc-bbf7-b3db5f99dfe4/3f30317c-ef62-4c59-a646-3b9e382f46df/286156f7-b6de-4962-92d3-38023db1c2e6',
+        _urls: {},
       },
       {
         categoryId: 'f4784457-09e7-4bb5-bc18-1fabd0ec5dc9',
@@ -114,9 +125,11 @@ export const categories: Category[] = [
         depth: 2,
         descendants: [],
         _url: '/cdb77397-cf53-4afc-bbf7-b3db5f99dfe4/3f30317c-ef62-4c59-a646-3b9e382f46df/f4784457-09e7-4bb5-bc18-1fabd0ec5dc9',
+        _urls: {},
       },
     ],
     _url: '/cdb77397-cf53-4afc-bbf7-b3db5f99dfe4/3f30317c-ef62-4c59-a646-3b9e382f46df',
+    _urls: {},
   },
   {
     categoryId: '0190c54c-de58-42f2-9790-81c2a6a6bd77',
@@ -131,6 +144,7 @@ export const categories: Category[] = [
         depth: 2,
         descendants: [],
         _url: '/cdb77397-cf53-4afc-bbf7-b3db5f99dfe4/0190c54c-de58-42f2-9790-81c2a6a6bd77/3cdb27f4-673f-42a5-9f7e-48ea10fef85d',
+        _urls: {},
       },
       {
         categoryId: 'f7850832-e22f-4487-8460-d62edd6e5804',
@@ -139,6 +153,7 @@ export const categories: Category[] = [
         depth: 2,
         descendants: [],
         _url: '/cdb77397-cf53-4afc-bbf7-b3db5f99dfe4/0190c54c-de58-42f2-9790-81c2a6a6bd77/f7850832-e22f-4487-8460-d62edd6e5804',
+        _urls: {},
       },
       {
         categoryId: '36c8214a-68e1-48fb-ac27-0d2763bbf5c3',
@@ -147,9 +162,11 @@ export const categories: Category[] = [
         depth: 2,
         descendants: [],
         _url: '/cdb77397-cf53-4afc-bbf7-b3db5f99dfe4/0190c54c-de58-42f2-9790-81c2a6a6bd77/36c8214a-68e1-48fb-ac27-0d2763bbf5c3',
+        _urls: {},
       },
     ],
     _url: '/cdb77397-cf53-4afc-bbf7-b3db5f99dfe4/0190c54c-de58-42f2-9790-81c2a6a6bd77',
+    _urls: {},
   },
   {
     categoryId: '47a52b0f-6c52-41f9-af0d-7b71886ec40e',
@@ -158,6 +175,7 @@ export const categories: Category[] = [
     depth: 2,
     descendants: [],
     _url: '/cdb77397-cf53-4afc-bbf7-b3db5f99dfe4/bb10ed31-b247-4aef-9166-4463ded2e32b/47a52b0f-6c52-41f9-af0d-7b71886ec40e',
+    _urls: {},
   },
   {
     categoryId: 'bb26c6ec-244e-4390-962a-da377f1df8ff',
@@ -172,6 +190,7 @@ export const categories: Category[] = [
         depth: 2,
         descendants: [],
         _url: '/furniture/bb26c6ec-244e-4390-962a-da377f1df8ff/92584630-d632-4449-b830-503077bc509e',
+        _urls: {},
       },
       {
         categoryId: '6fc735c1-6a8d-40f8-9ec7-261088659738',
@@ -180,9 +199,11 @@ export const categories: Category[] = [
         depth: 2,
         descendants: [],
         _url: '/furniture/bb26c6ec-244e-4390-962a-da377f1df8ff/6fc735c1-6a8d-40f8-9ec7-261088659738',
+        _urls: {},
       },
     ],
     _url: '/furniture/bb26c6ec-244e-4390-962a-da377f1df8ff',
+    _urls: {},
   },
   {
     categoryId: '076ab018-de9f-4a55-a436-ffd18d22fc66',
@@ -191,6 +212,7 @@ export const categories: Category[] = [
     depth: 0,
     descendants: [],
     _url: '/076ab018-de9f-4a55-a436-ffd18d22fc66',
+    _urls: {},
   },
   {
     categoryId: 'bb10ed31-b247-4aef-9166-4463ded2e32b',
@@ -205,6 +227,7 @@ export const categories: Category[] = [
         depth: 2,
         descendants: [],
         _url: '/cdb77397-cf53-4afc-bbf7-b3db5f99dfe4/bb10ed31-b247-4aef-9166-4463ded2e32b/47a52b0f-6c52-41f9-af0d-7b71886ec40e',
+        _urls: {},
       },
       {
         categoryId: '76b0a5c2-cd33-45e6-aaaa-ad29a116c05e',
@@ -213,6 +236,7 @@ export const categories: Category[] = [
         depth: 2,
         descendants: [],
         _url: '/cdb77397-cf53-4afc-bbf7-b3db5f99dfe4/bb10ed31-b247-4aef-9166-4463ded2e32b/76b0a5c2-cd33-45e6-aaaa-ad29a116c05e',
+        _urls: {},
       },
       {
         categoryId: '9b8d2c88-e859-44fb-a5fd-5576e3621bc2',
@@ -221,9 +245,11 @@ export const categories: Category[] = [
         depth: 2,
         descendants: [],
         _url: '/cdb77397-cf53-4afc-bbf7-b3db5f99dfe4/bb10ed31-b247-4aef-9166-4463ded2e32b/9b8d2c88-e859-44fb-a5fd-5576e3621bc2',
+        _urls: {},
       },
     ],
     _url: '/cdb77397-cf53-4afc-bbf7-b3db5f99dfe4/bb10ed31-b247-4aef-9166-4463ded2e32b',
+    _urls: {},
   },
   {
     categoryId: 'eab8e720-8046-46fb-a9be-1a397ef24f21',
@@ -244,6 +270,7 @@ export const categories: Category[] = [
             depth: 2,
             descendants: [],
             _url: '/furniture/bedroom-furniture/7165ecef-961d-4809-ab16-1a8c15531edc',
+            _urls: {},
           },
           {
             categoryId: '1c9de70f-5559-44b9-a48f-63b90cba8976',
@@ -252,6 +279,7 @@ export const categories: Category[] = [
             depth: 2,
             descendants: [],
             _url: '/furniture/bedroom-furniture/1c9de70f-5559-44b9-a48f-63b90cba8976',
+            _urls: {},
           },
           {
             categoryId: 'fffcaf52-62c5-45a7-a0ec-4768e7d33d48',
@@ -260,9 +288,11 @@ export const categories: Category[] = [
             depth: 2,
             descendants: [],
             _url: '/furniture/bedroom-furniture/fffcaf52-62c5-45a7-a0ec-4768e7d33d48',
+            _urls: {},
           },
         ],
         _url: '/furniture/bedroom-furniture',
+        _urls: {},
       },
       {
         categoryId: 'c5a3d83f-0ada-408f-84fc-a754d6aca8be',
@@ -277,6 +307,7 @@ export const categories: Category[] = [
             depth: 2,
             descendants: [],
             _url: '/furniture/c5a3d83f-0ada-408f-84fc-a754d6aca8be/9e3934ee-d53f-4f3c-af09-5bb279f30672',
+            _urls: {},
           },
           {
             categoryId: '826ab7ee-eb45-4f4f-9ae0-5cd6eea53c4b',
@@ -285,6 +316,7 @@ export const categories: Category[] = [
             depth: 2,
             descendants: [],
             _url: '/furniture/c5a3d83f-0ada-408f-84fc-a754d6aca8be/826ab7ee-eb45-4f4f-9ae0-5cd6eea53c4b',
+            _urls: {},
           },
           {
             categoryId: '2e51af19-440f-428d-9783-c9dd614abee2',
@@ -293,6 +325,7 @@ export const categories: Category[] = [
             depth: 2,
             descendants: [],
             _url: '/furniture/c5a3d83f-0ada-408f-84fc-a754d6aca8be/2e51af19-440f-428d-9783-c9dd614abee2',
+            _urls: {},
           },
           {
             categoryId: 'fae26257-81b4-4c57-9997-a0efefd77271',
@@ -301,9 +334,11 @@ export const categories: Category[] = [
             depth: 2,
             descendants: [],
             _url: '/furniture/c5a3d83f-0ada-408f-84fc-a754d6aca8be/fae26257-81b4-4c57-9997-a0efefd77271',
+            _urls: {},
           },
         ],
         _url: '/furniture/c5a3d83f-0ada-408f-84fc-a754d6aca8be',
+        _urls: {},
       },
       {
         categoryId: 'bb26c6ec-244e-4390-962a-da377f1df8ff',
@@ -318,6 +353,7 @@ export const categories: Category[] = [
             depth: 2,
             descendants: [],
             _url: '/furniture/bb26c6ec-244e-4390-962a-da377f1df8ff/92584630-d632-4449-b830-503077bc509e',
+            _urls: {},
           },
           {
             categoryId: '6fc735c1-6a8d-40f8-9ec7-261088659738',
@@ -326,9 +362,11 @@ export const categories: Category[] = [
             depth: 2,
             descendants: [],
             _url: '/furniture/bb26c6ec-244e-4390-962a-da377f1df8ff/6fc735c1-6a8d-40f8-9ec7-261088659738',
+            _urls: {},
           },
         ],
         _url: '/furniture/bb26c6ec-244e-4390-962a-da377f1df8ff',
+        _urls: {},
       },
       {
         categoryId: '3df55be6-ebce-4887-934e-bff43e183858',
@@ -343,6 +381,7 @@ export const categories: Category[] = [
             depth: 2,
             descendants: [],
             _url: '/furniture/3df55be6-ebce-4887-934e-bff43e183858/7c3f060a-0548-4d9c-90d5-718e23498ef4',
+            _urls: {},
           },
           {
             categoryId: '9c5ec253-dfc8-45c4-b79c-0686262c57d3',
@@ -351,6 +390,7 @@ export const categories: Category[] = [
             depth: 2,
             descendants: [],
             _url: '/furniture/3df55be6-ebce-4887-934e-bff43e183858/9c5ec253-dfc8-45c4-b79c-0686262c57d3',
+            _urls: {},
           },
           {
             categoryId: 'de27ed3f-9c2e-4ada-aa06-1ca86a972c43',
@@ -359,12 +399,15 @@ export const categories: Category[] = [
             depth: 2,
             descendants: [],
             _url: '/furniture/3df55be6-ebce-4887-934e-bff43e183858/de27ed3f-9c2e-4ada-aa06-1ca86a972c43',
+            _urls: {},
           },
         ],
         _url: '/furniture/3df55be6-ebce-4887-934e-bff43e183858',
+        _urls: {},
       },
     ],
     _url: '/furniture',
+    _urls: {},
   },
   {
     categoryId: '3df55be6-ebce-4887-934e-bff43e183858',
@@ -379,6 +422,7 @@ export const categories: Category[] = [
         depth: 2,
         descendants: [],
         _url: '/furniture/3df55be6-ebce-4887-934e-bff43e183858/7c3f060a-0548-4d9c-90d5-718e23498ef4',
+        _urls: {},
       },
       {
         categoryId: '9c5ec253-dfc8-45c4-b79c-0686262c57d3',
@@ -387,6 +431,7 @@ export const categories: Category[] = [
         depth: 2,
         descendants: [],
         _url: '/furniture/3df55be6-ebce-4887-934e-bff43e183858/9c5ec253-dfc8-45c4-b79c-0686262c57d3',
+        _urls: {},
       },
       {
         categoryId: 'de27ed3f-9c2e-4ada-aa06-1ca86a972c43',
@@ -395,9 +440,11 @@ export const categories: Category[] = [
         depth: 2,
         descendants: [],
         _url: '/furniture/3df55be6-ebce-4887-934e-bff43e183858/de27ed3f-9c2e-4ada-aa06-1ca86a972c43',
+        _urls: {},
       },
     ],
     _url: '/furniture/3df55be6-ebce-4887-934e-bff43e183858',
+    _urls: {},
   },
   {
     categoryId: '575a0a47-dfbf-4033-9dfa-ce83c02df046',
@@ -418,6 +465,7 @@ export const categories: Category[] = [
             depth: 2,
             descendants: [],
             _url: '/575a0a47-dfbf-4033-9dfa-ce83c02df046/fae8b9af-3b41-474b-9301-772745e395b7/a4dea945-8878-41ea-b34a-823d54a62932',
+            _urls: {},
           },
           {
             categoryId: '61bbf560-a5d4-4143-a79d-9b3fe40d3595',
@@ -426,9 +474,11 @@ export const categories: Category[] = [
             depth: 2,
             descendants: [],
             _url: '/575a0a47-dfbf-4033-9dfa-ce83c02df046/fae8b9af-3b41-474b-9301-772745e395b7/61bbf560-a5d4-4143-a79d-9b3fe40d3595',
+            _urls: {},
           },
         ],
         _url: '/575a0a47-dfbf-4033-9dfa-ce83c02df046/fae8b9af-3b41-474b-9301-772745e395b7',
+        _urls: {},
       },
       {
         categoryId: 'b525d872-5fc3-402f-a2e7-f034b5246bde',
@@ -443,6 +493,7 @@ export const categories: Category[] = [
             depth: 2,
             descendants: [],
             _url: '/575a0a47-dfbf-4033-9dfa-ce83c02df046/b525d872-5fc3-402f-a2e7-f034b5246bde/08ac4b0c-0d5d-499b-a1b6-428549d3e2d6',
+            _urls: {},
           },
           {
             categoryId: '52be52f3-f2e9-466e-baf5-c9408c75a65b',
@@ -451,6 +502,7 @@ export const categories: Category[] = [
             depth: 2,
             descendants: [],
             _url: '/575a0a47-dfbf-4033-9dfa-ce83c02df046/b525d872-5fc3-402f-a2e7-f034b5246bde/52be52f3-f2e9-466e-baf5-c9408c75a65b',
+            _urls: {},
           },
           {
             categoryId: 'a850800b-2c64-460d-84d5-48123d5682fc',
@@ -459,9 +511,11 @@ export const categories: Category[] = [
             depth: 2,
             descendants: [],
             _url: '/575a0a47-dfbf-4033-9dfa-ce83c02df046/b525d872-5fc3-402f-a2e7-f034b5246bde/a850800b-2c64-460d-84d5-48123d5682fc',
+            _urls: {},
           },
         ],
         _url: '/575a0a47-dfbf-4033-9dfa-ce83c02df046/b525d872-5fc3-402f-a2e7-f034b5246bde',
+        _urls: {},
       },
       {
         categoryId: 'a2b7fb69-4696-4929-944d-e238dab709c7',
@@ -476,6 +530,7 @@ export const categories: Category[] = [
             depth: 2,
             descendants: [],
             _url: '/575a0a47-dfbf-4033-9dfa-ce83c02df046/a2b7fb69-4696-4929-944d-e238dab709c7/20f6d3d8-5243-4790-8cd9-8914ee45c6a6',
+            _urls: {},
           },
           {
             categoryId: '9789ac68-5615-4f07-bbb8-3ce0ef070585',
@@ -484,6 +539,7 @@ export const categories: Category[] = [
             depth: 2,
             descendants: [],
             _url: '/575a0a47-dfbf-4033-9dfa-ce83c02df046/a2b7fb69-4696-4929-944d-e238dab709c7/9789ac68-5615-4f07-bbb8-3ce0ef070585',
+            _urls: {},
           },
           {
             categoryId: '92ee3331-372a-47b4-a345-31f22946885c',
@@ -492,9 +548,11 @@ export const categories: Category[] = [
             depth: 2,
             descendants: [],
             _url: '/575a0a47-dfbf-4033-9dfa-ce83c02df046/a2b7fb69-4696-4929-944d-e238dab709c7/92ee3331-372a-47b4-a345-31f22946885c',
+            _urls: {},
           },
         ],
         _url: '/575a0a47-dfbf-4033-9dfa-ce83c02df046/a2b7fb69-4696-4929-944d-e238dab709c7',
+        _urls: {},
       },
       {
         categoryId: 'cbae1758-bda1-415e-833a-e298d4f44e54',
@@ -509,6 +567,7 @@ export const categories: Category[] = [
             depth: 2,
             descendants: [],
             _url: '/575a0a47-dfbf-4033-9dfa-ce83c02df046/cbae1758-bda1-415e-833a-e298d4f44e54/c6d01af9-703d-411a-822d-60db50fbe32b',
+            _urls: {},
           },
           {
             categoryId: '82bd0a34-4b93-4ba9-aa7b-e339083aee06',
@@ -517,6 +576,7 @@ export const categories: Category[] = [
             depth: 2,
             descendants: [],
             _url: '/575a0a47-dfbf-4033-9dfa-ce83c02df046/cbae1758-bda1-415e-833a-e298d4f44e54/82bd0a34-4b93-4ba9-aa7b-e339083aee06',
+            _urls: {},
           },
           {
             categoryId: '023d9c67-2ad0-4fe8-ba33-5d93fe1de09f',
@@ -525,12 +585,15 @@ export const categories: Category[] = [
             depth: 2,
             descendants: [],
             _url: '/575a0a47-dfbf-4033-9dfa-ce83c02df046/cbae1758-bda1-415e-833a-e298d4f44e54/023d9c67-2ad0-4fe8-ba33-5d93fe1de09f',
+            _urls: {},
           },
         ],
         _url: '/575a0a47-dfbf-4033-9dfa-ce83c02df046/cbae1758-bda1-415e-833a-e298d4f44e54',
+        _urls: {},
       },
     ],
     _url: '/575a0a47-dfbf-4033-9dfa-ce83c02df046',
+    _urls: {},
   },
   {
     categoryId: 'c6d01af9-703d-411a-822d-60db50fbe32b',
@@ -539,6 +602,7 @@ export const categories: Category[] = [
     depth: 2,
     descendants: [],
     _url: '/575a0a47-dfbf-4033-9dfa-ce83c02df046/cbae1758-bda1-415e-833a-e298d4f44e54/c6d01af9-703d-411a-822d-60db50fbe32b',
+    _urls: {},
   },
   {
     categoryId: '76b0a5c2-cd33-45e6-aaaa-ad29a116c05e',
@@ -547,6 +611,7 @@ export const categories: Category[] = [
     depth: 2,
     descendants: [],
     _url: '/cdb77397-cf53-4afc-bbf7-b3db5f99dfe4/bb10ed31-b247-4aef-9166-4463ded2e32b/76b0a5c2-cd33-45e6-aaaa-ad29a116c05e',
+    _urls: {},
   },
   {
     categoryId: '82bd0a34-4b93-4ba9-aa7b-e339083aee06',
@@ -555,6 +620,7 @@ export const categories: Category[] = [
     depth: 2,
     descendants: [],
     _url: '/575a0a47-dfbf-4033-9dfa-ce83c02df046/cbae1758-bda1-415e-833a-e298d4f44e54/82bd0a34-4b93-4ba9-aa7b-e339083aee06',
+    _urls: {},
   },
   {
     categoryId: 'a4dea945-8878-41ea-b34a-823d54a62932',
@@ -563,6 +629,7 @@ export const categories: Category[] = [
     depth: 2,
     descendants: [],
     _url: '/575a0a47-dfbf-4033-9dfa-ce83c02df046/fae8b9af-3b41-474b-9301-772745e395b7/a4dea945-8878-41ea-b34a-823d54a62932',
+    _urls: {},
   },
   {
     categoryId: '66951be4-a3ce-461e-9529-5c5f268479c3',
@@ -571,6 +638,7 @@ export const categories: Category[] = [
     depth: 2,
     descendants: [],
     _url: '/cdb77397-cf53-4afc-bbf7-b3db5f99dfe4/3f30317c-ef62-4c59-a646-3b9e382f46df/66951be4-a3ce-461e-9529-5c5f268479c3',
+    _urls: {},
   },
   {
     categoryId: '7165ecef-961d-4809-ab16-1a8c15531edc',
@@ -579,6 +647,7 @@ export const categories: Category[] = [
     depth: 2,
     descendants: [],
     _url: '/furniture/bedroom-furniture/7165ecef-961d-4809-ab16-1a8c15531edc',
+    _urls: {},
   },
   {
     categoryId: '92584630-d632-4449-b830-503077bc509e',
@@ -587,6 +656,7 @@ export const categories: Category[] = [
     depth: 2,
     descendants: [],
     _url: '/furniture/bb26c6ec-244e-4390-962a-da377f1df8ff/92584630-d632-4449-b830-503077bc509e',
+    _urls: {},
   },
   {
     categoryId: 'cdb77397-cf53-4afc-bbf7-b3db5f99dfe4',
@@ -607,6 +677,7 @@ export const categories: Category[] = [
             depth: 2,
             descendants: [],
             _url: '/cdb77397-cf53-4afc-bbf7-b3db5f99dfe4/3f30317c-ef62-4c59-a646-3b9e382f46df/66951be4-a3ce-461e-9529-5c5f268479c3',
+            _urls: {},
           },
           {
             categoryId: '286156f7-b6de-4962-92d3-38023db1c2e6',
@@ -615,6 +686,7 @@ export const categories: Category[] = [
             depth: 2,
             descendants: [],
             _url: '/cdb77397-cf53-4afc-bbf7-b3db5f99dfe4/3f30317c-ef62-4c59-a646-3b9e382f46df/286156f7-b6de-4962-92d3-38023db1c2e6',
+            _urls: {},
           },
           {
             categoryId: 'f4784457-09e7-4bb5-bc18-1fabd0ec5dc9',
@@ -623,9 +695,11 @@ export const categories: Category[] = [
             depth: 2,
             descendants: [],
             _url: '/cdb77397-cf53-4afc-bbf7-b3db5f99dfe4/3f30317c-ef62-4c59-a646-3b9e382f46df/f4784457-09e7-4bb5-bc18-1fabd0ec5dc9',
+            _urls: {},
           },
         ],
         _url: '/cdb77397-cf53-4afc-bbf7-b3db5f99dfe4/3f30317c-ef62-4c59-a646-3b9e382f46df',
+        _urls: {},
       },
       {
         categoryId: '0190c54c-de58-42f2-9790-81c2a6a6bd77',
@@ -640,6 +714,7 @@ export const categories: Category[] = [
             depth: 2,
             descendants: [],
             _url: '/cdb77397-cf53-4afc-bbf7-b3db5f99dfe4/0190c54c-de58-42f2-9790-81c2a6a6bd77/3cdb27f4-673f-42a5-9f7e-48ea10fef85d',
+            _urls: {},
           },
           {
             categoryId: 'f7850832-e22f-4487-8460-d62edd6e5804',
@@ -648,6 +723,7 @@ export const categories: Category[] = [
             depth: 2,
             descendants: [],
             _url: '/cdb77397-cf53-4afc-bbf7-b3db5f99dfe4/0190c54c-de58-42f2-9790-81c2a6a6bd77/f7850832-e22f-4487-8460-d62edd6e5804',
+            _urls: {},
           },
           {
             categoryId: '36c8214a-68e1-48fb-ac27-0d2763bbf5c3',
@@ -656,9 +732,11 @@ export const categories: Category[] = [
             depth: 2,
             descendants: [],
             _url: '/cdb77397-cf53-4afc-bbf7-b3db5f99dfe4/0190c54c-de58-42f2-9790-81c2a6a6bd77/36c8214a-68e1-48fb-ac27-0d2763bbf5c3',
+            _urls: {},
           },
         ],
         _url: '/cdb77397-cf53-4afc-bbf7-b3db5f99dfe4/0190c54c-de58-42f2-9790-81c2a6a6bd77',
+        _urls: {},
       },
       {
         categoryId: 'bb10ed31-b247-4aef-9166-4463ded2e32b',
@@ -673,6 +751,7 @@ export const categories: Category[] = [
             depth: 2,
             descendants: [],
             _url: '/cdb77397-cf53-4afc-bbf7-b3db5f99dfe4/bb10ed31-b247-4aef-9166-4463ded2e32b/47a52b0f-6c52-41f9-af0d-7b71886ec40e',
+            _urls: {},
           },
           {
             categoryId: '76b0a5c2-cd33-45e6-aaaa-ad29a116c05e',
@@ -681,6 +760,7 @@ export const categories: Category[] = [
             depth: 2,
             descendants: [],
             _url: '/cdb77397-cf53-4afc-bbf7-b3db5f99dfe4/bb10ed31-b247-4aef-9166-4463ded2e32b/76b0a5c2-cd33-45e6-aaaa-ad29a116c05e',
+            _urls: {},
           },
           {
             categoryId: '9b8d2c88-e859-44fb-a5fd-5576e3621bc2',
@@ -689,12 +769,15 @@ export const categories: Category[] = [
             depth: 2,
             descendants: [],
             _url: '/cdb77397-cf53-4afc-bbf7-b3db5f99dfe4/bb10ed31-b247-4aef-9166-4463ded2e32b/9b8d2c88-e859-44fb-a5fd-5576e3621bc2',
+            _urls: {},
           },
         ],
         _url: '/cdb77397-cf53-4afc-bbf7-b3db5f99dfe4/bb10ed31-b247-4aef-9166-4463ded2e32b',
+        _urls: {},
       },
     ],
     _url: '/cdb77397-cf53-4afc-bbf7-b3db5f99dfe4',
+    _urls: {},
   },
   {
     categoryId: '61bbf560-a5d4-4143-a79d-9b3fe40d3595',
@@ -703,6 +786,7 @@ export const categories: Category[] = [
     depth: 2,
     descendants: [],
     _url: '/575a0a47-dfbf-4033-9dfa-ce83c02df046/fae8b9af-3b41-474b-9301-772745e395b7/61bbf560-a5d4-4143-a79d-9b3fe40d3595',
+    _urls: {},
   },
   {
     categoryId: '3cdb27f4-673f-42a5-9f7e-48ea10fef85d',
@@ -711,6 +795,7 @@ export const categories: Category[] = [
     depth: 2,
     descendants: [],
     _url: '/cdb77397-cf53-4afc-bbf7-b3db5f99dfe4/0190c54c-de58-42f2-9790-81c2a6a6bd77/3cdb27f4-673f-42a5-9f7e-48ea10fef85d',
+    _urls: {},
   },
   {
     categoryId: 'fae8b9af-3b41-474b-9301-772745e395b7',
@@ -725,6 +810,7 @@ export const categories: Category[] = [
         depth: 2,
         descendants: [],
         _url: '/575a0a47-dfbf-4033-9dfa-ce83c02df046/fae8b9af-3b41-474b-9301-772745e395b7/a4dea945-8878-41ea-b34a-823d54a62932',
+        _urls: {},
       },
       {
         categoryId: '61bbf560-a5d4-4143-a79d-9b3fe40d3595',
@@ -733,9 +819,11 @@ export const categories: Category[] = [
         depth: 2,
         descendants: [],
         _url: '/575a0a47-dfbf-4033-9dfa-ce83c02df046/fae8b9af-3b41-474b-9301-772745e395b7/61bbf560-a5d4-4143-a79d-9b3fe40d3595',
+        _urls: {},
       },
     ],
     _url: '/575a0a47-dfbf-4033-9dfa-ce83c02df046/fae8b9af-3b41-474b-9301-772745e395b7',
+    _urls: {},
   },
   {
     categoryId: 'b525d872-5fc3-402f-a2e7-f034b5246bde',
@@ -750,6 +838,7 @@ export const categories: Category[] = [
         depth: 2,
         descendants: [],
         _url: '/575a0a47-dfbf-4033-9dfa-ce83c02df046/b525d872-5fc3-402f-a2e7-f034b5246bde/08ac4b0c-0d5d-499b-a1b6-428549d3e2d6',
+        _urls: {},
       },
       {
         categoryId: '52be52f3-f2e9-466e-baf5-c9408c75a65b',
@@ -758,6 +847,7 @@ export const categories: Category[] = [
         depth: 2,
         descendants: [],
         _url: '/575a0a47-dfbf-4033-9dfa-ce83c02df046/b525d872-5fc3-402f-a2e7-f034b5246bde/52be52f3-f2e9-466e-baf5-c9408c75a65b',
+        _urls: {},
       },
       {
         categoryId: 'a850800b-2c64-460d-84d5-48123d5682fc',
@@ -766,9 +856,11 @@ export const categories: Category[] = [
         depth: 2,
         descendants: [],
         _url: '/575a0a47-dfbf-4033-9dfa-ce83c02df046/b525d872-5fc3-402f-a2e7-f034b5246bde/a850800b-2c64-460d-84d5-48123d5682fc',
+        _urls: {},
       },
     ],
     _url: '/575a0a47-dfbf-4033-9dfa-ce83c02df046/b525d872-5fc3-402f-a2e7-f034b5246bde',
+    _urls: {},
   },
   {
     categoryId: '9b8d2c88-e859-44fb-a5fd-5576e3621bc2',
@@ -777,6 +869,7 @@ export const categories: Category[] = [
     depth: 2,
     descendants: [],
     _url: '/cdb77397-cf53-4afc-bbf7-b3db5f99dfe4/bb10ed31-b247-4aef-9166-4463ded2e32b/9b8d2c88-e859-44fb-a5fd-5576e3621bc2',
+    _urls: {},
   },
   {
     categoryId: '9e3934ee-d53f-4f3c-af09-5bb279f30672',
@@ -785,6 +878,7 @@ export const categories: Category[] = [
     depth: 2,
     descendants: [],
     _url: '/furniture/c5a3d83f-0ada-408f-84fc-a754d6aca8be/9e3934ee-d53f-4f3c-af09-5bb279f30672',
+    _urls: {},
   },
   {
     categoryId: '826ab7ee-eb45-4f4f-9ae0-5cd6eea53c4b',
@@ -793,6 +887,7 @@ export const categories: Category[] = [
     depth: 2,
     descendants: [],
     _url: '/furniture/c5a3d83f-0ada-408f-84fc-a754d6aca8be/826ab7ee-eb45-4f4f-9ae0-5cd6eea53c4b',
+    _urls: {},
   },
   {
     categoryId: 'a2b7fb69-4696-4929-944d-e238dab709c7',
@@ -807,6 +902,7 @@ export const categories: Category[] = [
         depth: 2,
         descendants: [],
         _url: '/575a0a47-dfbf-4033-9dfa-ce83c02df046/a2b7fb69-4696-4929-944d-e238dab709c7/20f6d3d8-5243-4790-8cd9-8914ee45c6a6',
+        _urls: {},
       },
       {
         categoryId: '9789ac68-5615-4f07-bbb8-3ce0ef070585',
@@ -815,6 +911,7 @@ export const categories: Category[] = [
         depth: 2,
         descendants: [],
         _url: '/575a0a47-dfbf-4033-9dfa-ce83c02df046/a2b7fb69-4696-4929-944d-e238dab709c7/9789ac68-5615-4f07-bbb8-3ce0ef070585',
+        _urls: {},
       },
       {
         categoryId: '92ee3331-372a-47b4-a345-31f22946885c',
@@ -823,9 +920,11 @@ export const categories: Category[] = [
         depth: 2,
         descendants: [],
         _url: '/575a0a47-dfbf-4033-9dfa-ce83c02df046/a2b7fb69-4696-4929-944d-e238dab709c7/92ee3331-372a-47b4-a345-31f22946885c',
+        _urls: {},
       },
     ],
     _url: '/575a0a47-dfbf-4033-9dfa-ce83c02df046/a2b7fb69-4696-4929-944d-e238dab709c7',
+    _urls: {},
   },
   {
     categoryId: '2e51af19-440f-428d-9783-c9dd614abee2',
@@ -834,6 +933,7 @@ export const categories: Category[] = [
     depth: 2,
     descendants: [],
     _url: '/furniture/c5a3d83f-0ada-408f-84fc-a754d6aca8be/2e51af19-440f-428d-9783-c9dd614abee2',
+    _urls: {},
   },
   {
     categoryId: 'cbae1758-bda1-415e-833a-e298d4f44e54',
@@ -848,6 +948,7 @@ export const categories: Category[] = [
         depth: 2,
         descendants: [],
         _url: '/575a0a47-dfbf-4033-9dfa-ce83c02df046/cbae1758-bda1-415e-833a-e298d4f44e54/c6d01af9-703d-411a-822d-60db50fbe32b',
+        _urls: {},
       },
       {
         categoryId: '82bd0a34-4b93-4ba9-aa7b-e339083aee06',
@@ -856,6 +957,7 @@ export const categories: Category[] = [
         depth: 2,
         descendants: [],
         _url: '/575a0a47-dfbf-4033-9dfa-ce83c02df046/cbae1758-bda1-415e-833a-e298d4f44e54/82bd0a34-4b93-4ba9-aa7b-e339083aee06',
+        _urls: {},
       },
       {
         categoryId: '023d9c67-2ad0-4fe8-ba33-5d93fe1de09f',
@@ -864,9 +966,11 @@ export const categories: Category[] = [
         depth: 2,
         descendants: [],
         _url: '/575a0a47-dfbf-4033-9dfa-ce83c02df046/cbae1758-bda1-415e-833a-e298d4f44e54/023d9c67-2ad0-4fe8-ba33-5d93fe1de09f',
+        _urls: {},
       },
     ],
     _url: '/575a0a47-dfbf-4033-9dfa-ce83c02df046/cbae1758-bda1-415e-833a-e298d4f44e54',
+    _urls: {},
   },
   {
     categoryId: 'f7850832-e22f-4487-8460-d62edd6e5804',
@@ -875,6 +979,7 @@ export const categories: Category[] = [
     depth: 2,
     descendants: [],
     _url: '/cdb77397-cf53-4afc-bbf7-b3db5f99dfe4/0190c54c-de58-42f2-9790-81c2a6a6bd77/f7850832-e22f-4487-8460-d62edd6e5804',
+    _urls: {},
   },
   {
     categoryId: '36c8214a-68e1-48fb-ac27-0d2763bbf5c3',
@@ -883,6 +988,7 @@ export const categories: Category[] = [
     depth: 2,
     descendants: [],
     _url: '/cdb77397-cf53-4afc-bbf7-b3db5f99dfe4/0190c54c-de58-42f2-9790-81c2a6a6bd77/36c8214a-68e1-48fb-ac27-0d2763bbf5c3',
+    _urls: {},
   },
   {
     categoryId: '20f6d3d8-5243-4790-8cd9-8914ee45c6a6',
@@ -891,6 +997,7 @@ export const categories: Category[] = [
     depth: 2,
     descendants: [],
     _url: '/575a0a47-dfbf-4033-9dfa-ce83c02df046/a2b7fb69-4696-4929-944d-e238dab709c7/20f6d3d8-5243-4790-8cd9-8914ee45c6a6',
+    _urls: {},
   },
   {
     categoryId: '286156f7-b6de-4962-92d3-38023db1c2e6',
@@ -899,6 +1006,7 @@ export const categories: Category[] = [
     depth: 2,
     descendants: [],
     _url: '/cdb77397-cf53-4afc-bbf7-b3db5f99dfe4/3f30317c-ef62-4c59-a646-3b9e382f46df/286156f7-b6de-4962-92d3-38023db1c2e6',
+    _urls: {},
   },
   {
     categoryId: '1c9de70f-5559-44b9-a48f-63b90cba8976',
@@ -907,6 +1015,7 @@ export const categories: Category[] = [
     depth: 2,
     descendants: [],
     _url: '/furniture/bedroom-furniture/1c9de70f-5559-44b9-a48f-63b90cba8976',
+    _urls: {},
   },
   {
     categoryId: 'fae26257-81b4-4c57-9997-a0efefd77271',
@@ -915,6 +1024,7 @@ export const categories: Category[] = [
     depth: 2,
     descendants: [],
     _url: '/furniture/c5a3d83f-0ada-408f-84fc-a754d6aca8be/fae26257-81b4-4c57-9997-a0efefd77271',
+    _urls: {},
   },
   {
     categoryId: '08ac4b0c-0d5d-499b-a1b6-428549d3e2d6',
@@ -923,6 +1033,7 @@ export const categories: Category[] = [
     depth: 2,
     descendants: [],
     _url: '/575a0a47-dfbf-4033-9dfa-ce83c02df046/b525d872-5fc3-402f-a2e7-f034b5246bde/08ac4b0c-0d5d-499b-a1b6-428549d3e2d6',
+    _urls: {},
   },
   {
     categoryId: 'fffcaf52-62c5-45a7-a0ec-4768e7d33d48',
@@ -931,6 +1042,7 @@ export const categories: Category[] = [
     depth: 2,
     descendants: [],
     _url: '/furniture/bedroom-furniture/fffcaf52-62c5-45a7-a0ec-4768e7d33d48',
+    _urls: {},
   },
   {
     categoryId: '6fc735c1-6a8d-40f8-9ec7-261088659738',
@@ -939,6 +1051,7 @@ export const categories: Category[] = [
     depth: 2,
     descendants: [],
     _url: '/furniture/bb26c6ec-244e-4390-962a-da377f1df8ff/6fc735c1-6a8d-40f8-9ec7-261088659738',
+    _urls: {},
   },
   {
     categoryId: '9789ac68-5615-4f07-bbb8-3ce0ef070585',
@@ -947,6 +1060,7 @@ export const categories: Category[] = [
     depth: 2,
     descendants: [],
     _url: '/575a0a47-dfbf-4033-9dfa-ce83c02df046/a2b7fb69-4696-4929-944d-e238dab709c7/9789ac68-5615-4f07-bbb8-3ce0ef070585',
+    _urls: {},
   },
   {
     categoryId: '023d9c67-2ad0-4fe8-ba33-5d93fe1de09f',
@@ -955,6 +1069,7 @@ export const categories: Category[] = [
     depth: 2,
     descendants: [],
     _url: '/575a0a47-dfbf-4033-9dfa-ce83c02df046/cbae1758-bda1-415e-833a-e298d4f44e54/023d9c67-2ad0-4fe8-ba33-5d93fe1de09f',
+    _urls: {},
   },
   {
     categoryId: '92ee3331-372a-47b4-a345-31f22946885c',
@@ -963,6 +1078,7 @@ export const categories: Category[] = [
     depth: 2,
     descendants: [],
     _url: '/575a0a47-dfbf-4033-9dfa-ce83c02df046/a2b7fb69-4696-4929-944d-e238dab709c7/92ee3331-372a-47b4-a345-31f22946885c',
+    _urls: {},
   },
   {
     categoryId: '7c3f060a-0548-4d9c-90d5-718e23498ef4',
@@ -971,6 +1087,7 @@ export const categories: Category[] = [
     depth: 2,
     descendants: [],
     _url: '/furniture/3df55be6-ebce-4887-934e-bff43e183858/7c3f060a-0548-4d9c-90d5-718e23498ef4',
+    _urls: {},
   },
   {
     categoryId: '9c5ec253-dfc8-45c4-b79c-0686262c57d3',
@@ -979,6 +1096,7 @@ export const categories: Category[] = [
     depth: 2,
     descendants: [],
     _url: '/furniture/3df55be6-ebce-4887-934e-bff43e183858/9c5ec253-dfc8-45c4-b79c-0686262c57d3',
+    _urls: {},
   },
   {
     categoryId: 'de27ed3f-9c2e-4ada-aa06-1ca86a972c43',
@@ -987,6 +1105,7 @@ export const categories: Category[] = [
     depth: 2,
     descendants: [],
     _url: '/furniture/3df55be6-ebce-4887-934e-bff43e183858/de27ed3f-9c2e-4ada-aa06-1ca86a972c43',
+    _urls: {},
   },
   {
     categoryId: '52be52f3-f2e9-466e-baf5-c9408c75a65b',
@@ -995,6 +1114,7 @@ export const categories: Category[] = [
     depth: 2,
     descendants: [],
     _url: '/575a0a47-dfbf-4033-9dfa-ce83c02df046/b525d872-5fc3-402f-a2e7-f034b5246bde/52be52f3-f2e9-466e-baf5-c9408c75a65b',
+    _urls: {},
   },
   {
     categoryId: 'a850800b-2c64-460d-84d5-48123d5682fc',
@@ -1003,6 +1123,7 @@ export const categories: Category[] = [
     depth: 2,
     descendants: [],
     _url: '/575a0a47-dfbf-4033-9dfa-ce83c02df046/b525d872-5fc3-402f-a2e7-f034b5246bde/a850800b-2c64-460d-84d5-48123d5682fc',
+    _urls: {},
   },
   {
     categoryId: 'f4784457-09e7-4bb5-bc18-1fabd0ec5dc9',
@@ -1011,6 +1132,7 @@ export const categories: Category[] = [
     depth: 2,
     descendants: [],
     _url: '/cdb77397-cf53-4afc-bbf7-b3db5f99dfe4/3f30317c-ef62-4c59-a646-3b9e382f46df/f4784457-09e7-4bb5-bc18-1fabd0ec5dc9',
+    _urls: {},
   },
 ];
 

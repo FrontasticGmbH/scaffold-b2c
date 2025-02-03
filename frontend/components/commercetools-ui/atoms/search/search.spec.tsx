@@ -2,6 +2,7 @@ import { act } from 'react';
 import userEvent from '@testing-library/user-event';
 import { render, screen } from '__test__/utils';
 import Search from '.';
+import { fireEvent } from '@testing-library/react';
 
 const router = { push: jest.fn() };
 
@@ -84,10 +85,10 @@ describe('[Component] Search', () => {
             name: 'Item 1',
             _url: 'item_url',
             variants: [],
-            categories: [{ categoryId: '1' }],
+            categories: [{ categoryId: '1', _urls: {} }],
           },
         ]}
-        categories={[{ categoryId: '1', name: 'CATEGORY' }]}
+        categories={[{ categoryId: '1', name: 'CATEGORY', _urls: {} }]}
       />,
     );
 
@@ -97,7 +98,10 @@ describe('[Component] Search', () => {
     expect(screen.queryByText('CATEGORY')).toBeVisible();
     expect(screen.queryByRole('link')).toHaveAttribute('href', 'item_url');
 
-    await act(async () => await userEvent.click(screen.getByRole('link')));
+    // await act(async () => await userEvent.click(screen.getByRole('link')));
+    await act(async () => {
+      fireEvent.mouseUp(screen.getByRole('link'));
+    });
 
     expect(router.push).toHaveBeenCalledWith('item_url');
   });

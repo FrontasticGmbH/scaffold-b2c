@@ -8,6 +8,7 @@ test('Get movie by ID', async () => {
     type: 'example/star-wars/movie',
     name: 'Test data source',
     configuration: { movieId: 'ZmlsbXM6MQ==' },
+    preloadedValue: null,
   });
 
   expect(result.dataSourcePayload.data.film.title).toBe('A New Hope');

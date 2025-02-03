@@ -1,6 +1,5 @@
 import { useCallback, useEffect, useRef } from 'react';
 import { useSearchParams } from 'next/navigation';
-import { Product } from 'shared/types/product/Product';
 import {
   PDP_PRODUCT_ADDED_TO_CART,
   QUICK_VIEW_PRODUCT_ADDED_TO_CART,
@@ -9,6 +8,7 @@ import {
   QUICK_VIEW_PRODUCT_ADDED_TO_CART_AFTER_SEARCH,
   PDP_PRODUCT_ADDED_TO_CART_AFTER_SEARCH,
 } from 'helpers/constants/events';
+import { Product } from 'types/entity/product';
 
 interface Options {
   product: Product;
@@ -20,7 +20,7 @@ const useTrack = ({ product, inModalVersion }: Options) => {
 
   const isAfterSearch = searchParams.get('sr');
 
-  const lastProductId = useRef<string>();
+  const lastProductId = useRef<string>(undefined);
 
   const trackView = useCallback(async () => {
     if (product && product.productId !== lastProductId.current) {

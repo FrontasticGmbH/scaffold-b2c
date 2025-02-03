@@ -62,14 +62,14 @@ const SortFacet: React.FC = () => {
       >
         <Popover.Panel className="absolute left-0 top-40 z-[300] mt-2 w-full rounded-b-sm border bg-white">
           {options.map(({ label, attribute, value }) => (
-            <button
+            <Popover.Button
               key={attribute}
               className="flex w-full justify-between px-12 py-8 transition hover:bg-neutral-200"
               onClick={() => replaceSort({ attribute, value })}
             >
               <span className="text-14 text-gray-700">{label}</span>
               {attribute === activeSort?.attribute && <CheckIcon className="size-20 text-gray-700" />}
-            </button>
+            </Popover.Button>
           ))}
         </Popover.Panel>
       </Transition>

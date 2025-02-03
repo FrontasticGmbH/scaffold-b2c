@@ -1,5 +1,4 @@
-import { Product, Variant } from 'shared/types/product';
-import { Money } from 'shared/types/product/Money';
+import { Product, Variant, Money } from 'types/entity/product';
 
 export type UIProduct = Product & {
   name: string;

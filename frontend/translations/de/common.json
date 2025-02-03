@@ -74,5 +74,7 @@
   "days": "Tage",
   "hours": "Std.",
   "minutes": "Protokoll",
-  "seconds": "Sekunden"
+  "seconds": "Sekunden",
+  "shop.ship.title": "Einkaufen und versenden",
+  "language": "Sprache"
 }

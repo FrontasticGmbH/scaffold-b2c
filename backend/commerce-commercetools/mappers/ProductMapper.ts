@@ -35,7 +35,7 @@ import { Facet, FacetTypes } from '@Types/result/Facet';
 import { TermFacet } from '@Types/result/TermFacet';
 import { RangeFacet } from '@Types/result/RangeFacet';
 import { Term } from '@Types/result/Term';
-import { ProductQuery } from '@Types/query/ProductQuery';
+import { ProductQuery, LocalizedString } from '@Types/query/ProductQuery';
 import { TermFacet as QueryTermFacet } from '@Types/query/TermFacet';
 import { RangeFacet as QueryRangeFacet } from '@Types/query/RangeFacet';
 import { FacetDefinition } from '@Types/product/FacetDefinition';
@@ -194,16 +194,26 @@ export class ProductMapper {
       name: commercetoolsCategory.name?.[locale.language] ?? undefined,
       slug: commercetoolsCategory.slug?.[locale.language] ?? undefined,
       depth: commercetoolsCategory.ancestors.length,
-      _url:
-        commercetoolsCategory.ancestors.length > 0
-          ? `/${commercetoolsCategory.ancestors
-              ?.map((ancestor) => {
-                return ancestor.obj?.slug?.[locale.language] ?? ancestor.id;
-              })
-              .join('/')}/${commercetoolsCategory.slug?.[locale.language] ?? commercetoolsCategory.id}`
-          : `/${commercetoolsCategory.slug?.[locale.language] ?? commercetoolsCategory.id}`,
+      _url: this.generateLocalizedUrl(commercetoolsCategory),
     };
   }
+
+  static generateLocalizedUrl = (commercetoolsCategory: CommercetoolsCategory): LocalizedString => {
+    const localizedUrl: LocalizedString = {};
+
+    if (commercetoolsCategory.slug) {
+      Object.keys(commercetoolsCategory.slug).forEach((localeKey) => {
+        localizedUrl[localeKey] =
+          commercetoolsCategory.ancestors.length > 0
+            ? `/${commercetoolsCategory.ancestors
+                .map((ancestor) => ancestor.obj?.slug?.[localeKey] ?? ancestor.id)
+                .join('/')}/${commercetoolsCategory.slug[localeKey] ?? commercetoolsCategory.id}`
+            : `/${commercetoolsCategory.slug[localeKey] ?? commercetoolsCategory.id}`;
+      });
+    }
+
+    return localizedUrl;
+  };
 
   static commercetoolsCategoriesToTreeCategory(
     commercetoolsCategories: CommercetoolsCategory[],

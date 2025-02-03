@@ -8,7 +8,7 @@ import { useFormat } from 'helpers/hooks/useFormat';
 import useGeo from 'helpers/hooks/useGeo';
 import useI18n from 'helpers/hooks/useI18n';
 import useProcessing from 'helpers/hooks/useProcessing';
-import countryStates from 'static/states.json';
+import countryStates from 'public/static/states.json';
 import AddressForm from '../steps/sections/addresses/components/address-form';
 import { Fields, FieldsOptions } from '../steps/sections/addresses/components/address-form/types';
 import useMappers from '../steps/sections/addresses/hooks/useMappers';

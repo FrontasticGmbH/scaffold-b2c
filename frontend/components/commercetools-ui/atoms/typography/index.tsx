@@ -1,4 +1,4 @@
-import React, { createElement, Fragment, ReactElement, useCallback } from 'react';
+import React, { createElement, Fragment, useCallback } from 'react';
 import { useParams } from 'next/navigation';
 import { useFormat } from 'helpers/hooks/useFormat';
 import { TypographyProps } from './types';
@@ -33,14 +33,14 @@ const Typography: React.FC<TypographyProps> = ({
   }, [formatMessage, locale, translation, children]);
 
   // Constructing default props of the element
-  const elementProps: ReactElement['props'] = {
+  const elementProps: React.HTMLAttributes<HTMLElement> & React.Attributes = {
     className: `${className} relative`,
     ...props,
   };
 
   const TypographyElement = createElement(
-    as == 'fragment' ? Fragment : as,
-    as !== 'fragment' && elementProps,
+    as === 'fragment' ? Fragment : as || 'p',
+    as !== 'fragment' ? elementProps : undefined,
     <>
       {asSkeleton && <Skeleton />}
       {getContent()}

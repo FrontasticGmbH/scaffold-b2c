@@ -1,8 +1,8 @@
 import React, { useMemo } from 'react';
-import { Product } from 'shared/types/product/Product';
 import { PLP_PRODUCT_CLICKED } from 'helpers/constants/events';
 import { useFormat } from 'helpers/hooks/useFormat';
 import { Cart } from 'types/entity/cart';
+import { Product } from 'types/entity/product';
 import { useProductList } from '../../context';
 import PlpProductTileWrapper from '../plp-product-tile-wrapper';
 

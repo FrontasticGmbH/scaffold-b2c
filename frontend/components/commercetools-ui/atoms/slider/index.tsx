@@ -65,7 +65,7 @@ const Slider: FC<SliderProps> = ({
 
   const [thumbsSwiper, setThumbsSwiper] = useState<SwiperType>();
 
-  const swiperRef = useRef<SwiperType>();
+  const swiperRef = useRef<SwiperType>(undefined);
 
   const validToFit: boolean = !!fitToSlides && !!slideWidth && !!slidesPerView;
   const sliderWidth: CSSProperties['width'] =

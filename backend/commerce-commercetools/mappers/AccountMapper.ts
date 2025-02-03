@@ -2,8 +2,9 @@ import {
   Address as CommercetoolsAddress,
   BaseAddress,
   Customer as commercetoolsCustomer,
+  CustomerGroup as CommercetoolsCustomerGroup,
 } from '@commercetools/platform-sdk';
-import { Account } from '@Types/account/Account';
+import { Account, AccountGroup } from '@Types/account/Account';
 import { Address } from '@Types/account/Address';
 import { Locale } from '../Locale';
 import { Guid } from '@Commerce-commercetools/utils/Guid';
@@ -104,4 +105,14 @@ export class AccountMapper {
       phone: address.phone,
     } as BaseAddress;
   };
+
+  static commercetoolsCustomerGroupToAccountGroup(
+    commercetoolsCustomerGroup: CommercetoolsCustomerGroup,
+  ): AccountGroup {
+    return {
+      accountGroupId: commercetoolsCustomerGroup?.id,
+      name: commercetoolsCustomerGroup?.name,
+      key: commercetoolsCustomerGroup?.key,
+    };
+  }
 }

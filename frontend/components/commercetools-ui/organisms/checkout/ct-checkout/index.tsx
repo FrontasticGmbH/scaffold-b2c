@@ -20,7 +20,7 @@ const CommercetoolsCheckout = ({ logo }: Pick<CheckoutWrappedProps, 'logo'>) => 
 
   const [isLoading, setIsLoading] = useState(true);
 
-  const { data: projectSettings } = useProjectSettings();
+  const { projectSettings } = useProjectSettings();
 
   const { locale } = useParams();
 

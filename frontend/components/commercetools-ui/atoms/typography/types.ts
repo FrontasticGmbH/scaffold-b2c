@@ -1,4 +1,4 @@
-import { HTMLAttributes } from 'react';
+import { HTMLAttributes, type JSX } from 'react';
 
 type Translation = {
   file: string;

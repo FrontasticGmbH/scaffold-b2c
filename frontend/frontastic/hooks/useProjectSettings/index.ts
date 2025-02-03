@@ -4,13 +4,13 @@ import { sdk } from 'sdk';
 import { ProjectSettings } from './types';
 
 const useProjectSettings = () => {
-  const response = useSWR<SDKResponse<ProjectSettings>>('action/project/getProjectSettings', () =>
-    sdk.callAction<ProjectSettings>({ actionName: 'project/getProjectSettings' }),
+  const response = useSWR<SDKResponse<ProjectSettings>>('/action/project/getProjectSettings', () =>
+    sdk.composableCommerce.project.getSettings(),
   );
 
-  const data = response.data?.isError ? {} : response.data?.data;
+  const projectSettings = response.data?.isError ? {} : response.data?.data;
 
-  return { ...response, data };
+  return { ...response, projectSettings };
 };
 
 export default useProjectSettings;

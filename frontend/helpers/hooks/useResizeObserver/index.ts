@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect } from 'react';
 
 const useResizeObserver = (
-  ref: React.RefObject<HTMLElement>,
+  ref: React.RefObject<HTMLElement | null>,
   callback: (entry?: ResizeObserverEntry) => void,
   cleanup?: () => void,
 ) => {

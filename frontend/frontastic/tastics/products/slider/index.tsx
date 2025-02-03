@@ -1,12 +1,16 @@
 'use client';
 
+import { useParams } from 'next/navigation';
 import { Product } from 'shared/types/product/Product';
 import ProductSlider, { ProductSliderProps } from 'components/commercetools-ui/organisms/product/product-slider';
+import { mapProduct } from 'helpers/entity-mappers/map-product';
 import { DataSource } from 'types/datasource';
 import { useCart, useWishlist } from 'frontastic/hooks';
 import { TasticProps } from 'frontastic/tastics/types';
 
 function ProductSliderTastic({ data }: TasticProps<DataSource<{ items: Product[] }> & ProductSliderProps>) {
+  const { locale } = useParams();
+
   const { data: wishlist, addToWishlist, removeLineItem } = useWishlist();
 
   const { addItem, shippingMethods, data: cart } = useCart();
@@ -21,7 +25,7 @@ function ProductSliderTastic({ data }: TasticProps<DataSource<{ items: Product[]
       {...props}
       wishlist={wishlist}
       cart={cart}
-      products={data.data.dataSource.items}
+      products={data.data.dataSource.items.map((product) => mapProduct(product, { locale }))}
       shippingMethods={shippingMethods.data}
       onAddToCart={addItem}
       addToWishlist={async (lineItem, count) => {

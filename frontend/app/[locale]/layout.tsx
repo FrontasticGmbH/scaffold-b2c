@@ -18,7 +18,11 @@ export const viewport: Viewport = {
   themeColor: '#FFF',
 };
 
-export default function RootLayout({ children, params }: LayoutProps) {
+export default async function RootLayout(props: LayoutProps) {
+  const params = await props.params;
+
+  const { children } = props;
+
   const { locale } = params;
 
   return (

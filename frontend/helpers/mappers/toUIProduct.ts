@@ -1,6 +1,5 @@
-import { Variant } from 'shared/types/product';
-import { Product } from 'shared/types/product/Product';
 import { UIColor, UIProduct, UISize } from 'components/commercetools-ui/organisms/product/product-details/types';
+import { Product, Variant } from 'types/entity/product';
 
 export const toUIProduct = (product: Product, variant: Variant, colors: UIColor[], sizes: UISize[]) => {
   const mappedProduct: UIProduct = {

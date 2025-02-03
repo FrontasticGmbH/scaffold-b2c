@@ -4,7 +4,8 @@ import { generateSiteMap, SiteMapField } from 'helpers/sitemap';
 import { i18nConfig } from 'project.config';
 import { sdk } from 'sdk';
 
-export async function GET(request: NextRequest, { params }: { params: { locale: string } }) {
+export async function GET(request: NextRequest, props: { params: Promise<{ locale: string }> }) {
+  const params = await props.params;
   const locale = params.locale ?? i18nConfig.defaultLocale;
 
   const siteUrl = process.env.SITE_URL;

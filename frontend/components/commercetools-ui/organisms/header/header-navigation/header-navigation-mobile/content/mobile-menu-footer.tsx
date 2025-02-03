@@ -37,8 +37,9 @@ const MobileMenuFooter: FC<Props> = ({ showMenu, hideHeaderMenu, insertCategory 
     name: formatAccountMessage({ id: 'my.account', defaultMessage: 'My Account' }),
     depth: 1,
     descendants: tabs.map((tab) => {
-      return { categoryId: tab.href, name: tab.name, slug: tab.href, descendants: [], depth: 1 };
+      return { categoryId: tab.href, name: tab.name, slug: tab.href, descendants: [], depth: 1, _urls: {} };
     }),
+    _urls: {},
   };
 
   const handleLogout = () => {

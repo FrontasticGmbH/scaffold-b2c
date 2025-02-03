@@ -3,7 +3,7 @@ import { Facet } from './Facet';
 import { Filter, FilterTypes } from './Filter';
 import { OrderQuery } from './OrderQuery';
 import { PaginatedQuery } from './PaginatedQuery';
-import { ProductQuery, SortAttributes, SortOrder } from './ProductQuery';
+import { ProductQuery, SortAttributes, SortOrder, LocalizedString } from './ProductQuery';
 import { RangeFacet } from './RangeFacet';
 import { RangeFilter } from './RangeFilter';
 import { TermFacet } from './TermFacet';
@@ -23,4 +23,5 @@ export {
   type TermFacet,
   type TermFilter,
   type OrderQuery,
+  type LocalizedString,
 };

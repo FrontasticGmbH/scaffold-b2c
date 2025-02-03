@@ -74,5 +74,7 @@
   "days": "days",
   "hours": "hours",
   "minutes": "minutes",
-  "seconds": "seconds"
+  "seconds": "seconds",
+  "shop.ship.title": "Shop and ship to",
+  "language": "Language"
 }

@@ -1694,10 +1694,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@frontastic/extension-types@npm:0.0.11":
-  version: 0.0.11
-  resolution: "@frontastic/extension-types@npm:0.0.11"
-  checksum: 10c0/83a4b52132f29048b0f74b59293e7805ab21a4cf0a7bd8a0b70f78ed7babe85e78edbd71728998450361d631e41e9027590e23a2ef1bfd5c55065a7e9e96589f
+"@frontastic/extension-types@npm:0.0.13":
+  version: 0.0.13
+  resolution: "@frontastic/extension-types@npm:0.0.13"
+  checksum: 10c0/82a88124b8aa81dceaff44783fb0320b0ffb437a0d613908a0fff8cc0cbb91a913c306e1df74d26e2d36ff54f65c9f6792a5e99514ea3cf73e78ecab7bd3f418
   languageName: node
   linkType: hard
 
@@ -1716,7 +1716,7 @@ __metadata:
     "@bloomreach/spa-sdk": "npm:^22.0.0"
     "@commercetools/platform-sdk": "npm:7.9.0"
     "@commercetools/sdk-client-v2": "npm:2.3.0"
-    "@frontastic/extension-types": "npm:0.0.11"
+    "@frontastic/extension-types": "npm:0.0.13"
     "@sendgrid/mail": "npm:^7.7.0"
     "@types/axios": "npm:^0.14.0"
     "@types/core-js": "npm:^2.5.4"

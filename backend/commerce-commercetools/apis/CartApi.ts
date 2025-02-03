@@ -52,6 +52,7 @@ const CART_EXPANDS = [
   'lineItems[*].discountedPrice.includedDiscounts[*].discount',
   'discountCodes[*].discountCode',
   'paymentInfo.payments[*]',
+  'customerGroup',
 ];
 const ORDER_EXPANDS = [...CART_EXPANDS, 'orderState'];
 

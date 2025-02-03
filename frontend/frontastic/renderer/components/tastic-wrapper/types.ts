@@ -10,4 +10,5 @@ export type TasticWrapperProps = {
   searchParams: SearchParams;
   isHighlighted?: boolean;
   categories: Category[];
+  flattenedCategories: Category[];
 };

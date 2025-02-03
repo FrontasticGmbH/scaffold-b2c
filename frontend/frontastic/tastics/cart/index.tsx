@@ -1,14 +1,18 @@
 'use client';
 
 import React, { useCallback, useContext } from 'react';
+import { useParams } from 'next/navigation';
+import { LineItem as CartLineItem } from 'shared/types/cart';
 import Cart from 'components/commercetools-ui/organisms/cart';
 import { CartProps } from 'components/commercetools-ui/organisms/cart/types';
 import { AccountContext } from 'context/account';
-import { LineItem as CartLineItem } from 'types/entity/cart';
+import { mapCategotry } from 'helpers/entity-mappers/map-category';
 import { useCart, useWishlist } from 'frontastic';
 import { TasticProps } from '../types';
 
 const CartTastic = ({ data, categories }: TasticProps<CartProps>) => {
+  const { locale } = useParams();
+
   const { login, requestConfirmationEmail, requestPasswordReset } = useContext(AccountContext);
 
   const {
@@ -58,7 +62,7 @@ const CartTastic = ({ data, categories }: TasticProps<CartProps>) => {
       hasOutOfStockItems={hasOutOfStockItems}
       onApplyDiscountCode={redeemDiscountCode}
       onRemoveDiscountCode={removeDiscountCode}
-      categories={categories}
+      categories={categories.map((c) => mapCategotry(c, { locale }))}
       onRemoveItem={removeItem}
       onUpdateItem={updateItem}
       OnMoveToWishlist={moveToWishlist}

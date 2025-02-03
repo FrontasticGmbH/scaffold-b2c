@@ -1,14 +1,13 @@
 import { FC, useRef, useState } from 'react';
 import { XMarkIcon } from '@heroicons/react/24/outline';
-import { Product } from 'shared/types/product/Product';
-import { LineItem, Wishlist } from 'shared/types/wishlist';
 import Modal from 'components/commercetools-ui/organisms/modal';
 import useClassNames from 'helpers/hooks/useClassNames';
 import { useFormat } from 'helpers/hooks/useFormat';
 import useOnClickOutside from 'helpers/hooks/useOnClickOutside';
 import useScrollBlock from 'helpers/hooks/useScrollBlock';
 import { Cart, ShippingMethod } from 'types/entity/cart';
-import { Variant } from 'types/entity/product';
+import { Product, Variant } from 'types/entity/product';
+import { Wishlist, LineItem } from 'types/entity/wishlist';
 import ProductDetailsAdapter from '../product-details/helpers/adapter';
 
 export type QuickViewProps = {

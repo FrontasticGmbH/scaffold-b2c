@@ -7,4 +7,5 @@ export interface PreviewRendererProps {
   params: Params;
   searchParams: SearchParams;
   categories: Category[];
+  flattenedCategories: Category[];
 }

@@ -6,11 +6,11 @@ import { PaginatedResult } from 'shared/types/result';
 import { sdk } from 'sdk';
 import getServerOptions from './get-server-options';
 
-const memoizedFetchCategories = cache((format = 'flat', limit = 500) => {
+const memoizedFetchCategories = cache(async (format = 'flat', limit = 500) => {
   return sdk.callAction<PaginatedResult<Category>>({
     actionName: 'product/queryCategories',
     query: { format, limit },
-    ...getServerOptions(),
+    ...(await getServerOptions()),
   });
 });
 

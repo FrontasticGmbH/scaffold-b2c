@@ -10,6 +10,8 @@ import {
   FacetConfiguration,
   PriceConfiguration,
 } from 'components/commercetools-ui/organisms/product/product-list/types';
+import { mapCategotry } from 'helpers/entity-mappers/map-category';
+import { mapProduct } from 'helpers/entity-mappers/map-product';
 import { flattenTree } from 'helpers/utils/flattenTree';
 import { DataSource } from 'types/datasource';
 import { useCart, useWishlist } from 'frontastic/hooks';
@@ -33,9 +35,16 @@ interface DataSourceProps {
 }
 
 const ProductListWrapped = ({ data }: TasticProps<DataSource<DataSourceProps> & Props & ProductListProps>) => {
+  const { locale } = useParams();
+
   const { data: cart } = useCart();
 
-  return <ProductList products={data.data?.dataSource?.items ?? []} cart={cart} />;
+  return (
+    <ProductList
+      products={(data.data?.dataSource?.items ?? []).map((product) => mapProduct(product, { locale }))}
+      cart={cart}
+    />
+  );
 };
 
 const filterMatchingVariants = (items: Product[]) => {
@@ -50,7 +59,7 @@ const ProductListTastic = ({
   categories,
   ...props
 }: TasticProps<DataSource<DataSourceProps> & Props & ProductListProps>) => {
-  const { slug } = useParams();
+  const { slug, locale } = useParams();
 
   const searchParams = useSearchParams();
 
@@ -98,7 +107,7 @@ const ProductListTastic = ({
         nextCursor: data.data.dataSource.nextCursor,
         totalItems: data.data.dataSource.total,
       }}
-      categories={flattenedCategories}
+      categories={flattenedCategories.map((category) => mapCategotry(category, { locale }))}
       shippingMethods={shippingMethods.data}
       facetsConfiguration={facetsConfiguration}
       pricesConfiguration={pricesConfiguration}

@@ -1,4 +1,4 @@
-import { useMemo } from 'react';
+import { useMemo, type JSX } from 'react';
 import { useHits } from 'react-instantsearch';
 import BooleanFacet from '../components/facets/boolean';
 import ColorFacet from '../components/facets/color';

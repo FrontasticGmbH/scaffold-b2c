@@ -1,4 +1,4 @@
-import React, { ComponentProps, FC } from 'react';
+import React, { ComponentProps, FC, type JSX } from 'react';
 import CustomDropDown from './custom-dropdown';
 import DefaultDropdown from './default-dropdown';
 import Select from './option-dropdown';

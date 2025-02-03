@@ -6,6 +6,7 @@ interface LocalizationMapping {
   currencyCode: string;
   countryName: string;
   countryCode: string;
+  countries: Array<string>;
 }
 
 const localizationMapper = {
@@ -15,6 +16,7 @@ const localizationMapper = {
     currencyCode: '$',
     countryCode: 'US',
     countryName: 'United States',
+    countries: ['US'],
   },
   de: {
     locale: 'de_DE',
@@ -22,6 +24,7 @@ const localizationMapper = {
     currencyCode: '€',
     countryCode: 'DE',
     countryName: 'Germany',
+    countries: ['DE'],
   },
 } as Record<string, LocalizationMapping>;
 

@@ -5,6 +5,7 @@ export interface Category {
   name?: string;
   depth?: number;
   _url?: string;
+  _urls: Record<string, string>;
   slug?: string;
   parentId?: string;
   parentKey?: string;

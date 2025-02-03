@@ -10,4 +10,5 @@ export interface RendererProps {
   wrapperClassName?: string;
   currentHighlight?: string;
   categories: Category[];
+  flattenedCategories: Category[];
 }

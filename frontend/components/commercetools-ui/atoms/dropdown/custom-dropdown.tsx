@@ -1,4 +1,4 @@
-import React, { Fragment, useCallback } from 'react';
+import React, { Fragment, useCallback, type JSX } from 'react';
 import { Transition, Menu } from '@headlessui/react';
 
 export interface CustomDropdownProps {

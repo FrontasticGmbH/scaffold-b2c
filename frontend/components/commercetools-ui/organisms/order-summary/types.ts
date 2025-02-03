@@ -37,7 +37,7 @@ export type OrderSummaryProps = {
   includeSummaryAccordion?: boolean;
   paymentMethods?: Array<PaymentMethod>;
   dataReference?: 'order' | 'cart';
-  button?: ReactElement;
+  button?: ReactElement<unknown>;
   login?: (email: string, password: string, rememberMe?: boolean) => Promise<Account>;
   requestConfirmationEmail?: (email: string, password: string) => Promise<{ error?: boolean; message?: string }>;
   requestPasswordReset?: (email: string) => Promise<{ error?: boolean; message?: string }>;

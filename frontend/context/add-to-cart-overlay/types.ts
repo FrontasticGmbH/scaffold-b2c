@@ -1,5 +1,4 @@
-import { Product } from 'shared/types/product/Product';
-import { Variant } from 'shared/types/product';
+import { Product, Variant } from 'types/entity/product';
 
 export interface AddToCartOverlayContextShape {
   show: (product: Product, variant: Variant, count: number) => void;

@@ -9,9 +9,25 @@ export const getTranslations = async (locales: string[], namespaces: string[]) =
 
       return await Promise.all(
         namespaces.map(async (namespace) => {
-          const data = await import(`translations/${locale}/${namespace}.json`).then((m) => m.default);
-
-          translations[locale][namespace] = data;
+          const data = await import(`translations/${locale}/${namespace}.json`)
+            .then((m) => m.default)
+            .catch(async () => {
+              if (locale.indexOf('-') >= 0) {
+                const [language] = locale.split('-');
+                return await import(`translations/${language}/${namespace}.json`)
+                  .then((m) => m.default)
+                  .catch(() =>
+                    console.log(
+                      `Cannot find either translations/${locale}/${namespace}.json or translations/${language}/${namespace}.json`,
+                    ),
+                  );
+              } else {
+                console.log(`Cannot find translations/${locale}/${namespace}.json`);
+              }
+            });
+          if (data) {
+            translations[locale][namespace] = data;
+          }
         }),
       );
     }),

@@ -5,7 +5,7 @@ import { Notifier } from 'frontastic/lib/notifier';
 import Renderer from 'frontastic/renderer';
 import { PreviewRendererProps } from './types';
 
-const PreviewRenderer = ({ data, params, searchParams, categories }: PreviewRendererProps) => {
+const PreviewRenderer = ({ data, params, searchParams, categories, flattenedCategories }: PreviewRendererProps) => {
   const [currentHighlight, setCurrentHighlight] = useState<string>();
 
   const notifier = useRef<Notifier>(null) as React.MutableRefObject<Notifier>;
@@ -51,6 +51,7 @@ const PreviewRenderer = ({ data, params, searchParams, categories }: PreviewRend
       params={params}
       searchParams={searchParams}
       categories={categories}
+      flattenedCategories={flattenedCategories}
       currentHighlight={currentHighlight as string}
     />
   );

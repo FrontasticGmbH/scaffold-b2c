@@ -7,8 +7,8 @@ export interface Params {
 export type SearchParams = Record<string, string>;
 
 export interface PageProps {
-  params: Params;
-  searchParams: SearchParams;
+  params: Promise<Params>;
+  searchParams: Promise<SearchParams>;
 }
 
 export type LayoutProps = React.PropsWithChildren<PageProps>;

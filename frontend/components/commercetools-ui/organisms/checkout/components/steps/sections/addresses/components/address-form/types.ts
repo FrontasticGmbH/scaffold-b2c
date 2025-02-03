@@ -1,3 +1,4 @@
+import type { JSX } from 'react';
 export interface Fields {
   name: string;
   label: string;

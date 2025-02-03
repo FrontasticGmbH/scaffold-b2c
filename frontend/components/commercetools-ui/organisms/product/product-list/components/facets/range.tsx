@@ -1,5 +1,6 @@
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { useParams } from 'next/navigation';
+import { Popover } from '@headlessui/react';
 import Checkbox from 'components/commercetools-ui/atoms/checkbox';
 import { CurrencyHelpers } from 'helpers/currencyHelpers';
 import { useFormat } from 'helpers/hooks/useFormat';
@@ -35,9 +36,14 @@ const RangeFacet: React.FC<FacetProps> = ({ attribute }) => {
   const applyRefinement = useCallback(
     (appliedRange: typeof priceRange) => {
       const min = Math.max(0, appliedRange.min);
+
       const max = Math.min(appliedRange.max, facet.max);
 
-      refine([min, max]);
+      if (max === min) {
+        refine([min, max + 1]);
+      } else {
+        refine([min, max]);
+      }
     },
     [refine, facet],
   );
@@ -171,7 +177,7 @@ const RangeFacet: React.FC<FacetProps> = ({ attribute }) => {
           {formatProductMessage({ id: 'price.range.custom', defaultMessage: 'Custom price range' })}
         </p>
       </div>
-      <form className="mt-36 flex items-center gap-16" onSubmit={handleRangeSubmit}>
+      <form id="range-form" className="mt-36 flex items-center gap-16" onSubmit={handleRangeSubmit}>
         <label
           htmlFor="min"
           className="flex w-85 items-center gap-4 border border-neutral-500 bg-white p-7"
@@ -208,12 +214,13 @@ const RangeFacet: React.FC<FacetProps> = ({ attribute }) => {
           <span>{currencySymbol}</span>
         </label>
 
-        <button
+        <Popover.Button
           type="submit"
           className="rounded-sm bg-primary-black px-14 py-8 font-medium leading-[24px] text-white transition hover:bg-gray-500"
+          form="range-form"
         >
           {formatProductMessage({ id: 'go', defaultMessage: 'Go' })}
-        </button>
+        </Popover.Button>
       </form>
     </div>
   );

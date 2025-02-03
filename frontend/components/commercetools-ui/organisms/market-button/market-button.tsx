@@ -1,16 +1,15 @@
-import { useContext, useState } from 'react';
+import { useState } from 'react';
 import { CheckIcon, XMarkIcon } from '@heroicons/react/24/outline';
 import Button from 'components/commercetools-ui/atoms/button';
 import Drawer from 'components/commercetools-ui/atoms/drawer';
 import Typography from 'components/commercetools-ui/atoms/typography';
-import { Market } from 'components/commercetools-ui/organisms/header/types';
 import FlagIcons from 'components/icons/flags';
-import { MarketContext } from 'context/market';
 import { useFormat } from 'helpers/hooks/useFormat';
+import { useShipAndLanguage } from '../../../../providers/ship-and-language';
 
 const MarketButton = () => {
   const [showMarket, setShowMarket] = useState(false);
-  const { market: selectedMarket, markets, handleMarket } = useContext(MarketContext);
+  const { locations, selectedLocation, selectedLanguage, onLocationSelect, onLanguageSelect } = useShipAndLanguage();
 
   const { formatMessage } = useFormat({ name: 'common' });
 
@@ -22,18 +21,13 @@ const MarketButton = () => {
     setShowMarket(false);
   };
 
-  const handleMarketClick = (market: Market) => {
-    handleMarket(market);
-    setShowMarket(false);
-  };
-
   return (
     <div className="hidden w-fit justify-center lg:flex">
-      {selectedMarket && (
+      {selectedLocation && selectedLanguage && (
         <Button variant="ghost" size="fit" onClick={showMarketMenu} className="flex w-fit items-center">
-          <FlagIcons flagName={selectedMarket?.flag} className="mr-3 h-16 w-24" />
+          <FlagIcons flagName={selectedLocation?.flagName} className="mr-3 h-16 w-24" />
           <Typography className="ml-5 text-14 font-normal text-neutral-100 hover:underline">
-            {selectedMarket?.region}
+            {selectedLocation.name}
           </Typography>
         </Button>
       )}
@@ -59,18 +53,41 @@ const MarketButton = () => {
         </div>
 
         <div className="pt-20">
-          {markets.map((market) => (
+          <Typography className="ml-5 px-12 text-14 font-semibold text-gray-800">
+            {formatMessage({ id: 'shop.ship.title', defaultMessage: 'Shop and ship to' })}
+          </Typography>
+          {locations.map((location) => (
             <Button
-              key={market.flag}
+              key={location.flagName}
               variant="ghost"
-              onClick={() => handleMarketClick(market)}
+              onClick={() => onLocationSelect(location.value)}
               className="ml-5 flex w-full items-center justify-start py-14"
             >
-              {selectedMarket?.region === market?.region && <CheckIcon className="ml-5 mr-11 w-20" />}
-              <FlagIcons flagName={market.flag} className="mr-8 h-20 w-32" />
-              <Typography className="font-normal text-primary-black">{market.region}</Typography>
+              {selectedLocation?.value === location.value && <CheckIcon className="ml-5 mr-11 w-20" />}
+              <FlagIcons flagName={location.flagName} className="mr-8 h-20 w-32" />
+              <Typography className="font-normal text-primary-black">{location.label}</Typography>
             </Button>
           ))}
+          {selectedLocation?.languages && selectedLocation.languages.length > 0 && (
+            <div className="pt-5">
+              <Typography className="ml-5 px-12 text-14 font-semibold text-gray-800">
+                {formatMessage({ id: 'language', defaultMessage: 'Language' })}
+              </Typography>
+              {selectedLocation?.languages.map((language) => (
+                <Button
+                  key={language.value}
+                  variant="ghost"
+                  onClick={() => onLanguageSelect(language.value)}
+                  className="ml-5 flex w-full items-center justify-start py-14"
+                >
+                  {language.value === (selectedLanguage?.value ?? selectedLocation?.defaultLanguage) && (
+                    <CheckIcon className="ml-5 mr-11 w-20" />
+                  )}
+                  <Typography className="font-normal text-primary-black">{language.name}</Typography>
+                </Button>
+              ))}
+            </div>
+          )}
         </div>
       </Drawer>
     </div>

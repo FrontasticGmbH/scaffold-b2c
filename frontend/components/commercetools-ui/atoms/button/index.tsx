@@ -11,7 +11,7 @@ export interface ButtonProps extends Omit<ComponentProps<'button'>, 'key'> {
   variant?: ButtonVariant;
   size?: ButtonSize;
   iconPosition?: ButtonIconPosition;
-  icon?: ReactElement;
+  icon?: ReactElement<unknown>;
   loading?: boolean;
   added?: boolean;
   asSkeleton?: boolean;

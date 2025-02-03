@@ -1,6 +1,7 @@
 import { BaseHit, Hit } from 'instantsearch.js';
-import { Product } from 'shared/types/product';
+import { mapCategotry } from 'helpers/entity-mappers/map-category';
 import { getLocalizationInfo } from 'project.config';
+import { Product } from 'types/entity/product';
 
 interface ProductHitVariant {
   id: string;
@@ -27,7 +28,9 @@ export const mapProduct = (hit: Hit<BaseHit>, locale: string): Product => {
   return {
     productId: productHit.productId,
     name: productHit.name,
-    categories: productHit.categories.map((category) => ({ categoryId: category.id, descendants: [] })),
+    categories: productHit.categories
+      .map((category) => ({ categoryId: category.id, descendants: [] }))
+      .map((c) => mapCategotry(c, { locale })),
     variants: productHit.variants.map((variant) => ({
       ...variant,
       price: { ...variant.prices[currency], currencyCode: currency },

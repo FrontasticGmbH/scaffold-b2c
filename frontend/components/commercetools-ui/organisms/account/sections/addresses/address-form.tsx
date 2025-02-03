@@ -11,7 +11,7 @@ import { AccountContext } from 'context/account';
 import { useFormat } from 'helpers/hooks/useFormat';
 import useI18n from 'helpers/hooks/useI18n';
 import useValidate from 'helpers/hooks/useValidate';
-import countryStates from 'static/states.json';
+import countryStates from 'public/static/states.json';
 import DeleteModal from './deleteModal';
 import usePropsToAddressType from './mapPropsToAddressType';
 import AccountForm from '../../account-atoms/account-form';

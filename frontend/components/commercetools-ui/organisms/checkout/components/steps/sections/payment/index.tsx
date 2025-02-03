@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState, type JSX } from 'react';
 import Button from 'components/commercetools-ui/atoms/button';
 import Radio from 'components/commercetools-ui/atoms/radio';
 import { useCheckout } from 'components/commercetools-ui/organisms/checkout/provider';

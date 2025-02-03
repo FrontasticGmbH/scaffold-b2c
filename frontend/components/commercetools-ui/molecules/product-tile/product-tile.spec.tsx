@@ -2,6 +2,18 @@ import userEvent from '@testing-library/user-event';
 import { act, render, screen } from '__test__/utils';
 import ProductTile, { ProductTileProps } from '.';
 
+jest.mock('context/add-to-cart-overlay', () => ({
+  __esModule: true,
+  default: ({ children }: { children: React.ReactNode }) => (
+    <div data-testid="mock-add-to-cart-overlay">{children}</div>
+  ),
+  useAddToCartOverlay: jest.fn(() => ({
+    show: jest.fn(),
+    hide: jest.fn(),
+    fetchRelatedProducts: jest.fn(),
+  })),
+}));
+
 describe('[Component] Product tile', () => {
   const renderProductTile = (props: Partial<ProductTileProps>) => {
     return render(

@@ -6,6 +6,7 @@ import { Discount } from './Discount';
 import { Tax } from './Tax';
 import { ShippingInfo } from './ShippingInfo';
 import { Money } from '../product/Money';
+import { AccountGroup } from '../account';
 
 export type CartOrigin = 'Customer' | 'Merchant';
 
@@ -30,4 +31,5 @@ export interface Cart {
   cartState?: CartState;
   accountId?: string;
   storeKey?: string;
+  accountGroup?: AccountGroup;
 }

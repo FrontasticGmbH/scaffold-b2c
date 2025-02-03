@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useRef } from 'react';
 import { useInView } from 'react-intersection-observer';
-import { Product } from 'shared/types/product/Product';
 import { PRODUCT_VIEWED } from 'helpers/constants/events';
+import { Product } from 'types/entity/product';
 
 interface Options {
   product: Product;

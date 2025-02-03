@@ -2,8 +2,8 @@ import { IncomingMessage } from 'http';
 import { cookies } from 'next/headers';
 import { ServerOptions } from '@commercetools/frontend-sdk';
 
-const getServerOptions = () => {
-  const cookieStore = cookies();
+const getServerOptions = async () => {
+  const cookieStore = await cookies();
   const frontasticSession = cookieStore.get('frontastic-session');
 
   return {

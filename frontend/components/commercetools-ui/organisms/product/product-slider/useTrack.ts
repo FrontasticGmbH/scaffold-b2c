@@ -1,6 +1,6 @@
 import { useCallback } from 'react';
-import { Product } from 'shared/types/product/Product';
 import { SLIDER_PRODUCT_CLICKED } from 'helpers/constants/events';
+import { Product } from 'types/entity/product';
 
 const useTrack = () => {
   const trackClick = useCallback(async (product: Product, position: number) => {

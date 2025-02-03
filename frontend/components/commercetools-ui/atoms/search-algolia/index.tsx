@@ -91,7 +91,6 @@ const Search: React.FC<Props> = ({ categories }) => {
 
         <Transition
           show={focused}
-          className="absolute bottom-0 left-0 max-h-[60vh] w-full translate-y-full overflow-auto bg-white px-20 py-28 xl:max-h-[unset] xl:translate-y-[calc(100%-56px)] xl:rounded-md xl:pt-84"
           enter="transition duration-75"
           enterFrom="opacity-0"
           enterTo="opacity-100"
@@ -99,7 +98,7 @@ const Search: React.FC<Props> = ({ categories }) => {
           leaveFrom="opacity-100"
           leaveTo="opacity-0"
         >
-          <div className="flex">
+          <div className="absolute bottom-0 left-0 flex max-h-[60vh] w-full translate-y-full overflow-auto bg-white px-20 py-28 xl:max-h-[unset] xl:translate-y-[calc(100%-56px)] xl:rounded-md xl:pt-84">
             <LocalizedIndex type="query-suggestions">
               <Configure hitsPerPage={isDesktop ? 3 : 4} />
               <Hits

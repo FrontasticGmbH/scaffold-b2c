@@ -167,9 +167,7 @@ export default {
         );
         const productQuery = ProductQueryFactory.queryFromParams(context.request, config);
 
-        // Since the DataSourceConfiguration doesn't return the preloadedValue, we need to access the private property directly.
-        // This needs to be refactored once the preloadedValue is returned in the DataSourceConfiguration.
-        const masterProduct = (masterDataSource as any)?.preloadedValue?.product as Product;
+        const masterProduct = masterDataSource.preloadedValue?.product as Product;
 
         const masterProductCategories = masterProduct ? [masterProduct.categories?.[0]?.categoryId] : [];
 
@@ -284,9 +282,7 @@ export default {
           };
         }
 
-        // Since the DataSourceConfiguration doesn't return the preloadedValue, we need to access the private property directly.
-        // This needs to be refactored once the preloadedValue is returned in the DataSourceConfiguration.
-        const masterProduct = (masterDataSource as any)?.preloadedValue?.product as Product;
+        const masterProduct = masterDataSource.preloadedValue?.product as Product;
 
         const masterProductReferencedProductIds = masterProduct.variants?.[0]?.attributes?.[referencedProductsIdField];
 

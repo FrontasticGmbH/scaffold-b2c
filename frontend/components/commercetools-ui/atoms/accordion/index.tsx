@@ -19,7 +19,7 @@ export interface AccordionProps {
   customClosedButton?: ReactNode;
   onClick?: () => void;
   defaultOpen?: boolean;
-  ref?: React.RefObject<HTMLDivElement>;
+  ref?: React.RefObject<HTMLDivElement | null>;
 }
 
 const Accordion = (
