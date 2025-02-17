@@ -7,6 +7,7 @@ import { FilterFieldTypes } from '@Types/product/FilterField';
 import { Facet } from '@Types/query/Facet';
 import { TermFacet } from '@Types/query/TermFacet';
 import { RangeFacet } from '@Types/query/RangeFacet';
+import { getAccountGroupId } from '@Commerce-commercetools/utils/Request';
 
 export class ProductQueryFactory {
   static queryFromParams: (request: Request, config?: DataSourceConfiguration) => ProductQuery = (
@@ -161,6 +162,11 @@ export class ProductQueryFactory {
      * Map page cursor
      */
     productQuery.cursor = queryParams?.cursor || undefined;
+
+    /**
+     * Map accountGroupId
+     */
+    productQuery.accountGroupId = queryParams?.accountGroupId || getAccountGroupId(request) || undefined;
 
     return productQuery;
   };

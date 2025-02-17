@@ -6,7 +6,6 @@ import WishlistButton from 'components/commercetools-ui/organisms/wishlist/compo
 import { CurrencyHelpers } from 'helpers/currencyHelpers';
 import useClassNames from 'helpers/hooks/useClassNames';
 import usePath from 'helpers/hooks/usePath';
-import { Money } from 'types/entity/product';
 import { ProductDetailsProps } from '..';
 import ProductVariant from './product-variant';
 
@@ -31,7 +30,7 @@ const ProductInformation: FC<ProductInformationProps> = ({
 
   const discountPercentage =
     variant.discountedPrice &&
-    (((variant.price?.centAmount as number) - (variant.discountedPrice.centAmount as number)) /
+    (((variant.price?.centAmount as number) - (variant.discountedPrice?.value?.centAmount as number)) /
       (variant.price?.centAmount as number)) *
       100;
 
@@ -84,7 +83,7 @@ const ProductInformation: FC<ProductInformationProps> = ({
         <div className="flex flex-row justify-between">
           <div className="flex items-center gap-8">
             <Typography className={discountedPriceClassName}>
-              {CurrencyHelpers.formatForCurrency(variant.discountedPrice as Money, locale)}
+              {CurrencyHelpers.formatForCurrency(variant.discountedPrice?.value as number, locale)}
             </Typography>
             <Typography className={priceClassName}>
               {CurrencyHelpers.formatForCurrency(variant.price ?? 0, locale)}

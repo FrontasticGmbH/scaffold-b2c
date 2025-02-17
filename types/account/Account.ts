@@ -14,6 +14,7 @@ export interface Account {
   addresses?: Address[];
   apiToken?: string;
   version?: number;
+  accountGroupId?: string;
 }
 
 export interface AccountGroup {

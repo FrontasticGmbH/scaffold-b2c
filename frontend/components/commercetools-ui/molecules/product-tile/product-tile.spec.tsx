@@ -80,7 +80,12 @@ describe('[Component] Product tile', () => {
           {
             sku: '123',
             price: { centAmount: 10000, fractionDigits: 2, currencyCode: 'USD' },
-            discountedPrice: { centAmount: 5000, fractionDigits: 2, currencyCode: 'USD' },
+            discountedPrice: {
+              value: { centAmount: 5000, fractionDigits: 2, currencyCode: 'USD' },
+              discount: {
+                discountValue: { type: 'relative', value: 50 },
+              },
+            },
           },
         ],
       },

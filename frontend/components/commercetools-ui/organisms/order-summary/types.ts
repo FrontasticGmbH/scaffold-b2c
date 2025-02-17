@@ -1,7 +1,7 @@
 import { ReactElement } from 'react';
 import { Order } from 'shared/types/cart';
 import { Account } from 'types/entity/account';
-import { Cart, Discount } from 'types/entity/cart';
+import { Cart, DiscountCode } from 'types/entity/cart';
 import { PaymentMethod } from '../order-payment-section/types';
 
 export type CheckoutButtonProps = {
@@ -26,9 +26,9 @@ export type OrderSummaryProps = {
   title?: string;
   cart?: Cart;
   isEmpty?: boolean;
-  discounts: Discount[];
+  discounts: DiscountCode[];
   onApplyDiscountCode?: (code: string) => Promise<void>;
-  onRemoveDiscountCode?: (discount: Discount) => Promise<void>;
+  onRemoveDiscountCode?: (discount: DiscountCode) => Promise<void>;
   className?: string;
   classNames?: ClassNames;
   order?: Order;

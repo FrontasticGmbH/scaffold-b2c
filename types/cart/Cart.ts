@@ -1,12 +1,11 @@
-import { ShippingMethod } from './ShippingMethod';
 import { LineItem } from './LineItem';
-import { Address } from '../account/Address';
+import { Address, AccountGroup } from '../account';
 import { Payment } from './Payment';
-import { Discount } from './Discount';
+import { DirectDiscount, DiscountCode, DiscountOnTotalPrice } from './Discount';
 import { Tax } from './Tax';
 import { ShippingInfo } from './ShippingInfo';
-import { Money } from '../product/Money';
-import { AccountGroup } from '../account';
+import { Money } from '../product';
+import { ShippingMethod } from './ShippingMethod';
 
 export type CartOrigin = 'Customer' | 'Merchant';
 
@@ -24,12 +23,13 @@ export interface Cart {
   itemShippingAddresses?: Address[];
   sum?: Money;
   payments?: Payment[];
-  discountCodes?: Discount[];
+  discountCodes?: DiscountCode[];
+  directDiscounts?: DirectDiscount[];
   taxed?: Tax;
-  discountedAmount?: Money;
   origin?: CartOrigin;
   cartState?: CartState;
   accountId?: string;
   storeKey?: string;
+  discountOnTotalPrice?: DiscountOnTotalPrice;
   accountGroup?: AccountGroup;
 }

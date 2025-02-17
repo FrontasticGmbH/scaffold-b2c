@@ -9,24 +9,26 @@ import {
   AttributeSetType,
   Category as CommercetoolsCategory,
   CategoryReference,
+  DiscountedPrice as CommercetoolsDiscountedPrice,
   Price as CommercetoolsPrice,
-  ProductDiscount,
-  ProductType as CommercetoolsProductType,
-  ProductVariant as CommercetoolsProductVariant,
-  ProductSearchResult as CommercetoolsProductSearchResult,
-  TypedMoney,
-  ProductSearchFacetResult,
-  ProductSearchRequest,
-  ProductSearchFacetExpression,
-  ProductSearchFacetRangesExpression,
   ProductSearchFacetCountExpression,
   ProductSearchFacetDistinctExpression,
+  ProductSearchFacetExpression,
+  ProductSearchFacetRangesExpression,
+  ProductSearchFacetResult,
   ProductSearchFacetResultBucket,
   ProductSearchFacetResultCount,
   ProductSearchMatchingVariants as CommercetoolsProductSearchMatchingVariants,
+  ProductSearchRequest,
+  ProductSearchResult as CommercetoolsProductSearchResult,
+  ProductType as CommercetoolsProductType,
+  ProductVariant as CommercetoolsProductVariant,
+  TypedMoney,
+  ProductDiscount as CommercetoolsProductDiscount,
+  ProductDiscountValue as CommercetoolsProductDiscountValue,
 } from '@commercetools/platform-sdk';
 import { Product } from '@Types/product/Product';
-import { DiscountValue, Variant } from '@Types/product/Variant';
+import { Variant } from '@Types/product/Variant';
 import { Attributes } from '@Types/product/Attributes';
 import { Category } from '@Types/product/Category';
 import { Money } from '@Types/product/Money';
@@ -39,8 +41,10 @@ import { ProductQuery, LocalizedString } from '@Types/query/ProductQuery';
 import { TermFacet as QueryTermFacet } from '@Types/query/TermFacet';
 import { RangeFacet as QueryRangeFacet } from '@Types/query/RangeFacet';
 import { FacetDefinition } from '@Types/product/FacetDefinition';
+import { ProductDiscount, ProductDiscountedPrice, ProductDiscountValue } from '@Types/cart';
 import { Locale } from '../Locale';
 import { ProductRouter } from '../utils/routers/ProductRouter';
+import LocalizedValue from '@Commerce-commercetools/utils/LocalizedValue';
 
 const TypeMap = new Map<string, string>([
   ['boolean', FilterFieldTypes.BOOLEAN],
@@ -97,15 +101,11 @@ export class ProductMapper {
       );
     }
 
-    for (let i = 0; i < commercetoolsProduct.productProjection.variants.length; i++) {
-      variants.push(
-        this.commercetoolsProductVariantToVariant(
-          commercetoolsProduct.productProjection.variants[i],
-          locale,
-          commercetoolsProduct.matchingVariants,
-        ),
-      );
-    }
+    variants.push(
+      ...commercetoolsProduct.productProjection.variants.map((variant) =>
+        this.commercetoolsProductVariantToVariant(variant, locale, commercetoolsProduct.matchingVariants),
+      ),
+    );
 
     return variants;
   }
@@ -116,7 +116,7 @@ export class ProductMapper {
     matchingVariants?: CommercetoolsProductSearchMatchingVariants,
   ): Variant {
     const attributes = this.commercetoolsAttributesToAttributes(commercetoolsVariant.attributes, locale);
-    const { price, discountedPrice, discounts } = this.extractPriceAndDiscounts(commercetoolsVariant, locale);
+    const { price, discountedPrice } = this.extractPriceAndDiscounts(commercetoolsVariant, locale);
 
     return {
       id: commercetoolsVariant.id?.toString(),
@@ -129,7 +129,6 @@ export class ProductMapper {
       attributes: attributes,
       price: price,
       discountedPrice: discountedPrice,
-      discounts: discounts,
       isMatchingVariant:
         matchingVariants?.allMatched ||
         matchingVariants?.matchedVariants.some((variant) => variant.id === commercetoolsVariant.id),
@@ -266,68 +265,51 @@ export class ProductMapper {
   }
 
   static commercetoolsProductDiscountValueToProductDiscountValue(
-    commercetoolsProductDiscountValue: ProductDiscount,
+    commercetoolsProductDiscountValue: CommercetoolsProductDiscountValue,
     locale: Locale,
-  ): DiscountValue[] {
-    const productDiscountValue: DiscountValue = {
-      type: commercetoolsProductDiscountValue.value.type,
-      description: commercetoolsProductDiscountValue.description?.[locale.language],
-    };
+  ): ProductDiscountValue | undefined {
+    switch (commercetoolsProductDiscountValue.type) {
+      case 'absolute':
+        return {
+          type: 'absolute',
+          value: LocalizedValue.getLocalizedCurrencyValue(locale, commercetoolsProductDiscountValue.money),
+        };
 
-    if (commercetoolsProductDiscountValue.value.type == 'relative') {
-      Object.assign(productDiscountValue, {
-        permyriad: commercetoolsProductDiscountValue.value.permyriad,
-      });
+      case 'relative':
+        return {
+          type: 'relative',
+          value: commercetoolsProductDiscountValue.permyriad,
+        };
+      default:
+        return undefined;
     }
-
-    if (commercetoolsProductDiscountValue.value.type == 'absolute') {
-      const discountValues = commercetoolsProductDiscountValue.value.money.map((money) => {
-        return this.commercetoolsMoneyToMoney(money);
-      });
-
-      Object.assign(productDiscountValue, {
-        value: discountValues,
-      });
-    }
-
-    return [productDiscountValue];
   }
 
   static extractPriceAndDiscounts(commercetoolsVariant: CommercetoolsProductVariant, locale: Locale) {
     let price: Money | undefined;
-    let discountedPrice: Money | undefined;
-    let discounts: DiscountValue[] | undefined;
+    let discountedPrice: ProductDiscountedPrice | undefined;
 
     if (commercetoolsVariant?.scopedPrice) {
       price = this.commercetoolsMoneyToMoney(commercetoolsVariant.scopedPrice?.value);
-      if (commercetoolsVariant.scopedPrice?.discounted?.value) {
-        discountedPrice = this.commercetoolsMoneyToMoney(commercetoolsVariant.scopedPrice?.discounted?.value);
-      }
+      discountedPrice =
+        commercetoolsVariant.scopedPrice?.discounted !== undefined
+          ? ProductMapper.commercetoolsDiscountedPriceToDiscountedPrice(
+              commercetoolsVariant.scopedPrice?.discounted,
+              locale,
+            )
+          : undefined;
 
-      if (commercetoolsVariant.scopedPrice?.discounted?.discount?.obj) {
-        discounts = this.commercetoolsProductDiscountValueToProductDiscountValue(
-          commercetoolsVariant.scopedPrice?.discounted?.discount?.obj,
-          locale,
-        );
-      }
-
-      return { price, discountedPrice, discounts };
+      return { price, discountedPrice };
     }
 
     if (commercetoolsVariant?.price) {
       price = this.commercetoolsMoneyToMoney(commercetoolsVariant.price?.value);
-      if (commercetoolsVariant.price?.discounted?.value) {
-        discountedPrice = this.commercetoolsMoneyToMoney(commercetoolsVariant.price?.discounted?.value);
-      }
+      discountedPrice =
+        commercetoolsVariant.price?.discounted !== undefined
+          ? ProductMapper.commercetoolsDiscountedPriceToDiscountedPrice(commercetoolsVariant.price?.discounted, locale)
+          : undefined;
 
-      if (commercetoolsVariant.price?.discounted?.discount?.obj) {
-        discounts = this.commercetoolsProductDiscountValueToProductDiscountValue(
-          commercetoolsVariant.price?.discounted?.discount?.obj,
-          locale,
-        );
-      }
-
-      return { price, discountedPrice, discounts };
+      return { price, discountedPrice };
     }
 
     if (commercetoolsVariant?.prices) {
@@ -353,22 +335,42 @@ export class ProductMapper {
       }
 
       price = this.commercetoolsMoneyToMoney(commercetoolsPrice?.value);
+      discountedPrice =
+        commercetoolsPrice?.discounted !== undefined
+          ? ProductMapper.commercetoolsDiscountedPriceToDiscountedPrice(commercetoolsPrice?.discounted, locale)
+          : undefined;
 
-      if (commercetoolsPrice?.discounted?.value) {
-        discountedPrice = this.commercetoolsMoneyToMoney(commercetoolsPrice?.discounted?.value);
-      }
-
-      if (commercetoolsPrice?.discounted?.discount?.obj) {
-        discounts = this.commercetoolsProductDiscountValueToProductDiscountValue(
-          commercetoolsPrice?.discounted?.discount?.obj,
-          locale,
-        );
-      }
-
-      return { price, discountedPrice, discounts };
+      return { price, discountedPrice };
     }
 
-    return { price, discountedPrice, discounts };
+    return { price, discountedPrice };
+  }
+
+  static commercetoolsDiscountedPriceToDiscountedPrice(
+    commercetoolsDiscountedPrice: CommercetoolsDiscountedPrice,
+    locale: Locale,
+  ): ProductDiscountedPrice {
+    return {
+      value: this.commercetoolsMoneyToMoney(commercetoolsDiscountedPrice?.value),
+      discount:
+        commercetoolsDiscountedPrice?.discount?.obj !== undefined
+          ? this.commercetoolsProductDiscountToProductDiscount(commercetoolsDiscountedPrice?.discount?.obj, locale)
+          : undefined,
+    };
+  }
+
+  static commercetoolsProductDiscountToProductDiscount(
+    commercetoolsProductDiscount: CommercetoolsProductDiscount,
+    locale: Locale,
+  ): ProductDiscount {
+    return {
+      discountValue: this.commercetoolsProductDiscountValueToProductDiscountValue(
+        commercetoolsProductDiscount.value,
+        locale,
+      ),
+      description: commercetoolsProductDiscount?.description?.[locale.language],
+      name: commercetoolsProductDiscount?.name?.[locale.language],
+    };
   }
 
   static commercetoolsMoneyToMoney(commercetoolsMoney: CommercetoolsMoney | TypedMoney): Money | undefined {

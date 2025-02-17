@@ -1,5 +1,5 @@
 import { Address } from './account';
-import { Money, Variant } from './product';
+import { ProductDiscountedPrice, Money, Variant } from './product';
 
 export interface TaxRate {
   taxRateId?: string;
@@ -18,8 +18,8 @@ export interface LineItem {
   type?: string;
   count?: number;
   price?: Money; // Price of a single item
-  discountedPrice?: Money; // Discounted price per item
-  discountTexts?: string[]; // @deprecated use discountedPricePerCount instead
+  discountedPrice?: ProductDiscountedPrice; // Discounted price per item
+  discountedPricePerCount?: DiscountedPricePerCount[];
   totalPrice?: Money;
   taxed?: Tax;
   taxRate?: TaxRate;
@@ -57,10 +57,18 @@ export interface ShippingInfo extends ShippingMethod {
   taxIncludedInPrice?: boolean;
 }
 
-export interface Discount {
-  discountId?: string;
+export type DiscountCodeState =
+  | 'ApplicationStoppedByPreviousDiscount'
+  | 'DoesNotMatchCart'
+  | 'MatchesCart'
+  | 'MaxApplicationReached'
+  | 'NotActive'
+  | 'NotValid';
+
+export interface DiscountCode {
+  discountCodeId?: string;
   code?: string;
-  state?: string;
+  state?: DiscountCodeState;
   name?: string;
   description?: string;
 
@@ -71,7 +79,70 @@ export interface Discount {
    * On LineItem, the amount discounted per single line item.
    */
   discountedAmount?: Money;
+  discounts?: CartDiscount[];
 }
+
+export interface CartDiscount {
+  cartDiscountId?: string;
+  name?: string;
+  description?: string;
+  discountValue?: CartDiscountValue;
+}
+
+export interface DiscountedPricePerCount {
+  count?: number;
+  discountedPrice?: DiscountedPrice;
+}
+
+export interface DiscountedPrice {
+  value: Money;
+  includedDiscounts: DiscountedPortion[];
+}
+
+export interface DiscountedPortion {
+  discountedAmount: Money;
+  discount: CartDiscount;
+}
+
+export interface DiscountOnTotalPrice {
+  discountedAmount: Money;
+  discountedGrossAmount?: Money;
+  discountedNetAmount?: Money;
+  includedDiscounts: DiscountedPortion[];
+}
+
+export type DiscountType = 'absolute' | 'relative' | 'fixed' | 'giftLineItem';
+
+export interface BaseDiscountValue {
+  type: DiscountType;
+}
+
+export interface AbsoluteDiscountValue extends BaseDiscountValue {
+  type: 'absolute';
+  value: Money;
+}
+
+export interface RelativeDiscountValue extends BaseDiscountValue {
+  type: 'relative';
+  value: number;
+}
+
+export interface FixedDiscountValue extends BaseDiscountValue {
+  type: 'fixed';
+  value: Money;
+}
+
+export interface GiftLineItemDiscountValue extends BaseDiscountValue {
+  type: 'giftLineItem';
+  productId: string;
+  variantId: string;
+}
+
+export type CartDiscountValue =
+  | AbsoluteDiscountValue
+  | RelativeDiscountValue
+  | FixedDiscountValue
+  | GiftLineItemDiscountValue;
 
 export interface Tax {
   netAmount?: Money;
@@ -114,7 +185,8 @@ export interface Cart {
   billingAddress?: Address;
   itemShippingAddresses?: Address[];
   sum?: Money;
-  discountCodes?: Discount[];
+  discountCodes?: DiscountCode[];
+  discountOnTotalPrice?: DiscountOnTotalPrice;
   taxed?: Tax;
   payments?: Payment[];
   discountedAmount?: Money;

@@ -110,12 +110,12 @@ const AddToCartOverlayProvider = ({ children }: React.PropsWithChildren) => {
                   <div className="max-w-full overflow-hidden">
                     <span className="block max-w-full truncate text-12 uppercase md:text-14">{product?.name}</span>
                     <span className="mt-8 block text-12 font-medium md:hidden">
-                      {CurrencyHelpers.formatForCurrency(product?.discountedPrice ?? product?.price ?? {}, locale)}
+                      {CurrencyHelpers.formatForCurrency(product?.discountedPrice?.value ?? product?.price ?? {}, locale)}
                     </span>
                     <span className="mt-12 block text-14 text-secondary-black">x {product?.count}</span>
                   </div>
                   <span className="hidden text-14 font-medium md:block">
-                    {CurrencyHelpers.formatForCurrency(product?.discountedPrice ?? product?.price ?? {}, locale)}
+                    {CurrencyHelpers.formatForCurrency(product?.discountedPrice?.value ?? product?.price ?? {}, locale)}
                   </span>
                 </div>
               </div>

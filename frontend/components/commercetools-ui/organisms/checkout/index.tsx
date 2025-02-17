@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import Button from 'components/commercetools-ui/atoms/button';
 import { useFormat } from 'helpers/hooks/useFormat';
-import { Cart, Discount, ShippingMethod } from 'types/entity/cart';
+import { Cart, DiscountCode, ShippingMethod } from 'types/entity/cart';
 import { CartDetails, Transaction } from 'frontastic/hooks/useCart/types';
 import Footer from './components/footer';
 import Header, { Props as HeaderProps } from './components/header';
@@ -17,7 +17,7 @@ export type CheckoutWrappedProps = HeaderProps & {
   hasOutOfStockItems?: boolean;
   shippingMethods: ShippingMethod[];
   onApplyDiscountCode?: (code: string) => Promise<void>;
-  onRemoveDiscountCode?: (discount: Discount) => Promise<void>;
+  onRemoveDiscountCode?: (discount: DiscountCode) => Promise<void>;
   onUpdateCart?: (payload: CartDetails) => Promise<Cart>;
 };
 

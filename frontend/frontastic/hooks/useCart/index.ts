@@ -1,6 +1,6 @@
 import { useCallback, useMemo } from 'react';
 import { Cart } from 'shared/types/cart';
-import { Discount } from 'shared/types/cart/Discount';
+import { DiscountCode } from 'shared/types/cart/Discount';
 import { Order } from 'shared/types/cart/Order';
 import { Variant } from 'shared/types/product';
 import useSWR, { mutate } from 'swr';
@@ -158,10 +158,10 @@ const useCart = (): UseCartReturn => {
     }
   }, []);
 
-  const removeDiscountCode = useCallback(async (discount: Discount) => {
+  const removeDiscountCode = useCallback(async (discount: DiscountCode) => {
     const extensions = sdk.composableCommerce;
 
-    const res = await extensions.cart.removeDiscountCode({ discountId: discount.discountId as string });
+    const res = await extensions.cart.removeDiscountCode({ discountCodeId: discount.discountCodeId as string });
 
     mutate('/action/cart/getCart', res);
   }, []);

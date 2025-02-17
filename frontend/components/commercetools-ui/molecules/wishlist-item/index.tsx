@@ -44,7 +44,7 @@ const WishlistItem: FC<WishlistItemProps> = ({ item, onRemove, onMoveToCart }) =
           {item.variant?.discountedPrice ? (
             <div className="flex items-center gap-5">
               <span className="text-14 font-medium leading-loose text-accent-red">
-                {CurrencyHelpers.formatForCurrency(item.variant.discountedPrice, locale)}
+                {CurrencyHelpers.formatForCurrency(item.variant?.discountedPrice?.value ?? 0, locale)}
               </span>
               <span className="text-12 font-normal leading-loose text-gray-500 line-through">
                 {CurrencyHelpers.formatForCurrency(item.variant?.price ?? 0, locale)}

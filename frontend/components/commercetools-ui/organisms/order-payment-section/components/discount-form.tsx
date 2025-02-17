@@ -4,14 +4,14 @@ import AccordionBtn, { AccordionProps } from 'components/commercetools-ui/atoms/
 import CloseIcon from 'components/icons/close';
 import useClassNames from 'helpers/hooks/useClassNames';
 import { useFormat } from 'helpers/hooks/useFormat';
-import { Discount } from 'types/entity/cart';
+import { DiscountCode } from 'types/entity/cart';
 
 export interface Props {
   className?: string;
   accordionProps?: AccordionProps;
-  discounts: Discount[];
+  discounts: DiscountCode[];
   onApplyDiscountCode?: (code: string) => Promise<void>;
-  onRemoveDiscountCode?: (discount: Discount) => Promise<void>;
+  onRemoveDiscountCode?: (discount: DiscountCode) => Promise<void>;
 }
 
 const DiscountForm: React.FC<Props> = ({
@@ -74,7 +74,7 @@ const DiscountForm: React.FC<Props> = ({
     setCodeIsInvalid(false);
   };
 
-  const handleRemove = (discount: Discount) => {
+  const handleRemove = (discount: DiscountCode) => {
     onRemoveDiscountCode?.(discount);
   };
 
@@ -129,7 +129,7 @@ const DiscountForm: React.FC<Props> = ({
             <div className={discountsContainerClassName}>
               {discounts.map((discount) => (
                 <div
-                  key={discount.discountId}
+                  key={discount.discountCodeId}
                   className="mr-2 flex w-fit justify-between gap-8 rounded-sm border border-neutral-400 bg-white px-8 py-4"
                 >
                   <label className="text-12 uppercase leading-[16px] text-secondary-black">{discount.code}</label>

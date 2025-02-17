@@ -32,5 +32,6 @@
     "estimated.shipping": "Estimated Shipping",
     "est.shipping": "Est. Shipping",
     "estimated.delivery": "Estimated Delivery",
-    "est.delivery": "Est. Delivery"
+    "est.delivery": "Est. Delivery",
+    "help.question": "Check status of recent orders, manage your returns and download invoices."
 }

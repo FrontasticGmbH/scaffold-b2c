@@ -22,13 +22,13 @@ const AccountButton = () => {
 
   return (
     <div className="h-40">
-      <Link link={account ? '/account' : '/login'} title={title}>
+      <Link link={account ? '/account' : '/login'} title={title} className="hidden md:flex lg:hidden">
         <UserIcon className="hidden h-fit w-28 text-secondary-black md:flex lg:hidden" />
       </Link>
       <Popover as="div" className="relative hidden h-fit lg:block">
         {() => (
           <>
-            <Popover.Button title={title} className="focus-visible:!outline-none">
+            <Popover.Button title={title}>
               <div className="flex w-fit whitespace-nowrap">
                 <div className="mr-8 hidden w-104 py-4 lg:inline-block">
                   {loggedIn && (

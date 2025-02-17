@@ -6,7 +6,7 @@
   "main": "./index.ts",
   "packageManager": "yarn@4.4.1",
   "engines": {
-    "node": "^22.0.0"
+    "node": "22.x"
   },
   "scripts": {
     "extensions:watch": "tsup --env.NODE_ENV dev",
@@ -27,7 +27,7 @@
     "@adyen/api-library": "^11.0.0",
     "@babel/runtime": "^7.16.5",
     "@bloomreach/spa-sdk": "^22.0.0",
-    "@commercetools/platform-sdk": "7.9.0",
+    "@commercetools/platform-sdk": "8.1.0",
     "@commercetools/sdk-client-v2": "2.3.0",
     "@sendgrid/mail": "^7.7.0",
     "axios": "^0.26.1",

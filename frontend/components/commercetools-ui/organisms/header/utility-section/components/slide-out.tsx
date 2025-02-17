@@ -8,7 +8,7 @@ import Wishlist from 'components/commercetools-ui/organisms/wishlist';
 import CartIcon from 'components/icons/cart';
 import useClassNames from 'helpers/hooks/useClassNames';
 import { useFormat } from 'helpers/hooks/useFormat';
-import { Cart as CartShape, Discount, LineItem as CartLineItem } from 'types/entity/cart';
+import { Cart as CartShape, DiscountCode, LineItem as CartLineItem } from 'types/entity/cart';
 import { LineItem as WishlistLineItem, Wishlist as WishlistShape } from 'types/entity/wishlist';
 
 export type MenuState = 'wishlist' | 'cart';
@@ -17,7 +17,7 @@ export interface SlideOutProps {
   cart?: CartShape;
   isEmpty?: boolean;
   onApplyDiscountCode?: (code: string) => Promise<void>;
-  onRemoveDiscountCode?: (discount: Discount) => Promise<void>;
+  onRemoveDiscountCode?: (discount: DiscountCode) => Promise<void>;
   totalCartItems?: number;
   totalWishlistItems?: number;
   onRemoveItem(itemId: string): Promise<void>;

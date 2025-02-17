@@ -7,7 +7,7 @@ const config: StorybookConfig = {
     '@storybook/addon-links',
     '@storybook/addon-essentials',
     '@storybook/addon-interactions',
-    '@storybook/addon-a11y'
+    '@storybook/addon-a11y',
   ],
   framework: {
     name: '@storybook/nextjs',
@@ -20,6 +20,12 @@ const config: StorybookConfig = {
   core: {
     disableTelemetry: true,
   },
+  env: (config) => ({
+    ...config,
+    NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME: process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME || '',
+    NEXT_PUBLIC_ALGOLIA_APPLICATION_ID: process.env.NEXT_PUBLIC_ALGOLIA_APPLICATION_ID || '',
+    NEXT_PUBLIC_ALGOLIA_SEARCH_API_KEY: process.env.NEXT_PUBLIC_ALGOLIA_SEARCH_API_KEY || '',
+  }),
   webpackFinal(config) {
     /* Aliases */
     if (!config.resolve) config.resolve = {};
@@ -30,12 +36,6 @@ const config: StorybookConfig = {
 
     /* Plugins */
     if (!config.plugins) config.plugins = [];
-
-    config.plugins.push(
-      new webpack.DefinePlugin({
-        'process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME': JSON.stringify(process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME),
-      }),
-    );
 
     return config;
   },

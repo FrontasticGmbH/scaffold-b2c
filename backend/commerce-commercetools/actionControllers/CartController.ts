@@ -4,7 +4,7 @@ import { LineItem } from '@Types/cart/LineItem';
 import { Address } from '@Types/account/Address';
 import { ShippingMethod } from '@Types/cart/ShippingMethod';
 import { Payment, PaymentStatuses } from '@Types/cart/Payment';
-import { Discount } from '@Types/cart/Discount';
+import { DiscountCode } from '@Types/cart/Discount';
 import { SortAttributes, SortOrder } from '@Types/query/ProductQuery';
 import { OrderQuery } from '@Types/query';
 import { Token } from '@Types/Token';
@@ -492,11 +492,11 @@ export const removeDiscount: ActionHook = async (request: Request, actionContext
     let cart = await CartFetcher.fetchCart(cartApi, request);
 
     const body: {
-      discountId?: string;
+      discountCodeId?: string;
     } = JSON.parse(request.body);
 
-    const discount: Discount = {
-      discountId: body?.discountId,
+    const discount: DiscountCode = {
+      discountCodeId: body?.discountCodeId,
     };
 
     cart = await cartApi.removeDiscountCode(cart, discount);

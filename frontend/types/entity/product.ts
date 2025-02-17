@@ -1,3 +1,4 @@
+import { AbsoluteDiscountValue, RelativeDiscountValue } from './cart';
 import { Category } from './category';
 
 export interface Money {
@@ -6,19 +7,26 @@ export interface Money {
   currencyCode?: string; // The currency code compliant to ISO 4217.
 }
 
-export interface DiscountValue {
-  type: 'absolute' | 'relative' | 'external';
+export type ProductDiscountValue = AbsoluteDiscountValue | RelativeDiscountValue;
+
+export interface ProductDiscount {
+  discountValue?: ProductDiscountValue;
   description?: string;
-  value?: number | Money;
-  permyriad?: number;
+  name?: string;
 }
+
+export interface ProductDiscountedPrice {
+  value?: Money;
+  discount?: ProductDiscount;
+}
+
 export interface Variant {
   id?: string;
   sku: string;
   groupId?: string;
   price?: Money;
-  discountedPrice?: Money;
-  discounts?: DiscountValue[];
+  discountedPrice?: ProductDiscountedPrice;
+  // discounts?: DiscountValue[];
   attributes?: Record<string, any>; //eslint-disable-line
   images?: string[];
   isOnStock?: boolean;

@@ -6,6 +6,7 @@ import 'react-loading-skeleton/dist/skeleton.css';
 import theme from './theme';
 import { sdk } from '../sdk';
 import { AccountProvider } from '../context/account';
+import ShipAndLanguageProvider from '../providers/ship-and-language';
 
 const preview: Preview = {
   parameters: {
@@ -32,9 +33,11 @@ const preview: Preview = {
       sdk.defaultConfigure('en');
       return (
         <div data-theme="default">
-          <AccountProvider value={{ account }}>
-            <Story />
-          </AccountProvider>
+          <ShipAndLanguageProvider>
+            <AccountProvider value={{ account }}>
+              <Story />
+            </AccountProvider>
+          </ShipAndLanguageProvider>
           <div id="react-modal-custom-portal" />
         </div>
       );
@@ -43,4 +46,5 @@ const preview: Preview = {
 
   tags: ['autodocs'],
 };
+
 export default preview;

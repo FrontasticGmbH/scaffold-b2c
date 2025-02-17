@@ -17,7 +17,7 @@ const LoggedIn = () => {
 
   return (
     <div className="w-235 p-14">
-      <Popover.Button className="w-full">
+      <Popover.Button className="w-full" tabIndex={-1}>
         <Link link="/account#" className="mt-10 block w-fit">
           <Typography className="text-primary-black hover:underline">
             {formatAccountMessage({ id: 'my.account', defaultMessage: 'My Account' })}
@@ -25,7 +25,7 @@ const LoggedIn = () => {
         </Link>
       </Popover.Button>
 
-      <Popover.Button className="w-full">
+      <Popover.Button className="w-full" tabIndex={-1}>
         <Link link="/account/?hash=support" className="mt-32 block w-fit">
           <Typography className="text-primary-black hover:underline">
             {formatAccountMessage({ id: 'customer.support', defaultMessage: 'Customer support' })}
@@ -33,12 +33,12 @@ const LoggedIn = () => {
         </Link>
       </Popover.Button>
 
-      <Popover.Button className="mt-32 block w-full pb-10">
-        <div onClick={handleLogout} className="w-fit">
+      <Popover.Button className="mt-32 block w-full pb-10" tabIndex={-1}>
+        <button onClick={handleLogout} className="w-full text-left">
           <Typography className="text-16 text-primary-black hover:underline">
             {formatAccountMessage({ id: 'sign.out', defaultMessage: 'Sign out' })}
           </Typography>
-        </div>
+        </button>
       </Popover.Button>
     </div>
   );

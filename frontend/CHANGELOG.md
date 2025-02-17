@@ -1,3 +1,19 @@
+## Version 3.0.0 (2025-02-03)
+
+** New Features & Improvements **
+
+* Fixing static folder warning and deployment error
+* Category page locale switching handling on frontend
+* Upgrade Node JS version
+* Update Storybook to v8.5.0 and add accessibility addon
+* Ignore .env file frontend
+
+
+** Bug Fixes **
+
+* Nextjs15 upgraded 
+* Close Popover on value select
+* Allow locales with region and language and multiple languages per country
 
 ## Version 2.2.0 (2025-01-13)
 

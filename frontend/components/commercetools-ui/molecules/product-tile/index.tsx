@@ -56,14 +56,14 @@ const ProductTile: FC<ProductTileProps> = ({
   const selectedVariant = userSelectedVariant ?? variantWithDiscount ?? product?.variants[selectedVariantIndex];
 
   const hasDiscount =
-    selectedVariant.discountedPrice?.centAmount &&
+    selectedVariant.discountedPrice?.value?.centAmount &&
     selectedVariant.price?.centAmount &&
-    selectedVariant.discountedPrice.centAmount < selectedVariant.price.centAmount;
+    selectedVariant.discountedPrice?.value?.centAmount < selectedVariant.price.centAmount;
 
   const discountedPrice = selectedVariant?.discountedPrice;
 
   const discountPercentage = selectedVariant
-    ? (((selectedVariant.price?.centAmount as number) - (discountedPrice?.centAmount as number)) /
+    ? (((selectedVariant.price?.centAmount as number) - (discountedPrice?.value?.centAmount as number)) /
         (selectedVariant.price?.centAmount as number)) *
       100
     : 0;

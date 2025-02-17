@@ -1,4 +1,13 @@
 
+## Version 3.0.0 (2025-02-03)
+
+** New Features & Improvements **
+
+* Added customer group to orders
+* Handle slug in url for a given locale
+* Map customer groups
+* Upgraded extension-types version and used new preloadedValue field
+
 ## Version 2.1.0 (2024-12-16)
 
 ** New Features and Improvements **

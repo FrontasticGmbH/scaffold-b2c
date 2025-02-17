@@ -2,10 +2,10 @@ import React from 'react';
 import { useParams } from 'next/navigation';
 import Typography from 'components/commercetools-ui/atoms/typography';
 import { CurrencyHelpers } from 'helpers/currencyHelpers';
-import { Money } from 'types/entity/product';
+import { ProductDiscountedPrice, Money } from 'types/entity/product';
 
 interface Props {
-  discountedPrice?: Money;
+  discountedPrice?: ProductDiscountedPrice;
   price?: Money;
 }
 
@@ -17,7 +17,7 @@ const Prices: React.FC<Props> = ({ price, discountedPrice }) => {
       {discountedPrice ? (
         <div className="flex items-center gap-8">
           <Typography className="text-11 font-medium leading-loose text-accent-red md:text-14">
-            {CurrencyHelpers.formatForCurrency(discountedPrice, locale)}
+            {CurrencyHelpers.formatForCurrency(discountedPrice?.value ?? '', locale)}
           </Typography>
           <Typography className="text-10 font-medium leading-loose text-gray-500 line-through md:text-12">
             {CurrencyHelpers.formatForCurrency(price ?? '', locale)}

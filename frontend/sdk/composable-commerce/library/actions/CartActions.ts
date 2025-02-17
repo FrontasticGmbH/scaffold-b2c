@@ -326,7 +326,7 @@ export const getCartActions = (sdk: SDK<ComposableCommerceEvents>): CartActions 
           new Event({
             eventName: 'discountCodeRemoved',
             data: {
-              discountCode: payload.discountId,
+              discountCode: payload.discountCodeId,
               cart: response.data,
             },
           }),

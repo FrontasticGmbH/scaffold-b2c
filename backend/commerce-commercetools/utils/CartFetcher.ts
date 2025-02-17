@@ -1,7 +1,7 @@
 import { Request } from '@frontastic/extension-types';
 import { Cart } from '@Types/cart/Cart';
 import { CartApi } from '../apis/CartApi';
-import { ExternalError } from '@Commerce-commercetools/errors/ExternalError';
+import { ResourceNotFoundError } from '@Commerce-commercetools/errors/ResourceNotFoundError';
 
 export class CartFetcher {
   static async fetchCart(cartApi: CartApi, request: Request): Promise<Cart> {
@@ -11,7 +11,9 @@ export class CartFetcher {
       return cart;
     }
 
-    return await cartApi.getAnonymous();
+    return request.sessionData?.account !== undefined
+      ? await cartApi.createForAccount(request.sessionData.account)
+      : await cartApi.createAnonymous();
   }
 
   static async fetchActiveCartFromSession(cartApi: CartApi, request: Request): Promise<Cart | undefined> {
@@ -22,16 +24,15 @@ export class CartFetcher {
           return cart;
         }
       } catch (error) {
-        // A ExternalError might be thrown if the cart does not exist or belongs to a different business unit,
-        // in which case we should create a new cart.
-        if (!(error instanceof ExternalError)) {
+        // Ignore the ResourceNotFoundError as it's expected if the cart does not exist
+        if (!(error instanceof ResourceNotFoundError)) {
           throw error;
         }
       }
     }
 
     if (request.sessionData?.account !== undefined) {
-      return await cartApi.getForUser(request.sessionData.account);
+      return await cartApi.getActiveCartForAccount(request.sessionData.account);
     }
 
     return undefined;

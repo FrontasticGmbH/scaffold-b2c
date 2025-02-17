@@ -6,7 +6,8 @@ const useVariantWithDiscount = (variants: Partial<Variant>[]) => {
     return variants.reduce(
       (acc: Partial<Variant> | undefined, curr) =>
         curr.discountedPrice &&
-        (!acc || (acc.discountedPrice?.centAmount as number) > (curr.discountedPrice?.centAmount as number))
+        (!acc ||
+          (acc.discountedPrice?.value?.centAmount as number) > (curr.discountedPrice?.value?.centAmount as number))
           ? curr
           : acc,
       undefined,

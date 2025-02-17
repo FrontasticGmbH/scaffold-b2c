@@ -1,6 +1,5 @@
-import { Discount, DiscountedPricePerCount } from './Discount';
-import { Variant } from '../product/Variant';
-import { Money } from '../product/Money';
+import { DiscountedPricePerCount, ProductDiscountedPrice } from './Discount';
+import { Money, Variant } from '../product';
 import { Tax } from './Tax';
 import { TaxRate } from './TaxRate';
 
@@ -11,9 +10,7 @@ export interface LineItem {
   type?: string;
   count?: number;
   price?: Money; // Price of a single item
-  discountedPrice?: Money; // Discounted price per item
-  discountTexts?: string[]; // @deprecated use discountedPricePerCount instead
-  discounts?: Discount[]; // @deprecated use discountedPricePerCount instead
+  discountedPrice?: ProductDiscountedPrice; // Discounted price per item
   discountedPricePerCount?: DiscountedPricePerCount[];
   totalPrice?: Money;
   taxed?: Tax;

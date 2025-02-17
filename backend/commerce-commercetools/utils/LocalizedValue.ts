@@ -1,4 +1,5 @@
-import { LocalizedString } from '@commercetools/platform-sdk';
+import { LocalizedString, TypedMoney } from '@commercetools/platform-sdk';
+import { Money } from '@Types/product/Money';
 import { Locale } from '../Locale';
 
 export default class LocalizedValue {
@@ -15,4 +16,17 @@ export default class LocalizedValue {
 
     return productValue[0];
   };
+
+  static getLocalizedCurrencyValue(locale: Locale, money: TypedMoney[]): Money | undefined {
+    if (money.length === 0) {
+      return undefined;
+    }
+
+    for (const value of money) {
+      if (value.currencyCode === locale.currency) {
+        return value;
+      }
+    }
+    return money[0];
+  }
 }

@@ -13,12 +13,12 @@ const LoggedOut = () => {
 
   return (
     <div className="w-235 p-14">
-      <Popover.Button as="div" className="w-full">
+      <Popover.Button as="div" className="w-full" tabIndex={-1}>
         <Button variant="primary" className="w-full py-12 text-16 leading-[16px]" onClick={goToLoginPage}>
           {formatAccountMessage({ id: 'sign.in', defaultMessage: 'Sign in' })}
         </Button>
       </Popover.Button>
-      <Popover.Button>
+      <Popover.Button tabIndex={-1}>
         <Link link="/" className="mt-20 block w-fit text-primary-black hover:underline">
           {formatAccountMessage({ id: 'membership.info', defaultMessage: 'Membership info' })}
         </Link>
@@ -27,7 +27,7 @@ const LoggedOut = () => {
         <span className="whitespace-nowrap">
           {formatAccountMessage({ id: 'not.member', defaultMessage: 'Not a member' })}?
         </span>
-        <Popover.Button>
+        <Popover.Button tabIndex={-1}>
           <Link link="/register" className="ml-4 whitespace-nowrap font-medium text-primary-black hover:underline">
             {formatAccountMessage({ id: 'join.here', defaultMessage: 'Join here' })}
           </Link>

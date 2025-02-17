@@ -18,7 +18,7 @@ const CartItemPrice: FC<{ item: LineItem }> = ({ item }) => {
   return item.discountedPrice ? (
     <div className="flex items-center gap-5">
       <Typography className="text-14 font-medium leading-loose text-accent-red">
-        {CurrencyHelpers.formatForCurrency(item.discountedPrice, locale)}
+        {CurrencyHelpers.formatForCurrency(item.discountedPrice?.value ?? 0, locale)}
       </Typography>
       <Typography className="text-12 font-normal leading-loose text-gray-500 line-through">
         {CurrencyHelpers.formatForCurrency(item.price ?? 0, locale)}

@@ -1,6 +1,6 @@
 import { Address } from 'shared/types/account/Address';
 import { Cart } from 'shared/types/cart';
-import { Discount } from 'shared/types/cart/Discount';
+import { DiscountCode } from 'shared/types/cart/Discount';
 import { Order } from 'shared/types/cart/Order';
 import { ShippingMethod } from 'shared/types/cart/ShippingMethod';
 import { Variant } from 'shared/types/product';
@@ -33,7 +33,7 @@ export interface UseCartReturn {
   setShippingMethod: (shippingMethodId: string) => Promise<void>;
   removeItem: (lineItemId: string) => Promise<void>;
   updateItem: (lineItemId: string, newQuantity: number) => Promise<void>;
-  removeDiscountCode?: (discount: Discount) => Promise<void>;
+  removeDiscountCode?: (discount: DiscountCode) => Promise<void>;
   redeemDiscountCode?: (code: string) => Promise<void>;
   shippingMethods: { data?: ShippingMethod[] };
   orderCart: () => Promise<Order>;

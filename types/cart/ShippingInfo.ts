@@ -1,11 +1,11 @@
 import { ShippingMethod } from './ShippingMethod';
-import { Money } from '../product/Money';
+import { Money } from '../product';
 import { Tax } from './Tax';
-import { Discount } from './Discount';
+import { DiscountedPrice } from './Discount';
 
 export interface ShippingInfo extends ShippingMethod {
   price?: Money;
   taxed?: Tax;
   taxIncludedInPrice?: boolean;
-  discounts?: Discount[];
+  discountedPrice?: DiscountedPrice;
 }

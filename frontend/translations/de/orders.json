@@ -1,5 +1,5 @@
 {
-  "orders": "Aufträge",
+  "orders": "Bestellungen",
   "orders.subtitle": "Überprüfen Sie den Status der letzten Bestellungen, verwalten Sie Ihre Retouren und laden Sie Rechnungen herunter.",
   "all.orders": "Alle Bestellungen",
   "Open": "Eingetragen",
@@ -32,5 +32,6 @@
   "estimated.shipping": "Voraussichtlicher Versand",
   "est.shipping": "Voraussichtl. Versand",
   "estimated.delivery": "Voraussichtliche Lieferung",
-  "est.delivery": "Voraussichtl. Lieferung"
+  "est.delivery": "Voraussichtl. Lieferung",
+  "help.question": "Überprüfen Sie den Status der letzten Bestellungen, verwalten Sie Ihre Retouren und laden Sie Rechnungen herunter."
 }

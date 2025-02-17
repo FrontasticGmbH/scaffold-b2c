@@ -6,7 +6,7 @@ import Slideout, { MenuState } from 'components/commercetools-ui/organisms/heade
 import CartIcon from 'components/icons/cart';
 import WishlistIcon from 'components/icons/wishlist';
 import { useFormat } from 'helpers/hooks/useFormat';
-import { Cart, Discount, LineItem as CartLineItem } from 'types/entity/cart';
+import { Cart, DiscountCode, LineItem as CartLineItem } from 'types/entity/cart';
 import { LineItem as WishlistLineItem, Wishlist } from 'types/entity/wishlist';
 import AccountButton from './components/account-button';
 
@@ -14,7 +14,7 @@ export interface Props {
   cart?: Cart;
   isEmpty?: boolean;
   onApplyDiscountCode?: (code: string) => Promise<void>;
-  onRemoveDiscountCode?: (discount: Discount) => Promise<void>;
+  onRemoveDiscountCode?: (discount: DiscountCode) => Promise<void>;
   totalCartItems?: number;
   totalWishlistItems?: number;
   onRemoveItem(itemId: string): Promise<void>;

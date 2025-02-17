@@ -1,4 +1,12 @@
 
+## Version 1.11.0 (2025-02-03)
+
+
+** New Features & Improvements **
+
+* handle slug in url for a given locale
+* map customer groups in b2c
+
 ## Version 1.10.0 (2024-11-05)
 
 ** New Features and Improvements **

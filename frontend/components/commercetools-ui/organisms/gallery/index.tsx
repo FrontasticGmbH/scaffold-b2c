@@ -1,11 +1,7 @@
-import { FC, useRef, useState } from 'react';
-import Swiper from 'swiper';
+import { FC, useState, useEffect, useRef, useCallback } from 'react';
 import Image from 'components/commercetools-ui/atoms/image';
-import Slider from 'components/commercetools-ui/atoms/slider';
 import useClassNames from 'helpers/hooks/useClassNames';
-import useMediaQuery from 'helpers/hooks/useMediaQuery';
 import { classnames } from 'helpers/utils/classnames';
-import { desktop, tablet } from 'helpers/utils/screensizes';
 
 interface GalleryProps {
   images: Array<string>;
@@ -13,48 +9,60 @@ interface GalleryProps {
 }
 
 const Gallery: FC<GalleryProps> = ({ images, inModalVersion }) => {
-  const swiperRef = useRef<Swiper>(undefined);
-  const [activeSlide, setActiveSlide] = useState(0);
+  const [activeIndex, setActiveIndex] = useState(0);
 
-  const [isTabletSize] = useMediaQuery(tablet);
-  const [isDesktopSize] = useMediaQuery(desktop);
+  const containerClassName = useClassNames(['relative', inModalVersion ? 'h-[250px]' : 'h-[447px]']);
 
-  const [isLoading, setIsLoading] = useState(true);
+  const snapContainerRef = useRef<HTMLDivElement>(null);
 
-  const slideTo = (slide: number) => {
-    swiperRef.current?.slideTo(slide);
-  };
+  useEffect(() => {
+    if (!snapContainerRef.current) return;
 
-  const handleSlide = (swiper: Swiper) => {
-    setActiveSlide(swiper.realIndex);
-  };
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            const childIndex = Array.from(snapContainerRef.current?.children ?? []).findIndex(
+              (child) => child === entry.target,
+            );
 
-  const containerClassName = useClassNames(['relative mx-20 lg:mx-auto', inModalVersion ? 'h-[250px]' : 'h-[447px]']);
+            setActiveIndex(childIndex);
+          }
+        });
+      },
+      { root: snapContainerRef.current, rootMargin: '100% 0% 100% 0%', threshold: 0.7 },
+    );
+
+    Array.from(snapContainerRef.current.children).forEach((child) => observer.observe(child));
+
+    return () => observer.disconnect();
+  }, []);
+
+  const slideTo = useCallback((index: number) => {
+    if (!snapContainerRef.current) return;
+
+    const width = snapContainerRef.current.clientWidth;
+
+    snapContainerRef.current.scrollTo({ left: width * index, behavior: 'smooth' });
+  }, []);
 
   return (
     <div className="gap-y-34 px-4 md:mb-50">
       <div className={containerClassName}>
-        <div className={isLoading ? 'block' : 'hidden'}>
-          <Image src={images[0]} loading="eager" suffix="large" style={{ objectFit: 'contain' }} fill />
+        <div className="hidden lg:block">
+          <Image src={images[activeIndex]} loading="eager" suffix="large" style={{ objectFit: 'contain' }} fill />
         </div>
 
-        <div className={isLoading ? 'hidden' : 'block'}>
-          <Slider
-            onSlideChange={handleSlide}
-            onSwiper={(swiper) => {
-              swiperRef.current = swiper;
-            }}
-            arrows={isTabletSize && images.length > 1}
-            dots={!isTabletSize && images.length > 1}
-            prevButtonStyles={{ left: isDesktopSize ? -10 : -4 }}
-            nextButtonStyles={{ right: isDesktopSize ? -10 : -4 }}
-            compactNavigation={inModalVersion}
-            slidesPerView={1}
-            loop={!!images.length}
-            onInit={() => setIsLoading(false)}
-          >
+        <div className="block lg:hidden">
+          <div className="flex snap-x snap-mandatory overflow-x-scroll scrollbar-hide" ref={snapContainerRef}>
             {images?.map((image, index) => (
-              <div key={index} className={classnames('relative w-full', inModalVersion ? 'h-250' : 'h-[447px]')}>
+              <div
+                key={index}
+                className={classnames(
+                  'relative w-full shrink-0 snap-center snap-always',
+                  inModalVersion ? 'h-250' : 'h-[447px]',
+                )}
+              >
                 <Image
                   src={image}
                   loading={index === 0 ? 'eager' : 'lazy'}
@@ -64,7 +72,20 @@ const Gallery: FC<GalleryProps> = ({ images, inModalVersion }) => {
                 />
               </div>
             ))}
-          </Slider>
+          </div>
+
+          <div className="flex items-center justify-center gap-4 pt-12">
+            {Array.from({ length: images.length }).map((_, index) => (
+              <div
+                key={index}
+                className={classnames(
+                  'size-8 rounded-full',
+                  index === activeIndex ? 'bg-neutral-600' : 'bg-neutral-300',
+                )}
+                onClick={() => slideTo(index)}
+              />
+            ))}
+          </div>
         </div>
       </div>
 
@@ -74,7 +95,7 @@ const Gallery: FC<GalleryProps> = ({ images, inModalVersion }) => {
             <div
               key={index}
               className={`relative size-112 rounded-md border p-7 ${
-                index == activeSlide % images.length ? 'border-neutral-500' : 'border-neutral-400'
+                index == activeIndex ? 'border-neutral-500' : 'border-neutral-400'
               }`}
             >
               <div className="relative size-full">
@@ -82,7 +103,7 @@ const Gallery: FC<GalleryProps> = ({ images, inModalVersion }) => {
                   src={image}
                   suffix="small"
                   className={`rounded-md p-7 hover:cursor-pointer`}
-                  onClick={() => slideTo(index)}
+                  onClick={() => setActiveIndex(index)}
                   style={{ objectFit: 'contain' }}
                   fill
                 />

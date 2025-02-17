@@ -45,7 +45,7 @@ type RedeemDiscountCodePayload = {
 };
 
 type RemoveDiscountCodePayload = {
-  discountId: string;
+  discountCodeId: string;
 };
 
 type CheckoutCartPayload = {

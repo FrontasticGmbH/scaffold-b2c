@@ -65,7 +65,7 @@ const AccountForm: FC<AccountFormProps> = ({
             <div className="mt-24 grid items-center justify-between gap-32 md:flex md:gap-16">
               {requiredLabelIsVisible && (
                 <Typography className="text-14 leading-[114%] text-secondary-black">
-                  {formatMessage({ id: 'required.field', defaultMessage: '* required field' })}
+                  {formatMessage({ id: 'field.required', defaultMessage: '* required field' })}
                 </Typography>
               )}
 

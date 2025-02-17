@@ -110,9 +110,14 @@ export const lineItems: LineItem[] = [
         currencyCode: 'USD',
       },
       discountedPrice: {
-        fractionDigits: 2,
-        centAmount: 215910,
-        currencyCode: 'USD',
+        value: {
+          fractionDigits: 2,
+          centAmount: 215910,
+          currencyCode: 'USD',
+        },
+        discount: {
+          discountValue: { type: 'relative', value: 50 },
+        },
       },
       isOnStock: true,
     },
@@ -278,9 +283,14 @@ export const products: Product[] = [
           currencyCode: 'USD',
         },
         discountedPrice: {
-          fractionDigits: 2,
-          centAmount: 215910,
-          currencyCode: 'USD',
+          value: {
+            fractionDigits: 2,
+            centAmount: 215910,
+            currencyCode: 'USD',
+          },
+          discount: {
+            discountValue: { type: 'relative', value: 50 },
+          },
         },
         isOnStock: true,
       },

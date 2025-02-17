@@ -1,5 +1,5 @@
 import { ImageProps } from 'components/commercetools-ui/atoms/image';
-import { Cart, Discount, LineItem as CartLineItem } from 'types/entity/cart';
+import { Cart, DiscountCode, LineItem as CartLineItem } from 'types/entity/cart';
 import { Category } from 'types/entity/category';
 import { Product } from 'types/entity/product';
 import { Wishlist, LineItem as WishlistLineItem } from 'types/entity/wishlist';
@@ -48,7 +48,7 @@ export interface EmptyStateProps {
 export interface HeaderProps extends EmptyStateProps {
   cart?: Cart;
   onApplyDiscountCode?: (code: string) => Promise<void>;
-  onRemoveDiscountCode?: (discount: Discount) => Promise<void>;
+  onRemoveDiscountCode?: (discount: DiscountCode) => Promise<void>;
   isEmpty?: boolean;
   totalCartItems?: number;
   totalWishlistItems?: number;

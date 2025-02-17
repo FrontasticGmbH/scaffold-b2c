@@ -1,5 +1,6 @@
 import { Request } from '@frontastic/extension-types';
 import { ValidationError } from '@Commerce-commercetools/errors/ValidationError';
+import parseQueryParams from '@Commerce-commercetools/utils/parseRequestParams';
 
 enum requestHeaders {
   'commercetoolsFrontendPath' = 'commercetools-frontend-path',
@@ -55,6 +56,17 @@ const getHeader = (request: Request, headers: string[]): string | null => {
       }
       return foundHeader;
     }
+  }
+
+  return null;
+};
+
+export const getAccountGroupId = (request: Request): string | null => {
+  if (request !== undefined) {
+    const { accountGroupId } = parseQueryParams<{
+      accountGroupId: string;
+    }>(request.query);
+    return accountGroupId ?? request.sessionData?.account?.accountGroupId;
   }
 
   return null;

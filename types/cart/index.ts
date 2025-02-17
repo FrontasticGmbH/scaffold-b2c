@@ -1,5 +1,23 @@
 import { Cart } from './Cart';
-import { Discount, DiscountedPricePerCount } from './Discount';
+import {
+  AbsoluteDiscountValue,
+  CartDiscount,
+  CartDiscountValue,
+  DirectDiscount,
+  DiscountCode,
+  DiscountCodeState,
+  DiscountedPortion,
+  DiscountedPrice,
+  DiscountedPricePerCount,
+  DiscountOnTotalPrice,
+  DiscountType,
+  FixedDiscountValue,
+  GiftLineItemDiscountValue,
+  ProductDiscount,
+  ProductDiscountedPrice,
+  ProductDiscountValue,
+  RelativeDiscountValue,
+} from './Discount';
 import { LineItem } from './LineItem';
 import { Order, ShipmentState, OrderState } from './Order';
 import { Payment, PaymentStatuses } from './Payment';
@@ -13,8 +31,6 @@ import { TaxRate } from './TaxRate';
 
 export {
   type Cart,
-  type Discount,
-  type DiscountedPricePerCount,
   type LineItem,
   type Order,
   type OrderState,
@@ -28,4 +44,21 @@ export {
   type Tax,
   type TaxPortion,
   type TaxRate,
+  type ProductDiscount,
+  type CartDiscount,
+  type ProductDiscountedPrice,
+  type ProductDiscountValue,
+  type DiscountOnTotalPrice,
+  type DiscountedPricePerCount,
+  type DirectDiscount,
+  type DiscountCode,
+  type DiscountedPrice,
+  type DiscountedPortion,
+  type DiscountType,
+  type DiscountCodeState,
+  type CartDiscountValue,
+  type AbsoluteDiscountValue,
+  type RelativeDiscountValue,
+  type FixedDiscountValue,
+  type GiftLineItemDiscountValue,
 };
