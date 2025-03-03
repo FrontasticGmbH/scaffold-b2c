@@ -29,20 +29,20 @@ const OrderInfoSection: FC<Props> = ({ order, shippingInfo, paymentInfo, shippin
       </div>
 
       <div className="flex 2xl:pl-0">
-        <Typography className="whitespace-nowrap text-14 text-secondary-black md:text-16">
+        <Typography className="whitespace-nowrap text-14 text-gray-600 md:text-16">
           {formatOrdersMessage({
             id: 'shipping.method',
             defaultMessage: 'Shipping method:',
           })}
         </Typography>
 
-        <Typography className="pl-8 text-14 font-medium text-primary-black md:pl-20 md:text-16 2xl:whitespace-nowrap 2xl:pl-44">
+        <Typography className="pl-8 text-14 font-medium text-primary md:pl-20 md:text-16 2xl:whitespace-nowrap 2xl:pl-44">
           {shippingInfo}
         </Typography>
       </div>
 
       <div className="mt-24 flex 2xl:pl-0">
-        <Typography className="whitespace-nowrap text-14 text-secondary-black md:text-16">
+        <Typography className="whitespace-nowrap text-14 text-gray-600 md:text-16">
           {formatOrdersMessage({
             id: 'shipping.address',
             defaultMessage: 'Shipping address:',
@@ -50,14 +50,14 @@ const OrderInfoSection: FC<Props> = ({ order, shippingInfo, paymentInfo, shippin
         </Typography>
 
         <div className="pl-8 md:pl-20 2xl:pl-44">
-          <Typography className="pb-8 text-14 font-medium text-primary-black md:text-16">
+          <Typography className="pb-8 text-14 font-medium text-primary md:text-16">
             {`${shippingAddress.firstName} ${shippingAddress.lastName}`}
           </Typography>
-          <Typography className="text-14 text-primary-black md:text-16">
+          <Typography className="text-14 text-primary md:text-16">
             {`${shippingAddress.streetName}, ${shippingAddress.city}, ${shippingAddress.postalCode}`}
           </Typography>
           {shippingAddress.additionalAddressInfo && (
-            <Typography className="mt-8 text-14 text-primary-black md:text-16">
+            <Typography className="mt-8 text-14 text-primary md:text-16">
               {shippingAddress.additionalAddressInfo}
             </Typography>
           )}
@@ -65,14 +65,14 @@ const OrderInfoSection: FC<Props> = ({ order, shippingInfo, paymentInfo, shippin
       </div>
 
       <div className="mt-32 flex 2xl:pl-0">
-        <Typography className="whitespace-nowrap text-14 text-secondary-black md:text-16">
+        <Typography className="whitespace-nowrap text-14 text-gray-600 md:text-16">
           {formatOrdersMessage({
             id: 'payment.method',
             defaultMessage: 'Payment method:',
           })}
         </Typography>
 
-        <Typography className="pl-8 text-14 font-medium uppercase text-primary-black md:pl-20 md:text-16 2xl:pl-44">
+        <Typography className="pl-8 text-14 font-medium uppercase text-primary md:pl-20 md:text-16 2xl:pl-44">
           {paymentInfo}
         </Typography>
       </div>
@@ -119,7 +119,7 @@ const OrderInfoSection: FC<Props> = ({ order, shippingInfo, paymentInfo, shippin
           )}
         </div>
 
-        <Typography className="mt-40 w-full text-center text-14 text-primary-black md:text-16 lg:text-left 2xl:text-left">
+        <Typography className="mt-40 w-full text-center text-14 text-primary md:text-16 lg:text-left 2xl:text-left">
           {formatOrdersMessage({
             id: 'questions',
             defaultMessage: 'Do you have questions about your order?',
@@ -127,7 +127,7 @@ const OrderInfoSection: FC<Props> = ({ order, shippingInfo, paymentInfo, shippin
         </Typography>
 
         <Link link={'?hash=support'} className="mt-16 flex cursor-pointer">
-          <Typography className="w-full text-center text-14 font-medium text-primary-black hover:underline md:text-16 lg:text-left 2xl:text-left">
+          <Typography className="w-full text-center text-14 font-medium text-primary hover:underline md:text-16 lg:text-left 2xl:text-left">
             {formatOrdersMessage({
               id: 'contact.support',
               defaultMessage: 'Contact customer support',

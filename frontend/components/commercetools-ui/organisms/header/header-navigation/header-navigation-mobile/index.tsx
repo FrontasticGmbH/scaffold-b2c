@@ -47,13 +47,13 @@ const HeaderNavigationMobile: FC<Props> = ({ links, logo, logoLink }) => {
         title={formatMessage({ id: 'header.menu.open', defaultMessage: 'Open side menu' })}
         className="mr-8"
       >
-        <Bars3Icon className="w-30 text-secondary-black lg:w-48" />
+        <Bars3Icon className="w-30 text-gray-600 lg:w-48" />
       </Button>
 
       <Drawer
         isOpen={showMenu}
         direction="left"
-        className="w-4/5 border border-neutral-400 bg-neutral-100"
+        className="w-4/5 border border-neutral-400 bg-white"
         onClose={hideHeaderMenu}
       >
         <MobileMenuHeader

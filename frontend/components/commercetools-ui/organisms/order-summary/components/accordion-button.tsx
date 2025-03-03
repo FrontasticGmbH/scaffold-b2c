@@ -25,7 +25,7 @@ const AccordionButton: FC<AccordionButtonProps> = ({ open, toggleAccordion, tota
   return (
     <div>
       <div className={accordionContentClassNames} onClick={toggleAccordion}>
-        <Typography className="text-secondary-black">
+        <Typography className="text-gray-600">
           {formatOrdersMessage({
             id: 'your.order',
             defaultMessage: 'Your Order',
@@ -33,7 +33,7 @@ const AccordionButton: FC<AccordionButtonProps> = ({ open, toggleAccordion, tota
         </Typography>
 
         <div className="flex">
-          <Typography className="hidden pr-8 font-medium text-primary-black md:block">
+          <Typography className="hidden pr-8 font-medium text-primary md:block">
             {CurrencyHelpers.formatForCurrency(total)}
           </Typography>
           <ChevronDownIcon width={20} strokeWidth={1.5} className={arrowClassNames} />

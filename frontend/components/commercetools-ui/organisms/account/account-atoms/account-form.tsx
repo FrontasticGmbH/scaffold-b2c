@@ -49,13 +49,11 @@ const AccountForm: FC<AccountFormProps> = ({
 
   return (
     <form className={formClassName} onSubmit={handleSubmit}>
-      <Typography className="text-16 text-primary-black md:mb-28 md:text-24">{title}</Typography>
+      <Typography className="text-16 text-primary md:mb-28 md:text-24">{title}</Typography>
 
       <div className="relative border-neutral-400 pb-8 pt-24 md:border md:p-32 md:pr-68">
         {subtitle && (
-          <Typography className="mb-28 text-14 leading-loose text-primary-black md:mb-40 md:text-16">
-            {subtitle}
-          </Typography>
+          <Typography className="mb-28 text-14 leading-loose text-primary md:mb-40 md:text-16">{subtitle}</Typography>
         )}
 
         <div className={containerClassNames}>
@@ -64,7 +62,7 @@ const AccountForm: FC<AccountFormProps> = ({
           {defaultCTASection && (
             <div className="mt-24 grid items-center justify-between gap-32 md:flex md:gap-16">
               {requiredLabelIsVisible && (
-                <Typography className="text-14 leading-[114%] text-secondary-black">
+                <Typography className="text-14 leading-[114%] text-gray-600">
                   {formatMessage({ id: 'field.required', defaultMessage: '* required field' })}
                 </Typography>
               )}

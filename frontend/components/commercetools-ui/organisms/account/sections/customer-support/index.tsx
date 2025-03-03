@@ -30,7 +30,7 @@ const CustomerSupport: React.FC<Props> = ({
   return (
     <div className="mt-20 px-16 md:px-24 lg:mt-38 lg:px-44">
       <div className="hidden pb-12 md:block">
-        <Typography as="h2" className="text-22 text-primary-black lg:text-24">
+        <Typography as="h2" className="text-22 text-primary lg:text-24">
           {formatCustomerSupportMessage({
             id: 'customer.support',
             defaultMessage: 'Customer support',
@@ -38,7 +38,7 @@ const CustomerSupport: React.FC<Props> = ({
         </Typography>
       </div>
       <div className="py-16">
-        <Typography className="text-secondary-black">
+        <Typography className="text-gray-600">
           {formatCustomerSupportMessage({ id: 'help.question', defaultMessage: 'How can we help you today?' })}
         </Typography>
       </div>

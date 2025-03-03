@@ -1,6 +1,6 @@
 import React, { useContext } from 'react';
 import { useRouter } from 'next/navigation';
-import { Popover } from '@headlessui/react';
+import { PopoverButton } from '@headlessui/react';
 import Link from 'components/commercetools-ui/atoms/link';
 import Typography from 'components/commercetools-ui/atoms/typography';
 import { AccountContext } from 'context/account';
@@ -17,29 +17,29 @@ const LoggedIn = () => {
 
   return (
     <div className="w-235 p-14">
-      <Popover.Button className="w-full" tabIndex={-1}>
+      <PopoverButton className="w-full" tabIndex={-1}>
         <Link link="/account#" className="mt-10 block w-fit">
-          <Typography className="text-primary-black hover:underline">
+          <Typography className="text-primary hover:underline">
             {formatAccountMessage({ id: 'my.account', defaultMessage: 'My Account' })}
           </Typography>
         </Link>
-      </Popover.Button>
+      </PopoverButton>
 
-      <Popover.Button className="w-full" tabIndex={-1}>
+      <PopoverButton className="w-full" tabIndex={-1}>
         <Link link="/account/?hash=support" className="mt-32 block w-fit">
-          <Typography className="text-primary-black hover:underline">
+          <Typography className="text-primary hover:underline">
             {formatAccountMessage({ id: 'customer.support', defaultMessage: 'Customer support' })}
           </Typography>
         </Link>
-      </Popover.Button>
+      </PopoverButton>
 
-      <Popover.Button className="mt-32 block w-full pb-10" tabIndex={-1}>
+      <PopoverButton className="mt-32 block w-full pb-10" tabIndex={-1}>
         <button onClick={handleLogout} className="w-full text-left">
-          <Typography className="text-16 text-primary-black hover:underline">
+          <Typography className="text-16 text-primary hover:underline">
             {formatAccountMessage({ id: 'sign.out', defaultMessage: 'Sign out' })}
           </Typography>
         </button>
-      </Popover.Button>
+      </PopoverButton>
     </div>
   );
 };

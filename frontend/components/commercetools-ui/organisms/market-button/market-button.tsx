@@ -26,7 +26,7 @@ const MarketButton = () => {
       {selectedLocation && selectedLanguage && (
         <Button variant="ghost" size="fit" onClick={showMarketMenu} className="flex w-fit items-center">
           <FlagIcons flagName={selectedLocation?.flagName} className="mr-3 h-16 w-24" />
-          <Typography className="ml-5 text-14 font-normal text-neutral-100 hover:underline">
+          <Typography className="ml-5 text-14 font-normal text-white hover:underline">
             {selectedLocation.name}
           </Typography>
         </Button>
@@ -39,7 +39,7 @@ const MarketButton = () => {
         onClose={hideMarketMenu}
       >
         <div className="flex w-full items-center justify-between border-b border-neutral-400 px-16 py-20">
-          <Typography as="h5" className="text-22 text-primary-black">
+          <Typography as="h5" className="text-22 text-primary">
             {formatMessage({ id: 'select.country', defaultMessage: 'Select your country' })}
           </Typography>
           <Button
@@ -48,12 +48,12 @@ const MarketButton = () => {
             title={formatMessage({ id: 'close', defaultMessage: 'Close' })}
             className="p-0"
           >
-            <XMarkIcon className="w-28 text-secondary-black" />
+            <XMarkIcon className="w-28 text-gray-600" />
           </Button>
         </div>
 
         <div className="pt-20">
-          <Typography className="ml-5 px-12 text-14 font-semibold text-gray-800">
+          <Typography className="ml-5 px-12 text-14 font-semibold text-gray-700">
             {formatMessage({ id: 'shop.ship.title', defaultMessage: 'Shop and ship to' })}
           </Typography>
           {locations.map((location) => (
@@ -65,12 +65,12 @@ const MarketButton = () => {
             >
               {selectedLocation?.value === location.value && <CheckIcon className="ml-5 mr-11 w-20" />}
               <FlagIcons flagName={location.flagName} className="mr-8 h-20 w-32" />
-              <Typography className="font-normal text-primary-black">{location.label}</Typography>
+              <Typography className="font-normal text-primary">{location.label}</Typography>
             </Button>
           ))}
           {selectedLocation?.languages && selectedLocation.languages.length > 0 && (
             <div className="pt-5">
-              <Typography className="ml-5 px-12 text-14 font-semibold text-gray-800">
+              <Typography className="ml-5 px-12 text-14 font-semibold text-gray-700">
                 {formatMessage({ id: 'language', defaultMessage: 'Language' })}
               </Typography>
               {selectedLocation?.languages.map((language) => (
@@ -83,7 +83,7 @@ const MarketButton = () => {
                   {language.value === (selectedLanguage?.value ?? selectedLocation?.defaultLanguage) && (
                     <CheckIcon className="ml-5 mr-11 w-20" />
                   )}
-                  <Typography className="font-normal text-primary-black">{language.name}</Typography>
+                  <Typography className="font-normal text-primary">{language.name}</Typography>
                 </Button>
               ))}
             </div>

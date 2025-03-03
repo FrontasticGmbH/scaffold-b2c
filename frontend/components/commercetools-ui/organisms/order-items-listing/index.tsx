@@ -29,7 +29,7 @@ const OrderItemsListing: FC<OrderItemsListingProps> = ({ className, lineItems })
       {lineItems.length === 1 ? (
         <div className={containerClassName}>
           <div className="border-b pb-16">
-            <Typography className="text-secondary-black">
+            <Typography className="text-gray-600">
               {formatOrdersMessage({
                 id: 'your.order',
                 defaultMessage: 'Your Order',

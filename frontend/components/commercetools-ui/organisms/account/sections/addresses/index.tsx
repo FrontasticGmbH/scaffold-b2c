@@ -56,7 +56,7 @@ const Addresses = () => {
   return (
     <div className="mt-20 px-16 md:px-24 lg:mt-40 lg:px-44">
       <div className="hidden pb-12 md:block md:pb-20 2xl:pb-36">
-        <Typography as="h2" className="text-22 text-primary-black lg:text-24">
+        <Typography as="h2" className="text-22 text-primary lg:text-24">
           {formatAccountMessage({
             id: 'addresses',
             defaultMessage: 'Addresses',
@@ -64,7 +64,7 @@ const Addresses = () => {
         </Typography>
       </div>
       <div>
-        <Typography className="mb-28 text-14 leading-loose text-secondary-black md:mb-24 md:text-16 2xl:mb-36">
+        <Typography className="mb-28 text-14 leading-loose text-gray-600 md:mb-24 md:text-16 2xl:mb-36">
           {formatAccountMessage({
             id: 'address.desc',
             defaultMessage: 'Manage or add addresses for your account.',

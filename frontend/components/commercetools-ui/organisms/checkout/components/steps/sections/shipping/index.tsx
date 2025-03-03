@@ -62,7 +62,7 @@ const Shipping: React.FC<Props> = ({ goToNextStep }) => {
               <Radio name="checkout-shipping-method" checked={shippingMethod.shippingMethodId === selectedId} />
               <div>
                 <p className="text-14 font-medium">{shippingMethod.name}</p>
-                <p className="mt-4 text-14 text-secondary-black">
+                <p className="mt-4 text-14 text-gray-600">
                   Est: {getEstimatedDate(+(shippingMethod.description ?? 0))}
                 </p>
               </div>

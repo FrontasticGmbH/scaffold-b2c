@@ -2,6 +2,8 @@ import React, { useRef, useState } from 'react';
 import HeaderNavigationButtonDesktop from 'components/commercetools-ui/organisms/header/header-navigation/header-navigation-desktop/header-navigation-button';
 import { Tile } from 'components/commercetools-ui/organisms/header/types';
 import useClassNames from 'helpers/hooks/useClassNames';
+import { useFocusOutside } from 'helpers/hooks/useFocusOutside';
+import useOnClickOutside from 'helpers/hooks/useOnClickOutside';
 import useScrollDirection from 'helpers/hooks/useScrollDirection';
 import { Category } from 'types/entity/category';
 import MenuDropdown from './menu-dropdown';
@@ -32,14 +34,14 @@ const HeaderNavigationDesktop: React.FC<Props> = ({ links, tiles }) => {
     }
   };
 
-  const handleMouseIn = (category: Category) => {
+  const focusMenu = (category: Category) => {
     clearShowTimeout();
     if (activeCategory)
       showSubMenu(category); //Already opened do not delay
     else showTimeout.current = setTimeout(() => showSubMenu(category), 500);
   };
 
-  const handleMouseOut = () => {
+  const blurMenu = () => {
     clearShowTimeout();
     hideSubMenu();
   };
@@ -50,13 +52,16 @@ const HeaderNavigationDesktop: React.FC<Props> = ({ links, tiles }) => {
     scrollDirection === 'down' ? 'h-0 opacity-0 pointer-events-none' : 'h-52 opacity-1 pointer-events-auto',
   ]);
 
+  const { ref } = useFocusOutside(blurMenu);
+  useOnClickOutside(ref, blurMenu);
+
   return (
     <div>
       {links && (
-        <div className={navigationClassNames} onMouseLeave={handleMouseOut}>
+        <div className={navigationClassNames} onMouseLeave={blurMenu} ref={ref}>
           <div className="flex w-fit justify-start">
             {links.map((link) => (
-              <div key={link?.categoryId} onMouseEnter={() => handleMouseIn(link)}>
+              <div key={link?.categoryId} onMouseEnter={() => focusMenu(link)} onFocus={() => focusMenu(link)}>
                 <HeaderNavigationButtonDesktop
                   show={link.categoryId === activeCategory?.categoryId}
                   link={link}

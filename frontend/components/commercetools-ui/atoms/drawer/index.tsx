@@ -1,5 +1,5 @@
 import React, { useEffect, useRef } from 'react';
-import { Transition } from '@headlessui/react';
+import { Transition, TransitionChild } from '@headlessui/react';
 import useClassNames from 'helpers/hooks/useClassNames';
 import useOnClickOutside from 'helpers/hooks/useOnClickOutside';
 import useScrollBlock from 'helpers/hooks/useScrollBlock';
@@ -76,7 +76,8 @@ const Drawer = ({
       {isOpen && <Overlay />}
 
       <Transition show={isOpen}>
-        <Transition.Child
+        <TransitionChild
+          as="div"
           enter="ease-out"
           enterFrom={drawerTransitions[direction].enterFrom}
           enterTo={drawerTransitions[direction].enterTo}
@@ -88,7 +89,7 @@ const Drawer = ({
           <div ref={ref} className="h-full">
             <div className="flex h-full flex-col items-stretch">{children}</div>
           </div>
-        </Transition.Child>
+        </TransitionChild>
       </Transition>
     </>
   );

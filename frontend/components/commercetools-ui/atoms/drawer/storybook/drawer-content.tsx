@@ -36,7 +36,7 @@ const DrawerContent = () => {
 
       <div className="mt-32 w-full">
         <button
-          className="rounded-md bg-primary-black px-16 py-8 text-white transition hover:bg-neutral-500"
+          className="rounded-md bg-primary px-16 py-8 text-white transition hover:bg-neutral-500"
           onClick={() => setIsOpenLeftMenu(!isOpenLeftMenu)}
         >
           Open left drawer
@@ -50,7 +50,7 @@ const DrawerContent = () => {
 
       <div className="mt-20 w-full">
         <button
-          className="rounded-md bg-primary-black px-16 py-8 text-white transition hover:bg-neutral-500"
+          className="rounded-md bg-primary px-16 py-8 text-white transition hover:bg-neutral-500"
           onClick={() => setIsOpenRightMenu(!isOpenRightMenu)}
         >
           Open right drawer
@@ -64,7 +64,7 @@ const DrawerContent = () => {
 
       <div className="mt-20 w-full">
         <button
-          className="rounded-md bg-primary-black px-16 py-8 text-white transition hover:bg-neutral-500"
+          className="rounded-md bg-primary px-16 py-8 text-white transition hover:bg-neutral-500"
           onClick={() => setIsOpenTopMenu(!isOpenTopMenu)}
         >
           Open top drawer
@@ -78,7 +78,7 @@ const DrawerContent = () => {
 
       <div className="mt-20 w-full">
         <button
-          className="rounded-md bg-primary-black px-16 py-8 text-white transition hover:bg-neutral-500"
+          className="rounded-md bg-primary px-16 py-8 text-white transition hover:bg-neutral-500"
           onClick={() => setIsOpenBottomMenu(!isOpenBottomMenu)}
         >
           Open bottom drawer
@@ -100,7 +100,7 @@ const DrawerContent = () => {
 
       <div className="mt-24 w-full">
         <button
-          className="rounded-md bg-primary-black px-16 py-8 text-white transition hover:bg-neutral-500"
+          className="rounded-md bg-primary px-16 py-8 text-white transition hover:bg-neutral-500"
           onClick={() => setIsOpenModal(!isOpenModal)}
         >
           Open modal
@@ -118,30 +118,21 @@ const DrawerContent = () => {
       </Typography>
 
       <div className="mt-24 w-full">
-        <button
-          onClick={() => showToast('success')}
-          className="rounded-md border border-secondary-black p-8 hover:shadow-300"
-        >
+        <button onClick={() => showToast('success')} className="rounded-md border border-gray-600 p-8 hover:shadow-300">
           Make a Success Toast
         </button>
         <Toaster />
       </div>
 
       <div className="mt-20 w-full">
-        <button
-          onClick={() => showToast('info')}
-          className="rounded-md border border-secondary-black p-8 hover:shadow-300"
-        >
+        <button onClick={() => showToast('info')} className="rounded-md border border-gray-600 p-8 hover:shadow-300">
           Make an Info Toast
         </button>
         <Toaster />
       </div>
 
       <div className="mt-20 w-full">
-        <button
-          onClick={() => showToast('error')}
-          className="rounded-md border border-secondary-black p-8 hover:shadow-300"
-        >
+        <button onClick={() => showToast('error')} className="rounded-md border border-gray-600 p-8 hover:shadow-300">
           Make an Error Toast
         </button>
         <Toaster />

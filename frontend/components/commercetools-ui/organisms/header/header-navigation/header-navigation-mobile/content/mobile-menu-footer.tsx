@@ -69,7 +69,7 @@ const MobileMenuFooter: FC<Props> = ({ showMenu, hideHeaderMenu, insertCategory 
       ) : (
         <div className="ml-24 mr-22 block py-16 md:hidden">
           <Link link="/help" onClick={hideHeaderMenu} className="py-16">
-            <Typography className="text-14 text-primary-black">
+            <Typography className="text-14 text-primary">
               {formatMessage({ id: 'help.and.support', defaultMessage: 'Help & Customer Service' })}
             </Typography>
           </Link>{' '}
@@ -79,13 +79,13 @@ const MobileMenuFooter: FC<Props> = ({ showMenu, hideHeaderMenu, insertCategory 
       <div className="mx-24 flex py-16">
         {account ? (
           <Button variant="ghost" size="fit" onClick={handleLogout}>
-            <Typography className="font-normal text-primary-black">
+            <Typography className="font-normal text-primary">
               {formatAccountMessage({ id: 'sign.out', defaultMessage: 'Sign out' })}
             </Typography>
           </Button>
         ) : (
           <Link link="/login" onClick={hideHeaderMenu} className="px-0">
-            <Typography className="text-14 font-normal text-primary-black">
+            <Typography className="text-14 font-normal text-primary">
               {formatAccountMessage({ id: 'sign.in', defaultMessage: 'Sign in' })}
             </Typography>
           </Link>

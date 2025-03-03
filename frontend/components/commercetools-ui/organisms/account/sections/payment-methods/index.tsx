@@ -40,7 +40,7 @@ const PaymentMethods = () => {
   return (
     <div className="px-16 md:mt-24 md:px-24 lg:mt-40 lg:px-44">
       <div className="hidden md:block">
-        <Typography as="h2" className="text-18 text-primary-black md:text-22 lg:text-24">
+        <Typography as="h2" className="text-18 text-primary md:text-22 lg:text-24">
           {formatPaymentMessage({
             id: 'payment.methods',
             defaultMessage: 'Payment methods',
@@ -48,7 +48,7 @@ const PaymentMethods = () => {
         </Typography>
       </div>
       <div className="mt-20 lg:mt-36">
-        <Typography as="h2" className="text-14 text-secondary-black md:text-16">
+        <Typography as="h2" className="text-14 text-gray-600 md:text-16">
           {formatPaymentMessage({
             id: 'payment.details',
             defaultMessage: 'Delete or add payment methods.',

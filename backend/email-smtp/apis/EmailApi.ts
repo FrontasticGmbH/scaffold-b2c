@@ -1,6 +1,6 @@
 import * as nodemailer from 'nodemailer';
 import SMTPTransport from 'nodemailer/lib/smtp-transport';
-import { Context, Project } from '@frontastic/extension-types';
+import { Context } from '@frontastic/extension-types';
 import { Account } from '@Types/account/Account';
 import { Order } from '@Types/cart/Order';
 import { SmtpConfig } from '../interfaces/SmtpConfig';
@@ -37,11 +37,11 @@ export class EmailApi {
     });
   }
 
-  protected getSmtpConfigValue(key: string, context: Context) {
+  protected getSmtpConfigValue(key: string, context: Context, defaultValue?: string) {
     let value = getFromProjectConfig(`EXTENSION_SMTP_${key}`, context);
 
     if (!value) {
-      value = context.project.configuration?.smtp?.[key.toLowerCase()];
+      value = context.project.configuration?.smtp?.[key.toLowerCase()] ?? defaultValue;
     }
 
     if (!value) {
@@ -61,7 +61,11 @@ export class EmailApi {
       user: this.getSmtpConfigValue('USER', context),
       password: this.getSmtpConfigValue('PASSWORD', context),
       sender: this.getSmtpConfigValue('SENDER', context),
-      client_host: this.getSmtpConfigValue('CLIENT_HOST', context),
+      client_host: this.getSmtpConfigValue(
+        'CLIENT_HOST',
+        context,
+        `https://${context.project.projectId}-${context.project.customer}.frontend.site`,
+      ),
     };
 
     return smtpConfig;

@@ -18,8 +18,8 @@ const WishlistButton: FC<WishlistButtonProps> = ({ lineItem, className, data, re
   const onWishlist = !!data?.lineItems?.find(({ variant }) => variant?.sku === lineItem.variant?.sku);
 
   const pathClassNames = useClassNames([
-    'transition duration-150 ease-out hover:fill-accent-red hover:stroke-accent-red',
-    onWishlist ? 'fill-accent-red stroke-accent-red' : 'fill-white stroke-secondary-black',
+    'transition duration-150 ease-out hover:fill-red-500 hover:stroke-red-500',
+    onWishlist ? 'fill-red-500 stroke-red-500' : 'fill-white stroke-gray-600',
   ]);
 
   const buttonClassName = className || 'absolute top-3 right-0 h-24 w-24 cursor-pointer';

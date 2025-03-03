@@ -26,7 +26,7 @@ const PaymentPreview = () => {
 
     if (paymentData.type === 'klarna_paynow') {
       return (
-        <p className="text-14 text-secondary-black">
+        <p className="text-14 text-gray-600">
           {`${paymentData.shopperFirstName} ${paymentData.shopperLastName ?? ''}`}
           <span className="mt-8 block" />
           {paymentData.shopperEmail}

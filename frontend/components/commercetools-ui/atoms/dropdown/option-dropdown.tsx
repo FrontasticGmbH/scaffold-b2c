@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useState } from 'react';
-import { Listbox, Transition } from '@headlessui/react';
+import { Listbox, Transition, ListboxButton, ListboxOptions, ListboxOption } from '@headlessui/react';
 import { CheckIcon, ChevronDownIcon } from '@heroicons/react/24/outline';
 import { Option } from './index';
 import Typography from '../typography';
@@ -41,7 +41,7 @@ const Select: React.FC<Props> = ({
 
   const buttonClassNames = useCallback(
     (open?: boolean) => {
-      return `${error ? 'border-accent-red' : 'border-neutral-500'}
+      return `${error ? 'border-red-500' : 'border-neutral-500'}
         cursor-pointer relative flex h-[40px] cursor-default items-center rounded-sm border pl-8 pr-32 text-left
         ${
           open
@@ -58,7 +58,7 @@ const Select: React.FC<Props> = ({
     <>
       {label && (
         <div className="mb-8">
-          <Typography as="label" className={`${labelClassName} text-14 font-medium text-secondary-black`}>
+          <Typography as="label" className={`${labelClassName} text-14 font-medium text-gray-600`}>
             {required ? `${label} *` : label}
           </Typography>
         </div>
@@ -66,18 +66,13 @@ const Select: React.FC<Props> = ({
       <Listbox value={selected} onChange={handleChange}>
         {({ open }) => (
           <div className="relative w-full">
-            <Listbox.Button className={buttonClassNames(open)} data-test-error={error ? '1' : '0'}>
+            <ListboxButton className={buttonClassNames(open)} data-test-error={error ? '1' : '0'}>
               <span className="text-14">{selected?.name}</span>
               <span className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-8">
-                <ChevronDownIcon
-                  data-testid="chevron-down-icon"
-                  className="size-20 text-secondary-black"
-                  aria-hidden="true"
-                />
+                <ChevronDownIcon data-testid="chevron-down-icon" className="size-20 text-gray-600" aria-hidden="true" />
               </span>
-            </Listbox.Button>
+            </ListboxButton>
             <Transition
-              as={React.Fragment}
               enter="transition ease-out duration-100"
               enterFrom="transform origin-top scale-y-0"
               enterTo="transform origin-top scale-y-100"
@@ -85,7 +80,7 @@ const Select: React.FC<Props> = ({
               leaveFrom="transform origin-top scale-y-150"
               leaveTo="transform origin-top scale-y-0"
             >
-              <Listbox.Options
+              <ListboxOptions
                 className={(active) =>
                   `absolute top-39 z-50 max-h-200 w-full overflow-scroll rounded-b-sm border py-8 ${
                     active ? 'border-x-neutral-500 border-b-neutral-500' : 'border-neutral-400'
@@ -93,11 +88,11 @@ const Select: React.FC<Props> = ({
                 }
               >
                 {options.map((option) => (
-                  <Listbox.Option
+                  <ListboxOption
                     key={option.value}
-                    className={({ active }) =>
+                    className={({ focus }) =>
                       `relative cursor-pointer select-none py-4 pl-8 pr-4 text-14 hover:bg-neutral-200 ${
-                        active ? 'bg-neutral-200' : ''
+                        focus ? 'bg-neutral-200' : ''
                       }`
                     }
                     value={option}
@@ -114,9 +109,9 @@ const Select: React.FC<Props> = ({
                         ) : null}
                       </>
                     )}
-                  </Listbox.Option>
+                  </ListboxOption>
                 ))}
-              </Listbox.Options>
+              </ListboxOptions>
             </Transition>
           </div>
         )}

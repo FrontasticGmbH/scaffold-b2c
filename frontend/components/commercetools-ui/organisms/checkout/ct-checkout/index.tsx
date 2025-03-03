@@ -24,19 +24,20 @@ const CommercetoolsCheckout = ({ logo }: Pick<CheckoutWrappedProps, 'logo'>) => 
 
   const { locale } = useParams();
 
-  const { projectKey } = projectSettings ?? {};
+  const { projectKey, region } = projectSettings ?? {};
 
   const { session, isExpired } = useCheckout();
 
   const { account, logout } = useContext(AccountContext);
 
+  console.log(projectSettings);
   useEffect(() => {
-    if (initiatedCheckout.current || !projectKey || !session?.token) return;
+    if (initiatedCheckout.current || !projectKey || !region || !session?.token) return;
 
     initiatedCheckout.current = true;
 
     checkoutFlow({
-      region: process.env.NEXT_PUBLIC_COMMERCETOOLS_CHECKOUT_REGION,
+      region,
       projectKey,
       sessionId: session.token,
       locale,
@@ -82,7 +83,7 @@ const CommercetoolsCheckout = ({ logo }: Pick<CheckoutWrappedProps, 'logo'>) => 
         }
       },
     });
-  }, [projectKey, locale, session, pushRoute, formatCartMessage]);
+  }, [projectKey, region, locale, session, pushRoute, formatCartMessage]);
 
   const errorTriggered = useRef(false);
 

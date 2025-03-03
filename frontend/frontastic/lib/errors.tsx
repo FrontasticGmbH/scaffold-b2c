@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Disclosure } from '@headlessui/react';
+import { Disclosure, DisclosureButton, DisclosurePanel } from '@headlessui/react';
 import { ChevronDownIcon, ExclamationTriangleIcon } from '@heroicons/react/24/outline';
 import classNames from 'classnames';
 import { Log, LogError } from 'helpers/errorLogger';
@@ -28,7 +28,7 @@ export function Errors() {
   // There is some complexity here:
   //
   // If we just append the incoming error to the state we try to update the
-  // state while another componet is rendering, because the errors are appended
+  // state while another component is rendering, because the errors are appended
   // as a side effect.
   //
   // If we delay error recoding as done now using setTimeout() we will loose
@@ -80,7 +80,7 @@ export function Errors() {
                   {({ open }) => (
                     <div className="pt-6">
                       <dt className="text-lg">
-                        <Disclosure.Button className="flex w-full items-start justify-between text-left text-gray-400">
+                        <DisclosureButton className="flex w-full items-start justify-between text-left text-gray-400">
                           <span className="font-medium text-gray-900">
                             <strong>{error.type}:</strong> {getErrorMessage(error)}
                           </span>
@@ -90,13 +90,13 @@ export function Errors() {
                               aria-hidden="true"
                             />
                           </span>
-                        </Disclosure.Button>
+                        </DisclosureButton>
                       </dt>
-                      <Disclosure.Panel className="mt-2 pr-12">
+                      <DisclosurePanel className="mt-2 pr-12">
                         <p className="whitespace-pre-wrap text-base text-gray-500">
                           {JSON.stringify(error.data, null, 2)}
                         </p>
-                      </Disclosure.Panel>
+                      </DisclosurePanel>
                     </div>
                   )}
                 </Disclosure>

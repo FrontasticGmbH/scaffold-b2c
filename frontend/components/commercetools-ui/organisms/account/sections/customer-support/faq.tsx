@@ -23,11 +23,11 @@ const FAQ: React.FC<Props> = ({ faqs }) => {
           <div key={index} className="rounded-md border border-neutral-400">
             <AccordionBtn
               variant="plusAndMinus"
-              iconClassName="text-primary-black"
+              iconClassName="text-primary"
               closedSectionTitle={faq.question}
-              buttonClassName="font-medium text-16 py-20 px-16 text-primary-black"
+              buttonClassName="font-medium text-16 py-20 px-16 text-primary"
             >
-              <Typography className="pb-20 pl-16 pr-24 leading-loose text-secondary-black">{faq.answer}</Typography>
+              <Typography className="pb-20 pl-16 pr-24 leading-loose text-gray-600">{faq.answer}</Typography>
             </AccordionBtn>
           </div>
         ))}

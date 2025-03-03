@@ -81,21 +81,21 @@ const UtilitySection: React.FC<Props> = ({
         <div className="h-40 w-fit">
           <button
             aria-label={formatWishlistMessage({ id: 'myWishlist', defaultMessage: 'My wishlist' })}
-            className="relative h-fit cursor-pointer border-secondary-black pb-8 hover:border-b-2"
+            className="relative h-fit cursor-pointer border-gray-600 pb-8 hover:border-b-2"
             onClick={onWishlistClicked}
           >
-            <WishlistIcon totalWishlistItems={totalWishlistItems} className="w-28 text-secondary-black" />
+            <WishlistIcon totalWishlistItems={totalWishlistItems} className="w-28 text-gray-600" />
           </button>
         </div>
 
         <div className="h-40 w-fit">
           <button
             aria-label={formatCartMessage({ id: 'myCart', defaultMessage: 'My Cart' })}
-            className="h-fit cursor-pointer border-secondary-black pb-8 hover:border-b-2"
+            className="h-fit cursor-pointer border-gray-600 pb-8 hover:border-b-2"
             onClick={onCartClicked}
           >
             <CartIcon
-              className="w-28 text-secondary-black"
+              className="w-28 text-gray-600"
               totalCartItems={totalCartItems}
               counterClassName="-translate-y-1/4"
             />

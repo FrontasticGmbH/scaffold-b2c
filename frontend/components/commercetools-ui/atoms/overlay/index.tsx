@@ -12,7 +12,7 @@ const Overlay: React.FC<Props> = ({ zIndex, onClick }) => {
   return (
     <div
       data-testid="overlay"
-      className={useClassNames(['fixed left-0 top-0 h-screen w-screen bg-[#7f7f7f]/30', z])}
+      className={useClassNames(['fixed left-0 top-0 h-screen w-screen bg-gray-400/30', z])}
       onClick={onClick}
     />
   );

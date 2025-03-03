@@ -11,7 +11,7 @@ type FeedbackIconLayerProps = {
 
 const FeedbackIconLayer: FC<FeedbackIconLayerProps> = ({ loading, variant = 'primary' }) => {
   const variantBackgroundRef: { [key in ButtonVariant]?: string } = {
-    primary: 'bg-secondary-black',
+    primary: 'bg-gray-600',
     warning: 'bg-red-600',
   };
 

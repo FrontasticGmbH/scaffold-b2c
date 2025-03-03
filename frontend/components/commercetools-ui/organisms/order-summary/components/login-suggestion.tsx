@@ -26,7 +26,7 @@ const LoginSuggestion = ({ login, requestConfirmationEmail, requestPasswordReset
 
   return (
     <>
-      <Typography className="mt-18 border-t border-neutral-400 pt-16 text-14 leading-[20px] text-secondary-black md:text-16 lg:border-none">
+      <Typography className="mt-18 border-t border-neutral-400 pt-16 text-14 leading-[20px] text-gray-600 md:text-16 lg:border-none">
         {formatCartMessage({
           id: 'order.summary.login',
           defaultMessage: 'Log in to use your personal offers!',
@@ -49,7 +49,7 @@ const LoginSuggestion = ({ login, requestConfirmationEmail, requestPasswordReset
         closeTimeoutMS={200}
       >
         <CloseIcon
-          className="absolute right-20 top-20 size-24 cursor-pointer text-secondary-black"
+          className="absolute right-20 top-20 size-24 cursor-pointer text-gray-600"
           onClick={closeLoginModal}
         />
         <div className="p-1 pb-48 pt-72">

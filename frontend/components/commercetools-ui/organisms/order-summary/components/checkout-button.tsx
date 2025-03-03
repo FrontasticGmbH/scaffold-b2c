@@ -8,7 +8,7 @@ const CheckoutButton: FC<CheckoutButtonProps> = ({ className, link, disabled, te
       <Link link={link}>
         <button
           disabled={disabled}
-          className="w-full rounded-md bg-primary-black py-12 font-medium text-white transition hover:bg-gray-500 disabled:cursor-not-allowed disabled:bg-neutral-400"
+          className="w-full rounded-md bg-primary py-12 font-medium text-white transition hover:bg-gray-500 disabled:cursor-not-allowed disabled:bg-neutral-400"
           onClick={onClick}
         >
           {text}

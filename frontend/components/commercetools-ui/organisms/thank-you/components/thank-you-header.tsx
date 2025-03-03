@@ -18,17 +18,17 @@ const ThankYouHeader: FC<ThankYouHeaderProps> = ({ email, onPrint }) => {
       <Typography
         as="h3"
         asSkeleton={!email}
-        className={`text-primary-black md:text-18 lg:text-22 ${email ? 'leading-tight' : 'leading-loose'}`}
+        className={`text-primary md:text-18 lg:text-22 ${email ? 'leading-tight' : 'leading-loose'}`}
       >
         {formatMessage({ id: 'thank.for.order', defaultMessage: 'Thank you for your order' })}
       </Typography>
 
       {/* Subtitle */}
       <div className="flex flex-col items-center gap-5 md:flex-row">
-        <Typography asSkeleton={!email} className="text-14 leading-loose text-primary-black md:text-16">
+        <Typography asSkeleton={!email} className="text-14 leading-loose text-primary md:text-16">
           {formatMessage({ id: 'email.sent', defaultMessage: 'An email confirmation has been sent to' })}
         </Typography>
-        <Typography asSkeleton={!email} className="text-14 font-medium leading-loose text-primary-black md:text-16">
+        <Typography asSkeleton={!email} className="text-14 font-medium leading-loose text-primary md:text-16">
           {email ?? 'example@email.com'}
         </Typography>
       </div>

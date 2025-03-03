@@ -10,4 +10,5 @@ export interface ProjectSettings {
 
   languages?: string[];
   projectKey?: string;
+  region?: string;
 }

@@ -153,13 +153,13 @@ const RegisterForm: FC<RegisterFormProps> = ({ termsOfUseLink, loggedIn, registe
         </Button>
 
         <div className="flex flex-wrap items-center justify-center gap-4 px-15 md:px-30">
-          <Typography className="text-12 text-secondary-black md:text-14">
+          <Typography className="text-12 text-gray-600 md:text-14">
             {formatAccountMessage({
               id: 'by.registering',
               defaultMessage: 'By registering an account, you agree to our',
             })}
           </Typography>
-          <Link className="border-b text-12 text-secondary-black md:text-14" link={termsOfUseLink} variant="menu-item">
+          <Link className="border-b text-12 text-gray-600 md:text-14" link={termsOfUseLink} variant="menu-item">
             {formatAccountMessage({ id: 'terms.of.use', defaultMessage: 'Terms of Use.' })}
           </Link>
         </div>

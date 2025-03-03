@@ -75,7 +75,7 @@ const ResetPasswordForm: FC<ResetPasswordProps> = ({ accountLink, signInLink, re
       </Typography>
 
       <form onSubmit={handleSubmit}>
-        {error && <Typography className="mb-12 text-12 capitalize text-accent-red">{error}</Typography>}
+        {error && <Typography className="mb-12 text-12 capitalize text-red-500">{error}</Typography>}
 
         <PasswordInput
           required

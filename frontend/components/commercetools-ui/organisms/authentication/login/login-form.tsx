@@ -155,6 +155,7 @@ const LoginForm: FC<Props> = ({ login, requestConfirmationEmail, requestPassword
           id="email"
           name="email"
           type="email"
+          title={formatMessage({ id: 'emailAddress', defaultMessage: 'Email Address' })}
           autoComplete="email"
           required
           className="mb-16 md:mb-20"
@@ -167,6 +168,7 @@ const LoginForm: FC<Props> = ({ login, requestConfirmationEmail, requestPassword
             required
             id="password"
             name="password"
+            title={formatAccountMessage({ id: 'password', defaultMessage: 'Password' })}
             autoComplete="current-password"
             placeholder={formatAccountMessage({ id: 'password', defaultMessage: 'Password' })}
             className="mb-16 md:mb-20"
@@ -188,7 +190,7 @@ const LoginForm: FC<Props> = ({ login, requestConfirmationEmail, requestPassword
             />
 
             <Typography
-              className="cursor-pointer text-12 text-secondary-black hover:underline md:text-14"
+              className="cursor-pointer text-12 text-gray-600 hover:underline md:text-14"
               onClick={toResendPassword}
             >
               {formatAccountMessage({ id: 'password.forgot', defaultMessage: 'Forgot your password?' })}

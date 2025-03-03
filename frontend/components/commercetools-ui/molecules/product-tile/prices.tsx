@@ -16,7 +16,7 @@ const Prices: React.FC<Props> = ({ price, discountedPrice }) => {
     <>
       {discountedPrice ? (
         <div className="flex items-center gap-8">
-          <Typography className="text-11 font-medium leading-loose text-accent-red md:text-14">
+          <Typography className="text-11 font-medium leading-loose text-red-500 md:text-14">
             {CurrencyHelpers.formatForCurrency(discountedPrice?.value ?? '', locale)}
           </Typography>
           <Typography className="text-10 font-medium leading-loose text-gray-500 line-through md:text-12">
@@ -24,7 +24,7 @@ const Prices: React.FC<Props> = ({ price, discountedPrice }) => {
           </Typography>
         </div>
       ) : (
-        <Typography className="text-11 font-medium leading-loose text-primary-black md:text-14">
+        <Typography className="text-11 font-medium leading-loose text-primary md:text-14">
           {CurrencyHelpers.formatForCurrency(price ?? '', locale)}
         </Typography>
       )}

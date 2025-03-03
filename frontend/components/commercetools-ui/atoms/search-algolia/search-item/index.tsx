@@ -10,6 +10,7 @@ import { Product } from 'types/entity/product';
 import { Subset } from 'types/subset';
 // import useVariantWithDiscount from 'helpers/hooks/useVariantWithDiscount';
 import Link from '../../link';
+
 // import Prices from '../prices';
 
 interface Props {
@@ -46,11 +47,11 @@ const SearchItem: React.FC<Props> = ({ hit, categories, onClick }) => {
           </div>
         </div>
         <div>
-          <p className="text-16 uppercase text-primary-black">
+          <p className="text-16 uppercase text-primary">
             <Highlight attribute="name" hit={hit} highlightedTagName="span" />
           </p>
           <div className="mt-5">
-            <span className="text-14 text-secondary-black">{primaryCategory?.name}</span>
+            <span className="text-14 text-gray-600">{primaryCategory?.name}</span>
             {/* <Prices price={discountedVariant?.price ?? variant?.price} discountedPrice={discountedVariant?.price} /> */}
           </div>
         </div>

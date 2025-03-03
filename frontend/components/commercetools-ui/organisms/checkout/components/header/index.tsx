@@ -17,11 +17,7 @@ const Header: React.FC<Props> = ({ logo, totalCartItems }) => {
         </div>
       </Link>
       <Link link="/cart">
-        <CartIcon
-          className="w-28 text-secondary-black"
-          totalCartItems={totalCartItems}
-          counterClassName="-translate-y-1/4"
-        />
+        <CartIcon className="w-28 text-gray-600" totalCartItems={totalCartItems} counterClassName="-translate-y-1/4" />
       </Link>
     </div>
   );

@@ -20,12 +20,12 @@ const Template: StoryFn<typeof Search> = (args) => (
       component integrated with Algolia
     </Typography>
 
-    <Typography className="mt-36 w-2/5 text-20 font-medium text-primary-black">Default Search</Typography>
+    <Typography className="mt-36 w-2/5 text-20 font-medium text-primary">Default Search</Typography>
 
     <div className="mt-20 w-[70%]">
       <Search {...args} />
     </div>
-    <Typography className="mt-36 w-2/5 text-20 font-medium text-primary-black">Algolia Search</Typography>
+    <Typography className="mt-36 w-2/5 text-20 font-medium text-primary">Algolia Search</Typography>
     <Typography className="mt-12 w-3/5 leading-loose text-neutral-700">
       The search component integrated with Algolia.
     </Typography>

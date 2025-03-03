@@ -88,7 +88,7 @@ const ShippingSection = ({ shippingMethods }: { shippingMethods?: ShippingMethod
             </div>
             <div className="grid">
               <Typography
-                className="text-14 font-medium leading-loose text-primary-black hover:cursor-pointer"
+                className="text-14 font-medium leading-loose text-primary hover:cursor-pointer"
                 onClick={() => updateToggledSectionId(shippingMethodId)}
               >
                 {name}
@@ -113,16 +113,16 @@ const ShippingSection = ({ shippingMethods }: { shippingMethods?: ShippingMethod
                   onClick={() => updateToggledSectionId(shippingMethodId)}
                   className="flex gap-4 hover:cursor-pointer"
                 >
-                  <Typography className="text-14 leading-loose text-secondary-black">
+                  <Typography className="text-14 leading-loose text-gray-600">
                     {getEstimationPhrase(Number(description))}
                   </Typography>
-                  <Typography className="text-14 leading-loose text-secondary-black underline hover:cursor-pointer">
+                  <Typography className="text-14 leading-loose text-gray-600 underline hover:cursor-pointer">
                     {usedPostCode}
                   </Typography>
                 </div>
               ) : (
                 <Typography
-                  className="text-14 leading-loose text-secondary-black underline hover:cursor-pointer"
+                  className="text-14 leading-loose text-gray-600 underline hover:cursor-pointer"
                   onClick={() => updateToggledSectionId(shippingMethodId)}
                 >
                   {formatMessage({ id: 'add.postcode', defaultMessage: 'Add postcode for availability' })}
@@ -130,7 +130,7 @@ const ShippingSection = ({ shippingMethods }: { shippingMethods?: ShippingMethod
               )}
             </div>
             {configured && (
-              <Typography className="ml-auto flex items-center text-14 font-medium leading-loose text-primary-black">
+              <Typography className="ml-auto flex items-center text-14 font-medium leading-loose text-primary">
                 {CurrencyHelpers.formatForCurrency(getRateToUse(rates)?.price ?? 0, locale)}
               </Typography>
             )}

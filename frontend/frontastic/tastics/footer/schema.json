@@ -171,6 +171,11 @@
           "type": "group",
           "fields": [
             {
+              "label": "Title",
+              "field": "title",
+              "type": "text"
+            },
+            {
               "label": "Logo Icon",
               "field": "logo",
               "type": "media"

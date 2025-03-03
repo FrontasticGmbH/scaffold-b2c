@@ -33,10 +33,10 @@ const DeleteModal: FC<DeleteModalProps> = ({ modalIsOpen, loading, closeModal, h
         />
 
         <div className="m-auto grid h-full place-content-center gap-24">
-          <Typography as="h3" className="text-center text-20 font-medium text-primary-black">
+          <Typography as="h3" className="text-center text-20 font-medium text-primary">
             {formatAccountMessage({ id: 'delete.address', defaultMessage: 'Delete address' })}
           </Typography>
-          <Typography as="p" className="text-center text-secondary-black">
+          <Typography as="p" className="text-center text-gray-600">
             {formatAccountMessage({ id: 'action.warning', defaultMessage: 'This action can not be undone.' })}
           </Typography>
 

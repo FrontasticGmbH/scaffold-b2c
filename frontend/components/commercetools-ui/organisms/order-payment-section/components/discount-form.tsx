@@ -30,8 +30,8 @@ const DiscountForm: React.FC<Props> = ({
   const [processing, setProcessing] = useState(false);
 
   const inputClassName = useClassNames([
-    'h-40 w-full border rounded-sm px-10 py-12 text-14 placeholder:text-secondary-black disabled:bg-neutral-300 focus:outline-none',
-    codeIsInvalid ? 'border-accent-red text-accent-red focus:border-accent-red' : 'border-neutral-300',
+    'h-40 w-full border rounded-sm px-10 py-12 text-14 placeholder:text-gray-600 disabled:bg-neutral-300 focus:outline-none',
+    codeIsInvalid ? 'border-red-500 text-red-500 focus:border-red-500' : 'border-neutral-300',
   ]);
 
   const discountsContainerClassName = useClassNames([
@@ -92,7 +92,7 @@ const DiscountForm: React.FC<Props> = ({
     <div className={containerClassName}>
       <AccordionBtn
         closedSectionTitle={formatCartMessage({ id: 'discount.apply', defaultMessage: 'Apply a discount' })}
-        buttonClassName="text-secondary-black"
+        buttonClassName="text-gray-600 "
         {...accordionProps}
       >
         <div>
@@ -121,7 +121,7 @@ const DiscountForm: React.FC<Props> = ({
               )}
             </div>
             {codeIsInvalid && (
-              <p className="mt-16 font-body text-12 font-medium leading-normal text-accent-red">{erroMessage}</p>
+              <p className="mt-16 font-body text-12 font-medium leading-normal text-red-500">{erroMessage}</p>
             )}
           </form>
 
@@ -132,9 +132,9 @@ const DiscountForm: React.FC<Props> = ({
                   key={discount.discountCodeId}
                   className="mr-2 flex w-fit justify-between gap-8 rounded-sm border border-neutral-400 bg-white px-8 py-4"
                 >
-                  <label className="text-12 uppercase leading-[16px] text-secondary-black">{discount.code}</label>
+                  <label className="text-12 uppercase leading-[16px] text-gray-600">{discount.code}</label>
                   <button type="button" onClick={() => handleRemove(discount)}>
-                    <XMarkIcon className="size-16 text-secondary-black" />
+                    <XMarkIcon className="size-16 text-gray-600" />
                   </button>
                 </div>
               ))}

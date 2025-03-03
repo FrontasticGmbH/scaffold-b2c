@@ -61,7 +61,7 @@ const Breadcrumbs: React.FC<Props> = ({ categoryId, categories }) => {
         )}
       </Breadcrumb>
       <h1 className="mt-20 text-22 leading-[35px] md:text-26 lg:text-28">{currentCategory.name}</h1>
-      <h6 className="text-14 text-secondary-black">
+      <h6 className="text-14 text-gray-600">
         {results?.nbHits ?? 0} {formatProductMessage({ id: 'items', defaultMessage: 'Items' })}
       </h6>
       {descendants.length > 0 && (
@@ -76,7 +76,7 @@ const Breadcrumbs: React.FC<Props> = ({ categoryId, categories }) => {
             <Link
               key={category.categoryId}
               link={category._url}
-              className="rounded-md border border-gray-700 bg-transparent px-16 py-8 text-12 leading-[16px] text-primary-black transition hover:bg-gray-700 hover:text-white lg:text-16"
+              className="rounded-md border border-gray-700 bg-transparent px-16 py-8 text-12 leading-[16px] text-primary transition hover:bg-gray-700 hover:text-white lg:text-16"
             >
               {category.name}
             </Link>
@@ -88,7 +88,7 @@ const Breadcrumbs: React.FC<Props> = ({ categoryId, categories }) => {
         <Breadcrumb className="mx-auto mt-32 py-6 lg:py-8" listClassName="gap-x-8">
           <Link
             link={parentCategory?._url}
-            className="rounded-md border border-gray-700 bg-transparent px-16 py-8 text-12 leading-[16px] text-primary-black transition hover:bg-gray-700 hover:text-white lg:text-16"
+            className="rounded-md border border-gray-700 bg-transparent px-16 py-8 text-12 leading-[16px] text-primary transition hover:bg-gray-700 hover:text-white lg:text-16"
           >
             {formatProductMessage({ id: 'items.all', defaultMessage: 'All items' })}
           </Link>
@@ -99,7 +99,7 @@ const Breadcrumbs: React.FC<Props> = ({ categoryId, categories }) => {
               className={`rounded-md border border-gray-700 px-16 py-8 text-12 leading-[16px] transition lg:text-16 ${
                 category.categoryId === currentCategory.categoryId
                   ? 'bg-gray-700 text-white'
-                  : 'bg-transparent text-primary-black hover:bg-gray-700 hover:text-white'
+                  : 'bg-transparent text-primary hover:bg-gray-700 hover:text-white'
               }`}
             >
               {category.name}

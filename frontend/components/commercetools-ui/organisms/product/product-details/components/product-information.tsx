@@ -61,7 +61,7 @@ const ProductInformation: FC<ProductInformationProps> = ({
     { 'text-12': !!inModalVersion && !!discountPercentage },
   ]);
   const discountedPriceClassName = useClassNames([
-    'block font-regular leading-loose text-accent-red',
+    'block font-regular leading-loose text-red-500',
     { '2xl:text-18': !inModalVersion },
   ]);
 
@@ -91,7 +91,7 @@ const ProductInformation: FC<ProductInformationProps> = ({
           </div>
 
           {
-            <span className="mb-8 ml-8 mt-10 flex h-25 w-45 items-center justify-center bg-accent-red text-11 text-neutral-100">
+            <span className="mb-8 ml-8 mt-10 flex h-25 w-45 items-center justify-center bg-red-500 text-11 text-white">
               {Math.round(discountPercentage)}%
             </span>
           }

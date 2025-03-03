@@ -26,7 +26,7 @@ const MobileMenu: FC<Props> = ({ links, categoriesNavigator, insertCategory, hid
                   categoriesNavigator[categoriesNavigator.length - 1]?.slug
                 }
               >
-                <Typography className="text-primary-black">
+                <Typography className="text-primary">
                   {formatMessage({ id: 'view.all', defaultMessage: 'View All' })}
                 </Typography>
               </Link>

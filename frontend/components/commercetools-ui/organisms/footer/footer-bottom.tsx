@@ -12,6 +12,7 @@ interface Props {
 
 const FooterBottom: FC<Props> = ({ logo, socialMedia }) => {
   const { formatMessage } = useFormat({ name: 'common' });
+
   return (
     <>
       <div className="hidden items-center justify-between px-24 py-36 md:flex xl:p-48">
@@ -26,7 +27,7 @@ const FooterBottom: FC<Props> = ({ logo, socialMedia }) => {
         <ul className="flex flex-row gap-20 self-center">
           {socialMedia?.map((item, i) => (
             <li key={i} className="w-22">
-              <Link link={item.reference}>
+              <Link link={item.reference} title={item.title}>
                 <Image {...item.logo} className="mb-20" />
               </Link>
             </li>

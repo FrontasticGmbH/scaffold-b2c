@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { useParams } from 'next/navigation';
-import { Popover } from '@headlessui/react';
+import { PopoverButton } from '@headlessui/react';
 import Checkbox from 'components/commercetools-ui/atoms/checkbox';
 import { CurrencyHelpers } from 'helpers/currencyHelpers';
 import { useFormat } from 'helpers/hooks/useFormat';
@@ -195,7 +195,7 @@ const RangeFacet: React.FC<FacetProps> = ({ attribute }) => {
           <span>{currencySymbol}</span>
         </label>
 
-        <div className="w-16 border border-secondary-black" />
+        <div className="w-16 border border-gray-600" />
 
         <label
           htmlFor="max"
@@ -214,13 +214,13 @@ const RangeFacet: React.FC<FacetProps> = ({ attribute }) => {
           <span>{currencySymbol}</span>
         </label>
 
-        <Popover.Button
+        <PopoverButton
           type="submit"
-          className="rounded-sm bg-primary-black px-14 py-8 font-medium leading-[24px] text-white transition hover:bg-gray-500"
+          className="rounded-sm bg-primary px-14 py-8 font-medium leading-[24px] text-white transition hover:bg-gray-500"
           form="range-form"
         >
           {formatProductMessage({ id: 'go', defaultMessage: 'Go' })}
-        </Popover.Button>
+        </PopoverButton>
       </form>
     </div>
   );

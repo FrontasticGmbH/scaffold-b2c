@@ -9,7 +9,7 @@ const PaymentMethods: FC<PaymentMethodsProps> = ({ paymentMethods }) => {
   return (
     <div className="mt-20 md:mt-24 lg:mt-16">
       <div className="hidden lg:block">
-        <p className="text-14 leading-[20px] text-secondary-black">
+        <p className="text-14 leading-[20px] text-gray-600">
           {formatCartMessage({ id: 'we.accept', defaultMessage: 'We accept' })}
         </p>
       </div>

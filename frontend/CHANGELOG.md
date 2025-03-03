@@ -1,4 +1,27 @@
-## Version 3.0.0 (2025-02-03)
+
+## Version 3.1.0 (2025-02-17)
+
+
+** New Features & Improvements **
+
+* Hide the link along with the icon for all screens other than md
+* Fixed keyboard navigation for user account button & dropdown items
+* PDP Image slider replace with scroll snapping
+* Add provider to storybook
+* Aligned product and cart discount types
+* Improved discount code handler for B2C
+* Handle product discount on product query and cart for B2C
+* Implemented product discount types on frontend
+* Add direct discount and rename discount to DiscountCodes B2C
+
+
+** Bug Fixes **
+
+* Adds algolia env vars explicitely to storybook
+* Adapted german translations and fixed on label
+* Set correct name for discount code id
+* Differenciated discounted amount and value for product and cart discounts
+
 
 ** New Features & Improvements **
 

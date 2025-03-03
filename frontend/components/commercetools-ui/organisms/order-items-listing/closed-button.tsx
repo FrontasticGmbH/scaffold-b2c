@@ -25,7 +25,7 @@ const ClosedButton: FC<ClosedButtonProps> = ({ lineItems, hiddenItemsCount, open
   return (
     <div className="flex w-full flex-col overflow-x-visible pb-4">
       <div className="flex w-full justify-between">
-        <Typography className="text-secondary-black">
+        <Typography className="text-gray-600">
           {formatOrdersMessage({
             id: 'your.order',
             defaultMessage: 'Your Order',
@@ -49,7 +49,7 @@ const ClosedButton: FC<ClosedButtonProps> = ({ lineItems, hiddenItemsCount, open
         )}
         {hiddenItemsCount > 0 && !open && (
           <div className="flex items-center">
-            <Typography className="mr-8 whitespace-nowrap text-secondary-black">{`+ ${hiddenItemsCount}`}</Typography>
+            <Typography className="mr-8 whitespace-nowrap text-gray-600">{`+ ${hiddenItemsCount}`}</Typography>
           </div>
         )}
       </div>

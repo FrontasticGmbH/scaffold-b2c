@@ -60,7 +60,7 @@ const SummaryAccordion: FC<Props> = ({ className, order, cart }) => {
                 />
               </div>
             )}
-            <div className="flex flex-col justify-center gap-8 pl-16 text-14 text-primary-black">
+            <div className="flex flex-col justify-center gap-8 pl-16 text-14 text-primary">
               <Typography>{lineItem?.name}</Typography>
               <Typography className="font-medium">
                 {CurrencyHelpers.formatForCurrency(lineItem?.price as number, locale)}

@@ -7,6 +7,7 @@ import { AUTOCOMPLETE_PRODUCT_CLICKED } from 'helpers/constants/events';
 import { Category } from 'types/entity/category';
 import { Product } from 'types/entity/product';
 import Link from '../../link';
+
 // import Prices from '../prices';
 
 interface Props {
@@ -43,9 +44,9 @@ const SearchItem: React.FC<Props> = ({ hit, categories, onClick }) => {
           </div>
         </div>
         <div>
-          <p className="text-16 uppercase text-primary-black">{hit.name}</p>
+          <p className="text-16 uppercase text-primary">{hit.name}</p>
           <div className="mt-5">
-            <span className="text-14 text-secondary-black">{primaryCategory?.name}</span>
+            <span className="text-14 text-gray-600">{primaryCategory?.name}</span>
             {/* <Prices price={discountedVariant?.price ?? variant?.price} discountedPrice={discountedVariant?.price} /> */}
           </div>
         </div>

@@ -1,8 +1,8 @@
 import { act } from 'react';
+import { fireEvent } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { render, screen } from '__test__/utils';
 import Search from '.';
-import { fireEvent } from '@testing-library/react';
 
 const router = { push: jest.fn() };
 

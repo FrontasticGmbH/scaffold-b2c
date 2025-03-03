@@ -23,7 +23,7 @@ const AccountButton = () => {
   return (
     <div className="h-40">
       <Link link={account ? '/account' : '/login'} title={title} className="hidden md:flex lg:hidden">
-        <UserIcon className="hidden h-fit w-28 text-secondary-black md:flex lg:hidden" />
+        <UserIcon className="hidden h-fit w-28 text-gray-600 md:flex lg:hidden" />
       </Link>
       <Popover as="div" className="relative hidden h-fit lg:block">
         {() => (
@@ -31,17 +31,15 @@ const AccountButton = () => {
             <Popover.Button title={title}>
               <div className="flex w-fit whitespace-nowrap">
                 <div className="mr-8 hidden w-104 py-4 lg:inline-block">
-                  {loggedIn && (
-                    <Typography className="hidden truncate text-secondary-black lg:block">{userName}</Typography>
-                  )}
+                  {loggedIn && <Typography className="hidden truncate text-gray-600 lg:block">{userName}</Typography>}
                 </div>
 
-                <div className="border-primary-black pb-8 hover:border-b-2">
-                  <UserIcon className="w-28 text-secondary-black" />
+                <div className="border-primary pb-8 hover:border-b-2">
+                  <UserIcon className="w-28 text-gray-600" />
                 </div>
               </div>
             </Popover.Button>
-            <Popover.Overlay className="fixed inset-0 z-[310] bg-secondary-black opacity-30" />
+            <Popover.Overlay className="fixed inset-0 z-[310] bg-gray-600 opacity-30" />
             <Popover.Panel className="absolute left-15 top-50 z-[351] animate-[appearDropdown_0.15s_ease-in-out] rounded-sm bg-white shadow-400">
               <div className="absolute -top-20 left-1/2 z-10 w-31 -translate-x-1/2 overflow-hidden">
                 <div className="size-21 origin-bottom-left rotate-45 bg-white" />

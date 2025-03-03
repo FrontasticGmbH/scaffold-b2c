@@ -75,13 +75,13 @@ const Search: React.FC<Props> = ({ categories }) => {
             }`,
             form: 'relative flex items-stretch w-full quick-search',
             input:
-              'placeholder:text-14 placeholder:text-secondary-black box-content border-none grow focus:outline-none transition p-0 px-12 py-10',
+              'placeholder:text-14 placeholder:text-gray-600 box-content border-none grow focus:outline-none transition p-0 px-12 py-10',
             submit: `border-l transition border-neutral-400 px-16 py-10 shrink-0 ${
-              focused ? 'bg-primary-black' : 'bg-white'
+              focused ? 'bg-primary' : 'bg-white'
             }`,
-            submitIcon: `w-18 h-18 stroke-0 ${focused ? 'fill-white' : 'fill-secondary-black'}`,
+            submitIcon: `w-18 h-18 stroke-0 ${focused ? 'fill-white' : 'fill-gray-600'}`,
             reset: 'absolute right-[70px] top-1/2 -translate-y-1/2',
-            resetIcon: 'w-10 w-10 fill-primary-black',
+            resetIcon: 'w-10 w-10 fill-primary',
             loadingIndicator: 'hidden',
           }}
           onInput={onChange}

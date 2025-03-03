@@ -74,7 +74,9 @@ const Search: React.FC<Props> = ({ categories, items, onQueryUpdate }) => {
           <form className="quick-search relative flex w-full items-stretch" ref={form} onSubmit={onSubmit}>
             <input
               ref={input}
-              className="box-content grow border-none p-0 px-12 py-10 transition placeholder:text-14 placeholder:text-secondary-black focus:outline-none"
+              title={formatMessage({ id: 'type.search.term', defaultMessage: 'Type a search term' })}
+              aria-label={formatMessage({ id: 'type.search.term', defaultMessage: 'Type a search term' })}
+              className="box-content grow border-none p-0 px-12 py-10 transition placeholder:text-14 placeholder:text-gray-600 focus:outline-none"
               value={value}
               onChange={onChange}
               onFocus={onFocus}
@@ -84,12 +86,13 @@ const Search: React.FC<Props> = ({ categories, items, onQueryUpdate }) => {
             <button
               data-testid="submit-button"
               type="submit"
-              title={formatMessage({ id: 'search', defaultMessage: 'Search' })}
+              title={formatMessage({ id: 'click.to.search', defaultMessage: 'Click to search' })}
+              aria-label={formatMessage({ id: 'click.to.search', defaultMessage: 'Click to search' })}
               className={`shrink-0 border-l border-neutral-400 px-16 py-10 transition ${
-                focused ? 'bg-primary-black' : 'bg-white'
+                focused ? 'bg-primary' : 'bg-white'
               }`}
             >
-              <SearchIcon className={`size-24 stroke-0 ${focused ? 'fill-white' : 'fill-secondary-black'}`} />
+              <SearchIcon className={`size-24 stroke-0 ${focused ? 'fill-white' : 'fill-gray-600'}`} />
             </button>
             {value && (
               <button
@@ -99,13 +102,14 @@ const Search: React.FC<Props> = ({ categories, items, onQueryUpdate }) => {
                 onClick={cleanUp}
                 onMouseDown={(e) => e.preventDefault()}
               >
-                <CloseIcon className="w-24 fill-primary-black" />
+                <CloseIcon className="w-24 fill-primary" />
               </button>
             )}
           </form>
         </div>
 
         <Transition
+          as="div"
           show={focused}
           className="absolute bottom-0 left-0 max-h-[60vh] w-full translate-y-full overflow-auto bg-white px-20 py-28 xl:max-h-[unset] xl:translate-y-[calc(100%-56px)] xl:rounded-md xl:pt-84"
           enter="transition duration-75"

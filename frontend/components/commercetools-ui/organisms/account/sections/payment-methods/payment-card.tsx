@@ -24,14 +24,14 @@ const PaymentCard: FC<Props> = ({ payment }) => {
       <div className="flex items-center">
         {/* eslint-disable-next-line */}
         <img className="h-fit w-[32px]" src={resolveCCImage(payment.cardNumber)} />
-        <Typography className="ml-16 text-14 text-primary-black">
+        <Typography className="ml-16 text-14 text-primary">
           {`...${payment.cardNumber.substring(payment.cardNumber.length - 4, payment.cardNumber.length)} ${
             payment.cardExpiryMonth.name
           }/${payment.cardExpiryYear.name}`}
         </Typography>
       </div>
-      <Button variant="ghost" onClick={() => goToEdit(payment)} className="py-0 text-primary-black hover:underline">
-        <Typography className="hidden text-14 text-primary-black md:block">
+      <Button variant="ghost" onClick={() => goToEdit(payment)} className="py-0 text-primary hover:underline">
+        <Typography className="hidden text-14 text-primary md:block">
           {formatPaymentMessage({
             id: 'edit',
             defaultMessage: 'Edit',

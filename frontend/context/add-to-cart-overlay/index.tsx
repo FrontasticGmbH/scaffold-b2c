@@ -76,6 +76,7 @@ const AddToCartOverlayProvider = ({ children }: React.PropsWithChildren) => {
       {product && <Overlay onClick={hide} />}
       <Transition
         show={!!product}
+        as="div"
         className="fixed bottom-0 z-[9999] w-full overflow-hidden rounded-[20px_20px_0_0] bg-white shadow md:bottom-[unset] md:left-1/2 md:top-1/2 md:w-[90%] md:max-w-[650px] md:-translate-x-1/2 md:-translate-y-1/2 md:rounded-lg"
         enter="transition md:transition-opacity duration-75"
         enterFrom="opacity-0 translate-y-full"
@@ -91,28 +92,34 @@ const AddToCartOverlayProvider = ({ children }: React.PropsWithChildren) => {
             </h4>
 
             <CloseIcon
-              className="absolute right-18 top-16 size-28 cursor-pointer fill-secondary-black stroke-0 md:top-16"
+              className="absolute right-18 top-16 size-28 cursor-pointer fill-gray-600 stroke-0 md:top-16"
               onClick={hide}
             />
 
             <div className="mt-22 md:mt-35 lg:mt-30">
               <div className="flex items-center gap-24">
-                <div className="shrink-0">
+                <Link className="block shrink-0" link={product?._url}>
                   <Image
                     width={135}
                     height={150}
                     src={product?.images?.[0] ?? '#'}
                     style={{ objectFit: 'contain' }}
                     alt={product?.name ?? ''}
+                    suffix={'small'}
                   />
-                </div>
+                </Link>
                 <div className="flex grow items-start justify-between overflow-hidden">
                   <div className="max-w-full overflow-hidden">
-                    <span className="block max-w-full truncate text-12 uppercase md:text-14">{product?.name}</span>
+                    <Link className="block max-w-full truncate text-12 uppercase md:text-14" link={product?._url}>
+                      {product?.name}
+                    </Link>
                     <span className="mt-8 block text-12 font-medium md:hidden">
-                      {CurrencyHelpers.formatForCurrency(product?.discountedPrice?.value ?? product?.price ?? {}, locale)}
+                      {CurrencyHelpers.formatForCurrency(
+                        product?.discountedPrice?.value ?? product?.price ?? {},
+                        locale,
+                      )}
                     </span>
-                    <span className="mt-12 block text-14 text-secondary-black">x {product?.count}</span>
+                    <span className="mt-12 block text-14 text-gray-600">x {product?.count}</span>
                   </div>
                   <span className="hidden text-14 font-medium md:block">
                     {CurrencyHelpers.formatForCurrency(product?.discountedPrice?.value ?? product?.price ?? {}, locale)}
@@ -123,12 +130,12 @@ const AddToCartOverlayProvider = ({ children }: React.PropsWithChildren) => {
 
             <div className="mt-18 flex w-full flex-col gap-16 md:mt-36 md:flex-row-reverse">
               <Link link="/cart" onClick={hide} className="md:flex-1">
-                <button className="w-full rounded-sm bg-primary-black p-12 text-14 font-medium text-white">
+                <button className="w-full rounded-sm bg-primary p-12 text-14 font-medium text-white">
                   {formatCartMessage({ id: 'cart.go', defaultMessage: 'Go to cart' })}
                 </button>
               </Link>
               <div onClick={hide} className="md:flex-1">
-                <button className="w-full rounded-sm border border-primary-black p-12 text-14 font-medium text-primary-black transition hover:border-secondary-black hover:text-secondary-black">
+                <button className="w-full rounded-sm border border-primary p-12 text-14 font-medium text-primary transition hover:border-gray-600 hover:text-gray-600">
                   {formatCartMessage({ id: 'continue.shopping', defaultMessage: 'Continue shopping' })}
                 </button>
               </div>

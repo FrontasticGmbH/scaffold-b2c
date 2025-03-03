@@ -59,6 +59,8 @@
   "rememberMe": "Erinnere dich an mich",
   "search": "Suchen",
   "search.placeholder": "Suchbegriff eingeben",
+  "type.search.term": "Geben Sie einen Suchbegriff ein",
+  "click.to.search": "Klicken Sie hier, um zu suchen",
   "close": "Schließen",
   "header.menu.open": "Seitenmenü öffnen",
   "select.country": "Wähle dein Land",

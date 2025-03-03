@@ -20,11 +20,11 @@ const OrderItem: FC<OrderItemProps> = ({ lineItem }) => {
         </div>
       )}
       <div className="flex flex-col justify-center pl-16">
-        <Typography className="uppercase text-primary-black">{lineItem?.name}</Typography>
-        <Typography className="mt-8 font-medium text-primary-black">
+        <Typography className="uppercase text-primary">{lineItem?.name}</Typography>
+        <Typography className="mt-8 font-medium text-primary">
           {CurrencyHelpers.formatForCurrency(lineItem?.price as number, locale)}
         </Typography>
-        <Typography className="mt-8 text-primary-black">{`x ${lineItem?.count}`}</Typography>
+        <Typography className="mt-8 text-primary">{`x ${lineItem?.count}`}</Typography>
       </div>
     </div>
   );

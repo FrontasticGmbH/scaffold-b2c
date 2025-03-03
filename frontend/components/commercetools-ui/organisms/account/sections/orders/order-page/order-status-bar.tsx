@@ -22,36 +22,34 @@ const OrderStatusBar: FC<Props> = ({
 
   const statePointer2ClassNames = useClassNames([
     'absolute left-1/2 h-20 w-20 -translate-x-1/2 -translate-y-1/2 transform rounded-full md:h-24 md:w-24 lg:h-32 lg:w-32',
-    orderShippingState === 'Shipped' || orderState === 'Complete'
-      ? 'bg-primary-black'
-      : 'bg-neutral-100 border border-primary-black',
+    orderShippingState === 'Shipped' || orderState === 'Complete' ? 'bg-primary' : 'bg-white border border-primary',
   ]);
 
   const statePointer3ClassNames = useClassNames([
     'absolute right-0 h-20 w-20 -translate-y-1/2 rounded-full md:h-24 md:w-24 lg:h-32 lg:w-32',
-    orderState === 'Complete' ? 'bg-primary-black' : 'bg-neutral-100 border border-primary-black',
+    orderState === 'Complete' ? 'bg-primary' : 'bg-white border border-primary',
   ]);
 
   return (
     <div className="mt-36 flex w-full justify-center px-16 md:mt-48 md:px-0 2xl:mt-80 2xl:justify-start">
       <div className="relative w-4/5 justify-center pb-16 md:w-[70%] 2xl:ml-80 2xl:w-3/5">
-        <div className="h-1 w-full bg-primary-black" />
-        <div className="absolute left-0 size-20 -translate-y-1/2 rounded-full bg-primary-black md:size-24 lg:size-32" />
+        <div className="h-1 w-full bg-primary" />
+        <div className="absolute left-0 size-20 -translate-y-1/2 rounded-full bg-primary md:size-24 lg:size-32" />
         <div className="absolute -left-32 top-20 flex flex-col items-center md:-left-56 md:top-24 md:w-144 lg:top-28">
-          <Typography className="w-64 text-center text-14 font-medium text-primary-black lg:text-16">
+          <Typography className="w-64 text-center text-14 font-medium text-primary lg:text-16">
             {formatOrdersMessage({
               id: 'ordered',
               defaultMessage: 'Ordered',
             })}
           </Typography>
 
-          <Typography className="mt-4 text-center text-14 text-secondary-black lg:text-16">{orderDate}</Typography>
+          <Typography className="mt-4 text-center text-14 text-gray-600 lg:text-16">{orderDate}</Typography>
         </div>
 
         <div className={statePointer2ClassNames} />
         <div className="absolute left-1/2 top-20 -translate-x-1/2 md:top-24 lg:top-28">
           {orderShippingState === 'Shipped' || orderState === 'Complete' ? (
-            <Typography className="text-center text-14 font-medium text-primary-black lg:text-16">
+            <Typography className="text-center text-14 font-medium text-primary lg:text-16">
               {formatOrdersMessage({
                 id: 'shipped',
                 defaultMessage: 'Shipped',
@@ -59,14 +57,14 @@ const OrderStatusBar: FC<Props> = ({
             </Typography>
           ) : (
             <>
-              <Typography className="hidden text-center text-14 font-medium text-primary-black md:block lg:text-16">
+              <Typography className="hidden text-center text-14 font-medium text-primary md:block lg:text-16">
                 {formatOrdersMessage({
                   id: 'estimated.shipping',
                   defaultMessage: 'Estimated Shipping',
                 })}
               </Typography>
 
-              <Typography className="block text-center text-14 font-medium text-primary-black md:hidden">
+              <Typography className="block text-center text-14 font-medium text-primary md:hidden">
                 {formatOrdersMessage({
                   id: 'est.shipping',
                   defaultMessage: 'Est. Shipping',
@@ -75,15 +73,13 @@ const OrderStatusBar: FC<Props> = ({
             </>
           )}
 
-          <Typography className="mt-4 text-center text-14 text-secondary-black lg:text-16">
-            {orderShippingDate}
-          </Typography>
+          <Typography className="mt-4 text-center text-14 text-gray-600 lg:text-16">{orderShippingDate}</Typography>
         </div>
 
         <div className={statePointer3ClassNames} />
         <div className="absolute -right-32 top-20 md:-right-60 md:top-24 md:w-144 lg:top-28">
           {orderState === 'Complete' ? (
-            <Typography className="text-center text-14 font-medium text-primary-black lg:text-16">
+            <Typography className="text-center text-14 font-medium text-primary lg:text-16">
               {formatOrdersMessage({
                 id: 'delivered',
                 defaultMessage: 'Delivered',
@@ -91,14 +87,14 @@ const OrderStatusBar: FC<Props> = ({
             </Typography>
           ) : (
             <>
-              <Typography className="hidden text-center text-14 font-medium text-primary-black md:block lg:text-16">
+              <Typography className="hidden text-center text-14 font-medium text-primary md:block lg:text-16">
                 {formatOrdersMessage({
                   id: 'estimated.delivery',
                   defaultMessage: 'Estimated Delivery',
                 })}
               </Typography>
 
-              <Typography className="block text-center text-14 font-medium text-primary-black md:hidden">
+              <Typography className="block text-center text-14 font-medium text-primary md:hidden">
                 {formatOrdersMessage({
                   id: 'est.delivery',
                   defaultMessage: 'Est. Delivery',
@@ -107,9 +103,7 @@ const OrderStatusBar: FC<Props> = ({
             </>
           )}
 
-          <Typography className="mt-4 text-center text-14 text-secondary-black lg:text-16">
-            {orderDeliveryDate}
-          </Typography>
+          <Typography className="mt-4 text-center text-14 text-gray-600 lg:text-16">{orderDeliveryDate}</Typography>
         </div>
       </div>
     </div>

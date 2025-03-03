@@ -96,29 +96,28 @@ module.exports = {
         default: '0.25em',
       },
       colors: {
-        primary: {
-          black: 'rgb(var(--color-primary-black) / <alpha-value>)',
-          dark: 'rgb(var(--color-primary-dark) / <alpha-value>)',
-        },
-        secondary: {
-          black: 'rgb(var(--color-secondary-black) / <alpha-value>)',
-          grey: 'rgb(var(--color-secondary-grey) / <alpha-value>)',
-        },
-        accent: {
-          red: 'rgb(var(--color-accent-red) / <alpha-value>)',
-        },
+        primary: 'rgb(var(--color-primary) / <alpha-value>)',
+        secondary: 'rgb(var(--color-secondary) / <alpha-value>)',
+        accent: 'rgb(var(--color-accent) / <alpha-value>)',
         gray: {
+          100: 'rgb(var(--color-gray-100) / <alpha-value>)',
+          200: 'rgb(var(--color-gray-200) / <alpha-value>)',
+          300: 'rgb(var(--color-gray-300) / <alpha-value>)',
           400: 'rgb(var(--color-gray-400) / <alpha-value>)',
           500: 'rgb(var(--color-gray-500) / <alpha-value>)',
+          600: 'rgb(var(--color-gray-600) / <alpha-value>)',
           700: 'rgb(var(--color-gray-700) / <alpha-value>)',
+          800: 'rgb(var(--color-gray-800) / <alpha-value>)',
         },
         neutral: {
-          100: 'rgb(var(--color-neutral-100) / <alpha-value>)',
+          default: 'rgb(var(--color-neutral-default) / <alpha-value>)',
           150: 'rgb(var(--color-neutral-150) / <alpha-value>)',
           200: 'rgb(var(--color-neutral-200) / <alpha-value>)',
           300: 'rgb(var(--color-neutral-300) / <alpha-value>)',
           400: 'rgb(var(--color-neutral-400) / <alpha-value>)',
           500: 'rgb(var(--color-neutral-500) / <alpha-value>)',
+          800: 'rgb(var(--color-neutral-800) / <alpha-value>)',
+          900: 'rgb(var(--color-neutral-900) / <alpha-value>)',
         },
         green: {
           100: 'rgb(var(--color-green-100) / <alpha-value>)',

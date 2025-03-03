@@ -72,7 +72,7 @@ const ProductDetails: FC<ProductDetailsProps> = ({
         setQuantity(inCartQuantity + quantity >= (variant.availableQuantity ?? 0) ? 0 : 1);
       }, 1000);
 
-      show(product, variant, quantity);
+      show({ ...product, _url: url }, variant, quantity);
     });
     trackAddToCart();
   };
@@ -99,11 +99,11 @@ const ProductDetails: FC<ProductDetailsProps> = ({
     <div className={wrapperClassName}>
       {category && !inModalVersion && (
         <Breadcrumb Separator="/" className="col-span-12 mb-24 hidden w-fit lg:block">
-          <Link key={category.categoryId} link={category._url} className="text-14 text-primary-black">
+          <Link key={category.categoryId} link={category._url} className="text-14 text-gray-700">
             {category.name}
           </Link>
 
-          <Typography key={product.slug} className="cursor-default text-14 text-neutral-500">
+          <Typography key={product.slug} className="cursor-default text-14 text-gray-500">
             {product.name}
           </Typography>
         </Breadcrumb>
@@ -160,7 +160,7 @@ const ProductDetails: FC<ProductDetailsProps> = ({
         {inModalVersion && (
           <Link
             link={url}
-            className="mx-auto mt-28 block w-fit border-b border-transparent text-center text-14 leading-loose text-secondary-black hover:border-secondary-black"
+            className="mx-auto mt-28 block w-fit border-b border-transparent text-center text-14 leading-loose text-gray-600 hover:border-gray-600"
             onClick={() => setIsOpen?.(false)}
           >
             {formatMessage({ id: 'more.details', defaultMessage: 'More details' })}

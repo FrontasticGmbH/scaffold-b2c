@@ -2,10 +2,8 @@
 .netlify
 .yarn
 
-.env.build
-.env.local
-.env.production
 
+.env.*
 !.env.dist
 
 node_modules/

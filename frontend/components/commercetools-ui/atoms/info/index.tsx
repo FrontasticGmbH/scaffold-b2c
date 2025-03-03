@@ -13,13 +13,14 @@ const Info: React.FC<Props> = ({ message }) => {
     <div className="relative">
       <InfoIcon
         data-testid="info-icon"
-        className="size-24 cursor-default stroke-secondary-black"
+        className="size-24 cursor-default stroke-gray-600"
         onMouseOver={() => setIsShowing(true)}
         onMouseOut={() => setIsShowing(false)}
       />
       <Transition
+        as="div"
         show={isShowing}
-        className="absolute right-0 top-1/2 w-max max-w-260 -translate-y-1/2 translate-x-[calc(100%+24px)] rounded-md border border-[#959595] bg-white p-12"
+        className="absolute right-0 top-1/2 w-max max-w-260 -translate-y-1/2 translate-x-[calc(100%+24px)] rounded-md border border-neutral-500 bg-white p-12"
         enter="transition-opacity duration-75"
         enterFrom="opacity-0"
         enterTo="opacity-100"
@@ -27,7 +28,7 @@ const Info: React.FC<Props> = ({ message }) => {
         leaveFrom="opacity-100"
         leaveTo="opacity-0"
       >
-        <p className="text-12 leading-[15px] text-secondary-black">{message}</p>
+        <p className="text-12 leading-[15px] text-gray-600">{message}</p>
       </Transition>
     </div>
   );

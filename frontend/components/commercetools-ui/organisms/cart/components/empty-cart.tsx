@@ -47,7 +47,7 @@ const EmptyCart = ({
                   <li key={category.name}>
                     <Link link={category._url}>
                       <Button
-                        className="w-fit min-w-150 items-center rounded-md border border-primary-black text-16 text-secondary-black"
+                        className="w-fit min-w-150 items-center rounded-md border border-primary text-16 text-gray-600"
                         variant="secondary"
                       >
                         {category.name}

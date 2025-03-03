@@ -21,13 +21,13 @@ const MobileMenuNavButton: FC<Props> = ({ link, categoriesNavigator, onClick, hi
     <div key={link.categoryId} className="cursor-pointer">
       {link?.descendants && link?.descendants?.length > 0 ? (
         <div onClick={onClick} className={linkClassNames}>
-          <Typography className="text-primary-black">{link.name}</Typography>
-          <ChevronRightIcon className="w-20 text-secondary-black" />
+          <Typography className="text-primary">{link.name}</Typography>
+          <ChevronRightIcon className="w-20 text-gray-600" />
         </div>
       ) : (
         <div onClick={hideHeaderMenu} className={linkClassNames}>
           <Link link={link?._url}>
-            <Typography className="text-primary-black">{link.name}</Typography>
+            <Typography className="text-primary">{link.name}</Typography>
           </Link>
         </div>
       )}

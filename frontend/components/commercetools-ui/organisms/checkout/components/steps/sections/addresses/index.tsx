@@ -200,7 +200,7 @@ const Addresses: React.FC<Props> = ({ goToNextStep, onUpdateCart }) => {
 
             return (
               <div className="col-span-3 mt-16 cursor-pointer">
-                <p className="w-fit text-14 text-secondary-black" onClick={onEnableAddress2}>
+                <p className="w-fit text-14 text-gray-600" onClick={onEnableAddress2}>
                   + {formatCheckoutMessage({ id: 'add.address', defaultMessage: 'Add another address line' })}
                 </p>
               </div>

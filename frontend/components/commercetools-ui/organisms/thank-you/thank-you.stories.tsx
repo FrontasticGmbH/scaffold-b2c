@@ -20,7 +20,7 @@ const Template: StoryFn = (args) => (
       component also includes a subtotal, shipping information, a total price for the order and an interactive button
       that when clicked completes the purchase order.
     </Typography>
-    <div className="mt-40 rounded-lg border bg-neutral-100 shadow-200 md:w-1/2 lg:w-[45%] xl:w-[35%]">
+    <div className="mt-40 rounded-lg border bg-white shadow-200 md:w-1/2 lg:w-[45%] xl:w-[35%]">
       <OrderSummary order={orders[0]} onPrint={() => {}} {...args} />
     </div>
   </div>

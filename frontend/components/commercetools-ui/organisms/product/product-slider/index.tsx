@@ -95,7 +95,7 @@ const ProductSlider: FC<ProductSliderProps> = ({
             {ctaLink && (
               <div className="hidden lg:block">
                 <Link target={ctaLink} withArrow>
-                  <span className="font-medium leading-[24px] text-secondary-black">{ctaLabel}</span>
+                  <span className="font-medium leading-[24px] text-gray-600">{ctaLabel}</span>
                 </Link>
               </div>
             )}
@@ -104,7 +104,7 @@ const ProductSlider: FC<ProductSliderProps> = ({
         {ctaLink && (
           <div className="mt-20 block md:mt-16 lg:hidden">
             <Link target={ctaLink} withArrow>
-              <span className="font-medium leading-[24px] text-secondary-black">{ctaLabel}</span>
+              <span className="font-medium leading-[24px] text-gray-600">{ctaLabel}</span>
             </Link>
           </div>
         )}

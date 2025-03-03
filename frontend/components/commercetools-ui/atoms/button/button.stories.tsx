@@ -40,7 +40,7 @@ const Template: StoryFn<ButtonProps> = () => {
         <div className="flex w-full flex-col">
           <Typography className="mt-12 w-2/5 text-24 font-medium text-black">Button sizing</Typography>
           <div className="mt-40 flex items-center">
-            <Typography className="w-200 text-14 text-secondary-black">Size icon:</Typography>
+            <Typography className="w-200 text-14 text-gray-600">Size icon:</Typography>
             <div className="ml-16">
               <Button variant="primary" size="icon" onClick={toggleButtonFeedback} loading={loading} added={added}>
                 <TrashIcon className="w-20" />
@@ -49,7 +49,7 @@ const Template: StoryFn<ButtonProps> = () => {
           </div>
 
           <div className="mt-24 flex items-center">
-            <Typography className="w-200 text-14 text-secondary-black">Size xs:</Typography>
+            <Typography className="w-200 text-14 text-gray-600">Size xs:</Typography>
             <div className="ml-16">
               <Button variant="primary" size="xs" onClick={toggleButtonFeedback} loading={loading} added={added}>
                 Button
@@ -58,7 +58,7 @@ const Template: StoryFn<ButtonProps> = () => {
           </div>
 
           <div className="mt-24 flex items-center">
-            <Typography className="w-200 text-14 text-secondary-black">Size sm:</Typography>
+            <Typography className="w-200 text-14 text-gray-600">Size sm:</Typography>
             <div className="ml-16">
               <Button variant="primary" size="s" onClick={toggleButtonFeedback} loading={loading} added={added}>
                 Button
@@ -67,7 +67,7 @@ const Template: StoryFn<ButtonProps> = () => {
           </div>
 
           <div className="mt-24 flex items-center">
-            <Typography className="w-200 text-14 text-secondary-black">Size md:</Typography>
+            <Typography className="w-200 text-14 text-gray-600">Size md:</Typography>
             <div className="ml-16">
               <Button variant="primary" size="m" onClick={toggleButtonFeedback} loading={loading} added={added}>
                 Button
@@ -76,7 +76,7 @@ const Template: StoryFn<ButtonProps> = () => {
           </div>
 
           <div className="mt-24 flex items-center">
-            <Typography className="w-200 text-14 text-secondary-black">Size lg:</Typography>
+            <Typography className="w-200 text-14 text-gray-600">Size lg:</Typography>
             <div className="ml-16">
               <Button variant="primary" size="l" onClick={toggleButtonFeedback} loading={loading} added={added}>
                 Button
@@ -85,7 +85,7 @@ const Template: StoryFn<ButtonProps> = () => {
           </div>
 
           <div className="mt-24 flex items-center">
-            <Typography className="w-200 text-14 text-secondary-black">Size full width for 15 % panel:</Typography>
+            <Typography className="w-200 text-14 text-gray-600">Size full width for 15 % panel:</Typography>
             <div className="ml-16 w-[30%]">
               <Button variant="primary" size="full" onClick={toggleButtonFeedback} loading={loading} added={added}>
                 Button
@@ -97,7 +97,7 @@ const Template: StoryFn<ButtonProps> = () => {
         <div className="flex w-full flex-col">
           <Typography className="mt-12 w-2/5 text-24 font-medium text-black">Button stylings</Typography>
           <div className="mt-40 flex w-full items-center">
-            <Typography className="w-200 text-14 text-secondary-black">Ghost button:</Typography>
+            <Typography className="w-200 text-14 text-gray-600">Ghost button:</Typography>
             <div className="ml-16 w-[30%]">
               <Button variant="ghost" size="full" onClick={toggleButtonFeedback} loading={loading} added={added}>
                 Ghost
@@ -106,7 +106,7 @@ const Template: StoryFn<ButtonProps> = () => {
           </div>
 
           <div className="mt-24 flex items-center">
-            <Typography className="w-200 text-14 text-secondary-black">Primary button:</Typography>
+            <Typography className="w-200 text-14 text-gray-600">Primary button:</Typography>
             <div className="ml-16 w-[30%]">
               <Button variant="primary" size="full" onClick={toggleButtonFeedback} loading={loading} added={added}>
                 Primary
@@ -115,7 +115,7 @@ const Template: StoryFn<ButtonProps> = () => {
           </div>
 
           <div className="mt-24 flex items-center">
-            <Typography className="w-200 text-14 text-secondary-black">Secondary button:</Typography>
+            <Typography className="w-200 text-14 text-gray-600">Secondary button:</Typography>
             <div className="ml-16 w-[30%]">
               <Button variant="secondary" size="full" onClick={toggleButtonFeedback} loading={loading} added={added}>
                 Secondary
@@ -124,7 +124,7 @@ const Template: StoryFn<ButtonProps> = () => {
           </div>
 
           <div className="mt-24 flex items-center">
-            <Typography className="w-200 text-14 text-secondary-black">Warning button:</Typography>
+            <Typography className="w-200 text-14 text-gray-600">Warning button:</Typography>
             <div className="ml-16 w-[30%]">
               <Button variant="warning" size="full" onClick={toggleButtonFeedback} loading={loading} added={added}>
                 Warning
@@ -133,7 +133,7 @@ const Template: StoryFn<ButtonProps> = () => {
           </div>
 
           <div className="mt-24 flex items-center">
-            <Typography className="w-200 text-14 text-secondary-black">Disabled button:</Typography>
+            <Typography className="w-200 text-14 text-gray-600">Disabled button:</Typography>
             <div className="ml-16 w-[30%]">
               <Button
                 variant="primary"
@@ -149,7 +149,7 @@ const Template: StoryFn<ButtonProps> = () => {
           </div>
 
           <div className="mt-24 flex items-center">
-            <Typography className="w-200 text-14 text-secondary-black">Underlined button:</Typography>
+            <Typography className="w-200 text-14 text-gray-600">Underlined button:</Typography>
             <div className="ml-16 w-[30%]">
               <Button
                 variant="underlined"
@@ -165,7 +165,7 @@ const Template: StoryFn<ButtonProps> = () => {
           </div>
 
           <div className="mt-24 flex items-center">
-            <Typography className="w-200 text-14 text-secondary-black">Primary icon left button:</Typography>
+            <Typography className="w-200 text-14 text-gray-600">Primary icon left button:</Typography>
             <div className="ml-16 w-[30%]">
               <Button
                 variant="primary"
@@ -183,7 +183,7 @@ const Template: StoryFn<ButtonProps> = () => {
           </div>
 
           <div className="mt-24 flex items-center">
-            <Typography className="w-200 text-14 text-secondary-black">Secondary icon right button:</Typography>
+            <Typography className="w-200 text-14 text-gray-600">Secondary icon right button:</Typography>
             <div className="ml-16 w-[30%]">
               <Button
                 variant="secondary"

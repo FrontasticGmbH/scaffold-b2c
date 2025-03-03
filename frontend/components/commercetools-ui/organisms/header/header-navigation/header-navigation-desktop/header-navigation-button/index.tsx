@@ -14,7 +14,7 @@ export interface Props {
 const HeaderNavigationButtonDesktop: FC<Props> = ({ show, link, updateSubMenu }) => {
   const [isLoaded, setIsLoaded] = useState<boolean>(false);
   const navLinkClassNames = useClassNames([
-    'flex border-primary-black py-4 cursor-pointer relative hover:border-b-2',
+    'flex border-primary py-4 cursor-pointer relative hover:border-b-2',
     show ? 'border-b-2' : '',
   ]);
 
@@ -28,9 +28,7 @@ const HeaderNavigationButtonDesktop: FC<Props> = ({ show, link, updateSubMenu })
     <div onClick={updateSubMenu} className="h-52 px-10 py-12">
       <Link link={link?._url} title={link?.name} className={navLinkClassNames}>
         <Typography as="span">{link?.name}</Typography>
-        {link?.descendants && link?.descendants.length > 0 && (
-          <ChevronDownIcon className="ml-10 w-16 text-secondary-black" />
-        )}
+        {link?.descendants && link?.descendants.length > 0 && <ChevronDownIcon className="ml-10 w-16 text-gray-600" />}
       </Link>
     </div>
   );

@@ -271,8 +271,8 @@ const AddressForm: React.FC<AddressFormProps> = ({ editedAddressId }) => {
             className="flex items-center gap-8 hover:cursor-pointer hover:opacity-70"
             onClick={() => setModalIsOpen(true)}
           >
-            <TrashIcon className="size-20 text-secondary-black" />
-            <Typography className="text-14 leading-[114%] text-secondary-black" as="span">
+            <TrashIcon className="size-20 text-gray-600" />
+            <Typography className="text-14 leading-[114%] text-gray-600" as="span">
               {formatMessage({ id: 'delete', defaultMessage: 'Delete' })}
             </Typography>
           </div>

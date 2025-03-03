@@ -31,7 +31,7 @@ describe('[Component] Dropdown', () => {
     expect(screen.queryByText('Label *')).toBeInTheDocument();
   });
 
-  test('Default Dropown | selects options correctly', async () => {
+  test('Default Dropdown | selects options correctly', async () => {
     const onChange = jest.fn();
 
     render(
@@ -102,7 +102,7 @@ describe('[Component] Dropdown', () => {
     expect(screen.queryByText('Label *')).toBeInTheDocument();
   });
 
-  test('Option Dropown | selects options correctly', async () => {
+  test('Option Dropdown | selects options correctly', async () => {
     const onChange = jest.fn();
 
     render(
@@ -120,13 +120,13 @@ describe('[Component] Dropdown', () => {
     await act(async () => userEvent.click(screen.getByText('Item 1')));
 
     expect(onChange.mock.calls[0][0].value).toBe('1');
-    expect(screen.queryByText('Item 1')).toBeInTheDocument();
+    expect(await screen.findByText('Item 1')).toBeInTheDocument();
 
     await act(async () => userEvent.click(screen.getByRole('button')));
     await act(async () => userEvent.click(screen.getByText('Item 2')));
 
     expect(onChange.mock.calls[1][0].value).toBe('2');
-    expect(screen.queryByText('Item 2')).toBeInTheDocument();
+    expect(await screen.findByText('Item 2')).toBeInTheDocument();
   });
 
   test('Options Dropdown | renders error correctly', () => {

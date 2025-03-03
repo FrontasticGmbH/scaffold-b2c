@@ -24,7 +24,7 @@ const Costs: FC<CostsProps> = ({
 
   const subCostsContainerClassNames = useClassNames(['grid gap-8', subCostsContainerClassName]);
   const subCostsClassNames = useClassNames([
-    'flex items-center justify-between capitalize text-secondary-black',
+    'flex items-center justify-between capitalize text-gray-600 ',
     subCostClassName,
   ]);
 

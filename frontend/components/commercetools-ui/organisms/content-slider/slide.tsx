@@ -20,7 +20,7 @@ const ContentSliderSlide: FC<ContentSliderSlideProps> = ({ image, title, ctaLabe
       {title && (
         <Typography
           as="h4"
-          className="mt-12 max-w-[90%] overflow-hidden text-ellipsis whitespace-pre text-20 text-primary-black"
+          className="mt-12 max-w-[90%] overflow-hidden text-ellipsis whitespace-pre text-20 text-primary"
         >
           {title}
         </Typography>
@@ -29,7 +29,7 @@ const ContentSliderSlide: FC<ContentSliderSlideProps> = ({ image, title, ctaLabe
       {ctaLabel && (
         <div className="mt-20 flex gap-1.5">
           <Typography className="hidden text-black md:block">{ctaLabel}</Typography>
-          <ArrowLongRightIcon className="mt-2 h-20 w-24 text-secondary-black" />
+          <ArrowLongRightIcon className="mt-2 h-20 w-24 text-gray-600" />
         </div>
       )}
     </Link>

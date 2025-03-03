@@ -23,7 +23,7 @@ const MobileMenuHeader: FC<Props> = ({ onArrowClick, logo, logoLink, hideHeaderM
       {categories.length > 0 && (
         <div className="flex h-full items-center justify-start">
           <Button variant="ghost" size="fit" onClick={onArrowClick} className="px-0">
-            <ChevronLeftIcon className="w-20 text-secondary-black" />
+            <ChevronLeftIcon className="w-20 text-gray-600" />
           </Button>
         </div>
       )}
@@ -47,7 +47,7 @@ const MobileMenuHeader: FC<Props> = ({ onArrowClick, logo, logoLink, hideHeaderM
           title={formatMessage({ id: 'close', defaultMessage: 'Close' })}
           className="px-0"
         >
-          <XMarkIcon className="w-24 text-secondary-black" />
+          <XMarkIcon className="w-24 text-gray-600" />
         </Button>
       </div>
     </div>

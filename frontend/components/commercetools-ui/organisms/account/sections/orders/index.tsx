@@ -46,9 +46,7 @@ const Orders = ({ orders, loading }: Props) => {
   }, [selectedTab, orders]);
 
   const tabTextClassNames = (tab: StatusTab) => {
-    return `border-primary-black pb-8 ${
-      tab.slug === selectedTab ? 'border-b-2 text-primary-black font-medium' : 'text-secondary-black'
-    }`;
+    return `border-primary pb-8 ${tab.slug === selectedTab ? 'border-b-2 text-primary font-medium' : 'text-gray-600'}`;
   };
 
   const mobileStatusWrapper = useClassNames([
@@ -82,7 +80,7 @@ const Orders = ({ orders, loading }: Props) => {
         <>
           <Typography
             as="h2"
-            className="mt-20 hidden text-22 text-primary-black md:ml-24 md:block lg:ml-44 lg:mt-42 lg:text-24"
+            className="mt-20 hidden text-22 text-primary md:ml-24 md:block lg:ml-44 lg:mt-42 lg:text-24"
           >
             {formatOrdersMessage({
               id: 'orders',
@@ -91,7 +89,7 @@ const Orders = ({ orders, loading }: Props) => {
           </Typography>
 
           <div className="mt-20 px-16 md:mt-36 md:px-24 lg:px-44">
-            <Typography className="text-14 text-secondary-black md:text-16">
+            <Typography className="text-14 text-gray-600 md:text-16">
               {formatOrdersMessage({
                 id: 'help.question',
                 defaultMessage: 'Check status of recent orders, manage your returns and download invoices.',

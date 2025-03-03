@@ -2,24 +2,26 @@
 
 @layer base {
   [data-theme='default'] {
-    --color-primary-black: 33 33 33;
-    --color-primary-dark: 52 52 52;
+    --color-primary: 33 33 33;
+    --color-secondary: 73 73 73;
+    --color-accent: 73 73 73;
 
-    --color-secondary-black: 73 73 73;
-    --color-secondary-grey: 71 71 71;
+    --color-gray-100: 252 252 253;
+    --color-gray-200: 247 247 247;
+    --color-gray-300: 209 209 209;
+    --color-gray-400: 143 143 143;
+    --color-gray-500: 112 112 112;
+    --color-gray-600: 73 73 73;
+    --color-gray-700: 33 33 33;
+    --color-gray-800: 26 26 26;
 
-    --color-accent-red: 209 66 83;
-
-    --color-gray-400: 127 127 127;
-    --color-gray-500: 118 118 118;
-    --color-gray-700: 26 26 26;
-
-    --color-neutral-100: 255 255 255;
+    --color-neutral-default: 224 225 221;
     --color-neutral-150: 247 249 252;
-    --color-neutral-200: 248 248 248;
+    --color-neutral-200: 243 245 249;
     --color-neutral-300: 239 240 245;
     --color-neutral-400: 220 224 235;
-    --color-neutral-500: 149 149 149;
+    --color-neutral-500: 188 193 208;
+    --color-neutral-800: 26 26 26;
 
     --color-green-100: 236 245 243;
     --color-green-300: 168 219 205;
@@ -31,11 +33,11 @@
     --color-yellow-300: 246 198 105;
     --color-yellow-500: 242 174 41;
     --color-yellow-600: 194 139 33;
-    --color-yellow-700: 145 104 25;
+    --color-yellow-700: 137 98 23;
 
     --color-red-100: 246 229 231;
     --color-red-300: 224 145 154;
-    --color-red-500: 205 63 80;
+    --color-red-500: 198 62 78;
     --color-red-600: 174 29 50;
     --color-red-700: 138 24 42;
 

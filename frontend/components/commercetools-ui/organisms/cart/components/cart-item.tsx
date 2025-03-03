@@ -2,6 +2,7 @@ import React, { useCallback, useState } from 'react';
 import { TrashIcon } from '@heroicons/react/24/outline';
 import { LineItem as CartLineItem } from 'shared/types/cart/LineItem';
 import Image from 'components/commercetools-ui/atoms/image';
+import Link from 'components/commercetools-ui/atoms/link';
 import OutOfStock from 'components/commercetools-ui/atoms/out-of-stock';
 import QuantitySelector from 'components/commercetools-ui/atoms/quantity-selector';
 import useClassNames from 'helpers/hooks/useClassNames';
@@ -28,7 +29,7 @@ const CartItem: React.FC<Props> = ({ item, onRemoveItem, onUpdateItem, OnMoveToW
   const deleteButtonClassName = useClassNames(['block', processing ? 'cursor-not-allowed' : 'cursor-pointer']);
 
   const wishlistButtonClassName = useClassNames([
-    'text-secondary-black decoration-secondary-black decoration-solid hover:underline hover:underline-offset-2',
+    'text-gray-600 decoration-gray-600 decoration-solid hover:underline hover:underline-offset-2',
     classNames.moveToWishlist,
     processing ? 'cursor-not-allowed' : 'cursor-pointer',
   ]);
@@ -65,18 +66,19 @@ const CartItem: React.FC<Props> = ({ item, onRemoveItem, onUpdateItem, OnMoveToW
   return (
     <div className="flex max-w-full items-stretch justify-start gap-10 py-18 md:gap-15">
       <div className="w-125 shrink-0 bg-white p-12">
-        <div className="relative size-full rounded-sm">
+        <Link className="relative block size-full rounded-sm" link={item._url}>
           <Image src={item.variant?.images?.[0]} suffix="small" style={{ objectFit: 'contain' }} fill />
-        </div>
+        </Link>
       </div>
       <div className="max-w-full grow overflow-hidden">
         <div className="flex items-center justify-between">
-          <p
-            className="max-w-[85%] overflow-hidden text-ellipsis whitespace-pre text-14 uppercase leading-loose"
+          <Link
+            className="block max-w-[85%] overflow-hidden text-ellipsis whitespace-pre text-14 uppercase leading-loose"
             title={item.name}
+            link={item._url}
           >
             {item.name}
-          </p>
+          </Link>
           <i data-testid="remove-button" onClick={handleRemoveItem} className={deleteButtonClassName}>
             <TrashIcon stroke="#494949" className="w-20" />
           </i>

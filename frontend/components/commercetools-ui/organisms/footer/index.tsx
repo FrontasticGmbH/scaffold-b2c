@@ -16,13 +16,14 @@ export interface Props {
 }
 
 export interface SocialMedia {
+  title: string;
   logo: ImageProps;
   reference: Reference;
 }
 
 const Footer: React.FC<Props> = ({ columns, logo, socialMedia }) => {
   return (
-    <footer aria-labelledby="footer-heading" className="w-full bg-primary-black">
+    <footer aria-labelledby="footer-heading" className="w-full bg-primary">
       <div className="hidden w-full justify-between px-24 py-58 md:flex lg:px-20 xl:px-48">
         <div className="grid w-full grid-cols-4">
           {columns?.map((column, index) => (
@@ -44,8 +45,8 @@ const Footer: React.FC<Props> = ({ columns, logo, socialMedia }) => {
               variant="arrow"
               closedSectionTitle={column.header ?? ''}
               openSectionTitle={column.header}
-              buttonClassName="h-48 text-14 font-medium text-neutral-100 px-12 text-neutral-150"
-              iconClassName="text-neutral-100"
+              buttonClassName="h-48 text-14 font-medium text-white px-12 text-neutral-150"
+              iconClassName="text-neutral"
             >
               <div className="mb-16 ml-20 flex flex-row text-14 md:ml-24" key={index}>
                 <Column links={column.links ?? []} className="px-0" />
@@ -54,7 +55,7 @@ const Footer: React.FC<Props> = ({ columns, logo, socialMedia }) => {
           </li>
         ))}
       </ul>
-      <div className="w-full sm:border-t sm:border-secondary-grey" />
+      <div className="w-full sm:border-t-accent" />
       <FooterBottom socialMedia={socialMedia} logo={logo} />
     </footer>
   );

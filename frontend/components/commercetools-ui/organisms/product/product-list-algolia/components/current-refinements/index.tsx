@@ -66,20 +66,20 @@ const CurrentRefinements = () => {
       {[...numericRefinements, ...nonNumericRefinements].map((refinement) => (
         <div
           key={refinement.value}
-          className="flex cursor-default items-center justify-center gap-8 rounded-md border border-neutral-500 bg-white px-8 py-6 transition hover:border-primary-black"
+          className="flex cursor-default items-center justify-center gap-8 rounded-md border border-neutral-500 bg-white px-8 py-6 transition hover:border-primary"
         >
-          <span className="text-14 leading-[20px] text-secondary-black">
+          <span className="text-14 leading-[20px] text-gray-600">
             {resolveLabel(refinement.attribute, refinement.label)}
           </span>
           <CloseIcon
-            className="w-20 cursor-pointer fill-secondary-black stroke-0"
+            className="w-20 cursor-pointer fill-gray-600 stroke-0"
             onClick={() => removeRefinement(refinement)}
           />
         </div>
       ))}
-      <div className="flex cursor-default items-center justify-center gap-8 rounded-md border border-transparent bg-white px-8 py-6 transition hover:border-primary-black">
+      <div className="flex cursor-default items-center justify-center gap-8 rounded-md border border-transparent bg-white px-8 py-6 transition hover:border-primary">
         <span className="text-14">{formatProductMessage({ id: 'clear.all', defaultMessage: 'Clear All' })}</span>
-        <CloseIcon className="w-20 cursor-pointer fill-secondary-black stroke-0" onClick={removeAllRefinements} />
+        <CloseIcon className="w-20 cursor-pointer fill-gray-600 stroke-0" onClick={removeAllRefinements} />
       </div>
     </div>
   );

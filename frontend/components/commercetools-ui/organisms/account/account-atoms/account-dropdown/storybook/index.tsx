@@ -21,12 +21,12 @@ const AccountDropdownContent: FC = () => {
                 <>
                   <Popover.Button title={'Popover Title'}>
                     <div className="flex w-fit whitespace-nowrap">
-                      <div className="border-primary-black pb-8 hover:border-b-2">
-                        <UserIcon className="w-28 text-secondary-black" />
+                      <div className="border-primary pb-8 hover:border-b-2">
+                        <UserIcon className="w-28 text-gray-600" />
                       </div>
                     </div>
                   </Popover.Button>
-                  <Popover.Overlay className="fixed inset-0 z-[310] bg-secondary-black opacity-30" />
+                  <Popover.Overlay className="fixed inset-0 z-[310] bg-gray-600 opacity-30" />
                   <Popover.Panel className="absolute -left-105 top-50 z-[310] animate-[appearDropdown_0.15s_ease-in-out] rounded-sm bg-white shadow-400">
                     <div className="absolute -top-20 left-1/2 z-10 w-31 -translate-x-1/2 overflow-hidden">
                       <div className="size-21 origin-bottom-left rotate-45 bg-white" />

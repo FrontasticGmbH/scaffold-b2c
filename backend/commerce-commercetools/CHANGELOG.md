@@ -1,4 +1,47 @@
 
+## Version 3.1.0 (2025-02-17)
+
+
+** New Features & Improvements **
+
+* added account group filter to PDP in B2B and B2C
+* limited the cart fetching for session to not create any cart in B2C
+* fix lint errors
+* add priceCustomerGroup to product search query(b2c)
+* renamed method to match the discount type returned
+* added support for free shipping method above amount
+* improved imported types
+* added types to index
+* aligned product and cart discount types
+* improved method to loop over product variants
+* renamed field for discount code id
+* clean up types and comments B2B backend
+* impproved discount code handler for B2C
+* added support for buy and get + shipping discounts on B2C
+* added method to handle localized currencies and cleanup
+* handled cart discount for whole cart and line items
+* handle product discount on product query and cart for B2C
+* implemented product discount types on frontend
+* Add discount types to B2C
+* Get precise currency for discount value based on locale
+* Update B2B to match B2C
+* Rename discounts to discount
+* Rename DiscountValue to ProductDiscountValue
+* Rename ProductDiscount items
+* Rename DiscountedTotalPricePortion to DiscountTotalPricePortion
+* Introduce product discounts inside b2c
+* Add direct discount and rename discount to DiscountCodes B2C
+
+
+** Bug Fixes **
+
+* Not set customer group when cart is recreated
+* Set correct name for discount code id
+* Added missing locales
+* Handled empty discount
+* Differenciated discounted amount and value for product and cart discounts
+* Used correct price for product discount mapping
+
 ## Version 3.0.0 (2025-02-03)
 
 ** New Features & Improvements **

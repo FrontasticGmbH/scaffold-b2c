@@ -59,7 +59,7 @@ const Checkbox: React.FC<CheckboxProps> = ({
   const containerClassNames = useClassNames(['flex items-center gap-12', containerClassName]);
   const buttonClassName = useClassNames([
     'h-20 w-20 min-w-[20px] rounded-sm relative outline outline-1 cursor-pointer',
-    isHovered ? 'outline-secondary-black' : 'outline-neutral-400',
+    isHovered ? 'outline-gray-600' : 'outline-neutral-400',
   ]);
 
   const inputClassName = useClassNames([
@@ -70,16 +70,13 @@ const Checkbox: React.FC<CheckboxProps> = ({
   const iconClassName = useClassNames([
     'absolute top-[50%] z-[1] left-[50%] h-16 w-16 translate-y-[-50%] translate-x-[-50%] stroke-[2px]',
     isChecked || isHovered ? 'block' : 'hidden',
-    isChecked && !disableBackground ? 'text-white' : 'text-secondary-black',
+    isChecked && !disableBackground ? 'text-white' : 'text-gray-600',
   ]);
 
-  const backgroundClassName = useClassNames([
-    'absolute z-0 h-20 w-20 rounded-sm',
-    { 'bg-secondary-black': !!isChecked },
-  ]);
+  const backgroundClassName = useClassNames(['absolute z-0 h-20 w-20 rounded-sm', { 'bg-gray-600': !!isChecked }]);
 
   const LabelElement = (
-    <Typography id="input-label" as="label" className="text-14 text-secondary-black">
+    <Typography id="input-label" as="label" className="text-14 text-gray-600">
       {label}
     </Typography>
   );

@@ -36,20 +36,17 @@ const ThankYouOrderInfo: FC<ThankYouOrderInfoProps> = ({ firstName, order, shipp
         <div key={index}>
           <div className="flex flex-wrap gap-5 md:gap-0">
             <div className="md:w-136">
-              <Typography className="w-fit text-14 leading-loose text-secondary-black md:text-16" asSkeleton={loading}>
+              <Typography className="w-fit text-14 leading-loose text-gray-600 md:text-16" asSkeleton={loading}>
                 {label + ':'}
               </Typography>
             </div>
-            <Typography
-              className="text-14 font-medium leading-loose text-primary-black md:text-16"
-              asSkeleton={loading}
-            >
+            <Typography className="text-14 font-medium leading-loose text-primary md:text-16" asSkeleton={loading}>
               {value}
             </Typography>
           </div>
           {subValue && (
             <Typography
-              className="mt-4 w-fit text-14 leading-loose text-primary-black md:ml-136 md:text-16"
+              className="mt-4 w-fit text-14 leading-loose text-primary md:ml-136 md:text-16"
               asSkeleton={loading}
             >
               {subValue}

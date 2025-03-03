@@ -21,11 +21,11 @@ const Radio: React.FC<Props> = ({
   const [checked, setChecked] = useControllableState(checkedProp, defaultChecked);
 
   const labelClassName = useClassNames([
-    'grid place-content-center w-20 h-20 border border-secondary-black rounded-full',
+    'grid place-content-center w-20 h-20 border border-gray-600 rounded-full',
     className,
   ]);
 
-  const inputClassNames = useClassNames(['h-12 w-12 border-0 text-secondary-black', inputClassName]);
+  const inputClassNames = useClassNames(['h-12 w-12 border-0 text-gray-600', inputClassName]);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     onChange?.(e);

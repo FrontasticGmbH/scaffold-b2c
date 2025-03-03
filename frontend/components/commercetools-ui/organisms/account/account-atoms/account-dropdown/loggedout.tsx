@@ -19,7 +19,7 @@ const LoggedOut = () => {
         </Button>
       </Popover.Button>
       <Popover.Button tabIndex={-1}>
-        <Link link="/" className="mt-20 block w-fit text-primary-black hover:underline">
+        <Link link="/" className="mt-20 block w-fit text-primary hover:underline">
           {formatAccountMessage({ id: 'membership.info', defaultMessage: 'Membership info' })}
         </Link>
       </Popover.Button>
@@ -28,7 +28,7 @@ const LoggedOut = () => {
           {formatAccountMessage({ id: 'not.member', defaultMessage: 'Not a member' })}?
         </span>
         <Popover.Button tabIndex={-1}>
-          <Link link="/register" className="ml-4 whitespace-nowrap font-medium text-primary-black hover:underline">
+          <Link link="/register" className="ml-4 whitespace-nowrap font-medium text-primary hover:underline">
             {formatAccountMessage({ id: 'join.here', defaultMessage: 'Join here' })}
           </Link>
         </Popover.Button>

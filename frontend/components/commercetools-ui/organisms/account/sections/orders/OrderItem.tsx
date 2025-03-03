@@ -33,11 +33,11 @@ const OrderItem: FC<Props> = ({ order }) => {
       <div className="grid grid-cols-1 items-center rounded-t-md bg-neutral-150 p-12 md:grid-cols-3 md:p-16 lg:grid-cols-4 lg:px-24 lg:py-32">
         <div className="flex-col">
           <div className="flex whitespace-nowrap pb-16">
-            <Typography className="text-14 font-medium text-primary-black lg:text-16">
+            <Typography className="text-14 font-medium text-primary lg:text-16">
               {formatOrdersMessage({ id: 'order.number', defaultMessage: 'Order number ' })}
             </Typography>
             <Typography
-              className="truncate pl-5 text-14 text-primary-black lg:text-16"
+              className="truncate pl-5 text-14 text-primary lg:text-16"
               title={order?.orderNumber?.replaceAll('-', ' ')}
             >
               {order?.orderNumber?.replaceAll('-', ' ')}
@@ -45,29 +45,27 @@ const OrderItem: FC<Props> = ({ order }) => {
           </div>
 
           <div className="flex">
-            <Typography className="text-14 font-medium text-primary-black md:hidden">
+            <Typography className="text-14 font-medium text-primary md:hidden">
               {formatOrdersMessage({ id: 'order.date', defaultMessage: 'Date:' })}
             </Typography>
-            <Typography className="pl-5 text-14 text-primary-black md:pl-0 md:text-secondary-black">
-              {orderDate}
-            </Typography>
+            <Typography className="pl-5 text-14 text-primary md:pl-0 md:text-gray-600">{orderDate}</Typography>
           </div>
         </div>
 
         <div className="ml-48 hidden md:flex md:flex-col">
-          <Typography className="pb-15 font-medium text-primary-black">
+          <Typography className="pb-15 font-medium text-primary">
             {formatOrdersMessage({ id: 'total', defaultMessage: 'Total' })}
           </Typography>
-          <Typography className="text-14 text-secondary-black">
+          <Typography className="text-14 text-gray-600">
             {CurrencyHelpers.formatForCurrency(getTotal, locale)}
           </Typography>
         </div>
 
         <div className="hidden md:flex md:flex-col">
-          <Typography className="pb-15 font-medium text-primary-black">
+          <Typography className="pb-15 font-medium text-primary">
             {formatOrdersMessage({ id: 'status', defaultMessage: 'Status' })}
           </Typography>
-          <Typography className="text-14 text-secondary-black">
+          <Typography className="text-14 text-gray-600">
             {formatOrdersMessage({ id: order?.orderState as string, defaultMessage: order?.orderState })}
           </Typography>
         </div>
@@ -82,13 +80,13 @@ const OrderItem: FC<Props> = ({ order }) => {
       <Link link={`?hash=orders&id=order_${order?.orderId}`}>
         <div className="flex w-full cursor-pointer items-center justify-between px-12 py-16 md:px-16 lg:px-24 lg:py-20">
           <div className="flex">
-            <Typography className="text-14 text-primary-black">{order?.lineItems?.length.toString()}</Typography>
-            <Typography className="pl-7 text-14 text-primary-black">
+            <Typography className="text-14 text-primary">{order?.lineItems?.length.toString()}</Typography>
+            <Typography className="pl-7 text-14 text-primary">
               {formatOrdersMessage({ id: 'articles', defaultMessage: 'articles' })}
             </Typography>
           </div>
 
-          <ChevronRightIcon strokeWidth={1.5} className="w-24 text-secondary-black" />
+          <ChevronRightIcon strokeWidth={1.5} className="w-24 text-gray-600" />
         </div>
       </Link>
     </div>

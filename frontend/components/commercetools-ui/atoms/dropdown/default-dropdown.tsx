@@ -39,10 +39,7 @@ const DefaultDropdown: FC<DropdownProps> = ({
     className,
   ]);
 
-  const labelClassNames = useClassNames([
-    'mb-8 text-secondary-black leading-loose font-medium text-14',
-    labelClassName,
-  ]);
+  const labelClassNames = useClassNames(['mb-8 text-gray-600 leading-loose font-medium text-14', labelClassName]);
 
   return (
     <div className={containerClassNames}>
@@ -63,7 +60,7 @@ const DefaultDropdown: FC<DropdownProps> = ({
 
         <ChevronDownIcon
           data-testid="chevron-down-icon"
-          className="absolute right-5 top-1/2 z-0 h-20 w-30 -translate-y-1/2 stroke-1 text-secondary-black"
+          className="absolute right-5 top-1/2 z-0 h-20 w-30 -translate-y-1/2 stroke-1 text-gray-600"
         />
       </div>
     </div>

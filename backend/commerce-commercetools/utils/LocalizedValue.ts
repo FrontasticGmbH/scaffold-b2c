@@ -14,7 +14,7 @@ export default class LocalizedValue {
       return productValue[defaultLocale];
     }
 
-    return productValue[0];
+    return Object.values(productValue)[0];
   };
 
   static getLocalizedCurrencyValue(locale: Locale, money: TypedMoney[]): Money | undefined {

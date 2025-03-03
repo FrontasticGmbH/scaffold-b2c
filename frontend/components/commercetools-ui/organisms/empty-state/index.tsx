@@ -42,10 +42,7 @@ export const EmptyState: React.FC<Props> = ({
         {categories?.map((category) => (
           <li key={category.name} onClick={handleCategoryClick}>
             <Link link={category.reference}>
-              <Button
-                className="w-200 rounded-md border border-primary-black text-16 text-secondary-black"
-                variant="secondary"
-              >
+              <Button className="w-200 rounded-md border border-primary text-16 text-gray-600" variant="secondary">
                 {category.name}
               </Button>
             </Link>

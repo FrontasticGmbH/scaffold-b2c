@@ -18,14 +18,14 @@ const MyAccount: React.FC = () => {
         {isLoading ? (
           <Skeleton className="h-30 max-w-300" />
         ) : (
-          <Typography as="h3" className="hidden text-20 text-primary-black md:block lg:text-24">
+          <Typography as="h3" className="hidden text-20 text-primary md:block lg:text-24">
             {`${formatMessage({ id: 'hello', defaultMessage: 'Hi, ' })}${account?.firstName ?? ''}`}
           </Typography>
         )}
         {isLoading ? (
           <Skeleton className="max-w-400" />
         ) : (
-          <Typography className="text-14 text-secondary-black md:text-16">
+          <Typography className="text-14 text-gray-600 md:text-16">
             {formatMessage({ id: 'account.desc', defaultMessage: 'Manage your account' })}
           </Typography>
         )}

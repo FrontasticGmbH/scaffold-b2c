@@ -29,7 +29,7 @@ const ColorFacet: React.FC<FacetProps> = ({ attribute }) => {
             <span className="mt-4 block max-w-full truncate text-14" title={color.label}>
               {color.label}
             </span>
-            <span className="mt-2 block text-14 text-secondary-black">{count}</span>
+            <span className="mt-2 block text-14 text-gray-600">{count}</span>
           </Popover.Button>
         );
       })}

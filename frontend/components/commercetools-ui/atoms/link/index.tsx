@@ -17,9 +17,9 @@ type VariantStyle = { [key in LinkVariant]: string };
 
 const variantStyle: VariantStyle = {
   primary: 'text-14 lg:text-16 cursor-pointer text-neutral-500 hover:text-neutral-400',
-  'menu-item': 'text-secondary-black hover:underline hover:underline-offset-2',
-  breadcrumb: 'text-14 font-medium text-primary-black',
-  'menu-header': 'text-14 font-medium text-primary-black cursor-pointer',
+  'menu-item': 'text-gray-600 hover:underline hover:underline-offset-2',
+  breadcrumb: 'text-14 font-medium text-primary',
+  'menu-header': 'text-14 font-medium text-primary cursor-pointer',
 };
 
 const Link = ({

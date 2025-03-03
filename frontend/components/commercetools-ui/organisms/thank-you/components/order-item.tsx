@@ -26,7 +26,7 @@ const OrderLineItem: FC<LineItem> = ({ name, price, count, variant }) => {
           <Typography asSkeleton={!name} className="mt-8 block text-12 font-medium md:hidden lg:block lg:text-14">
             {CurrencyHelpers.formatForCurrency(price ?? 111, locale)}
           </Typography>
-          <Typography asSkeleton={!name} className="mt-12 text-14 text-secondary-black">
+          <Typography asSkeleton={!name} className="mt-12 text-14 text-gray-600">
             {'x ' + (count ?? '2')}
           </Typography>
         </div>

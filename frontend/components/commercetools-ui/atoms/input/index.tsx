@@ -94,7 +94,7 @@ const Input: FC<InputProps> = ({
     labelPosition ? 'leading-loose' : 'leading-normal',
     labelPosition === 'top' ? 'text-14' : 'text-10',
     'font-medium',
-    { ['text-secondary-black']: labelPosition === 'top' },
+    { ['text-gray-600']: labelPosition === 'top' },
     { [isInActiveState && label ? 'opacity-1 scale-100' : 'scale-0 opacity-0']: labelPosition === 'inline' },
     {
       ['absolute top-[6px] left-[12px] font-medium block transition duration-150 ease-out']: labelPosition === 'inline',
@@ -108,7 +108,7 @@ const Input: FC<InputProps> = ({
   ]);
 
   const inputClassName = useClassNames([
-    'h-40 focus:border-gray-500 focus:ring-0 w-full rounded-sm border border-neutral-500 px-12 text-primary-black placeholder:text-14 placeholder:leading-normal placeholder:text-secondary-black focus:outline-none disabled:cursor-not-allowed disabled:bg-neutral-400',
+    'h-40 focus:border-gray-500 focus:ring-0 w-full rounded-sm border border-neutral-500 px-12 text-primary placeholder:text-14 placeholder:leading-normal placeholder:text-gray-600 focus:outline-none disabled:cursor-not-allowed disabled:bg-neutral-400',
     bgClassName,
     isInActiveState && label && labelPosition == 'inline' ? 'pt-[20px] pb-[4px]' : 'py-10',
     {
@@ -144,6 +144,7 @@ const Input: FC<InputProps> = ({
           ref={innerRef}
           value={value}
           id={props.name}
+          aria-describedby={`${props.name}_input_error`}
           {...props}
         />
         {(isValid || (isValidProp && !isInActiveState)) && !isFocused && !hideCheckIcon && (
@@ -155,7 +156,11 @@ const Input: FC<InputProps> = ({
         {children}
       </div>
       {(isErrored || props.error) && (
-        <Typography className="mt-12 text-12 font-medium leading-[16px] text-red-500" as="span">
+        <Typography
+          className="mt-12 text-12 font-medium leading-[16px] text-red-500"
+          as="span"
+          id={`${props.name}_input_error`}
+        >
           {props.error ?? errorMessage}
         </Typography>
       )}

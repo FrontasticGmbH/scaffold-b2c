@@ -8,7 +8,7 @@ import useMediaQuery from 'helpers/hooks/useMediaQuery';
 import useVariantWithDiscount from 'helpers/hooks/useVariantWithDiscount';
 import { textToColor } from 'helpers/textToColor/textToColor';
 import { desktop } from 'helpers/utils/screensizes';
-import { ShippingMethod, Cart } from 'types/entity/cart';
+import { Cart, ShippingMethod } from 'types/entity/cart';
 import { Product, Variant } from 'types/entity/product';
 import { LineItem, Wishlist } from 'types/entity/wishlist';
 import Prices from './prices';
@@ -151,7 +151,7 @@ const ProductTile: FC<ProductTileProps> = ({
         >
           {hasDiscount && (
             <div className="w-full text-center">
-              <span className="mb-8 ml-8 flex h-25 w-45 items-center justify-center bg-accent-red text-12 text-neutral-100">
+              <span className="mb-8 ml-8 flex h-25 w-45 items-center justify-center bg-red-500 text-12 text-white">
                 {Math.round(discountPercentage)}%
               </span>
             </div>

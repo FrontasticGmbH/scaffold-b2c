@@ -78,7 +78,7 @@ const Scheme = () => {
         label={formatCheckoutMessage({ id: 'card.holder', defaultMessage: 'Card holder' })}
         labelPosition="top"
         name="holderName"
-        className="text-14 placeholder:text-secondary-black sm:px-8"
+        className="text-14 placeholder:text-gray-600 sm:px-8"
         placeholder={formatCheckoutMessage({ id: 'card.holder', defaultMessage: 'Card holder' })}
         onChange={handleChange}
         defaultValue={paymentData.holderName}
@@ -87,7 +87,7 @@ const Scheme = () => {
         <Input
           label={formatCheckoutMessage({ id: 'card.number', defaultMessage: 'Card number' })}
           labelPosition="top"
-          className="text-14 placeholder:text-secondary-black sm:px-8"
+          className="text-14 placeholder:text-gray-600 sm:px-8"
           placeholder={formatCheckoutMessage({ id: 'card.number', defaultMessage: 'Card number' })}
           onChange={handleCardNumberChange}
           isValid={!!(paymentData.number && paymentData.number.length >= 12 && paymentData.number.length <= 19)}
@@ -124,7 +124,7 @@ const Scheme = () => {
           <Input
             label={formatCheckoutMessage({ id: 'card.securityNumber', defaultMessage: 'Security number' })}
             labelPosition="top"
-            className="text-14 placeholder:text-secondary-black sm:px-8"
+            className="text-14 placeholder:text-gray-600 sm:px-8"
             type="number"
             placeholder={formatCheckoutMessage({ id: 'card.securityNumber', defaultMessage: 'Security number' })}
             onChange={handleCVCChange}

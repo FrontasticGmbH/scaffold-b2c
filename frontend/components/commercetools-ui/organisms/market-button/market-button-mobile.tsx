@@ -1,5 +1,5 @@
 import { FC, useCallback, useMemo } from 'react';
-import { Menu } from '@headlessui/react';
+import { MenuItem } from '@headlessui/react';
 import { ChevronDownIcon } from '@heroicons/react/24/outline';
 import Button from 'components/commercetools-ui/atoms/button';
 import Dropdown from 'components/commercetools-ui/atoms/dropdown';
@@ -48,10 +48,10 @@ const MarketButtonMobile: FC<Props> = ({ menuTop }) => {
       <div className="flex w-full cursor-pointer justify-between">
         <div className="flex w-fit items-center justify-start">
           {selectedLocation && <FlagIcons flagName={selectedLocation?.flagName} className="my-auto mr-8" />}
-          <Typography className="text-14 text-secondary-black">{selectedLocation?.label}</Typography>
+          <Typography className="text-14 text-gray-600">{selectedLocation?.label}</Typography>
         </div>
         <div className="flex justify-end">
-          <ChevronDownIcon strokeWidth={2} className="w-16 text-secondary-black" />
+          <ChevronDownIcon strokeWidth={2} className="w-16 text-gray-600" />
         </div>
       </div>
     );
@@ -61,10 +61,10 @@ const MarketButtonMobile: FC<Props> = ({ menuTop }) => {
     return (
       <div className="flex w-full cursor-pointer justify-between">
         <div className="flex w-fit items-center justify-start">
-          <Typography className="text-14 text-secondary-black">{selectedLanguage?.name}</Typography>
+          <Typography className="text-14 text-gray-600">{selectedLanguage?.name}</Typography>
         </div>
         <div className="flex justify-end">
-          <ChevronDownIcon strokeWidth={2} className="w-16 text-secondary-black" />
+          <ChevronDownIcon strokeWidth={2} className="w-16 text-gray-600" />
         </div>
       </div>
     );
@@ -74,7 +74,7 @@ const MarketButtonMobile: FC<Props> = ({ menuTop }) => {
     <>
       {locations && locations.length !== 0 && (
         <>
-          <Typography className="pb-2 text-14 font-semibold text-gray-800">
+          <Typography className="pb-2 text-14 font-semibold text-gray-700">
             {formatMessage({ id: 'shop.ship.title', defaultMessage: 'Shop and ship to' })}
           </Typography>
           <Dropdown
@@ -84,7 +84,7 @@ const MarketButtonMobile: FC<Props> = ({ menuTop }) => {
             customMenuClassNames={marketMenuClassNames}
           >
             {locations.map((location) => (
-              <Menu.Item key={location.label}>
+              <MenuItem key={location.label}>
                 <div className="overflow-y-scroll hover:bg-neutral-200 active:bg-neutral-200">
                   <Button
                     variant="ghost"
@@ -94,20 +94,20 @@ const MarketButtonMobile: FC<Props> = ({ menuTop }) => {
                   >
                     <div className="flex w-fit items-center justify-start">
                       <FlagIcons flagName={location.flagName} className="mr-8" />
-                      <Typography as="span" className="text-14 font-normal text-secondary-black">
+                      <Typography as="span" className="text-14 font-normal text-gray-600">
                         {location.label}
                       </Typography>
                     </div>
                   </Button>
                 </div>
-              </Menu.Item>
+              </MenuItem>
             ))}
           </Dropdown>
         </>
       )}
       {selectedLocation?.languages && selectedLocation.languages.length > 1 && (
         <div className="pt-5">
-          <Typography className="pb-2 text-14 font-semibold text-gray-800">
+          <Typography className="pb-2 text-14 font-semibold text-gray-700">
             {formatMessage({ id: 'language', defaultMessage: 'Language' })}
           </Typography>
           <Dropdown
@@ -117,7 +117,7 @@ const MarketButtonMobile: FC<Props> = ({ menuTop }) => {
             customMenuClassNames={marketMenuClassNames}
           >
             {selectedLocation.languages.map((language) => (
-              <Menu.Item key={language.value}>
+              <MenuItem key={language.value}>
                 <div className="overflow-y-scroll hover:bg-neutral-200 active:bg-neutral-200">
                   <Button
                     variant="ghost"
@@ -126,13 +126,13 @@ const MarketButtonMobile: FC<Props> = ({ menuTop }) => {
                     className="flex w-full items-center justify-start px-16 py-12"
                   >
                     <div className="flex w-fit items-center justify-start">
-                      <Typography as="span" className="text-14 font-normal text-secondary-black">
+                      <Typography as="span" className="text-14 font-normal text-gray-600">
                         {language.name}
                       </Typography>
                     </div>
                   </Button>
                 </div>
-              </Menu.Item>
+              </MenuItem>
             ))}
           </Dropdown>
         </div>

@@ -61,7 +61,7 @@ const SearchSuggestion: React.FC<Props> = ({ hit, categories, onClick }) => {
 
   return (
     <div className="flex items-start gap-28">
-      <SearchIcon className="size-24 stroke-secondary-black" />
+      <SearchIcon className="size-24 stroke-gray-600" />
       <div className="flex flex-col gap-24">
         <Link link={`/search?query=${hit.query}`} onMouseUp={handleQuerySuggestionClick}>
           <Highlight
@@ -78,7 +78,7 @@ const SearchSuggestion: React.FC<Props> = ({ hit, categories, onClick }) => {
             link={`${_url}?query=${hit.query}`}
             onMouseUp={() => handleCategoryOptionClick({ _url })}
           >
-            <i className="text-secondary-black">In {name}</i>
+            <i className="text-gray-600">In {name}</i>
           </Link>
         ))}
       </div>

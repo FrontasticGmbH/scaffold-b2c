@@ -27,7 +27,7 @@ const AccordionContent = () => {
               closedSectionTitle={item.title}
               openSectionTitle={item.title}
               className={`p-8 ${index < accordionMockItems.length - 1 ? 'border-b-2' : ''}`}
-              panelClassName="p-8 text-secondary-black"
+              panelClassName="p-8 text-gray-600"
             >
               {item.content}
             </Accordion>
@@ -45,7 +45,7 @@ const AccordionContent = () => {
             closedSectionTitle={item.title}
             openSectionTitle={item.title}
             className={`p-8 ${index < accordionFAQMockItems.length - 1 ? 'border-b-2' : ''}`}
-            panelClassName="p-8 text-secondary-black"
+            panelClassName="p-8 text-gray-600"
           >
             {item.content}
           </Accordion>
@@ -74,7 +74,7 @@ const AccordionContent = () => {
               </div>
 
               <div className="flex cursor-pointer items-center">
-                <span className="text-14 text-secondary-black">+{2}</span>
+                <span className="text-14 text-gray-600">+{2}</span>
                 <ChevronDownIcon strokeWidth={1} className="w-24" />
               </div>
             </div>
@@ -104,7 +104,7 @@ const AccordionContent = () => {
                     >
                       {CurrencyHelpers.formatForCurrency(lineItem.price ?? 111, 'en')}
                     </Typography>
-                    <Typography asSkeleton={!lineItem.name} className="mt-12 text-14 text-secondary-black">
+                    <Typography asSkeleton={!lineItem.name} className="mt-12 text-14 text-gray-600">
                       {'x ' + (lineItem.count ?? '2')}
                     </Typography>
                   </div>

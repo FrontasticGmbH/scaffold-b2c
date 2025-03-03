@@ -1,5 +1,5 @@
-import React, { Fragment, useCallback, type JSX } from 'react';
-import { Transition, Menu } from '@headlessui/react';
+import React, { useCallback, type JSX } from 'react';
+import { Transition, Menu, MenuButton, MenuItems } from '@headlessui/react';
 
 export interface CustomDropdownProps {
   buttonElement?: JSX.Element;
@@ -33,13 +33,12 @@ const CustomDropDown = ({
     <Menu as="div" className="relative">
       {({ open }) => (
         <>
-          <Menu.Button as="div" className={buttonClassNames ? buttonClassNames(open) : defaultButtonClassNames(open)}>
+          <MenuButton as="div" className={buttonClassNames ? buttonClassNames(open) : defaultButtonClassNames(open)}>
             {buttonElement}
-          </Menu.Button>
+          </MenuButton>
 
           <Transition
             show={open}
-            as={Fragment}
             enter="transition ease-out duration-100"
             enterFrom="transform origin-top scale-y-0"
             enterTo="transform origin-top scale-y-100"
@@ -47,9 +46,9 @@ const CustomDropDown = ({
             leaveFrom="transform origin-top scale-y-150"
             leaveTo="transform origin-top scale-y-0"
           >
-            <Menu.Items className={menuWrapperClassNames ?? 'absolute left-0 top-40 w-full'}>
+            <MenuItems className={menuWrapperClassNames ?? 'absolute left-0 top-40 w-full'}>
               <div className={menuClassNames ? menuClassNames(open) : defaultMenuClassNames(open)}>{children}</div>
-            </Menu.Items>
+            </MenuItems>
           </Transition>
         </>
       )}

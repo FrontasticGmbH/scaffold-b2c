@@ -53,7 +53,7 @@ describe('[Component] Wishlist item', () => {
     expect(screen.queryByText('$100.00')).toHaveClass('line-through');
 
     expect(screen.queryByText('$50.00')).toBeInTheDocument();
-    expect(screen.queryByText('$50.00')).toHaveClass('text-accent-red');
+    expect(screen.queryByText('$50.00')).toHaveClass('text-red-500');
   });
 
   it('Can be removed from wishlist', async () => {

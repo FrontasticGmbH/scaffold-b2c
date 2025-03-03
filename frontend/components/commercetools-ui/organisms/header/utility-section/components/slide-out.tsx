@@ -86,12 +86,12 @@ const Slideout: React.FC<SlideOutProps> = ({
 
   const wishlistClassName = useClassNames([
     iconClassName,
-    state === 'wishlist' ? 'bg-secondary-grey ease-out' : 'bg-transparent ease-in',
+    state === 'wishlist' ? 'bg-accent ease-out' : 'bg-transparent ease-in',
   ]);
 
   const cartClassName = useClassNames([
     iconClassName,
-    state === 'cart' ? 'bg-secondary-grey ease-out' : 'bg-transparent ease-in',
+    state === 'cart' ? 'bg-accent ease-out' : 'bg-transparent ease-in',
   ]);
 
   const ActiveSection = useMemo(

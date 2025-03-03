@@ -42,7 +42,7 @@ const QuickView: FC<QuickViewProps> = ({
   const { formatMessage } = useFormat({ name: 'product' });
   const classNames = useClassNames([
     buttonIsVisible ? 'block' : 'hidden',
-    'w-full border border-neutral-400 bg-white py-16 text-center text-12 capitalize leading-[16px] transition duration-150 ease-out hover:border-primary-black',
+    'w-full border border-neutral-400 bg-white py-16 text-center text-12 capitalize leading-[16px] transition duration-150 ease-out hover:border-primary',
   ]);
 
   const openModal = () => {

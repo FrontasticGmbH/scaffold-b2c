@@ -1,4 +1,30 @@
 
+## Version 1.12.0 (2025-02-17)
+
+
+** New Features & Improvements **
+
+* Add priceCustomerGroup to product search query
+* Added support for free shipping method above amount
+* Aligned product and cart discount types
+* Clean up types and comments B2B backend
+* Improved discount code handler for B2C
+* Added support for buy and get + shipping discounts on B2C
+* Added method to handle localized currencies and cleanup
+* Handled cart discount for whole cart and line items
+* Handle product discount on product query and cart for B2C
+* Implemented product discount types on frontend
+* Add discount types to B2C
+* Introduce product discounts inside b2c
+* Add discountOnTotalPrice on B2C Cart
+* Add direct discount and rename discount to DiscountCodes B2C
+
+
+** Bug Fixes **
+
+* Set correct name for discount code id
+* Differenciated discounted amount and value for product and cart discounts
+
 ## Version 1.11.0 (2025-02-03)
 
 

@@ -1,5 +1,5 @@
 import React, { ReactNode } from 'react';
-import { Disclosure, Transition } from '@headlessui/react';
+import { Disclosure, Transition, DisclosureButton, DisclosurePanel } from '@headlessui/react';
 import useClassNames from 'helpers/hooks/useClassNames';
 import AccordionButton from './AccordionButton';
 
@@ -22,30 +22,28 @@ export interface AccordionProps {
   ref?: React.RefObject<HTMLDivElement | null>;
 }
 
-const Accordion = (
-  {
-    variant = 'arrow',
-    closedSectionTitle,
-    openSectionTitle = closedSectionTitle,
-    children,
-    className = '',
-    iconClassName = '',
-    buttonClassName = '',
-    buttonWrapperClassName = '',
-    panelClassName = '',
-    collapsedLabel,
-    customClosedButton,
-    customOpenButton = customClosedButton,
-    defaultOpen = false,
-    onClick,
-  }: React.PropsWithChildren<AccordionProps>,
-  ref: React.ForwardedRef<HTMLDivElement>,
-) => {
+const Accordion = ({
+  ref,
+  variant = 'arrow',
+  closedSectionTitle,
+  openSectionTitle = closedSectionTitle,
+  children,
+  className = '',
+  iconClassName = '',
+  buttonClassName = '',
+  buttonWrapperClassName = '',
+  panelClassName = '',
+  collapsedLabel,
+  customClosedButton,
+  customOpenButton = customClosedButton,
+  defaultOpen = false,
+  onClick,
+}: React.PropsWithChildren<AccordionProps>) => {
   const panelClassNames = useClassNames([panelClassName]);
 
   return (
     <div className={className} onClick={onClick} ref={ref}>
-      <Disclosure defaultOpen={defaultOpen}>
+      <Disclosure as="div" defaultOpen={defaultOpen}>
         {({ open }) => (
           <>
             {(open && !customOpenButton) || (!open && !customClosedButton) ? (
@@ -60,9 +58,9 @@ const Accordion = (
                 buttonWrapperClassName={buttonWrapperClassName}
               />
             ) : (
-              <Disclosure.Button className={buttonClassName}>
+              <DisclosureButton className={buttonClassName}>
                 {open ? customOpenButton : customClosedButton}
-              </Disclosure.Button>
+              </DisclosureButton>
             )}
 
             <Transition
@@ -74,9 +72,9 @@ const Accordion = (
               leaveTo="transform scale-y-95 opacity-0"
               unmount={false}
             >
-              <Disclosure.Panel className={panelClassNames} unmount={false}>
+              <DisclosurePanel className={panelClassNames} unmount={false}>
                 {children}
-              </Disclosure.Panel>
+              </DisclosurePanel>
             </Transition>
           </>
         )}
@@ -85,4 +83,4 @@ const Accordion = (
   );
 };
 
-export default React.forwardRef<HTMLDivElement, React.PropsWithChildren<AccordionProps>>(Accordion);
+export default Accordion;

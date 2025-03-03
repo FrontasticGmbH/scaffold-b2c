@@ -30,7 +30,7 @@ const CartSummary = () => {
                 <span className="mt-8 block text-12 font-medium md:hidden">
                   {CurrencyHelpers.formatForCurrency(lineItem.price ?? {}, locale)}
                 </span>
-                <span className="mt-12 block text-14 text-secondary-black">x {lineItem.count}</span>
+                <span className="mt-12 block text-14 text-gray-600">x {lineItem.count}</span>
               </div>
             </div>
             <span className="mt-8 hidden text-16 font-medium md:block">

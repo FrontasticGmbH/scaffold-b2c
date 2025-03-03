@@ -37,11 +37,11 @@ const AdditionalInfo: FC<AdditionalInfoProps> = ({ productspec, description }) =
         <AccordionBtn
           className="col-span-2 mt-24 border-y border-neutral-400 md:mt-0"
           closedSectionTitle={formatMessage({ id: 'product.desc', defaultMessage: 'Product Description' })}
-          buttonClassName="py-21 font-body text-16 leading-tight text-primary-black pl-0 md:pr-12"
-          panelClassName="pb-20 md:pt-10 md:pb-30 text-primary-black"
+          buttonClassName="py-21 font-body text-16 leading-tight text-primary pl-0 md:pr-12"
+          panelClassName="pb-20 md:pt-10 md:pb-30 text-primary"
         >
           <p
-            className="font-body text-14 font-regular leading-loose text-primary-black"
+            className="font-body text-14 font-regular leading-loose text-primary"
             dangerouslySetInnerHTML={{ __html: description }}
           />
         </AccordionBtn>
@@ -50,11 +50,11 @@ const AdditionalInfo: FC<AdditionalInfoProps> = ({ productspec, description }) =
         <AccordionBtn
           className="col-span-2 border-b border-neutral-400 md:mt-0"
           closedSectionTitle={formatMessage({ id: 'details.additional', defaultMessage: 'Additional Details' })}
-          buttonClassName="py-21 font-body text-16 leading-tight text-primary-black pl-0 md:pr-12"
-          panelClassName="pb-20 md:pt-10 md:pb-30 text-primary-black"
+          buttonClassName="py-21 font-body text-16 leading-tight text-primary pl-0 md:pr-12"
+          panelClassName="pb-20 md:pt-10 md:pb-30 text-primary"
         >
           <Markdown
-            className="block font-body text-14 font-regular leading-loose text-primary-black"
+            className="block font-body text-14 font-regular leading-loose text-primary"
             markdown={productspec}
           />
         </AccordionBtn>

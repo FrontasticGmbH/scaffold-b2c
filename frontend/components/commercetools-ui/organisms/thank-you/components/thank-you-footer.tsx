@@ -17,12 +17,12 @@ const ThankYouFooter: FC<ThankYouFooterProps> = ({ loading }) => {
     <div className="grid border-b border-neutral-400 pb-24 pt-16 md:border-b-0 lg:pb-0 lg:pt-36">
       <Typography
         as="h3"
-        className="mb-16 w-fit leading-[20px] text-primary-black md:mb-24 md:text-18 md:leading-normal lg:text-22"
+        className="mb-16 w-fit leading-[20px] text-primary md:mb-24 md:text-18 md:leading-normal lg:text-22"
         asSkeleton={loading}
       >
         {bottomSectionProps?.title}
       </Typography>
-      <Typography className="mb-24 w-fit text-14 text-secondary-black md:text-16" asSkeleton={loading}>
+      <Typography className="mb-24 w-fit text-14 text-gray-600 md:text-16" asSkeleton={loading}>
         {bottomSectionProps?.subtitle}
       </Typography>
       <Button

@@ -52,7 +52,7 @@ const ProductListAlgolia: React.FC<Props> = ({ slug, searchQuery }) => {
             root: 'pt-32',
             list: 'grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-16 lg:gap-24',
             loadMore:
-              'mx-auto bg-primary-black rounded-md font-medium text-white text-16 px-48 py-12 block mt-[90px] hover:bg-gray-500 transition disabled:bg-neutral-400 disabled:opacity-0',
+              'mx-auto bg-primary rounded-md font-medium text-white text-16 px-48 py-12 block mt-[90px] hover:bg-gray-500 transition disabled:bg-neutral-400 disabled:opacity-0',
           }}
           translations={{
             showMoreButtonText: formatProductMessage({ id: 'load.more', defaultMessage: 'Load More' }),

@@ -28,7 +28,7 @@ const CartContent = ({
               {formatCartMessage({ id: 'cart', defaultMessage: 'Cart' })}
               {!isEmpty && ': '}
               {!isEmpty && (
-                <span className="text-secondary-black">
+                <span className="text-gray-600">
                   ({totalItems} {formatCartMessage({ id: 'items', defaultMessage: 'Items' })})
                 </span>
               )}

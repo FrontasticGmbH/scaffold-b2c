@@ -12,8 +12,8 @@ const InfoFields: FC<InfoFieldsProps> = ({ fields }) => {
       {fields?.map(({ label, value }, index) => {
         return value ? (
           <div key={index} className="grid gap-12">
-            <Typography className="text-14 font-medium leading-loose text-primary-black">{label}</Typography>
-            <Typography className="text-14 leading-loose text-primary-black">{value}</Typography>
+            <Typography className="text-14 font-medium leading-loose text-primary">{label}</Typography>
+            <Typography className="text-14 leading-loose text-primary">{value}</Typography>
           </div>
         ) : (
           <div key={index}></div>

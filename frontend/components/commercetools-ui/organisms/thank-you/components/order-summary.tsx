@@ -45,7 +45,7 @@ const OrderSummary: FC<OrderSummaryProps> = ({ order, onPrint }) => {
   return (
     <div className="grow bg-white px-16 md:px-24 lg:p-36">
       <div className="my-16 md:mb-0 md:border-b md:border-neutral-400 md:pb-16 md:text-18 lg:m-0 lg:border-b-0 lg:pb-28">
-        <Typography as="h4" asSkeleton={!order.sum} className="w-fit text-18 leading-[20px] text-primary-black">
+        <Typography as="h4" asSkeleton={!order.sum} className="w-fit text-18 leading-[20px] text-primary">
           {formatMessage({ id: 'order.details', defaultMessage: 'Order details' })}
         </Typography>
       </div>
@@ -72,10 +72,10 @@ const OrderSummary: FC<OrderSummaryProps> = ({ order, onPrint }) => {
           if ((value?.centAmount && value.centAmount > 0 && !!order.sum) || !order.sum)
             return (
               <div key={index} className="flex items-center justify-between">
-                <Typography asSkeleton={!order.sum} className="text-14 text-primary-black md:text-16">
+                <Typography asSkeleton={!order.sum} className="text-14 text-primary md:text-16">
                   {label}
                 </Typography>
-                <Typography asSkeleton={!order.sum} className="text-14 text-primary-black md:text-16">
+                <Typography asSkeleton={!order.sum} className="text-14 text-primary md:text-16">
                   {CurrencyHelpers.formatForCurrency(value ?? 99999, locale)}
                 </Typography>
               </div>
@@ -83,10 +83,10 @@ const OrderSummary: FC<OrderSummaryProps> = ({ order, onPrint }) => {
         })}
 
         <div className="mt-16 flex items-center justify-between lg:mt-12 lg:border-t lg:border-neutral-400 lg:pt-12">
-          <Typography asSkeleton={!order.sum} className="font-medium text-primary-black md:text-18 lg:leading-loose">
+          <Typography asSkeleton={!order.sum} className="font-medium text-primary md:text-18 lg:leading-loose">
             {formatCartMessage({ id: 'total', defaultMessage: 'Total' }) + ':'}
           </Typography>
-          <Typography asSkeleton={!order.sum} className="font-medium text-primary-black md:text-18 lg:leading-loose">
+          <Typography asSkeleton={!order.sum} className="font-medium text-primary md:text-18 lg:leading-loose">
             {CurrencyHelpers.formatForCurrency(order?.sum ?? 999999, locale)}
           </Typography>
         </div>

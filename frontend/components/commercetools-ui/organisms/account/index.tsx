@@ -182,14 +182,14 @@ const AccountDetails: React.FC<AccountDetailsProps> = ({
 
   const tabButtonLabelClassNames = useCallback(
     (tab: AccountTab) => {
-      return `hover:underline ${tab.isActive ? 'text-primary-black font-medium' : 'text-secondary-black'}`;
+      return `hover:underline ${tab.isActive ? 'text-primary font-medium' : 'text-gray-600'}`;
     },
 
     [],
   );
 
   return (
-    <div className="relative flex bg-neutral-100">
+    <div className="relative flex bg-white">
       <div className="sticky top-175 w-0 self-start md:h-[calc(100vh-200px)] md:w-1/4">
         <div className="hidden size-full flex-col justify-between pt-24 md:flex lg:pt-44">
           <div className="grid gap-36 px-28 lg:px-56">
@@ -210,7 +210,7 @@ const AccountDetails: React.FC<AccountDetailsProps> = ({
               <Button
                 onClick={handleLogout}
                 variant="secondary"
-                className="w-full rounded-md border border-primary-black px-0 py-8 text-14"
+                className="w-full rounded-md border border-primary px-0 py-8 text-14"
               >
                 {formatAccountMessage({ id: 'sign.out', defaultMessage: 'Sign out' })}
               </Button>
@@ -223,7 +223,7 @@ const AccountDetails: React.FC<AccountDetailsProps> = ({
           <div className="mt-20 px-16">
             {contentTitle && (
               <div className="block md:hidden">
-                <Typography as="h2" className="text-18 text-primary-black">
+                <Typography as="h2" className="text-18 text-primary">
                   {contentTitle}
                 </Typography>
               </div>

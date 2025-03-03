@@ -18,11 +18,11 @@ const Template: StoryFn<BreadcrumbProps> = () => (
     </Typography>
     <div className="mt-44">
       <Breadcrumb Separator="/" className="col-span-12 mb-24 hidden w-fit lg:block">
-        <Link link="" className="text-14 text-primary-black">
+        <Link link="" className="text-14 text-primary">
           Home
         </Link>
 
-        <Link link="" className="text-14 text-primary-black">
+        <Link link="" className="text-14 text-primary">
           Category
         </Link>
 

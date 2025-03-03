@@ -38,7 +38,7 @@ const AlterForm: FC<AlterFormProps> = ({ page }) => {
   return (
     <div className="mt-36 border-t border-t-neutral-400 pt-40 md:mt-56 md:pt-56 lg:mt-84 lg:pt-84">
       <div className="m-auto grid max-w-screen-sm px-16">
-        <Typography as="h3" className="text-16 text-primary-black md:text-20 lg:text-24">
+        <Typography as="h3" className="text-16 text-primary md:text-20 lg:text-24">
           {title}
         </Typography>
         <Button

@@ -31,7 +31,7 @@ const Summary: React.FC<Props> = ({ isFinalStep, onPurchase }) => {
 
   return (
     <div className="bg-white lg:mt-0 lg:min-w-[35%] lg:p-36">
-      <Typography as="h3" className="p-16 leading-[22px] text-primary-black md:p-24 md:text-18 lg:px-0 lg:pt-0">
+      <Typography as="h3" className="p-16 leading-[22px] text-primary md:p-24 md:text-18 lg:px-0 lg:pt-0">
         {formatCartMessage({ id: 'order.summary', defaultMessage: 'Order summary' })}
       </Typography>
 
@@ -68,7 +68,7 @@ const Summary: React.FC<Props> = ({ isFinalStep, onPurchase }) => {
         className="border-transparent lg:hidden"
         accordionProps={{
           closedSectionTitle: formatCheckoutMessage({ id: 'discount.apply', defaultMessage: 'Apply a discount' }),
-          buttonClassName: 'text-secondary-black border-b border-neutral-400 pb-16',
+          buttonClassName: 'text-gray-600 border-b border-neutral-400 pb-16',
           buttonWrapperClassName: 'px-16 md:px-24 lg:px-0',
           panelClassName: 'px-16 md:px-24 lg:px-0',
           iconClassName: 'w-24',

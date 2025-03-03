@@ -59,6 +59,8 @@
   "rememberMe": "Remember me",
   "search": "Search",
   "search.placeholder": "Type to search",
+  "type.search.term": "Type a search term",
+  "click.to.search": "Click to search",
   "close": "Close",
   "header.menu.open": "Open side menu",
   "select.country": "Select your country",

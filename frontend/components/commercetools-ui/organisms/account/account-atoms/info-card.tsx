@@ -34,7 +34,7 @@ const InfoCard: FC<InfoCardProps> = ({
 
   return (
     <div className={className}>
-      <Typography as="h4" className="mb-16 text-primary-black md:text-18 lg:mb-24">
+      <Typography as="h4" className="mb-16 text-primary md:text-18 lg:mb-24">
         {title}
       </Typography>
 

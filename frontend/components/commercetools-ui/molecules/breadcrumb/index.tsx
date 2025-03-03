@@ -20,9 +20,7 @@ const Breadcrumb = ({
       >
         {React.Children.map(children, (Child, index) => (
           <>
-            <li>
-              <button>{Child}</button>
-            </li>
+            <li>{Child}</li>
             {Separator && <li>{index < React.Children.count(children) - 1 && <span>{Separator}</span>}</li>}
           </>
         ))}

@@ -25,7 +25,7 @@ const Address: React.FC<AddressProps> = ({ address, isDefaultAddress, selectAddr
   const { formatMessage } = useFormat({ name: 'account' });
 
   const addressInfoTypographyProps: TypographyProps = {
-    className: 'text-secondary-black text-14 leading-loose',
+    className: 'text-gray-600 text-14 leading-loose',
   };
 
   const addressInfoTypographyElements = [
@@ -54,7 +54,7 @@ const Address: React.FC<AddressProps> = ({ address, isDefaultAddress, selectAddr
           <div className="flex gap-5 md:mb-4">
             <Typography className="text-14 font-medium capitalize md:text-16">{label}</Typography>
             {isDefaultAddress && (
-              <Typography className="text-14 text-secondary-black md:hidden">
+              <Typography className="text-14 text-gray-600 md:hidden">
                 {'- ' + formatMessage({ id: 'default', defaultMessage: 'Default' })}
               </Typography>
             )}
