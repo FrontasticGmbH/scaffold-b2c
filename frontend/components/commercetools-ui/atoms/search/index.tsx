@@ -1,9 +1,9 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react';
-import { useRouter } from 'next/navigation';
 import { Transition } from '@headlessui/react';
 import { MagnifyingGlassIcon as SearchIcon, XMarkIcon as CloseIcon } from '@heroicons/react/24/solid';
-import { useFormat } from 'helpers/hooks/useFormat';
+import { useTranslations } from 'use-intl';
 import useScrollBlock from 'helpers/hooks/useScrollBlock';
+import { useRouter } from 'i18n/routing';
 import { Category } from 'types/entity/category';
 import { Product } from 'types/entity/product';
 import SearchItem from './search-item';
@@ -18,7 +18,7 @@ interface Props {
 const Search: React.FC<Props> = ({ categories, items, onQueryUpdate }) => {
   const router = useRouter();
 
-  const { formatMessage } = useFormat({ name: 'common' });
+  const translate = useTranslations();
 
   const form = useRef<HTMLFormElement>(null);
   const input = useRef<HTMLInputElement>(null);
@@ -74,20 +74,20 @@ const Search: React.FC<Props> = ({ categories, items, onQueryUpdate }) => {
           <form className="quick-search relative flex w-full items-stretch" ref={form} onSubmit={onSubmit}>
             <input
               ref={input}
-              title={formatMessage({ id: 'type.search.term', defaultMessage: 'Type a search term' })}
-              aria-label={formatMessage({ id: 'type.search.term', defaultMessage: 'Type a search term' })}
+              title={translate('common.type-search-term')}
+              aria-label={translate('common.type-search-term')}
               className="box-content grow border-none p-0 px-12 py-10 transition placeholder:text-14 placeholder:text-gray-600 focus:outline-none"
               value={value}
               onChange={onChange}
               onFocus={onFocus}
               onBlur={onBlur}
-              placeholder={`${formatMessage({ id: 'search.placeholder', defaultMessage: 'Type to search' })}...`}
+              placeholder={`${translate('common.search-placeholder')}...`}
             />
             <button
               data-testid="submit-button"
               type="submit"
-              title={formatMessage({ id: 'click.to.search', defaultMessage: 'Click to search' })}
-              aria-label={formatMessage({ id: 'click.to.search', defaultMessage: 'Click to search' })}
+              title={translate('common.click-to-search')}
+              aria-label={translate('common.click-to-search')}
               className={`shrink-0 border-l border-neutral-400 px-16 py-10 transition ${
                 focused ? 'bg-primary' : 'bg-white'
               }`}

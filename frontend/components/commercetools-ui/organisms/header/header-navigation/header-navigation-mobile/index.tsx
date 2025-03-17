@@ -1,9 +1,9 @@
 import React, { FC, useState } from 'react';
 import { Bars3Icon } from '@heroicons/react/24/outline';
+import { useTranslations } from 'use-intl';
 import Button from 'components/commercetools-ui/atoms/button';
 import Drawer from 'components/commercetools-ui/atoms/drawer';
 import { ImageProps } from 'components/commercetools-ui/atoms/image';
-import { useFormat } from 'helpers/hooks/useFormat';
 import { Category } from 'types/entity/category';
 import { Reference } from 'types/reference';
 import MobileMenu from './content/mobile-menu';
@@ -17,7 +17,7 @@ export interface Props {
 }
 
 const HeaderNavigationMobile: FC<Props> = ({ links, logo, logoLink }) => {
-  const { formatMessage } = useFormat({ name: 'common' });
+  const translate = useTranslations();
   const [categoriesNavigator, setCategoriesNavigator] = useState<Category[]>([]);
   const [showMenu, setShowMenu] = useState(false);
 
@@ -44,7 +44,7 @@ const HeaderNavigationMobile: FC<Props> = ({ links, logo, logoLink }) => {
         variant="ghost"
         size="fit"
         onClick={showHeaderMenu}
-        title={formatMessage({ id: 'header.menu.open', defaultMessage: 'Open side menu' })}
+        title={translate('common.header-menu-open')}
         className="mr-8"
       >
         <Bars3Icon className="w-30 text-gray-600 lg:w-48" />

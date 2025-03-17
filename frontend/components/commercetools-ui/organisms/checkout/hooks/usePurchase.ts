@@ -1,12 +1,13 @@
 import { useCallback, useContext } from 'react';
-import { useParams, useRouter } from 'next/navigation';
+import { useParams } from 'next/navigation';
 import toast from 'react-hot-toast';
+import { useTranslations } from 'use-intl';
 import * as uuid from 'uuid';
 import { PaymentResponse } from 'components/commercetools-ui/organisms/checkout/provider/payment/types';
 import { AccountContext } from 'context/account';
-import { useFormat } from 'helpers/hooks/useFormat';
 import useI18n from 'helpers/hooks/useI18n';
 import { Guid } from 'helpers/utils/guid';
+import { useRouter } from 'i18n/routing';
 import { getLocalizationInfo } from 'project.config';
 import { sdk } from 'sdk';
 import { Cart } from 'types/entity/cart';
@@ -19,7 +20,7 @@ interface Options {
   hasOutOfStockItems?: boolean;
 }
 const usePurchase = ({ cart, transaction, hasOutOfStockItems }: Options) => {
-  const { formatMessage: formatCheckoutMessage } = useFormat({ name: 'checkout' });
+  const translate = useTranslations();
 
   const router = useRouter();
   const { locale } = useParams();
@@ -43,21 +44,16 @@ const usePurchase = ({ cart, transaction, hasOutOfStockItems }: Options) => {
             window.location.replace(response.action.url as string);
             break;
           case 'threeDS2':
-            handleThreeDS2Action(response.action, (threeDS2AuthResponse) =>
+            await handleThreeDS2Action(response.action, (threeDS2AuthResponse) =>
               handlePaymentResponse(threeDS2AuthResponse, orderNumber),
             );
             break;
         }
       } else {
-        toast.error(
-          `${formatCheckoutMessage({
-            id: 'payment.failed',
-            defaultMessage: 'We could not process your payment, please try again later.',
-          })}`,
-        );
+        toast.error(`${translate('checkout.payment-failed')}`);
       }
     },
-    [router, handleThreeDS2Action, formatCheckoutMessage],
+    [router, handleThreeDS2Action, translate],
   );
 
   const purchase = useCallback(async () => {
@@ -67,10 +63,7 @@ const usePurchase = ({ cart, transaction, hasOutOfStockItems }: Options) => {
       const outOfStockItems = cart?.lineItems?.filter((lineItem) => lineItem.variant?.isOnStock) ?? [];
 
       toast.error(
-        `${formatCheckoutMessage({
-          id: 'items.outOfStock',
-          defaultMessage: 'The following items are out of stock',
-        })}:\n\n
+        `${translate('checkout.items-outOfStock')}:\n\n
             ${outOfStockItems.map((item) => `- ${item.name} \n\n`)}
           `,
         { style: { alignItems: 'flex-end', flexDirection: 'row-reverse' } },
@@ -79,12 +72,7 @@ const usePurchase = ({ cart, transaction, hasOutOfStockItems }: Options) => {
     }
 
     if (!transaction.total.centAmount || !paymentDataIsValid) {
-      toast.error(
-        `${formatCheckoutMessage({
-          id: 'payment.failed',
-          defaultMessage: 'We could not process your payment, please try again later.',
-        })}`,
-      );
+      toast.error(`${translate('checkout.payment-failed')}`);
 
       return;
     }
@@ -143,7 +131,7 @@ const usePurchase = ({ cart, transaction, hasOutOfStockItems }: Options) => {
       });
     }
 
-    handlePaymentResponse(response, orderNumber);
+    await handlePaymentResponse(response, orderNumber);
 
     setProcessing(false);
   }, [
@@ -159,7 +147,7 @@ const usePurchase = ({ cart, transaction, hasOutOfStockItems }: Options) => {
     country,
     paymentDataIsValid,
     handlePaymentResponse,
-    formatCheckoutMessage,
+    translate,
   ]);
 
   return { purchase };

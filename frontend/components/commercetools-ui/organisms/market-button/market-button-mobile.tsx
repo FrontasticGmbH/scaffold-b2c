@@ -1,12 +1,12 @@
 import { FC, useCallback, useMemo } from 'react';
 import { MenuItem } from '@headlessui/react';
 import { ChevronDownIcon } from '@heroicons/react/24/outline';
+import { useTranslations } from 'use-intl';
 import Button from 'components/commercetools-ui/atoms/button';
 import Dropdown from 'components/commercetools-ui/atoms/dropdown';
 import Typography from 'components/commercetools-ui/atoms/typography';
 import FlagIcons from 'components/icons/flags';
 import useClassNames from 'helpers/hooks/useClassNames';
-import { useFormat } from '../../../../helpers/hooks/useFormat';
 import { useShipAndLanguage } from '../../../../providers/ship-and-language';
 
 export interface Props {
@@ -14,7 +14,7 @@ export interface Props {
 }
 
 const MarketButtonMobile: FC<Props> = ({ menuTop }) => {
-  const { formatMessage } = useFormat({ name: 'common' });
+  const translate = useTranslations();
   const { locations, selectedLocation, selectedLanguage, onLocationSelect, onLanguageSelect } = useShipAndLanguage();
 
   const marketButtonClassNames = useCallback(
@@ -75,7 +75,7 @@ const MarketButtonMobile: FC<Props> = ({ menuTop }) => {
       {locations && locations.length !== 0 && (
         <>
           <Typography className="pb-2 text-14 font-semibold text-gray-700">
-            {formatMessage({ id: 'shop.ship.title', defaultMessage: 'Shop and ship to' })}
+            {translate('common.shop-ship-title')}
           </Typography>
           <Dropdown
             customButtonElement={marketButtonElement}
@@ -107,9 +107,7 @@ const MarketButtonMobile: FC<Props> = ({ menuTop }) => {
       )}
       {selectedLocation?.languages && selectedLocation.languages.length > 1 && (
         <div className="pt-5">
-          <Typography className="pb-2 text-14 font-semibold text-gray-700">
-            {formatMessage({ id: 'language', defaultMessage: 'Language' })}
-          </Typography>
+          <Typography className="pb-2 text-14 font-semibold text-gray-700">{translate('common.language')}</Typography>
           <Dropdown
             customButtonElement={languageButtonElement}
             customMenuWrapperClassNames={marketMenuWrapperClassNames}

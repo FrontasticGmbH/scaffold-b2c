@@ -1,14 +1,15 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react';
-import { useParams, useRouter } from 'next/navigation';
+import { useParams } from 'next/navigation';
 import { Transition } from '@headlessui/react';
 import { Configure, Hits, SearchBox } from 'react-instantsearch';
+import { useTranslations } from 'use-intl';
 import InstantSearch from 'components/HOC/InstantSearch';
 import GoogleAnalyticsMiddleware from 'components/HOC/InstantSearch/middlewares/GoogleAnalyticsMiddleware';
 import { mapProduct } from 'helpers/algolia/map-product';
-import { useFormat } from 'helpers/hooks/useFormat';
 import useMediaQuery from 'helpers/hooks/useMediaQuery';
 import useScrollBlock from 'helpers/hooks/useScrollBlock';
 import { mediumDesktop } from 'helpers/utils/screensizes';
+import { useRouter } from 'i18n/routing';
 import LocalizedIndex from 'providers/algolia/localized-index';
 import { Category } from 'types/entity/category';
 import SearchItem from './search-item';
@@ -29,7 +30,7 @@ const Search: React.FC<Props> = ({ categories }) => {
   const onFocus = useCallback(() => setFocused(true), []);
   const onBlur = useCallback(() => setFocused(false), []);
 
-  const { formatMessage } = useFormat({ name: 'common' });
+  const translate = useTranslations();
 
   const { blockScroll } = useScrollBlock();
 
@@ -68,7 +69,7 @@ const Search: React.FC<Props> = ({ categories }) => {
         <SearchBox
           onFocus={onFocus}
           onBlur={onBlur}
-          placeholder={`${formatMessage({ id: 'search.placeholder', defaultMessage: 'Type to search' })}...`}
+          placeholder={`${translate('common.search-placeholder')}...`}
           classNames={{
             root: `relative z-50 bg-white lg:rounded-sm border-neutral-400 lg:border ${
               focused ? 'border-b' : 'border'

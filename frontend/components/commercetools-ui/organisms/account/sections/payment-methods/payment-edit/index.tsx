@@ -1,13 +1,13 @@
 import React, { useState } from 'react';
-import { useRouter } from 'next/navigation';
 import { TrashIcon } from '@heroicons/react/24/outline';
+import { useTranslations } from 'use-intl';
 import Button from 'components/commercetools-ui/atoms/button';
 import Dropdown from 'components/commercetools-ui/atoms/dropdown';
 import Input from 'components/commercetools-ui/atoms/input';
 import Typography from 'components/commercetools-ui/atoms/typography';
 import useResolveCCImage from 'components/commercetools-ui/organisms/checkout/hooks/useResolveCCImage';
-import { useFormat } from 'helpers/hooks/useFormat';
 import useHash from 'helpers/hooks/useHash';
+import { useRouter } from 'i18n/routing';
 import useEditPaymentMethods from '../helper-hooks/useEditPaymentMethod';
 import useCardNumberFormatter from '../helper-hooks/useFormatCredit';
 import usePaymentHelpers from '../helper-hooks/usePaymentHelpers';
@@ -20,7 +20,7 @@ const PaymentEdit = () => {
 
   const id = hashId?.split('-')[1];
 
-  const { formatMessage: formatPaymentMessage } = useFormat({ name: 'payment' });
+  const translate = useTranslations();
   const paymentEditData = useEditPaymentMethods(id as string);
 
   const { expiryDateMonthOptions, expiryDateYearOptions } = usePaymentHelpers();
@@ -39,10 +39,7 @@ const PaymentEdit = () => {
     <div className="ml-0 md:ml-24 lg:ml-44">
       <div className="ml-16 mt-24 lg:ml-0 lg:mt-40">
         <Typography as="h2" className="text-18 text-primary md:text-22 lg:text-24">
-          {formatPaymentMessage({
-            id: 'edit.payment',
-            defaultMessage: 'Edit payment method',
-          })}
+          {translate('payment.edit-payment')}
         </Typography>
       </div>
 
@@ -57,7 +54,7 @@ const PaymentEdit = () => {
         <div className="mt-24 md:max-w-[436px] lg:mt-0">
           <div className="relative">
             <Typography as="label" className="text-14 font-medium text-gray-600">
-              {formatPaymentMessage({ id: 'card.number', defaultMessage: 'Card number *' })}
+              {translate('payment.card-number')}
             </Typography>
             <Input
               value={cardNumberFormatted}
@@ -66,10 +63,7 @@ const PaymentEdit = () => {
               type="text"
               onChange={paymentEditData.handleCardNumberChange}
               validation={paymentEditData.isCardNumber}
-              errorMessage={formatPaymentMessage({
-                id: 'card.number.error',
-                defaultMessage: 'Please insert all 16 numbers',
-              })}
+              errorMessage={translate('payment.card-number-error')}
             />
             {resolveCCImage(cardNumberFormatted) && (
               // eslint-disable-next-line
@@ -83,7 +77,7 @@ const PaymentEdit = () => {
           <div className="mt-24 w-full flex-col gap-8 md:max-w-[436px] lg:mt-12 lg:flex lg:flex-row">
             <div className="w-full lg:w-3/5">
               <Typography as="label" className="text-14 font-medium text-gray-600">
-                {formatPaymentMessage({ id: 'expiration.date', defaultMessage: 'Expiration date *' })}
+                {translate('payment.expiration-date')}
               </Typography>
               <div className="mt-8 flex grow items-center md:flex-1">
                 <div className="mr-12">
@@ -92,6 +86,7 @@ const PaymentEdit = () => {
                     selectOptions={expiryDateMonthOptions.slice(1)}
                     selectOnChange={paymentEditData.handleExpiryDateMonthChange}
                   />
+                  {/* eslint-disable-next-line react/jsx-no-literals */}
                 </div>
                 /
                 <div className="ml-12">
@@ -110,29 +105,20 @@ const PaymentEdit = () => {
           <Button variant="ghost" size="fit" className="flex items-center px-0" onClick={() => setModalIsOpen(true)}>
             <TrashIcon className="w-20 text-gray-600" />
             <Typography as="h2" className="ml-8 text-center text-14 font-normal text-gray-600">
-              {formatPaymentMessage({
-                id: 'delete',
-                defaultMessage: 'Delete',
-              })}
+              {translate('payment.delete')}
             </Typography>
           </Button>
 
           <div className="mt-32 flex lg:mt-0">
             <Button variant="secondary" className="ml-0 w-112 lg:ml-64" onClick={() => router.push('/account#payment')}>
               <Typography as="h2" className="text-center text-14 text-primary">
-                {formatPaymentMessage({
-                  id: 'cancel',
-                  defaultMessage: 'Cancel',
-                })}
+                {translate('payment.cancel')}
               </Typography>
             </Button>
 
             <Button variant="primary" className="ml-12 w-112" onClick={paymentEditData.handleSaveClick}>
               <Typography as="h2" className="text-center text-14">
-                {formatPaymentMessage({
-                  id: 'save',
-                  defaultMessage: 'Save',
-                })}
+                {translate('payment.save')}
               </Typography>
             </Button>
           </div>

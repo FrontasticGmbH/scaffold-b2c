@@ -1,9 +1,10 @@
 import React, { createContext, useCallback, useContext, useMemo } from 'react';
-import { useParams, useRouter, useSearchParams } from 'next/navigation';
+import { useParams, useSearchParams } from 'next/navigation';
 import cloneDeep from 'lodash/cloneDeep';
 import { CurrencyHelpers } from 'helpers/currencyHelpers';
 import useI18n from 'helpers/hooks/useI18n';
 import usePath from 'helpers/hooks/usePath';
+import { useRouter } from 'i18n/routing';
 import { ShippingMethod } from 'types/entity/cart';
 import { Category } from 'types/entity/category';
 import { Variant } from 'types/entity/product';

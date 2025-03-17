@@ -2,10 +2,10 @@ import { useState } from 'react';
 import { useParams } from 'next/navigation';
 import { TruckIcon, XMarkIcon } from '@heroicons/react/24/outline';
 import { ShippingMethod } from 'shared/types/cart/ShippingMethod';
+import { useTranslations } from 'use-intl';
 import Input from 'components/commercetools-ui/atoms/input';
 import Typography from 'components/commercetools-ui/atoms/typography';
 import { CurrencyHelpers } from 'helpers/currencyHelpers';
-import { useFormat } from 'helpers/hooks/useFormat';
 import { clearSpaces, getEstimationPhrase } from '../helpers';
 
 type Error = {
@@ -15,7 +15,7 @@ type Error = {
 
 const ShippingSection = ({ shippingMethods }: { shippingMethods?: ShippingMethod[] }) => {
   const { locale } = useParams();
-  const { formatMessage } = useFormat({ name: 'cart' });
+  const translate = useTranslations();
 
   const [input, setInput] = useState<string>('');
   const [configured, setConfigured] = useState<boolean>(false);
@@ -50,7 +50,7 @@ const ShippingSection = ({ shippingMethods }: { shippingMethods?: ShippingMethod
     if (input.length < 6)
       setError({
         shippingMethodId: toggledSectionId ?? '',
-        message: formatMessage({ id: 'postcode.invalid', defaultMessage: 'The postcode is not valid.' }),
+        message: translate('cart.postcode-invalid'),
       });
     else {
       setUsedPostCode(input);
@@ -125,7 +125,7 @@ const ShippingSection = ({ shippingMethods }: { shippingMethods?: ShippingMethod
                   className="text-14 leading-loose text-gray-600 underline hover:cursor-pointer"
                   onClick={() => updateToggledSectionId(shippingMethodId)}
                 >
-                  {formatMessage({ id: 'add.postcode', defaultMessage: 'Add postcode for availability' })}
+                  {translate('cart.add-postcode')}
                 </Typography>
               )}
             </div>

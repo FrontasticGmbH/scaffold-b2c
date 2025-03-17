@@ -1,4 +1,5 @@
 import React, { FC, useEffect, useState } from 'react';
+import { useTranslations } from 'use-intl';
 import Button from 'components/commercetools-ui/atoms/button';
 import Link from 'components/commercetools-ui/atoms/link';
 import QuantitySelector from 'components/commercetools-ui/atoms/quantity-selector';
@@ -7,7 +8,6 @@ import Breadcrumb from 'components/commercetools-ui/molecules/breadcrumb';
 import Gallery from 'components/commercetools-ui/organisms/gallery';
 import { useAddToCartOverlay } from 'context/add-to-cart-overlay';
 import useClassNames from 'helpers/hooks/useClassNames';
-import { useFormat } from 'helpers/hooks/useFormat';
 import { ShippingMethod } from 'types/entity/cart';
 import { Category } from 'types/entity/category';
 import { Variant } from 'types/entity/product';
@@ -49,8 +49,7 @@ const ProductDetails: FC<ProductDetailsProps> = ({
   onAddToCart,
   inCartQuantity = 0,
 }) => {
-  const { formatMessage } = useFormat({ name: 'cart' });
-  const { formatMessage: formatProductMessage } = useFormat({ name: 'product' });
+  const translate = useTranslations();
 
   const [quantity, setQuantity] = useState<number>(variant.isOnStock ? 1 : 0);
   const [loading, setLoading] = useState(false);
@@ -100,10 +99,10 @@ const ProductDetails: FC<ProductDetailsProps> = ({
       {category && !inModalVersion && (
         <Breadcrumb Separator="/" className="col-span-12 mb-24 hidden w-fit lg:block">
           <Link key={category.categoryId} link={category._url} className="text-14 text-gray-700">
-            {category.name}
+            <h2>{category.name}</h2>
           </Link>
 
-          <Typography key={product.slug} className="cursor-default text-14 text-gray-500">
+          <Typography key={product.slug} as="h2" className="cursor-default text-14 text-gray-500">
             {product.name}
           </Typography>
         </Breadcrumb>
@@ -127,9 +126,7 @@ const ProductDetails: FC<ProductDetailsProps> = ({
 
         {!variant.isOnStock && (
           <div className="pt-20">
-            <p className="font-medium text-red-500">
-              {formatProductMessage({ id: 'outOfStock', defaultMessage: 'Out of stock' })}
-            </p>
+            <p className="font-medium text-red-500">{translate('product.outOfStock')}</p>
           </div>
         )}
 
@@ -149,9 +146,7 @@ const ProductDetails: FC<ProductDetailsProps> = ({
             added={added}
             disabled={!variant.isOnStock}
           >
-            {variant.isOnStock
-              ? formatMessage({ id: 'cart.add', defaultMessage: 'Add to cart' })
-              : formatProductMessage({ id: 'currently.unavailable', defaultMessage: 'Currently unavailable' })}
+            {variant.isOnStock ? translate('cart.cart-add') : translate('product.currently-unavailable')}
           </Button>
         </div>
 
@@ -163,7 +158,7 @@ const ProductDetails: FC<ProductDetailsProps> = ({
             className="mx-auto mt-28 block w-fit border-b border-transparent text-center text-14 leading-loose text-gray-600 hover:border-gray-600"
             onClick={() => setIsOpen?.(false)}
           >
-            {formatMessage({ id: 'more.details', defaultMessage: 'More details' })}
+            {translate('cart.more-details')}
           </Link>
         )}
       </div>

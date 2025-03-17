@@ -1,10 +1,10 @@
 import React, { useCallback, useMemo } from 'react';
-import { useRouter } from 'next/navigation';
 // import { Variant } from 'ct-types/product';
 import { Hit } from 'instantsearch.js';
 import { Highlight } from 'react-instantsearch';
 import Image from 'components/commercetools-ui/atoms/image';
 import { AUTOCOMPLETE_PRODUCT_CLICKED } from 'helpers/constants/events';
+import { useRouter } from 'i18n/routing';
 import { Category } from 'types/entity/category';
 import { Product } from 'types/entity/product';
 import { Subset } from 'types/subset';

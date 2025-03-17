@@ -1,10 +1,10 @@
 import React, { FC } from 'react';
 import { ChevronLeftIcon, XMarkIcon } from '@heroicons/react/24/outline';
+import { useTranslations } from 'use-intl';
 import Button from 'components/commercetools-ui/atoms/button';
 import { ImageProps } from 'components/commercetools-ui/atoms/image';
 import Typography from 'components/commercetools-ui/atoms/typography';
 import HeaderLogo from 'components/commercetools-ui/organisms/header/header-logo';
-import { useFormat } from 'helpers/hooks/useFormat';
 import { Category } from 'types/entity/category';
 import { Reference } from 'types/reference';
 
@@ -17,7 +17,7 @@ export interface Props {
 }
 
 const MobileMenuHeader: FC<Props> = ({ onArrowClick, logo, logoLink, hideHeaderMenu, categories }) => {
-  const { formatMessage } = useFormat({ name: 'common' });
+  const translate = useTranslations();
   return (
     <div className="flex h-52 w-full justify-between border-b border-neutral-400 px-20">
       {categories.length > 0 && (
@@ -40,13 +40,7 @@ const MobileMenuHeader: FC<Props> = ({ onArrowClick, logo, logoLink, hideHeaderM
         </div>
       )}
       <div className="flex h-full items-center justify-end">
-        <Button
-          variant="ghost"
-          size="xs"
-          onClick={hideHeaderMenu}
-          title={formatMessage({ id: 'close', defaultMessage: 'Close' })}
-          className="px-0"
-        >
+        <Button variant="ghost" size="xs" onClick={hideHeaderMenu} title={translate('common.close')} className="px-0">
           <XMarkIcon className="w-24 text-gray-600" />
         </Button>
       </div>

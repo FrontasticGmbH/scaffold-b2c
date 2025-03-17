@@ -39,6 +39,7 @@ const ShippingPreview = ({ cart, shippingMethods }: Props) => {
       <div className="flex items-center justify-between border border-neutral-400 p-16">
         <div>
           <p className="text-14 font-medium">{shippingMethod?.name}</p>
+          {/* eslint-disable-next-line react/jsx-no-literals */}
           <p className="mt-4 text-14 text-gray-600">Est: {getEstimatedDate(+(shippingMethod?.description ?? 0))}</p>
         </div>
 

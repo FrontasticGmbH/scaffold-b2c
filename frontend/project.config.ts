@@ -2,6 +2,7 @@ import { Currency } from '@commercetools/frontend-sdk/lib/types/Currency';
 
 interface LocalizationMapping {
   locale: string;
+  localeName: string;
   currency: Currency;
   currencyCode: string;
   countryName: string;
@@ -11,7 +12,8 @@ interface LocalizationMapping {
 
 const localizationMapper = {
   en: {
-    locale: 'en_US',
+    locale: 'en-US',
+    localeName: 'English',
     currency: 'USD',
     currencyCode: '$',
     countryCode: 'US',
@@ -19,7 +21,8 @@ const localizationMapper = {
     countries: ['US'],
   },
   de: {
-    locale: 'de_DE',
+    locale: 'de-DE',
+    localeName: 'German',
     currency: 'EUR',
     currencyCode: '€',
     countryCode: 'DE',

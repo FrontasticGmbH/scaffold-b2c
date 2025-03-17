@@ -1,12 +1,12 @@
 import React, { useCallback, useContext, useMemo } from 'react';
-import { useRouter } from 'next/navigation';
 import Skeleton from 'react-loading-skeleton';
+import { useTranslations } from 'use-intl';
 import Button from 'components/commercetools-ui/atoms/button';
 import Link from 'components/commercetools-ui/atoms/link';
 import Typography from 'components/commercetools-ui/atoms/typography';
 import { AccountContext } from 'context/account';
 import useClassNames from 'helpers/hooks/useClassNames';
-import { useFormat } from 'helpers/hooks/useFormat';
+import { useRouter } from 'i18n/routing';
 import { Account } from 'types/entity/account';
 import { ShippingMethod } from 'types/entity/cart';
 import { Order } from 'types/entity/order';
@@ -78,7 +78,7 @@ const AccountDetails: React.FC<AccountDetailsProps> = ({
 
   const { accountLoading, logout } = useContext(AccountContext);
 
-  const { formatMessage: formatAccountMessage } = useFormat({ name: 'account' });
+  const translate = useTranslations();
 
   const handleLogout = () => {
     logout?.().then(() => router.push('/login'));
@@ -87,32 +87,32 @@ const AccountDetails: React.FC<AccountDetailsProps> = ({
   const tabs = useMemo<AccountTab[]>(() => {
     return [
       {
-        name: formatAccountMessage({ id: 'my.account', defaultMessage: 'My Account' }),
+        name: translate('account.my-account'),
         href: '?',
         isActive: hash === '',
       },
       //   {
-      //     name: formatAccountMessage({ id: 'addresses', defaultMessage: 'Addresses' }),
+      //     name: translate('account.addresses'),
       //     href: '?hash=addresses',
       //     isActive: hash === 'addresses',
       //   },
       {
-        name: formatAccountMessage({ id: 'orders', defaultMessage: 'Orders' }),
+        name: translate('account.orders'),
         href: '?hash=orders',
         isActive: hash === 'orders',
       },
       //   {
-      //     name: formatAccountMessage({ id: 'payment.methods', defaultMessage: 'Payment methods' }),
+      //     name: translate('account.payment-methods'),
       //     href: '?hash=payment',
       //     isActive: hash === 'payment',
       //   },
       {
-        name: formatAccountMessage({ id: 'customer.support', defaultMessage: 'Customer support' }),
+        name: translate('account.customer-support'),
         href: '?hash=support',
         isActive: hash === 'support',
       },
     ];
-  }, [formatAccountMessage, hash]);
+  }, [translate, hash]);
 
   const accountPagesRef = useMemo(() => {
     return {
@@ -212,7 +212,7 @@ const AccountDetails: React.FC<AccountDetailsProps> = ({
                 variant="secondary"
                 className="w-full rounded-md border border-primary px-0 py-8 text-14"
               >
-                {formatAccountMessage({ id: 'sign.out', defaultMessage: 'Sign out' })}
+                {translate('account.sign-out')}
               </Button>
             )}
           </div>

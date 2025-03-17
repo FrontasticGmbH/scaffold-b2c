@@ -1,13 +1,14 @@
-import { useRouter } from 'next/navigation';
 import { render } from '__test__/utils';
 import Redirect from '.';
 
+const router = { push: jest.fn() };
+
 jest.mock('next/navigation', () => {
-  const router = {
-    push: jest.fn(),
-  };
   return {
-    useRouter: jest.fn().mockReturnValue(router),
+    useLocale: () => 'en',
+    useParams: () => ({ locale: 'en' }),
+    useRouter: () => router,
+    usePathname: () => '/en',
   };
 });
 
@@ -17,13 +18,11 @@ describe('Redirect', () => {
   });
 
   it('should redirect to target when target is defined', () => {
-    const router = useRouter();
     render(<Redirect target="/categories" />);
-    expect(router.push).toHaveBeenCalledWith('/categories');
+    expect(router.push).toHaveBeenCalledWith('/en/categories');
   });
 
   it('should not redirect when target is not available', () => {
-    const router = useRouter();
     render(<Redirect />);
     expect(router.push).not.toHaveBeenCalled();
   });

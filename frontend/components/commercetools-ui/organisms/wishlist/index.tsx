@@ -1,10 +1,10 @@
 import React from 'react';
+import { useTranslations } from 'use-intl';
 import Button from 'components/commercetools-ui/atoms/button';
 import { ImageProps } from 'components/commercetools-ui/atoms/image';
 import WishlistItem from 'components/commercetools-ui/molecules/wishlist-item';
 import { EmptyState } from 'components/commercetools-ui/organisms/empty-state';
 import { FooterLink } from 'components/commercetools-ui/organisms/footer/atoms/column';
-import { useFormat } from 'helpers/hooks/useFormat';
 import { LineItem, Wishlist as WishlistShape } from 'types/entity/wishlist';
 
 export interface Props {
@@ -29,7 +29,7 @@ const Wishlist: React.FC<Props> = ({
   emptyWishlistCategories,
   handleCategoryClick,
 }) => {
-  const { formatMessage: formatWishlistMessage } = useFormat({ name: 'wishlist' });
+  const translate = useTranslations();
 
   return (
     <>
@@ -57,7 +57,7 @@ const Wishlist: React.FC<Props> = ({
           </div>
           <div className="absolute bottom-0 h-88 w-full p-20">
             <Button onClick={onClearWishlist} variant="secondary" className="w-full text-16">
-              {formatWishlistMessage({ id: 'wishlist.clear.list', defaultMessage: 'Clear the list' })}
+              {translate('wishlist.wishlist-clear-list')}
             </Button>
           </div>
         </>

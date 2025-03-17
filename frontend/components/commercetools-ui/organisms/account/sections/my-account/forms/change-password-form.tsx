@@ -1,8 +1,8 @@
 import React, { useMemo, useState } from 'react';
 import toast from 'react-hot-toast';
+import { useTranslations } from 'use-intl';
 import { InputProps } from 'components/commercetools-ui/atoms/input';
 import PasswordInput from 'components/commercetools-ui/atoms/input-password';
-import { useFormat } from 'helpers/hooks/useFormat';
 import useValidate from 'helpers/hooks/useValidate';
 import { Account } from 'types/entity/account';
 import AccountForm from '../../../account-atoms/account-form';
@@ -19,8 +19,7 @@ interface Props {
 }
 
 const ChangePasswordForm = ({ changePassword }: Props) => {
-  const { formatMessage: formatErrorMessage } = useFormat({ name: 'error' });
-  const { formatMessage: formatAccountMessage } = useFormat({ name: 'account' });
+  const translate = useTranslations();
   const { discardForm } = useDiscardForm();
   const { validatePassword } = useValidate();
 
@@ -28,15 +27,9 @@ const ChangePasswordForm = ({ changePassword }: Props) => {
   const [data, setData] = useState<ChangePasswordFormData>(defaultData);
   const [loading, setLoading] = useState(false);
 
-  const newPasswordIsNotValidMessage = formatErrorMessage({
-    id: 'password.not.valid',
-    defaultMessage: 'Password has to be at least 8 characters long and have at least one uppercase letter.',
-  });
+  const newPasswordIsNotValidMessage = translate('error.password-not-valid');
 
-  const confirmPasswordIsNotValidMessage = formatErrorMessage({
-    id: 'password.noMatch',
-    defaultMessage: "Passwords don't match",
-  });
+  const confirmPasswordIsNotValidMessage = translate('error.password-noMatch');
 
   const confirmPasswordErrorMessage = useMemo(
     () => (data.confirmPassword.length > 0 ? confirmPasswordIsNotValidMessage : newPasswordIsNotValidMessage),
@@ -58,27 +51,27 @@ const ChangePasswordForm = ({ changePassword }: Props) => {
       // Request update password
       changePassword?.(data.password, data.newPassword).then((account) => {
         if (account.accountId) {
-          toast.success(formatAccountMessage({ id: 'data.updated', defaultMessage: 'Data updated successfully.' }));
+          toast.success(translate('account.data-updated'));
           setLoading(false);
           discardForm();
         } else {
           setLoading(false);
-          toast.error(formatErrorMessage({ id: 'wentWrong', defaultMessage: 'Sorry, something went wrong..' }));
+          toast.error(translate('error.wentWrong'));
         }
       });
     }
   };
 
   const inputFields: Array<InputProps> = [
-    { label: formatAccountMessage({ id: 'password.current', defaultMessage: 'Current password' }), name: 'password' },
+    { label: translate('account.password-current'), name: 'password' },
     {
-      label: formatAccountMessage({ id: 'password.new', defaultMessage: 'New password' }),
+      label: translate('account.password-new'),
       name: 'newPassword',
       errorMessage: newPasswordIsNotValidMessage,
       validation: validatePassword,
     },
     {
-      label: formatAccountMessage({ id: 'password.confirm', defaultMessage: 'Confirm password' }),
+      label: translate('account.password-confirm'),
       name: 'confirmPassword',
       errorMessage: confirmPasswordErrorMessage,
       validation: (password: string) => password === data.newPassword && !!password.length,
@@ -87,7 +80,7 @@ const ChangePasswordForm = ({ changePassword }: Props) => {
 
   return (
     <AccountForm
-      title={formatAccountMessage({ id: 'password.change', defaultMessage: 'Change your password' })}
+      title={translate('account.password-change')}
       requiredLabelIsVisible
       defaultCTASection
       loading={loading}

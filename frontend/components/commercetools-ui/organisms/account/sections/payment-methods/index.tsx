@@ -1,9 +1,9 @@
 import React from 'react';
-import { useRouter } from 'next/navigation';
+import { useTranslations } from 'use-intl';
 import Button from 'components/commercetools-ui/atoms/button';
 import { Option } from 'components/commercetools-ui/atoms/dropdown';
 import Typography from 'components/commercetools-ui/atoms/typography';
-import { useFormat } from 'helpers/hooks/useFormat';
+import { useRouter } from 'i18n/routing';
 import PaymentCard from './payment-card';
 export interface Payment {
   id: string;
@@ -34,25 +34,19 @@ export const payments: Payment[] = [
 ];
 
 const PaymentMethods = () => {
-  const { formatMessage: formatPaymentMessage } = useFormat({ name: 'payment' });
+  const translate = useTranslations();
   const router = useRouter();
 
   return (
     <div className="px-16 md:mt-24 md:px-24 lg:mt-40 lg:px-44">
       <div className="hidden md:block">
         <Typography as="h2" className="text-18 text-primary md:text-22 lg:text-24">
-          {formatPaymentMessage({
-            id: 'payment.methods',
-            defaultMessage: 'Payment methods',
-          })}
+          {translate('payment.payment-methods')}
         </Typography>
       </div>
       <div className="mt-20 lg:mt-36">
         <Typography as="h2" className="text-14 text-gray-600 md:text-16">
-          {formatPaymentMessage({
-            id: 'payment.details',
-            defaultMessage: 'Delete or add payment methods.',
-          })}
+          {translate('payment.payment-details')}
         </Typography>
       </div>
       <Button
@@ -60,10 +54,7 @@ const PaymentMethods = () => {
         onClick={() => router.push('?hash=payment&id=add')}
         className="mt-24 min-w-full md:min-w-150 lg:mt-36 lg:min-w-200"
       >
-        {formatPaymentMessage({
-          id: 'add.card',
-          defaultMessage: 'Add new card',
-        })}
+        {translate('payment.add-card')}
       </Button>
       <div className="mt-32 w-full lg:w-[90%]">
         {payments.map((payment) => (

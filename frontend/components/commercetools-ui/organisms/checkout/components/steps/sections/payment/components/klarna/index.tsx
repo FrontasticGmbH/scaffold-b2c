@@ -1,11 +1,11 @@
 import React, { useCallback } from 'react';
+import { useTranslations } from 'use-intl';
 import Input from 'components/commercetools-ui/atoms/input';
 import { useCheckout } from 'components/commercetools-ui/organisms/checkout/provider';
 import { KlarnaData, PaymentData } from 'components/commercetools-ui/organisms/checkout/provider/payment/types';
-import { useFormat } from 'helpers/hooks/useFormat';
 
 const Klarna = () => {
-  const { formatMessage } = useFormat({ name: 'common' });
+  const translate = useTranslations();
 
   const { paymentData, setPaymentData } = useCheckout();
 
@@ -24,7 +24,7 @@ const Klarna = () => {
             name="shopperFirstName"
             className="sm:px-8"
             labelPosition="inline"
-            placeholder={formatMessage({ id: 'firstName', defaultMessage: 'First name' })}
+            placeholder={translate('common.firstName')}
             onChange={handleChange}
           />
         </div>
@@ -33,10 +33,7 @@ const Klarna = () => {
             name="shopperLastName"
             className="sm:px-8"
             labelPosition="inline"
-            placeholder={`${formatMessage({ id: 'lastName', defaultMessage: 'Last name' })} (${formatMessage({
-              id: 'optional',
-              defaultMessage: 'Optional',
-            })})`}
+            placeholder={`${translate('common.lastName')} (${translate('common.optional')})`}
             onChange={handleChange}
           />
         </div>
@@ -45,7 +42,7 @@ const Klarna = () => {
         name="shopperEmail"
         className="mt-16 sm:px-8"
         labelPosition="inline"
-        placeholder={formatMessage({ id: 'email', defaultMessage: 'Email' })}
+        placeholder={translate('common.email')}
         type="email"
         onChange={handleChange}
       />

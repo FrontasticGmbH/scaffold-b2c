@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useMemo, useState } from 'react';
-import { useRouter } from 'next/navigation';
 import { Option } from 'components/commercetools-ui/atoms/dropdown';
+import { useRouter } from 'i18n/routing';
 import { payments } from '..';
 import useCardNumberFormatter from './useFormatCredit';
 import usePaymentHelpers from './usePaymentHelpers';

@@ -1,8 +1,9 @@
 import React from 'react';
-import { useParams, useRouter } from 'next/navigation';
+import { useParams } from 'next/navigation';
 import Image from 'components/commercetools-ui/atoms/image';
 import Costs from 'components/commercetools-ui/organisms/order-payment-section/components/costs';
 import { CurrencyHelpers } from 'helpers/currencyHelpers';
+import { useRouter } from 'i18n/routing';
 import { useCart } from 'frontastic';
 
 const CartSummary = () => {
@@ -30,6 +31,7 @@ const CartSummary = () => {
                 <span className="mt-8 block text-12 font-medium md:hidden">
                   {CurrencyHelpers.formatForCurrency(lineItem.price ?? {}, locale)}
                 </span>
+                {/* eslint-disable-next-line react/jsx-no-literals */}
                 <span className="mt-12 block text-14 text-gray-600">x {lineItem.count}</span>
               </div>
             </div>

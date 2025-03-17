@@ -19,7 +19,8 @@ describe('[Component] Wishlist item', () => {
     );
 
     expect(screen.queryByAltText('T-Shirt')).toBeInTheDocument();
-    expect(screen.getByAltText('T-Shirt')).toHaveAttribute('src', 'https://cdn.com/path/to/img-small.png');
+    expect(screen.getByAltText('T-Shirt')).toHaveAttribute('src', expect.stringContaining('/_next/image'));
+    expect(screen.getByAltText('T-Shirt')).toHaveAttribute('src', expect.stringContaining('cdn.com'));
 
     expect(screen.queryByText('T-Shirt')).toBeInTheDocument();
 
@@ -27,7 +28,7 @@ describe('[Component] Wishlist item', () => {
 
     expect(screen.queryByTestId('remove-button')).toBeInTheDocument();
 
-    expect(screen.queryByText('Add to cart')).toBeInTheDocument();
+    expect(screen.queryByText('Move to Cart')).toBeInTheDocument();
   });
 
   it('Displays discount correctly', () => {
@@ -87,7 +88,7 @@ describe('[Component] Wishlist item', () => {
       />,
     );
 
-    await act(async () => userEvent.click(screen.getByText('Add to cart')));
+    await act(async () => userEvent.click(screen.getByText('Move to Cart')));
 
     expect(onMoveToCart).toHaveBeenCalled();
   });
@@ -105,9 +106,9 @@ describe('[Component] Wishlist item', () => {
       />,
     );
 
-    expect(screen.getByText('Add to cart')).toHaveAttribute('disabled');
+    expect(screen.getByText('Move to Cart')).toHaveAttribute('disabled');
 
-    await act(async () => userEvent.click(screen.getByText('Add to cart')));
+    await act(async () => userEvent.click(screen.getByText('Move to Cart')));
 
     expect(onMoveToCart).not.toHaveBeenCalled();
   });

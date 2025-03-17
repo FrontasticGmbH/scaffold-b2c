@@ -1,11 +1,11 @@
 import React, { FC } from 'react';
 import { Address } from 'shared/types/account';
 import { Order } from 'shared/types/cart/Order';
+import { useTranslations } from 'use-intl';
 import Button from 'components/commercetools-ui/atoms/button';
 import Link from 'components/commercetools-ui/atoms/link';
 import Typography from 'components/commercetools-ui/atoms/typography';
 import SummaryAccordion from 'components/commercetools-ui/organisms/order-summary/components/summary-accordion';
-import { useFormat } from 'helpers/hooks/useFormat';
 
 export interface Props {
   order: Order;
@@ -16,7 +16,7 @@ export interface Props {
 }
 
 const OrderInfoSection: FC<Props> = ({ order, shippingInfo, paymentInfo, shippingAddress, orderState }) => {
-  const { formatMessage: formatOrdersMessage } = useFormat({ name: 'orders' });
+  const translate = useTranslations();
 
   const handlePrint = () => {
     window.print();
@@ -30,10 +30,7 @@ const OrderInfoSection: FC<Props> = ({ order, shippingInfo, paymentInfo, shippin
 
       <div className="flex 2xl:pl-0">
         <Typography className="whitespace-nowrap text-14 text-gray-600 md:text-16">
-          {formatOrdersMessage({
-            id: 'shipping.method',
-            defaultMessage: 'Shipping method:',
-          })}
+          {translate('orders.shipping-method')}
         </Typography>
 
         <Typography className="pl-8 text-14 font-medium text-primary md:pl-20 md:text-16 2xl:whitespace-nowrap 2xl:pl-44">
@@ -43,10 +40,7 @@ const OrderInfoSection: FC<Props> = ({ order, shippingInfo, paymentInfo, shippin
 
       <div className="mt-24 flex 2xl:pl-0">
         <Typography className="whitespace-nowrap text-14 text-gray-600 md:text-16">
-          {formatOrdersMessage({
-            id: 'shipping.address',
-            defaultMessage: 'Shipping address:',
-          })}
+          {translate('checkout.shippingAddress')}
         </Typography>
 
         <div className="pl-8 md:pl-20 2xl:pl-44">
@@ -66,10 +60,7 @@ const OrderInfoSection: FC<Props> = ({ order, shippingInfo, paymentInfo, shippin
 
       <div className="mt-32 flex 2xl:pl-0">
         <Typography className="whitespace-nowrap text-14 text-gray-600 md:text-16">
-          {formatOrdersMessage({
-            id: 'payment.method',
-            defaultMessage: 'Payment method:',
-          })}
+          {translate('orders.payment-method')}
         </Typography>
 
         <Typography className="pl-8 text-14 font-medium uppercase text-primary md:pl-20 md:text-16 2xl:pl-44">
@@ -83,12 +74,7 @@ const OrderInfoSection: FC<Props> = ({ order, shippingInfo, paymentInfo, shippin
         <div className="flex flex-col lg:grid lg:grid-cols-2 2xl:grid-cols-1 2xl:gap-y-16">
           <div className="lg:w-full lg:pr-10 2xl:w-276 2xl:pr-0">
             <Button variant="secondary" className="h-fit w-full" onClick={handlePrint}>
-              <Typography className="text-center text-14 md:text-16">
-                {formatOrdersMessage({
-                  id: 'print.invoice',
-                  defaultMessage: 'Print invoice',
-                })}
-              </Typography>
+              <Typography className="text-center text-14 md:text-16">{translate('orders.print-invoice')}</Typography>
             </Button>
           </div>
 
@@ -96,10 +82,7 @@ const OrderInfoSection: FC<Props> = ({ order, shippingInfo, paymentInfo, shippin
             <div className="mt-20 lg:mt-0 lg:w-full lg:pl-10 2xl:w-276 2xl:pl-0">
               <Button variant="secondary" className="h-fit w-full">
                 <Typography className="text-center text-14 md:text-16">
-                  {formatOrdersMessage({
-                    id: 'request.cancellation',
-                    defaultMessage: 'Request cancellation',
-                  })}
+                  {translate('orders.request-cancellation')}
                 </Typography>
               </Button>
             </div>
@@ -108,30 +91,19 @@ const OrderInfoSection: FC<Props> = ({ order, shippingInfo, paymentInfo, shippin
           {orderState === 'Complete' && (
             <div className="mt-20 lg:mt-0 lg:w-full lg:pl-10 2xl:w-276 2xl:pl-0">
               <Button variant="secondary" className="h-fit w-full">
-                <Typography className="text-center text-14 md:text-16">
-                  {formatOrdersMessage({
-                    id: 'create.return',
-                    defaultMessage: 'Create return',
-                  })}
-                </Typography>
+                <Typography className="text-center text-14 md:text-16">{translate('orders.create-return')}</Typography>
               </Button>
             </div>
           )}
         </div>
 
         <Typography className="mt-40 w-full text-center text-14 text-primary md:text-16 lg:text-left 2xl:text-left">
-          {formatOrdersMessage({
-            id: 'questions',
-            defaultMessage: 'Do you have questions about your order?',
-          })}
+          {translate('orders.questions')}
         </Typography>
 
         <Link link={'?hash=support'} className="mt-16 flex cursor-pointer">
           <Typography className="w-full text-center text-14 font-medium text-primary hover:underline md:text-16 lg:text-left 2xl:text-left">
-            {formatOrdersMessage({
-              id: 'contact.support',
-              defaultMessage: 'Contact customer support',
-            })}
+            {translate('orders.contact-support')}
           </Typography>
         </Link>
       </div>

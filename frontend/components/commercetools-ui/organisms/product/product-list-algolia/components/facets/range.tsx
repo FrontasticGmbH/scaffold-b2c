@@ -1,9 +1,9 @@
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { useParams } from 'next/navigation';
 import { useHits, useRange } from 'react-instantsearch';
+import { useTranslations } from 'use-intl';
 import Checkbox from 'components/commercetools-ui/atoms/checkbox';
 import { CurrencyHelpers } from 'helpers/currencyHelpers';
-import { useFormat } from 'helpers/hooks/useFormat';
 import useI18n from 'helpers/hooks/useI18n';
 import { FacetProps } from './types';
 import { useProductList } from '../../context';
@@ -11,7 +11,7 @@ import { refinementRemovedEventName, refinementsClearedEventName } from '../../c
 import { RefinementRemovedEvent } from '../../context/types';
 
 const RangeFacet: React.FC<FacetProps> = ({ attribute }) => {
-  const { formatMessage: formatProductMessage } = useFormat({ name: 'product' });
+  const translate = useTranslations();
 
   const { locale } = useParams();
 
@@ -155,6 +155,7 @@ const RangeFacet: React.FC<FacetProps> = ({ attribute }) => {
       Component: ranges.map(({ min, max, refinements }, index) => (
         <div key={index} className="flex items-center justify-between gap-8">
           <div>
+            {/* eslint-disable-next-line react/jsx-no-literals */}
             {CurrencyHelpers.formatForCurrency(min * 100, locale, currency)} -{' '}
             {CurrencyHelpers.formatForCurrency(max * 100, locale, currency)}
           </div>
@@ -175,9 +176,7 @@ const RangeFacet: React.FC<FacetProps> = ({ attribute }) => {
     <div>
       <div className="flex flex-col gap-44">{rangeOptions.Component}</div>
       <div className={rangeOptions.available ? 'mt-48' : ''}>
-        <p className="text-16 font-medium">
-          {formatProductMessage({ id: 'price.range.custom', defaultMessage: 'Custom price range' })}
-        </p>
+        <p className="text-16 font-medium">{translate('product.price-range-custom')}</p>
       </div>
       <form className="mt-36 flex items-center gap-16" onSubmit={handleRangeSubmit}>
         <label
@@ -191,7 +190,7 @@ const RangeFacet: React.FC<FacetProps> = ({ attribute }) => {
             className="w-full border-none p-0 outline-none focus:border-none focus:outline-none"
             type="number"
             value={priceRange.min !== -Infinity ? priceRange.min.toString() : ''}
-            placeholder={formatProductMessage({ id: 'min', defaultMessage: 'Min' })}
+            placeholder={translate('product.min')}
             onChange={handleRangeInputChange}
           />
           <span>{currencySymbol}</span>
@@ -210,7 +209,7 @@ const RangeFacet: React.FC<FacetProps> = ({ attribute }) => {
             className="w-full border-none p-0 outline-none focus:border-none focus:outline-none"
             type="number"
             value={priceRange.max !== Infinity ? priceRange.max.toString() : ''}
-            placeholder={formatProductMessage({ id: 'max', defaultMessage: 'Max' })}
+            placeholder={translate('product.max')}
             onChange={handleRangeInputChange}
           />
           <span>{currencySymbol}</span>
@@ -220,7 +219,7 @@ const RangeFacet: React.FC<FacetProps> = ({ attribute }) => {
           type="submit"
           className="rounded-sm bg-primary px-14 py-8 font-medium leading-[24px] text-white transition hover:bg-gray-500"
         >
-          {formatProductMessage({ id: 'go', defaultMessage: 'Go' })}
+          {translate('product.go')}
         </button>
       </form>
     </div>

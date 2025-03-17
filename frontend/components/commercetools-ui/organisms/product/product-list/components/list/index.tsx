@@ -1,6 +1,6 @@
 import React, { useMemo } from 'react';
+import { useTranslations } from 'use-intl';
 import { PLP_PRODUCT_CLICKED } from 'helpers/constants/events';
-import { useFormat } from 'helpers/hooks/useFormat';
 import { Cart } from 'types/entity/cart';
 import { Product } from 'types/entity/product';
 import { useProductList } from '../../context';
@@ -12,7 +12,7 @@ interface Props {
 }
 
 const List: React.FC<Props> = ({ products, cart }) => {
-  const { formatMessage: formatProductMessage } = useFormat({ name: 'product' });
+  const translate = useTranslations();
 
   const { searchQuery, loadMore, totalItems } = useProductList();
 
@@ -38,7 +38,7 @@ const List: React.FC<Props> = ({ products, cart }) => {
         disabled={loadedAll}
         onClick={loadMore}
       >
-        {formatProductMessage({ id: 'load.more', defaultMessage: 'Load More' })}
+        {translate('product.load-more')}
       </button>
     </div>
   );

@@ -43,6 +43,7 @@ const SliderNavigation: FC<SliderNavigationProps> = ({
         <ChevronLeftIcon {...compactNavigationArrowsStyle} onClick={() => swiperRef?.slidePrev()} />
         <div className="flex font-body text-14 font-regular leading-loose text-gray-600">
           <span>{((swiperRef?.activeIndex ?? 0) % (totalSlides ?? 1)) + 1}</span>
+          {/* eslint-disable-next-line react/jsx-no-literals */}
           <span>/</span>
           <span>{totalSlides}</span>
         </div>

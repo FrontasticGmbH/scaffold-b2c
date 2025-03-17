@@ -1,6 +1,6 @@
 import { FC } from 'react';
+import { useTranslations } from 'use-intl';
 import Typography from 'components/commercetools-ui/atoms/typography';
-import { useFormat } from 'helpers/hooks/useFormat';
 import { Account } from 'types/entity/account';
 import { ShippingMethod } from 'types/entity/cart';
 import { Order } from 'types/entity/order';
@@ -13,21 +13,21 @@ type ThankYouOrderInfoProps = {
 };
 
 const ThankYouOrderInfo: FC<ThankYouOrderInfoProps> = ({ firstName, order, shippingMethods }) => {
-  const { formatMessage } = useFormat({ name: 'thank-you' });
+  const translate = useTranslations();
 
   const loading = !order;
 
   const { orderNumber, deliveryMethod, shippingAddress, paymentInfo } = useOrderInfoData({ order, shippingMethods });
 
   const orderInfo = [
-    { label: formatMessage({ id: 'order.number', defaultMessage: 'Order number' }), value: orderNumber || '-' },
-    { label: formatMessage({ id: 'delivery.by', defaultMessage: 'Delivery by' }), value: deliveryMethod || '-' },
+    { label: translate('thank-you.order-number'), value: orderNumber || '-' },
+    { label: translate('thank-you.delivery-by'), value: deliveryMethod || '-' },
     {
-      label: formatMessage({ id: 'delivery.to', defaultMessage: 'Delivery to' }),
+      label: translate('thank-you.delivery-to'),
       value: firstName || '',
       subValue: shippingAddress || '-',
     },
-    { label: formatMessage({ id: 'payment.by', defaultMessage: 'Payment by' }), value: paymentInfo || '-' },
+    { label: translate('thank-you.payment-by'), value: paymentInfo || '-' },
   ];
 
   return (

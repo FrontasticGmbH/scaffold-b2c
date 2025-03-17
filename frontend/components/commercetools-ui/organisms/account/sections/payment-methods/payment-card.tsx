@@ -1,10 +1,10 @@
 import React, { FC } from 'react';
-import { useRouter } from 'next/navigation';
 import { PencilSquareIcon } from '@heroicons/react/24/outline';
+import { useTranslations } from 'use-intl';
 import Button from 'components/commercetools-ui/atoms/button';
 import Typography from 'components/commercetools-ui/atoms/typography';
 import useResolveCCImage from 'components/commercetools-ui/organisms/checkout/hooks/useResolveCCImage';
-import { useFormat } from 'helpers/hooks/useFormat';
+import { useRouter } from 'i18n/routing';
 import { Payment } from '.';
 
 interface Props {
@@ -12,7 +12,7 @@ interface Props {
 }
 
 const PaymentCard: FC<Props> = ({ payment }) => {
-  const { formatMessage: formatPaymentMessage } = useFormat({ name: 'payment' });
+  const translate = useTranslations();
   const router = useRouter();
   const resolveCCImage = useResolveCCImage();
 
@@ -31,12 +31,7 @@ const PaymentCard: FC<Props> = ({ payment }) => {
         </Typography>
       </div>
       <Button variant="ghost" onClick={() => goToEdit(payment)} className="py-0 text-primary hover:underline">
-        <Typography className="hidden text-14 text-primary md:block">
-          {formatPaymentMessage({
-            id: 'edit',
-            defaultMessage: 'Edit',
-          })}
-        </Typography>
+        <Typography className="hidden text-14 text-primary md:block">{translate('payment.edit')}</Typography>
       </Button>
 
       <Button

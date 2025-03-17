@@ -14,7 +14,8 @@ export class ProductRouter {
 
   static generateUrlFor(item: Product | LineItem | WishlistItem) {
     if (ProductRouter.isProduct(item)) {
-      return `/${item.slug}/p/${item.variants[0].sku}`;
+      const variant = item.variants.find((variant) => variant.isMatchingVariant !== false) ?? item.variants[0];
+      return `/${item.slug}/p/${variant.sku}`;
     }
     return `/slug/p/${item.variant.sku}`;
   }

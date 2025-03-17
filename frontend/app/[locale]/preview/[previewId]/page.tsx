@@ -1,4 +1,3 @@
-import { getTranslations } from 'helpers/i18n/get-translations';
 import fetchCategories from 'helpers/server/fetch-categories';
 import fetchPreview from 'helpers/server/fetch-preview';
 import { Providers } from 'providers';
@@ -23,28 +22,9 @@ export default async function Page(props: PageProps) {
 
   if (page.isError) return <></>;
 
-  const translations = await getTranslations(
-    [locale],
-    [
-      'common',
-      'cart',
-      'product',
-      'payment',
-      'checkout',
-      'account',
-      'customer-support',
-      'error',
-      'success',
-      'wishlist',
-      'newsletter',
-      'orders',
-      'thank-you',
-    ],
-  );
-
   return (
     <div data-theme={(!page.isError && page.data.pageFolder.configuration.displayTheme) ?? 'default'}>
-      <Providers translations={translations} page={page}>
+      <Providers page={page}>
         <PreviewRenderer
           data={page.data}
           params={params}

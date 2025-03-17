@@ -1,11 +1,13 @@
 import { FC, useMemo } from 'react';
-import { useParams, useRouter } from 'next/navigation';
+import { useParams } from 'next/navigation';
 import { LineItem } from 'shared/types/wishlist/LineItem';
+import { useTranslations } from 'use-intl';
 import Typography from 'components/commercetools-ui/atoms/typography';
 import WishlistButton from 'components/commercetools-ui/organisms/wishlist/components/wishlist-button';
 import { CurrencyHelpers } from 'helpers/currencyHelpers';
 import useClassNames from 'helpers/hooks/useClassNames';
 import usePath from 'helpers/hooks/usePath';
+import { useRouter } from 'i18n/routing';
 import { ProductDetailsProps } from '..';
 import ProductVariant from './product-variant';
 
@@ -22,6 +24,8 @@ const ProductInformation: FC<ProductInformationProps> = ({
 }) => {
   const router = useRouter();
 
+  const translate = useTranslations();
+
   const { locale } = useParams();
 
   const { path } = usePath();
@@ -30,9 +34,8 @@ const ProductInformation: FC<ProductInformationProps> = ({
 
   const discountPercentage =
     variant.discountedPrice &&
-    (((variant.price?.centAmount as number) - (variant.discountedPrice?.value?.centAmount as number)) /
-      (variant.price?.centAmount as number)) *
-      100;
+    ((variant.price?.centAmount as number) - (variant.discountedPrice?.value?.centAmount as number)) /
+      (variant.price?.centAmount as number);
 
   const updateVariantSKU = (sku: string) => {
     router.replace(`/${path.split('/').filter(Boolean).slice(0, -1).join('/')}/${sku}`);
@@ -67,11 +70,10 @@ const ProductInformation: FC<ProductInformationProps> = ({
 
   return (
     <div>
-      <div className="relative flex pr-40">
-        <Typography as="h3" className={`${titleClassName} font-medium leading-loose`}>
+      <div className="relative flex items-center justify-between pr-40">
+        <Typography as="h1" className={`${titleClassName} font-medium leading-loose`}>
           {product?.name}
         </Typography>
-
         <WishlistButton
           lineItem={productToWishlistLineItem}
           data={wishlist}
@@ -92,7 +94,7 @@ const ProductInformation: FC<ProductInformationProps> = ({
 
           {
             <span className="mb-8 ml-8 mt-10 flex h-25 w-45 items-center justify-center bg-red-500 text-11 text-white">
-              {Math.round(discountPercentage)}%
+              {translate('common.percentage', { value: discountPercentage })}
             </span>
           }
         </div>

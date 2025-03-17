@@ -86,9 +86,7 @@ const ProductSlider: FC<ProductSliderProps> = ({
   return (
     <Wrapper background="neutral-200" clearDefaultStyles={clearDefaultWrapperStyles}>
       <div>
-        <Typography className={titleClassName} as="h3">
-          {title}
-        </Typography>
+        <Typography className={titleClassName}>{title}</Typography>
         {(subline || ctaLink) && (
           <div className="mt-8 flex items-center justify-between md:mt-16 lg:mt-14">
             {subline && <Subtitle subtitle={subline} variant={subtitleVariant} />}

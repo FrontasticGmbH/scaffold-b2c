@@ -1,12 +1,12 @@
 import { useCallback, useContext } from 'react';
+import { useTranslations } from 'use-intl';
 import { AccountContext } from 'context/account';
-import { useFormat } from 'helpers/hooks/useFormat';
 import useI18n from 'helpers/hooks/useI18n';
 import { AddressFormData } from './address-form';
 
 const usePropsToAddressType = () => {
   const { country } = useI18n();
-  const { formatMessage } = useFormat({ name: 'checkout' });
+  const translate = useTranslations();
 
   const { addBillingAddress, addShippingAddress, setDefaultBillingAddress, setDefaultShippingAddress, updateAddress } =
     useContext(AccountContext);
@@ -25,7 +25,7 @@ const usePropsToAddressType = () => {
       const typeBasedProps = {
         billing: {
           checked: address?.isDefaultBillingAddress,
-          label: formatMessage({ id: 'billing', defaultMessage: 'Billing' }).toLowerCase(),
+          label: translate('checkout.billing').toLowerCase(),
           addressType: addressType,
           setAsDefault: async () => {
             await setDefaultBillingAddress(address?.addressId);
@@ -39,7 +39,7 @@ const usePropsToAddressType = () => {
         },
         shipping: {
           checked: address?.isDefaultShippingAddress,
-          label: formatMessage({ id: 'shipping', defaultMessage: 'Shipping' }).toLowerCase(),
+          label: translate('checkout.shipping').toLowerCase(),
           addressType: addressType,
           setAsDefault: async () => {
             await setDefaultShippingAddress(address?.addressId);
@@ -57,7 +57,7 @@ const usePropsToAddressType = () => {
     },
     [
       country,
-      formatMessage,
+      translate,
       getAddressType,
       addBillingAddress,
       addShippingAddress,

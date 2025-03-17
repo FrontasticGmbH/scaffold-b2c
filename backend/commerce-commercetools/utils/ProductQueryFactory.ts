@@ -7,7 +7,7 @@ import { FilterFieldTypes } from '@Types/product/FilterField';
 import { Facet } from '@Types/query/Facet';
 import { TermFacet } from '@Types/query/TermFacet';
 import { RangeFacet } from '@Types/query/RangeFacet';
-import { getAccountGroupId } from '@Commerce-commercetools/utils/Request';
+import { getAccountGroupId, getProductSelectionId } from '@Commerce-commercetools/utils/Request';
 
 export class ProductQueryFactory {
   static queryFromParams: (request: Request, config?: DataSourceConfiguration) => ProductQuery = (
@@ -152,6 +152,11 @@ export class ProductQueryFactory {
       }
       productQuery.sortAttributes = sortAttributes;
     }
+
+    /**
+     * Map productSelectionId
+     */
+    productQuery.productSelectionId = queryParams?.productSelectionId || getProductSelectionId(request) || undefined;
 
     /**
      * Map page limit

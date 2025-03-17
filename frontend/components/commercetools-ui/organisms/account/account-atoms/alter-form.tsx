@@ -1,8 +1,8 @@
 import { FC, useMemo } from 'react';
-import { useRouter } from 'next/navigation';
+import { useTranslations } from 'use-intl';
 import Button from 'components/commercetools-ui/atoms/button';
 import Typography from 'components/commercetools-ui/atoms/typography';
-import { useFormat } from 'helpers/hooks/useFormat';
+import { useRouter } from 'i18n/routing';
 
 type AlterFormProps = {
   page: 'login' | 'register';
@@ -11,22 +11,22 @@ type PageBasedData = { [key in AlterFormProps['page']]: { title: string; buttonL
 
 const AlterForm: FC<AlterFormProps> = ({ page }) => {
   const router = useRouter();
-  const { formatMessage } = useFormat({ name: 'account' });
+  const translate = useTranslations();
 
   const pageBasedData: PageBasedData = useMemo(() => {
     return {
       login: {
-        title: formatMessage({ id: 'welcome.back', defaultMessage: 'Welcome back' }),
-        buttonLabel: formatMessage({ id: 'sign.in', defaultMessage: 'Sign in' }),
+        title: translate('account.welcome-back'),
+        buttonLabel: translate('account.sign-in'),
         link: '/login',
       },
       register: {
-        title: formatMessage({ id: 'not.member.yet', defaultMessage: 'Not a member yet?' }),
-        buttonLabel: formatMessage({ id: 'account.register', defaultMessage: 'Register' }),
+        title: translate('account.not-member-yet'),
+        buttonLabel: translate('account.account-register'),
         link: '/register',
       },
     };
-  }, [formatMessage]);
+  }, [translate]);
 
   const title = useMemo(() => pageBasedData[page].title, [page, pageBasedData]);
   const buttonLabel = useMemo(() => pageBasedData[page].buttonLabel, [page, pageBasedData]);

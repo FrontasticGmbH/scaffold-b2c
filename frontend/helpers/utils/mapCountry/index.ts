@@ -21,7 +21,7 @@ export const mapCountry = (country: Required<ProjectSettings>['countries'][0]): 
     states: matchedCountry?.states ?? [],
     locales:
       matchedLocales.map((locale) => ({
-        name: getLocalizationInfo(locale).countryName,
+        name: getLocalizationInfo(locale).localeName,
         locale,
       })) || [],
     currencies: matchedLocales.map((locale) => getLocalizationInfo(locale).currency),

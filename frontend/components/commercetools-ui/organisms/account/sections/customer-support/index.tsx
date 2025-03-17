@@ -1,6 +1,6 @@
 import React from 'react';
+import { useTranslations } from 'use-intl';
 import Typography from 'components/commercetools-ui/atoms/typography';
-import { useFormat } from 'helpers/hooks/useFormat';
 import ContactUs from './contact-us';
 import FAQuestions from './faq';
 import { FAQ } from '../..';
@@ -26,21 +26,16 @@ const CustomerSupport: React.FC<Props> = ({
   country,
   faqs,
 }) => {
-  const { formatMessage: formatCustomerSupportMessage } = useFormat({ name: 'customer-support' });
+  const translate = useTranslations();
   return (
     <div className="mt-20 px-16 md:px-24 lg:mt-38 lg:px-44">
       <div className="hidden pb-12 md:block">
-        <Typography as="h2" className="text-22 text-primary lg:text-24">
-          {formatCustomerSupportMessage({
-            id: 'customer.support',
-            defaultMessage: 'Customer support',
-          })}
+        <Typography as="h1" className="text-22 text-primary lg:text-24">
+          {translate('customer-support.customer-support')}
         </Typography>
       </div>
       <div className="py-16">
-        <Typography className="text-gray-600">
-          {formatCustomerSupportMessage({ id: 'help.question', defaultMessage: 'How can we help you today?' })}
-        </Typography>
+        <Typography className="text-gray-600">{translate('customer-support.help-question')}</Typography>
       </div>
 
       <ContactUs

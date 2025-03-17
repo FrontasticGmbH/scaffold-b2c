@@ -1,4 +1,10 @@
 
+## Version 1.13.0 (2025-03-17)
+
+** New Features & Improvements **
+
+* Added metadata fields for product and categories
+
 ## Version 1.12.0 (2025-02-17)
 
 

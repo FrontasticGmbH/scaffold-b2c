@@ -1,5 +1,5 @@
 import React from 'react';
-import { useFormat } from 'helpers/hooks/useFormat';
+import { useTranslations } from 'use-intl';
 import { useProductList } from '../../context';
 
 interface Props {
@@ -7,17 +7,16 @@ interface Props {
 }
 
 const AccumalativeTrace: React.FC<Props> = ({ currentItems }) => {
-  const { formatMessage: formatProductMessage } = useFormat({ name: 'product' });
+  const translate = useTranslations();
 
   const { totalItems } = useProductList();
 
   return (
     <div className="absolute bottom-72 left-1/2 -translate-x-1/2">
       <p>
-        {formatProductMessage({
-          id: 'showing',
-          defaultMessage: 'Showing {current} of {total}',
-          values: { current: currentItems, total: totalItems },
+        {translate('product.showing', {
+          current: currentItems,
+          total: totalItems,
         })}
       </p>
     </div>

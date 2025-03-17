@@ -44,7 +44,7 @@ class CommercetoolsSDK extends SDK<ComposableCommerceEvents> {
     const { locale, currency } = getLocalizationInfo(localeString);
 
     this.configure({
-      locale,
+      locale: locale.replace('-', '_'),
       currency,
       extensionVersion: process.env.NEXT_PUBLIC_EXT_BUILD_ID ?? 'dev',
       endpoint: process.env.NEXT_PUBLIC_FRONTASTIC_HOST

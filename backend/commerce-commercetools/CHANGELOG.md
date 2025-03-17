@@ -1,4 +1,11 @@
 
+## Version 3.2.0 (2025-03-03)
+
+
+** Bug Fixes **
+
+* ensured that if no local or default local exist, first locale available is returned
+
 ## Version 3.1.0 (2025-02-17)
 
 

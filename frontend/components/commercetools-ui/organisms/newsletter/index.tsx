@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
+import { useTranslations } from 'use-intl';
 import Typography from 'components/commercetools-ui/atoms/typography';
-import { useFormat } from 'helpers/hooks/useFormat';
 
 export interface NewsletterProps {
   headline?: string;
@@ -22,44 +22,21 @@ export default function Newsletter({
   successMessage,
 }: NewsletterProps) {
   //i18n messages
-  const { formatMessage: formatErrorMessage } = useFormat({ name: 'error' });
-  const { formatMessage: formatNewsletterMessage } = useFormat({ name: 'newsletter' });
+  const translate = useTranslations();
 
   //messages
-  const fallbackHeadline = formatNewsletterMessage({
-    id: 'headline.fallback',
-    defaultMessage: 'Receive the latest fashion news!',
-  });
+  const fallbackHeadline = translate('newsletter.headline-fallback');
 
-  const fallbackDescription = formatNewsletterMessage({
-    id: 'description.fallback',
-    defaultMessage: 'Subscribe to our newsletter to get notified every time we launch a new collection.',
-  });
+  const fallbackDescription = translate('newsletter.description-fallback');
 
-  const fallbackPlaceholder = formatNewsletterMessage({
-    id: 'placeholder.fallback',
-    defaultMessage: 'Your email here',
-  });
+  const fallbackPlaceholder = translate('newsletter.placeholder-fallback');
 
-  const fallbackCta = formatNewsletterMessage({
-    id: 'cta.fallback',
-    defaultMessage: 'Subscribe',
-  });
+  const fallbackCta = translate('newsletter.cta-fallback');
 
-  const fallbackDisclaimer = formatNewsletterMessage({
-    id: 'disclaimer.fallback',
-    defaultMessage:
-      "By clicking 'Submit' you agree that we may use your information in accordance with our privacy policy process the data for a specific purpose",
-  });
+  const fallbackDisclaimer = translate('newsletter.disclaimer-fallback');
 
-  const fallbackSuccessTitle = formatNewsletterMessage({
-    id: 'success.fallback.title',
-    defaultMessage: 'Welcome aboard!',
-  });
-  const fallbackSuccessMessage = formatNewsletterMessage({
-    id: 'success.fallback.message',
-    defaultMessage: "You're subscribed. We'll keep you up to date with all things fashion.",
-  });
+  const fallbackSuccessTitle = translate('newsletter.success-fallback-title');
+  const fallbackSuccessMessage = translate('newsletter.success-fallback-message');
 
   //form data
   const [data, setData] = useState({ email: '' });
@@ -77,7 +54,7 @@ export default function Newsletter({
     //validate
     const isValid = !!data.email;
     if (!isValid) {
-      return alert(formatErrorMessage({ id: 'enter.email', defaultMessage: 'Please enter your email address' }));
+      return alert(translate('error.email-enter'));
     }
     //success
     //Add newsletter subscription logic here

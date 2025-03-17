@@ -1,5 +1,6 @@
 import React, { ComponentProps, FC } from 'react';
 import Typography from 'components/commercetools-ui/atoms/typography';
+import { TypographyTagType } from 'components/commercetools-ui/atoms/typography/types';
 import useClassNames from 'helpers/hooks/useClassNames';
 import EditCTA from './edit-cta';
 import InfoFields from './info-fields';
@@ -13,6 +14,7 @@ interface InfoCardProps extends ComponentProps<'div'> {
   cardClassName?: string;
   clearPadding?: boolean;
   editHref?: string;
+  titleTagType?: TypographyTagType;
 }
 
 const InfoCard: FC<InfoCardProps> = ({
@@ -24,6 +26,7 @@ const InfoCard: FC<InfoCardProps> = ({
   isEditable,
   clearPadding,
   editHref,
+  titleTagType = 'h4',
 }) => {
   const cardFullClassName = useClassNames([
     { 'flex items-start justify-between': !!isEditable },
@@ -34,7 +37,7 @@ const InfoCard: FC<InfoCardProps> = ({
 
   return (
     <div className={className}>
-      <Typography as="h4" className="mb-16 text-primary md:text-18 lg:mb-24">
+      <Typography as={titleTagType} className="mb-16 text-primary md:text-18 lg:mb-24">
         {title}
       </Typography>
 

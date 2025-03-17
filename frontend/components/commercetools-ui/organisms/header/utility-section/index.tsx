@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
+import { useTranslations } from 'use-intl';
 import Drawer from 'components/commercetools-ui/atoms/drawer';
 import { ImageProps } from 'components/commercetools-ui/atoms/image';
 import { Link } from 'components/commercetools-ui/organisms/header/types';
 import Slideout, { MenuState } from 'components/commercetools-ui/organisms/header/utility-section/components/slide-out';
 import CartIcon from 'components/icons/cart';
 import WishlistIcon from 'components/icons/wishlist';
-import { useFormat } from 'helpers/hooks/useFormat';
 import { Cart, DiscountCode, LineItem as CartLineItem } from 'types/entity/cart';
 import { LineItem as WishlistLineItem, Wishlist } from 'types/entity/wishlist';
 import AccountButton from './components/account-button';
@@ -57,8 +57,7 @@ const UtilitySection: React.FC<Props> = ({
   emptyWishlistImage,
   emptyWishlistCategories,
 }) => {
-  const { formatMessage: formatCartMessage } = useFormat({ name: 'cart' });
-  const { formatMessage: formatWishlistMessage } = useFormat({ name: 'wishlist' });
+  const translate = useTranslations();
 
   const [menuState, setMenuState] = useState<MenuState>();
   const [isDrawerOpen, setIsDrawerOpen] = useState<boolean>(false);
@@ -80,7 +79,7 @@ const UtilitySection: React.FC<Props> = ({
 
         <div className="h-40 w-fit">
           <button
-            aria-label={formatWishlistMessage({ id: 'myWishlist', defaultMessage: 'My wishlist' })}
+            aria-label={translate('wishlist.my-wishlist')}
             className="relative h-fit cursor-pointer border-gray-600 pb-8 hover:border-b-2"
             onClick={onWishlistClicked}
           >
@@ -90,7 +89,7 @@ const UtilitySection: React.FC<Props> = ({
 
         <div className="h-40 w-fit">
           <button
-            aria-label={formatCartMessage({ id: 'myCart', defaultMessage: 'My Cart' })}
+            aria-label={translate('cart.myCart')}
             className="h-fit cursor-pointer border-gray-600 pb-8 hover:border-b-2"
             onClick={onCartClicked}
           >

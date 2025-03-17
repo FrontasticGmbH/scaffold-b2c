@@ -1,7 +1,7 @@
 import React, { useMemo } from 'react';
 import { Configure, InfiniteHits } from 'react-instantsearch';
+import { useTranslations } from 'use-intl';
 import Wrapper from 'components/HOC/wrapper';
-import { useFormat } from 'helpers/hooks/useFormat';
 import AccumalativeTrace from './components/accumalative-trace';
 import Breadcrumbs from './components/breadcrumb';
 import CurrentRefinements from './components/current-refinements';
@@ -17,7 +17,7 @@ interface Props {
 }
 
 const ProductListAlgolia: React.FC<Props> = ({ slug, searchQuery }) => {
-  const { formatMessage: formatProductMessage } = useFormat({ name: 'product' });
+  const translate = useTranslations();
 
   const { categories, facetsConfiguration } = useProductList();
 
@@ -55,7 +55,7 @@ const ProductListAlgolia: React.FC<Props> = ({ slug, searchQuery }) => {
               'mx-auto bg-primary rounded-md font-medium text-white text-16 px-48 py-12 block mt-[90px] hover:bg-gray-500 transition disabled:bg-neutral-400 disabled:opacity-0',
           }}
           translations={{
-            showMoreButtonText: formatProductMessage({ id: 'load.more', defaultMessage: 'Load More' }),
+            showMoreButtonText: translate('product.load-more'),
           }}
         />
 

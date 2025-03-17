@@ -1,10 +1,10 @@
 import React, { useRef, useEffect, useLayoutEffect, useMemo, useState, useCallback } from 'react';
 import Skeleton from 'react-loading-skeleton';
+import { useTranslations } from 'use-intl';
 import Slider from 'components/commercetools-ui/atoms/slider';
 import Typography from 'components/commercetools-ui/atoms/typography';
 import Wrapper from 'components/HOC/wrapper';
 import useClassNames from 'helpers/hooks/useClassNames';
-import { useFormat } from 'helpers/hooks/useFormat';
 import useMediaQuery from 'helpers/hooks/useMediaQuery';
 import { Order } from 'types/entity/order';
 import OrderItem from './OrderItem';
@@ -22,14 +22,14 @@ interface Props {
 const Orders = ({ orders, loading }: Props) => {
   const ref = useRef<HTMLDivElement>(null);
   const [isLargeMobileScreen] = useMediaQuery(325);
-  const { formatMessage: formatOrdersMessage } = useFormat({ name: 'orders' });
+  const translate = useTranslations();
   const [overflow, setOverflow] = useState<boolean | undefined>(undefined);
 
   const statusTabs: StatusTab[] = [
-    { name: formatOrdersMessage({ id: 'all.orders', defaultMessage: 'All orders' }), slug: 'allOrders' },
-    { name: formatOrdersMessage({ id: 'Confirmed', defaultMessage: 'Registered' }), slug: 'Confirmed' },
-    { name: formatOrdersMessage({ id: 'Complete', defaultMessage: 'Delivered' }), slug: 'Complete' },
-    { name: formatOrdersMessage({ id: 'Cancelled', defaultMessage: 'Returned' }), slug: 'Cancelled' },
+    { name: translate('orders.all-orders'), slug: 'allorders' },
+    { name: translate('orders.confirmed'), slug: 'confirmed' },
+    { name: translate('orders.complete'), slug: 'complete' },
+    { name: translate('orders.cancelled'), slug: 'cancelled' },
   ];
   const [selectedTab, setSelectedTab] = useState(statusTabs[0].slug);
   const [leftArrowAppear, setLeftArrowAppear] = useState<boolean | undefined>(undefined);
@@ -41,7 +41,7 @@ const Orders = ({ orders, loading }: Props) => {
   }, [leftArrowAppear, rightArrowAppear, isLargeMobileScreen, overflow]);
 
   const orderHistoryContent = useMemo(() => {
-    if (selectedTab === 'allOrders') return orders;
+    if (selectedTab === 'allorders') return orders;
     else return orders?.filter((order: Order) => order.orderState === selectedTab);
   }, [selectedTab, orders]);
 
@@ -79,22 +79,14 @@ const Orders = ({ orders, loading }: Props) => {
       ) : (
         <>
           <Typography
-            as="h2"
+            as="h1"
             className="mt-20 hidden text-22 text-primary md:ml-24 md:block lg:ml-44 lg:mt-42 lg:text-24"
           >
-            {formatOrdersMessage({
-              id: 'orders',
-              defaultMessage: 'Orders',
-            })}
+            {translate('orders.orders')}
           </Typography>
 
           <div className="mt-20 px-16 md:mt-36 md:px-24 lg:px-44">
-            <Typography className="text-14 text-gray-600 md:text-16">
-              {formatOrdersMessage({
-                id: 'help.question',
-                defaultMessage: 'Check status of recent orders, manage your returns and download invoices.',
-              })}
-            </Typography>
+            <Typography className="text-14 text-gray-600 md:text-16">{translate('orders.help-question')}</Typography>
           </div>
 
           <div className="mt-16">

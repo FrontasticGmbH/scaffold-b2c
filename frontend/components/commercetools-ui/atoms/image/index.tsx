@@ -1,54 +1,64 @@
-'use client';
-
-import React from 'react';
+import React, { useMemo } from 'react';
 import NextImage from 'next/image';
+import { CldImage } from 'next-cloudinary';
 import { useResolvedLocalizedObject } from 'helpers/hooks/useResolvedLocalizedObject';
 import useDimensions from './hooks/useDimensions';
-import cloudinaryLoader from './loaders/cloudinary';
 import defaultLoader from './loaders/default';
 import { ImageProps } from './types';
+
+// Fallback image to use when no valid source is provided
+const PLACEHOLDER_IMAGE = '/placeholder.jpg';
+
+const getCropConfig = (gravity?: ImageProps['gravity']) => {
+  if (gravity?.mode === 'custom' && gravity.coordinates) {
+    return {
+      type: 'fill' as const,
+      x: gravity.coordinates.x,
+      y: gravity.coordinates.y,
+    };
+  }
+  return 'fill';
+};
 
 const Image = ({ media, ratio, gravity, suffix, src = '', width, height, alt = '', title, ...props }: ImageProps) => {
   const dimensions = useDimensions({ media, width, height, ...props });
 
-  const resovledTitle = useResolvedLocalizedObject(title ?? '');
-
+  const resolvedTitle = useResolvedLocalizedObject(title ?? '');
   const resolvedAlt = useResolvedLocalizedObject(alt ?? '');
 
-  const isStaticImage = src.startsWith('/');
+  const cropConfig = useMemo(() => getCropConfig(gravity), [gravity]);
 
-  if (!media?.mediaId)
+  // Handle Cloudinary images (with mediaId)
+  if (media?.mediaId) {
     return (
-      <NextImage
-        unoptimized={!isStaticImage}
-        src={defaultLoader({ src, suffix })}
-        loader={({ src }) => src}
+      <CldImage
+        src={media.mediaId}
         alt={resolvedAlt}
-        title={resovledTitle}
+        title={resolvedTitle}
+        crop={cropConfig}
+        gravity={gravity?.mode || 'auto'}
+        aspectRatio={ratio}
         {...dimensions}
         {...props}
       />
     );
+  }
 
-  return (
-    <NextImage
-      src={media.mediaId}
-      loader={({ src: mediaId, width }) =>
-        cloudinaryLoader({
-          mediaId,
-          width,
-          ratio,
-          gravity: gravity?.mode,
-          x: gravity?.coordinates?.x?.toString(),
-          y: gravity?.coordinates?.y?.toString(),
-        })
-      }
-      alt={resolvedAlt}
-      title={resovledTitle}
-      {...dimensions}
-      {...props}
-    />
-  );
+  // Handle regular images with Next.js Image
+  try {
+    // Attempt to process the src with the loader
+    const processedSrc = defaultLoader({ src, suffix });
+
+    // If we got a valid URL, use it
+    if (processedSrc && typeof processedSrc === 'string' && processedSrc.length > 0) {
+      return <NextImage src={processedSrc} alt={resolvedAlt} title={resolvedTitle} {...dimensions} {...props} />;
+    }
+  } catch (error) {
+    console.warn('Error processing image source:', error);
+  }
+
+  // Fallback to placeholder if anything goes wrong
+  return <NextImage src={PLACEHOLDER_IMAGE} alt={resolvedAlt} title={resolvedTitle} {...dimensions} {...props} />;
 };
 
 export default Image;

@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { useRouter } from 'next/navigation';
+import { useRouter } from 'i18n/routing';
 import { Reference } from 'types/reference';
 import { resolveReferenceTarget } from '../reference';
 

@@ -2,10 +2,10 @@ import { Metadata } from 'next';
 import { redirect } from 'next/navigation';
 import { RedirectResponse } from '@commercetools/frontend-sdk';
 import GASnippet from 'components/headless/GASnippet';
-import { getTranslations } from 'helpers/i18n/get-translations';
 import fetchAccount from 'helpers/server/fetch-account';
 import fetchCategories from 'helpers/server/fetch-categories';
 import fetchPageData from 'helpers/server/fetch-page-data';
+import fetchProjectSettings from 'helpers/server/fetch-project-settings';
 import { isRedirectResponse } from 'helpers/server/is-redirect-response';
 import { Providers } from 'providers';
 import { sdk } from 'sdk';
@@ -43,9 +43,10 @@ export default async function Page(props: PageProps) {
 
   sdk.defaultConfigure(locale);
 
-  const [page, accountResult, categoriesResult, flattenedCategoriesResult] = await Promise.all([
+  const [page, accountResult, projectSettings, categoriesResult, flattenedCategoriesResult] = await Promise.all([
     fetchPageData(params, searchParams),
     fetchAccount(),
+    fetchProjectSettings(),
     fetchCategories({ format: 'tree' }),
     fetchCategories({ format: 'flat' }),
   ]);
@@ -58,32 +59,13 @@ export default async function Page(props: PageProps) {
     redirect((page.data as RedirectResponse).target);
   }
 
-  const translations = await getTranslations(
-    [locale],
-    [
-      'common',
-      'cart',
-      'product',
-      'payment',
-      'checkout',
-      'account',
-      'customer-support',
-      'error',
-      'success',
-      'wishlist',
-      'newsletter',
-      'orders',
-      'thank-you',
-    ],
-  );
-
   return (
     <div data-theme={(!page.isError && page.data.pageFolder.configuration.displayTheme) ?? 'default'}>
       <Providers
-        translations={translations}
         accountResult={accountResult}
         flattenedCategories={flattenedCategoriesResult.isError ? [] : flattenedCategoriesResult.data.items}
         page={{ ...page, data: page.data }}
+        projectSettings={projectSettings}
       >
         <Renderer
           data={page.data}

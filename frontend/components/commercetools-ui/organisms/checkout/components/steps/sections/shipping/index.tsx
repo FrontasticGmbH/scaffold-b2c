@@ -1,9 +1,9 @@
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { useParams } from 'next/navigation';
+import { useTranslations } from 'use-intl';
 import Button from 'components/commercetools-ui/atoms/button';
 import Radio from 'components/commercetools-ui/atoms/radio';
 import { CurrencyHelpers } from 'helpers/currencyHelpers';
-import { useFormat } from 'helpers/hooks/useFormat';
 import useProcessing from 'helpers/hooks/useProcessing';
 import { useCart } from 'frontastic';
 
@@ -12,7 +12,7 @@ export interface Props {
 }
 
 const Shipping: React.FC<Props> = ({ goToNextStep }) => {
-  const { formatMessage: formatCartMessage } = useFormat({ name: 'cart' });
+  const translate = useTranslations();
 
   const { locale } = useParams();
 
@@ -63,7 +63,7 @@ const Shipping: React.FC<Props> = ({ goToNextStep }) => {
               <div>
                 <p className="text-14 font-medium">{shippingMethod.name}</p>
                 <p className="mt-4 text-14 text-gray-600">
-                  Est: {getEstimatedDate(+(shippingMethod.description ?? 0))}
+                  {translate('orders.est-shipping')} {getEstimatedDate(+(shippingMethod.description ?? 0))}
                 </p>
               </div>
             </div>
@@ -82,8 +82,7 @@ const Shipping: React.FC<Props> = ({ goToNextStep }) => {
           type="submit"
           onClick={submit}
         >
-          {formatCartMessage({ id: 'continue.to', defaultMessage: 'Continue to' })}{' '}
-          <span className="lowercase">{formatCartMessage({ id: 'payment', defaultMessage: 'Payment' })}</span>
+          {translate('cart.continue-to')} <span className="lowercase">{translate('cart.payment')}</span>
         </Button>
       </div>
     </div>

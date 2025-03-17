@@ -1,7 +1,7 @@
 import { useCallback, useContext } from 'react';
-import { useRouter } from 'next/navigation';
 import { AccountContext } from 'context/account';
 import useI18n from 'helpers/hooks/useI18n';
+import { useRouter } from 'i18n/routing';
 import { useCart } from 'frontastic/hooks';
 
 const useUpdateCartAddresses = () => {

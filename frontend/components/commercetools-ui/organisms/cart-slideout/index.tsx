@@ -1,6 +1,6 @@
 import React, { FC } from 'react';
+import { useTranslations } from 'use-intl';
 import useCloseFlyouts from 'helpers/hooks/useCloseFlyouts';
-import { useFormat } from 'helpers/hooks/useFormat';
 import { CartSlideoutProps } from './type';
 import CartItem from '../cart/components/cart-item';
 import { EmptyState } from '../empty-state';
@@ -21,7 +21,7 @@ const CartSlideout: FC<CartSlideoutProps> = ({
   onUpdateItem,
   OnMoveToWishlist,
 }) => {
-  const { formatMessage: formatCartMessage } = useFormat({ name: 'cart' });
+  const translate = useTranslations();
 
   const closeFlyouts = useCloseFlyouts();
 
@@ -61,12 +61,7 @@ const CartSlideout: FC<CartSlideoutProps> = ({
           subCost: 'text-14',
         }}
         button={
-          <CheckoutButton
-            disabled={isEmpty}
-            text={formatCartMessage({ id: 'cart.go', defaultMessage: 'Go to cart' })}
-            link="/cart"
-            onClick={closeFlyouts}
-          />
+          <CheckoutButton disabled={isEmpty} text={translate('cart.cart-go')} link="/cart" onClick={closeFlyouts} />
         }
       />
     </>

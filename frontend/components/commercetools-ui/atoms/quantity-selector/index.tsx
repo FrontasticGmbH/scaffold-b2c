@@ -44,7 +44,7 @@ const QuantitySelector = ({
         onClick={() => handleChange(value - 1)}
         className="w-36 cursor-[inherit] self-stretch border-r border-neutral-200 px-12 py-3 disabled:cursor-not-allowed disabled:bg-neutral-200 disabled:text-gray-400"
       >
-        -
+        {`-`}
       </button>
       <span className="py-3 text-14">{value}</span>
       <button
@@ -52,7 +52,7 @@ const QuantitySelector = ({
         onClick={() => handleChange(value + 1)}
         className="w-36 cursor-[inherit] self-stretch border-l border-neutral-200 px-12 py-3 disabled:cursor-not-allowed disabled:bg-neutral-200 disabled:text-gray-400"
       >
-        +
+        {`+`}
       </button>
     </div>
   );

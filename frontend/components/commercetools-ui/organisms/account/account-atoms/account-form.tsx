@@ -1,10 +1,10 @@
 import { ComponentProps, FC, useEffect } from 'react';
+import { useTranslations } from 'use-intl';
 import Typography from 'components/commercetools-ui/atoms/typography';
 import SaveOrCancel, {
   SaveOrCancelProps,
 } from 'components/commercetools-ui/organisms/account/account-atoms/save-or-cancel';
 import useClassNames from 'helpers/hooks/useClassNames';
-import { useFormat } from 'helpers/hooks/useFormat';
 import useDiscardForm from '../hooks/useDiscardForm';
 
 export interface AccountFormProps extends ComponentProps<'form'> {
@@ -32,7 +32,7 @@ const AccountForm: FC<AccountFormProps> = ({
 }) => {
   const { discardForm } = useDiscardForm();
 
-  const { formatMessage } = useFormat({ name: 'common' });
+  const translate = useTranslations();
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -63,7 +63,7 @@ const AccountForm: FC<AccountFormProps> = ({
             <div className="mt-24 grid items-center justify-between gap-32 md:flex md:gap-16">
               {requiredLabelIsVisible && (
                 <Typography className="text-14 leading-[114%] text-gray-600">
-                  {formatMessage({ id: 'field.required', defaultMessage: '* required field' })}
+                  {translate('common.field-required')}
                 </Typography>
               )}
 

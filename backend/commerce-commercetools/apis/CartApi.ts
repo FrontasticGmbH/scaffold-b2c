@@ -810,7 +810,7 @@ export class CartApi extends BaseApi {
 
     const searchQuery = orderQuery.query && orderQuery.query;
 
-    const queryResult = await this.requestBuilder()
+    return await this.requestBuilder()
       .orders()
       .get({
         queryArgs: {
@@ -840,18 +840,6 @@ export class CartApi extends BaseApi {
       .catch((error) => {
         throw new ExternalError({ statusCode: error.code, message: error.message, body: error.body });
       });
-
-    // If the order was created without an order number, set one now
-    queryResult.items = await Promise.all(
-      queryResult.items.map(async (order) => {
-        if (!order.orderNumber) {
-          return await this.setOrderNumber(order);
-        }
-        return order;
-      }),
-    );
-
-    return queryResult;
   }
 
   async getCheckoutSessionToken(cartId: string): Promise<Token> {

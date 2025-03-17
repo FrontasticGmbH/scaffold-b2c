@@ -1,4 +1,4 @@
-import { useFormat } from 'helpers/hooks/useFormat';
+import { useTranslations } from 'use-intl';
 import CartItemsList from './cart-items-list';
 import EmptyCart from './empty-cart';
 import { CartProps } from '../types';
@@ -17,22 +17,18 @@ const CartContent = ({
   OnMoveToWishlist,
   ...props
 }: Props) => {
-  const { formatMessage: formatCartMessage } = useFormat({ name: 'cart' });
-
+  const translate = useTranslations();
+  const text = `(${translate('cart.items', { totalItems: totalItems })})`;
   return (
     <div className={className}>
       {!isEmpty ? (
         <div>
           <div className="flex items-center justify-between">
-            <h3 className="text-16 md:text-18 lg:text-22">
-              {formatCartMessage({ id: 'cart', defaultMessage: 'Cart' })}
+            <h1 className="text-16 md:text-18 lg:text-22">
+              {translate('cart.cart')}
               {!isEmpty && ': '}
-              {!isEmpty && (
-                <span className="text-gray-600">
-                  ({totalItems} {formatCartMessage({ id: 'items', defaultMessage: 'Items' })})
-                </span>
-              )}
-            </h3>
+              {!isEmpty && <span className="text-gray-600">{text}</span>}
+            </h1>
           </div>
           <CartItemsList
             cart={cart}

@@ -24,6 +24,7 @@ const OrdersAccordionButton: FC<OrdersAccordionButtonProps> = ({ order }) => {
       </div>
       {hiddenItemsCount > 0 && (
         <div className="flex cursor-pointer items-center">
+          {/* eslint-disable-next-line react/jsx-no-literals */}
           <span className="text-14 text-gray-600">+{hiddenItemsCount}</span>
           <ChevronDownIcon strokeWidth={1} className="w-24" />
         </div>

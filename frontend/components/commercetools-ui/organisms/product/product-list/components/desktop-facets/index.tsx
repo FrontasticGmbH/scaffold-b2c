@@ -1,14 +1,14 @@
 import { useMemo } from 'react';
 import { Transition, Popover, PopoverPanel, PopoverButton } from '@headlessui/react';
 import { ChevronDownIcon as ArrowIcon } from '@heroicons/react/24/solid';
-import { useFormat } from 'helpers/hooks/useFormat';
+import { useTranslations } from 'use-intl';
 import { useProductList } from '../../context';
 import useDynamicFacets from '../../hooks/useDynamicFacets';
 import styles from '../../styles/index.module.css';
 import SortFacet from '../facets/sort';
 
 const DesktopFacets: React.FC = () => {
-  const { formatMessage: formatProductMessage } = useFormat({ name: 'product' });
+  const translate = useTranslations();
 
   const { facetsConfiguration } = useProductList();
 
@@ -49,13 +49,11 @@ const DesktopFacets: React.FC = () => {
   const sortFacet = useMemo(
     () => (
       <div className="flex items-center gap-8">
-        <span className="text-14 text-gray-600">
-          {formatProductMessage({ id: 'sortBy', defaultMessage: 'Sort by' })}
-        </span>
+        <span className="text-14 text-gray-600">{translate('product.sortBy')}</span>
         <SortFacet />
       </div>
     ),
-    [formatProductMessage],
+    [translate],
   );
 
   return (

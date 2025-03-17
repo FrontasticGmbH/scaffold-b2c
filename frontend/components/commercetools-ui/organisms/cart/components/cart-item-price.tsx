@@ -1,18 +1,16 @@
 import { FC } from 'react';
 import { useParams } from 'next/navigation';
 import { LineItem } from 'shared/types/cart';
+import { useTranslations } from 'use-intl';
 import Typography from 'components/commercetools-ui/atoms/typography';
 import { CurrencyHelpers } from 'helpers/currencyHelpers';
 
 const CartItemPrice: FC<{ item: LineItem }> = ({ item }) => {
   const { locale } = useParams();
+  const translate = useTranslations();
 
   if (item.isGift) {
-    return (
-      <Typography translation={{ id: 'gift', file: 'cart' }} className="text-14 font-normal">
-        Gift
-      </Typography>
-    );
+    return <Typography className="text-14 font-normal">{translate('cart.gift')}</Typography>;
   }
 
   return item.discountedPrice ? (

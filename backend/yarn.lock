@@ -5,19 +5,6 @@ __metadata:
   version: 8
   cacheKey: 10c0
 
-"@adyen/api-library@npm:^11.0.0":
-  version: 11.0.0
-  resolution: "@adyen/api-library@npm:11.0.0"
-  dependencies:
-    "@types/node": "npm:14.0.9"
-    https-proxy-agent: "npm:5.0.1"
-  dependenciesMeta:
-    "@types/node":
-      optional: true
-  checksum: 10c0/eb7427d4bf12f98bc41935f9157cda8d8aa02b5b830ac8ef94a9f40235fe091dbcf5bcc1f783611e555be8c882f0d2f9a620b43676f261eaf00b5fb3a9f5972f
-  languageName: node
-  linkType: hard
-
 "@ampproject/remapping@npm:^2.2.0":
   version: 2.3.0
   resolution: "@ampproject/remapping@npm:2.3.0"
@@ -1703,7 +1690,6 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@frontastic/extensions@workspace:."
   dependencies:
-    "@adyen/api-library": "npm:^11.0.0"
     "@babel/core": "npm:^7.16.5"
     "@babel/plugin-proposal-nullish-coalescing-operator": "npm:^7.16.5"
     "@babel/plugin-proposal-optional-chaining": "npm:^7.16.5"
@@ -2351,13 +2337,6 @@ __metadata:
   dependencies:
     undici-types: "npm:~6.19.2"
   checksum: 10c0/ead9495cfc6b1da5e7025856dcce2591e9bae635357410c0d2dd619fce797d2a1d402887580ca4b336cb78168b195224869967de370a23f61663cf1e4836121c
-  languageName: node
-  linkType: hard
-
-"@types/node@npm:14.0.9":
-  version: 14.0.9
-  resolution: "@types/node@npm:14.0.9"
-  checksum: 10c0/ab395f5817ade45a2f11fcb6cc4e893f6400ac1ddcd477ce5790e620aa510cec4bb79a093ca12a0e0e63e3a3772b5980f5af565ee7ade7beedd495f5ad930b4d
   languageName: node
   linkType: hard
 
@@ -4946,7 +4925,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"https-proxy-agent@npm:5.0.1, https-proxy-agent@npm:^5.0.0":
+"https-proxy-agent@npm:^5.0.0":
   version: 5.0.1
   resolution: "https-proxy-agent@npm:5.0.1"
   dependencies:

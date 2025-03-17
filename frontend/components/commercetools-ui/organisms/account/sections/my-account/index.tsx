@@ -1,13 +1,13 @@
 import React, { useContext } from 'react';
 import Skeleton from 'react-loading-skeleton';
+import { useTranslations } from 'use-intl';
 import Typography from 'components/commercetools-ui/atoms/typography';
 import { AccountContext } from 'context/account';
-import { useFormat } from 'helpers/hooks/useFormat';
 import Integrity from './sections/integrity';
 import PersonalInfo from './sections/personal-info';
 
 const MyAccount: React.FC = () => {
-  const { formatMessage } = useFormat({ name: 'account' });
+  const translate = useTranslations();
 
   const { account, accountLoading: isLoading } = useContext(AccountContext);
 
@@ -18,16 +18,14 @@ const MyAccount: React.FC = () => {
         {isLoading ? (
           <Skeleton className="h-30 max-w-300" />
         ) : (
-          <Typography as="h3" className="hidden text-20 text-primary md:block lg:text-24">
-            {`${formatMessage({ id: 'hello', defaultMessage: 'Hi, ' })}${account?.firstName ?? ''}`}
+          <Typography as="h1" className="hidden text-20 text-primary md:block lg:text-24">
+            {`${translate('account.hello')}${account?.firstName ?? ''}`}
           </Typography>
         )}
         {isLoading ? (
           <Skeleton className="max-w-400" />
         ) : (
-          <Typography className="text-14 text-gray-600 md:text-16">
-            {formatMessage({ id: 'account.desc', defaultMessage: 'Manage your account' })}
-          </Typography>
+          <Typography className="text-14 text-gray-600 md:text-16">{translate('account.account-desc')}</Typography>
         )}
       </div>
 

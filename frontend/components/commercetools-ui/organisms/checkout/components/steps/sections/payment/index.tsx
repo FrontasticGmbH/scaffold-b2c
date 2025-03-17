@@ -1,4 +1,5 @@
 import React, { useCallback, useEffect, useState, type JSX } from 'react';
+import { useTranslations } from 'use-intl';
 import Button from 'components/commercetools-ui/atoms/button';
 import Radio from 'components/commercetools-ui/atoms/radio';
 import { useCheckout } from 'components/commercetools-ui/organisms/checkout/provider';
@@ -7,7 +8,6 @@ import {
   PaymentMethodType,
   PaymentData,
 } from 'components/commercetools-ui/organisms/checkout/provider/payment/types';
-import { useFormat } from 'helpers/hooks/useFormat';
 import Klarna from './components/klarna';
 import Scheme from './components/scheme';
 
@@ -16,7 +16,7 @@ interface Props {
 }
 
 const Payment: React.FC<Props> = ({ goToNextStep }) => {
-  const { formatMessage: formatCheckoutMessage } = useFormat({ name: 'checkout' });
+  const translate = useTranslations();
 
   const { getPaymentMethods, setPaymentData, paymentData, paymentDataIsValid } = useCheckout();
 
@@ -87,7 +87,7 @@ const Payment: React.FC<Props> = ({ goToNextStep }) => {
           onClick={submit}
           disabled={!paymentDataIsValid}
         >
-          {formatCheckoutMessage({ id: 'review.order', defaultMessage: 'Review order' })}
+          {translate('cart.review-order')}
         </Button>
       </div>
     </div>

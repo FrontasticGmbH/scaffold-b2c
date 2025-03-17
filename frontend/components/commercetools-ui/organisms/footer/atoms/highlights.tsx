@@ -2,24 +2,24 @@ import React from 'react';
 import { GiCycle as CycleIcon } from 'react-icons/gi';
 import { HiOutlineLockClosed as LockIcon } from 'react-icons/hi';
 import { IoRocketOutline as RocketIcon } from 'react-icons/io5';
+import { useTranslations } from 'use-intl';
 import HighlightBar from 'components/commercetools-ui/organisms/highlight-bar';
-import { useFormat } from 'helpers/hooks/useFormat';
 
 const Highlights = () => {
-  const { formatMessage } = useFormat({ name: 'common' });
+  const translate = useTranslations();
 
   const highlights = [
     {
       Icon: RocketIcon,
-      text: formatMessage({ id: 'fast.delivery', defaultMessage: 'Fast delivery' }),
+      text: translate('common.fast-delivery'),
     },
     {
       Icon: CycleIcon,
-      text: formatMessage({ id: 'free.returns', defaultMessage: 'Free returns' }),
+      text: translate('common.free-returns'),
     },
     {
       Icon: LockIcon,
-      text: formatMessage({ id: 'safe.payment', defaultMessage: 'Safe payment & data protection' }),
+      text: translate('common.safe-payment'),
     },
   ];
 

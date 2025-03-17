@@ -1,10 +1,10 @@
 import React, { useCallback, useContext, useEffect, useRef, useState } from 'react';
-import { useParams, useRouter } from 'next/navigation';
+import { useParams } from 'next/navigation';
 import { checkoutFlow } from '@commercetools/checkout-browser-sdk';
 import toast from 'react-hot-toast';
+import { useTranslations } from 'use-intl';
 import { AccountContext } from 'context/account';
-import { useFormat } from 'helpers/hooks/useFormat';
-import useTranslation from 'providers/i18n/hooks/useTranslation';
+import { useRouter } from 'i18n/routing';
 import { useProjectSettings, useCheckout } from 'frontastic';
 import { CheckoutWrappedProps } from '..';
 import Header from '../components/header';
@@ -12,9 +12,7 @@ import Header from '../components/header';
 const CommercetoolsCheckout = ({ logo }: Pick<CheckoutWrappedProps, 'logo'>) => {
   const { push: pushRoute } = useRouter();
 
-  const { formatMessage: formatCartMessage } = useFormat({ name: 'cart' });
-
-  const { translate } = useTranslation();
+  const translate = useTranslations();
 
   const initiatedCheckout = useRef(false);
 
@@ -52,13 +50,11 @@ const CommercetoolsCheckout = ({ logo }: Pick<CheckoutWrappedProps, 'logo'>) => 
         orderSummary: {
           discountCode: {
             invalid: {
-              singular: formatCartMessage({
-                id: 'voucher.max.usage.singular',
+              singular: translate('cart.voucher-max-usage-singular', {
                 defaultMessage:
                   'This discount code can no longer be redeemed as the maximum application has been reached. {codes}',
               }),
-              plural: formatCartMessage({
-                id: 'voucher.max.usage.plural',
+              plural: translate('cart.voucher-max-usage-plural', {
                 defaultMessage:
                   'Theses discount codes can no longer be redeemed as the maximum application has been reached. {codes}',
               }),
@@ -83,7 +79,7 @@ const CommercetoolsCheckout = ({ logo }: Pick<CheckoutWrappedProps, 'logo'>) => 
         }
       },
     });
-  }, [projectKey, region, locale, session, pushRoute, formatCartMessage]);
+  }, [projectKey, region, locale, session, pushRoute, translate]);
 
   const errorTriggered = useRef(false);
 
@@ -92,7 +88,7 @@ const CommercetoolsCheckout = ({ logo }: Pick<CheckoutWrappedProps, 'logo'>) => 
       errorTriggered.current = true;
       logout().then(() => {
         pushRoute('/login');
-        toast.error(translate('checkout.your.token.has.expired'), { position: 'top-right' });
+        toast.error(translate('checkout.your-token-has-expired'), { position: 'top-right' });
       });
     }
   }, [isExpired, pushRoute, logout, translate, account]);

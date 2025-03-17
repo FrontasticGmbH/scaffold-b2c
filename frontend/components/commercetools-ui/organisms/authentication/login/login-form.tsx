@@ -1,12 +1,12 @@
 import React, { FC, useState } from 'react';
 import { ArrowLeftIcon } from '@heroicons/react/24/solid';
+import { useTranslations } from 'use-intl';
 import Button from 'components/commercetools-ui/atoms/button';
 import Checkbox, { CheckboxProps } from 'components/commercetools-ui/atoms/checkbox';
 import Input from 'components/commercetools-ui/atoms/input';
 import PasswordInput from 'components/commercetools-ui/atoms/input-password';
 import Link from 'components/commercetools-ui/atoms/link';
 import Typography from 'components/commercetools-ui/atoms/typography';
-import { useFormat } from 'helpers/hooks/useFormat';
 import { Account } from 'types/entity/account';
 import Feedback from '../../account/account-atoms/feedback';
 
@@ -18,9 +18,7 @@ interface Props {
 
 const LoginForm: FC<Props> = ({ login, requestConfirmationEmail, requestPasswordReset }) => {
   //i18n messages
-  const { formatMessage: formatErrorMessage } = useFormat({ name: 'error' });
-  const { formatMessage: formatAccountMessage } = useFormat({ name: 'account' });
-  const { formatMessage } = useFormat({ name: 'common' });
+  const translate = useTranslations();
 
   //login data
   const [data, setData] = useState({ email: '', password: '', rememberMe: false });
@@ -77,10 +75,9 @@ const LoginForm: FC<Props> = ({ login, requestConfirmationEmail, requestPassword
     try {
       const response = await login?.(data.email, data.password, data.rememberMe);
 
-      if (!response?.accountId)
-        setError(formatErrorMessage({ id: 'auth.wrong', defaultMessage: 'Wrong email address or password' }));
+      if (!response?.accountId) setError(translate('error.auth-wrong'));
     } catch (err) {
-      setError(formatErrorMessage({ id: 'wentWrong', defaultMessage: 'Sorry. Something went wrong..' }));
+      setError(translate('error.wentWrong'));
     }
   };
 
@@ -89,19 +86,16 @@ const LoginForm: FC<Props> = ({ login, requestConfirmationEmail, requestPassword
     try {
       const response = await requestConfirmationEmail?.(data.email, data.password);
 
-      if (response?.error)
-        setError(formatErrorMessage({ id: 'wentWrong', defaultMessage: 'Sorry. Something went wrong..' }));
+      if (response?.error) setError(translate('error.wentWrong'));
       else {
         setSuccess(
-          formatAccountMessage({
-            id: 'verification.resent',
-            defaultMessage: 'An email was sent to {email}',
-            values: { email: data.email },
+          translate('account.verification-resent', {
+            email: data.email,
           }),
         );
       }
     } catch (err) {
-      setError(formatErrorMessage({ id: 'wentWrong', defaultMessage: 'Sorry. Something went wrong..' }));
+      setError(translate('error.wentWrong'));
     }
   };
 
@@ -110,19 +104,16 @@ const LoginForm: FC<Props> = ({ login, requestConfirmationEmail, requestPassword
     try {
       const response = await requestPasswordReset?.(data.email);
 
-      if (response?.error)
-        setError(formatErrorMessage({ id: 'wentWrong', defaultMessage: 'Sorry. Something went wrong..' }));
+      if (response?.error) setError(translate('error.wentWrong'));
       else {
         setSuccess(
-          formatAccountMessage({
-            id: 'verification.resent',
-            defaultMessage: 'An email was sent to {email}',
-            values: { email: data.email },
+          translate('account.verification-resent', {
+            email: data.email,
           }),
         );
       }
     } catch (err) {
-      setError(formatErrorMessage({ id: 'wentWrong', defaultMessage: 'Sorry. Something went wrong..' }));
+      setError(translate('error.wentWrong'));
     }
   };
 
@@ -143,9 +134,7 @@ const LoginForm: FC<Props> = ({ login, requestConfirmationEmail, requestPassword
   return (
     <>
       <Typography as="h3" className="mb-16 text-16 md:mb-24 md:text-20 lg:text-24">
-        {resendPasswordReset
-          ? formatAccountMessage({ id: 'password.reset.headline', defaultMessage: 'Reset your password' })
-          : formatAccountMessage({ id: 'welcome.back', defaultMessage: 'Welcome back' })}
+        {resendPasswordReset ? translate('account.password-reset-headline') : translate('account.welcome-back')}
       </Typography>
 
       <form onSubmit={handleSubmit}>
@@ -155,11 +144,11 @@ const LoginForm: FC<Props> = ({ login, requestConfirmationEmail, requestPassword
           id="email"
           name="email"
           type="email"
-          title={formatMessage({ id: 'emailAddress', defaultMessage: 'Email Address' })}
+          title={translate('common.emailAddress')}
           autoComplete="email"
           required
           className="mb-16 md:mb-20"
-          placeholder={formatMessage({ id: 'emailAddress', defaultMessage: 'Email Address' })}
+          placeholder={translate('common.emailAddress')}
           onChange={handleChange}
         />
 
@@ -168,9 +157,9 @@ const LoginForm: FC<Props> = ({ login, requestConfirmationEmail, requestPassword
             required
             id="password"
             name="password"
-            title={formatAccountMessage({ id: 'password', defaultMessage: 'Password' })}
+            title={translate('account.password')}
             autoComplete="current-password"
-            placeholder={formatAccountMessage({ id: 'password', defaultMessage: 'Password' })}
+            placeholder={translate('account.password')}
             className="mb-16 md:mb-20"
             onChange={handleChange}
           />
@@ -186,14 +175,14 @@ const LoginForm: FC<Props> = ({ login, requestConfirmationEmail, requestPassword
               id="remember-me"
               name="rememberMe"
               onChange={handleCheckboxChange}
-              label={formatMessage({ id: 'rememberMe', defaultMessage: 'Remember me' })}
+              label={translate('common.rememberMe')}
             />
 
             <Typography
               className="cursor-pointer text-12 text-gray-600 hover:underline md:text-14"
               onClick={toResendPassword}
             >
-              {formatAccountMessage({ id: 'password.forgot', defaultMessage: 'Forgot your password?' })}
+              {translate('account.password-forgot')}
             </Typography>
           </div>
         )}
@@ -204,9 +193,7 @@ const LoginForm: FC<Props> = ({ login, requestConfirmationEmail, requestPassword
           className="mb-16 text-16 font-medium leading-tight md:mb-20"
           disabled={loading}
         >
-          {resendPasswordReset
-            ? formatAccountMessage({ id: 'account.reset.link', defaultMessage: 'Get reset link' })
-            : formatAccountMessage({ id: 'sign.in', defaultMessage: 'Sign in' })}
+          {resendPasswordReset ? translate('account.account-reset-link') : translate('account.sign-in')}
         </Button>
 
         {resendPasswordReset && (
@@ -216,7 +203,7 @@ const LoginForm: FC<Props> = ({ login, requestConfirmationEmail, requestPassword
             link=""
             onClick={backToLogin}
           >
-            {formatAccountMessage({ id: 'account.back.sign', defaultMessage: 'Back to sign in' })}
+            {translate('account.account-back-sign')}
           </Link>
         )}
       </form>

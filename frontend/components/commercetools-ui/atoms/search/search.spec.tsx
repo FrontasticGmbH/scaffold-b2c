@@ -6,7 +6,11 @@ import Search from '.';
 
 const router = { push: jest.fn() };
 
-jest.mock('next/navigation', () => ({ useRouter: () => router, useParams: () => ({ locale: 'en' }) }));
+jest.mock('next/navigation', () => ({
+  useRouter: () => router,
+  useParams: () => ({ locale: 'en' }),
+  usePathname: () => '/en/search',
+}));
 
 describe('[Component] Search', () => {
   test('It renders and behaves correctly', async () => {
@@ -59,7 +63,7 @@ describe('[Component] Search', () => {
 
     await act(async () => await userEvent.click(screen.getByTestId('submit-button')));
 
-    expect(router.push).toHaveBeenCalledWith('/search?query=I');
+    expect(router.push).toHaveBeenCalledWith('/en/search?query=I');
     expect(document.activeElement).not.toBe(screen.getByRole('textbox'));
   });
 

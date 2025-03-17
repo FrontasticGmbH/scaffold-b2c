@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
+import { useTranslations } from 'use-intl';
 import Button from 'components/commercetools-ui/atoms/button';
-import { useFormat } from 'helpers/hooks/useFormat';
 import { Cart, DiscountCode, ShippingMethod } from 'types/entity/cart';
 import { CartDetails, Transaction } from 'frontastic/hooks/useCart/types';
 import Footer from './components/footer';
@@ -32,8 +32,7 @@ export const CheckoutWrapped = ({
   onRemoveDiscountCode,
   onUpdateCart,
 }: CheckoutWrappedProps) => {
-  const { formatMessage: formatCheckoutMessage } = useFormat({ name: 'checkout' });
-  const { formatMessage: formatCartMessage } = useFormat({ name: 'cart' });
+  const translate = useTranslations();
 
   const [isFinalStep, setIsFinalStep] = useState(false);
 
@@ -53,7 +52,7 @@ export const CheckoutWrapped = ({
             onRemoveDiscountCode={onRemoveDiscountCode}
             className="bg-white px-16 md:px-24 lg:w-[30%] lg:rounded-md lg:p-36 xl:px-48"
             includeSummaryAccordion
-            title={formatCartMessage({ id: 'order.summary', defaultMessage: 'Order summary' })}
+            title={translate('cart.order-summary')}
             classNames={{
               applyDiscountButton: 'lg:mb-0 py-14 text-16 mb-16 border-b border-neutral-400 lg:border-b-transparent',
               totalAmount: 'text-18 md:pb-20',
@@ -68,7 +67,7 @@ export const CheckoutWrapped = ({
                 onClick={purchase}
                 loading={processing}
               >
-                {formatCheckoutMessage({ id: 'complete.purchase', defaultMessage: 'Complete purchase' })}
+                {translate('cart.complete-purchase')}
               </Button>
             }
           />

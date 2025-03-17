@@ -2,12 +2,12 @@ import React, { useCallback, useContext, useState } from 'react';
 import { useParams } from 'next/navigation';
 import { Transition } from '@headlessui/react';
 import { XMarkIcon as CloseIcon } from '@heroicons/react/24/solid';
+import { useTranslations } from 'use-intl';
 import Image from 'components/commercetools-ui/atoms/image';
 import Link from 'components/commercetools-ui/atoms/link';
 import Overlay from 'components/commercetools-ui/atoms/overlay';
 import ProductSlider from 'components/commercetools-ui/organisms/product/product-slider';
 import { CurrencyHelpers } from 'helpers/currencyHelpers';
-import { useFormat } from 'helpers/hooks/useFormat';
 import useScrollBlock from 'helpers/hooks/useScrollBlock';
 import useTouchDevice from 'helpers/hooks/useTouchDevice';
 import { mediumDesktop, tablet } from 'helpers/utils/screensizes';
@@ -32,8 +32,7 @@ const AddToCartOverlayProvider = ({ children }: React.PropsWithChildren) => {
 
   const { isTouchDevice } = useTouchDevice();
 
-  const { formatMessage: formatProductMessage } = useFormat({ name: 'product' });
-  const { formatMessage: formatCartMessage } = useFormat({ name: 'cart' });
+  const translate = useTranslations();
 
   const { blockScroll } = useScrollBlock();
 
@@ -87,9 +86,7 @@ const AddToCartOverlayProvider = ({ children }: React.PropsWithChildren) => {
       >
         <div onMouseUp={(e) => e.stopPropagation()}>
           <div className="bg-white p-16 md:px-48 md:py-24">
-            <h4 className="text-18 leading-[27px] lg:text-22 lg:leading-[33px]">
-              {formatProductMessage({ id: 'cart.added', defaultMessage: 'Added to cart' })}
-            </h4>
+            <h4 className="text-18 leading-[27px] lg:text-22 lg:leading-[33px]">{translate('product.cart-added')}</h4>
 
             <CloseIcon
               className="absolute right-18 top-16 size-28 cursor-pointer fill-gray-600 stroke-0 md:top-16"
@@ -131,12 +128,12 @@ const AddToCartOverlayProvider = ({ children }: React.PropsWithChildren) => {
             <div className="mt-18 flex w-full flex-col gap-16 md:mt-36 md:flex-row-reverse">
               <Link link="/cart" onClick={hide} className="md:flex-1">
                 <button className="w-full rounded-sm bg-primary p-12 text-14 font-medium text-white">
-                  {formatCartMessage({ id: 'cart.go', defaultMessage: 'Go to cart' })}
+                  {translate('cart.cart-go')}
                 </button>
               </Link>
               <div onClick={hide} className="md:flex-1">
                 <button className="w-full rounded-sm border border-primary p-12 text-14 font-medium text-primary transition hover:border-gray-600 hover:text-gray-600">
-                  {formatCartMessage({ id: 'continue.shopping', defaultMessage: 'Continue shopping' })}
+                  {translate('cart.continue-shopping')}
                 </button>
               </div>
             </div>
@@ -153,7 +150,7 @@ const AddToCartOverlayProvider = ({ children }: React.PropsWithChildren) => {
               removeLineItem={async (lineItem) => {
                 if (data) await removeLineItem(data, lineItem);
               }}
-              title={formatProductMessage({ id: 'bought.together', defaultMessage: 'Frequently bought together' })}
+              title={translate('product.bought-together')}
               titleVariant="xs"
               innerArrows={false}
               solidArrows={false}

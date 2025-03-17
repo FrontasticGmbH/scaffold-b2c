@@ -1,17 +1,17 @@
 import React from 'react';
-import { useRouter } from 'next/navigation';
+import { useTranslations } from 'use-intl';
 import Button from 'components/commercetools-ui/atoms/button';
 import Dropdown from 'components/commercetools-ui/atoms/dropdown';
 import Input from 'components/commercetools-ui/atoms/input';
 import Typography from 'components/commercetools-ui/atoms/typography';
 import useResolveCCImage from 'components/commercetools-ui/organisms/checkout/hooks/useResolveCCImage';
-import { useFormat } from 'helpers/hooks/useFormat';
+import { useRouter } from 'i18n/routing';
 import useAddPaymentMethods from '../helper-hooks/useAddPaymentMethod';
 import usePaymentHelpers from '../helper-hooks/usePaymentHelpers';
 
 const PaymentAdd = () => {
   const router = useRouter();
-  const { formatMessage: formatPaymentMessage } = useFormat({ name: 'payment' });
+  const translate = useTranslations();
   const resolveCCImage = useResolveCCImage();
   const { expiryDateMonthOptions, expiryDateYearOptions } = usePaymentHelpers();
   const paymentAddData = useAddPaymentMethods();
@@ -20,10 +20,7 @@ const PaymentAdd = () => {
     <div className="ml-0 mt-20 lg:ml-44 lg:mt-40">
       <div className="mt-24 px-16 md:mt-0 md:px-24 lg:px-0">
         <Typography as="h2" className="text-primary md:text-22 lg:text-24">
-          {formatPaymentMessage({
-            id: 'add.card',
-            defaultMessage: 'Add new card',
-          })}
+          {translate('payment.add-card')}
         </Typography>
       </div>
 
@@ -31,7 +28,7 @@ const PaymentAdd = () => {
         <div className="mt-24 md:w-375 lg:mt-0">
           <div className="relative">
             <Typography as="label" className="text-14 font-medium text-gray-600">
-              {formatPaymentMessage({ id: 'card.number', defaultMessage: 'Card number *' })}
+              {translate('payment.card-number')}
             </Typography>
             <Input
               value={paymentAddData.cardNumberFormatted}
@@ -40,10 +37,7 @@ const PaymentAdd = () => {
               type="text"
               onChange={paymentAddData.handleCardNumberChange}
               validation={paymentAddData.isCardNumber}
-              errorMessage={formatPaymentMessage({
-                id: 'card.number.error',
-                defaultMessage: 'Please insert all 16 numbers',
-              })}
+              errorMessage={translate('payment.card-number-error')}
             />
             {resolveCCImage(paymentAddData.cardNumberFormatted) && (
               // eslint-disable-next-line
@@ -57,21 +51,22 @@ const PaymentAdd = () => {
           <div className="mt-24 w-full flex-col gap-8 md:max-w-[436px] lg:mt-12 lg:flex lg:flex-row">
             <div className="w-full lg:w-3/5">
               <Typography as="label" className="text-14 font-medium text-gray-600">
-                {formatPaymentMessage({ id: 'expiration.date', defaultMessage: 'Expiration date *' })}
+                {translate('payment.expiration-date')}
               </Typography>
               <div className="mt-8 flex grow items-center md:flex-1">
                 <div className="mr-12">
                   <Dropdown
-                    error={paymentAddData.dateError && paymentAddData.cardExpMonthDate.name === 'MM' ? true : false}
+                    error={!!(paymentAddData.dateError && paymentAddData.cardExpMonthDate.name === 'MM')}
                     selectDefaultValue={paymentAddData.cardExpMonthDate}
                     selectOptions={expiryDateMonthOptions}
                     selectOnChange={paymentAddData.handleExpiryMonthDateChange}
                   />
+                  {/* eslint-disable-next-line react/jsx-no-literals */}
                 </div>
                 /
                 <div className="ml-12">
                   <Dropdown
-                    error={paymentAddData.dateError && paymentAddData.cardExpYearDate.name === 'YY' ? true : false}
+                    error={!!(paymentAddData.dateError && paymentAddData.cardExpYearDate.name === 'YY')}
                     selectDefaultValue={paymentAddData.cardExpYearDate}
                     selectOptions={expiryDateYearOptions}
                     selectOnChange={paymentAddData.handleExpiryYearDateChange}
@@ -82,26 +77,23 @@ const PaymentAdd = () => {
           </div>
           {paymentAddData.dateError && (
             <Typography as="label" className="text-12 font-medium text-red-500">
-              {formatPaymentMessage({ id: paymentAddData.dateError, defaultMessage: paymentAddData.dateError })}
+              {
+                // @ts-ignore
+                translate('payment.' + paymentAddData.dateError)
+              }
             </Typography>
           )}
         </div>
         <div className="mt-32 flex">
           <Button variant="secondary" className="w-112" onClick={() => router.push('/account#payment')}>
             <Typography as="h2" className="text-center text-14 text-primary">
-              {formatPaymentMessage({
-                id: 'cancel',
-                defaultMessage: 'Cancel',
-              })}
+              {translate('payment.cancel')}
             </Typography>
           </Button>
 
           <Button variant="primary" className="ml-12 w-112" onClick={paymentAddData.handleAddClick}>
             <Typography as="h2" className="text-center text-14">
-              {formatPaymentMessage({
-                id: 'save',
-                defaultMessage: 'Save',
-              })}
+              {translate('payment.save')}
             </Typography>
           </Button>
         </div>

@@ -1,4 +1,5 @@
 import { useMemo } from 'react';
+import { useFormatter } from 'next-intl';
 import { ShippingMethod } from 'types/entity/cart';
 import { Order } from 'types/entity/order';
 
@@ -8,6 +9,7 @@ type UseOrderDataProps = {
 };
 
 const useOrderData = ({ order, shippingMethods }: UseOrderDataProps) => {
+  const format = useFormatter();
   const orderDateCreated = useMemo(() => {
     return order?.createdAt && new Date(order?.createdAt);
   }, [order]);
@@ -23,27 +25,33 @@ const useOrderData = ({ order, shippingMethods }: UseOrderDataProps) => {
   const formattedOrderDate = useMemo(() => {
     return (
       orderDateCreated &&
-      `${new Date(orderDateCreated).toDateString().split(' ')[0]}, ${
-        new Date(orderDateCreated).toDateString().split(' ')[1]
-      } ${new Date(orderDateCreated).toDateString().split(' ')[2]}`
+      format.dateTime(orderDateCreated, {
+        year: 'numeric',
+        month: 'short',
+        day: 'numeric',
+      })
     );
   }, [orderDateCreated]);
 
   const formattedShippingDate = useMemo(() => {
     return (
       orderDateShipping &&
-      `${new Date(orderDateShipping).toDateString().split(' ')[0]}, ${
-        new Date(orderDateShipping).toDateString().split(' ')[1]
-      } ${new Date(orderDateShipping).toDateString().split(' ')[2]}`
+      format.dateTime(orderDateShipping, {
+        year: 'numeric',
+        month: 'short',
+        day: 'numeric',
+      })
     );
   }, [orderDateShipping]);
 
   const formattedDeliveryDate = useMemo(() => {
     return (
       orderDateDelivery &&
-      `${new Date(orderDateDelivery).toDateString().split(' ')[0]}, ${
-        new Date(orderDateDelivery).toDateString().split(' ')[1]
-      } ${new Date(orderDateDelivery).toDateString().split(' ')[2]}`
+      format.dateTime(orderDateDelivery, {
+        year: 'numeric',
+        month: 'short',
+        day: 'numeric',
+      })
     );
   }, [orderDateDelivery]);
 
@@ -54,7 +62,14 @@ const useOrderData = ({ order, shippingMethods }: UseOrderDataProps) => {
   }, [order, shippingMethods]);
 
   const shippingInfo = useMemo(() => {
-    return `${orderDateDelivery && new Date(orderDateDelivery).toISOString().split('T')[0]} with ${shippingName}`;
+    return `${
+      orderDateDelivery &&
+      format.dateTime(orderDateDelivery, {
+        year: 'numeric',
+        month: 'short',
+        day: 'numeric',
+      })
+    } with ${shippingName}`;
   }, [orderDateDelivery, shippingName]);
 
   const paymentInfo = useMemo(() => {

@@ -1,9 +1,9 @@
 import { useCallback, useState } from 'react';
 import { XMarkIcon as CloseIcon } from '@heroicons/react/24/solid';
+import { useTranslations } from 'use-intl';
 import Button from 'components/commercetools-ui/atoms/button';
 import Typography from 'components/commercetools-ui/atoms/typography';
 import Modal from 'components/commercetools-ui/organisms/modal';
-import { useFormat } from 'helpers/hooks/useFormat';
 import { Account } from 'types/entity/account';
 import Login from '../../authentication/login';
 
@@ -14,8 +14,7 @@ interface Props {
 }
 
 const LoginSuggestion = ({ login, requestConfirmationEmail, requestPasswordReset }: Props) => {
-  const { formatMessage: formatCartMessage } = useFormat({ name: 'cart' });
-  const { formatMessage: formatAccountMessage } = useFormat({ name: 'account' });
+  const translate = useTranslations();
 
   const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
 
@@ -27,10 +26,7 @@ const LoginSuggestion = ({ login, requestConfirmationEmail, requestPasswordReset
   return (
     <>
       <Typography className="mt-18 border-t border-neutral-400 pt-16 text-14 leading-[20px] text-gray-600 md:text-16 lg:border-none">
-        {formatCartMessage({
-          id: 'order.summary.login',
-          defaultMessage: 'Log in to use your personal offers!',
-        })}
+        {translate('cart.order-summary-login')}
       </Typography>
       <Button
         className="mt-18 py-12 text-14 font-medium md:text-16"
@@ -38,7 +34,7 @@ const LoginSuggestion = ({ login, requestConfirmationEmail, requestPasswordReset
         size="full"
         variant="secondary"
       >
-        {formatAccountMessage({ id: 'sign.in', defaultMessage: ' Login in' })}
+        {translate('account.sign-in')}
       </Button>
 
       <Modal

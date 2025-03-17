@@ -3,14 +3,14 @@ import { useParams } from 'next/navigation';
 import { XMarkIcon as CloseIcon } from '@heroicons/react/24/solid';
 import { CurrentRefinementsConnectorParamsRefinement } from 'instantsearch.js/es/connectors/current-refinements/connectCurrentRefinements';
 import { useCurrentRefinements } from 'react-instantsearch';
+import { useTranslations } from 'use-intl';
 import { CurrencyHelpers } from 'helpers/currencyHelpers';
-import { useFormat } from 'helpers/hooks/useFormat';
 import useI18n from 'helpers/hooks/useI18n';
 import { useProductList } from '../../context';
 import useRefinementHelpers from '../../hooks/useRefinementHelpers';
 
 const CurrentRefinements = () => {
-  const { formatMessage: formatProductMessage } = useFormat({ name: 'product' });
+  const translate = useTranslations();
 
   const { locale } = useParams();
 
@@ -78,7 +78,7 @@ const CurrentRefinements = () => {
         </div>
       ))}
       <div className="flex cursor-default items-center justify-center gap-8 rounded-md border border-transparent bg-white px-8 py-6 transition hover:border-primary">
-        <span className="text-14">{formatProductMessage({ id: 'clear.all', defaultMessage: 'Clear All' })}</span>
+        <span className="text-14">{translate('product.clear-all')}</span>
         <CloseIcon className="w-20 cursor-pointer fill-gray-600 stroke-0" onClick={removeAllRefinements} />
       </div>
     </div>

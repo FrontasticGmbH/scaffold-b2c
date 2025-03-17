@@ -2,38 +2,38 @@ import React, { useMemo } from 'react';
 import { Popover, Transition, PopoverButton, PopoverPanel } from '@headlessui/react';
 import { ChevronDownIcon as ArrowIcon } from '@heroicons/react/24/solid';
 import { IoCheckmark as CheckIcon } from 'react-icons/io5';
-import { useFormat } from 'helpers/hooks/useFormat';
+import { useTranslations } from 'use-intl';
 import { useProductList } from '../../context';
 
 const SortFacet: React.FC = () => {
-  const { formatMessage: formatProductMessage } = useFormat({ name: 'product' });
+  const translate = useTranslations();
 
   const { replaceSort, activeSort } = useProductList();
 
   const options = useMemo<Array<{ label: string; attribute: string; value: 'asc' | 'desc' }>>(() => {
     return [
       {
-        label: formatProductMessage({ id: 'relevance', defaultMessage: '' }),
+        label: translate('product.relevance'),
         attribute: '',
         value: 'desc',
       },
       {
-        label: formatProductMessage({ id: 'price', defaultMessage: 'Price' }),
+        label: translate('product.price'),
         attribute: 'price',
         value: 'asc',
       },
       {
-        label: formatProductMessage({ id: 'best-selling', defaultMessage: 'Best-Selling' }),
+        label: translate('product.best-selling'),
         attribute: 'reviewRatingStatistics.highestRating',
         value: 'desc',
       },
       {
-        label: formatProductMessage({ id: 'newest', defaultMessage: 'Newest' }),
+        label: translate('product.newest'),
         attribute: 'lastModifiedAt',
         value: 'desc',
       },
     ];
-  }, [formatProductMessage]);
+  }, [translate]);
 
   return (
     <Popover className="relative">

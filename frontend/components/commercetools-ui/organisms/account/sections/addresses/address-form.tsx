@@ -3,12 +3,12 @@ import { TrashIcon } from '@heroicons/react/24/outline';
 import toast from 'react-hot-toast';
 import { Account } from 'shared/types/account';
 import { Address } from 'shared/types/account/Address';
+import { useTranslations } from 'use-intl';
 import Checkbox from 'components/commercetools-ui/atoms/checkbox';
 import Dropdown from 'components/commercetools-ui/atoms/dropdown';
 import Input from 'components/commercetools-ui/atoms/input';
 import Typography from 'components/commercetools-ui/atoms/typography';
 import { AccountContext } from 'context/account';
-import { useFormat } from 'helpers/hooks/useFormat';
 import useI18n from 'helpers/hooks/useI18n';
 import useValidate from 'helpers/hooks/useValidate';
 import countryStates from 'public/static/states.json';
@@ -37,9 +37,7 @@ type AddressType = 'shipping' | 'billing';
 type AddressTypeOptions = Array<{ label: string; value: AddressType }>;
 
 const AddressForm: React.FC<AddressFormProps> = ({ editedAddressId }) => {
-  const { formatMessage: formatAccountMessage } = useFormat({ name: 'account' });
-  const { formatMessage: formatCheckoutMessage } = useFormat({ name: 'checkout' });
-  const { formatMessage } = useFormat({ name: 'common' });
+  const translate = useTranslations();
 
   const { validateTextExists, validatePostalCode } = useValidate();
 
@@ -80,15 +78,11 @@ const AddressForm: React.FC<AddressFormProps> = ({ editedAddressId }) => {
   };
 
   const addressTypes: AddressTypeOptions = [
-    { label: formatCheckoutMessage({ id: 'shippingAddress', defaultMessage: 'Shipping Address' }), value: 'shipping' },
-    { label: formatCheckoutMessage({ id: 'billingAddress', defaultMessage: 'Billing Address' }), value: 'billing' },
+    { label: translate('checkout.shippingAddress'), value: 'shipping' },
+    { label: translate('checkout.billingAddress'), value: 'billing' },
   ];
 
-  const formTitle = formatAccountMessage(
-    editedAddressId
-      ? { id: 'address.edit', defaultMessage: 'Edit address' }
-      : { id: 'address.add', defaultMessage: 'Add an address' },
-  );
+  const formTitle = editedAddressId ? translate('account.address-edit') : translate('account.address-add');
 
   useEffect(() => {
     setData(defaultData);
@@ -112,9 +106,7 @@ const AddressForm: React.FC<AddressFormProps> = ({ editedAddressId }) => {
     removeAddress(data.addressId)
       .then(() => setLoadingDelete(false))
       .then(closeModal)
-      .then(() =>
-        toast.success(formatAccountMessage({ id: 'address.deleted', defaultMessage: 'Account deleted successfully' })),
-      )
+      .then(() => toast.success(translate('account.address-deleted')))
       .then(discardForm);
   };
 
@@ -144,7 +136,7 @@ const AddressForm: React.FC<AddressFormProps> = ({ editedAddressId }) => {
       containerClassName="grid gap-12 md:px-24 md:px-0"
     >
       <Input
-        label={formatMessage({ id: 'firstName', defaultMessage: 'First Name' })}
+        label={translate('common.firstName')}
         required
         type="text"
         name="firstName"
@@ -157,7 +149,7 @@ const AddressForm: React.FC<AddressFormProps> = ({ editedAddressId }) => {
       />
 
       <Input
-        label={formatMessage({ id: 'lastName', defaultMessage: 'Last Name' })}
+        label={translate('common.lastName')}
         required
         type="text"
         name="lastName"
@@ -170,7 +162,7 @@ const AddressForm: React.FC<AddressFormProps> = ({ editedAddressId }) => {
       />
 
       <Input
-        label={`${formatMessage({ id: 'address', defaultMessage: 'Address' })} 1`}
+        label={`${translate('common.address')} 1`}
         type="text"
         required
         name="streetName"
@@ -182,10 +174,7 @@ const AddressForm: React.FC<AddressFormProps> = ({ editedAddressId }) => {
       />
 
       <Input
-        label={`${formatMessage({ id: 'address', defaultMessage: 'Address' })} 2 (${formatMessage({
-          id: 'optional',
-          defaultMessage: 'Optional',
-        })})`}
+        label={`${translate('common.address')} 2 (${translate('common.optional')})`}
         type="text"
         name="additionalAddressInfo"
         id="additional-address-info"
@@ -198,7 +187,7 @@ const AddressForm: React.FC<AddressFormProps> = ({ editedAddressId }) => {
       <div className="grid grid-cols-3 gap-12">
         <div className="col-span-3 md:col-span-1">
           <Input
-            label={formatMessage({ id: 'zipCode', defaultMessage: 'Postal Code' })}
+            label={translate('common.zipCode')}
             required
             type="text"
             name="postalCode"
@@ -213,7 +202,7 @@ const AddressForm: React.FC<AddressFormProps> = ({ editedAddressId }) => {
 
         <div className="col-span-3 md:col-span-2">
           <Input
-            label={formatMessage({ id: 'city', defaultMessage: 'City' })}
+            label={translate('common.city')}
             required
             type="text"
             name="city"
@@ -234,10 +223,7 @@ const AddressForm: React.FC<AddressFormProps> = ({ editedAddressId }) => {
           items={[{ label: '', value: '' }, ...states.map(({ name, code }) => ({ label: name, value: code }))]}
           className="w-full border-neutral-500"
           onChange={handleChange}
-          label={formatMessage({
-            id: 'state',
-            defaultMessage: 'State',
-          })}
+          label={translate('common.state')}
         />
       )}
 
@@ -247,10 +233,7 @@ const AddressForm: React.FC<AddressFormProps> = ({ editedAddressId }) => {
         className="w-full border-neutral-500"
         onChange={handleChange}
         defaultValue={editedAddressId ? mapPropsToAddress(data).addressType : addressTypes[0].value}
-        label={formatAccountMessage({
-          id: 'address.type',
-          defaultMessage: 'Address type',
-        })}
+        label={translate('account.address-type')}
       />
 
       <Checkbox
@@ -259,10 +242,7 @@ const AddressForm: React.FC<AddressFormProps> = ({ editedAddressId }) => {
         checked={data?.isDefaultBillingAddress || data?.isDefaultShippingAddress || false}
         onChange={({ name, checked }) => updateData(name, checked)}
         containerClassName="mt-4 md:mb-20 mb-12"
-        label={formatAccountMessage({
-          id: 'address.setDefault',
-          defaultMessage: 'Save as default address',
-        })}
+        label={translate('account.address-setDefault')}
       />
 
       <div className="grid h-fit items-center justify-between gap-32 md:mt-20 md:flex md:gap-0">
@@ -273,7 +253,7 @@ const AddressForm: React.FC<AddressFormProps> = ({ editedAddressId }) => {
           >
             <TrashIcon className="size-20 text-gray-600" />
             <Typography className="text-14 leading-[114%] text-gray-600" as="span">
-              {formatMessage({ id: 'delete', defaultMessage: 'Delete' })}
+              {translate('common.delete')}
             </Typography>
           </div>
         )}

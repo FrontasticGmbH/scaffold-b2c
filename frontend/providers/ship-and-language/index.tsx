@@ -1,6 +1,7 @@
 import React, { createContext, useContext, useState } from 'react';
-import { useParams, useRouter } from 'next/navigation';
+import { useParams } from 'next/navigation';
 import { ProjectSettings } from 'shared/types/ProjectSettings';
+import { useRouter } from 'i18n/routing';
 import { Category } from 'types/entity/category';
 import { ContextShape, Option, Location } from './types';
 import usePath from '../../helpers/hooks/usePath';
@@ -23,30 +24,29 @@ const ShipAndLanguageProvider = ({
   const router = useRouter();
   const { path } = usePath();
 
-  const locations = (projectSettings?.countries ?? [])
-    .map(mapCountry)
-    .filter((value): value is Country => {
-      return value !== null && value !== undefined;
-    })
-    .map(
-      ({ name, code, currencies, locales }) =>
-        ({
-          name,
-          label: `${name} (${currencies[0]})`,
-          value: code.toLowerCase(),
-          flagName: code.toLowerCase(),
-          defaultLanguage: locales[0].locale,
-          languages: locales.map(({ name, locale }) => ({ name, value: locale })),
-        }) as Location,
-    );
+  const countries = (projectSettings?.countries ?? []).map(mapCountry).filter((value): value is Country => {
+    return value !== null && value !== undefined;
+  });
+
+  const locations = countries.map(
+    ({ name, code, currencies, locales }) =>
+      ({
+        name,
+        label: `${name} (${currencies[0]})`,
+        value: code.toLowerCase(),
+        flagName: code.toLowerCase(),
+        defaultLanguage: locales[0].locale,
+        languages: locales.map(({ name, locale }) => ({ name, value: locale })),
+      }) as Location,
+  );
 
   const { locale } = useParams();
 
   const [selectedLocationValue, setSelectedLocationValue] = useState(
-    (new Intl.Locale(locale).region || locale)?.toLowerCase(),
+    countries.find((country) => country.locales.find((l) => l.locale === locale))?.code.toLowerCase(),
   );
 
-  const selectedLocation = locations.find((location) => location.value === selectedLocationValue) ?? locations[0];
+  const selectedLocation = locations.find((location) => location.value === selectedLocationValue);
   const selectedLanguage =
     selectedLocation?.languages.find((language) => language.value === locale) ?? selectedLocation?.languages[0];
 
@@ -60,7 +60,7 @@ const ShipAndLanguageProvider = ({
 
     if (correctPath && path !== correctPath) pathToGo = correctPath;
 
-    router.push(`/${language}${pathToGo}`);
+    router.push(pathToGo, { locale: language });
   };
 
   const onLocationSelect = (location: string) => {

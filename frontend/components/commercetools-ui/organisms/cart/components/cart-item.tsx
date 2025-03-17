@@ -1,12 +1,12 @@
 import React, { useCallback, useState } from 'react';
 import { TrashIcon } from '@heroicons/react/24/outline';
 import { LineItem as CartLineItem } from 'shared/types/cart/LineItem';
+import { useTranslations } from 'use-intl';
 import Image from 'components/commercetools-ui/atoms/image';
 import Link from 'components/commercetools-ui/atoms/link';
 import OutOfStock from 'components/commercetools-ui/atoms/out-of-stock';
 import QuantitySelector from 'components/commercetools-ui/atoms/quantity-selector';
 import useClassNames from 'helpers/hooks/useClassNames';
-import { useFormat } from 'helpers/hooks/useFormat';
 import CartItemPrice from './cart-item-price';
 
 interface ClassNames {
@@ -22,11 +22,11 @@ interface Props {
 }
 
 const CartItem: React.FC<Props> = ({ item, onRemoveItem, onUpdateItem, OnMoveToWishlist, classNames = {} }) => {
-  const { formatMessage: formatCartMessage } = useFormat({ name: 'cart' });
+  const translate = useTranslations();
 
   const [processing, setProcessing] = useState(false);
 
-  const deleteButtonClassName = useClassNames(['block', processing ? 'cursor-not-allowed' : 'cursor-pointer']);
+  const deleteButtonClassName = useClassNames(['inline-block', processing ? 'cursor-not-allowed' : 'cursor-pointer']);
 
   const wishlistButtonClassName = useClassNames([
     'text-gray-600 decoration-gray-600 decoration-solid hover:underline hover:underline-offset-2',
@@ -79,9 +79,15 @@ const CartItem: React.FC<Props> = ({ item, onRemoveItem, onUpdateItem, OnMoveToW
           >
             {item.name}
           </Link>
-          <i data-testid="remove-button" onClick={handleRemoveItem} className={deleteButtonClassName}>
+          <button
+            data-testid="remove-button"
+            onClick={handleRemoveItem}
+            className={deleteButtonClassName}
+            disabled={processing}
+            title={translate('cart.remove-product-from-cart', { productName: item.name })}
+          >
             <TrashIcon stroke="#494949" className="w-20" />
-          </i>
+          </button>
         </div>
         {!item.variant?.isOnStock && (
           <div className="mt-8">
@@ -103,7 +109,7 @@ const CartItem: React.FC<Props> = ({ item, onRemoveItem, onUpdateItem, OnMoveToW
         </div>
         <div className="mt-16 text-12">
           <p className={wishlistButtonClassName} onClick={handleMoveToWishlist}>
-            {formatCartMessage({ id: 'move.to.wishlist', defaultMessage: 'Move to wishlist' })}
+            {translate('cart.move-to-wishlist')}
           </p>
         </div>
       </div>

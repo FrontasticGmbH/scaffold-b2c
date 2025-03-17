@@ -1,9 +1,9 @@
 import React, { useMemo } from 'react';
 import { useHits } from 'react-instantsearch';
-import { useFormat } from 'helpers/hooks/useFormat';
+import { useTranslations } from 'use-intl';
 
 const AccumalativeTrace = () => {
-  const { formatMessage: formatProductMessage } = useFormat({ name: 'product' });
+  const translate = useTranslations();
 
   const { hits, results } = useHits();
 
@@ -20,10 +20,9 @@ const AccumalativeTrace = () => {
   return (
     <div className="absolute bottom-72 left-1/2 -translate-x-1/2">
       <p>
-        {formatProductMessage({
-          id: 'showing',
-          defaultMessage: 'Showing {current} of {total}',
-          values: { current: accumulativeHitsCount, total: results.nbHits ?? 0 },
+        {translate('product.showing', {
+          current: accumulativeHitsCount,
+          total: results.nbHits ?? 0,
         })}
       </p>
     </div>

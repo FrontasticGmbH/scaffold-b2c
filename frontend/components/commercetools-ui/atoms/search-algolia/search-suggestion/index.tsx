@@ -1,8 +1,8 @@
 import React, { useCallback, useMemo } from 'react';
-import { useRouter } from 'next/navigation';
 import { MagnifyingGlassIcon as SearchIcon } from '@heroicons/react/24/outline';
 import { Hit } from 'instantsearch.js';
 import { Highlight } from 'react-instantsearch';
+import { useRouter } from 'i18n/routing';
 import { useLocalizedIndex } from 'providers/algolia/localized-index';
 import { Category } from 'types/entity/category';
 import Link from '../../link';
@@ -78,6 +78,7 @@ const SearchSuggestion: React.FC<Props> = ({ hit, categories, onClick }) => {
             link={`${_url}?query=${hit.query}`}
             onMouseUp={() => handleCategoryOptionClick({ _url })}
           >
+            {/* eslint-disable-next-line react/jsx-no-literals */}
             <i className="text-gray-600">In {name}</i>
           </Link>
         ))}

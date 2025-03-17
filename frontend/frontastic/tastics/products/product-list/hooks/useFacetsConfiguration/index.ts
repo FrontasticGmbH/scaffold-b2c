@@ -1,8 +1,8 @@
 import { useMemo } from 'react';
 import { Category } from 'shared/types/product';
 import { Facet } from 'shared/types/result';
+import { useTranslations } from 'use-intl';
 import { FacetConfiguration, TermFacet } from 'components/commercetools-ui/organisms/product/product-list/types';
-import { useFormat } from 'helpers/hooks/useFormat';
 
 interface Config {
   facets: Facet[];
@@ -11,7 +11,7 @@ interface Config {
 }
 
 const useFacetsConfiguration = ({ facets, facetsConfiguration, categories }: Config) => {
-  const { formatMessage: formatProductMessage } = useFormat({ name: 'product' });
+  const translate = useTranslations();
 
   const externalFacetsConfiguration = useMemo<Record<string, FacetConfiguration>>(() => {
     return (facetsConfiguration ?? []).reduce(
@@ -41,10 +41,7 @@ const useFacetsConfiguration = ({ facets, facetsConfiguration, categories }: Con
         } else if (facet.type === 'boolean') {
           (facet as TermFacet).terms = (facet as TermFacet).terms.map((term) => ({
             ...term,
-            label:
-              term.key === 'T'
-                ? externalFacetsConfiguration[facet.key].label
-                : formatProductMessage({ id: 'regular', defaultMessage: 'Regular' }),
+            label: term.key === 'T' ? externalFacetsConfiguration[facet.key].label : translate('product.regular'),
           }));
         }
 
@@ -65,7 +62,7 @@ const useFacetsConfiguration = ({ facets, facetsConfiguration, categories }: Con
         }),
         {},
       );
-  }, [facets, externalFacetsConfiguration, categories, formatProductMessage]);
+  }, [facets, externalFacetsConfiguration, categories, translate]);
 
   return finalFacetsConfiguration;
 };

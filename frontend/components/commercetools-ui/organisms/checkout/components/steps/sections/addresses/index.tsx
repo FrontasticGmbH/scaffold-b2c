@@ -1,11 +1,11 @@
 import React, { useCallback, useContext, useMemo, useState } from 'react';
 import toast from 'react-hot-toast';
+import { useTranslations } from 'use-intl';
 import * as yup from 'yup';
 import Button from 'components/commercetools-ui/atoms/button';
 import Checkbox from 'components/commercetools-ui/atoms/checkbox';
 import Info from 'components/commercetools-ui/atoms/info';
 import { AccountContext } from 'context/account';
-import { useFormat } from 'helpers/hooks/useFormat';
 import useGeo from 'helpers/hooks/useGeo';
 import useProcessing from 'helpers/hooks/useProcessing';
 import useValidate from 'helpers/hooks/useValidate';
@@ -23,9 +23,7 @@ export interface Props {
 }
 
 const Addresses: React.FC<Props> = ({ goToNextStep, onUpdateCart }) => {
-  const { formatMessage } = useFormat({ name: 'common' });
-  const { formatMessage: formatCheckoutMessage } = useFormat({ name: 'checkout' });
-  const { formatMessage: formatCartMessage } = useFormat({ name: 'cart' });
+  const translate = useTranslations();
 
   const { account, loggedIn, shippingAddresses } = useContext(AccountContext);
 
@@ -125,14 +123,7 @@ const Addresses: React.FC<Props> = ({ goToNextStep, onUpdateCart }) => {
     stopProcessing();
 
     if (res?.cartId) goToNextStep();
-    else
-      toast.error(
-        formatCheckoutMessage({
-          id: 'update.addresses.error',
-          defaultMessage: "Couldn't update your addresses information, please try again later.",
-        }),
-        { position: 'bottom-left' },
-      );
+    else toast.error(translate('checkout.update-addresses-error'), { position: 'bottom-left' });
   }, [
     account,
     isValidShippingAddress,
@@ -142,7 +133,7 @@ const Addresses: React.FC<Props> = ({ goToNextStep, onUpdateCart }) => {
     addressToAccountAddress,
     onUpdateCart,
     goToNextStep,
-    formatCheckoutMessage,
+    translate,
     processing,
     startProcessing,
     stopProcessing,
@@ -153,7 +144,7 @@ const Addresses: React.FC<Props> = ({ goToNextStep, onUpdateCart }) => {
       return [
         {
           name: 'firstName',
-          label: formatMessage({ id: 'firstName', defaultMessage: 'First Name' }),
+          label: translate('common.firstName'),
           labelDesc: '',
           required: true,
           type: 'string',
@@ -161,7 +152,7 @@ const Addresses: React.FC<Props> = ({ goToNextStep, onUpdateCart }) => {
         },
         {
           name: 'lastName',
-          label: formatMessage({ id: 'lastName', defaultMessage: 'Last Name' }),
+          label: translate('common.lastName'),
           labelDesc: '',
           required: true,
           type: 'string',
@@ -169,7 +160,7 @@ const Addresses: React.FC<Props> = ({ goToNextStep, onUpdateCart }) => {
         },
         {
           name: 'email',
-          label: formatMessage({ id: 'email', defaultMessage: 'Email' }),
+          label: translate('common.email'),
           labelDesc: '',
           required: true,
           type: 'email',
@@ -180,17 +171,14 @@ const Addresses: React.FC<Props> = ({ goToNextStep, onUpdateCart }) => {
         },
         {
           name: 'phone',
-          label: `${formatMessage({ id: 'phone', defaultMessage: 'Phone' })}`,
-          labelDesc: formatCheckoutMessage({
-            id: 'for.other.updates',
-            defaultMessage: 'for other updates',
-          }),
+          label: `${translate('common.phone')}`,
+          labelDesc: translate('checkout.for-other-updates'),
           type: 'string',
           className: 'col-span-3',
         },
         {
           name: 'line1',
-          label: formatMessage({ id: 'address', defaultMessage: 'Address' }),
+          label: translate('common.address'),
           labelDesc: '',
           required: true,
           type: 'string',
@@ -200,8 +188,9 @@ const Addresses: React.FC<Props> = ({ goToNextStep, onUpdateCart }) => {
 
             return (
               <div className="col-span-3 mt-16 cursor-pointer">
+                {/* eslint-disable-next-line react/jsx-no-literals */}
                 <p className="w-fit text-14 text-gray-600" onClick={onEnableAddress2}>
-                  + {formatCheckoutMessage({ id: 'add.address', defaultMessage: 'Add another address line' })}
+                  + {translate('checkout.add-address')}
                 </p>
               </div>
             );
@@ -211,7 +200,7 @@ const Addresses: React.FC<Props> = ({ goToNextStep, onUpdateCart }) => {
           ? [
               {
                 name: 'line2',
-                label: `${formatMessage({ id: 'address', defaultMessage: 'Address' })} 2`,
+                label: `${translate('common.address')} 2`,
                 labelDesc: '',
                 type: 'string',
                 className: 'col-span-3',
@@ -220,21 +209,21 @@ const Addresses: React.FC<Props> = ({ goToNextStep, onUpdateCart }) => {
           : []),
         {
           name: 'postalCode',
-          label: formatMessage({ id: 'zipCode', defaultMessage: 'Postcode' }),
+          label: translate('common.zipCode'),
           labelDesc: '',
           required: true,
           className: 'col-span-1 mt-12',
         },
         {
           name: 'city',
-          label: formatMessage({ id: 'city', defaultMessage: 'City' }),
+          label: translate('common.city'),
           labelDesc: '',
           required: true,
           className: 'col-span-2 mt-12',
         },
       ] as Fields[];
     },
-    [formatMessage, formatCheckoutMessage, validateEmail],
+    [translate, validateEmail],
   );
 
   return (
@@ -242,9 +231,7 @@ const Addresses: React.FC<Props> = ({ goToNextStep, onUpdateCart }) => {
       {loggedIn ? (
         shippingAddresses.length > 0 && (
           <div className="mt-20">
-            <h5 className="text-16 capitalize">
-              {formatCheckoutMessage({ id: 'shippingAddress', defaultMessage: 'Shipping Address' })}
-            </h5>
+            <h5 className="text-16 capitalize">{translate('checkout.shippingAddress')}</h5>
             <AccountAddresses
               className="mt-20"
               type="shipping"
@@ -266,23 +253,13 @@ const Addresses: React.FC<Props> = ({ goToNextStep, onUpdateCart }) => {
       ) : (
         <div className="mt-48">
           <div className="flex items-center gap-8 lg:gap-12">
-            <h5 className="text-16 capitalize">
-              {formatCheckoutMessage({ id: 'billingAddress', defaultMessage: 'Billing Address' })}
-            </h5>
-            <Info
-              message={`${formatCheckoutMessage({
-                id: 'enter.associated.address.with.payment',
-                defaultMessage: 'Enter the address that is associated with your payment method',
-              })}.`}
-            />
+            <h5 className="text-16 capitalize">{translate('checkout.billingAddress')}</h5>
+            <Info message={`${translate('checkout.enter-associated-address-with-payment')}.`} />
           </div>
 
           <div className="mt-28 flex items-center gap-12 p-2">
             <Checkbox
-              label={formatCheckoutMessage({
-                id: 'billingDetailsLabel',
-                defaultMessage: 'My billing address is the same as my delivery address',
-              })}
+              label={translate('checkout.billingDetailsLabel')}
               labelPosition="on-right"
               checked={sameShippingAddress}
               onChange={({ checked }) => setSameShippingAddress(checked)}
@@ -317,8 +294,7 @@ const Addresses: React.FC<Props> = ({ goToNextStep, onUpdateCart }) => {
           type="submit"
           onClick={submit}
         >
-          {formatCartMessage({ id: 'continue.to', defaultMessage: 'Continue to' })}{' '}
-          <span className="lowercase">{formatCartMessage({ id: 'shipping', defaultMessage: 'Shipping' })}</span>
+          {translate('cart.continue-to')} <span className="lowercase">{translate('cart.shipping')}</span>
         </Button>
       </div>
     </div>

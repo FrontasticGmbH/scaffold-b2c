@@ -1,8 +1,9 @@
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
-import { useRouter, useSearchParams } from 'next/navigation';
+import { useSearchParams } from 'next/navigation';
+import { useTranslations } from 'use-intl';
 import Button from 'components/commercetools-ui/atoms/button';
-import { useFormat } from 'helpers/hooks/useFormat';
 import usePath from 'helpers/hooks/usePath';
+import { useRouter } from 'i18n/routing';
 import { Cart, ShippingMethod } from 'types/entity/cart';
 import { CartDetails } from 'frontastic/hooks/useCart/types';
 import AddressesPreview from './previews/addresses';
@@ -24,8 +25,7 @@ interface Props {
 }
 
 const Steps: React.FC<Props> = ({ cart, shippingMethods, onUpdateCart, onPurchase, onFinalStepChange }) => {
-  const { formatMessage: formatCartMessage } = useFormat({ name: 'cart' });
-  const { formatMessage: formatCheckoutMessage } = useFormat({ name: 'checkout' });
+  const translate = useTranslations();
 
   const router = useRouter();
 
@@ -53,23 +53,23 @@ const Steps: React.FC<Props> = ({ cart, shippingMethods, onUpdateCart, onPurchas
   const steps = useMemo(() => {
     return [
       {
-        label: formatCartMessage({ id: 'addresses', defaultMessage: 'Addresses' }),
+        label: translate('cart.addresses'),
         Component: <Addresses onUpdateCart={onUpdateCart} goToNextStep={goToNextStep} />,
         Preview: <AddressesPreview cart={cart} />,
         CTA: <CreateAddressModal />,
       },
       {
-        label: formatCartMessage({ id: 'shipping', defaultMessage: 'Shipping' }),
+        label: translate('cart.shipping'),
         Component: <Shipping goToNextStep={goToNextStep} />,
         Preview: <ShippingPreview cart={cart} shippingMethods={shippingMethods} />,
       },
       {
-        label: formatCartMessage({ id: 'payment', defaultMessage: 'Payment' }),
+        label: translate('cart.payment'),
         Component: <Payment goToNextStep={goToNextStep} />,
         Preview: <PaymentPreview />,
       },
     ];
-  }, [formatCartMessage, goToNextStep, cart, shippingMethods, onUpdateCart]);
+  }, [translate, goToNextStep, cart, shippingMethods, onUpdateCart]);
 
   const isFinalStep = useMemo(() => active === steps.length, [active, steps.length]);
 
@@ -97,7 +97,7 @@ const Steps: React.FC<Props> = ({ cart, shippingMethods, onUpdateCart, onPurchas
       {isFinalStep && (
         <div className="mt-24 lg:hidden">
           <Button variant="primary" className="w-full" type="submit" onClick={onPurchase} loading={processing}>
-            {formatCheckoutMessage({ id: 'complete.purchase', defaultMessage: 'Complete purchase' })}
+            {translate('cart.complete-purchase')}
           </Button>
         </div>
       )}

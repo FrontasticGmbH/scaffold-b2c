@@ -1,7 +1,7 @@
 import { FC } from 'react';
 import dynamic from 'next/dynamic';
+import { useTranslations } from 'use-intl';
 import AccordionBtn from 'components/commercetools-ui/atoms/accordion';
-import { useFormat } from 'helpers/hooks/useFormat';
 
 const Markdown = dynamic(() => import('../../../markdown'));
 
@@ -11,7 +11,7 @@ type AdditionalInfoProps = {
 };
 
 const AdditionalInfo: FC<AdditionalInfoProps> = ({ productspec, description }) => {
-  const { formatMessage } = useFormat({ name: 'product' });
+  const translate = useTranslations();
 
   return (
     // eslint-disable-next-line tailwindcss/no-custom-classname
@@ -36,7 +36,7 @@ const AdditionalInfo: FC<AdditionalInfoProps> = ({ productspec, description }) =
       {description && (
         <AccordionBtn
           className="col-span-2 mt-24 border-y border-neutral-400 md:mt-0"
-          closedSectionTitle={formatMessage({ id: 'product.desc', defaultMessage: 'Product Description' })}
+          closedSectionTitle={translate('product.product-desc')}
           buttonClassName="py-21 font-body text-16 leading-tight text-primary pl-0 md:pr-12"
           panelClassName="pb-20 md:pt-10 md:pb-30 text-primary"
         >
@@ -49,7 +49,7 @@ const AdditionalInfo: FC<AdditionalInfoProps> = ({ productspec, description }) =
       {productspec && (
         <AccordionBtn
           className="col-span-2 border-b border-neutral-400 md:mt-0"
-          closedSectionTitle={formatMessage({ id: 'details.additional', defaultMessage: 'Additional Details' })}
+          closedSectionTitle={translate('product.details-additional')}
           buttonClassName="py-21 font-body text-16 leading-tight text-primary pl-0 md:pr-12"
           panelClassName="pb-20 md:pt-10 md:pb-30 text-primary"
         >

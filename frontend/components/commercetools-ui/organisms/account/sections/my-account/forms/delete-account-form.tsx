@@ -1,6 +1,6 @@
 import { useState } from 'react';
+import { useTranslations } from 'use-intl';
 import PasswordInput from 'components/commercetools-ui/atoms/input-password';
-import { useFormat } from 'helpers/hooks/useFormat';
 import AccountForm from '../../../account-atoms/account-form';
 
 interface Props {
@@ -8,7 +8,7 @@ interface Props {
 }
 
 const DeleteAccountForm = ({ deleteAccount }: Props) => {
-  const { formatMessage } = useFormat({ name: 'account' });
+  const translate = useTranslations();
   const [data, setData] = useState({ password: '' });
   const [error, setError] = useState(false);
 
@@ -19,14 +19,7 @@ const DeleteAccountForm = ({ deleteAccount }: Props) => {
 
   const onDeleteAccount = async (form: React.FormEvent) => {
     form.preventDefault();
-    if (
-      confirm(
-        formatMessage({
-          id: 'delete.disclosure',
-          defaultMessage: "You can't regain access once it's deleted.",
-        }),
-      )
-    ) {
+    if (confirm(translate('account.delete-disclosure'))) {
       const deleteAccountState = await deleteAccount?.(data.password);
       if (!deleteAccountState?.success) {
         setError(true);
@@ -36,18 +29,15 @@ const DeleteAccountForm = ({ deleteAccount }: Props) => {
 
   return (
     <AccountForm
-      title={formatMessage({ id: 'delete.your.account', defaultMessage: 'Delete your account' })}
-      subtitle={formatMessage({
-        id: 'delete.disclosure',
-        defaultMessage: "You can't regain access once it's deleted.",
-      })}
+      title={translate('account.delete-your-account')}
+      subtitle={translate('account.delete-disclosure')}
       defaultCTASection
       requiredLabelIsVisible
       ctaVariant="delete"
       onSubmit={onDeleteAccount}
     >
       <PasswordInput
-        error={error ? formatMessage({ id: 'password.invalid', defaultMessage: 'Invalid password' }) : ''}
+        error={error ? translate('account.password-invalid') : ''}
         name={'password'}
         onChange={handleChange}
         label="Password confirmation"

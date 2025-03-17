@@ -1,7 +1,7 @@
 import React from 'react';
+import { useTranslations } from 'use-intl';
 import AccordionBtn from 'components/commercetools-ui/atoms/accordion';
 import Typography from 'components/commercetools-ui/atoms/typography';
-import { useFormat } from 'helpers/hooks/useFormat';
 import { FAQ as FAQShape } from '../..';
 
 interface Props {
@@ -9,12 +9,12 @@ interface Props {
 }
 
 const FAQ: React.FC<Props> = ({ faqs }) => {
-  const { formatMessage: formatCustomerSupportMessage } = useFormat({ name: 'customer-support' });
+  const translate = useTranslations();
   return (
     <div className="pb-24 md:pb-36 lg:pb-0">
       <div className="py-24">
         <Typography as="h3" className="text-18">
-          {formatCustomerSupportMessage({ id: 'faq', defaultMessage: 'FAQ' })}
+          {translate('customer-support.faq')}
         </Typography>
       </div>
 

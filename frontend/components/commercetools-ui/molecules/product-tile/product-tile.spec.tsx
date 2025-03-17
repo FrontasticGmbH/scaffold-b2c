@@ -35,14 +35,16 @@ describe('[Component] Product tile', () => {
     );
   };
 
-  it('Renders tile correclty', () => {
+  it('Renders tile correctly', () => {
     renderProductTile({});
 
     expect(screen.queryAllByRole('link').length).toBe(2);
     screen.getAllByRole('link').forEach((link) => expect(link).toHaveAttribute('href', '/en/T-Shirt/p/123'));
 
-    expect(screen.queryByAltText('T-Shirt')).toBeInTheDocument();
-    expect(screen.getByAltText('T-Shirt')).toHaveAttribute('src', 'https://cdn.com/path/to/img-medium.png');
+    const productImage = screen.getByAltText('T-Shirt');
+    expect(productImage).toBeInTheDocument();
+    expect(productImage).toHaveAttribute('src', expect.stringContaining('/_next/image'));
+    expect(productImage).toHaveAttribute('src', expect.stringContaining('cdn.com'));
 
     expect(screen.queryByText('T-Shirt')).toBeInTheDocument();
 
@@ -56,21 +58,21 @@ describe('[Component] Product tile', () => {
   it('Has quick view functionality working correctly', async () => {
     renderProductTile({});
 
-    expect(screen.getByText('Quick view')).toHaveClass('hidden');
+    expect(screen.queryByText('More details')).toBeNull();
 
-    await act(async () => userEvent.hover(screen.getByTestId('image-container')));
+    userEvent.click(screen.getByText('Quick view'));
 
-    expect(screen.getByText('Quick view')).not.toHaveClass('hidden');
+    expect(await screen.findByText('More details')).toBeInTheDocument();
   });
 
-  it('Can disable quick view functionality correctly', async () => {
+  it('Can disable Quick View functionality correctly', async () => {
     renderProductTile({ disableQuickView: true });
 
-    expect(screen.getByText('Quick view')).toHaveClass('hidden');
+    expect(screen.queryByText('Quick view')).not.toBeInTheDocument();
 
     await act(async () => userEvent.hover(screen.getByTestId('image-container')));
 
-    expect(screen.getByText('Quick view')).toHaveClass('hidden');
+    expect(screen.queryByText('Quick view')).not.toBeInTheDocument();
   });
 
   it('Shows discount correctly', () => {
@@ -119,7 +121,7 @@ describe('[Component] Product tile', () => {
     expect(screen.queryByText('Sold out')).toBeInTheDocument();
   });
 
-  it('Displays the corret variant given', () => {
+  it('Displays the correct variant given', () => {
     renderProductTile({
       product: {
         variants: [
@@ -203,12 +205,24 @@ describe('[Component] Product tile', () => {
   it('Can hide variants', () => {
     renderProductTile({
       product: {
-        variants: [{ sku: '123', isOnStock: true, price: { centAmount: 10000 } }],
+        name: 'T-Shirt',
+        variants: [
+          {
+            sku: '123',
+            isOnStock: true,
+            price: { centAmount: 10000 },
+            // Intentionally not providing images to test component resilience
+          },
+        ],
+        _url: 'product-slug/T-Shirt',
       },
       disableVariants: true,
     });
 
     expect(screen.queryAllByTestId('product-variant').length).toBe(0);
+
+    // Verify the image is still rendered with a placeholder
+    expect(screen.getByAltText('T-Shirt')).toBeInTheDocument();
   });
 
   it('Can hide wishlist button', () => {

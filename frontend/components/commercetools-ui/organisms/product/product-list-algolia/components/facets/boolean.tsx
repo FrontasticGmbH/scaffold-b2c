@@ -1,11 +1,11 @@
 import React from 'react';
 import { useRefinementList } from 'react-instantsearch';
+import { useTranslations } from 'use-intl';
 import Checkbox from 'components/commercetools-ui/atoms/checkbox';
-import { useFormat } from 'helpers/hooks/useFormat';
 import { FacetProps } from './types';
 
 const BooleanFacet: React.FC<FacetProps> = ({ attribute, label }) => {
-  const { formatMessage: formatProductMessage } = useFormat({ name: 'product' });
+  const translate = useTranslations();
 
   const { items, refine } = useRefinementList({ attribute });
 
@@ -16,9 +16,7 @@ const BooleanFacet: React.FC<FacetProps> = ({ attribute, label }) => {
           .filter((term) => term.value === 'true')
           .map((term) => (
             <div key={term.label} className="flex items-center justify-between gap-8">
-              <div>
-                {term.value === 'true' ? label : formatProductMessage({ id: 'regular', defaultMessage: 'Regular' })}
-              </div>
+              <div>{term.value === 'true' ? label : translate('product.regular')}</div>
               <div className="flex items-center gap-12">
                 <Checkbox
                   checked={term.isRefined}

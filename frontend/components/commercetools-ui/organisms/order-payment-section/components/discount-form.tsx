@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 import { XMarkIcon } from '@heroicons/react/24/outline';
+import { useTranslations } from 'use-intl';
 import AccordionBtn, { AccordionProps } from 'components/commercetools-ui/atoms/accordion';
 import CloseIcon from 'components/icons/close';
 import useClassNames from 'helpers/hooks/useClassNames';
-import { useFormat } from 'helpers/hooks/useFormat';
 import { DiscountCode } from 'types/entity/cart';
 
 export interface Props {
@@ -21,7 +21,7 @@ const DiscountForm: React.FC<Props> = ({
   onApplyDiscountCode,
   onRemoveDiscountCode,
 }) => {
-  const { formatMessage: formatCartMessage } = useFormat({ name: 'cart' });
+  const translate = useTranslations();
 
   const [code, setCode] = useState('');
   const [codeIsInvalid, setCodeIsInvalid] = useState(false);
@@ -51,15 +51,12 @@ const DiscountForm: React.FC<Props> = ({
       .catch((err: Error) => {
         if (err.message.includes('MaxApplicationReached')) {
           setErrorMessage(
-            formatCartMessage({
-              id: 'voucher.max.usage.singular',
-              defaultMessage:
-                'This discount code can no longer be redeemed as the maximum application has been reached. {codes}',
-              values: { codes: '' },
+            translate('cart.voucher-max-usage-singular', {
+              codes: '',
             }),
           );
         } else {
-          setErrorMessage(formatCartMessage({ id: 'codeNotValid', defaultMessage: 'The discount code is not valid' }));
+          setErrorMessage(translate('cart.codeNotValid'));
         }
 
         setCodeIsInvalid(true);
@@ -91,7 +88,7 @@ const DiscountForm: React.FC<Props> = ({
   return (
     <div className={containerClassName}>
       <AccordionBtn
-        closedSectionTitle={formatCartMessage({ id: 'discount.apply', defaultMessage: 'Apply a discount' })}
+        closedSectionTitle={translate('cart.discount-apply')}
         buttonClassName="text-gray-600 "
         {...accordionProps}
       >
@@ -101,10 +98,7 @@ const DiscountForm: React.FC<Props> = ({
               <input
                 className={inputClassName}
                 value={code}
-                placeholder={formatCartMessage({
-                  id: 'cart.discount.enter',
-                  defaultMessage: 'Enter discount code',
-                })}
+                placeholder={translate('cart.cart-discount-enter')}
                 onChange={handleChange}
                 disabled={processing}
               />

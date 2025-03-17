@@ -1,8 +1,8 @@
 import { FC } from 'react';
 import { XMarkIcon } from '@heroicons/react/24/outline';
+import { useTranslations } from 'use-intl';
 import Typography from 'components/commercetools-ui/atoms/typography';
 import Modal from 'components/commercetools-ui/organisms/modal';
-import { useFormat } from 'helpers/hooks/useFormat';
 import SaveOrCancel from '../../account-atoms/save-or-cancel';
 
 type DeleteModalProps = {
@@ -13,15 +13,14 @@ type DeleteModalProps = {
 };
 
 const DeleteModal: FC<DeleteModalProps> = ({ modalIsOpen, loading, closeModal, handleDelete }) => {
-  const { formatMessage: formatAccountMessage } = useFormat({ name: 'account' });
-  const { formatMessage } = useFormat({ name: 'common' });
+  const translate = useTranslations();
 
   return (
     <Modal
       shouldCloseOnOverlayClick
       isOpen={modalIsOpen}
       style={{ content: { width: 400, height: 280, overflow: 'hidden', background: 'white' } }}
-      contentLabel={formatMessage({ id: 'quick.view', defaultMessage: 'Quick view' })}
+      contentLabel={translate('common.quick-view')}
       onRequestClose={closeModal}
     >
       <>
@@ -34,10 +33,10 @@ const DeleteModal: FC<DeleteModalProps> = ({ modalIsOpen, loading, closeModal, h
 
         <div className="m-auto grid h-full place-content-center gap-24">
           <Typography as="h3" className="text-center text-20 font-medium text-primary">
-            {formatAccountMessage({ id: 'delete.address', defaultMessage: 'Delete address' })}
+            {translate('account.delete-address')}
           </Typography>
           <Typography as="p" className="text-center text-gray-600">
-            {formatAccountMessage({ id: 'action.warning', defaultMessage: 'This action can not be undone.' })}
+            {translate('account.action-warning')}
           </Typography>
 
           <SaveOrCancel loading={loading} onCancel={closeModal} variant="delete" onSave={handleDelete} />

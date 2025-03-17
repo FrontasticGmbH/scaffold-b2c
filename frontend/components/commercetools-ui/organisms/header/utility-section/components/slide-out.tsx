@@ -1,13 +1,13 @@
 import React, { useMemo } from 'react';
 import { HeartIcon } from '@heroicons/react/24/outline';
 import CloseIcon from '@heroicons/react/24/outline/XMarkIcon';
+import { useTranslations } from 'use-intl';
 import { ImageProps } from 'components/commercetools-ui/atoms/image';
 import Cart from 'components/commercetools-ui/organisms/cart-slideout';
 import { Link } from 'components/commercetools-ui/organisms/header/types';
 import Wishlist from 'components/commercetools-ui/organisms/wishlist';
 import CartIcon from 'components/icons/cart';
 import useClassNames from 'helpers/hooks/useClassNames';
-import { useFormat } from 'helpers/hooks/useFormat';
 import { Cart as CartShape, DiscountCode, LineItem as CartLineItem } from 'types/entity/cart';
 import { LineItem as WishlistLineItem, Wishlist as WishlistShape } from 'types/entity/wishlist';
 
@@ -70,17 +70,16 @@ const Slideout: React.FC<SlideOutProps> = ({
   enableCartState = true,
   enableWishlistState = true,
 }) => {
-  const { formatMessage: formatCartMessage } = useFormat({ name: 'cart' });
-  const { formatMessage: formatWishlistMessage } = useFormat({ name: 'wishlist' });
+  const translate = useTranslations();
 
   const title = useMemo(() => {
     switch (state) {
       case 'cart':
-        return formatCartMessage({ id: 'myCart', defaultMessage: 'Cart' });
+        return translate('cart.myCart');
       case 'wishlist':
-        return formatWishlistMessage({ id: 'my.wishlist', defaultMessage: 'Wishlist' });
+        return translate('wishlist.my-wishlist');
     }
-  }, [formatCartMessage, formatWishlistMessage, state]);
+  }, [translate, state]);
 
   const iconClassName = 'absolute -bottom-23 left-1/2 -translate-x-1/2 h-2 w-[130%] transition duration-200';
 
@@ -161,7 +160,7 @@ const Slideout: React.FC<SlideOutProps> = ({
             <button
               className="relative h-full cursor-pointer transition hover:opacity-80"
               onClick={() => changeState?.('wishlist')}
-              aria-label={formatWishlistMessage({ id: 'wishlist', defaultMessage: 'Wishlist' })}
+              aria-label={translate('wishlist.wishlist')}
             >
               <div className={wishlistClassName} />
               {totalWishlistItems > 0 && (
@@ -174,7 +173,7 @@ const Slideout: React.FC<SlideOutProps> = ({
             <button
               className="relative h-full cursor-pointer transition hover:opacity-80"
               onClick={() => changeState?.('cart')}
-              aria-label={formatCartMessage({ id: 'myCart', defaultMessage: 'My Cart' })}
+              aria-label={translate('cart.myCart')}
             >
               <div className={cartClassName} />
               <div className="relative">

@@ -1,8 +1,8 @@
 import React, { FC } from 'react';
+import { useTranslations } from 'use-intl';
 import Image, { ImageProps } from 'components/commercetools-ui/atoms/image';
 import Link from 'components/commercetools-ui/atoms/link';
 import Typography from 'components/commercetools-ui/atoms/typography';
-import { useFormat } from 'helpers/hooks/useFormat';
 import { SocialMedia } from '.';
 
 interface Props {
@@ -11,8 +11,7 @@ interface Props {
 }
 
 const FooterBottom: FC<Props> = ({ logo, socialMedia }) => {
-  const { formatMessage } = useFormat({ name: 'common' });
-
+  const translate = useTranslations();
   return (
     <>
       <div className="hidden items-center justify-between px-24 py-36 md:flex xl:p-48">
@@ -21,9 +20,7 @@ const FooterBottom: FC<Props> = ({ logo, socialMedia }) => {
             <Image {...logo} alt="logo" />
           </div>
         )}
-        <Typography className="text-14 text-neutral-500">
-          {formatMessage({ id: 'powered', defaultMessage: 'Powered by commercetools' })}
-        </Typography>
+        <Typography className="text-14 text-neutral-500">{translate('common.powered')}</Typography>
         <ul className="flex flex-row gap-20 self-center">
           {socialMedia?.map((item, i) => (
             <li key={i} className="w-22">
@@ -50,9 +47,7 @@ const FooterBottom: FC<Props> = ({ logo, socialMedia }) => {
             <Image {...logo} alt="logo" />
           </div>
         )}
-        <Typography className="text-14 text-neutral-500">
-          {formatMessage({ id: 'powered', defaultMessage: 'Powered by commercetools' })}
-        </Typography>
+        <Typography className="text-14 text-neutral-500">{translate('common.powered')}</Typography>
       </div>
     </>
   );

@@ -1,7 +1,7 @@
 import React, { FC } from 'react';
+import { useTranslations } from 'use-intl';
 import Link from 'components/commercetools-ui/atoms/link';
 import Typography from 'components/commercetools-ui/atoms/typography';
-import { useFormat } from 'helpers/hooks/useFormat';
 import { Category } from 'types/entity/category';
 import MobileMenuNavButton from '../atoms/menu-nav-button';
 
@@ -13,7 +13,7 @@ export interface Props {
 }
 
 const MobileMenu: FC<Props> = ({ links, categoriesNavigator, insertCategory, hideHeaderMenu }) => {
-  const { formatMessage } = useFormat({ name: 'common' });
+  const translate = useTranslations();
   return (
     <div className="ml-24 mr-22">
       {categoriesNavigator && categoriesNavigator?.length > 0 && (
@@ -26,9 +26,7 @@ const MobileMenu: FC<Props> = ({ links, categoriesNavigator, insertCategory, hid
                   categoriesNavigator[categoriesNavigator.length - 1]?.slug
                 }
               >
-                <Typography className="text-primary">
-                  {formatMessage({ id: 'view.all', defaultMessage: 'View All' })}
-                </Typography>
+                <Typography className="text-primary">{translate('common.view-all')}</Typography>
               </Link>
             </div>
           )}

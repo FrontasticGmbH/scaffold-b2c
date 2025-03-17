@@ -1,4 +1,65 @@
 
+## Version 3.2.1 (2025-03-04)
+
+** New Features & Improvements **
+
+* Refactor localiation issue in map category
+* Adjust disabled button styles and refactor return statement.
+
+
+** Bug Fixes **
+
+* Update disabled button styles for improved consistency
+
+
+** New Features & Improvements **
+
+* Update translations for b2c
+* Adjust disabled button styles and refactor return statement.
+* Update text colors in product details breadcrumb
+* Modify nested interactive element
+* List keyboard navigation EAA
+* Upgrade to headless ui v2
+* Scaled product image in cart popup
+* Unify env usage
+* Update color palette
+* Update ref usages
+
+
+** Bug Fixes **
+
+* Fix localization issues
+* Fix accessibility broken for keyboard navigation
+* Add missing aria labels for search nav
+* Add missing aria labels for presonal info form
+* Fix accessibility for forms and form controls
+* Fix missing pdp links
+
+## Version 3.2.0 (2025-03-03)
+
+** New Features & Improvements **
+
+* Update translations for b2c
+* Adjust disabled button styles and refactor return statement.
+* Update text colors in product details breadcrumb
+* Modify nested interactive element
+* List keyboard navigation EAA
+* Upgrade to headless ui v2
+* Scaled product image in cart popup
+* Unify env usage
+* Update color palette
+* Update ref usages
+
+
+** Bug Fixes **
+
+* Fix localization issues
+* Fix accessibility broken for keyboard navigation
+* Add missing aria labels for search nav
+* Add missing aria labels for presonal info form
+* Fix accessibility for forms and form controls
+* Fix missing pdp links
+
 ## Version 3.1.0 (2025-02-17)
 
 

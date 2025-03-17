@@ -1,5 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import Negotiator from 'negotiator';
+import createMiddleware from 'next-intl/middleware';
+import { routing } from './i18n/routing';
 import { i18nConfig } from './project.config';
 
 export function middleware(request: NextRequest) {
@@ -43,3 +45,5 @@ export const config = {
     '/((?!api|_next|favicon|manifest|storybook|images|sb-assets|sitemap\\.xml|robots\\.txt|sw\\.js|workbox|icons).*)',
   ],
 };
+
+export default createMiddleware(routing);

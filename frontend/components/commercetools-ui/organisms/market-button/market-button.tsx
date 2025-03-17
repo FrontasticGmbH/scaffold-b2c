@@ -1,17 +1,17 @@
 import { useState } from 'react';
 import { CheckIcon, XMarkIcon } from '@heroicons/react/24/outline';
+import { useTranslations } from 'use-intl';
 import Button from 'components/commercetools-ui/atoms/button';
 import Drawer from 'components/commercetools-ui/atoms/drawer';
 import Typography from 'components/commercetools-ui/atoms/typography';
 import FlagIcons from 'components/icons/flags';
-import { useFormat } from 'helpers/hooks/useFormat';
 import { useShipAndLanguage } from '../../../../providers/ship-and-language';
 
 const MarketButton = () => {
   const [showMarket, setShowMarket] = useState(false);
   const { locations, selectedLocation, selectedLanguage, onLocationSelect, onLanguageSelect } = useShipAndLanguage();
 
-  const { formatMessage } = useFormat({ name: 'common' });
+  const translate = useTranslations();
 
   const showMarketMenu = () => {
     setShowMarket(true);
@@ -40,21 +40,16 @@ const MarketButton = () => {
       >
         <div className="flex w-full items-center justify-between border-b border-neutral-400 px-16 py-20">
           <Typography as="h5" className="text-22 text-primary">
-            {formatMessage({ id: 'select.country', defaultMessage: 'Select your country' })}
+            {translate('common.select-country')}
           </Typography>
-          <Button
-            variant="ghost"
-            onClick={hideMarketMenu}
-            title={formatMessage({ id: 'close', defaultMessage: 'Close' })}
-            className="p-0"
-          >
+          <Button variant="ghost" onClick={hideMarketMenu} title={translate('common.close')} className="p-0">
             <XMarkIcon className="w-28 text-gray-600" />
           </Button>
         </div>
 
         <div className="pt-20">
           <Typography className="ml-5 px-12 text-14 font-semibold text-gray-700">
-            {formatMessage({ id: 'shop.ship.title', defaultMessage: 'Shop and ship to' })}
+            {translate('common.shop-ship-title')}
           </Typography>
           {locations.map((location) => (
             <Button
@@ -71,7 +66,7 @@ const MarketButton = () => {
           {selectedLocation?.languages && selectedLocation.languages.length > 0 && (
             <div className="pt-5">
               <Typography className="ml-5 px-12 text-14 font-semibold text-gray-700">
-                {formatMessage({ id: 'language', defaultMessage: 'Language' })}
+                {translate('common.language')}
               </Typography>
               {selectedLocation?.languages.map((language) => (
                 <Button

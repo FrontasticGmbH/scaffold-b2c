@@ -16,18 +16,6 @@ describe('[Component] Typography', () => {
     expect(result.baseElement.querySelector('p')?.textContent).toBe('Hello!');
   });
 
-  it('Renders translations correctly', () => {
-    const result = render(<Typography translation={{ id: 'say.hi', file: 'common' }} />);
-
-    expect(result.baseElement.querySelector('p')).toBeInTheDocument();
-    expect(result.baseElement.querySelector('p')?.textContent).toBe('common.say.hi');
-
-    result.rerender(<Typography translation={{ id: 'say.hi', file: 'common' }}>Hello!</Typography>);
-
-    expect(result.baseElement.querySelector('p')).toBeInTheDocument();
-    expect(result.baseElement.querySelector('p')?.textContent).toBe('Hello!');
-  });
-
   it('Renders given element correctly', () => {
     const result = render(<Typography as="h1">Hello!</Typography>);
 

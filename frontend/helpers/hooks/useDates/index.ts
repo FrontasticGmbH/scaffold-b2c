@@ -1,8 +1,8 @@
 import { useCallback } from 'react';
-import { useFormat } from '../useFormat';
+import { useTranslations } from 'use-intl';
 
 const useDates = () => {
-  const { formatMessage } = useFormat({ name: 'common' });
+  const translate = useTranslations();
 
   const representDateDiff = useCallback(
     (smallerDate: Date, largerDate: Date) => {
@@ -16,22 +16,22 @@ const useDates = () => {
       const years = days / 365.25;
 
       if (Math.floor(years) > 1) {
-        return `${Math.floor(years)} ${formatMessage({ id: 'years', defaultMessage: 'years' })}`;
+        return `${Math.floor(years)} ${translate('common.years')}`;
       } else if (Math.floor(months) > 1) {
-        return `${Math.floor(months)} ${formatMessage({ id: 'months', defaultMessage: 'months' })}`;
+        return `${Math.floor(months)} ${translate('common.months')}`;
       } else if (Math.floor(weeks) > 1) {
-        return `${Math.floor(weeks)} ${formatMessage({ id: 'weeks', defaultMessage: 'weeks' })}`;
+        return `${Math.floor(weeks)} ${translate('common.weeks')}`;
       } else if (Math.floor(days) > 1) {
-        return `${Math.floor(days)} ${formatMessage({ id: 'days', defaultMessage: 'days' })}`;
+        return `${Math.floor(days)} ${translate('common.days')}`;
       } else if (Math.floor(hours) > 1) {
-        return `${Math.floor(hours)} ${formatMessage({ id: 'hours', defaultMessage: 'hours' })}`;
+        return `${Math.floor(hours)} ${translate('common.hours')}`;
       } else if (Math.floor(minutes) > 1) {
-        return `${Math.floor(minutes)} ${formatMessage({ id: 'minutes', defaultMessage: 'minutes' })}`;
+        return `${Math.floor(minutes)} ${translate('common.minutes')}`;
       } else {
-        return `${Math.floor(seconds)} ${formatMessage({ id: 'seconds', defaultMessage: 'seconds' })}`;
+        return `${Math.floor(seconds)} ${translate('common.seconds')}`;
       }
     },
-    [formatMessage],
+    [translate],
   );
 
   return { representDateDiff };

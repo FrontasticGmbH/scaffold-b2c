@@ -10,15 +10,14 @@ const PaymentPreview = () => {
 
   const PreviewComponent = useMemo(() => {
     if (paymentData.type === 'scheme') {
+      const number = `... ${paymentData.number?.slice(-4)} ${paymentData.expiryMonth}/${paymentData.expiryYear?.slice(2)}`;
       return (
         <div className="flex items-center justify-between border border-neutral-400 p-16 md:px-20 md:py-24">
+          {/* eslint-disable-next-line react/jsx-no-literals */}
           <span className="text-14">Credit or Debit Card</span>
           <div className="flex items-center gap-4 md:gap-18">
-            {/* eslint-disable-next-line */}
-            <img className="h-[24px]" src={resolveCCImage(paymentData.number)} />
-            <p className="text-14">
-              ... {paymentData.number?.slice(-4)} {paymentData.expiryMonth}/{paymentData.expiryYear?.slice(2)}
-            </p>
+            <img className="h-24" src={resolveCCImage(paymentData.number)} />
+            <p className="text-14">{number}</p>
           </div>
         </div>
       );

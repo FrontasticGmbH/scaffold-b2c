@@ -1,13 +1,13 @@
 import React, { useCallback, useMemo } from 'react';
+import { useTranslations } from 'use-intl';
 import Dropdown, { Option } from 'components/commercetools-ui/atoms/dropdown';
 import Input from 'components/commercetools-ui/atoms/input';
 import useResolveCCImage from 'components/commercetools-ui/organisms/checkout/hooks/useResolveCCImage';
 import { useCheckout } from 'components/commercetools-ui/organisms/checkout/provider';
 import { PaymentData, SchemeData } from 'components/commercetools-ui/organisms/checkout/provider/payment/types';
-import { useFormat } from 'helpers/hooks/useFormat';
 
 const Scheme = () => {
-  const { formatMessage: formatCheckoutMessage } = useFormat({ name: 'checkout' });
+  const translate = useTranslations();
 
   const { paymentData, setPaymentData } = useCheckout();
 
@@ -75,20 +75,20 @@ const Scheme = () => {
   return (
     <div className="pt-32 md:max-w-[436px] md:pl-36">
       <Input
-        label={formatCheckoutMessage({ id: 'card.holder', defaultMessage: 'Card holder' })}
+        label={translate('checkout.card-holder')}
         labelPosition="top"
         name="holderName"
         className="text-14 placeholder:text-gray-600 sm:px-8"
-        placeholder={formatCheckoutMessage({ id: 'card.holder', defaultMessage: 'Card holder' })}
+        placeholder={translate('checkout.card-holder')}
         onChange={handleChange}
         defaultValue={paymentData.holderName}
       />
       <div className="relative mt-16">
         <Input
-          label={formatCheckoutMessage({ id: 'card.number', defaultMessage: 'Card number' })}
+          label={translate('checkout.card-number')}
           labelPosition="top"
           className="text-14 placeholder:text-gray-600 sm:px-8"
-          placeholder={formatCheckoutMessage({ id: 'card.number', defaultMessage: 'Card number' })}
+          placeholder={translate('checkout.card-number')}
           onChange={handleCardNumberChange}
           isValid={!!(paymentData.number && paymentData.number.length >= 12 && paymentData.number.length <= 19)}
           defaultValue={paymentData.number}
@@ -105,7 +105,7 @@ const Scheme = () => {
       <div className="mt-16 flex w-full gap-8">
         <div className="w-full grow md:flex-1">
           <Dropdown
-            label={formatCheckoutMessage({ id: 'expiry.date', defaultMessage: 'Expiry date' })}
+            label={translate('checkout.expiry-date')}
             selectOptions={expiryDateOptions}
             selectOnChange={handleExpiryDateChange}
             selectDefaultValue={
@@ -122,11 +122,11 @@ const Scheme = () => {
         </div>
         <div className="relative grow md:flex-1">
           <Input
-            label={formatCheckoutMessage({ id: 'card.securityNumber', defaultMessage: 'Security number' })}
+            label={translate('checkout.card-securityNumber')}
             labelPosition="top"
             className="text-14 placeholder:text-gray-600 sm:px-8"
             type="number"
-            placeholder={formatCheckoutMessage({ id: 'card.securityNumber', defaultMessage: 'Security number' })}
+            placeholder={translate('checkout.card-securityNumber')}
             onChange={handleCVCChange}
             defaultValue={paymentData.cvc}
           >

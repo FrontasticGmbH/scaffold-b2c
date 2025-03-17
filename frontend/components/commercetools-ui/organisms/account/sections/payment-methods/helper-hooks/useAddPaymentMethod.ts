@@ -1,14 +1,14 @@
 import { useCallback, useMemo, useState } from 'react';
-import { useRouter } from 'next/navigation';
+import { useTranslations } from 'use-intl';
 import { Option } from 'components/commercetools-ui/atoms/dropdown';
-import { useFormat } from 'helpers/hooks/useFormat';
+import { useRouter } from 'i18n/routing';
 import { payments } from '..';
 import useCardNumberFormatter from './useFormatCredit';
 import usePaymentHelpers from './usePaymentHelpers';
 
 const useAddPaymentMethod = () => {
   const router = useRouter();
-  const { formatMessage: formatPaymentMessage } = useFormat({ name: 'payment' });
+  const translate = useTranslations();
   const [cardNumber, setCardNumber] = useState('');
   const cardNumberFormatted = useCardNumberFormatter(cardNumber ?? '');
   const { expiryDateMonthOptions, expiryDateYearOptions, hasNumbersAndSpaces } = usePaymentHelpers();
@@ -58,9 +58,7 @@ const useAddPaymentMethod = () => {
     if (!isCardNumber()) return;
 
     if (!monthAndYearSelected()) {
-      setDateError(
-        formatPaymentMessage({ id: 'card.expiry.error', defaultMessage: 'Please select the card expiration date' }),
-      );
+      setDateError(translate('payment.card-expiry-error'));
       return;
     }
 

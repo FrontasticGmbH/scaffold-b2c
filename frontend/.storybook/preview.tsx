@@ -7,9 +7,18 @@ import theme from './theme';
 import { sdk } from '../sdk';
 import { AccountProvider } from '../context/account';
 import ShipAndLanguageProvider from '../providers/ship-and-language';
+import nextIntl from "./next-intl";
 
 const preview: Preview = {
+  initialGlobals: {
+    locale: 'en',
+    locales: {
+      en: 'English',
+      de: 'German',
+    },
+  },
   parameters: {
+    nextIntl,
     docs: {
       theme: theme,
     },

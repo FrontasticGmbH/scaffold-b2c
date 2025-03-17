@@ -1,9 +1,7 @@
 import React, { useMemo } from 'react';
-import NextLink from 'next/link';
-import { useParams } from 'next/navigation';
 import useClassNames from 'helpers/hooks/useClassNames';
 import { resolveReferenceProps, resolveReferenceTarget } from 'helpers/reference';
-import { i18nConfig } from 'project.config';
+import { Link as NextLink } from 'i18n/routing';
 import { Reference } from 'types/reference';
 
 export type LinkVariant = 'primary' | 'menu-header' | 'menu-item' | 'breadcrumb';
@@ -28,20 +26,14 @@ const Link = ({
   className = '',
   variant,
   title = '',
-  locale: localeProp,
   ...props
 }: React.PropsWithChildren<LinkProps>) => {
-  const { locale } = useParams();
-
   const linkUrl = useMemo(() => {
     if (!link) return '';
     if (typeof link === 'string') return link;
 
     return resolveReferenceTarget(link);
   }, [link]);
-
-  const linkMissingLocale =
-    linkUrl && linkUrl.startsWith('/') && i18nConfig.locales.every((locale) => !linkUrl.startsWith(`/${locale}/`));
 
   const linkProps = useMemo(() => {
     if (!link || typeof link === 'string') return {};
@@ -52,13 +44,7 @@ const Link = ({
   const linkClassNames = useClassNames([variant ? variantStyle[variant] : '', className]);
 
   return (
-    <NextLink
-      {...props}
-      {...linkProps}
-      href={linkUrl ? (linkMissingLocale ? `/${localeProp ?? locale}${linkUrl}` : linkUrl) : '#'}
-      className={linkClassNames}
-      title={title}
-    >
+    <NextLink {...props} {...linkProps} href={linkUrl ? linkUrl : '#'} className={linkClassNames} title={title}>
       {children}
     </NextLink>
   );

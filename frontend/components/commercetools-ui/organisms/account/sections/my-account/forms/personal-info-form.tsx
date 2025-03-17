@@ -1,7 +1,7 @@
 import { useState } from 'react';
+import { useTranslations } from 'use-intl';
 import Input, { InputProps } from 'components/commercetools-ui/atoms/input';
 import useFeedbackToasts from 'components/commercetools-ui/organisms/account/hooks/useFeedbackToasts';
-import { useFormat } from 'helpers/hooks/useFormat';
 import useValidate from 'helpers/hooks/useValidate';
 import { Account } from 'types/entity/account';
 import { UpdateAccount } from 'frontastic/hooks/useAccount/types';
@@ -23,15 +23,10 @@ const PersonalInfoForm = ({ account, update }: Props) => {
   const { validateEmail, validateTextExists } = useValidate();
   const { notifyDataUpdated, notifyWentWrong } = useFeedbackToasts();
 
-  const { formatMessage } = useFormat({ name: 'common' });
-  const { formatMessage: formatErrorMessage } = useFormat({ name: 'error' });
-  const { formatMessage: formatAccountMessage } = useFormat({ name: 'account' });
+  const translate = useTranslations();
 
-  const invalidNameErrorMessage = formatErrorMessage({
-    id: 'name',
-    defaultMessage: 'Name has to be at least two characters.',
-  });
-  const invalidEmailErrorMessage = formatErrorMessage({ id: 'email', defaultMessage: 'Email is not valid.' });
+  const invalidNameErrorMessage = translate('error.name');
+  const invalidEmailErrorMessage = translate('error.email');
 
   //input change handler
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -50,19 +45,19 @@ const PersonalInfoForm = ({ account, update }: Props) => {
 
   const inputFields: Array<InputProps> = [
     {
-      label: formatMessage({ id: 'firstName', defaultMessage: 'First Name' }),
+      label: translate('common.firstName'),
       name: 'firstName',
       errorMessage: invalidNameErrorMessage,
       validation: validateTextExists,
     },
     {
-      label: formatMessage({ id: 'lastName', defaultMessage: 'Last Name' }),
+      label: translate('common.lastName'),
       name: 'lastName',
       errorMessage: invalidNameErrorMessage,
       validation: validateTextExists,
     },
     {
-      label: formatMessage({ id: 'email', defaultMessage: 'Email' }),
+      label: translate('common.email'),
       name: 'email',
       errorMessage: invalidEmailErrorMessage,
       validation: validateEmail,
@@ -71,7 +66,7 @@ const PersonalInfoForm = ({ account, update }: Props) => {
 
   return (
     <AccountForm
-      title={formatAccountMessage({ id: 'personal.info.edit', defaultMessage: 'Edit personal information' })}
+      title={translate('account.personal-info-edit')}
       requiredLabelIsVisible
       defaultCTASection
       loading={loading}

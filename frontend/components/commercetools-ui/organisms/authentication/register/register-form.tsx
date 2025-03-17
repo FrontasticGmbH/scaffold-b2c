@@ -1,10 +1,10 @@
 import React, { FC, useState } from 'react';
+import { useTranslations } from 'use-intl';
 import Button from 'components/commercetools-ui/atoms/button';
 import Input from 'components/commercetools-ui/atoms/input';
 import PasswordInput from 'components/commercetools-ui/atoms/input-password';
 import Link from 'components/commercetools-ui/atoms/link';
 import Typography from 'components/commercetools-ui/atoms/typography';
-import { useFormat } from 'helpers/hooks/useFormat';
 import useValidate from 'helpers/hooks/useValidate';
 import Redirect from 'helpers/redirect';
 import { Reference } from 'types/reference';
@@ -18,9 +18,7 @@ export interface RegisterFormProps {
 }
 
 const RegisterForm: FC<RegisterFormProps> = ({ termsOfUseLink, loggedIn, register }) => {
-  const { formatMessage: formatErrorMessage } = useFormat({ name: 'error' });
-  const { formatMessage: formatAccountMessage } = useFormat({ name: 'account' });
-  const { formatMessage } = useFormat({ name: 'common' });
+  const translate = useTranslations();
 
   const { validatePassword } = useValidate();
 
@@ -46,13 +44,7 @@ const RegisterForm: FC<RegisterFormProps> = ({ termsOfUseLink, loggedIn, registe
     const validPassword = validatePassword(data.password);
 
     //UI error messages
-    if (!validPassword)
-      setError(
-        formatErrorMessage({
-          id: 'password.not.valid',
-          defaultMessage: 'Password has to be at least 8 characters long and have at least one uppercase letter.',
-        }),
-      );
+    if (!validPassword) setError(translate('error.password-not-valid'));
     setSuccess('');
 
     //return a boolean representing the data validity
@@ -70,25 +62,14 @@ const RegisterForm: FC<RegisterFormProps> = ({ termsOfUseLink, loggedIn, registe
     try {
       const response = await register(data);
       if (!response.success) {
-        setError(
-          response.error?.message ||
-            formatErrorMessage({
-              id: 'account.create.fail',
-              defaultMessage: "Sorry. We couldn't create your account..",
-            }),
-        );
+        setError(response.error?.message || translate('error.account-create-fail'));
         setSuccess('');
       } else {
-        setSuccess(
-          formatAccountMessage({
-            id: 'verification.email.sent',
-            defaultMessage: 'A verification email was sent to your mail address!',
-          }),
-        );
+        setSuccess(translate('account.verification-email-sent'));
         setError('');
       }
     } catch (err) {
-      setError(formatErrorMessage({ id: 'wentWrong', defaultMessage: 'Sorry. Something went wrong..' }));
+      setError(translate('error.wentWrong'));
       setSuccess('');
     }
     //processing ends
@@ -100,7 +81,7 @@ const RegisterForm: FC<RegisterFormProps> = ({ termsOfUseLink, loggedIn, registe
   return (
     <>
       <Typography as="h3" className="mb-16 text-16 md:mb-24 md:text-20 lg:text-24">
-        {formatAccountMessage({ id: 'become.member', defaultMessage: 'Become a member' })}
+        {translate('account.become-member')}
       </Typography>
       <form onSubmit={handleSubmit}>
         <Feedback success={success} error={error} />
@@ -112,7 +93,7 @@ const RegisterForm: FC<RegisterFormProps> = ({ termsOfUseLink, loggedIn, registe
           autoComplete="firstName"
           required
           className="mb-16 md:mb-20"
-          placeholder={formatMessage({ id: 'firstName', defaultMessage: 'First Name' })}
+          placeholder={translate('common.firstName')}
           onChange={handleChange}
         />
 
@@ -123,7 +104,7 @@ const RegisterForm: FC<RegisterFormProps> = ({ termsOfUseLink, loggedIn, registe
           autoComplete="lastName"
           required
           className="mb-16 md:mb-20"
-          placeholder={formatMessage({ id: 'lastName', defaultMessage: 'Last Name' })}
+          placeholder={translate('common.lastName')}
           onChange={handleChange}
         />
 
@@ -134,7 +115,7 @@ const RegisterForm: FC<RegisterFormProps> = ({ termsOfUseLink, loggedIn, registe
           autoComplete="email"
           required
           className="mb-16 md:mb-20"
-          placeholder={formatMessage({ id: 'emailAddress', defaultMessage: 'Email Address' })}
+          placeholder={translate('common.emailAddress')}
           onChange={handleChange}
         />
 
@@ -143,24 +124,19 @@ const RegisterForm: FC<RegisterFormProps> = ({ termsOfUseLink, loggedIn, registe
           id="password"
           name="password"
           autoComplete="current-password"
-          placeholder={formatAccountMessage({ id: 'password', defaultMessage: 'Password' })}
+          placeholder={translate('account.password')}
           className="mb-16 md:mb-20"
           onChange={handleChange}
         />
 
         <Button size="full" type="submit" className="mb-16 text-16 leading-tight md:mb-20" disabled={loading}>
-          {formatAccountMessage({ id: 'account.register', defaultMessage: 'Register' })}
+          {translate('account.account-register')}
         </Button>
 
         <div className="flex flex-wrap items-center justify-center gap-4 px-15 md:px-30">
-          <Typography className="text-12 text-gray-600 md:text-14">
-            {formatAccountMessage({
-              id: 'by.registering',
-              defaultMessage: 'By registering an account, you agree to our',
-            })}
-          </Typography>
+          <Typography className="text-12 text-gray-600 md:text-14">{translate('account.by-registering')}</Typography>
           <Link className="border-b text-12 text-gray-600 md:text-14" link={termsOfUseLink} variant="menu-item">
-            {formatAccountMessage({ id: 'terms.of.use', defaultMessage: 'Terms of Use.' })}
+            {translate('account.terms-of-use')}
           </Link>
         </div>
       </form>

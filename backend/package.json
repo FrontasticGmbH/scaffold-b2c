@@ -24,7 +24,6 @@
     "wrap-ansi": "7.0.0"
   },
   "dependencies": {
-    "@adyen/api-library": "^11.0.0",
     "@babel/runtime": "^7.16.5",
     "@bloomreach/spa-sdk": "^22.0.0",
     "@commercetools/platform-sdk": "8.1.0",

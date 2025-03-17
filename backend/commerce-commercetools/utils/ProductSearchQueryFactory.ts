@@ -68,12 +68,12 @@ export class ProductSearchFactory {
       productQuery,
       productIdField,
     );
-    commercetoolsProductSearchRequest = this.applyQuerySKUs(commercetoolsProductSearchRequest, productQuery, locale);
-    commercetoolsProductSearchRequest = this.applyProductSelections(
+    commercetoolsProductSearchRequest = this.applyProductSelection(
       commercetoolsProductSearchRequest,
       productQuery,
       locale,
     );
+    commercetoolsProductSearchRequest = this.applyQuerySKUs(commercetoolsProductSearchRequest, productQuery, locale);
     commercetoolsProductSearchRequest = this.applyFilters(
       commercetoolsProductSearchRequest,
       productQuery,
@@ -247,6 +247,20 @@ export class ProductSearchFactory {
 
       return {
         or: [intermediateValues.andList[0], intermediateValues.orList[0]] as SearchQuery,
+      };
+    }
+
+    // If only one "or" field and multiple "and" fields, the function add the "or" fields to the "and" fields
+    if (intermediateValues.orLength === 1 && intermediateValues.andLength > 0) {
+      return {
+        and: [...intermediateValues.andList, intermediateValues.orList[0]] as SearchQuery,
+      };
+    }
+
+    // If only one "and" field and multiple "or" fields, the function add the "and" fields to the "or" fields
+    if (intermediateValues.andLength === 1 && intermediateValues.orLength > 0) {
+      return {
+        or: [...intermediateValues.orList, intermediateValues.andList[0]] as SearchQuery,
       };
     }
 
@@ -523,34 +537,30 @@ export class ProductSearchFactory {
     return commercetoolsProductSearchRequest;
   };
 
-  private static applyProductSelections: ProductSearchFactoryUtilMethod = (
+  private static applyProductSelection: ProductSearchFactoryUtilMethod = (
     commercetoolsProductSearchRequest: ProductSearchRequest,
     productQuery: ProductQuery,
   ) => {
-    if (productQuery.productSelectionIds?.length) {
-      if (productQuery.productSelectionIds?.length === 1) {
-        commercetoolsProductSearchRequest = this.pushToProductSearchRequestQueryAndExpression(
-          commercetoolsProductSearchRequest,
-          {
-            exact: {
-              field: 'productSelections',
-              value: productQuery.productSelectionIds[0],
-            },
-          },
-        );
-      } else {
-        const productSearchExactExpressions: SearchExactExpression[] = productQuery.productSelectionIds.map((id) => ({
-          exact: {
-            field: 'productSelections',
-            value: id,
-          },
-        }));
+    if (productQuery.productSelectionId) {
+      const productSearchExactExpressions: SearchExactExpression[] = [];
+      productSearchExactExpressions.push({
+        exact: {
+          field: 'productSelections',
+          value: productQuery.productSelectionId,
+        },
+      });
 
-        commercetoolsProductSearchRequest = this.pushToProductSearchRequestQueryOrExpression(
-          commercetoolsProductSearchRequest,
-          productSearchExactExpressions,
-        );
-      }
+      productSearchExactExpressions.push({
+        exact: {
+          field: 'variants.productSelections',
+          value: productQuery.productSelectionId,
+        },
+      });
+
+      commercetoolsProductSearchRequest = this.pushToProductSearchRequestQueryAndExpression(
+        commercetoolsProductSearchRequest,
+        productSearchExactExpressions,
+      );
     }
     return commercetoolsProductSearchRequest;
   };

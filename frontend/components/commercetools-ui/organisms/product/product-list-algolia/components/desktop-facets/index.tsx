@@ -2,7 +2,7 @@ import { useMemo, Fragment } from 'react';
 import { Popover, Transition, PopoverButton, PopoverPanel } from '@headlessui/react';
 import { ChevronDownIcon as ArrowIcon } from '@heroicons/react/24/solid';
 import { useHits } from 'react-instantsearch';
-import { useFormat } from 'helpers/hooks/useFormat';
+import { useTranslations } from 'use-intl';
 import { useLocalizedIndex } from 'providers/algolia/localized-index';
 import useDynamicFacets from '../../hooks/useDynamicFacets';
 import styles from '../../styles/index.module.css';
@@ -16,7 +16,7 @@ interface Props {
 const DesktopFacets: React.FC<Props> = ({ facetsConfiguration }) => {
   const { indexName: productsIndex } = useLocalizedIndex({ type: 'products' });
 
-  const { formatMessage: formatProductMessage } = useFormat({ name: 'product' });
+  const translate = useTranslations();
 
   const { results } = useHits();
 
@@ -59,20 +59,18 @@ const DesktopFacets: React.FC<Props> = ({ facetsConfiguration }) => {
   const sortFacet = useMemo(
     () => (
       <div className="flex items-center gap-8">
-        <span className="text-14 text-gray-600">
-          {formatProductMessage({ id: 'sortBy', defaultMessage: 'Sort by' })}
-        </span>
+        <span className="text-14 text-gray-600">{translate('product.sortBy')}</span>
         <SortFacet
           items={[
             {
-              label: formatProductMessage({ id: 'relevance', defaultMessage: 'Relevance' }),
+              label: translate('product.relevance'),
               value: productsIndex,
             },
           ]}
         />
       </div>
     ),
-    [formatProductMessage, productsIndex],
+    [translate, productsIndex],
   );
 
   return (

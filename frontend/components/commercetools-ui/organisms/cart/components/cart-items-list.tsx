@@ -1,12 +1,12 @@
 import { useMemo } from 'react';
-import { useFormat } from 'helpers/hooks/useFormat';
+import { useTranslations } from 'use-intl';
 import CartItem from './cart-item';
 import { CartProps } from '../types';
 
 type Props = Pick<CartProps, 'cart' | 'onRemoveItem' | 'onUpdateItem' | 'OnMoveToWishlist'>;
 
 const CartItemsList = ({ cart, onRemoveItem, onUpdateItem, OnMoveToWishlist }: Props) => {
-  const { formatMessage: formatProductMessage } = useFormat({ name: 'product' });
+  const translate = useTranslations();
 
   const lineItems = useMemo(() => {
     return (cart?.lineItems ?? []).filter((lineItem) => lineItem.variant?.isOnStock);
@@ -32,9 +32,7 @@ const CartItemsList = ({ cart, onRemoveItem, onUpdateItem, OnMoveToWishlist }: P
 
       {soldOutItems.length > 0 && (
         <div className="border-t border-neutral-400 pt-36">
-          <h3 className="text-16 md:text-18 lg:text-22">
-            {formatProductMessage({ id: 'sold.out', defaultMessage: 'Sold out' })}
-          </h3>
+          <h3 className="text-16 md:text-18 lg:text-22">{translate('product.sold-out')}</h3>
           <div className="mt-52">
             {soldOutItems.map((lineItem) => (
               <div key={lineItem.lineItemId}>

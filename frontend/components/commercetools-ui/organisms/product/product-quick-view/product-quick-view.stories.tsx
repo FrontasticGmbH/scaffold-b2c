@@ -19,13 +19,7 @@ const Template: StoryFn<QuickViewProps> = () => {
         The Quick View component is used to display a quick view of a product. It is used in the product list page.
       </Typography>
       <div className="mt-44 w-200">
-        <QuickView
-          product={products[0]}
-          wishlist={wishlist}
-          shippingMethods={shippingMethods}
-          buttonIsVisible
-          hideButton={() => {}}
-        />
+        <QuickView product={products[0]} wishlist={wishlist} shippingMethods={shippingMethods} buttonIsEnabled />
       </div>
     </div>
   );

@@ -1,5 +1,5 @@
 import React from 'react';
-import { useFormat } from 'helpers/hooks/useFormat';
+import { useTranslations } from 'use-intl';
 import { ShippingMethod } from 'types/entity/cart';
 import { Order } from 'types/entity/order';
 import OrderSummary from '../order-summary';
@@ -14,7 +14,7 @@ type ThankYouProps = {
 };
 
 const ThankYouContent: React.FC<ThankYouProps> = ({ order, shippingMethods }) => {
-  const { formatMessage } = useFormat({ name: 'thank-you' });
+  const translate = useTranslations();
 
   const handlePrint = () => {
     window.print();
@@ -38,7 +38,7 @@ const ThankYouContent: React.FC<ThankYouProps> = ({ order, shippingMethods }) =>
           onApplyDiscountCode={async () => {}}
           onRemoveDiscountCode={async () => {}}
           className="bg-white px-16 pb-24 md:px-24 lg:mt-0 lg:block lg:min-w-[35%] lg:p-36"
-          title={formatMessage({ id: 'order?.details', defaultMessage: 'Order details' })}
+          title={translate('thank-you.order-details')}
           order={order}
           dataReference="order"
           includeItemsList

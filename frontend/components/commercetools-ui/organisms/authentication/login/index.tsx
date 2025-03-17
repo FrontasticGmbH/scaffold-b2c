@@ -1,7 +1,8 @@
 import React, { useRef, useEffect } from 'react';
-import { useSearchParams, useRouter } from 'next/navigation';
+import { useSearchParams } from 'next/navigation';
 import toast from 'react-hot-toast';
-import { useFormat } from 'helpers/hooks/useFormat';
+import { useTranslations } from 'use-intl';
+import { useRouter } from 'i18n/routing';
 import { Account } from 'types/entity/account';
 import { Reference } from 'types/reference';
 import LoginForm from './login-form';
@@ -18,7 +19,7 @@ export interface LoginProps {
 const Login: React.FC<LoginProps> = ({ login, requestConfirmationEmail, requestPasswordReset }) => {
   const router = useRouter();
 
-  const { formatMessage: formatAccountMessage } = useFormat({ name: 'account' });
+  const translate = useTranslations();
 
   const searchParams = useSearchParams();
 
@@ -29,12 +30,11 @@ const Login: React.FC<LoginProps> = ({ login, requestConfirmationEmail, requestP
   useEffect(() => {
     if (!verify || responded.current) return;
 
-    if (verify === '0')
-      toast.error(formatAccountMessage({ id: 'verification.failed', defaultMessage: 'Invalid token' }));
-    else toast.success(formatAccountMessage({ id: 'verification.done', defaultMessage: 'Email verified' }));
+    if (verify === '0') toast.error(translate('account.verification-failed'));
+    else toast.success(translate('account.verification-done'));
 
     responded.current = true;
-  }, [verify, router, formatAccountMessage]);
+  }, [verify, router, translate]);
 
   return (
     <>

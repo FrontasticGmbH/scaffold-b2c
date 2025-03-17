@@ -1,4 +1,5 @@
 import React, { FC, useMemo, useState } from 'react';
+import { useTranslations } from 'use-intl';
 import Image from 'components/commercetools-ui/atoms/image';
 import Link from 'components/commercetools-ui/atoms/link';
 import OutOfStock from 'components/commercetools-ui/atoms/out-of-stock';
@@ -48,6 +49,7 @@ const ProductTile: FC<ProductTileProps> = ({
   const [isDesktopSize] = useMediaQuery(desktop);
 
   const { ref } = useTrack({ product });
+  const translate = useTranslations();
 
   const variantWithDiscount = useVariantWithDiscount(product.variants) as Variant;
 
@@ -63,22 +65,9 @@ const ProductTile: FC<ProductTileProps> = ({
   const discountedPrice = selectedVariant?.discountedPrice;
 
   const discountPercentage = selectedVariant
-    ? (((selectedVariant.price?.centAmount as number) - (discountedPrice?.value?.centAmount as number)) /
-        (selectedVariant.price?.centAmount as number)) *
-      100
+    ? ((selectedVariant.price?.centAmount as number) - (discountedPrice?.value?.centAmount as number)) /
+      (selectedVariant.price?.centAmount as number)
     : 0;
-
-  const [imageHovered, setImageHovered] = useState(false);
-  const [buttonHovered, setButtonHovered] = useState(false);
-  const buttonIsVisible = useMemo(
-    () => (imageHovered || buttonHovered) && isDesktopSize,
-    [imageHovered, buttonHovered, isDesktopSize],
-  );
-
-  const hideButton = () => {
-    setImageHovered(false);
-    setButtonHovered(false);
-  };
 
   const productToWishlistLineItem = useMemo<LineItem | undefined>(() => {
     if (product) {
@@ -105,15 +94,10 @@ const ProductTile: FC<ProductTileProps> = ({
   }, [product, selectedVariant, isSearchResult]);
 
   return (
-    <div onClick={onClick} ref={ref} data-testid="product-tile">
-      <div className="relative">
+    <div ref={ref} data-testid="product-tile">
+      <div className="group relative">
         <Link link={productUrl}>
-          <div
-            className="relative w-full"
-            data-testid="image-container"
-            onMouseEnter={() => setImageHovered(true)}
-            onMouseLeave={() => setImageHovered(false)}
-          >
+          <div className="relative w-full" data-testid="image-container" onClick={onClick}>
             <div className="relative bg-white p-8 md:p-16">
               <div className="relative block w-full" style={{ paddingBottom: '122%' }}>
                 <Image
@@ -126,33 +110,29 @@ const ProductTile: FC<ProductTileProps> = ({
                 />
               </div>
             </div>
-            <span
-              className="absolute right-0 top-0 z-10 flex size-32 cursor-pointer items-center justify-center md:size-48"
-              onClick={(e) => e.preventDefault()}
-              data-testid="wishlist-button"
-            >
-              {!disableWishlistButton && productToWishlistLineItem && (
-                <WishlistButton
-                  data={wishlist}
-                  lineItem={productToWishlistLineItem}
-                  className="size-12 md:size-20 lg:size-32"
-                  addToWishlist={addToWishlist}
-                  removeFromWishlist={removeLineItem}
-                />
-              )}
-            </span>
           </div>
         </Link>
 
-        <div
-          className="absolute bottom-0 z-10 w-full"
-          onMouseEnter={() => setButtonHovered(true)}
-          onMouseLeave={() => setButtonHovered(false)}
+        <span
+          className="absolute right-0 top-0 z-10 flex size-32 cursor-pointer items-center justify-center md:size-48"
+          onClick={(e) => e.preventDefault()}
         >
+          {!disableWishlistButton && productToWishlistLineItem && (
+            <WishlistButton
+              data={wishlist}
+              lineItem={productToWishlistLineItem}
+              className="size-12 md:size-20 lg:size-32"
+              addToWishlist={addToWishlist}
+              removeFromWishlist={removeLineItem}
+            />
+          )}
+        </span>
+
+        <div className="absolute bottom-0 z-10 w-full">
           {hasDiscount && (
             <div className="w-full text-center">
               <span className="mb-8 ml-8 flex h-25 w-45 items-center justify-center bg-red-500 text-12 text-white">
-                {Math.round(discountPercentage)}%
+                {translate('common.percentage', { value: discountPercentage })}
               </span>
             </div>
           )}
@@ -163,13 +143,13 @@ const ProductTile: FC<ProductTileProps> = ({
               </div>
             </div>
           )}
+
           <QuickView
-            buttonIsVisible={buttonIsVisible && !disableQuickView}
+            buttonIsEnabled={isDesktopSize && !disableQuickView}
             product={product}
             wishlist={wishlist}
             cart={cart}
             shippingMethods={shippingMethods}
-            hideButton={hideButton}
             addToWishlist={addToWishlist}
             removeFromWishlist={removeLineItem}
             onAddToCart={async (variant, quantity: number) => {
@@ -180,7 +160,7 @@ const ProductTile: FC<ProductTileProps> = ({
       </div>
 
       <Link link={productUrl}>
-        <div>
+        <div onClick={onClick}>
           <div className="mt-4 block max-w-[80%] overflow-hidden text-ellipsis whitespace-pre text-12 uppercase leading-loose md:mt-12 md:text-14">
             {product?.name}
           </div>

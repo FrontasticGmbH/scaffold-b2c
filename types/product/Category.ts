@@ -12,4 +12,7 @@ export interface Category {
   parentRef?: string;
   descendants?: Category[];
   _url?: LocalizedString;
+  metaKeywords?: string;
+  metaDescription?: string;
+  metaTitle?: string;
 }

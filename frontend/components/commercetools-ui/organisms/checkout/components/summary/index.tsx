@@ -1,10 +1,10 @@
 import React, { useEffect, useRef } from 'react';
+import { useTranslations } from 'use-intl';
 import Button from 'components/commercetools-ui/atoms/button';
 import Typography from 'components/commercetools-ui/atoms/typography';
 import OrderItemsListing from 'components/commercetools-ui/organisms/order-items-listing';
 import OrderPaymentSection from 'components/commercetools-ui/organisms/order-payment-section';
 import DiscountForm from 'components/commercetools-ui/organisms/order-payment-section/components/discount-form';
-import { useFormat } from 'helpers/hooks/useFormat';
 import { useCart } from 'frontastic';
 import { useCheckout } from '../../provider';
 
@@ -14,8 +14,7 @@ interface Props {
 }
 
 const Summary: React.FC<Props> = ({ isFinalStep, onPurchase }) => {
-  const { formatMessage: formatCartMessage } = useFormat({ name: 'cart' });
-  const { formatMessage: formatCheckoutMessage } = useFormat({ name: 'checkout' });
+  const translate = useTranslations();
 
   const accordionRef = useRef<HTMLDivElement>(null);
 
@@ -32,7 +31,7 @@ const Summary: React.FC<Props> = ({ isFinalStep, onPurchase }) => {
   return (
     <div className="bg-white lg:mt-0 lg:min-w-[35%] lg:p-36">
       <Typography as="h3" className="p-16 leading-[22px] text-primary md:p-24 md:text-18 lg:px-0 lg:pt-0">
-        {formatCartMessage({ id: 'order.summary', defaultMessage: 'Order summary' })}
+        {translate('cart.order-summary')}
       </Typography>
 
       {data?.lineItems && <OrderItemsListing className="border-t border-neutral-400" lineItems={data?.lineItems} />}
@@ -56,7 +55,7 @@ const Summary: React.FC<Props> = ({ isFinalStep, onPurchase }) => {
             onClick={onPurchase}
             loading={processing}
           >
-            {formatCheckoutMessage({ id: 'complete.purchase', defaultMessage: 'Complete purchase' })}
+            {translate('cart.complete-purchase')}
           </Button>
         }
       />
@@ -67,7 +66,7 @@ const Summary: React.FC<Props> = ({ isFinalStep, onPurchase }) => {
         onRemoveDiscountCode={async () => {}}
         className="border-transparent lg:hidden"
         accordionProps={{
-          closedSectionTitle: formatCheckoutMessage({ id: 'discount.apply', defaultMessage: 'Apply a discount' }),
+          closedSectionTitle: translate('checkout.discount-apply'),
           buttonClassName: 'text-gray-600 border-b border-neutral-400 pb-16',
           buttonWrapperClassName: 'px-16 md:px-24 lg:px-0',
           panelClassName: 'px-16 md:px-24 lg:px-0',

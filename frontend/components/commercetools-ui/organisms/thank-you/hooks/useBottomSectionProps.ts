@@ -1,33 +1,30 @@
 import { useMemo } from 'react';
-import { useRouter } from 'next/navigation';
-import { useFormat } from 'helpers/hooks/useFormat';
+import { useTranslations } from 'use-intl';
+import { useRouter } from 'i18n/routing';
 
 type SectionProps = { title: string; subtitle: string; cta: string; onClick: () => void };
 type BottomSectionDataType = { [key in 'user' | 'guest']: SectionProps };
 
 const useBottomSectionProps = (loggedIn: boolean) => {
   const router = useRouter();
-  const { formatMessage } = useFormat({ name: 'thank-you' });
+  const translate = useTranslations();
 
   const bottomSectionOptions: BottomSectionDataType = useMemo(() => {
     return {
       user: {
-        title: formatMessage({ id: 'user.title', defaultMessage: 'My orders' }),
-        subtitle: formatMessage({ id: 'user.subtitle', defaultMessage: 'Manage, review or track your order.' }),
-        cta: formatMessage({ id: 'user.cta', defaultMessage: 'Review order status' }),
+        title: translate('thank-you.user-title'),
+        subtitle: translate('thank-you.user-subtitle'),
+        cta: translate('thank-you.user-cta'),
         onClick: () => router.push('/account#orders'),
       },
       guest: {
-        title: formatMessage({ id: 'guest.title', defaultMessage: 'Save your details' }),
-        subtitle: formatMessage({
-          id: 'guest.subtitle',
-          defaultMessage: 'Enjoy faster checkout, order history and personal offers.',
-        }),
-        cta: formatMessage({ id: 'guest.cta', defaultMessage: 'Create account' }),
+        title: translate('thank-you.guest-title'),
+        subtitle: translate('thank-you.guest-subtitle'),
+        cta: translate('thank-you.guest-cta'),
         onClick: () => router.push('/register'),
       },
     };
-  }, [formatMessage, router]);
+  }, [translate, router]);
 
   const bottomSectionProps = useMemo(() => {
     return loggedIn ? bottomSectionOptions['user'] : bottomSectionOptions['guest'];

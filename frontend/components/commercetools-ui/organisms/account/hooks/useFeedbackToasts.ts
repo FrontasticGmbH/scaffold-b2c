@@ -1,15 +1,12 @@
 import toast from 'react-hot-toast';
-import { useFormat } from 'helpers/hooks/useFormat';
+import { useTranslations } from 'use-intl';
 
 const useFeedbackToasts = () => {
-  const { formatMessage: formatErrorMessage } = useFormat({ name: 'error' });
-  const { formatMessage: formatAccountMessage } = useFormat({ name: 'account' });
+  const translate = useTranslations();
 
-  const notifyDataUpdated = () =>
-    toast.success(formatAccountMessage({ id: 'data.updated', defaultMessage: 'Data updated successfully.' }));
+  const notifyDataUpdated = () => toast.success(translate('account.data-updated'));
 
-  const notifyWentWrong = () =>
-    toast.error(formatErrorMessage({ id: 'wentWrong', defaultMessage: 'Sorry, something went wrong..' }));
+  const notifyWentWrong = () => toast.error(translate('error.wentWrong'));
 
   return { notifyDataUpdated, notifyWentWrong };
 };

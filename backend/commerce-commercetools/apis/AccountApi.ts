@@ -16,14 +16,13 @@ import { AccountAuthenticationError } from '../errors/AccountAuthenticationError
 import { BaseApi } from './BaseApi';
 import { ExternalError } from '@Commerce-commercetools/errors/ExternalError';
 import { ValidationError } from '@Commerce-commercetools/errors/ValidationError';
+import { CartMapper } from '@Commerce-commercetools/mappers/CartMapper';
 
 export class AccountApi extends BaseApi {
   create: (account: Account, cart: Cart | undefined) => Promise<Account> = async (
     account: Account,
     cart: Cart | undefined,
   ) => {
-    const locale = await this.getCommercetoolsLocal();
-
     const {
       commercetoolsAddresses,
       billingAddresses,
@@ -91,8 +90,6 @@ export class AccountApi extends BaseApi {
   };
 
   confirmEmail: (token: string) => Promise<Account> = async (token: string) => {
-    const locale = await this.getCommercetoolsLocal();
-
     return await this.requestBuilder()
       .customers()
       .emailConfirm()
@@ -110,18 +107,14 @@ export class AccountApi extends BaseApi {
       });
   };
 
-  login: (account: Account, cart: Cart | undefined) => Promise<Account> = async (
+  login: (account: Account, cart: Cart | undefined) => Promise<{ account: Account; cart: Cart | undefined }> = async (
     account: Account,
     cart: Cart | undefined,
   ) => {
     const locale = await this.getCommercetoolsLocal();
+    const defaultLocale = this.defaultLocale;
 
-    const accountCredentials: Account = {
-      email: account.email,
-      password: account.password,
-    };
-
-    account = await this.requestBuilder()
+    const { account: loggedInAccount, cart: loggedInCart } = await this.requestBuilder()
       .login()
       .post({
         body: {
@@ -138,7 +131,12 @@ export class AccountApi extends BaseApi {
       })
       .execute()
       .then((response) => {
-        return AccountMapper.commercetoolsCustomerToAccount(response.body.customer);
+        return {
+          account: AccountMapper.commercetoolsCustomerToAccount(response.body.customer),
+          cart: response.body.cart
+            ? CartMapper.commercetoolsCartToCart(response.body.cart, locale, defaultLocale)
+            : undefined,
+        };
       })
       .catch((error) => {
         if (error.code && error.code === 400) {
@@ -159,11 +157,11 @@ export class AccountApi extends BaseApi {
         throw new ExternalError({ statusCode: error.code, message: error.message, body: error.body });
       });
 
-    if (!account.confirmed) {
-      account.confirmationToken = await this.getConfirmationToken(account);
+    if (!loggedInAccount.confirmed) {
+      loggedInAccount.confirmationToken = await this.getConfirmationToken(loggedInAccount);
     }
 
-    return account;
+    return { account: loggedInAccount, cart: loggedInCart };
   };
 
   updatePassword: (account: Account, oldPassword: string, newPassword: string) => Promise<Account> = async (
@@ -171,8 +169,6 @@ export class AccountApi extends BaseApi {
     oldPassword: string,
     newPassword: string,
   ) => {
-    const locale = await this.getCommercetoolsLocal();
-
     const accountVersion = await this.fetchAccountVersion(account);
 
     account = await this.requestBuilder()
@@ -224,8 +220,6 @@ export class AccountApi extends BaseApi {
     token: string,
     newPassword: string,
   ) => {
-    const locale = await this.getCommercetoolsLocal();
-
     return await this.requestBuilder()
       .customers()
       .passwordReset()
@@ -488,8 +482,6 @@ export class AccountApi extends BaseApi {
   }
 
   protected async updateAccount(account: Account, customerUpdateActions: CustomerUpdateAction[]) {
-    const locale = await this.getCommercetoolsLocal();
-
     const accountVersion = await this.fetchAccountVersion(account);
 
     const customerUpdate: CustomerUpdate = {

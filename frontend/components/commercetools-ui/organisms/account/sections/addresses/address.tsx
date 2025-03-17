@@ -1,9 +1,9 @@
 import React from 'react';
 import type { Address as AddressType } from 'shared/types/account/Address';
+import { useTranslations } from 'use-intl';
 import Radio from 'components/commercetools-ui/atoms/radio';
 import Typography from 'components/commercetools-ui/atoms/typography';
 import { TypographyProps } from 'components/commercetools-ui/atoms/typography/types';
-import { useFormat } from 'helpers/hooks/useFormat';
 import useMediaQuery from 'helpers/hooks/useMediaQuery';
 import { tablet } from 'helpers/utils/screensizes';
 import { AddressFormData } from './address-form';
@@ -22,7 +22,7 @@ const Address: React.FC<AddressProps> = ({ address, isDefaultAddress, selectAddr
   const { label } = mapPropsToAddress(address as AddressFormData);
 
   const [isTabletSize] = useMediaQuery(tablet);
-  const { formatMessage } = useFormat({ name: 'account' });
+  const translate = useTranslations();
 
   const addressInfoTypographyProps: TypographyProps = {
     className: 'text-gray-600 text-14 leading-loose',
@@ -54,9 +54,7 @@ const Address: React.FC<AddressProps> = ({ address, isDefaultAddress, selectAddr
           <div className="flex gap-5 md:mb-4">
             <Typography className="text-14 font-medium capitalize md:text-16">{label}</Typography>
             {isDefaultAddress && (
-              <Typography className="text-14 text-gray-600 md:hidden">
-                {'- ' + formatMessage({ id: 'default', defaultMessage: 'Default' })}
-              </Typography>
+              <Typography className="text-14 text-gray-600 md:hidden">{'- ' + translate('account.default')}</Typography>
             )}
           </div>
 

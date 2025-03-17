@@ -26,7 +26,9 @@ const AccordionButton: FC<AccordionButtonProps> = ({
   return (
     <DisclosureButton className={`${buttonWrapperClassName} w-full`}>
       <div className={buttonClassNames}>
-        <Typography className="self-center transition">{open ? openSectionTitle : closedSectionTitle}</Typography>
+        <Typography className="self-center transition" as="h4">
+          {open ? openSectionTitle : closedSectionTitle}
+        </Typography>
         <div className="flex items-center gap-8">
           {!open && collapsedLabel && <p className="font-medium text-primary">{collapsedLabel}</p>}
           {variant === 'arrow' ? (

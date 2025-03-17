@@ -1,13 +1,13 @@
 import React, { FC } from 'react';
+import { useTranslations } from 'use-intl';
 import Typography from 'components/commercetools-ui/atoms/typography';
-import { useFormat } from 'helpers/hooks/useFormat';
 
 interface Props {
   orderNumber: string;
 }
 
 const OrderNumber: FC<Props> = ({ orderNumber }) => {
-  const { formatMessage: formatOrdersMessage } = useFormat({ name: 'orders' });
+  const translate = useTranslations();
 
   return (
     <>
@@ -16,19 +16,13 @@ const OrderNumber: FC<Props> = ({ orderNumber }) => {
           as="h2"
           className="mt-20 pl-16 text-18 text-primary md:mt-0 md:pl-24 md:text-22 lg:pl-44 lg:text-24"
         >
-          {formatOrdersMessage({
-            id: 'order.details',
-            defaultMessage: 'Order Details',
-          })}
+          {translate('orders.order-details')}
         </Typography>
       </div>
 
       <div className="mt-8 flex flex-row pl-16 md:mt-12 md:px-0 md:pl-24 lg:mt-24 lg:pl-44">
         <Typography className="whitespace-nowrap text-14 text-gray-600 md:text-16">
-          {formatOrdersMessage({
-            id: 'order.number',
-            defaultMessage: 'Order number:',
-          })}
+          {translate('orders.order-number')}
         </Typography>
         <Typography className="ml-8 whitespace-nowrap text-14 font-medium text-primary md:text-16">
           {orderNumber.replaceAll('-', ' ')}

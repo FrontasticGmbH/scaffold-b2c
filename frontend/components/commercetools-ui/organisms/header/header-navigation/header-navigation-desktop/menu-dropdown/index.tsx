@@ -1,11 +1,11 @@
 import React, { FC, useEffect, useState } from 'react';
-import { useRouter } from 'next/navigation';
 import Link from 'components/commercetools-ui/atoms/link';
 import Typography from 'components/commercetools-ui/atoms/typography';
 import { Tile } from 'components/commercetools-ui/organisms/header/types';
 import useClassNames from 'helpers/hooks/useClassNames';
 import useListKeyboardNavigation from 'helpers/hooks/useListKeyboardNavigation';
 import { classnames } from 'helpers/utils/classnames';
+import { useRouter } from 'i18n/routing';
 import { Category } from 'types/entity/category';
 import HeaderDropdownTile from './header-menu-tile';
 
@@ -35,6 +35,7 @@ const MenuDropdown: FC<Props> = ({ show, links, tileContent, onClick }) => {
     activeInlineIndex,
     resetIndices,
   } = useListKeyboardNavigation({
+    allow: () => !!show,
     length,
     inlineLength: links?.length ?? 0,
     defaultActiveInlineIndex: 0,
@@ -57,7 +58,7 @@ const MenuDropdown: FC<Props> = ({ show, links, tileContent, onClick }) => {
     <div className={wrapperClassNames}>
       <ul ref={listRef} className={linksClassNames}>
         {links?.map((link, index) => (
-          <div key={link.categoryId}>
+          <li key={link.categoryId}>
             {link.depth === 1 ? (
               <>
                 <div className="w-min pb-8">
@@ -91,7 +92,7 @@ const MenuDropdown: FC<Props> = ({ show, links, tileContent, onClick }) => {
                 <Typography className="text-14">{link.name}</Typography>
               </Link>
             )}
-          </div>
+          </li>
         ))}
       </ul>
       {tileContent && <HeaderDropdownTile tileContent={tileContent} />}

@@ -26,6 +26,6 @@ export interface ProductQuery extends PaginatedQuery {
   filters?: Filter[];
   facets?: Facet[];
   sortAttributes?: SortAttributes;
-  productSelectionIds?: string[];
+  productSelectionId?: string;
   accountGroupId?: string;
 }

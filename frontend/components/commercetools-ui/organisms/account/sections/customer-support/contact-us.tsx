@@ -1,7 +1,7 @@
 import React from 'react';
 import { EnvelopeIcon, MapPinIcon, PhoneIcon } from '@heroicons/react/24/outline';
+import { useTranslations } from 'use-intl';
 import Typography from 'components/commercetools-ui/atoms/typography';
-import { useFormat } from 'helpers/hooks/useFormat';
 
 interface Props {
   phoneNumber?: string;
@@ -22,12 +22,12 @@ const ContactUs: React.FC<Props> = ({
   cityAndPostalCode,
   country,
 }) => {
-  const { formatMessage: formatCustomerSupportMessage } = useFormat({ name: 'customer-support' });
+  const translate = useTranslations();
   return (
     <div className="mt-24">
       <div className="border-b border-neutral-400 pb-20 lg:border-b-0 lg:py-40">
-        <Typography as="h4" className="text-18">
-          {formatCustomerSupportMessage({ id: 'contact.us', defaultMessage: 'Contact us' })}
+        <Typography as="h2" className="text-18">
+          {translate('customer-support.contact-us')}
         </Typography>
       </div>
 
@@ -35,21 +35,21 @@ const ContactUs: React.FC<Props> = ({
         <div className="flex w-[30%]">
           <PhoneIcon className="w-20" />
           <Typography className="py-1 pl-16 text-14 font-medium text-primary">
-            {formatCustomerSupportMessage({ id: 'phone', defaultMessage: 'Phone' })}
+            {translate('customer-support.phone')}
           </Typography>
         </div>
 
         <div className="flex w-[30%]">
           <EnvelopeIcon className="w-20" />
           <Typography className="py-1 pl-16 text-14 font-medium text-primary">
-            {formatCustomerSupportMessage({ id: 'email', defaultMessage: 'Email' })}
+            {translate('customer-support.email')}
           </Typography>
         </div>
 
         <div className="flex w-[30%]">
           <MapPinIcon className="w-20" />
           <Typography className="py-1 pl-16 text-14 font-medium text-primary">
-            {formatCustomerSupportMessage({ id: 'address', defaultMessage: 'Address' })}
+            {translate('customer-support.address')}
           </Typography>
         </div>
       </div>
@@ -58,7 +58,7 @@ const ContactUs: React.FC<Props> = ({
         <div className="flex w-[30%] py-20 lg:hidden">
           <PhoneIcon className="w-20" />
           <Typography className="py-1 pl-14 text-14 font-medium text-primary">
-            {formatCustomerSupportMessage({ id: 'phone', defaultMessage: 'Phone' })}
+            {translate('customer-support.phone')}
           </Typography>
         </div>
 
@@ -67,7 +67,7 @@ const ContactUs: React.FC<Props> = ({
           {workingHoursWeekdays && (
             <div className="pt-22">
               <Typography as="span" className="text-14 text-gray-600">
-                {formatCustomerSupportMessage({ id: 'weekdays', defaultMessage: 'Mon- Fri: ' })}
+                {translate('customer-support.weekdays')}
               </Typography>
               <Typography as="span" className="text-14 text-gray-600">
                 {workingHoursWeekdays}
@@ -77,7 +77,7 @@ const ContactUs: React.FC<Props> = ({
           {workingHoursWeekends && (
             <div>
               <Typography as="span" className="text-14 text-gray-600">
-                {formatCustomerSupportMessage({ id: 'weekends', defaultMessage: 'Sat- Sun: ' })}
+                {translate('customer-support.weekends')}
               </Typography>
               <Typography as="span" className="text-14 text-gray-600">
                 {workingHoursWeekends}
@@ -89,7 +89,7 @@ const ContactUs: React.FC<Props> = ({
         <div className="flex w-[30%] py-20 lg:hidden">
           <EnvelopeIcon className="w-20" />
           <Typography as="h5" className="py-1 pl-14 text-14 font-medium text-primary">
-            {formatCustomerSupportMessage({ id: 'email', defaultMessage: 'Email' })}
+            {translate('customer-support.email')}
           </Typography>
         </div>
         <div className="flex border-b pb-20 pl-0 lg:w-[30%] lg:border-b-0 lg:pl-42">
@@ -99,7 +99,7 @@ const ContactUs: React.FC<Props> = ({
         <div className="flex w-[30%] py-20 lg:hidden">
           <MapPinIcon className="w-20" />
           <Typography className="py-1 pl-14 text-14 font-medium text-primary">
-            {formatCustomerSupportMessage({ id: 'address', defaultMessage: 'Address' })}
+            {translate('customer-support.address')}
           </Typography>
         </div>
         <div className="flex flex-col border-b pb-20 pl-0 lg:w-[30%] lg:border-b-0 lg:pl-34">

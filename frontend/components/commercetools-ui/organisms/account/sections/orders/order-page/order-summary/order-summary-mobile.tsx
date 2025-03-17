@@ -2,13 +2,13 @@ import React, { FC, useMemo, useState } from 'react';
 import { useParams } from 'next/navigation';
 import { ChevronDownIcon } from '@heroicons/react/24/outline';
 import { Order } from 'shared/types/cart/Order';
+import { useTranslations } from 'use-intl';
 import Accordion from 'components/commercetools-ui/atoms/accordion';
 import Image from 'components/commercetools-ui/atoms/image';
 import Typography from 'components/commercetools-ui/atoms/typography';
 import Costs from 'components/commercetools-ui/organisms/order-payment-section/components/costs';
 import { CurrencyHelpers } from 'helpers/currencyHelpers';
 import useClassNames from 'helpers/hooks/useClassNames';
-import { useFormat } from 'helpers/hooks/useFormat';
 import useI18n from 'helpers/hooks/useI18n';
 import mapCosts from 'helpers/utils/mapCosts';
 
@@ -20,7 +20,7 @@ const OrderSummaryMobile: FC<Props> = ({ order }) => {
   const { locale } = useParams();
   const { currency } = useI18n();
 
-  const { formatMessage: formatOrdersMessage } = useFormat({ name: 'orders' });
+  const translate = useTranslations();
 
   const [open, setOpen] = useState(false);
 
@@ -42,12 +42,7 @@ const OrderSummaryMobile: FC<Props> = ({ order }) => {
     return (
       <div className="px-16 md:px-24 lg:px-44">
         <div className={accordionContentClassNames} onClick={() => setOpen(!open)}>
-          <Typography className="text-gray-600">
-            {formatOrdersMessage({
-              id: 'your.order',
-              defaultMessage: 'Your Order',
-            })}
-          </Typography>
+          <Typography className="text-gray-600">{translate('orders.your-order')}</Typography>
 
           <div className="flex">
             <Typography className="hidden pr-8 font-medium text-primary md:block">
@@ -58,7 +53,7 @@ const OrderSummaryMobile: FC<Props> = ({ order }) => {
         </div>
       </div>
     );
-  }, [accordionContentClassNames, formatOrdersMessage, order, currency, arrowClassNames, open]);
+  }, [accordionContentClassNames, translate, order, currency, arrowClassNames, open]);
 
   return (
     <Accordion customClosedButton={orderSummaryAccordion} className={accordionClassNames} buttonClassName="w-full">

@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useState } from 'react';
-import { useFormat } from 'helpers/hooks/useFormat';
+import { useTranslations } from 'use-intl';
 import useI18n from 'helpers/hooks/useI18n';
 import mapCosts from 'helpers/utils/mapCosts';
 import { Money } from 'types/entity/product';
@@ -15,7 +15,7 @@ export type UseCostsData = (props: Pick<CostsProps, 'dataReference' | 'order'>) 
 const useCostsData: UseCostsData = ({ dataReference = 'cart', order }) => {
   const { transaction } = useCart();
   const { currency } = useI18n();
-  const { formatMessage: formatCartMessage } = useFormat({ name: 'cart' });
+  const translate = useTranslations();
 
   const [loading, setLoading] = useState(true);
 
@@ -27,32 +27,29 @@ const useCostsData: UseCostsData = ({ dataReference = 'cart', order }) => {
     () => [
       {
         key: 'subtotal',
-        label: formatCartMessage({ id: 'subtotal', defaultMessage: 'Subtotal' }),
+        label: translate('cart.subtotal'),
         value: skeletonMoney,
       },
       {
         key: 'shipping',
         label:
           dataReference === 'cart' && transaction.isEstimatedShipping
-            ? formatCartMessage({ id: 'shipping.estimate', defaultMessage: 'Est. Shipping' })
-            : formatCartMessage({ id: 'shipping', defaultMessage: 'Shipping' }),
+            ? translate('cart.shipping-estimate')
+            : translate('cart.shipping'),
         value: skeletonMoney,
       },
       {
         key: 'tax',
-        label: formatCartMessage({ id: 'tax', defaultMessage: 'Tax' }),
+        label: translate('cart.tax'),
         value: skeletonMoney,
       },
       {
         key: 'discount',
-        label: formatCartMessage({
-          id: 'discount',
-          defaultMessage: 'Discount',
-        }),
+        label: translate('cart.discount'),
         value: skeletonMoney,
       },
     ],
-    [formatCartMessage, skeletonMoney, transaction.isEstimatedShipping, dataReference],
+    [translate, skeletonMoney, transaction.isEstimatedShipping, dataReference],
   ) as CostRef[];
 
   const costsToRender = useMemo(() => {
@@ -79,7 +76,7 @@ const useCostsData: UseCostsData = ({ dataReference = 'cart', order }) => {
 
   const total: CostRef = {
     key: 'total',
-    label: formatCartMessage({ id: 'total', defaultMessage: 'Total' }),
+    label: translate('cart.total'),
     value: dataReference === 'order' ? mapCosts({ cart: order, currency }).total : transaction.total,
   };
 

@@ -1,10 +1,10 @@
 import React, { useCallback, useContext, useMemo, useState } from 'react';
+import { useTranslations } from 'use-intl';
 import Button from 'components/commercetools-ui/atoms/button';
 import Checkbox from 'components/commercetools-ui/atoms/checkbox';
 import Dropdown from 'components/commercetools-ui/atoms/dropdown';
 import Modal from 'components/commercetools-ui/organisms/modal';
 import { AccountContext } from 'context/account';
-import { useFormat } from 'helpers/hooks/useFormat';
 import useGeo from 'helpers/hooks/useGeo';
 import useI18n from 'helpers/hooks/useI18n';
 import useProcessing from 'helpers/hooks/useProcessing';
@@ -15,9 +15,7 @@ import useMappers from '../steps/sections/addresses/hooks/useMappers';
 import { Address } from '../steps/sections/addresses/types';
 
 const CreateAddressModal = () => {
-  const { formatMessage } = useFormat({ name: 'common' });
-  const { formatMessage: formatAccountMessage } = useFormat({ name: 'account' });
-  const { formatMessage: formatCheckoutMessage } = useFormat({ name: 'checkout' });
+  const translate = useTranslations();
 
   const { processing, startProcessing, stopProcessing } = useProcessing();
 
@@ -82,19 +80,19 @@ const CreateAddressModal = () => {
   const addressTypeOptions = useMemo(() => {
     return [
       {
-        label: formatCheckoutMessage({ id: 'shippingAddress', defaultMessage: 'Shipping Address' }),
+        label: translate('checkout.shippingAddress'),
         value: 'shipping',
       },
-      { label: formatCheckoutMessage({ id: 'billingAddress', defaultMessage: 'Billing Address' }), value: 'billing' },
+      { label: translate('checkout.billingAddress'), value: 'billing' },
     ];
-  }, [formatCheckoutMessage]);
+  }, [translate]);
 
   const fields = useCallback(
     ({ enableAddress2, onEnableAddress2 }: FieldsOptions) => {
       return [
         {
           name: 'firstName',
-          label: formatMessage({ id: 'firstName', defaultMessage: 'First Name' }),
+          label: translate('common.firstName'),
           labelDesc: '',
           required: true,
           type: 'string',
@@ -102,7 +100,7 @@ const CreateAddressModal = () => {
         },
         {
           name: 'lastName',
-          label: formatMessage({ id: 'lastName', defaultMessage: 'Last Name' }),
+          label: translate('common.lastName'),
           labelDesc: '',
           required: true,
           type: 'string',
@@ -110,7 +108,7 @@ const CreateAddressModal = () => {
         },
         {
           name: 'line1',
-          label: formatMessage({ id: 'address', defaultMessage: 'Address' }),
+          label: translate('common.address'),
           labelDesc: '',
           required: true,
           type: 'string',
@@ -120,8 +118,9 @@ const CreateAddressModal = () => {
 
             return (
               <div className="col-span-3 mt-16 cursor-pointer">
+                {/* eslint-disable-next-line react/jsx-no-literals */}
                 <p className="w-fit text-14 text-gray-600" onClick={onEnableAddress2}>
-                  + {formatCheckoutMessage({ id: 'add.address', defaultMessage: 'Add another address line' })}
+                  + {translate('checkout.add-address')}
                 </p>
               </div>
             );
@@ -131,7 +130,7 @@ const CreateAddressModal = () => {
           ? [
               {
                 name: 'line2',
-                label: `${formatMessage({ id: 'address', defaultMessage: 'Address' })} 2`,
+                label: `${translate('common.address')} 2`,
                 labelDesc: '',
                 type: 'string',
                 className: 'col-span-3',
@@ -140,21 +139,21 @@ const CreateAddressModal = () => {
           : []),
         {
           name: 'postalCode',
-          label: formatMessage({ id: 'zipCode', defaultMessage: 'Postcode' }),
+          label: translate('common.zipCode'),
           labelDesc: '',
           required: true,
           className: 'col-span-1 mt-12',
         },
         {
           name: 'city',
-          label: formatMessage({ id: 'city', defaultMessage: 'City' }),
+          label: translate('common.city'),
           labelDesc: '',
           required: true,
           className: 'col-span-2 mt-12',
         },
       ] as Fields[];
     },
-    [formatMessage, formatCheckoutMessage],
+    [translate],
   );
 
   if (!loggedIn) return <></>;
@@ -162,7 +161,8 @@ const CreateAddressModal = () => {
   return (
     <>
       <p className="text-14 underline underline-offset-2 hover:cursor-pointer" onClick={() => setIsOpen(true)}>
-        {formatAccountMessage({ id: 'address.add', defaultMessage: 'Add new address' })} +
+        {/* eslint-disable-next-line react/jsx-no-literals */}
+        {translate('account.address-add')} +
       </p>
       <Modal
         isOpen={isOpen}
@@ -171,7 +171,7 @@ const CreateAddressModal = () => {
         closeTimeoutMS={200}
       >
         <div className="mx-auto w-[90%] max-w-[600px] rounded-sm bg-white p-32 pt-24">
-          <h4 className="text-24">{formatAccountMessage({ id: 'address.add', defaultMessage: 'Add new address' })}</h4>
+          <h4 className="text-24">{translate('account.address-add')}</h4>
           <AddressForm className="mt-32" address={data} fields={fields} onChange={handleChange} onSubmit={handleSubmit}>
             {states.length > 0 && (
               <div className="mt-12">
@@ -181,10 +181,7 @@ const CreateAddressModal = () => {
                   items={[{ label: '', value: '' }, ...states.map(({ name, code }) => ({ label: name, value: code }))]}
                   className="w-full border-neutral-500"
                   onChange={handleChange}
-                  label={formatMessage({
-                    id: 'state',
-                    defaultMessage: 'State',
-                  })}
+                  label={translate('common.state')}
                 />
               </div>
             )}
@@ -194,18 +191,12 @@ const CreateAddressModal = () => {
                 items={addressTypeOptions}
                 className="w-full border-neutral-500"
                 onChange={handleChange}
-                label={`${formatAccountMessage({
-                  id: 'address.type',
-                  defaultMessage: 'Address type',
-                })} *`}
+                label={`${translate('account.address-type')} *`}
               />
             </div>
             <div className="mt-16">
               <Checkbox
-                label={formatCheckoutMessage({
-                  id: 'address.setDefault',
-                  defaultMessage: 'Save as default address',
-                })}
+                label={translate('account.address-setDefault')}
                 labelPosition="on-right"
                 checked={saveAsDefault}
                 onChange={({ checked }) => setSaveAsDefault(checked)}
@@ -213,10 +204,10 @@ const CreateAddressModal = () => {
             </div>
             <div className="mt-32 flex gap-12">
               <Button variant="secondary" className="px-48" type="button" onClick={closeModal}>
-                {formatMessage({ id: 'cancel', defaultMessage: 'Cancel' })}
+                {translate('common.cancel')}
               </Button>
               <Button variant="primary" className="px-48" type="submit" loading={processing}>
-                {formatMessage({ id: 'save', defaultMessage: 'Save' })}
+                {translate('common.save')}
               </Button>
             </div>
           </AddressForm>

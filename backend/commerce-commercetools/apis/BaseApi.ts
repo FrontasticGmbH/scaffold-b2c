@@ -406,7 +406,6 @@ export abstract class BaseApi {
   protected projectKey: string;
   protected productIdField: string;
   protected categoryIdField: string;
-  protected productSelectionIdField: string;
   protected locale: string;
   protected defaultLocale: string;
   protected defaultCurrency: string;
@@ -435,7 +434,6 @@ export abstract class BaseApi {
     this.projectKey = this.clientSettings.projectKey;
     this.productIdField = this.clientSettings?.productIdField || 'key';
     this.categoryIdField = this.clientSettings?.categoryIdField || 'key';
-    this.productSelectionIdField = this.clientSettings?.productSelectionIdField || 'key';
 
     this.token = clientTokensStored.get(this.getClientHashKey());
 
@@ -583,6 +581,9 @@ export abstract class BaseApi {
 
     const url = `${this.clientSettings.sessionUrl}/${this.projectKey}/sessions`;
 
+    const date = new Date();
+    const orderNumber = `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}-${String(Date.now()).slice(-6, -1)}`;
+
     const body = JSON.stringify({
       cart: {
         cartRef: {
@@ -591,6 +592,7 @@ export abstract class BaseApi {
       },
       metadata: {
         applicationKey: this.clientSettings.checkoutApplicationKey,
+        futureOrderNumber: orderNumber,
       },
     });
 

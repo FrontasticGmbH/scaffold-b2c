@@ -1,8 +1,8 @@
 import React, { useCallback, useMemo } from 'react';
-import { useRouter } from 'next/navigation';
 // import { Variant } from 'ct-types/product';
 import Image from 'components/commercetools-ui/atoms/image';
 import { AUTOCOMPLETE_PRODUCT_CLICKED } from 'helpers/constants/events';
+import { useRouter } from 'i18n/routing';
 // import useVariantWithDiscount from 'helpers/hooks/useVariantWithDiscount';
 import { Category } from 'types/entity/category';
 import { Product } from 'types/entity/product';

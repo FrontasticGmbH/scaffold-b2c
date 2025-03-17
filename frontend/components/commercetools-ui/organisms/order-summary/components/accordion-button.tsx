@@ -1,9 +1,9 @@
 import { FC } from 'react';
 import { ChevronDownIcon } from '@heroicons/react/24/outline';
+import { useTranslations } from 'use-intl';
 import Typography from 'components/commercetools-ui/atoms/typography';
 import { CurrencyHelpers } from 'helpers/currencyHelpers';
 import useClassNames from 'helpers/hooks/useClassNames';
-import { useFormat } from 'helpers/hooks/useFormat';
 import { Money } from 'types/entity/product';
 
 type AccordionButtonProps = {
@@ -13,7 +13,7 @@ type AccordionButtonProps = {
 };
 
 const AccordionButton: FC<AccordionButtonProps> = ({ open, toggleAccordion, total }) => {
-  const { formatMessage: formatOrdersMessage } = useFormat({ name: 'orders' });
+  const translate = useTranslations();
 
   const accordionContentClassNames = useClassNames([
     'flex w-full justify-between border-t py-16',
@@ -25,12 +25,7 @@ const AccordionButton: FC<AccordionButtonProps> = ({ open, toggleAccordion, tota
   return (
     <div>
       <div className={accordionContentClassNames} onClick={toggleAccordion}>
-        <Typography className="text-gray-600">
-          {formatOrdersMessage({
-            id: 'your.order',
-            defaultMessage: 'Your Order',
-          })}
-        </Typography>
+        <Typography className="text-gray-600">{translate('orders.your-order')}</Typography>
 
         <div className="flex">
           <Typography className="hidden pr-8 font-medium text-primary md:block">

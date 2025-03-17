@@ -48,14 +48,14 @@ async function loginAccount(request: Request, actionContext: ActionContext, acco
 
   const cart = await CartFetcher.fetchCart(cartApi, request);
 
-  account = await accountApi.login(account, cart);
+  const { account: loggedInAccount, cart: loggedInCart } = await accountApi.login(account, cart);
 
-  if (!account.confirmed) {
+  if (!loggedInAccount.confirmed) {
     // If needed, the account confirmation email can be requested using
     // the endpoint action/account/requestConfirmationEmail.
     const response: Response = {
       statusCode: 401,
-      body: JSON.stringify(`Your email address "${account.email}" was not yet verified.`),
+      body: JSON.stringify(`Your email address "${loggedInAccount.email}" was not yet verified.`),
       sessionData: {
         ...accountApi.getSessionData(),
       },
@@ -66,11 +66,11 @@ async function loginAccount(request: Request, actionContext: ActionContext, acco
 
   const response: Response = {
     statusCode: 200,
-    body: JSON.stringify(account),
+    body: JSON.stringify(loggedInAccount),
     sessionData: {
       ...accountApi.getSessionData(),
-      account: account,
-      cartId: undefined, // We unset the cartId as it could have been changed after login
+      ...(loggedInCart ? { cartId: loggedInCart.cartId } : {}),
+      account: loggedInAccount,
     },
   };
 
@@ -213,22 +213,23 @@ export const requestConfirmationEmail: ActionHook = async (request: Request, act
 
     const accountLoginBody: AccountLoginBody = JSON.parse(request.body);
 
-    let account = {
+    const account = {
       email: accountLoginBody.email,
       password: accountLoginBody.password,
     } as Account;
 
     const cart = await CartFetcher.fetchCart(cartApi, request);
 
-    account = await accountApi.login(account, cart);
+    const { account: loggedInAccount, cart: loggedInCart } = await accountApi.login(account, cart);
 
-    if (account.confirmed) {
+    if (loggedInAccount.confirmed) {
       const response: Response = {
         statusCode: 405,
-        body: JSON.stringify(`Your email address "${account.email}" was verified already.`),
+        body: JSON.stringify(`Your email address "${loggedInAccount.email}" was verified already.`),
         sessionData: {
           ...accountApi.getSessionData(),
-          account: account,
+          ...(loggedInCart ? { cartId: loggedInCart.cartId } : {}),
+          account: loggedInAccount,
         },
       };
 
@@ -236,7 +237,7 @@ export const requestConfirmationEmail: ActionHook = async (request: Request, act
     }
 
     const emailApi = EmailApiFactory.getDefaultApi(actionContext.frontasticContext, locale);
-    emailApi.sendAccountVerificationEmail(account);
+    emailApi.sendAccountVerificationEmail(loggedInAccount);
 
     const response: Response = {
       statusCode: 200,

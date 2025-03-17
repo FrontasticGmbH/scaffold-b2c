@@ -1,16 +1,17 @@
 import React from 'react';
+import { useTranslations } from 'use-intl';
 import Link from 'components/commercetools-ui/atoms/link';
-import { useFormat } from 'helpers/hooks/useFormat';
 
 const Footer = () => {
-  const { formatMessage: formatCartMessage } = useFormat({ name: 'cart' });
+  const translate = useTranslations();
 
   return (
     <div className="mt-24 px-16 pb-36 md:mt-26 lg:mt-72">
       <p className="text-center text-12 text-gray-600">
-        {formatCartMessage({ id: 'terms.agree', defaultMessage: 'By placing your order, you agree to the' })}{' '}
+        {translate('cart.terms-agree')}{' '}
         <Link link="#" className="underline decoration-gray-600 underline-offset-2">
-          {formatCartMessage({ id: 'terms.and.conditions', defaultMessage: 'Terms & Conditions' })}
+          {translate('cart.terms-and-conditions')}
+          {/* eslint-disable-next-line react/jsx-no-literals */}
         </Link>{' '}
         of The B2C Retail Store
       </p>

@@ -1,15 +1,15 @@
 import React, { useCallback, useContext, useEffect, useState } from 'react';
 import { Address as AddressType } from 'shared/types/account';
+import { useTranslations } from 'use-intl';
 import Link from 'components/commercetools-ui/atoms/link';
 import Typography from 'components/commercetools-ui/atoms/typography';
 import { AccountContext } from 'context/account';
-import { useFormat } from 'helpers/hooks/useFormat';
 import Address from './address';
 import { AddressFormData } from './address-form';
 import usePropsToAddressType from './mapPropsToAddressType';
 
 const Addresses = () => {
-  const { formatMessage: formatAccountMessage } = useFormat({ name: 'account' });
+  const translate = useTranslations();
 
   const { mapPropsToAddress } = usePropsToAddressType();
 
@@ -57,24 +57,18 @@ const Addresses = () => {
     <div className="mt-20 px-16 md:px-24 lg:mt-40 lg:px-44">
       <div className="hidden pb-12 md:block md:pb-20 2xl:pb-36">
         <Typography as="h2" className="text-22 text-primary lg:text-24">
-          {formatAccountMessage({
-            id: 'addresses',
-            defaultMessage: 'Addresses',
-          })}
+          {translate('account.addresses')}
         </Typography>
       </div>
       <div>
         <Typography className="mb-28 text-14 leading-loose text-gray-600 md:mb-24 md:text-16 2xl:mb-36">
-          {formatAccountMessage({
-            id: 'address.desc',
-            defaultMessage: 'Manage or add addresses for your account.',
-          })}
+          {translate('account.address-desc')}
         </Typography>
         <Link
           link="?hash=addresses&id=address-add"
           className="block w-full rounded-md bg-gray-700 px-16 py-8 text-center text-14 font-medium leading-[114%] text-neutral-150 hover:cursor-pointer md:w-fit 2xl:px-40 2xl:py-12"
         >
-          {formatAccountMessage({ id: 'address.add', defaultMessage: 'Add an address' })}
+          {translate('account.address-add')}
         </Link>
       </div>
 

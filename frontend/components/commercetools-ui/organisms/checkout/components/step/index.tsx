@@ -1,6 +1,6 @@
 import React, { type JSX, useEffect, useRef } from 'react';
+import { useTranslations } from 'use-intl';
 import useClassNames from 'helpers/hooks/useClassNames';
-import { useFormat } from 'helpers/hooks/useFormat';
 
 interface Props {
   number: number;
@@ -14,7 +14,7 @@ interface Props {
 }
 
 const Step: React.FC<Props> = ({ number, label, isExpanded, isCompleted, onEdit, Component, Preview, CTA }) => {
-  const { formatMessage } = useFormat({ name: 'common' });
+  const translate = useTranslations();
 
   const ref = useRef<HTMLDivElement>(null);
 
@@ -58,7 +58,7 @@ const Step: React.FC<Props> = ({ number, label, isExpanded, isCompleted, onEdit,
             className="text-14 text-gray-600 underline decoration-gray-600 underline-offset-2 hover:cursor-pointer"
             onClick={onEdit}
           >
-            {formatMessage({ id: 'edit', defaultMessage: 'Edit' })}
+            {translate('common.edit')}
           </p>
         )}
         {isExpanded && (

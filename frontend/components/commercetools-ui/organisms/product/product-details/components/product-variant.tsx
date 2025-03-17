@@ -1,8 +1,8 @@
 import { FC, useCallback, useMemo } from 'react';
 import { Variant as VariantType } from 'shared/types/product';
+import { useTranslations } from 'use-intl';
 import Typography from 'components/commercetools-ui/atoms/typography';
 import useClassNames from 'helpers/hooks/useClassNames';
-import { useFormat } from 'helpers/hooks/useFormat';
 import { textToColor } from '../../../../../../helpers/textToColor/textToColor';
 import { discardRepeatedValues } from '../helpers/discardRepeatedValues';
 import { filterAttributeBasedVariants } from '../helpers/filterAttributeBasedVariants';
@@ -24,7 +24,7 @@ const ProductVariant: FC<ProductVariantProps> = ({
   inModalVersion,
   onClick,
 }) => {
-  const { formatMessage } = useFormat({ name: 'product' });
+  const translate = useTranslations();
 
   const attributeString = attribute.toString();
 
@@ -52,7 +52,7 @@ const ProductVariant: FC<ProductVariantProps> = ({
   }, [attribute, attributeToFilterTo, currentVariant, variants, sortVariantsCmp]);
 
   const hoverEffectClassName = useMemo(
-    () => (variantsToUse && variantsToUse.length > 1 ? 'hover:cursor-pointer' : 'pointer-events-none'),
+    () => (variantsToUse && variantsToUse.length > 1 ? 'cursor-pointer' : 'cursor-default'),
     [variantsToUse],
   );
 
@@ -69,11 +69,31 @@ const ProductVariant: FC<ProductVariantProps> = ({
   const sizeVariantClassname = useClassNames(['text-14 p-12', hoverEffectClassName]);
   const variantContainerClassName = useClassNames(['mt-16 flex', attribute == 'size' ? 'gap-12' : 'gap-24']);
 
+  const getButtonDescriptiveTitle = useCallback(
+    (attributes: Record<string, string>) => {
+      switch (attribute) {
+        case 'color':
+          return translate('product.switch-to-color', { color: attributes[attribute].split(':')[0] });
+        case 'finish':
+          return translate('product.switch-to-finish', { color: attributes[attribute].split(':')[0] });
+        case 'size':
+          return translate('product.switch-to-size', { size: attributes[attribute] });
+        default:
+          return translate('product.switch-to', {
+            term: (attributes[attribute] as unknown as { label: string }).label ?? attributes[attribute],
+          });
+      }
+    },
+    [attribute, translate],
+  );
   return (
     <div className={className}>
       <div className={attribute == 'color' ? 'mt-4 grid gap-4' : ''}>
-        <Typography className={labelClassName}>
-          {formatMessage({ id: attributeString, defaultMessage: attributeString })}
+        <Typography className={labelClassName} as="h3">
+          {
+            // @ts-ignore
+            translate(`product.${attributeString}`)
+          }
         </Typography>
         <Typography className="text-14 leading-loose">
           {currentVariant?.attributes?.[`${attribute}label`] ??
@@ -83,14 +103,15 @@ const ProductVariant: FC<ProductVariantProps> = ({
 
       <div className={variantContainerClassName}>
         {(variantsToUse ?? []).map(({ attributes, id, sku }) => (
-          <Typography
+          <button
             key={id}
+            title={getButtonDescriptiveTitle(attributes as Record<string, string>)}
             onClick={() => onClick?.(sku)}
             className={getVariantClassName(id)}
             style={attribute !== 'size' ? { backgroundColor: textToColor(attributes?.[attribute]).code } : {}}
           >
             {attribute == 'size' && attributes?.[attribute]}
-          </Typography>
+          </button>
         ))}
       </div>
     </div>
