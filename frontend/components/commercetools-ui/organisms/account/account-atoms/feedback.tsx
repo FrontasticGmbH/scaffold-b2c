@@ -1,5 +1,4 @@
 import { FC } from 'react';
-import Typography from 'components/commercetools-ui/atoms/typography';
 import useClassNames from 'helpers/hooks/useClassNames';
 
 type FeedbackProps = {
@@ -12,7 +11,7 @@ const Feedback: FC<FeedbackProps> = ({ error, success }) => {
 
   if (!error && !success) return <></>;
 
-  return <Typography className={feedBackElementClassName}>{error || success}</Typography>;
+  return <p className={feedBackElementClassName}>{error || success}</p>;
 };
 
 export default Feedback;

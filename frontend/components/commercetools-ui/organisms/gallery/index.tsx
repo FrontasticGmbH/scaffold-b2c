@@ -50,7 +50,14 @@ const Gallery: FC<GalleryProps> = ({ images, inModalVersion }) => {
     <div className="gap-y-34 px-4 md:mb-50">
       <div className={containerClassName}>
         <div className="hidden lg:block">
-          <Image src={images[activeIndex]} loading="eager" suffix="large" style={{ objectFit: 'contain' }} fill />
+          <Image
+            data-testid="main-gallery-image"
+            src={images[activeIndex]}
+            loading="eager"
+            suffix="large"
+            style={{ objectFit: 'contain' }}
+            fill
+          />
         </div>
 
         <div className="block lg:hidden">
@@ -100,6 +107,7 @@ const Gallery: FC<GalleryProps> = ({ images, inModalVersion }) => {
             >
               <div className="relative size-full">
                 <Image
+                  data-testid={`thumbnail-${index}`}
                   src={image}
                   suffix="small"
                   className={`rounded-md p-7 hover:cursor-pointer`}

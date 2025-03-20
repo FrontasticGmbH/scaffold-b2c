@@ -4,7 +4,6 @@ import { TruckIcon, XMarkIcon } from '@heroicons/react/24/outline';
 import { ShippingMethod } from 'shared/types/cart/ShippingMethod';
 import { useTranslations } from 'use-intl';
 import Input from 'components/commercetools-ui/atoms/input';
-import Typography from 'components/commercetools-ui/atoms/typography';
 import { CurrencyHelpers } from 'helpers/currencyHelpers';
 import { clearSpaces, getEstimationPhrase } from '../helpers';
 
@@ -87,12 +86,12 @@ const ShippingSection = ({ shippingMethods }: { shippingMethods?: ShippingMethod
               <TruckIcon className="size-24 rounded-full border border-neutral-400 p-4" />
             </div>
             <div className="grid">
-              <Typography
+              <button
                 className="text-14 font-medium leading-loose text-primary hover:cursor-pointer"
                 onClick={() => updateToggledSectionId(shippingMethodId)}
               >
                 {name}
-              </Typography>
+              </button>
               {toggledSectionId === shippingMethodId ? (
                 // Input Form
                 <form onSubmit={handleSubmit}>
@@ -113,26 +112,22 @@ const ShippingSection = ({ shippingMethods }: { shippingMethods?: ShippingMethod
                   onClick={() => updateToggledSectionId(shippingMethodId)}
                   className="flex gap-4 hover:cursor-pointer"
                 >
-                  <Typography className="text-14 leading-loose text-gray-600">
-                    {getEstimationPhrase(Number(description))}
-                  </Typography>
-                  <Typography className="text-14 leading-loose text-gray-600 underline hover:cursor-pointer">
-                    {usedPostCode}
-                  </Typography>
+                  <p className="text-14 leading-loose text-gray-600">{getEstimationPhrase(Number(description))}</p>
+                  <p className="text-14 leading-loose text-gray-600 underline hover:cursor-pointer">{usedPostCode}</p>
                 </div>
               ) : (
-                <Typography
+                <button
                   className="text-14 leading-loose text-gray-600 underline hover:cursor-pointer"
                   onClick={() => updateToggledSectionId(shippingMethodId)}
                 >
                   {translate('cart.add-postcode')}
-                </Typography>
+                </button>
               )}
             </div>
             {configured && (
-              <Typography className="ml-auto flex items-center text-14 font-medium leading-loose text-primary">
+              <p className="ml-auto flex items-center text-14 font-medium leading-loose text-primary">
                 {CurrencyHelpers.formatForCurrency(getRateToUse(rates)?.price ?? 0, locale)}
-              </Typography>
+              </p>
             )}
           </div>
         ))}

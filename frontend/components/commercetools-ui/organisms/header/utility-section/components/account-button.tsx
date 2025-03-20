@@ -3,7 +3,6 @@ import { Popover, PopoverBackdrop, PopoverButton, PopoverPanel } from '@headless
 import { UserIcon } from '@heroicons/react/24/outline';
 import { useTranslations } from 'use-intl';
 import Link from 'components/commercetools-ui/atoms/link';
-import Typography from 'components/commercetools-ui/atoms/typography';
 import AccountDropdown from 'components/commercetools-ui/organisms/account/account-atoms/account-dropdown';
 import { AccountContext } from 'context/account';
 
@@ -27,7 +26,7 @@ const AccountButton = () => {
             <PopoverButton title={title}>
               <div className="flex w-fit whitespace-nowrap">
                 <div className="mr-8 hidden w-104 py-4 lg:inline-block">
-                  {loggedIn && <Typography className="hidden truncate text-gray-600 lg:block">{userName}</Typography>}
+                  {loggedIn && <p className="hidden truncate text-gray-600 lg:block">{userName}</p>}
                 </div>
 
                 <div className="border-primary pb-8 hover:border-b-2">

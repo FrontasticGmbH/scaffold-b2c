@@ -36,4 +36,5 @@ export type ImageProps = Omit<NextImageProps, 'src' | 'alt' | 'key'> &
   Omit<FrontasticImage, 'src'> & {
     alt?: string;
     src?: string;
+    title?: { [key: string]: string };
   };

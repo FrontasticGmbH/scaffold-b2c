@@ -1,7 +1,6 @@
 import React, { FC, useEffect, useState } from 'react';
 import { ChevronDownIcon } from '@heroicons/react/24/outline';
 import Link from 'components/commercetools-ui/atoms/link';
-import Typography from 'components/commercetools-ui/atoms/typography';
 import useClassNames from 'helpers/hooks/useClassNames';
 import { Category } from 'types/entity/category';
 
@@ -27,7 +26,7 @@ const HeaderNavigationButtonDesktop: FC<Props> = ({ show, link, updateSubMenu })
   return (
     <div onClick={updateSubMenu} className="h-52 px-10 py-12">
       <Link link={link?._url} title={link?.name} className={navLinkClassNames}>
-        <Typography as="span">{link?.name}</Typography>
+        <span>{link?.name}</span>
         {link?.descendants && link?.descendants.length > 0 && <ChevronDownIcon className="ml-10 w-16 text-gray-600" />}
       </Link>
     </div>

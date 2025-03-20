@@ -12,7 +12,8 @@ export default defineConfig({
   reporter: 'html',
   timeout: 40000,
   use: {
-    baseURL: 'http://localhost:3000',
+    baseURL: 'http://localhost:3000/en/',
+    // baseURL: 'https://poc-b2cdev.frontend.site/en/',
     trace: 'on-first-retry',
   },
   projects: [

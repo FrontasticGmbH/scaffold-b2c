@@ -3,7 +3,6 @@ import { useTranslations } from 'use-intl';
 import Button from 'components/commercetools-ui/atoms/button';
 import Link from 'components/commercetools-ui/atoms/link';
 import QuantitySelector from 'components/commercetools-ui/atoms/quantity-selector';
-import Typography from 'components/commercetools-ui/atoms/typography';
 import Breadcrumb from 'components/commercetools-ui/molecules/breadcrumb';
 import Gallery from 'components/commercetools-ui/organisms/gallery';
 import { useAddToCartOverlay } from 'context/add-to-cart-overlay';
@@ -102,9 +101,9 @@ const ProductDetails: FC<ProductDetailsProps> = ({
             <h2>{category.name}</h2>
           </Link>
 
-          <Typography key={product.slug} as="h2" className="cursor-default text-14 text-gray-500">
+          <h2 key={product.slug} className="cursor-default text-14 text-gray-500">
             {product.name}
-          </Typography>
+          </h2>
         </Breadcrumb>
       )}
 

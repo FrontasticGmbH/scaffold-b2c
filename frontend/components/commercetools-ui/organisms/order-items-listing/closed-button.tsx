@@ -3,7 +3,6 @@ import { ChevronDownIcon } from '@heroicons/react/24/outline';
 import { LineItem } from 'shared/types/cart/LineItem';
 import { useTranslations } from 'use-intl';
 import Image from 'components/commercetools-ui/atoms/image';
-import Typography from 'components/commercetools-ui/atoms/typography';
 import useClassNames from 'helpers/hooks/useClassNames';
 
 type ClosedButtonProps = {
@@ -25,7 +24,7 @@ const ClosedButton: FC<ClosedButtonProps> = ({ lineItems, hiddenItemsCount, open
   return (
     <div className="flex w-full flex-col overflow-x-visible pb-4">
       <div className="flex w-full justify-between">
-        <Typography className="text-gray-600">{translate('orders.your-order')}</Typography>
+        <p className="text-gray-600">{translate('orders.your-order')}</p>
         <ChevronDownIcon width={20} strokeWidth={1.5} className={arrowClassNames} />
       </div>
       <div className="mt-12 flex justify-between pr-20">
@@ -44,7 +43,7 @@ const ClosedButton: FC<ClosedButtonProps> = ({ lineItems, hiddenItemsCount, open
         )}
         {hiddenItemsCount > 0 && !open && (
           <div className="flex items-center">
-            <Typography className="mr-8 whitespace-nowrap text-gray-600">{`+ ${hiddenItemsCount}`}</Typography>
+            <p className="mr-8 whitespace-nowrap text-gray-600">{`+ ${hiddenItemsCount}`}</p>
           </div>
         )}
       </div>

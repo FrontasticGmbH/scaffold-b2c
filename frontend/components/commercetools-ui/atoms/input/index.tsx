@@ -1,8 +1,7 @@
-import React, { ComponentProps, FC, MutableRefObject, useCallback, useEffect, useMemo, useState } from 'react';
+import React, { ComponentProps, FC, RefObject, useCallback, useEffect, useMemo, useState } from 'react';
 import { CheckIcon } from '@heroicons/react/24/outline';
 import useClassNames from 'helpers/hooks/useClassNames';
 import useControllableState from 'helpers/hooks/useControllable';
-import Typography from '../typography';
 
 export interface InputProps extends Omit<ComponentProps<'input'>, 'onChange' | 'key'> {
   label?: string;
@@ -10,7 +9,7 @@ export interface InputProps extends Omit<ComponentProps<'input'>, 'onChange' | '
   onChange?: (event: React.ChangeEvent<HTMLInputElement>) => void;
   variant?: 'primary' | 'secondary';
   labelPosition?: 'top' | 'inline';
-  innerRef?: MutableRefObject<HTMLInputElement>;
+  innerRef?: RefObject<HTMLInputElement>;
   error?: string;
   errorMessage?: string;
   isValid?: boolean;
@@ -125,15 +124,11 @@ const Input: FC<InputProps> = ({
     <div className="relative">
       <div className={labelContainerClassName}>
         {label && (
-          <Typography as="label" className={labelClassName} htmlFor={props.name}>
+          <label className={labelClassName} htmlFor={props.name}>
             {props.required ? `${label} *` : label}
-          </Typography>
+          </label>
         )}
-        {labelDesc && (
-          <Typography as="label" className={labelClassName}>
-            {` (${labelDesc})`}
-          </Typography>
-        )}
+        {labelDesc && <label className={labelClassName}>{` (${labelDesc})`}</label>}
       </div>
       <div className="relative">
         <input
@@ -156,13 +151,9 @@ const Input: FC<InputProps> = ({
         {children}
       </div>
       {(isErrored || props.error) && (
-        <Typography
-          className="mt-12 text-12 font-medium leading-[16px] text-red-500"
-          as="span"
-          id={`${props.name}_input_error`}
-        >
+        <span className="mt-12 text-12 font-medium leading-[16px] text-red-500" id={`${props.name}_input_error`}>
           {props.error ?? errorMessage}
-        </Typography>
+        </span>
       )}
     </div>
   );

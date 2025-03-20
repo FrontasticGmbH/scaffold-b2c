@@ -4,7 +4,6 @@ import Button from 'components/commercetools-ui/atoms/button';
 import Input from 'components/commercetools-ui/atoms/input';
 import PasswordInput from 'components/commercetools-ui/atoms/input-password';
 import Link from 'components/commercetools-ui/atoms/link';
-import Typography from 'components/commercetools-ui/atoms/typography';
 import useValidate from 'helpers/hooks/useValidate';
 import Redirect from 'helpers/redirect';
 import { Reference } from 'types/reference';
@@ -80,9 +79,7 @@ const RegisterForm: FC<RegisterFormProps> = ({ termsOfUseLink, loggedIn, registe
 
   return (
     <>
-      <Typography as="h3" className="mb-16 text-16 md:mb-24 md:text-20 lg:text-24">
-        {translate('account.become-member')}
-      </Typography>
+      <h3 className="mb-16 text-16 md:mb-24 md:text-20 lg:text-24">{translate('account.become-member')}</h3>
       <form onSubmit={handleSubmit}>
         <Feedback success={success} error={error} />
 
@@ -134,7 +131,7 @@ const RegisterForm: FC<RegisterFormProps> = ({ termsOfUseLink, loggedIn, registe
         </Button>
 
         <div className="flex flex-wrap items-center justify-center gap-4 px-15 md:px-30">
-          <Typography className="text-12 text-gray-600 md:text-14">{translate('account.by-registering')}</Typography>
+          <p className="text-12 text-gray-600 md:text-14">{translate('account.by-registering')}</p>
           <Link className="border-b text-12 text-gray-600 md:text-14" link={termsOfUseLink} variant="menu-item">
             {translate('account.terms-of-use')}
           </Link>

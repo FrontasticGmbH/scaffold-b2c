@@ -3,7 +3,6 @@ import { DisclosureButton } from '@headlessui/react';
 import { ChevronDownIcon, PlusIcon, MinusIcon } from '@heroicons/react/24/outline';
 import useClassNames from 'helpers/hooks/useClassNames';
 import { AccordionProps } from '.';
-import Typography from '../typography';
 
 type AccordionButtonProps = AccordionProps & {
   open: boolean;
@@ -26,9 +25,7 @@ const AccordionButton: FC<AccordionButtonProps> = ({
   return (
     <DisclosureButton className={`${buttonWrapperClassName} w-full`}>
       <div className={buttonClassNames}>
-        <Typography className="self-center transition" as="h4">
-          {open ? openSectionTitle : closedSectionTitle}
-        </Typography>
+        <h4 className="self-center transition">{open ? openSectionTitle : closedSectionTitle}</h4>
         <div className="flex items-center gap-8">
           {!open && collapsedLabel && <p className="font-medium text-primary">{collapsedLabel}</p>}
           {variant === 'arrow' ? (

@@ -1,6 +1,5 @@
 import { Meta, StoryFn } from '@storybook/react';
 import Link, { LinkProps } from '.';
-import Typography from '../typography';
 
 export default {
   title: 'Atoms/Link',
@@ -9,10 +8,10 @@ export default {
 
 const Template: StoryFn<LinkProps> = () => (
   <div className="ml-44">
-    <Typography className="mt-40 w-2/5 text-28 font-bold text-black">Link</Typography>
-    <Typography className="mt-20 w-3/5 text-20 leading-loose text-neutral-700">
+    <p className="mt-40 w-2/5 text-28 font-bold text-black">Link</p>
+    <p className="mt-20 w-3/5 text-20 leading-loose text-neutral-700">
       The Link allows customers to navigate to other pages or take actions.
-    </Typography>
+    </p>
 
     <div className="mt-40 w-[70%]">
       <Link variant="primary" link="https://www.youtube.com">

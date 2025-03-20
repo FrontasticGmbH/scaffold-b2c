@@ -1,7 +1,6 @@
 import { FC, useCallback, useMemo } from 'react';
 import { Variant as VariantType } from 'shared/types/product';
 import { useTranslations } from 'use-intl';
-import Typography from 'components/commercetools-ui/atoms/typography';
 import useClassNames from 'helpers/hooks/useClassNames';
 import { textToColor } from '../../../../../../helpers/textToColor/textToColor';
 import { discardRepeatedValues } from '../helpers/discardRepeatedValues';
@@ -89,16 +88,16 @@ const ProductVariant: FC<ProductVariantProps> = ({
   return (
     <div className={className}>
       <div className={attribute == 'color' ? 'mt-4 grid gap-4' : ''}>
-        <Typography className={labelClassName} as="h3">
+        <h3 className={labelClassName}>
           {
             // @ts-ignore
             translate(`product.${attributeString}`)
           }
-        </Typography>
-        <Typography className="text-14 leading-loose">
+        </h3>
+        <p className="text-14 leading-loose">
           {currentVariant?.attributes?.[`${attribute}label`] ??
             textToColor(currentVariant?.attributes?.[attribute]).label}
-        </Typography>
+        </p>
       </div>
 
       <div className={variantContainerClassName}>

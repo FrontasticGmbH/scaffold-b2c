@@ -1,7 +1,6 @@
 import React, { useContext } from 'react';
 import { useTranslations } from 'use-intl';
 import Link from 'components/commercetools-ui/atoms/link';
-import Typography from 'components/commercetools-ui/atoms/typography';
 import { AccountContext } from 'context/account';
 import { useRouter } from 'i18n/routing';
 
@@ -17,15 +16,15 @@ const LoggedIn = () => {
   return (
     <div className="w-235 p-14 pb-24">
       <Link link="/account#" className="mt-10 block w-fit">
-        <Typography className="text-primary hover:underline">{translate('account.my-account')}</Typography>
+        <p className="text-primary hover:underline">{translate('account.my-account')}</p>
       </Link>
 
       <Link link="/account/?hash=support" className="mt-32 block w-fit">
-        <Typography className="text-primary hover:underline">{translate('account.customer-support')}</Typography>
+        <p className="text-primary hover:underline">{translate('account.customer-support')}</p>
       </Link>
 
       <button onClick={handleLogout} className="mt-32 w-fit text-left">
-        <Typography className="text-16 text-primary hover:underline">{translate('account.sign-out')}</Typography>
+        <p className="text-16 text-primary hover:underline">{translate('account.sign-out')}</p>
       </button>
     </div>
   );

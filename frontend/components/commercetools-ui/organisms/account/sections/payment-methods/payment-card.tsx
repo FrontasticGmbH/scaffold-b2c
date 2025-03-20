@@ -2,7 +2,6 @@ import React, { FC } from 'react';
 import { PencilSquareIcon } from '@heroicons/react/24/outline';
 import { useTranslations } from 'use-intl';
 import Button from 'components/commercetools-ui/atoms/button';
-import Typography from 'components/commercetools-ui/atoms/typography';
 import useResolveCCImage from 'components/commercetools-ui/organisms/checkout/hooks/useResolveCCImage';
 import { useRouter } from 'i18n/routing';
 import { Payment } from '.';
@@ -24,14 +23,14 @@ const PaymentCard: FC<Props> = ({ payment }) => {
       <div className="flex items-center">
         {/* eslint-disable-next-line */}
         <img className="h-fit w-[32px]" src={resolveCCImage(payment.cardNumber)} />
-        <Typography className="ml-16 text-14 text-primary">
+        <p className="ml-16 text-14 text-primary">
           {`...${payment.cardNumber.substring(payment.cardNumber.length - 4, payment.cardNumber.length)} ${
             payment.cardExpiryMonth.name
           }/${payment.cardExpiryYear.name}`}
-        </Typography>
+        </p>
       </div>
       <Button variant="ghost" onClick={() => goToEdit(payment)} className="py-0 text-primary hover:underline">
-        <Typography className="hidden text-14 text-primary md:block">{translate('payment.edit')}</Typography>
+        <span className="hidden text-14 text-primary md:block">{translate('payment.edit')}</span>
       </Button>
 
       <Button

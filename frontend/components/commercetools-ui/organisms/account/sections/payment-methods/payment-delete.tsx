@@ -2,7 +2,6 @@ import React, { FC } from 'react';
 import { XMarkIcon } from '@heroicons/react/24/outline';
 import { useTranslations } from 'use-intl';
 import Button from 'components/commercetools-ui/atoms/button';
-import Typography from 'components/commercetools-ui/atoms/typography';
 import Modal from 'components/commercetools-ui/organisms/modal';
 
 export interface Props {
@@ -30,23 +29,15 @@ const PaymentDelete: FC<Props> = ({ modalIsOpen, closeModal, handleCancelClick, 
           <XMarkIcon className="w-24 text-gray-600" />
         </div>
         <div className="mt-32 flex h-full flex-col items-center">
-          <Typography as="h2" className="text-center text-20 font-medium text-primary">
-            {translate('payment.delete-question')}
-          </Typography>
-          <Typography as="h2" className="mt-24 text-center text-gray-600">
-            {translate('payment.delete-warning')}
-          </Typography>
+          <h2 className="text-center text-20 font-medium text-primary">{translate('payment.delete-question')}</h2>
+          <h2 className="mt-24 text-center text-gray-600">{translate('payment.delete-warning')}</h2>
           <div className="mt-24 flex">
             <Button variant="secondary" className="w-112" onClick={handleCancelClick}>
-              <Typography as="h2" className="text-center text-14 text-primary">
-                {translate('payment.cancel')}
-              </Typography>
+              <span className="text-center text-14 text-primary">{translate('payment.cancel')}</span>
             </Button>
 
             <Button variant="warning" className="ml-12 w-112" onClick={handleDeleteClick}>
-              <Typography as="h2" className="text-center text-14">
-                {translate('payment.delete')}
-              </Typography>
+              <span className="text-center text-14">{translate('payment.delete')}</span>
             </Button>
           </div>
         </div>

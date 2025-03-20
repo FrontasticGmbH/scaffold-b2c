@@ -2,7 +2,6 @@ import React, { useRef, useEffect, useLayoutEffect, useMemo, useState, useCallba
 import Skeleton from 'react-loading-skeleton';
 import { useTranslations } from 'use-intl';
 import Slider from 'components/commercetools-ui/atoms/slider';
-import Typography from 'components/commercetools-ui/atoms/typography';
 import Wrapper from 'components/HOC/wrapper';
 import useClassNames from 'helpers/hooks/useClassNames';
 import useMediaQuery from 'helpers/hooks/useMediaQuery';
@@ -78,15 +77,12 @@ const Orders = ({ orders, loading }: Props) => {
         </div>
       ) : (
         <>
-          <Typography
-            as="h1"
-            className="mt-20 hidden text-22 text-primary md:ml-24 md:block lg:ml-44 lg:mt-42 lg:text-24"
-          >
+          <h1 className="mt-20 hidden text-22 text-primary md:ml-24 md:block lg:ml-44 lg:mt-42 lg:text-24">
             {translate('orders.orders')}
-          </Typography>
+          </h1>
 
           <div className="mt-20 px-16 md:mt-36 md:px-24 lg:px-44">
-            <Typography className="text-14 text-gray-600 md:text-16">{translate('orders.help-question')}</Typography>
+            <p className="text-14 text-gray-600 md:text-16">{translate('orders.help-question')}</p>
           </div>
 
           <div className="mt-16">
@@ -118,7 +114,7 @@ const Orders = ({ orders, loading }: Props) => {
                       onClick={() => setSelectedTab(tab.slug)}
                       className="w-fit cursor-pointer whitespace-nowrap"
                     >
-                      <Typography className={`${tabTextClassNames(tab)} text-14`}>{tab.name}</Typography>
+                      <p className={`${tabTextClassNames(tab)} text-14`}>{tab.name}</p>
                     </div>
                   ))}
                 </Slider>
@@ -135,7 +131,7 @@ const Orders = ({ orders, loading }: Props) => {
                     onClick={() => setSelectedTab(tab.slug)}
                     className="cursor-pointer whitespace-nowrap pr-36"
                   >
-                    <Typography className={tabTextClassNames(tab)}>{tab.name}</Typography>
+                    <p className={tabTextClassNames(tab)}>{tab.name}</p>
                   </div>
                 ))}
               </div>

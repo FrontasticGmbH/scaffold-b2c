@@ -7,7 +7,6 @@ import { useTranslations } from 'use-intl';
 import Checkbox from 'components/commercetools-ui/atoms/checkbox';
 import Dropdown from 'components/commercetools-ui/atoms/dropdown';
 import Input from 'components/commercetools-ui/atoms/input';
-import Typography from 'components/commercetools-ui/atoms/typography';
 import { AccountContext } from 'context/account';
 import useI18n from 'helpers/hooks/useI18n';
 import useValidate from 'helpers/hooks/useValidate';
@@ -252,9 +251,7 @@ const AddressForm: React.FC<AddressFormProps> = ({ editedAddressId }) => {
             onClick={() => setModalIsOpen(true)}
           >
             <TrashIcon className="size-20 text-gray-600" />
-            <Typography className="text-14 leading-[114%] text-gray-600" as="span">
-              {translate('common.delete')}
-            </Typography>
+            <span className="text-14 leading-[114%] text-gray-600">{translate('common.delete')}</span>
           </div>
         )}
 

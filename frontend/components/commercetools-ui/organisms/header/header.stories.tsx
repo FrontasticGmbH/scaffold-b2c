@@ -1,6 +1,5 @@
 import React from 'react';
 import { Meta, StoryFn } from '@storybook/react';
-import Typography from 'components/commercetools-ui/atoms/typography';
 import { linkReferenceOne } from 'helpers/mocks/mockCommonData';
 import { links, logo, tiles } from 'helpers/mocks/mockHeaderData';
 import Header from './index';
@@ -14,11 +13,11 @@ export default {
 
 const Template: StoryFn<HeaderProps> = () => (
   <div className="ml-44">
-    <Typography className="mt-40 w-2/5 text-28 font-bold text-black">Page Header</Typography>
-    <Typography className="mt-20 w-3/5 text-20 leading-loose text-black">
+    <p className="mt-40 w-2/5 text-28 font-bold text-black">Page Header</p>
+    <p className="mt-20 w-3/5 text-20 leading-loose text-black">
       The Page Header provides customers with a clear overview of the page&apos;s content. It includes a logo, search
       bar, page navigation and links for actions like account, wishlist and fly-out cart.
-    </Typography>
+    </p>
     <div className="mt-40 pr-40">
       <Header
         onRemoveItem={async () => {}}

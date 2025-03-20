@@ -1,7 +1,6 @@
 import React, { FC } from 'react';
 import Image from 'components/commercetools-ui/atoms/image';
 import Link from 'components/commercetools-ui/atoms/link';
-import Typography from 'components/commercetools-ui/atoms/typography';
 import { Tile } from 'components/commercetools-ui/organisms/header/types';
 import useClassNames from 'helpers/hooks/useClassNames';
 
@@ -26,12 +25,10 @@ const HeaderDropdownTile: FC<Props> = ({ tileContent }) => {
         alt={tileContent?.tileImage.title ?? ''}
       />
       <div className="absolute left-1/2 top-[42%] h-35 w-full -translate-x-1/2 -translate-y-1/2">
-        <Typography as="h3" className={tileHeaderTextClassName}>
-          {tileContent?.tileHeaderText}
-        </Typography>
+        <h3 className={tileHeaderTextClassName}>{tileContent?.tileHeaderText}</h3>
         <div className="flex justify-center">
           <Link variant="primary" link={tileContent?.tileButtonLink} className={tileButtonClassName}>
-            <Typography className="text-22 text-white">{tileContent?.tileButtonLabel}</Typography>
+            <p className="text-22 text-white">{tileContent?.tileButtonLabel}</p>
           </Link>
         </div>
       </div>

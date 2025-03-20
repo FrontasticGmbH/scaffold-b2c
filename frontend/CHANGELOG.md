@@ -1,4 +1,42 @@
 
+## Version 4.0.1 (2025-03-20)
+** New Features & Improvements **
+
+* B2C end to end tests update
+* change text tags for buttons
+* remove Typography component
+
+** Bug Fixes **
+
+* added googleapis as a trusted domain for B2C images
+
+## Version 4.0.0 (2025-03-17)
+
+
+** New Features & Improvements **
+
+* adds placeholder image for image component
+* removes cloudinary loader and use next-cloudinary
+* removes next-pwa, cleanup, adds mc image hosts
+* optimize remote images (mc) and adds quality param to studio imgs
+* make QuickView accessible
+* use next-intl - migration
+
+
+** Bug Fixes **
+
+* Update tests and mocks
+* Fix nested interactive controls in account dropdown
+* Add title for remove button on cart item component
+* Add titles for variant attribute colors and sizes
+* Fix incorrect list elements children
+* Fix nested interactive control elements
+* Update Not Found page layout and image configuration
+* adjust headers order & logic
+* Replace custom button with reusable Button component
+* Location selector not rendering
+* missing labels for a11y
+
 ## Version 3.2.1 (2025-03-04)
 
 ** New Features & Improvements **

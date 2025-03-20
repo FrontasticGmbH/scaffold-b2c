@@ -3,7 +3,6 @@ import { MenuItem } from '@headlessui/react';
 import { ChevronDownIcon } from '@heroicons/react/24/outline';
 import Dropdown from 'components/commercetools-ui/atoms/dropdown';
 import Link from 'components/commercetools-ui/atoms/link';
-import Typography from 'components/commercetools-ui/atoms/typography';
 import useClassNames from 'helpers/hooks/useClassNames';
 import { AccountTab } from '..';
 
@@ -25,7 +24,7 @@ const AccountTabsMobile: FC<Props> = ({ contentTitle, hash, tabs, className = ''
   const accountTabButton = useMemo(() => {
     return (
       <>
-        <Typography className="text-14 font-medium text-gray-600">{contentTitle}</Typography>
+        <p className="text-14 font-medium text-gray-600">{contentTitle}</p>
         <ChevronDownIcon strokeWidth={2} className="w-16 text-gray-600" />
       </>
     );
@@ -38,9 +37,9 @@ const AccountTabsMobile: FC<Props> = ({ contentTitle, hash, tabs, className = ''
           <MenuItem key={index}>
             <div className="overflow-y-scroll py-12 hover:bg-neutral-200 active:bg-neutral-200">
               <Link link={tab.href} className="flex w-full items-center justify-start px-16">
-                <Typography className={`text-14 text-gray-600 ${tab.href === hash ? 'font-medium' : 'font-normal'}`}>
+                <p className={`text-14 text-gray-600 ${tab.href === hash ? 'font-medium' : 'font-normal'}`}>
                   {tab.name}
-                </Typography>
+                </p>
               </Link>
             </div>
           </MenuItem>

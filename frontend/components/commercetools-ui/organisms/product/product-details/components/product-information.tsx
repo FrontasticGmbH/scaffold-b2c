@@ -2,7 +2,6 @@ import { FC, useMemo } from 'react';
 import { useParams } from 'next/navigation';
 import { LineItem } from 'shared/types/wishlist/LineItem';
 import { useTranslations } from 'use-intl';
-import Typography from 'components/commercetools-ui/atoms/typography';
 import WishlistButton from 'components/commercetools-ui/organisms/wishlist/components/wishlist-button';
 import { CurrencyHelpers } from 'helpers/currencyHelpers';
 import useClassNames from 'helpers/hooks/useClassNames';
@@ -71,9 +70,7 @@ const ProductInformation: FC<ProductInformationProps> = ({
   return (
     <div>
       <div className="relative flex items-center justify-between pr-40">
-        <Typography as="h1" className={`${titleClassName} font-medium leading-loose`}>
-          {product?.name}
-        </Typography>
+        <h1 className={`${titleClassName} font-medium leading-loose`}>{product?.name}</h1>
         <WishlistButton
           lineItem={productToWishlistLineItem}
           data={wishlist}
@@ -84,12 +81,10 @@ const ProductInformation: FC<ProductInformationProps> = ({
       {discountPercentage ? (
         <div className="flex flex-row justify-between">
           <div className="flex items-center gap-8">
-            <Typography className={discountedPriceClassName}>
+            <p className={discountedPriceClassName}>
               {CurrencyHelpers.formatForCurrency(variant.discountedPrice?.value as number, locale)}
-            </Typography>
-            <Typography className={priceClassName}>
-              {CurrencyHelpers.formatForCurrency(variant.price ?? 0, locale)}
-            </Typography>
+            </p>
+            <p className={priceClassName}>{CurrencyHelpers.formatForCurrency(variant.price ?? 0, locale)}</p>
           </div>
 
           {
@@ -99,9 +94,7 @@ const ProductInformation: FC<ProductInformationProps> = ({
           }
         </div>
       ) : (
-        <Typography className={priceClassName}>
-          {CurrencyHelpers.formatForCurrency(variant.price as number, locale)}
-        </Typography>
+        <p className={priceClassName}>{CurrencyHelpers.formatForCurrency(variant.price as number, locale)}</p>
       )}
       {attributesToDisplay.map((attribute) => {
         if (variant?.attributes?.[attribute]) {

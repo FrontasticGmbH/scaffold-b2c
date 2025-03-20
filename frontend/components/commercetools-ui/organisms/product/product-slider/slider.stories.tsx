@@ -1,6 +1,5 @@
 import React from 'react';
 import { Meta, StoryFn } from '@storybook/react';
-import Typography from 'components/commercetools-ui/atoms/typography';
 import { products, shippingMethods } from 'helpers/mocks/mockCommonData';
 import ProductSlider, { ProductSliderProps } from '.';
 
@@ -12,11 +11,11 @@ export default {
 
 const Template: StoryFn<ProductSliderProps> = (args) => (
   <div className="ml-44">
-    <Typography className="mt-40 w-2/5 text-28 font-bold text-black">Product Slider</Typography>
-    <Typography className="mt-20 w-3/5 text-20 leading-loose text-neutral-700">
+    <p className="mt-40 w-2/5 text-28 font-bold text-black">Product Slider</p>
+    <p className="mt-20 w-3/5 text-20 leading-loose text-neutral-700">
       The Product Slider showcases a selection of products. It consists of a horizontal strip of cards that can be
       scrolled through using arrows or swiping. It includes product name, price, images and a Quick-view button.
-    </Typography>
+    </p>
     <div className="mt-40 w-4/5 pl-44">
       <ProductSlider
         {...args}

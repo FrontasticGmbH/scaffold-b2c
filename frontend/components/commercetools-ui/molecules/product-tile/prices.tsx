@@ -1,6 +1,5 @@
 import React from 'react';
 import { useParams } from 'next/navigation';
-import Typography from 'components/commercetools-ui/atoms/typography';
 import { CurrencyHelpers } from 'helpers/currencyHelpers';
 import { ProductDiscountedPrice, Money } from 'types/entity/product';
 
@@ -16,17 +15,17 @@ const Prices: React.FC<Props> = ({ price, discountedPrice }) => {
     <>
       {discountedPrice ? (
         <div className="flex items-center gap-8">
-          <Typography className="text-11 font-medium leading-loose text-red-500 md:text-14">
+          <p className="text-11 font-medium leading-loose text-red-500 md:text-14">
             {CurrencyHelpers.formatForCurrency(discountedPrice?.value ?? '', locale)}
-          </Typography>
-          <Typography className="text-10 font-medium leading-loose text-gray-500 line-through md:text-12">
+          </p>
+          <p className="text-10 font-medium leading-loose text-gray-500 line-through md:text-12">
             {CurrencyHelpers.formatForCurrency(price ?? '', locale)}
-          </Typography>
+          </p>
         </div>
       ) : (
-        <Typography className="text-11 font-medium leading-loose text-primary md:text-14">
+        <p className="text-11 font-medium leading-loose text-primary md:text-14">
           {CurrencyHelpers.formatForCurrency(price ?? '', locale)}
-        </Typography>
+        </p>
       )}
     </>
   );

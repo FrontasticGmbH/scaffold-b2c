@@ -91,6 +91,7 @@ const AddToCartOverlayProvider = ({ children }: React.PropsWithChildren) => {
             <CloseIcon
               className="absolute right-18 top-16 size-28 cursor-pointer fill-gray-600 stroke-0 md:top-16"
               onClick={hide}
+              data-testid="close-icon"
             />
 
             <div className="mt-22 md:mt-35 lg:mt-30">

@@ -1,6 +1,5 @@
 import React from 'react';
 import { Meta, StoryFn } from '@storybook/react';
-import Typography from 'components/commercetools-ui/atoms/typography';
 import CategorySlider, { Props } from '.';
 
 export default {
@@ -10,10 +9,10 @@ export default {
 
 const Template: StoryFn<typeof CategorySlider> = (args) => (
   <div className="ml-44">
-    <Typography className="mt-40 w-2/5 text-28 font-bold text-black">Category Slider</Typography>
-    <Typography className="mt-20 w-3/5 text-20 leading-loose text-neutral-700">
+    <p className="mt-40 w-2/5 text-28 font-bold text-black">Category Slider</p>
+    <p className="mt-20 w-3/5 text-20 leading-loose text-neutral-700">
       The Product Category Slider displays a selection of product categories.
-    </Typography>
+    </p>
     <div className="mt-44 justify-start">
       <CategorySlider {...args} />
     </div>

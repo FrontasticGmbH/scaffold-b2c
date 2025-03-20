@@ -2,7 +2,6 @@ import React, { FC, useMemo, useState } from 'react';
 import { useParams } from 'next/navigation';
 import Accordion from 'components/commercetools-ui/atoms/accordion';
 import Image from 'components/commercetools-ui/atoms/image';
-import Typography from 'components/commercetools-ui/atoms/typography';
 import Costs from 'components/commercetools-ui/organisms/order-payment-section/components/costs';
 import { CurrencyHelpers } from 'helpers/currencyHelpers';
 import useClassNames from 'helpers/hooks/useClassNames';
@@ -61,11 +60,9 @@ const SummaryAccordion: FC<Props> = ({ className, order, cart }) => {
               </div>
             )}
             <div className="flex flex-col justify-center gap-8 pl-16 text-14 text-primary">
-              <Typography>{lineItem?.name}</Typography>
-              <Typography className="font-medium">
-                {CurrencyHelpers.formatForCurrency(lineItem?.price as number, locale)}
-              </Typography>
-              <Typography>{`x ${lineItem?.count}`}</Typography>
+              <p>{lineItem?.name}</p>
+              <p className="font-medium">{CurrencyHelpers.formatForCurrency(lineItem?.price as number, locale)}</p>
+              <p>{`x ${lineItem?.count}`}</p>
             </div>
           </div>
         ))}

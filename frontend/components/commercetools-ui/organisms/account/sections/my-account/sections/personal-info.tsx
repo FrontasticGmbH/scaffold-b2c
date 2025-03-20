@@ -17,7 +17,7 @@ const PersonalInfo = () => {
   return (
     <InfoCard
       title={translate('account.personal-info')}
-      titleTagType="h2"
+      titleTag="h2"
       isEditable
       infoFields={personalInformationFields}
       editHref="?id=edit-personal-info"

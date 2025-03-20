@@ -1,7 +1,6 @@
 import { FC } from 'react';
 import { XMarkIcon } from '@heroicons/react/24/outline';
 import { useTranslations } from 'use-intl';
-import Typography from 'components/commercetools-ui/atoms/typography';
 import Modal from 'components/commercetools-ui/organisms/modal';
 import SaveOrCancel from '../../account-atoms/save-or-cancel';
 
@@ -32,12 +31,8 @@ const DeleteModal: FC<DeleteModalProps> = ({ modalIsOpen, loading, closeModal, h
         />
 
         <div className="m-auto grid h-full place-content-center gap-24">
-          <Typography as="h3" className="text-center text-20 font-medium text-primary">
-            {translate('account.delete-address')}
-          </Typography>
-          <Typography as="p" className="text-center text-gray-600">
-            {translate('account.action-warning')}
-          </Typography>
+          <h3 className="text-center text-20 font-medium text-primary">{translate('account.delete-address')}</h3>
+          <p className="text-center text-gray-600">{translate('account.action-warning')}</p>
 
           <SaveOrCancel loading={loading} onCancel={closeModal} variant="delete" onSave={handleDelete} />
         </div>

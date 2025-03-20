@@ -4,7 +4,6 @@ import { Order } from 'shared/types/cart/Order';
 import { Money } from 'shared/types/product/Money';
 import { useTranslations } from 'use-intl';
 import Accordion from 'components/commercetools-ui/atoms/accordion';
-import Typography from 'components/commercetools-ui/atoms/typography';
 import { CurrencyHelpers } from 'helpers/currencyHelpers';
 import useClassNames from 'helpers/hooks/useClassNames';
 import OrderSummaryList from './order-summary-list';
@@ -29,7 +28,6 @@ const OrderSummary: FC<OrderSummaryProps> = ({ order, onPrint }) => {
     {
       label: translate('cart.discount'),
       value: order.sum,
-      //value: order.shippingInfo?.discounts,
     },
     {
       label: translate('cart.shipping-estimate'),
@@ -44,9 +42,7 @@ const OrderSummary: FC<OrderSummaryProps> = ({ order, onPrint }) => {
   return (
     <div className="grow bg-white px-16 md:px-24 lg:p-36">
       <div className="my-16 md:mb-0 md:border-b md:border-neutral-400 md:pb-16 md:text-18 lg:m-0 lg:border-b-0 lg:pb-28">
-        <Typography as="h4" asSkeleton={!order.sum} className="w-fit text-18 leading-[20px] text-primary">
-          {translate('thank-you.order-details')}
-        </Typography>
+        <h4 className="w-fit text-18 leading-[20px] text-primary">{translate('thank-you.order-details')}</h4>
       </div>
 
       <OrderSummaryList
@@ -71,23 +67,19 @@ const OrderSummary: FC<OrderSummaryProps> = ({ order, onPrint }) => {
           if ((value?.centAmount && value.centAmount > 0 && !!order.sum) || !order.sum)
             return (
               <div key={index} className="flex items-center justify-between">
-                <Typography asSkeleton={!order.sum} className="text-14 text-primary md:text-16">
-                  {label}
-                </Typography>
-                <Typography asSkeleton={!order.sum} className="text-14 text-primary md:text-16">
+                <p className="text-14 text-primary md:text-16">{label}</p>
+                <p className="text-14 text-primary md:text-16">
                   {CurrencyHelpers.formatForCurrency(value ?? 99999, locale)}
-                </Typography>
+                </p>
               </div>
             );
         })}
 
         <div className="mt-16 flex items-center justify-between lg:mt-12 lg:border-t lg:border-neutral-400 lg:pt-12">
-          <Typography asSkeleton={!order.sum} className="font-medium text-primary md:text-18 lg:leading-loose">
-            {translate('cart.total') + ':'}
-          </Typography>
-          <Typography asSkeleton={!order.sum} className="font-medium text-primary md:text-18 lg:leading-loose">
+          <p className="font-medium text-primary md:text-18 lg:leading-loose">{translate('cart.total') + ':'}</p>
+          <p className="font-medium text-primary md:text-18 lg:leading-loose">
             {CurrencyHelpers.formatForCurrency(order?.sum ?? 999999, locale)}
-          </Typography>
+          </p>
         </div>
       </div>
 

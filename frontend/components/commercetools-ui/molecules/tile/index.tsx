@@ -1,7 +1,6 @@
 import Button from 'components/commercetools-ui/atoms/button';
 import Image, { ImageProps } from 'components/commercetools-ui/atoms/image';
 import Link from 'components/commercetools-ui/atoms/link';
-import Typography from 'components/commercetools-ui/atoms/typography';
 import useClassNames from 'helpers/hooks/useClassNames';
 import { Reference } from 'types/reference';
 
@@ -32,18 +31,12 @@ const Tile: React.FC<TileProps> = ({
         <Image {...image} alt={title} style={{ objectFit: 'cover' }} className={`brightness-75 ${imageClassName}`} />
       )}
       <div className="absolute left-0 top-1/2 w-full -translate-y-1/2 text-center">
-        <Typography className="text-shadow text-center text-14 leading-loose text-white md:text-16 lg:font-medium">
-          {subtitle}
-        </Typography>
-        <Typography as="h2" className="text-shadow mt-18 text-center text-26 font-medium text-white lg:text-28">
-          {title}
-        </Typography>
+        <p className="text-shadow text-center text-14 leading-loose text-white md:text-16 lg:font-medium">{subtitle}</p>
+        <h2 className="text-shadow mt-18 text-center text-26 font-medium text-white lg:text-28">{title}</h2>
         {ctaLabel && (
           <Link link={ctaReference}>
             <Button className="mt-24">
-              <Typography as="span" className="text-12">
-                {ctaLabel}
-              </Typography>
+              <span className="text-12">{ctaLabel}</span>
             </Button>
           </Link>
         )}

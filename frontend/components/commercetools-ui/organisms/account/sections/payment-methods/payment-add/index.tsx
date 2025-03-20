@@ -3,7 +3,6 @@ import { useTranslations } from 'use-intl';
 import Button from 'components/commercetools-ui/atoms/button';
 import Dropdown from 'components/commercetools-ui/atoms/dropdown';
 import Input from 'components/commercetools-ui/atoms/input';
-import Typography from 'components/commercetools-ui/atoms/typography';
 import useResolveCCImage from 'components/commercetools-ui/organisms/checkout/hooks/useResolveCCImage';
 import { useRouter } from 'i18n/routing';
 import useAddPaymentMethods from '../helper-hooks/useAddPaymentMethod';
@@ -19,17 +18,13 @@ const PaymentAdd = () => {
   return (
     <div className="ml-0 mt-20 lg:ml-44 lg:mt-40">
       <div className="mt-24 px-16 md:mt-0 md:px-24 lg:px-0">
-        <Typography as="h2" className="text-primary md:text-22 lg:text-24">
-          {translate('payment.add-card')}
-        </Typography>
+        <h2 className="text-primary md:text-22 lg:text-24">{translate('payment.add-card')}</h2>
       </div>
 
       <div className="mt-0 w-full px-16 py-0 md:px-24 lg:mt-36 lg:w-[65%] lg:rounded-md lg:border lg:px-24 lg:py-32">
         <div className="mt-24 md:w-375 lg:mt-0">
           <div className="relative">
-            <Typography as="label" className="text-14 font-medium text-gray-600">
-              {translate('payment.card-number')}
-            </Typography>
+            <label className="text-14 font-medium text-gray-600">{translate('payment.card-number')}</label>
             <Input
               value={paymentAddData.cardNumberFormatted}
               className="mt-8 sm:px-8"
@@ -50,9 +45,7 @@ const PaymentAdd = () => {
 
           <div className="mt-24 w-full flex-col gap-8 md:max-w-[436px] lg:mt-12 lg:flex lg:flex-row">
             <div className="w-full lg:w-3/5">
-              <Typography as="label" className="text-14 font-medium text-gray-600">
-                {translate('payment.expiration-date')}
-              </Typography>
+              <label className="text-14 font-medium text-gray-600">{translate('payment.expiration-date')}</label>
               <div className="mt-8 flex grow items-center md:flex-1">
                 <div className="mr-12">
                   <Dropdown
@@ -76,25 +69,21 @@ const PaymentAdd = () => {
             </div>
           </div>
           {paymentAddData.dateError && (
-            <Typography as="label" className="text-12 font-medium text-red-500">
+            <label className="text-12 font-medium text-red-500">
               {
                 // @ts-ignore
                 translate('payment.' + paymentAddData.dateError)
               }
-            </Typography>
+            </label>
           )}
         </div>
         <div className="mt-32 flex">
           <Button variant="secondary" className="w-112" onClick={() => router.push('/account#payment')}>
-            <Typography as="h2" className="text-center text-14 text-primary">
-              {translate('payment.cancel')}
-            </Typography>
+            <span className="text-center text-14 text-primary">{translate('payment.cancel')}</span>
           </Button>
 
           <Button variant="primary" className="ml-12 w-112" onClick={paymentAddData.handleAddClick}>
-            <Typography as="h2" className="text-center text-14">
-              {translate('payment.save')}
-            </Typography>
+            <span className="text-center text-14">{translate('payment.save')}</span>
           </Button>
         </div>
       </div>

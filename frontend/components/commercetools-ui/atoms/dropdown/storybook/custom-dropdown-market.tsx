@@ -6,7 +6,6 @@ import FlagIcons from 'components/icons/flags';
 import { dropDownMarket, dropDownMarkets } from 'helpers/mocks/mockAtomsData';
 import Dropdown from '..';
 import Button from '../../button';
-import Typography from '../../typography';
 
 const CustomDropdownMarket = () => {
   const [selectedMarket, setSelectedMarket] = useState(dropDownMarket);
@@ -20,9 +19,9 @@ const CustomDropdownMarket = () => {
       <div className="flex w-full cursor-pointer items-center justify-between">
         <div className="flex w-fit cursor-pointer items-center justify-start">
           <FlagIcons flagName={selectedMarket.flag} className="my-auto mr-8" />
-          <Typography className="text-14 text-gray-600">
+          <p className="text-14 text-gray-600">
             {`${selectedMarket.region} | ${selectedMarket.currency} ${selectedMarket.currencyCode}`}
-          </Typography>
+          </p>
         </div>
         <ChevronDownIcon strokeWidth={2} className="w-16 text-gray-600" />
       </div>
@@ -43,9 +42,7 @@ const CustomDropdownMarket = () => {
               >
                 <div className="flex w-fit items-center justify-start">
                   <FlagIcons flagName={market.flag} className="mr-8" />
-                  <Typography as="span" className="text-14 font-normal text-gray-600">
-                    {market?.region}
-                  </Typography>
+                  <span className="text-14 font-normal text-gray-600">{market?.region}</span>
                 </div>
               </Button>
             </div>

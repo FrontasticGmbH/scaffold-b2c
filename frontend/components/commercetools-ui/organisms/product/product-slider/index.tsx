@@ -2,7 +2,6 @@ import React, { FC } from 'react';
 import { SwiperProps } from 'swiper/react'; // eslint-disable-line import/no-unresolved
 import Slider from 'components/commercetools-ui/atoms/slider';
 import Subtitle, { SubtitleProps } from 'components/commercetools-ui/atoms/subtitle';
-import Typography from 'components/commercetools-ui/atoms/typography';
 import ProductTile from 'components/commercetools-ui/molecules/product-tile';
 import Wrapper from 'components/HOC/wrapper';
 import useClassNames from 'helpers/hooks/useClassNames';
@@ -86,7 +85,7 @@ const ProductSlider: FC<ProductSliderProps> = ({
   return (
     <Wrapper background="neutral-200" clearDefaultStyles={clearDefaultWrapperStyles}>
       <div>
-        <Typography className={titleClassName}>{title}</Typography>
+        <p className={titleClassName}>{title}</p>
         {(subline || ctaLink) && (
           <div className="mt-8 flex items-center justify-between md:mt-16 lg:mt-14">
             {subline && <Subtitle subtitle={subline} variant={subtitleVariant} />}

@@ -1,5 +1,4 @@
 import { useContext } from 'react';
-import Typography from 'components/commercetools-ui/atoms/typography';
 import { AccountContext } from 'context/account';
 import useClassNames from 'helpers/hooks/useClassNames';
 import useMediaQuery from 'helpers/hooks/useMediaQuery';
@@ -37,7 +36,7 @@ const OrderSummary = ({
     <div className={className}>
       {(title || includeLoginSuggestion) && (
         <div className="py-16 md:py-24 lg:pb-24 lg:pt-0">
-          {title && <Typography className="md:text-18">{title}</Typography>}
+          {title && <p className="md:text-18">{title}</p>}
 
           {includeLoginSuggestion && !loggedIn && (
             <LoginSuggestion

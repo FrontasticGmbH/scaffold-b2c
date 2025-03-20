@@ -2,8 +2,6 @@ import React from 'react';
 import type { Address as AddressType } from 'shared/types/account/Address';
 import { useTranslations } from 'use-intl';
 import Radio from 'components/commercetools-ui/atoms/radio';
-import Typography from 'components/commercetools-ui/atoms/typography';
-import { TypographyProps } from 'components/commercetools-ui/atoms/typography/types';
 import useMediaQuery from 'helpers/hooks/useMediaQuery';
 import { tablet } from 'helpers/utils/screensizes';
 import { AddressFormData } from './address-form';
@@ -23,10 +21,6 @@ const Address: React.FC<AddressProps> = ({ address, isDefaultAddress, selectAddr
 
   const [isTabletSize] = useMediaQuery(tablet);
   const translate = useTranslations();
-
-  const addressInfoTypographyProps: TypographyProps = {
-    className: 'text-gray-600 text-14 leading-loose',
-  };
 
   const addressInfoTypographyElements = [
     `${address.firstName} ${address.lastName}`,
@@ -52,17 +46,17 @@ const Address: React.FC<AddressProps> = ({ address, isDefaultAddress, selectAddr
         />
         <div className="grid gap-24 md:gap-4">
           <div className="flex gap-5 md:mb-4">
-            <Typography className="text-14 font-medium capitalize md:text-16">{label}</Typography>
+            <p className="text-14 font-medium capitalize md:text-16">{label}</p>
             {isDefaultAddress && (
-              <Typography className="text-14 text-gray-600 md:hidden">{'- ' + translate('account.default')}</Typography>
+              <p className="text-14 text-gray-600 md:hidden">{'- ' + translate('account.default')}</p>
             )}
           </div>
 
           <div className="grid">
             {addressInfoTypographyElements.map((element) => (
-              <Typography key={element} {...addressInfoTypographyProps}>
+              <p key={element} className="text-14 leading-loose text-gray-600">
                 {element}
-              </Typography>
+              </p>
             ))}
           </div>
         </div>

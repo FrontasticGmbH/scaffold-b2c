@@ -1,6 +1,5 @@
 import React, { FC, useEffect, useState } from 'react';
 import Link from 'components/commercetools-ui/atoms/link';
-import Typography from 'components/commercetools-ui/atoms/typography';
 import { Tile } from 'components/commercetools-ui/organisms/header/types';
 import useClassNames from 'helpers/hooks/useClassNames';
 import useListKeyboardNavigation from 'helpers/hooks/useListKeyboardNavigation';
@@ -69,7 +68,7 @@ const MenuDropdown: FC<Props> = ({ show, links, tileContent, onClick }) => {
                       underline: index === activeInlineIndex && activeIndex === 0,
                     })}
                   >
-                    <Typography className="text-14">{link.name}</Typography>
+                    <p className="text-14">{link.name}</p>
                   </Link>
                 </div>
                 {link.descendants &&
@@ -82,14 +81,14 @@ const MenuDropdown: FC<Props> = ({ show, links, tileContent, onClick }) => {
                           underline: index === activeInlineIndex && activeIndex === descIndex + 1,
                         })}
                       >
-                        <Typography className="text-14">{field.name}</Typography>
+                        <p className="text-14">{field.name}</p>
                       </Link>
                     </div>
                   ))}
               </>
             ) : (
               <Link key={link.categoryId} link={link?._url} variant="menu-header">
-                <Typography className="text-14">{link.name}</Typography>
+                <p className="text-14">{link.name}</p>
               </Link>
             )}
           </li>

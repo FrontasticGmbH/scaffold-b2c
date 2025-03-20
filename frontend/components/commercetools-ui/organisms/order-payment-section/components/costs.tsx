@@ -1,6 +1,5 @@
 import React, { FC } from 'react';
 import { useParams } from 'next/navigation';
-import Typography from 'components/commercetools-ui/atoms/typography';
 import { CurrencyHelpers } from 'helpers/currencyHelpers';
 import useClassNames from 'helpers/hooks/useClassNames';
 import useCostsData from '../hooks/useCostsData';
@@ -15,7 +14,7 @@ const Costs: FC<CostsProps> = ({
   totalAmountClassName,
 }) => {
   const { locale } = useParams();
-  const { loading, costsToRender, total } = useCostsData({ dataReference, order });
+  const { costsToRender, total } = useCostsData({ dataReference, order });
 
   const totalAmountClassNames = useClassNames([
     'mt-24 flex items-center justify-between font-medium',
@@ -36,15 +35,15 @@ const Costs: FC<CostsProps> = ({
             !!value?.centAmount &&
             value.centAmount > 0 && (
               <div key={key} className={subCostsClassNames}>
-                <Typography asSkeleton={loading}>{label}</Typography>
-                <Typography asSkeleton={loading}>{CurrencyHelpers.formatForCurrency(value, locale)}</Typography>
+                <p>{label}</p>
+                <p>{CurrencyHelpers.formatForCurrency(value, locale)}</p>
               </div>
             ),
         )}
       </div>
       <div className={totalAmountClassNames}>
-        <Typography asSkeleton={loading}>{total.label}</Typography>
-        <Typography asSkeleton={loading}>{CurrencyHelpers.formatForCurrency(total.value, locale)}</Typography>
+        <p>{total.label}</p>
+        <p>{CurrencyHelpers.formatForCurrency(total.value, locale)}</p>
       </div>
     </div>
   );

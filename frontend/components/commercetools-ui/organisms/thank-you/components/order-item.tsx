@@ -3,7 +3,6 @@ import { useParams } from 'next/navigation';
 import Skeleton from 'react-loading-skeleton';
 import { LineItem } from 'shared/types/cart/LineItem';
 import Image from 'components/commercetools-ui/atoms/image';
-import Typography from 'components/commercetools-ui/atoms/typography';
 import { CurrencyHelpers } from 'helpers/currencyHelpers';
 
 const OrderLineItem: FC<LineItem> = ({ name, price, count, variant }) => {
@@ -20,20 +19,16 @@ const OrderLineItem: FC<LineItem> = ({ name, price, count, variant }) => {
           )}
         </div>
         <div className="mt-10 grow overflow-hidden">
-          <Typography asSkeleton={!name} className="block max-w-full truncate text-12 capitalize md:text-14">
-            {name ?? 'product name'}
-          </Typography>
-          <Typography asSkeleton={!name} className="mt-8 block text-12 font-medium md:hidden lg:block lg:text-14">
+          <p className="block max-w-full truncate text-12 capitalize md:text-14">{name ?? 'product name'}</p>
+          <p className="mt-8 block text-12 font-medium md:hidden lg:block lg:text-14">
             {CurrencyHelpers.formatForCurrency(price ?? 111, locale)}
-          </Typography>
-          <Typography asSkeleton={!name} className="mt-12 text-14 text-gray-600">
-            {'x ' + (count ?? '2')}
-          </Typography>
+          </p>
+          <p className="mt-12 text-14 text-gray-600">{'x ' + (count ?? '2')}</p>
         </div>
       </div>
-      <Typography asSkeleton={!name} className="mt-8 hidden font-medium md:block lg:hidden">
+      <p className="mt-8 hidden font-medium md:block lg:hidden">
         {CurrencyHelpers.formatForCurrency(price ?? 111, locale)}
-      </Typography>
+      </p>
     </div>
   );
 };

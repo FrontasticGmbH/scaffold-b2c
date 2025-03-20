@@ -1,5 +1,4 @@
 import { FC, useMemo } from 'react';
-import Typography from 'components/commercetools-ui/atoms/typography';
 import useMediaQuery from 'helpers/hooks/useMediaQuery';
 import useTouchDevice from 'helpers/hooks/useTouchDevice';
 import { smallMobile, desktop, tablet, mediumDesktop } from 'helpers/utils/screensizes';
@@ -28,11 +27,7 @@ const ContentSlider: FC<ContentSliderProps> = ({ title, subtitle, slides }) => {
 
   return (
     <Wrapper clearDefaultStyles className="pl-16 md:pl-24 lg:pl-48 xl:px-48">
-      {title && (
-        <Typography className="mb-12 text-20 md:text-22 lg:text-28" as="h3">
-          {title}
-        </Typography>
-      )}
+      {title && <h3 className="mb-12 text-20 md:text-22 lg:text-28">{title}</h3>}
       {subtitle && <Subtitle className="mb-24" subtitle={subtitle} />}
       {isMediumDesktopSize ? (
         <div className="flex w-full gap-24">{slidesElement}</div>

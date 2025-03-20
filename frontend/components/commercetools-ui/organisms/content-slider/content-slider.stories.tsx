@@ -1,6 +1,5 @@
 import React from 'react';
 import { Meta, StoryFn } from '@storybook/react';
-import Typography from 'components/commercetools-ui/atoms/typography';
 import ContentSlider from '.';
 import { ContentSliderProps } from './types';
 
@@ -33,10 +32,10 @@ const Template: StoryFn<ContentSliderProps> = () => {
 
   return (
     <div className="ml-44">
-      <Typography className="mt-40 w-2/5 text-28 font-bold text-black">Content Slider</Typography>
-      <Typography className="mt-20 w-3/5 text-20 leading-loose text-neutral-700">
+      <p className="mt-40 w-2/5 text-28 font-bold text-black">Content Slider</p>
+      <p className="mt-20 w-3/5 text-20 leading-loose text-neutral-700">
         The Content Slider displays a selection of blog posts or inspirational content.
-      </Typography>
+      </p>
       <div className="mt-40">
         <ContentSlider
           title="Get Inspired"

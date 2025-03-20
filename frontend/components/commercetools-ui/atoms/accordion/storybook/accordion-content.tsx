@@ -6,18 +6,17 @@ import { CurrencyHelpers } from 'helpers/currencyHelpers';
 import { accordionFAQMockItems, accordionMockItems } from 'helpers/mocks/mockAtomsData';
 import { lineItems } from 'helpers/mocks/mockCommonData';
 import { variant } from 'helpers/mocks/mockData';
-import Typography from '../../typography';
 import Accordion from '../index';
 
 const AccordionContent = () => {
   return (
     <div className="ml-44">
-      <Typography className="mt-40 w-2/5 text-28 font-bold text-black">Accordion</Typography>
-      <Typography className="mt-20 w-3/5 text-20 leading-loose text-neutral-700">
+      <p className="mt-40 w-2/5 text-28 font-bold text-black">Accordion</p>
+      <p className="mt-20 w-3/5 text-20 leading-loose text-neutral-700">
         The Accordion component allows customers to toggle between showing and hiding content within a single space.
-      </Typography>
+      </p>
 
-      <Typography className="mt-40 w-2/5 text-24 font-medium text-black">Normal accordion</Typography>
+      <p className="mt-40 w-2/5 text-24 font-medium text-black">Normal accordion</p>
       <div className="mt-16 flex w-1/2 justify-start">
         <div className="flex w-full flex-col items-stretch gap-8">
           {accordionMockItems.map((item, index) => (
@@ -35,7 +34,7 @@ const AccordionContent = () => {
         </div>
       </div>
 
-      <Typography className="mt-32 w-2/5 text-24 font-medium text-black">FAQ accordion</Typography>
+      <p className="mt-32 w-2/5 text-24 font-medium text-black">FAQ accordion</p>
 
       <div className="mt-16 flex w-1/2 flex-col items-stretch gap-8">
         {accordionFAQMockItems.map((item, index) => (
@@ -52,7 +51,7 @@ const AccordionContent = () => {
         ))}
       </div>
 
-      <Typography className="mt-32 w-2/5 text-24 font-medium text-black">Custom accordion</Typography>
+      <p className="mt-32 w-2/5 text-24 font-medium text-black">Custom accordion</p>
 
       <div className="mt-16">
         <Accordion
@@ -92,26 +91,18 @@ const AccordionContent = () => {
                     )}
                   </div>
                   <div className="mt-10 grow overflow-hidden">
-                    <Typography
-                      asSkeleton={!lineItem.name}
-                      className="block max-w-full truncate text-12 capitalize md:text-14"
-                    >
+                    <p className="block max-w-full truncate text-12 capitalize md:text-14">
                       {lineItem.name ?? 'product name'}
-                    </Typography>
-                    <Typography
-                      asSkeleton={!lineItem.name}
-                      className="mt-8 block text-12 font-medium md:hidden lg:block lg:text-14"
-                    >
+                    </p>
+                    <p className="mt-8 block text-12 font-medium md:hidden lg:block lg:text-14">
                       {CurrencyHelpers.formatForCurrency(lineItem.price ?? 111, 'en')}
-                    </Typography>
-                    <Typography asSkeleton={!lineItem.name} className="mt-12 text-14 text-gray-600">
-                      {'x ' + (lineItem.count ?? '2')}
-                    </Typography>
+                    </p>
+                    <p className="mt-12 text-14 text-gray-600">{'x ' + (lineItem.count ?? '2')}</p>
                   </div>
                 </div>
-                <Typography asSkeleton={!lineItem.name} className="mt-8 hidden font-medium md:block lg:hidden">
+                <p className="mt-8 hidden font-medium md:block lg:hidden">
                   {CurrencyHelpers.formatForCurrency(lineItem.price ?? 111, 'en')}
-                </Typography>
+                </p>
               </div>
             ))}
           </div>

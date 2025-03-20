@@ -2,7 +2,6 @@ import React, { FC, useContext, useLayoutEffect, useRef, useState } from 'react'
 import { useTranslations } from 'use-intl';
 import Button from 'components/commercetools-ui/atoms/button';
 import Link from 'components/commercetools-ui/atoms/link';
-import Typography from 'components/commercetools-ui/atoms/typography';
 import MarketButtonMobile from 'components/commercetools-ui/organisms/market-button/market-button-mobile';
 import { AccountContext } from 'context/account';
 import { useRouter } from 'i18n/routing';
@@ -68,7 +67,7 @@ const MobileMenuFooter: FC<Props> = ({ showMenu, hideHeaderMenu, insertCategory 
       ) : (
         <div className="ml-24 mr-22 block py-16 md:hidden">
           <Link link="/help" onClick={hideHeaderMenu} className="py-16">
-            <Typography className="text-14 text-primary">{translate('common.help-and-support')}</Typography>
+            <p className="text-14 text-primary">{translate('common.help-and-support')}</p>
           </Link>{' '}
         </div>
       )}
@@ -76,11 +75,11 @@ const MobileMenuFooter: FC<Props> = ({ showMenu, hideHeaderMenu, insertCategory 
       <div className="mx-24 flex py-16">
         {account ? (
           <Button variant="ghost" size="fit" onClick={handleLogout}>
-            <Typography className="font-normal text-primary">{translate('account.sign-out')}</Typography>
+            <span className="font-normal text-primary">{translate('account.sign-out')}</span>
           </Button>
         ) : (
           <Link link="/login" onClick={hideHeaderMenu} className="px-0">
-            <Typography className="text-14 font-normal text-primary">{translate('account.sign-in')}</Typography>
+            <span className="text-14 font-normal text-primary">{translate('account.sign-in')}</span>
           </Link>
         )}
       </div>

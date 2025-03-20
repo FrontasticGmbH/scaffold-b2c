@@ -1,4 +1,22 @@
 
+## Version 3.3.0 (2025-03-17)
+
+*• New Features & Improvements **
+
+• used full name to loop over variants
+• generated product url using, if exist, the first matching variant in B2C
+• use single product selection in B2C
+• set meta fields undefined if empty in B2C and B2B
+• switch to using LocalizedValue.getLocalizedValue
+• map meta data fields for products and categories
+• mapped cart returned by accoun login method in B2C
+• fix lint
+• set order number during checkout session
+
+*• Bug Fixes **
+
+• handled product queries with multiple or/and and a single or/and
+
 ## Version 3.2.0 (2025-03-03)
 
 

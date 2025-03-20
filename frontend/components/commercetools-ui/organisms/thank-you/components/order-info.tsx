@@ -1,6 +1,5 @@
 import { FC } from 'react';
 import { useTranslations } from 'use-intl';
-import Typography from 'components/commercetools-ui/atoms/typography';
 import { Account } from 'types/entity/account';
 import { ShippingMethod } from 'types/entity/cart';
 import { Order } from 'types/entity/order';
@@ -14,8 +13,6 @@ type ThankYouOrderInfoProps = {
 
 const ThankYouOrderInfo: FC<ThankYouOrderInfoProps> = ({ firstName, order, shippingMethods }) => {
   const translate = useTranslations();
-
-  const loading = !order;
 
   const { orderNumber, deliveryMethod, shippingAddress, paymentInfo } = useOrderInfoData({ order, shippingMethods });
 
@@ -36,22 +33,11 @@ const ThankYouOrderInfo: FC<ThankYouOrderInfoProps> = ({ firstName, order, shipp
         <div key={index}>
           <div className="flex flex-wrap gap-5 md:gap-0">
             <div className="md:w-136">
-              <Typography className="w-fit text-14 leading-loose text-gray-600 md:text-16" asSkeleton={loading}>
-                {label + ':'}
-              </Typography>
+              <p className="w-fit text-14 leading-loose text-gray-600 md:text-16">{label + ':'}</p>
             </div>
-            <Typography className="text-14 font-medium leading-loose text-primary md:text-16" asSkeleton={loading}>
-              {value}
-            </Typography>
+            <p className="text-14 font-medium leading-loose text-primary md:text-16">{value}</p>
           </div>
-          {subValue && (
-            <Typography
-              className="mt-4 w-fit text-14 leading-loose text-primary md:ml-136 md:text-16"
-              asSkeleton={loading}
-            >
-              {subValue}
-            </Typography>
-          )}
+          {subValue && <p className="mt-4 w-fit text-14 leading-loose text-primary md:ml-136 md:text-16">{subValue}</p>}
         </div>
       ))}
     </div>

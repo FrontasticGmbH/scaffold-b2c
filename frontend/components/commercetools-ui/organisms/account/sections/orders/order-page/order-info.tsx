@@ -4,7 +4,6 @@ import { Order } from 'shared/types/cart/Order';
 import { useTranslations } from 'use-intl';
 import Button from 'components/commercetools-ui/atoms/button';
 import Link from 'components/commercetools-ui/atoms/link';
-import Typography from 'components/commercetools-ui/atoms/typography';
 import SummaryAccordion from 'components/commercetools-ui/organisms/order-summary/components/summary-accordion';
 
 export interface Props {
@@ -29,43 +28,33 @@ const OrderInfoSection: FC<Props> = ({ order, shippingInfo, paymentInfo, shippin
       </div>
 
       <div className="flex 2xl:pl-0">
-        <Typography className="whitespace-nowrap text-14 text-gray-600 md:text-16">
-          {translate('orders.shipping-method')}
-        </Typography>
+        <p className="whitespace-nowrap text-14 text-gray-600 md:text-16">{translate('orders.shipping-method')}</p>
 
-        <Typography className="pl-8 text-14 font-medium text-primary md:pl-20 md:text-16 2xl:whitespace-nowrap 2xl:pl-44">
+        <p className="pl-8 text-14 font-medium text-primary md:pl-20 md:text-16 2xl:whitespace-nowrap 2xl:pl-44">
           {shippingInfo}
-        </Typography>
+        </p>
       </div>
 
       <div className="mt-24 flex 2xl:pl-0">
-        <Typography className="whitespace-nowrap text-14 text-gray-600 md:text-16">
-          {translate('checkout.shippingAddress')}
-        </Typography>
+        <p className="whitespace-nowrap text-14 text-gray-600 md:text-16">{translate('checkout.shippingAddress')}</p>
 
         <div className="pl-8 md:pl-20 2xl:pl-44">
-          <Typography className="pb-8 text-14 font-medium text-primary md:text-16">
+          <p className="pb-8 text-14 font-medium text-primary md:text-16">
             {`${shippingAddress.firstName} ${shippingAddress.lastName}`}
-          </Typography>
-          <Typography className="text-14 text-primary md:text-16">
+          </p>
+          <p className="text-14 text-primary md:text-16">
             {`${shippingAddress.streetName}, ${shippingAddress.city}, ${shippingAddress.postalCode}`}
-          </Typography>
+          </p>
           {shippingAddress.additionalAddressInfo && (
-            <Typography className="mt-8 text-14 text-primary md:text-16">
-              {shippingAddress.additionalAddressInfo}
-            </Typography>
+            <p className="mt-8 text-14 text-primary md:text-16">{shippingAddress.additionalAddressInfo}</p>
           )}
         </div>
       </div>
 
       <div className="mt-32 flex 2xl:pl-0">
-        <Typography className="whitespace-nowrap text-14 text-gray-600 md:text-16">
-          {translate('orders.payment-method')}
-        </Typography>
+        <p className="whitespace-nowrap text-14 text-gray-600 md:text-16">{translate('orders.payment-method')}</p>
 
-        <Typography className="pl-8 text-14 font-medium uppercase text-primary md:pl-20 md:text-16 2xl:pl-44">
-          {paymentInfo}
-        </Typography>
+        <p className="pl-8 text-14 font-medium uppercase text-primary md:pl-20 md:text-16 2xl:pl-44">{paymentInfo}</p>
       </div>
 
       <SummaryAccordion className="my-24 border-b 2xl:hidden" order={order} />
@@ -74,16 +63,14 @@ const OrderInfoSection: FC<Props> = ({ order, shippingInfo, paymentInfo, shippin
         <div className="flex flex-col lg:grid lg:grid-cols-2 2xl:grid-cols-1 2xl:gap-y-16">
           <div className="lg:w-full lg:pr-10 2xl:w-276 2xl:pr-0">
             <Button variant="secondary" className="h-fit w-full" onClick={handlePrint}>
-              <Typography className="text-center text-14 md:text-16">{translate('orders.print-invoice')}</Typography>
+              <span className="text-center text-14 md:text-16">{translate('orders.print-invoice')}</span>
             </Button>
           </div>
 
           {orderState === 'Confirmed' && (
             <div className="mt-20 lg:mt-0 lg:w-full lg:pl-10 2xl:w-276 2xl:pl-0">
               <Button variant="secondary" className="h-fit w-full">
-                <Typography className="text-center text-14 md:text-16">
-                  {translate('orders.request-cancellation')}
-                </Typography>
+                <span className="text-center text-14 md:text-16">{translate('orders.request-cancellation')}</span>
               </Button>
             </div>
           )}
@@ -91,20 +78,20 @@ const OrderInfoSection: FC<Props> = ({ order, shippingInfo, paymentInfo, shippin
           {orderState === 'Complete' && (
             <div className="mt-20 lg:mt-0 lg:w-full lg:pl-10 2xl:w-276 2xl:pl-0">
               <Button variant="secondary" className="h-fit w-full">
-                <Typography className="text-center text-14 md:text-16">{translate('orders.create-return')}</Typography>
+                <span className="text-center text-14 md:text-16">{translate('orders.create-return')}</span>
               </Button>
             </div>
           )}
         </div>
 
-        <Typography className="mt-40 w-full text-center text-14 text-primary md:text-16 lg:text-left 2xl:text-left">
+        <p className="mt-40 w-full text-center text-14 text-primary md:text-16 lg:text-left 2xl:text-left">
           {translate('orders.questions')}
-        </Typography>
+        </p>
 
         <Link link={'?hash=support'} className="mt-16 flex cursor-pointer">
-          <Typography className="w-full text-center text-14 font-medium text-primary hover:underline md:text-16 lg:text-left 2xl:text-left">
+          <p className="w-full text-center text-14 font-medium text-primary hover:underline md:text-16 lg:text-left 2xl:text-left">
             {translate('orders.contact-support')}
-          </Typography>
+          </p>
         </Link>
       </div>
     </div>

@@ -2,7 +2,6 @@ import React, { FC } from 'react';
 import { useTranslations } from 'use-intl';
 import Image, { ImageProps } from 'components/commercetools-ui/atoms/image';
 import Link from 'components/commercetools-ui/atoms/link';
-import Typography from 'components/commercetools-ui/atoms/typography';
 import { SocialMedia } from '.';
 
 interface Props {
@@ -20,7 +19,7 @@ const FooterBottom: FC<Props> = ({ logo, socialMedia }) => {
             <Image {...logo} alt="logo" />
           </div>
         )}
-        <Typography className="text-14 text-neutral-500">{translate('common.powered')}</Typography>
+        <p className="text-14 text-neutral-500">{translate('common.powered')}</p>
         <ul className="flex flex-row gap-20 self-center">
           {socialMedia?.map((item, i) => (
             <li key={i} className="w-22">
@@ -47,7 +46,7 @@ const FooterBottom: FC<Props> = ({ logo, socialMedia }) => {
             <Image {...logo} alt="logo" />
           </div>
         )}
-        <Typography className="text-14 text-neutral-500">{translate('common.powered')}</Typography>
+        <p className="text-14 text-neutral-500">{translate('common.powered')}</p>
       </div>
     </>
   );

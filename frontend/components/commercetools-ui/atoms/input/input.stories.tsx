@@ -1,6 +1,5 @@
 import { Meta, StoryFn } from '@storybook/react';
 import Input from '.';
-import Typography from '../typography';
 
 export default {
   title: 'Atoms/Input',
@@ -9,10 +8,10 @@ export default {
 
 const Template: StoryFn<typeof Input> = (args) => (
   <div className="ml-44">
-    <Typography className="mt-40 w-2/5 text-28 font-bold text-black">Input Field</Typography>
-    <Typography className="mt-20 w-3/5 text-20 leading-loose text-neutral-700">
+    <p className="mt-40 w-2/5 text-28 font-bold text-black">Input Field</p>
+    <p className="mt-20 w-3/5 text-20 leading-loose text-neutral-700">
       The Input Field allows customers to enter data or information. It has a top label, placeholder and validation.
-    </Typography>
+    </p>
 
     <div className="mt-40 flex w-full justify-start gap-x-80">
       <div className="w-[30%]">

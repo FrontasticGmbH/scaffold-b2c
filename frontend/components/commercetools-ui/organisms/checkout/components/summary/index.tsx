@@ -1,7 +1,6 @@
 import React, { useEffect, useRef } from 'react';
 import { useTranslations } from 'use-intl';
 import Button from 'components/commercetools-ui/atoms/button';
-import Typography from 'components/commercetools-ui/atoms/typography';
 import OrderItemsListing from 'components/commercetools-ui/organisms/order-items-listing';
 import OrderPaymentSection from 'components/commercetools-ui/organisms/order-payment-section';
 import DiscountForm from 'components/commercetools-ui/organisms/order-payment-section/components/discount-form';
@@ -30,9 +29,9 @@ const Summary: React.FC<Props> = ({ isFinalStep, onPurchase }) => {
 
   return (
     <div className="bg-white lg:mt-0 lg:min-w-[35%] lg:p-36">
-      <Typography as="h3" className="p-16 leading-[22px] text-primary md:p-24 md:text-18 lg:px-0 lg:pt-0">
+      <h3 className="p-16 leading-[22px] text-primary md:p-24 md:text-18 lg:px-0 lg:pt-0">
         {translate('cart.order-summary')}
-      </Typography>
+      </h3>
 
       {data?.lineItems && <OrderItemsListing className="border-t border-neutral-400" lineItems={data?.lineItems} />}
 

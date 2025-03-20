@@ -2,7 +2,6 @@ import { useCallback, useState } from 'react';
 import { XMarkIcon as CloseIcon } from '@heroicons/react/24/solid';
 import { useTranslations } from 'use-intl';
 import Button from 'components/commercetools-ui/atoms/button';
-import Typography from 'components/commercetools-ui/atoms/typography';
 import Modal from 'components/commercetools-ui/organisms/modal';
 import { Account } from 'types/entity/account';
 import Login from '../../authentication/login';
@@ -25,9 +24,9 @@ const LoginSuggestion = ({ login, requestConfirmationEmail, requestPasswordReset
 
   return (
     <>
-      <Typography className="mt-18 border-t border-neutral-400 pt-16 text-14 leading-[20px] text-gray-600 md:text-16 lg:border-none">
+      <p className="mt-18 border-t border-neutral-400 pt-16 text-14 leading-[20px] text-gray-600 md:text-16 lg:border-none">
         {translate('cart.order-summary-login')}
-      </Typography>
+      </p>
       <Button
         className="mt-18 py-12 text-14 font-medium md:text-16"
         onClick={openLoginModal}

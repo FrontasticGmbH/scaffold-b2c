@@ -1,5 +1,4 @@
 import { FC } from 'react';
-import Typography from 'components/commercetools-ui/atoms/typography';
 import { InfoField } from './info-card';
 
 type InfoFieldsProps = {
@@ -12,8 +11,8 @@ const InfoFields: FC<InfoFieldsProps> = ({ fields }) => {
       {fields?.map(({ label, value }, index) => {
         return value ? (
           <div key={index} className="grid gap-12">
-            <Typography className="text-14 font-medium leading-loose text-primary">{label}</Typography>
-            <Typography className="text-14 leading-loose text-primary">{value}</Typography>
+            <p className="text-14 font-medium leading-loose text-primary">{label}</p>
+            <p className="text-14 leading-loose text-primary">{value}</p>
           </div>
         ) : (
           <div key={index}></div>

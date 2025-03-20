@@ -6,7 +6,6 @@ import Checkbox, { CheckboxProps } from 'components/commercetools-ui/atoms/check
 import Input from 'components/commercetools-ui/atoms/input';
 import PasswordInput from 'components/commercetools-ui/atoms/input-password';
 import Link from 'components/commercetools-ui/atoms/link';
-import Typography from 'components/commercetools-ui/atoms/typography';
 import { Account } from 'types/entity/account';
 import Feedback from '../../account/account-atoms/feedback';
 
@@ -133,9 +132,9 @@ const LoginForm: FC<Props> = ({ login, requestConfirmationEmail, requestPassword
   };
   return (
     <>
-      <Typography as="h3" className="mb-16 text-16 md:mb-24 md:text-20 lg:text-24">
+      <h3 className="mb-16 text-16 md:mb-24 md:text-20 lg:text-24">
         {resendPasswordReset ? translate('account.password-reset-headline') : translate('account.welcome-back')}
-      </Typography>
+      </h3>
 
       <form onSubmit={handleSubmit}>
         <Feedback success={success} error={error} />
@@ -178,12 +177,12 @@ const LoginForm: FC<Props> = ({ login, requestConfirmationEmail, requestPassword
               label={translate('common.rememberMe')}
             />
 
-            <Typography
+            <button
               className="cursor-pointer text-12 text-gray-600 hover:underline md:text-14"
               onClick={toResendPassword}
             >
               {translate('account.password-forgot')}
-            </Typography>
+            </button>
           </div>
         )}
 

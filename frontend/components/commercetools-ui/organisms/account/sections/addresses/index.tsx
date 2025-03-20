@@ -2,7 +2,6 @@ import React, { useCallback, useContext, useEffect, useState } from 'react';
 import { Address as AddressType } from 'shared/types/account';
 import { useTranslations } from 'use-intl';
 import Link from 'components/commercetools-ui/atoms/link';
-import Typography from 'components/commercetools-ui/atoms/typography';
 import { AccountContext } from 'context/account';
 import Address from './address';
 import { AddressFormData } from './address-form';
@@ -56,14 +55,12 @@ const Addresses = () => {
   return (
     <div className="mt-20 px-16 md:px-24 lg:mt-40 lg:px-44">
       <div className="hidden pb-12 md:block md:pb-20 2xl:pb-36">
-        <Typography as="h2" className="text-22 text-primary lg:text-24">
-          {translate('account.addresses')}
-        </Typography>
+        <h2 className="text-22 text-primary lg:text-24">{translate('account.addresses')}</h2>
       </div>
       <div>
-        <Typography className="mb-28 text-14 leading-loose text-gray-600 md:mb-24 md:text-16 2xl:mb-36">
+        <p className="mb-28 text-14 leading-loose text-gray-600 md:mb-24 md:text-16 2xl:mb-36">
           {translate('account.address-desc')}
-        </Typography>
+        </p>
         <Link
           link="?hash=addresses&id=address-add"
           className="block w-full rounded-md bg-gray-700 px-16 py-8 text-center text-14 font-medium leading-[114%] text-neutral-150 hover:cursor-pointer md:w-fit 2xl:px-40 2xl:py-12"

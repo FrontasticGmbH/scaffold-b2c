@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import { useTranslations } from 'use-intl';
-import Typography from 'components/commercetools-ui/atoms/typography';
 
 export interface NewsletterProps {
   headline?: string;
@@ -74,7 +73,7 @@ export default function Newsletter({
           <div className="mt-8 sm:w-full sm:max-w-md xl:ml-8 xl:mt-0">
             <form action="#" className="mt-4 sm:mx-auto sm:flex sm:max-w-xl xl:px-4" onSubmit={onSubmit}>
               <label htmlFor="cta-email" className="sr-only">
-                <Typography as="fragment">{inputPlaceholder || fallbackPlaceholder}</Typography>
+                <>{inputPlaceholder || fallbackPlaceholder}</>
               </label>
               <input
                 id="cta-email"
@@ -89,12 +88,12 @@ export default function Newsletter({
                   type="submit"
                   className="block w-full rounded-md px-6 py-3 text-base font-bold leading-5 text-white sm:px-11"
                 >
-                  <Typography as="fragment">{ctaLabel || fallbackCta}</Typography>
+                  <>{ctaLabel || fallbackCta}</>
                 </button>
               </div>
             </form>
             <p className="mt-2 max-w-md text-left text-xs text-neutral-600 xl:px-5">
-              <Typography as="fragment">{disclaimer || fallbackDisclaimer}</Typography>
+              <>{disclaimer || fallbackDisclaimer}</>
             </p>
           </div>
         </div>
@@ -145,10 +144,10 @@ export default function Newsletter({
             </div>
 
             <h2 className="mt-2 text-center text-2xl font-bold tracking-[0.010em] lg:text-3xl">
-              <Typography as="fragment">{successTitle || fallbackSuccessTitle}</Typography>
+              <>{successTitle || fallbackSuccessTitle}</>
             </h2>
             <p className="mx-auto mt-1 max-w-2xl text-center text-sm">
-              <Typography as="fragment">{successMessage || fallbackSuccessMessage}</Typography>
+              <>{successMessage || fallbackSuccessMessage}</>
             </p>
           </div>
         </div>

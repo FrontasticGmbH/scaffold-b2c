@@ -2,7 +2,6 @@ import React, { ChangeEvent, ComponentProps, FC } from 'react';
 import { ChevronDownIcon } from '@heroicons/react/24/outline';
 import useClassNames from 'helpers/hooks/useClassNames';
 import useControllableState from 'helpers/hooks/useControllable';
-import Typography from '../typography';
 
 export interface DropdownProps extends ComponentProps<'select'> {
   className?: string;
@@ -43,11 +42,7 @@ const DefaultDropdown: FC<DropdownProps> = ({
 
   return (
     <div className={containerClassNames}>
-      {label && (
-        <Typography as="label" className={labelClassNames}>
-          {`${label}${props.required ? ' *' : ''}`}
-        </Typography>
-      )}
+      {label && <label className={labelClassNames}>{`${label}${props.required ? ' *' : ''}`}</label>}
 
       <div className="relative h-40 min-w-64 overflow-hidden rounded-sm border border-neutral-500">
         <select className={selectClassName} value={selectedValue} onChange={handleChange} {...props}>

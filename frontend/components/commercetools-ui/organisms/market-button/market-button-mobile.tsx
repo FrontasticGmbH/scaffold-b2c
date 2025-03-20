@@ -4,7 +4,6 @@ import { ChevronDownIcon } from '@heroicons/react/24/outline';
 import { useTranslations } from 'use-intl';
 import Button from 'components/commercetools-ui/atoms/button';
 import Dropdown from 'components/commercetools-ui/atoms/dropdown';
-import Typography from 'components/commercetools-ui/atoms/typography';
 import FlagIcons from 'components/icons/flags';
 import useClassNames from 'helpers/hooks/useClassNames';
 import { useShipAndLanguage } from '../../../../providers/ship-and-language';
@@ -48,7 +47,7 @@ const MarketButtonMobile: FC<Props> = ({ menuTop }) => {
       <div className="flex w-full cursor-pointer justify-between">
         <div className="flex w-fit items-center justify-start">
           {selectedLocation && <FlagIcons flagName={selectedLocation?.flagName} className="my-auto mr-8" />}
-          <Typography className="text-14 text-gray-600">{selectedLocation?.label}</Typography>
+          <p className="text-14 text-gray-600">{selectedLocation?.label}</p>
         </div>
         <div className="flex justify-end">
           <ChevronDownIcon strokeWidth={2} className="w-16 text-gray-600" />
@@ -61,7 +60,7 @@ const MarketButtonMobile: FC<Props> = ({ menuTop }) => {
     return (
       <div className="flex w-full cursor-pointer justify-between">
         <div className="flex w-fit items-center justify-start">
-          <Typography className="text-14 text-gray-600">{selectedLanguage?.name}</Typography>
+          <p className="text-14 text-gray-600">{selectedLanguage?.name}</p>
         </div>
         <div className="flex justify-end">
           <ChevronDownIcon strokeWidth={2} className="w-16 text-gray-600" />
@@ -74,9 +73,7 @@ const MarketButtonMobile: FC<Props> = ({ menuTop }) => {
     <>
       {locations && locations.length !== 0 && (
         <>
-          <Typography className="pb-2 text-14 font-semibold text-gray-700">
-            {translate('common.shop-ship-title')}
-          </Typography>
+          <p className="pb-2 text-14 font-semibold text-gray-700">{translate('common.shop-ship-title')}</p>
           <Dropdown
             customButtonElement={marketButtonElement}
             customMenuWrapperClassNames={marketMenuWrapperClassNames}
@@ -94,9 +91,7 @@ const MarketButtonMobile: FC<Props> = ({ menuTop }) => {
                   >
                     <div className="flex w-fit items-center justify-start">
                       <FlagIcons flagName={location.flagName} className="mr-8" />
-                      <Typography as="span" className="text-14 font-normal text-gray-600">
-                        {location.label}
-                      </Typography>
+                      <span className="text-14 font-normal text-gray-600">{location.label}</span>
                     </div>
                   </Button>
                 </div>
@@ -107,7 +102,7 @@ const MarketButtonMobile: FC<Props> = ({ menuTop }) => {
       )}
       {selectedLocation?.languages && selectedLocation.languages.length > 1 && (
         <div className="pt-5">
-          <Typography className="pb-2 text-14 font-semibold text-gray-700">{translate('common.language')}</Typography>
+          <p className="pb-2 text-14 font-semibold text-gray-700">{translate('common.language')}</p>
           <Dropdown
             customButtonElement={languageButtonElement}
             customMenuWrapperClassNames={marketMenuWrapperClassNames}
@@ -124,9 +119,7 @@ const MarketButtonMobile: FC<Props> = ({ menuTop }) => {
                     className="flex w-full items-center justify-start px-16 py-12"
                   >
                     <div className="flex w-fit items-center justify-start">
-                      <Typography as="span" className="text-14 font-normal text-gray-600">
-                        {language.name}
-                      </Typography>
+                      <span className="text-14 font-normal text-gray-600">{language.name}</span>
                     </div>
                   </Button>
                 </div>

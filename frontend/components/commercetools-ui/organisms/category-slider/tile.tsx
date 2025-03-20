@@ -3,7 +3,6 @@ import Image, { ImageProps } from 'components/commercetools-ui/atoms/image';
 import useImageSizes from 'helpers/hooks/useImageSizes';
 import { Reference } from 'types/reference';
 import Link from '../../atoms/link';
-import Typography from '../../atoms/typography';
 
 export interface Props {
   tile: {
@@ -29,12 +28,9 @@ const Tile: React.FC<Props> = ({ tile }) => {
           loading="eager"
         />
       </div>
-      <Typography
-        as="h2"
-        className="mt-5 block overflow-hidden truncate rounded-b-sm border-neutral-300 py-5 text-center text-14 text-primary md:text-16 lg:mt-0 lg:border lg:bg-white lg:py-10"
-      >
+      <h2 className="mt-5 block overflow-hidden truncate rounded-b-sm border-neutral-300 py-5 text-center text-14 text-primary md:text-16 lg:mt-0 lg:border lg:bg-white lg:py-10">
         {tile.title}
-      </Typography>
+      </h2>
     </Link>
   );
 };

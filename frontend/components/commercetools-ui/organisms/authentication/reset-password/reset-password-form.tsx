@@ -4,7 +4,6 @@ import Button from 'components/commercetools-ui/atoms/button';
 import { InputProps } from 'components/commercetools-ui/atoms/input';
 import PasswordInput from 'components/commercetools-ui/atoms/input-password';
 import Link from 'components/commercetools-ui/atoms/link';
-import Typography from 'components/commercetools-ui/atoms/typography';
 import { resolveReferenceTarget } from 'helpers/reference';
 import { useRouter } from 'i18n/routing';
 import { ResetPasswordProps } from '.';
@@ -66,12 +65,10 @@ const ResetPasswordForm: FC<ResetPasswordProps> = ({ accountLink, signInLink, re
   };
   return (
     <>
-      <Typography as="h3" className="mb-16 text-16 md:mb-24 md:text-20 lg:text-24">
-        {translate('account.password-reset-headline')}
-      </Typography>
+      <h3 className="mb-16 text-16 md:mb-24 md:text-20 lg:text-24">{translate('account.password-reset-headline')}</h3>
 
       <form onSubmit={handleSubmit}>
-        {error && <Typography className="mb-12 text-12 capitalize text-red-500">{error}</Typography>}
+        {error && <p className="mb-12 text-12 capitalize text-red-500">{error}</p>}
 
         <PasswordInput
           required

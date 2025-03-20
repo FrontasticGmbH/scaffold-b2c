@@ -2,7 +2,6 @@ import React, { useCallback, useEffect, useState } from 'react';
 import { Listbox, Transition, ListboxButton, ListboxOptions, ListboxOption } from '@headlessui/react';
 import { CheckIcon, ChevronDownIcon } from '@heroicons/react/24/outline';
 import { Option } from './index';
-import Typography from '../typography';
 
 export interface Props {
   error?: boolean;
@@ -58,9 +57,9 @@ const Select: React.FC<Props> = ({
     <>
       {label && (
         <div className="mb-8">
-          <Typography as="label" className={`${labelClassName} text-14 font-medium text-gray-600`}>
+          <label className={`${labelClassName} text-14 font-medium text-gray-600`}>
             {required ? `${label} *` : label}
-          </Typography>
+          </label>
         </div>
       )}
       <Listbox value={selected} onChange={handleChange}>

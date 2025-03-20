@@ -3,7 +3,6 @@ import { ChevronLeftIcon, XMarkIcon } from '@heroicons/react/24/outline';
 import { useTranslations } from 'use-intl';
 import Button from 'components/commercetools-ui/atoms/button';
 import { ImageProps } from 'components/commercetools-ui/atoms/image';
-import Typography from 'components/commercetools-ui/atoms/typography';
 import HeaderLogo from 'components/commercetools-ui/organisms/header/header-logo';
 import { Category } from 'types/entity/category';
 import { Reference } from 'types/reference';
@@ -36,7 +35,7 @@ const MobileMenuHeader: FC<Props> = ({ onArrowClick, logo, logoLink, hideHeaderM
         />
       ) : (
         <div className="flex w-full items-center justify-center whitespace-nowrap">
-          <Typography className="text-center font-medium">{categories[categories.length - 1].name}</Typography>
+          <p className="text-center font-medium">{categories[categories.length - 1].name}</p>
         </div>
       )}
       <div className="flex h-full items-center justify-end">

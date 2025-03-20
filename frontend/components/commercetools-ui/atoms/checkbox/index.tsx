@@ -4,7 +4,6 @@ import useClassNames from 'helpers/hooks/useClassNames';
 import useControllableState from 'helpers/hooks/useControllable';
 import useMediaQuery from 'helpers/hooks/useMediaQuery';
 import { desktop } from 'helpers/utils/screensizes';
-import Typography from '../typography';
 
 export interface CheckboxProps extends Omit<React.ComponentProps<'input'>, 'onChange' | 'key'> {
   label?: string;
@@ -76,9 +75,9 @@ const Checkbox: React.FC<CheckboxProps> = ({
   const backgroundClassName = useClassNames(['absolute z-0 h-20 w-20 rounded-sm', { 'bg-gray-600': !!isChecked }]);
 
   const LabelElement = (
-    <Typography id="input-label" as="label" className="text-14 text-gray-600">
+    <label id="input-label" className="text-14 text-gray-600">
       {label}
-    </Typography>
+    </label>
   );
 
   return (

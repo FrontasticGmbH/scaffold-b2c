@@ -1,7 +1,6 @@
 import React, { FC } from 'react';
 import { useTranslations } from 'use-intl';
 import Link from 'components/commercetools-ui/atoms/link';
-import Typography from 'components/commercetools-ui/atoms/typography';
 import { Category } from 'types/entity/category';
 import MobileMenuNavButton from '../atoms/menu-nav-button';
 
@@ -26,7 +25,7 @@ const MobileMenu: FC<Props> = ({ links, categoriesNavigator, insertCategory, hid
                   categoriesNavigator[categoriesNavigator.length - 1]?.slug
                 }
               >
-                <Typography className="text-primary">{translate('common.view-all')}</Typography>
+                <p className="text-primary">{translate('common.view-all')}</p>
               </Link>
             </div>
           )}

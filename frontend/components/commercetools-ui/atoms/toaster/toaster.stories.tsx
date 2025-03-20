@@ -3,7 +3,6 @@ import { Meta, StoryFn } from '@storybook/react';
 import toast from 'react-hot-toast';
 import Toaster from '.';
 import Button from '../button';
-import Typography from '../typography';
 
 export default {
   title: 'Atoms/Toaster',
@@ -12,10 +11,10 @@ export default {
 
 const Template: StoryFn<typeof Toaster> = () => (
   <div className="ml-44">
-    <Typography className="mt-40 w-2/5 text-28 font-bold text-black">Toaster</Typography>
-    <Typography className="mt-20 w-3/5 text-20 leading-loose text-neutral-700">
+    <p className="mt-40 w-2/5 text-28 font-bold text-black">Toaster</p>
+    <p className="mt-20 w-3/5 text-20 leading-loose text-neutral-700">
       The Toaster component allows customers to show a toast message. It has a success and error variant.
-    </Typography>
+    </p>
 
     <div className="mt-40 grid w-300 gap-16">
       <Toaster />

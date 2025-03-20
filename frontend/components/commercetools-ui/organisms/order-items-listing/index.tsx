@@ -1,7 +1,6 @@
 import React, { FC, useMemo, useState } from 'react';
 import { useTranslations } from 'use-intl';
 import Accordion from 'components/commercetools-ui/atoms/accordion';
-import Typography from 'components/commercetools-ui/atoms/typography';
 import useClassNames from 'helpers/hooks/useClassNames';
 import { LineItem } from 'types/entity/cart';
 import ClosedButton from './closed-button';
@@ -29,7 +28,7 @@ const OrderItemsListing: FC<OrderItemsListingProps> = ({ className, lineItems })
       {lineItems.length === 1 ? (
         <div className={containerClassName}>
           <div className="border-b pb-16">
-            <Typography className="text-gray-600">{translate('orders.your-order')}</Typography>
+            <p className="text-gray-600">{translate('orders.your-order')}</p>
           </div>
           <OrderItem lineItem={lineItems[0]} />
         </div>

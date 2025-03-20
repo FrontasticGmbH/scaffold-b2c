@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import { XMarkIcon } from '@heroicons/react/24/solid';
 import { Meta, StoryFn } from '@storybook/react';
 import Button from 'components/commercetools-ui/atoms/button';
-import Typography from 'components/commercetools-ui/atoms/typography';
 import Modal, { ModalProps } from '.';
 
 export default {
@@ -16,11 +15,11 @@ const Template: StoryFn<ModalProps> = () => {
 
   return (
     <div className="ml-44">
-      <Typography className="mt-40 w-2/5 text-28 font-bold text-black">Modal Component</Typography>
-      <Typography className="mt-20 w-3/5 text-20 leading-loose text-neutral-700">
+      <p className="mt-40 w-2/5 text-28 font-bold text-black">Modal Component</p>
+      <p className="mt-20 w-3/5 text-20 leading-loose text-neutral-700">
         The Modal component displays content on a dark overlay. It can be used to display additional information or
         actions.
-      </Typography>
+      </p>
       <div className="mt-44 w-400 pr-20">
         <Button onClick={() => setIsOpen(true)}>Open Modal</Button>
         <Modal
@@ -38,9 +37,7 @@ const Template: StoryFn<ModalProps> = () => {
               color="#494949"
               onClick={() => setIsOpen(false)}
             />
-            <Typography className="text-20" as="h1">
-              Please be aware of this content.
-            </Typography>
+            <h1 className="text-20">Please be aware of this content.</h1>
           </div>
         </Modal>
       </div>

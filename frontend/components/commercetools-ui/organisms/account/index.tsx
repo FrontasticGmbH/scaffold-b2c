@@ -3,7 +3,6 @@ import Skeleton from 'react-loading-skeleton';
 import { useTranslations } from 'use-intl';
 import Button from 'components/commercetools-ui/atoms/button';
 import Link from 'components/commercetools-ui/atoms/link';
-import Typography from 'components/commercetools-ui/atoms/typography';
 import { AccountContext } from 'context/account';
 import useClassNames from 'helpers/hooks/useClassNames';
 import { useRouter } from 'i18n/routing';
@@ -91,21 +90,11 @@ const AccountDetails: React.FC<AccountDetailsProps> = ({
         href: '?',
         isActive: hash === '',
       },
-      //   {
-      //     name: translate('account.addresses'),
-      //     href: '?hash=addresses',
-      //     isActive: hash === 'addresses',
-      //   },
       {
         name: translate('account.orders'),
         href: '?hash=orders',
         isActive: hash === 'orders',
       },
-      //   {
-      //     name: translate('account.payment-methods'),
-      //     href: '?hash=payment',
-      //     isActive: hash === 'payment',
-      //   },
       {
         name: translate('account.customer-support'),
         href: '?hash=support',
@@ -127,10 +116,6 @@ const AccountDetails: React.FC<AccountDetailsProps> = ({
     [accountPagesRef, id],
   );
 
-  //   const addresses = useMemo(() => {
-  //     return id?.startsWith('address') ? <AddressForm editedAddressId={id?.split('_')[1]} /> : <Addresses />;
-  //   }, [id]);
-
   const OrdersSection = useMemo(() => {
     return id && id.startsWith('order') ? (
       <OrderPage
@@ -142,20 +127,9 @@ const AccountDetails: React.FC<AccountDetailsProps> = ({
     );
   }, [id, orders, ordersLoading, shippingMethods]);
 
-  //   const paymentPagesRef = useMemo(() => {
-  //     return { add: <PaymentAdd />, edit: <PaymentEdit /> };
-  //   }, []);
-
-  //   const Payment = useMemo(
-  //     () => paymentPagesRef[id?.split('-')[0] as keyof typeof paymentPagesRef] ?? <PaymentMethods />,
-  //     [id, paymentPagesRef],
-  //   );
-
   const mapping = {
     '': AccountSection,
-    // addresses: addresses,
     orders: OrdersSection,
-    // payment: Payment,
     support: (
       <CustomerSupport
         phoneNumber={phoneNumber}
@@ -195,11 +169,7 @@ const AccountDetails: React.FC<AccountDetailsProps> = ({
           <div className="grid gap-36 px-28 lg:px-56">
             {tabs.map((tab) => (
               <Link link={accountLoading ? '' : tab.href} key={tab.name} className={tabButtonClassNames}>
-                {accountLoading ? (
-                  <Skeleton />
-                ) : (
-                  <Typography className={tabButtonLabelClassNames(tab)}>{tab.name}</Typography>
-                )}
+                {accountLoading ? <Skeleton /> : <p className={tabButtonLabelClassNames(tab)}>{tab.name}</p>}
               </Link>
             ))}
           </div>
@@ -223,9 +193,7 @@ const AccountDetails: React.FC<AccountDetailsProps> = ({
           <div className="mt-20 px-16">
             {contentTitle && (
               <div className="block md:hidden">
-                <Typography as="h2" className="text-18 text-primary">
-                  {contentTitle}
-                </Typography>
+                <h2 className="text-18 text-primary">{contentTitle}</h2>
               </div>
             )}
 

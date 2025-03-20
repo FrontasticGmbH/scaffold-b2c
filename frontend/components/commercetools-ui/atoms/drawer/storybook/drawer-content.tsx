@@ -3,7 +3,6 @@ import toast from 'react-hot-toast';
 import Modal from 'components/commercetools-ui/organisms/modal';
 import Drawer from '..';
 import Toaster from '../../toaster';
-import Typography from '../../typography';
 
 const DrawerContent = () => {
   const [isOpenLeftMenu, setIsOpenLeftMenu] = useState(false);
@@ -24,15 +23,15 @@ const DrawerContent = () => {
   };
   return (
     <div className="ml-44">
-      <Typography className="mt-40 w-2/5 text-28 font-bold text-black">Menu components</Typography>
+      <p className="mt-40 w-2/5 text-28 font-bold text-black">Menu components</p>
 
-      <Typography className="mt-40 w-2/5 text-24 font-medium text-black">Drawer</Typography>
+      <p className="mt-40 w-2/5 text-24 font-medium text-black">Drawer</p>
 
-      <Typography className="mt-16 w-3/5 text-16 leading-loose text-neutral-700">
+      <p className="mt-16 w-3/5 text-16 leading-loose text-neutral-700">
         The Drawer Component displays additional content or options that are hidden off-screen until the user activates
         them. It consists of a panel that slides in or out from the edge of the screen when a user clicks a button or
         performs a specific action.
-      </Typography>
+      </p>
 
       <div className="mt-32 w-full">
         <button
@@ -90,13 +89,13 @@ const DrawerContent = () => {
         </Drawer>
       </div>
 
-      <Typography className="mt-40 w-2/5 text-24 font-medium text-black">Modal</Typography>
+      <p className="mt-40 w-2/5 text-24 font-medium text-black">Modal</p>
 
-      <Typography className="mt-16 w-3/5 text-16 leading-loose text-neutral-700">
+      <p className="mt-16 w-3/5 text-16 leading-loose text-neutral-700">
         The Modal Component consists of a pop-up window that appears in front of the current view, blocking access to
         the rest of the page until the user performs a specific action or dismisses the modal. The modal can be exited
         by pressing the close button in the corner or pressing outside of the modal.
-      </Typography>
+      </p>
 
       <div className="mt-24 w-full">
         <button
@@ -110,12 +109,12 @@ const DrawerContent = () => {
         </Modal>
       </div>
 
-      <Typography className="mt-40 w-2/5 text-24 font-medium text-black">Toast</Typography>
+      <p className="mt-40 w-2/5 text-24 font-medium text-black">Toast</p>
 
-      <Typography className="mt-16 w-3/5 text-16 leading-loose text-neutral-700">
+      <p className="mt-16 w-3/5 text-16 leading-loose text-neutral-700">
         The Toast Component displays brief notifications or feedback to the user. It consists of a small pop-up window
         that appears at the top of the screen for a short period of time.
-      </Typography>
+      </p>
 
       <div className="mt-24 w-full">
         <button onClick={() => showToast('success')} className="rounded-md border border-gray-600 p-8 hover:shadow-300">

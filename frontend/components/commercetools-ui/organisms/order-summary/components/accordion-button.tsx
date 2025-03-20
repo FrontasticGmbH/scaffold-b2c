@@ -1,7 +1,6 @@
 import { FC } from 'react';
 import { ChevronDownIcon } from '@heroicons/react/24/outline';
 import { useTranslations } from 'use-intl';
-import Typography from 'components/commercetools-ui/atoms/typography';
 import { CurrencyHelpers } from 'helpers/currencyHelpers';
 import useClassNames from 'helpers/hooks/useClassNames';
 import { Money } from 'types/entity/product';
@@ -25,12 +24,10 @@ const AccordionButton: FC<AccordionButtonProps> = ({ open, toggleAccordion, tota
   return (
     <div>
       <div className={accordionContentClassNames} onClick={toggleAccordion}>
-        <Typography className="text-gray-600">{translate('orders.your-order')}</Typography>
+        <p className="text-gray-600">{translate('orders.your-order')}</p>
 
         <div className="flex">
-          <Typography className="hidden pr-8 font-medium text-primary md:block">
-            {CurrencyHelpers.formatForCurrency(total)}
-          </Typography>
+          <p className="hidden pr-8 font-medium text-primary md:block">{CurrencyHelpers.formatForCurrency(total)}</p>
           <ChevronDownIcon width={20} strokeWidth={1.5} className={arrowClassNames} />
         </div>
       </div>

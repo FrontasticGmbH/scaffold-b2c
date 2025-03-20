@@ -30,6 +30,10 @@ const config = {
         protocol: 'https',
         hostname: '*.commercetools.com',
       },
+      {
+        protocol: 'https',
+        hostname: '*.googleapis.com',
+      },
     ],
     formats: ['image/avif', 'image/webp'],
   },

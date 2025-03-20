@@ -1,6 +1,5 @@
 import React from 'react';
 import { Meta, StoryFn } from '@storybook/react';
-import Typography from 'components/commercetools-ui/atoms/typography';
 import AnnouncementBar from '.';
 
 export default {
@@ -10,10 +9,10 @@ export default {
 
 const Template: StoryFn<typeof AnnouncementBar> = (args) => (
   <div className="ml-44">
-    <Typography className="mt-40 w-2/5 text-28 font-bold text-black">Announcement Bar</Typography>
-    <Typography className="mt-20 w-3/5 text-20 leading-loose text-neutral-700">
+    <p className="mt-40 w-2/5 text-28 font-bold text-black">Announcement Bar</p>
+    <p className="mt-20 w-3/5 text-20 leading-loose text-neutral-700">
       The Announcement Bar component appears at the top of the page and includes a textlink.
-    </Typography>
+    </p>
     <div className="mt-44 flex w-1/2 justify-start">
       <AnnouncementBar {...args} />
     </div>

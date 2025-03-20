@@ -5,7 +5,6 @@ import { Order } from 'shared/types/cart/Order';
 import { useTranslations } from 'use-intl';
 import Accordion from 'components/commercetools-ui/atoms/accordion';
 import Image from 'components/commercetools-ui/atoms/image';
-import Typography from 'components/commercetools-ui/atoms/typography';
 import Costs from 'components/commercetools-ui/organisms/order-payment-section/components/costs';
 import { CurrencyHelpers } from 'helpers/currencyHelpers';
 import useClassNames from 'helpers/hooks/useClassNames';
@@ -42,12 +41,12 @@ const OrderSummaryMobile: FC<Props> = ({ order }) => {
     return (
       <div className="px-16 md:px-24 lg:px-44">
         <div className={accordionContentClassNames} onClick={() => setOpen(!open)}>
-          <Typography className="text-gray-600">{translate('orders.your-order')}</Typography>
+          <p className="text-gray-600">{translate('orders.your-order')}</p>
 
           <div className="flex">
-            <Typography className="hidden pr-8 font-medium text-primary md:block">
+            <p className="hidden pr-8 font-medium text-primary md:block">
               {CurrencyHelpers.formatForCurrency(mapCosts({ cart: order, currency }).total)}
-            </Typography>
+            </p>
             <ChevronDownIcon width={20} strokeWidth={1.5} className={arrowClassNames} />
           </div>
         </div>
@@ -66,11 +65,11 @@ const OrderSummaryMobile: FC<Props> = ({ order }) => {
               </div>
             )}
             <div className="flex flex-col justify-center pl-16">
-              <Typography className="text-14 uppercase text-primary">{lineItem?.name}</Typography>
-              <Typography className="mt-8 text-14 font-medium text-primary">
+              <p className="text-14 uppercase text-primary">{lineItem?.name}</p>
+              <p className="mt-8 text-14 font-medium text-primary">
                 {CurrencyHelpers.formatForCurrency(lineItem?.price as number, locale)}
-              </Typography>
-              <Typography className="mt-8 text-14 text-primary">{`x ${lineItem?.count}`}</Typography>
+              </p>
+              <p className="mt-8 text-14 text-primary">{`x ${lineItem?.count}`}</p>
             </div>
           </div>
         ))}

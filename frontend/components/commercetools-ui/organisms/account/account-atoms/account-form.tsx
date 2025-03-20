@@ -1,6 +1,5 @@
 import { ComponentProps, FC, useEffect } from 'react';
 import { useTranslations } from 'use-intl';
-import Typography from 'components/commercetools-ui/atoms/typography';
 import SaveOrCancel, {
   SaveOrCancelProps,
 } from 'components/commercetools-ui/organisms/account/account-atoms/save-or-cancel';
@@ -49,12 +48,10 @@ const AccountForm: FC<AccountFormProps> = ({
 
   return (
     <form className={formClassName} onSubmit={handleSubmit}>
-      <Typography className="text-16 text-primary md:mb-28 md:text-24">{title}</Typography>
+      <p className="text-16 text-primary md:mb-28 md:text-24">{title}</p>
 
       <div className="relative border-neutral-400 pb-8 pt-24 md:border md:p-32 md:pr-68">
-        {subtitle && (
-          <Typography className="mb-28 text-14 leading-loose text-primary md:mb-40 md:text-16">{subtitle}</Typography>
-        )}
+        {subtitle && <p className="mb-28 text-14 leading-loose text-primary md:mb-40 md:text-16">{subtitle}</p>}
 
         <div className={containerClassNames}>
           {children}
@@ -62,9 +59,7 @@ const AccountForm: FC<AccountFormProps> = ({
           {defaultCTASection && (
             <div className="mt-24 grid items-center justify-between gap-32 md:flex md:gap-16">
               {requiredLabelIsVisible && (
-                <Typography className="text-14 leading-[114%] text-gray-600">
-                  {translate('common.field-required')}
-                </Typography>
+                <p className="text-14 leading-[114%] text-gray-600">{translate('common.field-required')}</p>
               )}
 
               <SaveOrCancel onCancel={discardForm} onSave={handleSubmit} loading={loading} variant={ctaVariant} />

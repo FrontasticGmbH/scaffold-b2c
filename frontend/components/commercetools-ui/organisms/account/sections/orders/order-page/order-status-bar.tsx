@@ -1,7 +1,6 @@
 import React, { FC } from 'react';
 import { ShipmentState } from 'shared/types/cart';
 import { useTranslations } from 'use-intl';
-import Typography from 'components/commercetools-ui/atoms/typography';
 import useClassNames from 'helpers/hooks/useClassNames';
 
 export interface Props {
@@ -36,53 +35,47 @@ const OrderStatusBar: FC<Props> = ({
         <div className="h-1 w-full bg-primary" />
         <div className="absolute left-0 size-20 -translate-y-1/2 rounded-full bg-primary md:size-24 lg:size-32" />
         <div className="absolute -left-32 top-20 flex flex-col items-center md:-left-56 md:top-24 md:w-144 lg:top-28">
-          <Typography className="w-64 text-center text-14 font-medium text-primary lg:text-16">
-            {translate('orders.ordered')}
-          </Typography>
+          <p className="w-64 text-center text-14 font-medium text-primary lg:text-16">{translate('orders.ordered')}</p>
 
-          <Typography className="mt-4 text-center text-14 text-gray-600 lg:text-16">{orderDate}</Typography>
+          <p className="mt-4 text-center text-14 text-gray-600 lg:text-16">{orderDate}</p>
         </div>
 
         <div className={statePointer2ClassNames} />
         <div className="absolute left-1/2 top-20 -translate-x-1/2 md:top-24 lg:top-28">
           {orderShippingState === 'Shipped' || orderState === 'Complete' ? (
-            <Typography className="text-center text-14 font-medium text-primary lg:text-16">
-              {translate('orders.shipped')}
-            </Typography>
+            <p className="text-center text-14 font-medium text-primary lg:text-16">{translate('orders.shipped')}</p>
           ) : (
             <>
-              <Typography className="hidden text-center text-14 font-medium text-primary md:block lg:text-16">
+              <p className="hidden text-center text-14 font-medium text-primary md:block lg:text-16">
                 {translate('orders.estimated-shipping')}
-              </Typography>
+              </p>
 
-              <Typography className="block text-center text-14 font-medium text-primary md:hidden">
+              <p className="block text-center text-14 font-medium text-primary md:hidden">
                 {translate('orders.est-shipping')}
-              </Typography>
+              </p>
             </>
           )}
 
-          <Typography className="mt-4 text-center text-14 text-gray-600 lg:text-16">{orderShippingDate}</Typography>
+          <p className="mt-4 text-center text-14 text-gray-600 lg:text-16">{orderShippingDate}</p>
         </div>
 
         <div className={statePointer3ClassNames} />
         <div className="absolute -right-32 top-20 md:-right-60 md:top-24 md:w-144 lg:top-28">
           {orderState === 'Complete' ? (
-            <Typography className="text-center text-14 font-medium text-primary lg:text-16">
-              {translate('orders.delivered')}
-            </Typography>
+            <p className="text-center text-14 font-medium text-primary lg:text-16">{translate('orders.delivered')}</p>
           ) : (
             <>
-              <Typography className="hidden text-center text-14 font-medium text-primary md:block lg:text-16">
+              <p className="hidden text-center text-14 font-medium text-primary md:block lg:text-16">
                 {translate('orders.estimated-delivery')}
-              </Typography>
+              </p>
 
-              <Typography className="block text-center text-14 font-medium text-primary md:hidden">
+              <p className="block text-center text-14 font-medium text-primary md:hidden">
                 {translate('orders.est-delivery')}
-              </Typography>
+              </p>
             </>
           )}
 
-          <Typography className="mt-4 text-center text-14 text-gray-600 lg:text-16">{orderDeliveryDate}</Typography>
+          <p className="mt-4 text-center text-14 text-gray-600 lg:text-16">{orderDeliveryDate}</p>
         </div>
       </div>
     </div>
