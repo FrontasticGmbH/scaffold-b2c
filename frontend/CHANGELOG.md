@@ -1,160 +1,150 @@
-
 ## Version 4.0.1 (2025-03-20)
+
 ** New Features & Improvements **
 
-* B2C end to end tests update
-* change text tags for buttons
-* remove Typography component
+- B2C end to end tests update
+- change text tags for buttons
+- remove Typography component
 
 ** Bug Fixes **
 
-* added googleapis as a trusted domain for B2C images
+- added googleapis as a trusted domain for B2C images
 
 ## Version 4.0.0 (2025-03-17)
 
-
 ** New Features & Improvements **
 
-* adds placeholder image for image component
-* removes cloudinary loader and use next-cloudinary
-* removes next-pwa, cleanup, adds mc image hosts
-* optimize remote images (mc) and adds quality param to studio imgs
-* make QuickView accessible
-* use next-intl - migration
-
+- adds placeholder image for image component
+- removes cloudinary loader and use next-cloudinary
+- removes next-pwa, cleanup, adds mc image hosts
+- optimize remote images (mc) and adds quality param to studio imgs
+- make QuickView accessible
+- use next-intl - migration
 
 ** Bug Fixes **
 
-* Update tests and mocks
-* Fix nested interactive controls in account dropdown
-* Add title for remove button on cart item component
-* Add titles for variant attribute colors and sizes
-* Fix incorrect list elements children
-* Fix nested interactive control elements
-* Update Not Found page layout and image configuration
-* adjust headers order & logic
-* Replace custom button with reusable Button component
-* Location selector not rendering
-* missing labels for a11y
+- Update tests and mocks
+- Fix nested interactive controls in account dropdown
+- Add title for remove button on cart item component
+- Add titles for variant attribute colors and sizes
+- Fix incorrect list elements children
+- Fix nested interactive control elements
+- Update Not Found page layout and image configuration
+- adjust headers order & logic
+- Replace custom button with reusable Button component
+- Location selector not rendering
+- missing labels for a11y
 
 ## Version 3.2.1 (2025-03-04)
 
 ** New Features & Improvements **
 
-* Refactor localiation issue in map category
-* Adjust disabled button styles and refactor return statement.
-
+- Refactor localiation issue in map category
+- Adjust disabled button styles and refactor return statement.
 
 ** Bug Fixes **
 
-* Update disabled button styles for improved consistency
-
+- Update disabled button styles for improved consistency
 
 ** New Features & Improvements **
 
-* Update translations for b2c
-* Adjust disabled button styles and refactor return statement.
-* Update text colors in product details breadcrumb
-* Modify nested interactive element
-* List keyboard navigation EAA
-* Upgrade to headless ui v2
-* Scaled product image in cart popup
-* Unify env usage
-* Update color palette
-* Update ref usages
-
+- Update translations for b2c
+- Adjust disabled button styles and refactor return statement.
+- Update text colors in product details breadcrumb
+- Modify nested interactive element
+- List keyboard navigation EAA
+- Upgrade to headless ui v2
+- Scaled product image in cart popup
+- Unify env usage
+- Update color palette
+- Update ref usages
 
 ** Bug Fixes **
 
-* Fix localization issues
-* Fix accessibility broken for keyboard navigation
-* Add missing aria labels for search nav
-* Add missing aria labels for presonal info form
-* Fix accessibility for forms and form controls
-* Fix missing pdp links
+- Fix localization issues
+- Fix accessibility broken for keyboard navigation
+- Add missing aria labels for search nav
+- Add missing aria labels for presonal info form
+- Fix accessibility for forms and form controls
+- Fix missing pdp links
 
 ## Version 3.2.0 (2025-03-03)
 
 ** New Features & Improvements **
 
-* Update translations for b2c
-* Adjust disabled button styles and refactor return statement.
-* Update text colors in product details breadcrumb
-* Modify nested interactive element
-* List keyboard navigation EAA
-* Upgrade to headless ui v2
-* Scaled product image in cart popup
-* Unify env usage
-* Update color palette
-* Update ref usages
-
+- Update translations for b2c
+- Adjust disabled button styles and refactor return statement.
+- Update text colors in product details breadcrumb
+- Modify nested interactive element
+- List keyboard navigation EAA
+- Upgrade to headless ui v2
+- Scaled product image in cart popup
+- Unify env usage
+- Update color palette
+- Update ref usages
 
 ** Bug Fixes **
 
-* Fix localization issues
-* Fix accessibility broken for keyboard navigation
-* Add missing aria labels for search nav
-* Add missing aria labels for presonal info form
-* Fix accessibility for forms and form controls
-* Fix missing pdp links
+- Fix localization issues
+- Fix accessibility broken for keyboard navigation
+- Add missing aria labels for search nav
+- Add missing aria labels for presonal info form
+- Fix accessibility for forms and form controls
+- Fix missing pdp links
 
 ## Version 3.1.0 (2025-02-17)
 
-
 ** New Features & Improvements **
 
-* Hide the link along with the icon for all screens other than md
-* Fixed keyboard navigation for user account button & dropdown items
-* PDP Image slider replace with scroll snapping
-* Add provider to storybook
-* Aligned product and cart discount types
-* Improved discount code handler for B2C
-* Handle product discount on product query and cart for B2C
-* Implemented product discount types on frontend
-* Add direct discount and rename discount to DiscountCodes B2C
-
+- Hide the link along with the icon for all screens other than md
+- Fixed keyboard navigation for user account button & dropdown items
+- PDP Image slider replace with scroll snapping
+- Add provider to storybook
+- Aligned product and cart discount types
+- Improved discount code handler for B2C
+- Handle product discount on product query and cart for B2C
+- Implemented product discount types on frontend
+- Add direct discount and rename discount to DiscountCodes B2C
 
 ** Bug Fixes **
 
-* Adds algolia env vars explicitely to storybook
-* Adapted german translations and fixed on label
-* Set correct name for discount code id
-* Differenciated discounted amount and value for product and cart discounts
-
+- Adds algolia env vars explicitely to storybook
+- Adapted german translations and fixed on label
+- Set correct name for discount code id
+- Differenciated discounted amount and value for product and cart discounts
 
 ** New Features & Improvements **
 
-* Fixing static folder warning and deployment error
-* Category page locale switching handling on frontend
-* Upgrade Node JS version
-* Update Storybook to v8.5.0 and add accessibility addon
-* Ignore .env file frontend
-
+- Fixing static folder warning and deployment error
+- Category page locale switching handling on frontend
+- Upgrade Node JS version
+- Update Storybook to v8.5.0 and add accessibility addon
+- Ignore .env file frontend
 
 ** Bug Fixes **
 
-* Nextjs15 upgraded 
-* Close Popover on value select
-* Allow locales with region and language and multiple languages per country
+- Nextjs15 upgraded
+- Close Popover on value select
+- Allow locales with region and language and multiple languages per country
 
 ## Version 2.2.0 (2025-01-13)
 
 ** New Features & Improvements **
 
-* Refactor selectors and random string generation.
-* Improve unit test coverage.
+- Refactor selectors and random string generation.
+- Improve unit test coverage.
 
 ** Bug Fixes **
 
-* Adapted manifest and images
-* Removing unused images
-* Removing unused code
-* Replace custom heart icon with heroicons
-* Replacing flags with library allowing any country to be displayed without the need of adding additonal flags
-* Fix default fraction digits for currency
-* Fix register error & success feedbacks
-* Timeout related issues and search UI update
-* Checkout total calculations to include shipping discount
+- Adapted manifest and images
+- Removing unused images
+- Removing unused code
+- Replace custom heart icon with heroicons
+- Replacing flags with library allowing any country to be displayed without the need of adding additonal flags
+- Fix default fraction digits for currency
+- Fix register error & success feedbacks
+- Timeout related issues and search UI update
+- Checkout total calculations to include shipping discount
 
 ## Version 2.1.0 (2024-12-16)
 
@@ -162,7 +152,6 @@
 
 - PLP Sort facet redesign
 - Size images properly
-
 
 ** Bug Fixes **
 
@@ -174,7 +163,6 @@
 - Fix active sort not showing in plp
 
 ## Version 2.0.0 (2024-11-20)
-
 
 ** New Features & Improvements **
 
@@ -200,7 +188,6 @@ feat(FP-7818): [B2C] Add unit tests for subtitle
 feat(FP-7629): bug fix for cart items
 feat(FP-7825): [B2C] Add useTranlations tests
 feat(FP-7816,FP-7817): [B2C] Add unit tests for image loaders
-
 
 ** Bug Fixes **
 
@@ -219,7 +206,6 @@ fix: [b2c] category page preview
 
 ## Version 2.0.0 (2024-11-20)
 
-
 ** New Features & Improvements **
 
 misc: Tagged release 1.19.0 for frontend
@@ -244,7 +230,6 @@ feat(FP-7818): [B2C] Add unit tests for subtitle
 feat(FP-7629): bug fix for cart items
 feat(FP-7825): [B2C] Add useTranlations tests
 feat(FP-7816,FP-7817): [B2C] Add unit tests for image loaders
-
 
 ** Bug Fixes **
 
@@ -265,16 +250,16 @@ fix: [b2c] category page preview
 
 ** New Features and Improvements **
 
-- Change order ID to order number on B2C 
+- Change order ID to order number on B2C
 - Handled multi level category and included categoryId and categoryRef fields
 - PDP gallery hide arrows with only 1 image product
 
 ** Bug fixes **
 
-- Showing correct discount amount in the cart 
+- Showing correct discount amount in the cart
 - Remove superfluous divs
 - Fix SEO values
-- Remove duplicate breadcrumb entries for current category 
+- Remove duplicate breadcrumb entries for current category
 - Adjust default value for quantity widget when out of stock
 - Enhance disabled state for PDP when out of stock
 - Introduce quantity selector component
@@ -305,8 +290,8 @@ fix: [b2c] category page preview
 
 ** Bug fixes **
 
-* fix: [B2C] Data injection bug
-* fix: [B2C] Data injection bug
+- fix: [B2C] Data injection bug
+- fix: [B2C] Data injection bug
 
 ## Version 1.16.0 (2024-08-15)
 
@@ -318,10 +303,12 @@ fix: [b2c] category page preview
 ## Version 1.15.0 (2024-08-01)
 
 ** New Features and Improvements **
+
 - Added not found page to storybook
 - Add molecules folder and stories per each
 
 ** Bug fixes **
+
 - Updated image storybook src for image
 - Update mock images sources
 - User modal is not above search bar fix
@@ -343,12 +330,12 @@ fix: [b2c] category page preview
 
 ** New Features and Improvements **
 
-* User is able to set theme in studio via project folder configuration
-* Color filter list items translated to correct language
-* New atoms, molecules and organisms added to storybook
-* CT checkout translation fixes
-* Checkout header size fix
-* Added German translations
+- User is able to set theme in studio via project folder configuration
+- Color filter list items translated to correct language
+- New atoms, molecules and organisms added to storybook
+- CT checkout translation fixes
+- Checkout header size fix
+- Added German translations
 
 ## Version 1.13.0 (2024-06-24)
 
@@ -373,15 +360,15 @@ fix: [b2c] category page preview
 
 ** New Features and Improvements **
 
-* Improve PDP performance (LCP & CLS)
-* PDP-variants-switcher-working
-* Hide sales filter on PLP when there are no sale items
-* Do not send email if not changed when updating account
-* Update color facet border styling in product list
-* Add confirmation prompt before account deletion
-* Added skipQueue and customHeaderValue options to SDk integration actions
-* Updated @commercetools/frontend-sdk dependency to 1.12.1
-* Add error handling for account deletion
+- Improve PDP performance (LCP & CLS)
+- PDP-variants-switcher-working
+- Hide sales filter on PLP when there are no sale items
+- Do not send email if not changed when updating account
+- Update color facet border styling in product list
+- Add confirmation prompt before account deletion
+- Added skipQueue and customHeaderValue options to SDk integration actions
+- Updated @commercetools/frontend-sdk dependency to 1.12.1
+- Add error handling for account deletion
 
 ## Version 1.12.0 (2024-05-23)
 
@@ -397,10 +384,9 @@ fix: [b2c] category page preview
 
 ## Version 1.11.6 (2024-05-16)
 
-
-* Removed addresses section from account
-* Updated @commercetools/frontend-sdk package to 1.12.0
-* Fix server sdk calls cache not working
+- Removed addresses section from account
+- Updated @commercetools/frontend-sdk package to 1.12.0
+- Fix server sdk calls cache not working
 
 ## Version 1.11.5 (2024-05-09)
 
@@ -431,7 +417,7 @@ fix: [b2c] category page preview
 
 ** New Features and Improvements **
 
-- Upgraded to latest checkout 
+- Upgraded to latest checkout
 
 ## Version 1.11.1 (2024-04-16)
 
@@ -442,10 +428,11 @@ fix: [b2c] category page preview
 ## Version 1.11.0 (2024-03-01)
 
 ** New Features and Improvements **
+
 - Hardcoded payment methods were removed
 
-
 ** Bug fixes **
+
 - User could not create accounts fixed
 - User can change passwords without any issues
 - User can edit account information without issues
@@ -462,7 +449,7 @@ fix: [b2c] category page preview
 
 ** Bug fixes **
 
--  Fix broken links in my account section
+- Fix broken links in my account section
 
 ## Version 1.9.0 (2023-12-18)
 
@@ -471,10 +458,10 @@ fix: [b2c] category page preview
 - Changed caching strategy
 
 ** Bug fixes **
+
 - Fix checkout expired token handler
 
 ## Version 1.8.4 (2023-12-10)
-
 
 ** Features and Imporvements **
 
@@ -486,11 +473,10 @@ fix: [b2c] category page preview
 
 - Checkout style customizations
 
-
 ** Bug Fixes **
 
 - Fix verify route stuck
-- 
+-
 
 ## Version 1.8.1 (2023-12-07)
 
@@ -505,7 +491,6 @@ fix: [b2c] category page preview
 - Fix cart disappearing bug
 
 ## Version 1.7.0 (2023-12-06)
-
 
 ** New Features and Improvements **
 
@@ -528,7 +513,7 @@ fix: [b2c] category page preview
 
 ** New Features and Improvements **
 
-- Added new set of components 
+- Added new set of components
 
 ## Version 1.0.1 (2022-07-05)
 
@@ -543,7 +528,6 @@ fix: [b2c] category page preview
 - You can specify theme in project folder settings and that theme will be used for your page
 
 - PWA disabled out of the box
-
 
 ** Bug fixes **
 
@@ -571,8 +555,8 @@ fix: [b2c] category page preview
 
 ** New Features **
 
-- Now you can specify your theming variables in the `app.css` file, those values will be used to define tailwind styles, 
-and you can use those styles in your component, we added dark mode toggle component
+- Now you can specify your theming variables in the `app.css` file, those values will be used to define tailwind styles,
+  and you can use those styles in your component, we added dark mode toggle component
 
 - Added language switcher component, you can browse website in different locales
 
@@ -587,7 +571,6 @@ and you can use those styles in your component, we added dark mode toggle compon
 - Added breadcrumb component
 
 - Added MWP PWA
-
 
 ** Bug fixes **
 
@@ -605,7 +588,6 @@ and you can use those styles in your component, we added dark mode toggle compon
 
 - Account order history was not showing orders
 
-
 ** Improvements **
 
 - Renamed `checkout-success` component to `thank-you`
@@ -615,7 +597,6 @@ and you can use those styles in your component, we added dark mode toggle compon
 - Added `bundle.js`, `bundle.min.js` to gitignore
 
 - We started using `commercetools` as key word in schemas instead of `frontastic`
-
 
 ## Version 1.0.0-alpha.3 (2022-04-21)
 
@@ -640,4 +621,5 @@ and you can use those styles in your component, we added dark mode toggle compon
 - fix: use the right library name on package.json
 
 ## Version 1.0.0-alpha (2022-04-19)
+
 - Initial stable release

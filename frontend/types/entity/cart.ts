@@ -51,10 +51,14 @@ export interface ShippingMethod {
   rates?: ShippingRate[]; // TODO: should we get rid of rates?
 }
 
-export interface ShippingInfo extends ShippingMethod {
+export interface ShippingInfo {
+  shippingMethodId?: string;
+  name?: string;
   price?: Money;
+  rate?: ShippingRate;
+  taxRate?: TaxRate;
   taxed?: Tax;
-  taxIncludedInPrice?: boolean;
+  discountedPrice?: DiscountedPrice;
 }
 
 export type DiscountCodeState =

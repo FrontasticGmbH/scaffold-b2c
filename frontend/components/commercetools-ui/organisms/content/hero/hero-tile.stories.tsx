@@ -30,6 +30,8 @@ const Template: StoryFn<HeroProps> = () => (
         subtitle="Here are some lovely Subtitle texts just for testing"
         ctaLabel="Call To Action"
         ctaReference={headerButtonLink as Reference}
+        imageQuality={75}
+        isPriority={false}
       />
     </div>
   </div>

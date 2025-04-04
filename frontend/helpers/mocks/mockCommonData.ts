@@ -425,7 +425,6 @@ export const orders: Order[] = [
     shippingInfo: {
       shippingMethodId: 'method-01',
       name: 'UPS',
-      description: 'Shipping method description',
       price: {
         centAmount: 9999,
         currencyCode: 'EUR',

@@ -2,7 +2,7 @@ import { Event, SDK, ServerOptions } from '@commercetools/frontend-sdk';
 import { GetProductQuery, ProductQueryQuery, QueryProductCategoriesQuery } from '../../types/queries/ProductQueries';
 import {
   GetProductAction,
-  GetSearchableProductAttributesAction,
+  ProductFiltersAction,
   ProductQueryAction,
   QueryProductCategoriesAction,
 } from '../../types/actions/ProductActions';
@@ -14,7 +14,7 @@ export type ProductActions = {
   getProduct: GetProductAction;
   query: ProductQueryAction;
   queryCategories: QueryProductCategoriesAction;
-  getSearchableAttributes: GetSearchableProductAttributesAction;
+  productFilters: ProductFiltersAction;
 };
 
 export const getProductActions = (sdk: SDK<ComposableCommerceEvents>): ProductActions => {
@@ -105,7 +105,7 @@ export const getProductActions = (sdk: SDK<ComposableCommerceEvents>): ProductAc
       }
       return response;
     },
-    getSearchableAttributes: async (
+    productFilters: async (
       options: {
         parallel?: boolean;
         customHeaderValue?: string;
@@ -113,7 +113,7 @@ export const getProductActions = (sdk: SDK<ComposableCommerceEvents>): ProductAc
       } = {},
     ) => {
       const response = await sdk.callAction<FilterField[]>({
-        actionName: 'product/searchableAttributes',
+        actionName: 'product/productFilters',
         parallel: options.parallel,
         customHeaderValue: options.customHeaderValue,
         serverOptions: options.serverOptions,
@@ -122,7 +122,7 @@ export const getProductActions = (sdk: SDK<ComposableCommerceEvents>): ProductAc
       if (!response.isError) {
         sdk.trigger(
           new Event({
-            eventName: 'searchableProductAttributesFetched',
+            eventName: 'productFiltersFetched',
             data: {
               filterFields: response.data,
             },

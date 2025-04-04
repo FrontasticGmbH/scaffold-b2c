@@ -1,10 +1,9 @@
 import * as React from 'react';
 import { Disclosure, DisclosureButton, DisclosurePanel } from '@headlessui/react';
 import { ChevronDownIcon, ExclamationTriangleIcon } from '@heroicons/react/24/outline';
-import classNames from 'classnames';
 import { Log, LogError } from 'helpers/errorLogger';
 import { isDevelopment } from 'helpers/utils/environment';
-
+import clsx from 'clsx';
 const getErrorMessage = (error: LogError) => {
   if (typeof error?.data[0] === 'string') {
     return error.data[0];
@@ -86,7 +85,7 @@ export function Errors() {
                           </span>
                           <span className="ml-6 flex h-7 items-center">
                             <ChevronDownIcon
-                              className={classNames(open ? '-rotate-180' : 'rotate-0', 'h-6 w-6 transform')}
+                              className={clsx(open ? '-rotate-180' : 'rotate-0', 'h-6 w-6 transform')}
                               aria-hidden="true"
                             />
                           </span>

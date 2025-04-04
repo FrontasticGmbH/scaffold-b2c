@@ -1,0 +1,149 @@
+<Meta title="Accessibility" />
+
+  <img src="https://res.cloudinary.com/dlwdq84ig/image/upload/w_1920,q_auto,c_scale/kp6wm6i2n15ofmuwlxu7" width="400" />
+
+ <br />
+  <br />
+
+
+# **Building accessible experiences**
+
+## A guide to building accessible commerce websites
+
+**Introduction**
+
+Making sure you design your website while considering accessibility issues that may affect some of your customers, such as visual, auditory, motor, and cognitive impairments, allows you to have a more thoughtful design that can appeal to a wider audience while also improving the user experience for all your customers.
+
+**Why accessibility matters**
+
+Building accessible websites not only promotes inclusivity, but it is also a smart business decision as it includes the following benefits: .
+
+* **Wider audience reach:** accessible websites are usable by a larger audience, including people with disabilities, who represent a significant market.
+* **Enhanced brand reputation:** demonstrating a commitment to accessibility improves brand image and fosters customer loyalty.
+* **Legal compliance:** many countries have mandates that ensure accessibility for e-commerce platforms, and non-compliance can result in legal penalties.
+* **Improved UX (User experience) for all:** accessibility features often benefit everyone, not just people with alternative needs. For example, clear headings and concise language improve readability for all users.
+* **Search Engine Optimization (SEO):** Accessibility helps with improved SEO metrics.
+
+**WCAG:**
+
+The Web Content Accessibility Guidelines ([WCAG](https://www.w3.org/WAI/standards-guidelines/wcag/)) provide the technical standards for most accessibility mandates. The store launchpad codebase targets [Web Content Accessibility Guidelines (WCAG) 2.2](https://www.w3.org/TR/WCAG22/) level AA as its foundation for web and digital accessibility. Level AA ensures usability and accessibility for a broader audience and is the most commonly targeted standard for compliance.
+
+## **Accessibility from a UX/UI design perspective**
+
+Design plays a crucial role in creating accessible experiences from the ground up. Key considerations include:
+
+* Color contrast and visibility
+* Typography and readability
+* Interactive element sizing and spacing
+* Clear visual hierarchy
+* Consistent navigation patterns
+* Content accessibility (ensuring form labels, error messages, and instructions are explicit and assistive)
+* Error prevention and recovery
+* Feedback and interaction
+
+## **Accessibility from a developer perspective**
+
+Development implementation ensures technical accessibility compliance. Focus areas include:
+
+* Semantic HTML structure
+* Accessible Rock Internet Applications (ARIA) labels and roles
+* Keyboard navigation
+* Screen reader compatibility
+* Focus management
+
+## **Key principles of WCAG**
+
+WCAG  is built on four main principles: Perceivable, Operable, Understandable, and Robust. Let's explore each principle with specific examples relevant to commercetools development:
+
+### **Perceivable**
+
+#### Information and user interface components must be presentable to users in ways they can perceive. To ensure this, consider the following:
+
+* **Text alternatives:** all non-text content (images, icons, etc.) must have text alternatives that describe their purpose.
+
+  **Example:** ensure all product images have descriptive alt text in the commercetools product catalog. Use the `alt` attribute in the `<img>` tag to provide concise and informative descriptions.
+
+* **Time-based media:** provide captions and transcripts for audio and video content.
+
+  **Example:** if you have product demo videos on your site, use captions and transcripts.
+
+* **Adaptable:** think about whether content can be presented in different ways, for example, a simpler layout, without losing information or structure.
+
+  **Example:** use proper heading structure (\<h1\>, `<h2>`, etc.) to organize content. This allows screen readers to navigate the content effectively and enables your customers to customize how they display information.
+
+* **Distinguishable:**  make it easier for your customers to see and hear content, including separating foreground from background.
+
+  **Example:** use themes that provide sufficient color contrast between text and background. Adhere to WCAG contrast ratios.
+
+###  **Operable**
+
+#### User interface components and navigation must be operable. To ensure this, consider the following:
+
+* **Keyboard accessible:** all functionality of the content is available through a keyboard interface without requiring specific timings for individual keystrokes.
+
+  **Example:** ensure all interactive elements (such as buttons, links, form fields, carousels) on your website are operable using only the keyboard.
+
+* **Enough time:** provide users enough time to read and use content.
+
+  **Example:** if you have time limits on forms or checkout processes, provide mechanisms to allow users to extend those limits or turn them off completely.
+
+* **Seizures and physical reactions:** do not design content in a way that is known to cause seizures or physical reactions.
+
+  **Example:** avoid using flashing animations or rapidly changing content on your website.
+
+* **Navigable:** provide ways to help users navigate, find content, and determine where they are.
+
+  **Example:** implement clear and consistent navigation menus, breadcrumb trails, and search functionality in your website. Use ARIA landmarks to define page regions.
+
+### Understandable
+
+#### Information and the operation of the user interface must be understandable. To ensure this, consider the following:
+
+* **Readable:** make text content readable and understandable.
+
+  **Example:** use clear and concise language in product descriptions, category names, and other content on your website. Use the commercetools theme editor to control font sizes and line spacing.
+
+* **Predictable:** make Web pages appear and operate in predictable ways.
+
+  **Example:** maintain consistent navigation and page layouts throughout your commercetools site. Use clear and consistent labeling for interactive elements.
+
+* **Input assistance:** help users avoid and correct mistakes.
+
+  **Example:** provide clear error messages and helpful input formatting in forms, for example, during registration, checkout, or contact forms.
+
+### **Robust**
+
+#### Content must be robust enough that it can be interpreted reliably by a wide variety of user agents, including assistive technologies. To ensure this, consider the following:
+
+* **Compatible:** maximize compatibility with current and future user agents, including assistive technologies.
+
+  **Example:** use semantic HTML and ARIA attributes correctly in your implementations. Ensure that custom components and integrations are compatible with assistive technologies.
+
+## Testing and validation
+
+* **Automated tools:** use automated accessibility testing tools to identify potential issues early in the development process. Integrate these tools into your development workflow.
+* **Manual testing:** conduct manual testing with assistive technologies such as screen readers, keyboard navigation, and Microsoft Insights.
+* **User feedback:** gather feedback from a variety of users, including those who use assistive technologies, throughout your development process to ensure your website meets their needs.
+
+For more specific examples, see our [accessibility best practices](https://docs.commercetools.com/frontend-development/launchpad-accessibility).
+
+## **Tools & resources**
+
+Use the following resources and tools to help you create and maintain an accessible website:
+
+### Resources
+
+* [Keyboard Accessibility: Keyboard Testing:](https://webaim.org/techniques/keyboard/#testing)  lists the common online interactions and the relevant keystroke for that action so that you can test navigating your website with a keyboard.
+* [WebAIM: Semantic Structure:](https://webaim.org/techniques/semanticstructure/) describes how to structure your content in an accessible way.
+* [Web Content Accessibility Guidelines](https://www.w3.org/TR/WCAG22/): full guidelines for WCAG 2.2.
+
+### Design tools
+
+* [WebAIM Contrast Checker:](https://webaim.org/resources/contrastchecker/) : checks text and background contrast for WCAG compliance.
+* [Accessibility Insights:](https://accessibilityinsights.io/)  \- a Microsoft tool for automated WCAG testing and manual checks for web accessibility, including keyboard and screen reader support.
+
+### Development tools
+
+* [Google lighthouse](https://developer.chrome.com/docs/lighthouse/overview): a open-source tool for auditing web performance, accessibility, and SEO, with detailed WCAG compliance insights.
+* [WebAIM WAVE:](https://wave.webaim.org/extension/) a tool for analyzing web pages in-browser to identify WCAG issues such as contrast, alt text, and ARIA errors with visual overlays for debugging.
+

@@ -75,7 +75,7 @@ const LoginForm: FC<Props> = ({ login, requestConfirmationEmail, requestPassword
       const response = await login?.(data.email, data.password, data.rememberMe);
 
       if (!response?.accountId) setError(translate('error.auth-wrong'));
-    } catch (err) {
+    } catch {
       setError(translate('error.wentWrong'));
     }
   };
@@ -87,13 +87,9 @@ const LoginForm: FC<Props> = ({ login, requestConfirmationEmail, requestPassword
 
       if (response?.error) setError(translate('error.wentWrong'));
       else {
-        setSuccess(
-          translate('account.verification-resent', {
-            email: data.email,
-          }),
-        );
+        setSuccess(translate('account.verification-resent', { email: data.email }));
       }
-    } catch (err) {
+    } catch {
       setError(translate('error.wentWrong'));
     }
   };
@@ -105,13 +101,9 @@ const LoginForm: FC<Props> = ({ login, requestConfirmationEmail, requestPassword
 
       if (response?.error) setError(translate('error.wentWrong'));
       else {
-        setSuccess(
-          translate('account.verification-resent', {
-            email: data.email,
-          }),
-        );
+        setSuccess(translate('account.verification-resent', { email: data.email }));
       }
-    } catch (err) {
+    } catch {
       setError(translate('error.wentWrong'));
     }
   };

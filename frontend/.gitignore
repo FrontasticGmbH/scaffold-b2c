@@ -1,29 +1,39 @@
-.next
-.netlify
-.yarn
+# Next.js build and runtime
+.next  
 
+# Netlify deployment
+.netlify  
 
-.env.*
-!.env.dist
+# Yarn
+.yarn  
 
-node_modules/
+# Environment variable
+.env.*  
+!.env.dist  
 
-coverage/
+# JavaScript build logs and dependencies
+npm-debug.log*  
+yarn-debug.log*  
+yarn-error.log*  
+node_modules/  
 
-npm-debug.log*
-yarn-debug.log*
-yarn-error.log*
+# TypeScript build information
+tsconfig.tsbuildinfo  
 
-tsconfig.tsbuildinfo
-
-/public/sw.js
-/public/sw.js.map
-/public/workbox-*.js
-/public/workbox-*.js.map
-/public/sitemap.xml
+# Public directory files generated for PWA, sitemap, and robots
+/public/sw.js  
+/public/sw.js.map  
+/public/workbox-*.js  
+/public/workbox-*.js.map  
+/public/sitemap.xml  
 /public/robots.txt
+
+# Storybook
 /public/storybook/
-/test-results/
-/playwright-report/
-/blob-report/
-/playwright/.cache/
+
+# Test output and cache
+/test-results/  
+/playwright-report/  
+/blob-report/  
+/playwright/.cache/  
+coverage/  

@@ -1,11 +1,11 @@
 {
   "extends": [
     "next/core-web-vitals",
-    "plugin:prettier/recommended",
     "plugin:tailwindcss/recommended",
     "plugin:import/recommended",
     "plugin:import/typescript",
-    "plugin:@typescript-eslint/recommended"
+    "plugin:@typescript-eslint/recommended",
+    "prettier"
   ],
   "parser": "@typescript-eslint/parser",
   "plugins": ["tailwindcss", "import", "@typescript-eslint"],
@@ -17,6 +17,9 @@
       "node": {
         "moduleDirectory": ["node_modules", "."]
       }
+    },
+    "tailwindcss": {
+      "config": "./tailwind.config.js"
     }
   },
   "ignorePatterns": ["node_modules", "jest", "out", "*.config.js"],
@@ -28,23 +31,21 @@
     "tailwindcss/migration-from-tailwind-2": "warn",
     "tailwindcss/no-custom-classname": "warn",
     "tailwindcss/no-contradicting-classname": "error",
-    "prettier/prettier": "error",
     "@typescript-eslint/no-explicit-any": "warn",
     "import/no-named-as-default": 0,
     "jsx-a11y/alt-text": 0,
     "@typescript-eslint/ban-ts-comment": 0,
     "react/jsx-no-literals": "error",
-    // Consistently import navigation APIs from `@/i18n/routing`
     "no-restricted-imports": [
       "error",
       {
-          "name": "next/link",
-          "message": "Please import from `@/i18n/routing` instead."
+        "name": "next/link",
+        "message": "Please import from `@/i18n/routing` instead."
       },
       {
-          "name": "next/navigation",
-          "importNames": ["useRouter", "usePathname"],
-          "message": "Please import from `@/i18n/routing` instead."
+        "name": "next/navigation",
+        "importNames": ["useRouter", "usePathname"],
+        "message": "Please import from `@/i18n/routing` instead."
       }
     ],
     "import/order": [

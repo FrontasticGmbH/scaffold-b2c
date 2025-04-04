@@ -13,7 +13,7 @@ const Breadcrumb = ({
   listClassName,
 }: React.PropsWithChildren<BreadcrumbProps>) => {
   return (
-    <nav className={`max-w-full overflow-x-auto scrollbar-hide ${className}`} aria-label="Breadcrumb">
+    <nav className={`scrollbar-hide relative max-w-full overflow-x-auto ${className}`} aria-label="Breadcrumb">
       <ol
         role="list"
         className={`flex items-center justify-start gap-x-4 gap-y-22 whitespace-pre px-16 ${listClassName}`}

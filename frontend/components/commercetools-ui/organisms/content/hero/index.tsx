@@ -10,9 +10,11 @@ export interface HeroProps {
   subtitle: string;
   ctaLabel?: string;
   ctaReference?: Reference;
+  isPriority: boolean;
+  imageQuality: number;
 }
 
-const Hero: React.FC<HeroProps> = ({ image, title, subtitle, ctaLabel, ctaReference }) => {
+const Hero: React.FC<HeroProps> = ({ image, title, subtitle, ctaLabel, ctaReference, isPriority, imageQuality }) => {
   const cropFocus = useMemo(() => {
     if (image.gravity?.coordinates) {
       const right = Math.ceil((image.gravity?.coordinates.x / (image.media?.width as number)) * 100);
@@ -34,12 +36,13 @@ const Hero: React.FC<HeroProps> = ({ image, title, subtitle, ctaLabel, ctaRefere
         <div className="relative h-296 md:h-[532px] lg:h-[668px]">
           <Image
             {...image}
-            priority
-            loading="eager"
             alt={title}
             fill
             style={{ objectFit: 'cover', objectPosition: cropFocus }}
             className="brightness-75"
+            priority={isPriority}
+            fetchPriority={isPriority ? 'high' : 'auto'}
+            quality={imageQuality}
           />
         </div>
       )}

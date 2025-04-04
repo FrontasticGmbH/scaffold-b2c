@@ -15,7 +15,7 @@ export class CategoryRouter {
     return false;
   }
 
-  static loadFor = async (request: Request, commercetoolsFrontendContext: Context): Promise<ProductPaginatedResult> => {
+  static loadFor = async (request: Request, commercetoolsFrontendContext: Context): Promise<Category> => {
     const productApi = new ProductApi(commercetoolsFrontendContext, getLocale(request), getCurrency(request), request);
 
     // We are using the last subdirectory of the path to identify the category slug
@@ -32,15 +32,25 @@ export class CategoryRouter {
         return null;
       }
 
-      request.query.categories = [(categoryQueryResult.items[0] as Category).categoryRef];
-
-      const productQuery = ProductQueryFactory.queryFromParams({
-        ...request,
-      });
-
-      return await productApi.query(productQuery);
+      return categoryQueryResult.items[0];
     }
 
     return null;
+  };
+
+  static loadProductsFor = async (
+    request: Request,
+    commercetoolsFrontendContext: Context,
+    category: Category,
+  ): Promise<ProductPaginatedResult> => {
+    const productApi = new ProductApi(commercetoolsFrontendContext, getLocale(request), getCurrency(request), request);
+
+    request.query.categories = [category.categoryRef];
+
+    const productQuery = ProductQueryFactory.queryFromParams({
+      ...request,
+    });
+
+    return await productApi.query(productQuery);
   };
 }

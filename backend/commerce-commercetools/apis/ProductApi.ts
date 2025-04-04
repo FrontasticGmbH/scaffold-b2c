@@ -81,51 +81,6 @@ export class ProductApi extends BaseApi {
     return result.items.shift() as Product;
   }
 
-  async getSearchableAttributes(): Promise<FilterField[]> {
-    const locale = await this.getCommercetoolsLocal();
-
-    const response = await this.requestBuilder()
-      .productTypes()
-      .get()
-      .execute()
-      .catch((error) => {
-        throw new ExternalError({ statusCode: error.code, message: error.message, body: error.body });
-      });
-
-    const filterFields = ProductMapper.commercetoolsProductTypesToFilterFields(response.body.results, locale);
-
-    // Category filter. Not included as commercetools product type.
-    filterFields.push({
-      field: 'categoryIds',
-      type: FilterFieldTypes.ENUM,
-      label: 'Category',
-      values: await this.queryCategories({ limit: 250, format: CategoryQueryFormat.TREE }).then((result) => {
-        return (result.items as Category[]).map((item) => {
-          return {
-            value: item.categoryId,
-            name: item.name,
-          };
-        });
-      }),
-    });
-
-    // Variants price filter. Not included as commercetools product type.
-    filterFields.push({
-      field: 'variants.price',
-      type: FilterFieldTypes.MONEY,
-      label: 'Variants price', // TODO: localize label
-    });
-
-    // Variants scoped price filter. Not included as commercetools product type.
-    filterFields.push({
-      field: 'variants.scopedPrice.value',
-      type: FilterFieldTypes.MONEY,
-      label: 'Variants scoped price', // TODO: localize label
-    });
-
-    return filterFields;
-  }
-
   async queryCategories(categoryQuery: CategoryQuery): Promise<PaginatedResult<Category>> {
     const locale = await this.getCommercetoolsLocal();
     const defaultLocale = this.defaultLocale;
@@ -175,6 +130,54 @@ export class ProductApi extends BaseApi {
       .catch((error) => {
         throw new ExternalError({ statusCode: error.code, message: error.message, body: error.body });
       });
+  }
+
+  async getProductFilters(): Promise<FilterField[]> {
+    const locale = await this.getCommercetoolsLocal();
+
+    const commercetoolsProductTypes = await this.getCommercetoolsProductTypes();
+
+    const filterFields: FilterField[] = [];
+
+    // Product type filter
+    filterFields.push({
+      field: 'productTypeId',
+      type: FilterFieldTypes.ENUM,
+      label: 'Product type',
+      values: commercetoolsProductTypes.map((item) => {
+        return {
+          value: item.id,
+          name: item.name,
+        };
+      }),
+    });
+
+    // Searchable attributes filter
+    filterFields.push(
+      ...ProductMapper.commercetoolsProductTypesToFilterFields(commercetoolsProductTypes, locale, this.defaultLocale),
+    );
+
+    filterFields.push(...(await this.getCategoryFilters()));
+
+    return filterFields;
+  }
+
+  async getCategoryFilters(): Promise<FilterField[]> {
+    return [
+      {
+        field: 'categoryRef',
+        type: FilterFieldTypes.ENUM,
+        label: 'Category',
+        values: await this.queryCategories({ limit: 250 }).then((result) => {
+          return result.items.map((item) => {
+            return {
+              value: item.categoryRef,
+              name: item.name,
+            };
+          });
+        }),
+      },
+    ];
   }
 
   protected getOffsetFromCursor(cursor: string) {

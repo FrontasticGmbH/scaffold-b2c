@@ -3,6 +3,7 @@ import React, { useCallback, useMemo } from 'react';
 import { Hit } from 'instantsearch.js';
 import { Highlight } from 'react-instantsearch';
 import Image from 'components/commercetools-ui/atoms/image';
+import { trackEvent } from 'helpers/analytics';
 import { AUTOCOMPLETE_PRODUCT_CLICKED } from 'helpers/constants/events';
 import { useRouter } from 'i18n/routing';
 import { Category } from 'types/entity/category';
@@ -33,7 +34,7 @@ const SearchItem: React.FC<Props> = ({ hit, categories, onClick }) => {
   const handleClick = useCallback(() => {
     onClick?.();
 
-    gtag('event', AUTOCOMPLETE_PRODUCT_CLICKED, hit);
+    trackEvent(AUTOCOMPLETE_PRODUCT_CLICKED, hit);
 
     router.push(hit._url ?? '#');
   }, [hit, onClick, router]);

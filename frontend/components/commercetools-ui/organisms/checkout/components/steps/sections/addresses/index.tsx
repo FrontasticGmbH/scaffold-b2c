@@ -54,23 +54,26 @@ const Addresses: React.FC<Props> = ({ goToNextStep, onUpdateCart }) => {
   );
 
   const addressValidationScehma = useMemo(() => {
-    return yup.object().shape({
-      firstName: yup.string().required(),
-      lastName: yup.string().required(),
-      email: yup.string().email().required(),
-      phone: yup.string().optional(),
-      line1: yup.string().required(),
-      line2: yup.string().optional(),
-      postalCode: yup.string().required(),
-      city: yup.string().required(),
-    });
+    return yup
+      .object()
+      .shape({
+        firstName: yup.string().required(),
+        lastName: yup.string().required(),
+        email: yup.string().email().required(),
+        phone: yup.string().optional(),
+        line1: yup.string().required(),
+        line2: yup.string().optional(),
+        postalCode: yup.string().required(),
+        city: yup.string().required(),
+      })
+      .required();
   }, []);
 
   const isValidShippingAddress = useMemo(() => {
     try {
       addressValidationScehma.validateSync(shippingAddress);
       return true;
-    } catch (err) {
+    } catch {
       return false;
     }
   }, [addressValidationScehma, shippingAddress]);
@@ -79,7 +82,7 @@ const Addresses: React.FC<Props> = ({ goToNextStep, onUpdateCart }) => {
     try {
       addressValidationScehma.validateSync(currentBillingAddress);
       return true;
-    } catch (err) {
+    } catch {
       return false;
     }
   }, [addressValidationScehma, currentBillingAddress]);
@@ -214,13 +217,7 @@ const Addresses: React.FC<Props> = ({ goToNextStep, onUpdateCart }) => {
           required: true,
           className: 'col-span-1 mt-12',
         },
-        {
-          name: 'city',
-          label: translate('common.city'),
-          labelDesc: '',
-          required: true,
-          className: 'col-span-2 mt-12',
-        },
+        { name: 'city', label: translate('common.city'), labelDesc: '', required: true, className: 'col-span-2 mt-12' },
       ] as Fields[];
     },
     [translate, validateEmail],

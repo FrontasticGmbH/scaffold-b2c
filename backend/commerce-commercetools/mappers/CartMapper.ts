@@ -27,6 +27,7 @@ import {
   CartDiscountValue as CommercetoolsCartDiscountValue,
   CartDiscount as CommercetoolsCartDiscount,
   DiscountedTotalPricePortion as CommercetoolsDiscountedTotalPricePortion,
+  ShippingRate as CommercetoolsShippingRate,
 } from '@commercetools/platform-sdk';
 import { LineItem } from '@Types/cart/LineItem';
 import { Address } from '@Types/account/Address';
@@ -266,30 +267,25 @@ export class CartMapper {
       return undefined;
     }
 
-    let shippingMethod: ShippingMethod = {
-      shippingMethodId: commercetoolsShippingInfo?.shippingMethod?.id,
-    };
-
-    if (commercetoolsShippingInfo.shippingMethod.obj) {
-      shippingMethod = {
-        ...CartMapper.commercetoolsShippingMethodToShippingMethod(
-          commercetoolsShippingInfo.shippingMethod.obj,
-          locale,
-          defaultLocale,
-        ),
-      };
-    }
-
     return {
-      ...shippingMethod,
+      shippingMethodId: commercetoolsShippingInfo?.shippingMethod?.id,
+      name: commercetoolsShippingInfo?.shippingMethodName,
       price: ProductMapper.commercetoolsMoneyToMoney(commercetoolsShippingInfo.price),
+      rate: CartMapper.commercetoolsShippingRateToShippingRate(commercetoolsShippingInfo.shippingRate),
+      taxRate: this.commercetoolsTaxRateToTaxRate(commercetoolsShippingInfo.taxRate),
       taxed: this.commercetoolsTaxedItemPriceToTaxed(commercetoolsShippingInfo.taxedPrice),
-      taxIncludedInPrice: commercetoolsShippingInfo.taxRate?.includedInPrice,
       discountedPrice: this.commercetoolsDiscountedLineItemPriceToDiscountedPrice(
         commercetoolsShippingInfo.discountedPrice,
         locale,
         defaultLocale,
       ),
+    };
+  }
+
+  static commercetoolsShippingRateToShippingRate(commercetoolsShippingRate: CommercetoolsShippingRate): ShippingRate {
+    return {
+      price: ProductMapper.commercetoolsMoneyToMoney(commercetoolsShippingRate.price),
+      freeAbove: ProductMapper.commercetoolsMoneyToMoney(commercetoolsShippingRate.freeAbove),
     };
   }
 

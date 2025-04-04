@@ -57,7 +57,7 @@ type QueryProductCategoriesAction = (
   },
 ) => Promise<SDKResponse<PaginatedResult<Category>>>;
 
-type GetSearchableProductAttributesAction = (options?: {
+type ProductFiltersAction = (options?: {
   /**
    * @param {boolean} [options.parallel] - An optional boolean, default true indicating whether the action should executed asyncronously or be added to a queue and executed in sequence. Useful to supply false on actions you may think have race conditions.
    */
@@ -72,9 +72,4 @@ type GetSearchableProductAttributesAction = (options?: {
   serverOptions?: ServerOptions;
 }) => Promise<SDKResponse<FilterField[]>>;
 
-export {
-  type GetProductAction,
-  type ProductQueryAction,
-  type QueryProductCategoriesAction,
-  type GetSearchableProductAttributesAction,
-};
+export { type GetProductAction, type ProductQueryAction, type QueryProductCategoriesAction, type ProductFiltersAction };

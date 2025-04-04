@@ -1,5 +1,6 @@
 import React, { useMemo } from 'react';
 import { Popover } from '@headlessui/react';
+import { useTranslations } from 'use-intl';
 import { textToColor } from 'helpers/textToColor/textToColor';
 import { FacetProps } from './types';
 import { useProductList } from '../../context';
@@ -7,6 +8,7 @@ import { ColorFacet as ColorFacetType } from '../../types';
 
 const ColorFacet: React.FC<FacetProps> = ({ attribute }) => {
   const { facetsConfiguration, refine } = useProductList();
+  const translate = useTranslations();
 
   const facet = useMemo(() => facetsConfiguration[attribute] as ColorFacetType, [facetsConfiguration, attribute]);
 
@@ -19,6 +21,7 @@ const ColorFacet: React.FC<FacetProps> = ({ attribute }) => {
             key={identifier}
             className="flex flex-col items-center py-2 text-center"
             onClick={() => refine(attribute, key)}
+            aria-label={translate('product.switch-to-color', { color: color.label })}
           >
             <div
               className={`size-40 rounded-full outline outline-1 outline-offset-1 ${

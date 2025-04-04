@@ -10,6 +10,7 @@ import {
 } from '@frontastic/extension-types';
 import { Product } from '@Types/product/Product';
 import { ProductPaginatedResult } from '@Types/result';
+import { Attributes } from '@Types/product';
 import * as AccountActions from './actionControllers/AccountController';
 import * as ProductActions from './actionControllers/ProductController';
 import * as CartActions from './actionControllers/CartController';
@@ -56,7 +57,6 @@ export default {
         return {
           dynamicPageType: `frontastic${staticPageMatch[0]}`,
           dataSourcePayload: {},
-          pageMatchingPayload: {},
         } as DynamicPageSuccessResult;
       }
 
@@ -64,13 +64,30 @@ export default {
       if (ProductRouter.identifyFrom(request)) {
         return ProductRouter.loadFor(request, context.frontasticContext).then((product: Product) => {
           if (product) {
+            const sku = ProductRouter.skuFromUrl(request);
+            const matchingAttributes: Attributes = {};
+
+            if (sku) {
+              const selectedVariant = product.variants.find((variant) => variant.sku === sku);
+              if (selectedVariant.attributes) {
+                Object.entries(selectedVariant.attributes).forEach(([key, value]) => {
+                  // FECL can't match rules on arrays, so we ignore array attributes
+                  if (!Array.isArray(value)) {
+                    matchingAttributes[key] = value?.key ?? value;
+                  }
+                });
+              }
+            }
+
             return {
               dynamicPageType: 'frontastic/product-detail-page',
               dataSourcePayload: {
                 product: product,
               },
               pageMatchingPayload: {
-                product: product,
+                productTypeId: product.productTypeId || '',
+                attributes: matchingAttributes,
+                categoryRef: product.categories?.map((category) => category.categoryRef),
               },
             };
           }
@@ -85,23 +102,28 @@ export default {
             return {
               dynamicPageType: 'frontastic/search',
               dataSourcePayload: result,
-              pageMatchingPayload: result,
             };
           }
           return null;
         });
       }
 
+      // Identify Category
       if (CategoryRouter.identifyFrom(request)) {
-        return CategoryRouter.loadFor(request, context.frontasticContext).then((result: ProductPaginatedResult) => {
-          if (result) {
-            return {
-              dynamicPageType: 'frontastic/category',
-              dataSourcePayload: result,
-              pageMatchingPayload: result,
-            };
-          }
-          return null;
+        return CategoryRouter.loadFor(request, context.frontasticContext).then((category) => {
+          return CategoryRouter.loadProductsFor(request, context.frontasticContext, category).then((result) => {
+            if (result) {
+              return {
+                dynamicPageType: 'frontastic/category',
+                dataSourcePayload: result,
+                pageMatchingPayload: {
+                  categoryRef: category.categoryRef,
+                  isMainCategory: category.parentId === undefined,
+                },
+              };
+            }
+            return null;
+          });
         });
       }
 

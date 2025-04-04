@@ -66,8 +66,8 @@ const CartItem: React.FC<Props> = ({ item, onRemoveItem, onUpdateItem, OnMoveToW
   return (
     <div className="flex max-w-full items-stretch justify-start gap-10 py-18 md:gap-15">
       <div className="w-125 shrink-0 bg-white p-12">
-        <Link className="relative block size-full rounded-sm" link={item._url}>
-          <Image src={item.variant?.images?.[0]} suffix="small" style={{ objectFit: 'contain' }} fill />
+        <Link title={item.name} className="relative block size-full rounded-sm" link={item._url}>
+          <Image alt={item.name} src={item.variant?.images?.[0]} suffix="small" style={{ objectFit: 'contain' }} fill />
         </Link>
       </div>
       <div className="max-w-full grow overflow-hidden">
@@ -84,7 +84,7 @@ const CartItem: React.FC<Props> = ({ item, onRemoveItem, onUpdateItem, OnMoveToW
             onClick={handleRemoveItem}
             className={deleteButtonClassName}
             disabled={processing}
-            title={translate('cart.remove-product-from-cart', { productName: item.name })}
+            aria-label={translate('common.delete')}
           >
             <TrashIcon stroke="#494949" className="w-20" />
           </button>

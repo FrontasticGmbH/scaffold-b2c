@@ -12,6 +12,8 @@ const HeroTastic = ({ data }: TasticProps<HeroProps>) => {
       subtitle={data.subtitle}
       ctaLabel={data.ctaLabel}
       ctaReference={data.ctaReference}
+      imageQuality={data.imageQuality}
+      isPriority={data.isPriority}
     />
   );
 };

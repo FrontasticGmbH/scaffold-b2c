@@ -25,7 +25,6 @@ const Tile: React.FC<Props> = ({ tile }) => {
           fill
           style={{ objectFit: 'cover' }}
           className="brightness-75"
-          loading="eager"
         />
       </div>
       <h2 className="mt-5 block overflow-hidden truncate rounded-b-sm border-neutral-300 py-5 text-center text-14 text-primary md:text-16 lg:mt-0 lg:border lg:bg-white lg:py-10">

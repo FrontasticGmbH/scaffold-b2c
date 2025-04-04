@@ -3,10 +3,7 @@ import { useFormatter } from 'next-intl';
 import { ShippingMethod } from 'types/entity/cart';
 import { Order } from 'types/entity/order';
 
-type UseOrderDataProps = {
-  order?: Order;
-  shippingMethods: ShippingMethod[];
-};
+type UseOrderDataProps = { order?: Order; shippingMethods: ShippingMethod[] };
 
 const useOrderData = ({ order, shippingMethods }: UseOrderDataProps) => {
   const format = useFormatter();
@@ -23,37 +20,16 @@ const useOrderData = ({ order, shippingMethods }: UseOrderDataProps) => {
   }, [order]);
 
   const formattedOrderDate = useMemo(() => {
-    return (
-      orderDateCreated &&
-      format.dateTime(orderDateCreated, {
-        year: 'numeric',
-        month: 'short',
-        day: 'numeric',
-      })
-    );
-  }, [orderDateCreated]);
+    return orderDateCreated && format.dateTime(orderDateCreated, { year: 'numeric', month: 'short', day: 'numeric' });
+  }, [orderDateCreated, format]);
 
   const formattedShippingDate = useMemo(() => {
-    return (
-      orderDateShipping &&
-      format.dateTime(orderDateShipping, {
-        year: 'numeric',
-        month: 'short',
-        day: 'numeric',
-      })
-    );
-  }, [orderDateShipping]);
+    return orderDateShipping && format.dateTime(orderDateShipping, { year: 'numeric', month: 'short', day: 'numeric' });
+  }, [orderDateShipping, format]);
 
   const formattedDeliveryDate = useMemo(() => {
-    return (
-      orderDateDelivery &&
-      format.dateTime(orderDateDelivery, {
-        year: 'numeric',
-        month: 'short',
-        day: 'numeric',
-      })
-    );
-  }, [orderDateDelivery]);
+    return orderDateDelivery && format.dateTime(orderDateDelivery, { year: 'numeric', month: 'short', day: 'numeric' });
+  }, [orderDateDelivery, format]);
 
   const shippingName = useMemo(() => {
     return shippingMethods.find(
@@ -63,26 +39,15 @@ const useOrderData = ({ order, shippingMethods }: UseOrderDataProps) => {
 
   const shippingInfo = useMemo(() => {
     return `${
-      orderDateDelivery &&
-      format.dateTime(orderDateDelivery, {
-        year: 'numeric',
-        month: 'short',
-        day: 'numeric',
-      })
+      orderDateDelivery && format.dateTime(orderDateDelivery, { year: 'numeric', month: 'short', day: 'numeric' })
     } with ${shippingName}`;
-  }, [orderDateDelivery, shippingName]);
+  }, [orderDateDelivery, shippingName, format]);
 
   const paymentInfo = useMemo(() => {
     return order?.payments && `${order?.payments[0]?.paymentMethod}`;
     //return order?.payments && `${order?.payments[0]?.paymentMethod} **${order?.payments[0]?.cardSummary}`;
   }, [order?.payments]);
 
-  return {
-    shippingInfo,
-    paymentInfo,
-    formattedOrderDate,
-    formattedShippingDate,
-    formattedDeliveryDate,
-  };
+  return { shippingInfo, paymentInfo, formattedOrderDate, formattedShippingDate, formattedDeliveryDate };
 };
 export default useOrderData;

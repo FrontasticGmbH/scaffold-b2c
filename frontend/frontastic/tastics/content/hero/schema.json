@@ -13,6 +13,13 @@
           "field": "image",
           "type": "media",
           "required": true
+        },
+        {
+          "label": "Image Quality",
+          "field": "imageQuality",
+          "type": "integer",
+          "default": 75,
+          "required": true
         }
       ]
     },
@@ -55,6 +62,16 @@
           "required": false,
           "type": "reference",
           "default": null
+        }
+      ]
+    },
+    {
+      "name": "Image Loading Priority",
+      "fields": [
+        {
+          "label": "Optimize image for LCP (Largest Contentful Paint)",
+          "field": "isPriority",
+          "type": "boolean"
         }
       ]
     }

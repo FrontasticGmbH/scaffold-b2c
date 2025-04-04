@@ -1,11 +1,14 @@
+'use client';
+
 import { useLayoutEffect } from 'react';
 import { Middleware, UiState } from 'instantsearch.js';
 import debounce from 'lodash.debounce';
 import { useInstantSearch } from 'react-instantsearch';
+import { trackEvent } from 'helpers/analytics';
 
 const middleware: Middleware = () => {
   const sendDebouncedEvent = debounce((uiState: UiState) => {
-    gtag('event', 'Search UI State Changed', {
+    trackEvent('Search UI State Changed', {
       ...uiState,
       page_path: window.location.pathname + window.location.search,
     });

@@ -18,22 +18,25 @@ const Gallery: FC<GalleryProps> = ({ images, inModalVersion }) => {
   useEffect(() => {
     if (!snapContainerRef.current) return;
 
+    // Use a more efficient threshold
     const observer = new IntersectionObserver(
       (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            const childIndex = Array.from(snapContainerRef.current?.children ?? []).findIndex(
-              (child) => child === entry.target,
-            );
+        // Process only entries that are intersecting
+        const intersectingEntry = entries.find((entry) => entry.isIntersecting);
+        if (intersectingEntry) {
+          const childIndex = Array.from(snapContainerRef.current?.children ?? []).findIndex(
+            (child) => child === intersectingEntry.target,
+          );
 
-            setActiveIndex(childIndex);
-          }
-        });
+          setActiveIndex(childIndex);
+        }
       },
-      { root: snapContainerRef.current, rootMargin: '100% 0% 100% 0%', threshold: 0.7 },
+      { threshold: 0.5 },
     );
 
-    Array.from(snapContainerRef.current.children).forEach((child) => observer.observe(child));
+    const children = Array.from(snapContainerRef.current.children);
+    const visibleElements = children.slice(0, 3); // Just observe first few
+    visibleElements.forEach((child) => observer.observe(child));
 
     return () => observer.disconnect();
   }, []);
@@ -53,15 +56,18 @@ const Gallery: FC<GalleryProps> = ({ images, inModalVersion }) => {
           <Image
             data-testid="main-gallery-image"
             src={images[activeIndex]}
-            loading="eager"
             suffix="large"
             style={{ objectFit: 'contain' }}
+            sizes="(min-width: 1024px) 50vw, 1px"
             fill
+            priority={true}
+            loading="eager"
+            fetchPriority="high"
           />
         </div>
 
         <div className="block lg:hidden">
-          <div className="flex snap-x snap-mandatory overflow-x-scroll scrollbar-hide" ref={snapContainerRef}>
+          <div className="scrollbar-hide flex snap-x snap-mandatory overflow-x-scroll" ref={snapContainerRef}>
             {images?.map((image, index) => (
               <div
                 key={index}
@@ -72,10 +78,13 @@ const Gallery: FC<GalleryProps> = ({ images, inModalVersion }) => {
               >
                 <Image
                   src={image}
-                  loading={index === 0 ? 'eager' : 'lazy'}
                   suffix="large"
+                  sizes="(max-width: 1023px) 100vw, 1px"
                   style={{ objectFit: 'contain' }}
                   fill
+                  priority={index === 0}
+                  loading={index === 0 ? 'eager' : 'lazy'}
+                  fetchPriority={index === 0 ? 'high' : 'low'}
                 />
               </div>
             ))}
@@ -114,6 +123,7 @@ const Gallery: FC<GalleryProps> = ({ images, inModalVersion }) => {
                   onClick={() => setActiveIndex(index)}
                   style={{ objectFit: 'contain' }}
                   fill
+                  loading={'lazy'}
                 />
               </div>
             </div>

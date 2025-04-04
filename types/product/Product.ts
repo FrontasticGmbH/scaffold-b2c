@@ -5,6 +5,7 @@ export interface Product {
   productId?: string;
   productKey?: string;
   productRef?: string;
+  productTypeId?: string;
   changed?: Date;
   version?: string;
   name?: string;

@@ -7,13 +7,11 @@ dotenv.config({ path: path.resolve(__dirname, '.env') });
 export default defineConfig({
   testDir: './e2e',
   fullyParallel: false,
-  retries: 1,
-  workers: undefined,
+  retries: 2,
+  workers: process.env.CI ? 2 : undefined,
   reporter: 'html',
-  timeout: 40000,
   use: {
-    baseURL: 'http://localhost:3000/en/',
-    // baseURL: 'https://poc-b2cdev.frontend.site/en/',
+    baseURL: 'http://localhost:3000',
     trace: 'on-first-retry',
   },
   projects: [
@@ -29,6 +27,7 @@ export default defineConfig({
     //   name: 'mobileChrome',
     //   use: { ...devices['Pixel 5'] },
     // },
+    //
   ],
   webServer: {
     command: 'yarn run start',

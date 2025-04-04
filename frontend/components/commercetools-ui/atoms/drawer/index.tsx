@@ -32,7 +32,9 @@ const Drawer = ({
   const ref = useRef<HTMLDivElement>(null);
 
   useOnClickOutside(ref, () => {
-    !!isOpen && onClose?.();
+    if (isOpen && onClose) {
+      onClose();
+    }
   });
 
   const directionStyles = {

@@ -6,45 +6,45 @@
   "schema": [
     {
       "name": "Configuration",
-        "fields": [
-          {
-            "label": "Text query",
-            "field": "query",
-            "type": "text",
-            "default": "",
-            "translatable": false
-          },
-          {
-            "label": "Localized Text query",
-            "field": "lquery",
-            "type": "text",
-            "default": "",
-            "translatable": false
-          },
-          {
-            "label": "Product IDs",
-            "field": "productIds",
-            "type": "text",
-            "default": "",
-            "translatable": false
-          },
-          {
-            "label": "Product SKUs",
-            "field": "productSkus",
-            "type": "text",
-            "default": "",
-            "translatable": false
-          }
-        ]
+      "fields": [
+        {
+          "label": "Text query",
+          "field": "query",
+          "type": "text",
+          "default": "",
+          "translatable": false
+        },
+        {
+          "label": "Localized Text query",
+          "field": "lquery",
+          "type": "text",
+          "default": "",
+          "translatable": false
+        },
+        {
+          "label": "Product IDs",
+          "field": "productIds",
+          "type": "text",
+          "default": "",
+          "translatable": false
+        },
+        {
+          "label": "Product SKUs",
+          "field": "productSkus",
+          "type": "text",
+          "default": "",
+          "translatable": false
+        }
+      ]
     },
     {
       "name": "Filters",
       "fields": [
         {
-          "label": "Attribute filters",
+          "label": "Product dynamic filters",
           "field": "productFilters",
           "type": "dynamic-filter",
-          "dynamicFilterEndpoint": "/frontastic/action/product/searchableAttributes"
+          "dynamicFilterEndpoint": "/frontastic/action/product/productFilters"
         }
       ]
     }

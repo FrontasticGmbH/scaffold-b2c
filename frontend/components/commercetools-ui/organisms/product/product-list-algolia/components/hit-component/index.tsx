@@ -3,6 +3,7 @@ import { useParams } from 'next/navigation';
 import { Hit, BaseHit } from 'instantsearch.js';
 import ProductTile from 'components/commercetools-ui/molecules/product-tile';
 import { mapProduct } from 'helpers/algolia/map-product';
+import { trackEvent } from 'helpers/analytics';
 import { PLP_PRODUCT_CLICKED } from 'helpers/constants/events';
 import { useProductList } from '../../context';
 
@@ -20,7 +21,7 @@ const HitComponent = ({ hit }: { hit: Hit<BaseHit> }) => {
       shippingMethods={shippingMethods}
       isSearchResult={!!searchQuery}
       onClick={() => {
-        gtag('event', PLP_PRODUCT_CLICKED, hit);
+        trackEvent(PLP_PRODUCT_CLICKED, hit);
       }}
       addToWishlist={addToWishlist}
       removeLineItem={removeFromWishlist}

@@ -38,7 +38,7 @@ describe('[Utility] mapCosts', () => {
         shippingInfo: {
           shippingMethodId: '',
           price: { centAmount: 5000 },
-          taxIncludedInPrice: false,
+          taxRate: { includedInPrice: false },
           taxed: { taxAmount: { centAmount: 500 } },
         },
         sum: {
@@ -81,7 +81,7 @@ describe('[Utility] mapCosts', () => {
         shippingInfo: {
           shippingMethodId: '',
           price: { centAmount: 5000 },
-          taxIncludedInPrice: true,
+          taxRate: { includedInPrice: true },
           taxed: { taxAmount: { centAmount: 500 } },
         },
         sum: {
@@ -124,7 +124,7 @@ describe('[Utility] mapCosts', () => {
         shippingInfo: {
           shippingMethodId: '',
           price: { centAmount: 5000 },
-          taxIncludedInPrice: true,
+          taxRate: { includedInPrice: true },
           taxed: { taxAmount: { centAmount: 500 } },
         },
         sum: {
@@ -168,7 +168,7 @@ describe('[Utility] mapCosts', () => {
         shippingInfo: {
           shippingMethodId: '',
           price: { centAmount: 5000 },
-          taxIncludedInPrice: true,
+          taxRate: { includedInPrice: true },
           taxed: { taxAmount: { centAmount: 500 } },
         },
         sum: {

@@ -4,5 +4,13 @@
   "category": "Products",
   "icon": "picture_in_picture",
   "dataSourceType": "frontastic/product",
-  "isMultiple": true
+  "isMultiple": true,
+  "pageMatchingPayloadSchema": [
+    {
+      "label": "Product dynamic filters",
+      "field": "productFilters",
+      "type": "dynamic-filter",
+      "dynamicFilterEndpoint": "/frontastic/action/product/productFilters"
+    }
+  ]
 }

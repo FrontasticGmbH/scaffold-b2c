@@ -1,5 +1,6 @@
 import React, { useMemo } from 'react';
 import { useTranslations } from 'use-intl';
+import { trackEvent } from 'helpers/analytics';
 import { PLP_PRODUCT_CLICKED } from 'helpers/constants/events';
 import { Cart } from 'types/entity/cart';
 import { Product } from 'types/entity/product';
@@ -28,7 +29,7 @@ const List: React.FC<Props> = ({ products, cart }) => {
             cart={cart}
             isSearchResult={!!searchQuery}
             onClick={() => {
-              gtag('event', PLP_PRODUCT_CLICKED, product);
+              trackEvent(PLP_PRODUCT_CLICKED, product);
             }}
           />
         ))}

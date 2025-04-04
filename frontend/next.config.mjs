@@ -11,7 +11,6 @@ const isProd = process.env.NODE_ENV === 'production';
 const config = {
   reactStrictMode: true,
   trailingSlash: true,
-  swcMinify: true,
   images: {
     remotePatterns: [
       {
@@ -50,16 +49,6 @@ const config = {
     reactRemoveProperties: isProd ? { properties: ['^data-test'] } : false,
   },
 
-  webpack(config) {
-    config.module.rules.push({
-      test: /\.svg$/,
-      exclude: /flag-icons/,
-      use: ['@svgr/webpack'],
-    });
-
-    return config;
-  },
-
   async redirects() {
     return [
       {
@@ -75,10 +64,6 @@ const config = {
       { source: '/__preview/:path*', destination: '/preview/:path*' },
       { source: '/:locale/__preview/:path*', destination: '/:locale/preview/:path*' },
     ];
-  },
-
-  experimental: {
-    appDir: true,
   },
 };
 

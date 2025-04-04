@@ -13,6 +13,7 @@ import { LocaleError } from '../errors/LocaleError';
 import { ClientConfig } from '../interfaces/ClientConfig';
 import { tokenHasExpired } from '../utils/Token';
 import { ExternalError } from '@Commerce-commercetools/errors/ExternalError';
+import { ConfigurationError } from '@Commerce-commercetools/errors/ConfigurationError';
 
 const defaultCurrency = 'USD';
 
@@ -577,6 +578,13 @@ export abstract class BaseApi {
       } catch (error) {
         // We are ignoring the error refreshing the token and trying to generate a new one
       }
+    }
+
+    if (!this.clientSettings.checkoutApplicationKey || !this.clientSettings.sessionUrl) {
+      throw new ConfigurationError({
+        message:
+          'Missing required configuration for checkout session token generation. Please configure the checkout application key and session URL',
+      });
     }
 
     const url = `${this.clientSettings.sessionUrl}/${this.projectKey}/sessions`;

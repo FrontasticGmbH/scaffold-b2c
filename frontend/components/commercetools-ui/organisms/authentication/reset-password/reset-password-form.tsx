@@ -57,7 +57,7 @@ const ResetPasswordForm: FC<ResetPasswordProps> = ({ accountLink, signInLink, re
         setError('');
         router?.push(resolveReferenceTarget(accountLink) as string);
       }
-    } catch (err) {
+    } catch {
       setError(translate('error.wentWrong'));
     }
     //processing ends

@@ -181,7 +181,12 @@ const Slideout: React.FC<SlideOutProps> = ({
               </div>
             </button>
           )}
-          <button onClick={onClose} className="cursor-pointer transition hover:opacity-80" data-testid="close-icon">
+          <button
+            onClick={onClose}
+            className="cursor-pointer transition hover:opacity-80"
+            data-testid="close-icon"
+            aria-label={translate('common.close')}
+          >
             <CloseIcon className="w-28" stroke="#494949" />
           </button>
         </div>

@@ -20,7 +20,7 @@ export interface ProductQuery extends PaginatedQuery {
   productIds?: string[];
   productKeys?: string[];
   productRefs?: string[];
-  productType?: string;
+  productTypeId?: string;
   skus?: string[];
   query?: string;
   filters?: Filter[];

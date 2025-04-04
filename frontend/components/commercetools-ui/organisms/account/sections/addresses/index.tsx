@@ -19,7 +19,11 @@ const Addresses = () => {
   const [selectedShippingAddress, setSelectedShippingAddress] = useState<AddressType>();
 
   const selectAddress = (address: AddressFormData) => {
-    address.isBillingAddress ? setSelectedBillingAddress(address) : setSelectedShippingAddress(address);
+    if (address.isBillingAddress) {
+      setSelectedBillingAddress(address);
+    } else {
+      setSelectedShippingAddress(address);
+    }
   };
 
   const setAddressAsDefault = useCallback(

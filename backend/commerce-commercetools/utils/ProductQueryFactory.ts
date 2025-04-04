@@ -7,13 +7,10 @@ import { FilterFieldTypes } from '@Types/product/FilterField';
 import { Facet } from '@Types/query/Facet';
 import { TermFacet } from '@Types/query/TermFacet';
 import { RangeFacet } from '@Types/query/RangeFacet';
-import { getAccountGroupId, getProductSelectionId } from '@Commerce-commercetools/utils/Request';
+import { getAccountGroupId } from '@Commerce-commercetools/utils/Request';
 
 export class ProductQueryFactory {
-  static queryFromParams: (request: Request, config?: DataSourceConfiguration) => ProductQuery = (
-    request: Request,
-    config?: DataSourceConfiguration,
-  ) => {
+  static queryFromParams(request: Request, dataSourceConfiguration?: DataSourceConfiguration): ProductQuery {
     let queryParams;
     const productQuery: ProductQuery = {
       categories: [],
@@ -21,6 +18,7 @@ export class ProductQueryFactory {
       productKeys: [],
       productRefs: [],
       skus: [],
+      filters: [],
     };
 
     /**
@@ -31,14 +29,17 @@ export class ProductQueryFactory {
     }
 
     // Overwrite queryParams with configuration from Studio
-    if (config?.configuration) {
-      for (const [key, value] of Object.entries(config?.configuration)) {
+    if (dataSourceConfiguration?.configuration) {
+      for (const [key, value] of Object.entries(dataSourceConfiguration?.configuration)) {
         if (value === undefined || value === '') {
           continue;
         }
 
         switch (key) {
+          case 'category':
           case 'categories':
+          case 'categoryRef':
+          case 'categoryRefs':
             queryParams['categories'] = (value as string).split(',').map((val: string) => val.trim());
             break;
           case 'productId':
@@ -67,19 +68,6 @@ export class ProductQueryFactory {
     productQuery.query = queryParams?.query || queryParams?.lquery || undefined;
 
     /**
-     * Map Categories
-     */
-    if (queryParams?.categories && Array.isArray(queryParams?.categories)) {
-      queryParams.categories.map((category: string | number) => {
-        productQuery.categories.push(category.toString());
-      });
-    }
-    // Support also queries with a single category
-    if (queryParams?.category) {
-      productQuery.categories.push(queryParams.category);
-    }
-
-    /**
      * Map products
      */
     if (queryParams?.productRefs && Array.isArray(queryParams?.productRefs)) {
@@ -88,16 +76,29 @@ export class ProductQueryFactory {
       });
     }
 
+    /**
+     * Map productIds
+     */
     if (queryParams?.productIds && Array.isArray(queryParams?.productIds)) {
       queryParams?.productIds.map((productId: string | number) => {
         productQuery.productIds.push(productId.toString());
       });
     }
 
+    /**
+     * Map productKeys
+     */
     if (queryParams?.productKeys && Array.isArray(queryParams?.productKeys)) {
       queryParams?.productKeys.map((productId: string | number) => {
         productQuery.productKeys.push(productId.toString());
       });
+    }
+
+    /**
+     * Map productTypeIds
+     */
+    if (queryParams?.productTypeId) {
+      productQuery.productTypeId = queryParams.productTypeId;
     }
 
     /**
@@ -110,26 +111,35 @@ export class ProductQueryFactory {
     }
 
     /**
-     * Since filters and values might be returned in separated arrays we are using
-     * the following method to merge both, filters and values, in a single array.
+     * Map categories
      */
-    const configFiltersData = [];
-    configFiltersData.push(...ProductQueryFactory.mergeProductFiltersAndValues(queryParams));
-
-    /**
-     * Map filters
-     */
-    const filters = this.configFiltersDataToFilters(configFiltersData);
-    if (filters.length > 0) {
-      productQuery.filters = filters;
+    if (queryParams?.categories && Array.isArray(queryParams?.categories)) {
+      queryParams.categories.map((category: string | number) => {
+        productQuery.categories.push(category.toString());
+      });
     }
 
     /**
-     * Map category filters
+     * Map product filters
      */
-    const categoryFilters = this.configFiltersDataToCategoryFilters(configFiltersData);
-    if (categoryFilters.length > 0) {
-      productQuery.categories = categoryFilters;
+    if (queryParams?.productFilters) {
+      const productFiltersData = this.mergeFiltersAndValues(queryParams, 'productFilters');
+
+      productFiltersData.map((productFilterData: any) => {
+        switch (true) {
+          case productFilterData.field === 'categoryRef':
+            productQuery.categories = productFilterData.values;
+            break;
+          case productFilterData.field === 'productTypeId':
+            productQuery.productTypeId = productFilterData.values[0];
+            break;
+          case productFilterData.field.startsWith('attributes.'):
+            productQuery.filters.push(this.productFiltersDataToProductFilter(productFilterData));
+            break;
+          default:
+            break;
+        }
+      });
     }
 
     /**
@@ -154,11 +164,6 @@ export class ProductQueryFactory {
     }
 
     /**
-     * Map productSelectionId
-     */
-    productQuery.productSelectionId = queryParams?.productSelectionId || getProductSelectionId(request) || undefined;
-
-    /**
      * Map page limit
      */
     productQuery.limit = queryParams?.limit || undefined;
@@ -174,7 +179,7 @@ export class ProductQueryFactory {
     productQuery.accountGroupId = queryParams?.accountGroupId || getAccountGroupId(request) || undefined;
 
     return productQuery;
-  };
+  }
 
   private static queryParamsToFacets(queryParams: any) {
     const facets: Facet[] = [];
@@ -220,97 +225,73 @@ export class ProductQueryFactory {
     return facets;
   }
 
-  private static mergeProductFiltersAndValues(queryParams: any) {
+  private static mergeFiltersAndValues(queryParams: any, filterKey: 'productFilters' | 'categoryFilters') {
     const filtersData: any[] = [];
 
-    if (queryParams?.productFilters?.filters === undefined) {
+    if (queryParams?.[filterKey]?.filters === undefined) {
       return filtersData;
     }
 
-    if (queryParams?.productFilters?.values === undefined) {
-      return queryParams.productFilters.filters;
+    if (queryParams?.[filterKey]?.values === undefined) {
+      return queryParams[filterKey].filters;
     }
 
-    queryParams.productFilters.filters.forEach((filter: any) => {
+    queryParams[filterKey].filters.forEach((filter: any) => {
       if (filter?.field) {
-        const filterValues =
-          // TODO: to be adapted when Studio returned multiple values
-          [queryParams.productFilters?.values[filter.field]] || [];
-
-        const filterData = {
+        const filterValues = [queryParams[filterKey]?.values[filter.field]];
+        filtersData.push({
           ...filter,
           values: filterValues,
-        };
-        filtersData.push(filterData);
+        });
       }
     });
 
     return filtersData;
   }
 
-  private static configFiltersDataToFilters(configFiltersData: any) {
-    const filters: Filter[] = [];
+  private static productFiltersDataToProductFilter(productFilterData: any): Filter {
+    let filter: Filter;
 
-    configFiltersData.forEach((configFilterData: any) => {
-      if (configFilterData?.field === 'categoryId' || configFilterData?.field === 'categoryIds') {
-        // Ignore category filters, they are handled separately
-        return;
-      }
+    switch (productFilterData.type) {
+      case FilterFieldTypes.NUMBER:
+      case FilterFieldTypes.MONEY:
+        const rangeFilter: RangeFilter = {
+          identifier: productFilterData?.field,
+          type: FilterTypes.RANGE,
+          min: +productFilterData?.values?.[0]?.min || +productFilterData?.values?.[0] || undefined,
+          max: +productFilterData?.values?.[0]?.max || +productFilterData?.values?.[0] || undefined,
+        };
+        filter = rangeFilter;
+        break;
+      case FilterFieldTypes.TEXT:
+        const termFilter: TermFilter = {
+          identifier: productFilterData?.field,
+          type: FilterTypes.TERM,
+          terms: this.getTermsFromConfigFilterData(productFilterData),
+        };
+        filter = termFilter;
+        break;
+      case FilterFieldTypes.ENUM:
+        const enumFilter: TermFilter = {
+          identifier: productFilterData?.field,
+          type: FilterTypes.ENUM,
+          terms: this.getTermsFromConfigFilterData(productFilterData),
+        };
+        filter = enumFilter;
+        break;
+      case FilterFieldTypes.BOOLEAN:
+        const booleanFilter: TermFilter = {
+          identifier: productFilterData?.field,
+          type: FilterTypes.BOOLEAN,
+          terms: [productFilterData?.values[0]],
+        };
+        filter = booleanFilter;
+        break;
+      default:
+        break;
+    }
 
-      switch (configFilterData.type) {
-        case FilterFieldTypes.NUMBER:
-        case FilterFieldTypes.MONEY:
-          const rangeFilter: RangeFilter = {
-            identifier: configFilterData?.field,
-            type: FilterTypes.RANGE,
-            min: +configFilterData?.values?.[0]?.min || +configFilterData?.values?.[0] || undefined,
-            max: +configFilterData?.values?.[0]?.max || +configFilterData?.values?.[0] || undefined,
-          };
-          filters.push(rangeFilter);
-          break;
-        case FilterFieldTypes.TEXT:
-          const termFilter: TermFilter = {
-            identifier: configFilterData?.field,
-            type: FilterTypes.TERM,
-            terms: this.getTermsFromConfigFilterData(configFilterData),
-          };
-          filters.push(termFilter);
-          break;
-        case FilterFieldTypes.ENUM:
-          const enumFilter: TermFilter = {
-            identifier: configFilterData?.field,
-            type: FilterTypes.ENUM,
-            terms: this.getTermsFromConfigFilterData(configFilterData),
-          };
-          filters.push(enumFilter);
-          break;
-        case FilterFieldTypes.BOOLEAN:
-          const booleanFilter: TermFilter = {
-            identifier: configFilterData?.field,
-            type: FilterTypes.BOOLEAN,
-            terms: [configFilterData?.values[0]],
-          };
-          filters.push(booleanFilter);
-          break;
-        default:
-          break;
-      }
-    });
-
-    return filters;
-  }
-
-  private static configFiltersDataToCategoryFilters(configFiltersData: any) {
-    const categoryFilters: string[] = [];
-
-    configFiltersData.forEach((configFilterData: any) => {
-      if (configFilterData?.field === 'categoryId' || configFilterData?.field === 'categoryIds') {
-        // Overwrite category with any value that has been set from Studio
-        categoryFilters.push(configFilterData.values);
-      }
-    });
-
-    return categoryFilters;
+    return filter;
   }
 
   private static getTermsFromConfigFilterData(configFilterData: any) {

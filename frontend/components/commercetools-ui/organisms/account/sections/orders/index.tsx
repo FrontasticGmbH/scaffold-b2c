@@ -56,12 +56,20 @@ const Orders = ({ orders, loading }: Props) => {
   ]);
 
   const swiperReachBeginning = useCallback(() => {
-    !overflow ? setRightArrowAppear(false) : setRightArrowAppear(true);
+    if (!overflow) {
+      setRightArrowAppear(false);
+    } else {
+      setRightArrowAppear(true);
+    }
     setLeftArrowAppear(false);
   }, [overflow]);
 
   const swiperReachEnd = useCallback(() => {
-    !overflow ? setLeftArrowAppear(false) : setLeftArrowAppear(true);
+    if (!overflow) {
+      setLeftArrowAppear(false);
+    } else {
+      setLeftArrowAppear(true);
+    }
     setRightArrowAppear(false);
   }, [overflow]);
 

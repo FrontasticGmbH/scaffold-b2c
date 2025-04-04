@@ -1,7 +1,7 @@
 import { Metadata } from 'next';
 import { redirect } from 'next/navigation';
 import { RedirectResponse } from '@commercetools/frontend-sdk';
-import GASnippet from 'components/headless/GASnippet';
+import GASnippet from 'helpers/analytics/GASnippet';
 import fetchAccount from 'helpers/server/fetch-account';
 import fetchCategories from 'helpers/server/fetch-categories';
 import fetchPageData from 'helpers/server/fetch-page-data';
@@ -12,7 +12,7 @@ import { sdk } from 'sdk';
 import { PageProps } from 'types/next';
 import Renderer from 'frontastic/renderer';
 
-export const dynamic = 'force-dynamic';
+export const revalidate = 120;
 
 export async function generateMetadata(props: PageProps): Promise<Metadata> {
   const searchParams = await props.searchParams;

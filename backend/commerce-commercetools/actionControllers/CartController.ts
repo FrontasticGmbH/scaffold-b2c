@@ -293,34 +293,6 @@ export const checkout: ActionHook = async (request: Request, actionContext: Acti
   }
 };
 
-/**
- * @deprecated Use queryOrders instead
- */
-export const getOrders: ActionHook = async (request: Request, actionContext: ActionContext) => {
-  try {
-    const cartApi = getCartApi(request, actionContext);
-
-    const account = request.sessionData?.account !== undefined ? request.sessionData.account : undefined;
-
-    if (account === undefined) {
-      throw new AccountAuthenticationError({ message: 'Not logged in.' });
-    }
-
-    const orders = await cartApi.getOrders(account);
-
-    const response: Response = {
-      statusCode: 200,
-      body: JSON.stringify(orders),
-      sessionData: {
-        ...cartApi.getSessionData(),
-      },
-    };
-    return response;
-  } catch (error) {
-    return handleError(error, request);
-  }
-};
-
 export const getShippingMethods: ActionHook = async (request: Request, actionContext: ActionContext) => {
   try {
     const cartApi = getCartApi(request, actionContext);

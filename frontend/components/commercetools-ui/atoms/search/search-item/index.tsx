@@ -1,6 +1,7 @@
 import React, { useCallback, useMemo } from 'react';
 // import { Variant } from 'ct-types/product';
 import Image from 'components/commercetools-ui/atoms/image';
+import { trackEvent } from 'helpers/analytics';
 import { AUTOCOMPLETE_PRODUCT_CLICKED } from 'helpers/constants/events';
 import { useRouter } from 'i18n/routing';
 // import useVariantWithDiscount from 'helpers/hooks/useVariantWithDiscount';
@@ -30,7 +31,7 @@ const SearchItem: React.FC<Props> = ({ hit, categories, onClick }) => {
   const handleClick = useCallback(() => {
     onClick?.();
 
-    gtag('event', AUTOCOMPLETE_PRODUCT_CLICKED, hit);
+    trackEvent(AUTOCOMPLETE_PRODUCT_CLICKED, hit);
 
     router.push(hit._url ?? '#');
   }, [hit, onClick, router]);

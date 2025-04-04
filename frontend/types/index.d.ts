@@ -6,10 +6,9 @@ import { Params } from './next';
 export {};
 
 declare global {
-  declare const gtag: (type: string, label: string, payload: unknown) => void;
-
   interface Window {
-    gtag: (type: string, label: string, payload: unknown) => void;
+    dataLayer: Record<string, any>[];
+    gtag: (command: 'config' | 'event' | 'set', eventName: string, eventParams?: Record<string, any>) => void;
   }
 }
 

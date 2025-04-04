@@ -375,29 +375,6 @@ export class CartApi extends BaseApi {
       });
   }
 
-  async getOrders(account: Account): Promise<Order[]> {
-    const locale = await this.getCommercetoolsLocal();
-
-    return await this.requestBuilder()
-      .orders()
-      .get({
-        queryArgs: {
-          expand: CART_EXPANDS,
-          where: `customerId="${account.accountId}"`,
-          sort: 'createdAt desc',
-        },
-      })
-      .execute()
-      .then((response) => {
-        return response.body.results.map((order) =>
-          CartMapper.commercetoolsOrderToOrder(order, locale, this.defaultLocale),
-        );
-      })
-      .catch((error) => {
-        throw new ExternalError({ statusCode: error.code, message: error.message, body: error.body });
-      });
-  }
-
   async getShippingMethods(onlyMatching: boolean): Promise<ShippingMethod[]> {
     const locale = await this.getCommercetoolsLocal();
 

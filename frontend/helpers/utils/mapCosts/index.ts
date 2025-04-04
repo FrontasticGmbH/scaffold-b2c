@@ -44,14 +44,14 @@ const mapCosts: MapCosts = ({ cart: data, currency = 'USD' }) => {
     (data.lineItems ?? [])
       .filter((item) => !item.taxRate?.includedInPrice)
       .reduce((acc, curr) => acc + (curr.taxed?.taxAmount?.centAmount ?? 0), 0) +
-    (!data.shippingInfo?.taxIncludedInPrice ? (data.shippingInfo?.taxed?.taxAmount?.centAmount ?? 0) : 0);
+    (!data.shippingInfo?.taxRate?.includedInPrice ? (data.shippingInfo?.taxed?.taxAmount?.centAmount ?? 0) : 0);
 
   const totalTax = totalAmount > 0 ? (data.taxed?.taxAmount?.centAmount ?? 0) : 0;
 
   const totalShipping =
     totalAmount > 0
       ? (data.shippingInfo?.price?.centAmount || 0) -
-          (data.shippingInfo?.taxIncludedInPrice ? data.shippingInfo.taxed?.taxAmount?.centAmount || 0 : 0) ||
+          (data.shippingInfo?.taxRate?.includedInPrice ? data.shippingInfo.taxed?.taxAmount?.centAmount || 0 : 0) ||
         data.availableShippingMethods?.[0]?.rates?.[0]?.price?.centAmount ||
         0
       : 0;

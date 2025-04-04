@@ -51,7 +51,7 @@ const WishlistButton: FC<WishlistButtonProps> = ({ lineItem, className, data, re
   };
 
   return (
-    <button onClick={onClick} aria-label={translate('common.heart-icon')}>
+    <button onClick={onClick} aria-label={translate('wishlist.add-to-wishlist')}>
       <HeartIcon className={buttonClassName + ' ' + pathClassNames} strokeWidth={'0.75'} data-testid="heart-icon" />
     </button>
   );

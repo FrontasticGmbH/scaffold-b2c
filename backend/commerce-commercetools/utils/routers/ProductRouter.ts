@@ -14,14 +14,21 @@ export class ProductRouter {
 
   static generateUrlFor(item: Product | LineItem | WishlistItem) {
     if (ProductRouter.isProduct(item)) {
-      const variant = item.variants.find((variant) => variant.isMatchingVariant !== false) ?? item.variants[0];
-      return `/${item.slug}/p/${variant.sku}`;
+      return `/${item.slug}/p/${item.variants[0].sku}`;
     }
     return `/slug/p/${item.variant.sku}`;
   }
 
+  static skuFromUrl = (request: Request) => {
+    const urlMatches = getPath(request)?.match(/\/p\/([^\/]+)/);
+    if (urlMatches) {
+      return urlMatches[1];
+    }
+    return undefined;
+  };
+
   static identifyFrom(request: Request) {
-    if (getPath(request)?.match(/\/p\/([^\/]+)/)) {
+    if (ProductRouter.skuFromUrl(request)) {
       return true;
     }
 
@@ -31,11 +38,11 @@ export class ProductRouter {
   static loadFor = async (request: Request, commercetoolsFrontendContext: Context): Promise<Product> => {
     const productApi = new ProductApi(commercetoolsFrontendContext, getLocale(request), getCurrency(request), request);
 
-    const urlMatches = getPath(request)?.match(/\/p\/([^\/]+)/);
+    const sku = ProductRouter.skuFromUrl(request);
 
-    if (urlMatches) {
+    if (sku) {
       const productQuery: ProductQuery = {
-        skus: [urlMatches[1]],
+        skus: [sku],
         accountGroupId: getAccountGroupId(request),
       };
       return productApi.getProduct(productQuery);

@@ -84,100 +84,108 @@ const AddToCartOverlayProvider = ({ children }: React.PropsWithChildren) => {
         leaveFrom="opacity-100 translate-y-0"
         leaveTo="opacity-0 translate-y-full"
       >
-        <div onMouseUp={(e) => e.stopPropagation()}>
-          <div className="bg-white p-16 md:px-48 md:py-24">
-            <h4 className="text-18 leading-[27px] lg:text-22 lg:leading-[33px]">{translate('product.cart-added')}</h4>
+        {
+          <div onMouseUp={(e) => e.stopPropagation()}>
+            <div className="bg-white p-16 md:px-48 md:py-24">
+              <h4 className="text-18 leading-[27px] lg:text-22 lg:leading-[33px]">{translate('product.cart-added')}</h4>
 
-            <CloseIcon
-              className="absolute right-18 top-16 size-28 cursor-pointer fill-gray-600 stroke-0 md:top-16"
-              onClick={hide}
-              data-testid="close-icon"
-            />
+              <CloseIcon
+                className="absolute right-18 top-16 size-28 cursor-pointer fill-gray-600 stroke-0 md:top-16"
+                onClick={hide}
+                data-testid="close-icon"
+              />
 
-            <div className="mt-22 md:mt-35 lg:mt-30">
-              <div className="flex items-center gap-24">
-                <Link className="block shrink-0" link={product?._url}>
-                  <Image
-                    width={135}
-                    height={150}
-                    src={product?.images?.[0] ?? '#'}
-                    style={{ objectFit: 'contain' }}
-                    alt={product?.name ?? ''}
-                    suffix={'small'}
-                  />
-                </Link>
-                <div className="flex grow items-start justify-between overflow-hidden">
-                  <div className="max-w-full overflow-hidden">
-                    <Link className="block max-w-full truncate text-12 uppercase md:text-14" link={product?._url}>
-                      {product?.name}
-                    </Link>
-                    <span className="mt-8 block text-12 font-medium md:hidden">
+              <div className="mt-22 md:mt-35 lg:mt-30">
+                <div className="flex items-center gap-24">
+                  <Link className="block shrink-0" link={product?._url}>
+                    <Image
+                      width={135}
+                      height={150}
+                      src={product?.images?.[0]}
+                      style={{ objectFit: 'contain' }}
+                      alt={product?.name ?? ''}
+                      suffix={'small'}
+                    />
+                  </Link>
+                  <div className="flex grow items-start justify-between overflow-hidden">
+                    <div className="max-w-full overflow-hidden">
+                      <Link className="block max-w-full truncate text-12 uppercase md:text-14" link={product?._url}>
+                        {product?.name}
+                      </Link>
+                      <span className="mt-8 block text-12 font-medium md:hidden">
+                        {CurrencyHelpers.formatForCurrency(
+                          product?.discountedPrice?.value ?? product?.price ?? {},
+                          locale,
+                        )}
+                      </span>
+                      <span className="mt-12 block text-14 text-gray-600">x {product?.count}</span>
+                    </div>
+                    <span className="hidden text-14 font-medium md:block">
                       {CurrencyHelpers.formatForCurrency(
                         product?.discountedPrice?.value ?? product?.price ?? {},
                         locale,
                       )}
                     </span>
-                    <span className="mt-12 block text-14 text-gray-600">x {product?.count}</span>
                   </div>
-                  <span className="hidden text-14 font-medium md:block">
-                    {CurrencyHelpers.formatForCurrency(product?.discountedPrice?.value ?? product?.price ?? {}, locale)}
-                  </span>
+                </div>
+              </div>
+
+              <div className="mt-18 flex w-full flex-col gap-16 md:mt-36 md:flex-row-reverse">
+                <Link link="/cart" onClick={hide} className="md:flex-1">
+                  <button className="w-full rounded-sm bg-primary p-12 text-14 font-medium text-white">
+                    {translate('cart.cart-go')}
+                  </button>
+                </Link>
+                <div className="md:flex-1">
+                  <button
+                    onClick={hide}
+                    className="w-full rounded-sm border border-primary p-12 text-14 font-medium text-primary transition hover:border-gray-600 hover:text-gray-600"
+                  >
+                    {translate('cart.continue-shopping')}
+                  </button>
                 </div>
               </div>
             </div>
-
-            <div className="mt-18 flex w-full flex-col gap-16 md:mt-36 md:flex-row-reverse">
-              <Link link="/cart" onClick={hide} className="md:flex-1">
-                <button className="w-full rounded-sm bg-primary p-12 text-14 font-medium text-white">
-                  {translate('cart.cart-go')}
-                </button>
-              </Link>
-              <div onClick={hide} className="md:flex-1">
-                <button className="w-full rounded-sm border border-primary p-12 text-14 font-medium text-primary transition hover:border-gray-600 hover:text-gray-600">
-                  {translate('cart.continue-shopping')}
-                </button>
-              </div>
+            <div className={`mt-36 hidden bg-neutral-200 py-24 md:block ${isTouchDevice ? 'px-48' : 'px-96'}`}>
+              <ProductSlider
+                clearDefaultWrapperStyles
+                products={relatedProducts}
+                wishlist={data}
+                shippingMethods={shippingMethods.data}
+                addToWishlist={async (lineItem, count) => {
+                  if (data) await addToWishlist(data, lineItem, count);
+                }}
+                removeLineItem={async (lineItem) => {
+                  if (data) await removeLineItem(data, lineItem);
+                }}
+                title={translate('product.bought-together')}
+                titleVariant="xs"
+                innerArrows={false}
+                solidArrows={false}
+                disableProductQuickView
+                disableProductWishlistButton
+                disableProductVariants
+                onProductClick={hide}
+                classNames={{ title: 'text-center' }}
+                spaceBetween={10}
+                slidesPerGroup={3}
+                slidesPerView={3}
+                breakpoints={{
+                  [tablet]: {
+                    slidesPerView: 3,
+                    slidesPerGroup: 3,
+                    spaceBetween: 10,
+                  },
+                  [mediumDesktop]: {
+                    slidesPerView: 3,
+                    slidesPerGroup: 3,
+                    spaceBetween: 10,
+                  },
+                }}
+              />
             </div>
           </div>
-          <div className={`mt-36 hidden bg-neutral-200 py-24 md:block ${isTouchDevice ? 'px-48' : 'px-96'}`}>
-            <ProductSlider
-              clearDefaultWrapperStyles
-              products={relatedProducts}
-              wishlist={data}
-              shippingMethods={shippingMethods.data}
-              addToWishlist={async (lineItem, count) => {
-                if (data) await addToWishlist(data, lineItem, count);
-              }}
-              removeLineItem={async (lineItem) => {
-                if (data) await removeLineItem(data, lineItem);
-              }}
-              title={translate('product.bought-together')}
-              titleVariant="xs"
-              innerArrows={false}
-              solidArrows={false}
-              disableProductQuickView
-              disableProductWishlistButton
-              disableProductVariants
-              onProductClick={hide}
-              classNames={{ title: 'text-center' }}
-              spaceBetween={10}
-              slidesPerGroup={3}
-              slidesPerView={3}
-              breakpoints={{
-                [tablet]: {
-                  slidesPerView: 3,
-                  slidesPerGroup: 3,
-                  spaceBetween: 10,
-                },
-                [mediumDesktop]: {
-                  slidesPerView: 3,
-                  slidesPerGroup: 3,
-                  spaceBetween: 10,
-                },
-              }}
-            />
-          </div>
-        </div>
+        }
       </Transition>
       <AddToCartOverlayContext.Provider value={{ show, hide, fetchRelatedProducts }}>
         {children}

@@ -7,7 +7,7 @@ import theme from './theme';
 import { sdk } from '../sdk';
 import { AccountProvider } from '../context/account';
 import ShipAndLanguageProvider from '../providers/ship-and-language';
-import nextIntl from "./next-intl";
+import nextIntl from './next-intl';
 
 const preview: Preview = {
   initialGlobals: {
@@ -31,7 +31,7 @@ const preview: Preview = {
     },
     options: {
       storySort: {
-        order: ['Introduction', 'Style guide', 'Atoms', 'Molecules', 'Organisms', 'Pages', '*'],
+        order: ['Introduction', 'Accessibility', 'Style guide', 'Atoms', 'Molecules', 'Organisms', 'Pages', '*'],
       },
     },
   },

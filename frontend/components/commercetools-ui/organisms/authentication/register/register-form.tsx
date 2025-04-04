@@ -67,7 +67,7 @@ const RegisterForm: FC<RegisterFormProps> = ({ termsOfUseLink, loggedIn, registe
         setSuccess(translate('account.verification-email-sent'));
         setError('');
       }
-    } catch (err) {
+    } catch {
       setError(translate('error.wentWrong'));
       setSuccess('');
     }

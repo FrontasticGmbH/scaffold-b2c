@@ -27,8 +27,10 @@ const Scheme = () => {
         value: `${month}/${year}`,
       });
 
-      if (month == 12) (month = 1), (year += 1);
-      else month += 1;
+      if (month === 12) {
+        month = 1;
+        year += 1;
+      } else month += 1;
     }
 
     return options;
@@ -95,10 +97,7 @@ const Scheme = () => {
         >
           {resolveCCImage(paymentData.number) && (
             // eslint-disable-next-line
-            <img
-              className="absolute right-8 top-1/2 w-32 -translate-y-1/2"
-              src={resolveCCImage(paymentData.number)}
-            />
+            <img className="absolute right-8 top-1/2 w-32 -translate-y-1/2" src={resolveCCImage(paymentData.number)} />
           )}
         </Input>
       </div>

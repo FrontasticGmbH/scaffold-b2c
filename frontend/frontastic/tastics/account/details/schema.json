@@ -1,85 +1,85 @@
 {
-    "name": "commercetools UI account details",
-    "icon": "account_circle",
-    "category": "Account",
-    "schema": [
+  "name": "commercetools UI account details",
+  "icon": "account_circle",
+  "category": "Account",
+  "schema": [
+    {
+      "name": "Content",
+      "fields": [
         {
-            "name": "Content",
-            "fields": [
-                {
-                    "label": "Login Link",
-                    "field": "loginLink",
-                    "type": "reference",
-                    "required": true
-                }
-            ]
+          "label": "Login Link",
+          "field": "loginLink",
+          "type": "reference",
+          "required": true
+        }
+      ]
+    },
+    {
+      "name": "Customer Support Details",
+      "fields": [
+        {
+          "label": "Phone number",
+          "field": "phoneNumber",
+          "type": "text",
+          "required": true
         },
         {
-            "name": "Customer Support Details",
-            "fields": [
-                {
-                    "label": "Phone number",
-                    "field": "phoneNumber",
-                    "type": "text",
-                    "required": true
-                },
-                {
-                    "label": "Working hours weekdays",
-                    "field": "workingHoursWeekdays",
-                    "type": "text"
-                },
-                {
-                    "label": "Working hours weekends",
-                    "field": "workingHoursWeekends",
-                    "type": "text"
-                },
-                {
-                    "label": "Email",
-                    "field": "email",
-                    "type": "text",
-                    "required": true
-                },
-                {
-                    "label": "Address line",
-                    "field": "addressLine",
-                    "type": "text",
-                    "required": true
-                },
-                {
-                    "label": "City and postal code",
-                    "field": "cityAndPostalCode",
-                    "type": "text",
-                    "required": true
-                },
-                {
-                    "label": "Country",
-                    "field": "country",
-                    "type": "text",
-                    "required": true
-                },
-                {
-                    "label": "FAQs",
-                    "field": "faqs",
-                    "type": "group",
-                    "min": 1,
-                    "fields": [
-                        {
-                            "label": "Question",
-                            "field": "question",
-                            "translatable": true,
-                            "required": true,
-                            "type": "string"
-                        },
-                        {
-                            "label": "Answer",
-                            "field": "answer",
-                            "type": "string",
-                            "required": true
-                        }
-                    ]
-                }
-            ]
+          "label": "Working hours weekdays",
+          "field": "workingHoursWeekdays",
+          "type": "text"
+        },
+        {
+          "label": "Working hours weekends",
+          "field": "workingHoursWeekends",
+          "type": "text"
+        },
+        {
+          "label": "Email",
+          "field": "email",
+          "type": "text",
+          "required": true
+        },
+        {
+          "label": "Address line",
+          "field": "addressLine",
+          "type": "text",
+          "required": true
+        },
+        {
+          "label": "City and postal code",
+          "field": "cityAndPostalCode",
+          "type": "text",
+          "required": true
+        },
+        {
+          "label": "Country",
+          "field": "country",
+          "type": "text",
+          "required": true
+        },
+        {
+          "label": "FAQs",
+          "field": "faqs",
+          "type": "group",
+          "min": 1,
+          "fields": [
+            {
+              "label": "Question",
+              "field": "question",
+              "translatable": true,
+              "required": true,
+              "type": "string"
+            },
+            {
+              "label": "Answer",
+              "field": "answer",
+              "type": "string",
+              "required": true
+            }
+          ]
         }
-    ],
-    "tasticType": "commercetools/ui/account/details"
+      ]
+    }
+  ],
+  "tasticType": "commercetools/ui/account/details"
 }

@@ -14,7 +14,7 @@ const PreviewRenderer = ({ data, params, searchParams, categories, flattenedCate
 
   const handleRefresh = () => {
     // Do a proper refresh and no full reload
-    window.location = window.location;
+    window.location.reload();
   };
 
   const handleEndHighlight = () => setCurrentHighlight(undefined);
