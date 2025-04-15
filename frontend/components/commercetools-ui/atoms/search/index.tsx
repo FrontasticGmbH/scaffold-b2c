@@ -63,7 +63,7 @@ const Search: React.FC<Props> = ({ categories, items, onQueryUpdate }) => {
 
   return (
     <>
-      {focused && <Overlay />}
+      {focused && <Overlay zIndex={49} />}
 
       <div className="relative z-[350] xl:px-20">
         <div

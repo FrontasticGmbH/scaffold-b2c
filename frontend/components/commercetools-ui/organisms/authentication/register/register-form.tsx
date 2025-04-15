@@ -1,10 +1,11 @@
 import React, { FC, useState } from 'react';
+import { SubmitHandler, useForm } from 'react-hook-form';
 import { useTranslations } from 'use-intl';
 import Button from 'components/commercetools-ui/atoms/button';
 import Input from 'components/commercetools-ui/atoms/input';
 import PasswordInput from 'components/commercetools-ui/atoms/input-password';
 import Link from 'components/commercetools-ui/atoms/link';
-import useValidate from 'helpers/hooks/useValidate';
+import { EMAIL_REGX, PASSWORD_REGX } from 'helpers/constants/auth';
 import Redirect from 'helpers/redirect';
 import { Reference } from 'types/reference';
 import { UseAccountReturn } from 'frontastic/hooks/useAccount/types';
@@ -16,119 +17,109 @@ export interface RegisterFormProps {
   register: UseAccountReturn['register'];
 }
 
-const RegisterForm: FC<RegisterFormProps> = ({ termsOfUseLink, loggedIn, register }) => {
+type Inputs = {
+  firstName: string;
+  lastName: string;
+  email: string;
+  password: string;
+};
+
+const RegisterForm: FC<RegisterFormProps> = ({ termsOfUseLink, loggedIn, register: registerUser }) => {
   const translate = useTranslations();
 
-  const { validatePassword } = useValidate();
-
-  //register data
-  const [data, setData] = useState({ firstName: '', lastName: '', email: '', password: '' });
-
-  //error
-  const [error, setError] = useState('');
+  const {
+    formState: { errors, isSubmitting },
+    register,
+    handleSubmit,
+    setError,
+    clearErrors,
+  } = useForm<Inputs>({
+    defaultValues: { firstName: '', lastName: '', email: '', password: '' },
+  });
 
   //success
   const [success, setSuccess] = useState('');
 
-  //processing...
-  const [loading, setLoading] = useState(false);
-
-  //handle text input change
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setData({ ...data, [e.target.name]: e.target.value });
-  };
-
-  //data validation
-  const validate = () => {
-    const validPassword = validatePassword(data.password);
-
-    //UI error messages
-    if (!validPassword) setError(translate('error.password-not-valid'));
-    setSuccess('');
-
-    //return a boolean representing the data validity
-    return validPassword;
-  };
-
   //form submission
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    //validate data
-    if (!validate()) return;
-    //processing starts
-    setLoading(true);
+  const onSubmit: SubmitHandler<Inputs> = async (data) => {
     //try registering the user with given credentials
     try {
-      const response = await register(data);
+      const response = await registerUser(data);
       if (!response.success) {
-        setError(response.error?.message || translate('error.account-create-fail'));
+        setError('root', {
+          type: 'custom',
+          message: response.error?.message || translate('error.account-create-fail'),
+        });
         setSuccess('');
       } else {
         setSuccess(translate('account.verification-email-sent'));
-        setError('');
+        clearErrors('root');
       }
     } catch {
-      setError(translate('error.wentWrong'));
+      setError('root', { type: 'custom', message: translate('error.wentWrong') });
       setSuccess('');
     }
-    //processing ends
-    setLoading(false);
   };
 
   if (loggedIn) return <Redirect target="/account" />;
 
+  const required = { value: true, message: translate('common.fieldIsRequired') };
+
   return (
     <>
       <h3 className="mb-16 text-16 md:mb-24 md:text-20 lg:text-24">{translate('account.become-member')}</h3>
-      <form onSubmit={handleSubmit}>
-        <Feedback success={success} error={error} />
+      <form onSubmit={handleSubmit(onSubmit)} noValidate>
+        <Feedback success={success} error={errors.root?.message as string} />
+        <div className="flex flex-col gap-16 md:gap-20">
+          <Input
+            id="name"
+            type="text"
+            autoComplete="firstName"
+            required
+            placeholder={translate('common.firstName')}
+            {...register('firstName', { required })}
+            error={errors.firstName?.message}
+          />
 
-        <Input
-          id="name"
-          name="firstName"
-          type="text"
-          autoComplete="firstName"
-          required
-          className="mb-16 md:mb-20"
-          placeholder={translate('common.firstName')}
-          onChange={handleChange}
-        />
+          <Input
+            id="name"
+            type="text"
+            autoComplete="lastName"
+            required
+            placeholder={translate('common.lastName')}
+            {...register('lastName', { required })}
+            error={errors.lastName?.message}
+          />
 
-        <Input
-          id="name"
-          name="lastName"
-          type="text"
-          autoComplete="lastName"
-          required
-          className="mb-16 md:mb-20"
-          placeholder={translate('common.lastName')}
-          onChange={handleChange}
-        />
+          <Input
+            id="email"
+            type="email"
+            autoComplete="email"
+            required
+            placeholder={translate('common.emailAddress')}
+            {...register('email', {
+              required,
+              pattern: { value: EMAIL_REGX, message: translate('error.email') },
+            })}
+            error={errors.email?.message}
+          />
 
-        <Input
-          id="email"
-          name="email"
-          type="email"
-          autoComplete="email"
-          required
-          className="mb-16 md:mb-20"
-          placeholder={translate('common.emailAddress')}
-          onChange={handleChange}
-        />
+          <PasswordInput
+            required
+            id="password"
+            autoComplete="current-password"
+            placeholder={translate('account.password')}
+            {...register('password', {
+              required,
+              pattern: { value: PASSWORD_REGX, message: translate('error.password-not-valid') },
+            })}
+            error={errors.password?.message}
+          />
 
-        <PasswordInput
-          required
-          id="password"
-          name="password"
-          autoComplete="current-password"
-          placeholder={translate('account.password')}
-          className="mb-16 md:mb-20"
-          onChange={handleChange}
-        />
-
-        <Button size="full" type="submit" className="mb-16 text-16 leading-tight md:mb-20" disabled={loading}>
-          {translate('account.account-register')}
-        </Button>
+          <Button size="full" type="submit" className="mb-16 text-16 leading-tight md:mb-20" disabled={isSubmitting}>
+            {translate('account.account-register')}
+          </Button>
+        </div>
 
         <div className="flex flex-wrap items-center justify-center gap-4 px-15 md:px-30">
           <p className="text-12 text-gray-600 md:text-14">{translate('account.by-registering')}</p>

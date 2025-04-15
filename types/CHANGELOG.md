@@ -1,4 +1,11 @@
 
+## Version 1.14.0 (2025-04-07)
+
+** New Features & Improvements **
+
+* Implement product filters and update product detail page structure
+* In B2C update ShippingInfo structure to replace taxIncludedInPrice with taxRate, and enhance CartMapper for shipping rate handling
+
 ## Version 1.13.0 (2025-03-17)
 
 ** New Features & Improvements **

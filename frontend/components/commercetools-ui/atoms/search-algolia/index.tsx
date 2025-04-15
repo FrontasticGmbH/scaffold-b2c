@@ -63,7 +63,7 @@ const Search: React.FC<Props> = ({ categories }) => {
 
       <Configure enablePersonalization={!query} />
 
-      {focused && <Overlay />}
+      {focused && <Overlay zIndex={49} />}
 
       <div className="relative z-[300] xl:px-20">
         <SearchBox

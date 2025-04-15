@@ -2,7 +2,7 @@ import { TasticConfiguration } from '@frontastic/extension-types';
 import { Category } from 'shared/types/product';
 import { Params, SearchParams } from 'types/next';
 
-import type { JSX } from "react";
+import type { JSX } from 'react';
 
 export interface TasticProps<T = object> {
   data: T & TasticConfiguration;

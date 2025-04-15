@@ -45,8 +45,14 @@ const config = {
       JSON.stringify(process.env.NETLIFY ? process.env.COMMIT_REF.substring(0, 7) : 'staging'),
   },
 
-  compiler: {
-    reactRemoveProperties: isProd ? { properties: ['^data-test'] } : false,
+  webpack(config) {
+    config.module.rules.push({
+      test: /\.svg$/,
+      exclude: /flag-icons/,
+      use: ['@svgr/webpack'],
+    });
+
+    return config;
   },
 
   async redirects() {

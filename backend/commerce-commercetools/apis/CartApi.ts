@@ -223,7 +223,7 @@ export class CartApi extends BaseApi {
       ],
     };
 
-    const commercetoolsCart = await this.updateCart(cart.cartId, cartUpdate, locale);
+    const commercetoolsCart = await this.updateCart(cart.cartId, cartUpdate);
 
     return this.buildCartWithAvailableShippingMethods(commercetoolsCart, locale);
   }
@@ -242,7 +242,7 @@ export class CartApi extends BaseApi {
       ],
     };
 
-    const commercetoolsCart = await this.updateCart(cart.cartId, cartUpdate, locale);
+    const commercetoolsCart = await this.updateCart(cart.cartId, cartUpdate);
 
     return this.buildCartWithAvailableShippingMethods(commercetoolsCart, locale);
   }
@@ -260,7 +260,7 @@ export class CartApi extends BaseApi {
       ],
     };
 
-    const commercetoolsCart = await this.updateCart(cart.cartId, cartUpdate, locale);
+    const commercetoolsCart = await this.updateCart(cart.cartId, cartUpdate);
 
     return this.buildCartWithAvailableShippingMethods(commercetoolsCart, locale);
   }
@@ -278,7 +278,7 @@ export class CartApi extends BaseApi {
       ],
     };
 
-    const commercetoolsCart = await this.updateCart(cart.cartId, cartUpdate, locale);
+    const commercetoolsCart = await this.updateCart(cart.cartId, cartUpdate);
 
     return this.buildCartWithAvailableShippingMethods(commercetoolsCart, locale);
   }
@@ -296,7 +296,7 @@ export class CartApi extends BaseApi {
       ],
     };
 
-    const commercetoolsCart = await this.updateCart(cart.cartId, cartUpdate, locale);
+    const commercetoolsCart = await this.updateCart(cart.cartId, cartUpdate);
 
     return this.buildCartWithAvailableShippingMethods(commercetoolsCart, locale);
   }
@@ -314,7 +314,7 @@ export class CartApi extends BaseApi {
       ],
     };
 
-    const commercetoolsCart = await this.updateCart(cart.cartId, cartUpdate, locale);
+    const commercetoolsCart = await this.updateCart(cart.cartId, cartUpdate);
 
     return this.buildCartWithAvailableShippingMethods(commercetoolsCart, locale);
   }
@@ -335,7 +335,7 @@ export class CartApi extends BaseApi {
       ],
     };
 
-    const commercetoolsCart = await this.updateCart(cart.cartId, cartUpdate, locale);
+    const commercetoolsCart = await this.updateCart(cart.cartId, cartUpdate);
 
     return this.buildCartWithAvailableShippingMethods(commercetoolsCart, locale);
   }
@@ -469,7 +469,7 @@ export class CartApi extends BaseApi {
       ],
     };
 
-    const commercetoolsCart = await this.updateCart(cart.cartId, cartUpdate, locale);
+    const commercetoolsCart = await this.updateCart(cart.cartId, cartUpdate);
 
     return this.buildCartWithAvailableShippingMethods(commercetoolsCart, locale);
   }
@@ -609,15 +609,6 @@ export class CartApi extends BaseApi {
 
     const paymentUpdateActions: PaymentUpdateAction[] = [];
 
-    /*if (paymentDraft.) {
-                                                                                  paymentUpdateActions.push({
-                                                                                    action: 'setMethodInfoName',
-                                                                                    name: {
-                                                                                      'en': 'adyen'
-                                                                                    }
-                                                                                  });
-                                                                                }*/
-
     if (paymentDraft.paymentMethod) {
       paymentUpdateActions.push({
         action: 'setMethodInfoMethod',
@@ -634,13 +625,6 @@ export class CartApi extends BaseApi {
         },
       });
     }
-
-    /*
-                                                                                paymentUpdateActions.push({
-                                                                                  action: 'setInterfaceId',
-                                                                                  interfaceId: 'interface1547',
-                                                                                });
-                                                                                */
 
     if (paymentDraft.paymentStatus) {
       paymentUpdateActions.push({
@@ -663,7 +647,6 @@ export class CartApi extends BaseApi {
       .execute()
       .then((response) => {
         return CartMapper.commercetoolsPaymentToPayment(response.body, locale);
-        //return response;
       })
       .catch((error) => {
         throw new ExternalError({ statusCode: error.code, message: error.message, body: error.body });
@@ -683,7 +666,7 @@ export class CartApi extends BaseApi {
       ],
     };
 
-    const commercetoolsCart = await this.updateCart(cart.cartId, cartUpdate, locale)
+    const commercetoolsCart = await this.updateCart(cart.cartId, cartUpdate)
       .then((commercetoolsCart) => {
         const commercetoolsDiscountCode = commercetoolsCart.discountCodes.find(
           (discountCode) => discountCode.discountCode?.obj.code === code,
@@ -704,7 +687,7 @@ export class CartApi extends BaseApi {
             ],
           };
 
-          this.updateCart(commercetoolsCart.id, cartUpdate, locale);
+          this.updateCart(commercetoolsCart.id, cartUpdate);
 
           throw new CartRedeemDiscountCodeError({
             message: `Redeem discount code '${code}' failed with state '${commercetoolsDiscountCode.state}'`,
@@ -744,7 +727,7 @@ export class CartApi extends BaseApi {
       ],
     };
 
-    const commercetoolsCart = await this.updateCart(cart.cartId, cartUpdate, locale);
+    const commercetoolsCart = await this.updateCart(cart.cartId, cartUpdate);
 
     return this.buildCartWithAvailableShippingMethods(commercetoolsCart, locale);
   }
@@ -849,7 +832,7 @@ export class CartApi extends BaseApi {
     return CartMapper.commercetoolsOrderToOrder(commercetoolsOrder, locale, this.defaultLocale);
   }
 
-  protected async updateCart(cartId: string, cartUpdate: CartUpdate, locale: Locale): Promise<CommercetoolsCart> {
+  protected async updateCart(cartId: string, cartUpdate: CartUpdate): Promise<CommercetoolsCart> {
     return await this.requestBuilder()
       .carts()
       .withId({
@@ -929,7 +912,7 @@ export class CartApi extends BaseApi {
         ],
       };
 
-      commercetoolsCart = await this.updateCart(commercetoolsCart.id, cartUpdate, locale);
+      commercetoolsCart = await this.updateCart(commercetoolsCart.id, cartUpdate);
     }
 
     return CartMapper.commercetoolsCartToCart(commercetoolsCart, locale, this.defaultLocale);
@@ -945,13 +928,6 @@ export class CartApi extends BaseApi {
       country: locale.country,
       locale: locale.language,
     };
-
-    // TODO: implement a logic that hydrate cartDraft with commercetoolsCart
-    // for (const key of Object.keys(commercetoolsCart)) {
-    //   if (cartDraft.hasOwnProperty(key) && cartDraft[key] !== undefined) {
-    //     cartDraft[key] = commercetoolsCart[key];
-    //   }
-    // }
 
     const propertyList = [
       'customerEmail',
@@ -994,6 +970,10 @@ export class CartApi extends BaseApi {
     // Add line items to the replicated cart one by one to handle the exception
     // if an item is not available on the new currency.
     for (const lineItem of lineItems) {
+      if (lineItem.lineItemMode === 'GiftLineItem') {
+        // If the line item is a gift, we don't need to add it to the cart
+        continue;
+      }
       try {
         const cartUpdate: CartUpdate = {
           version: +replicatedCommercetoolsCart.version,
@@ -1006,7 +986,7 @@ export class CartApi extends BaseApi {
           ],
         };
 
-        replicatedCommercetoolsCart = await this.updateCart(replicatedCommercetoolsCart.id, cartUpdate, locale);
+        replicatedCommercetoolsCart = await this.updateCart(replicatedCommercetoolsCart.id, cartUpdate);
       } catch (error) {
         // Ignore that a line item could not be added due to missing price, etc
       }

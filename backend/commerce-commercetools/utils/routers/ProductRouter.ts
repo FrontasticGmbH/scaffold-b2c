@@ -16,7 +16,7 @@ export class ProductRouter {
     if (ProductRouter.isProduct(item)) {
       return `/${item.slug}/p/${item.variants[0].sku}`;
     }
-    return `/slug/p/${item.variant.sku}`;
+    return `/${item.productSlug}/p/${item.variant.sku}`;
   }
 
   static skuFromUrl = (request: Request) => {

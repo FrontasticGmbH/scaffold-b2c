@@ -1,16 +1,29 @@
-## Version 4.0.1 (2025-03-20)
+## Version 4.1.0 (2025-04-07)
 
 ** New Features & Improvements **
 
-- B2C end to end tests update
-- change text tags for buttons
-- remove Typography component
+- Upate core dependencies (next, ts, eslint)
+- Eslint, typescript, dev dependencies update
+- Optimize the Hero component
+- Add accessibility documentation and update Storybook configuration
+- Fix for image issue in add to cart overlay
+- E2E updates
+- Implement product filters and update product detail page structure
+- Add GTM implementation
+- Update ShippingInfo structure to replace taxIncludedInPrice with taxRate, and enhance CartMapper for shipping rate handling
+- Group gitignore files
+- B2B end to end tests update
+- Upgrade nextjs to 15.2.3
 
 ** Bug Fixes **
 
-- added googleapis as a trusted domain for B2C images
-
-## Version 4.0.0 (2025-03-17)
+- Fix type issues in gmail helper
+- Fix gallery LCP optimization (work in progress, testing)
+- Fix e2e run commands in workflows
+- Fix CI build upload paths
+- Clean up prettier config
+- Fix screenreader a11y
+- Fix drawer a11y issues B2C
 
 ** New Features & Improvements **
 

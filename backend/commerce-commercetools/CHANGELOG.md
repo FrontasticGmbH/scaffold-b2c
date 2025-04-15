@@ -1,4 +1,21 @@
 
+## Version 3.4.0 (2025-04-07)
+
+** New Features & Improvements **
+
+* Added missig comment for category router section
+* Removed redundant pageMatchingPayload as it's same value as dataSourcePayload
+* Renamed field for dynamic filters
+* Updated schemas with product and category filter endpoints
+* Implemented product filters and update product detail page structure
+* Added error handling for missing checkout config in B2B and B2C
+* Removed redundant getOrders method
+
+
+** Bug Fixes **
+
+* Addapted matching attribute structure for PDP in B2C
+
 ## Version 3.3.0 (2025-03-17)
 
 *• New Features & Improvements **

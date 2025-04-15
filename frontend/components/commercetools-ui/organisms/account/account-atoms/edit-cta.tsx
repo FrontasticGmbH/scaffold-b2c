@@ -14,7 +14,7 @@ const EditCTA: FC<EditCTAProps> = ({ editHref }) => {
       <p className="hidden border-b border-transparent text-14 font-medium text-primary hover:cursor-pointer hover:border-primary md:block">
         {translate('common.edit')}
       </p>
-      <div className="relative grid size-40 items-center justify-items-center rounded-full bg-neutral-200 shadow-100 md:hidden">
+      <div className="relative grid size-40 place-items-center rounded-full bg-neutral-200 shadow-100 md:hidden">
         <PencilSquareIcon className="absolute size-20 text-gray-600" />
       </div>
     </Link>

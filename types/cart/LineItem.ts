@@ -6,6 +6,7 @@ import { TaxRate } from './TaxRate';
 export interface LineItem {
   lineItemId?: string;
   productId?: string;
+  productSlug?: string;
   name?: string;
   type?: string;
   count?: number;

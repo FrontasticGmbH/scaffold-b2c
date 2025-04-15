@@ -151,7 +151,7 @@ const Input: FC<InputProps> = ({
         {children}
       </div>
       {(isErrored || props.error) && (
-        <span className="mt-12 text-12 font-medium leading-[16px] text-red-500" id={`${props.name}_input_error`}>
+        <span className="text-12 font-medium leading-[16px] text-red-500" id={`${props.name}_input_error`}>
           {props.error ?? errorMessage}
         </span>
       )}

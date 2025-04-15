@@ -1,6 +1,6 @@
 {
   "name": "@b2cdev/poc-frontend",
-  "version": "4.0.1",
+  "version": "4.1.0",
   "license": "MIT",
   "main": "index.js",
   "private": true,

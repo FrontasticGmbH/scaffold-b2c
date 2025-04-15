@@ -33,7 +33,7 @@ const Image = ({ media, ratio, gravity, suffix, src = '', width, height, alt = '
     return (
       <CldImage
         src={media.mediaId}
-        alt={resolvedAlt}
+        alt={resolvedTitle || resolvedAlt}
         title={resolvedTitle}
         crop={cropConfig}
         gravity={gravity?.mode || 'auto'}

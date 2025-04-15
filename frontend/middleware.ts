@@ -15,14 +15,6 @@ export function middleware(request: NextRequest) {
   let locale: string;
   let response: NextResponse;
 
-  const isTest = process.env.NODE_ENV === 'test' || process.env.PLAYWRIGHT === 'true';
-  if (isTest && pathMissingLocale) {
-    locale = 'en';
-    response = NextResponse.redirect(new URL(`/${locale}${path}`, request.url));
-    response.cookies.set('locale', locale, { maxAge: 60 * 60 * 24 * 7 * 4 * 12 * 100 });
-    return response;
-  }
-
   if (pathMissingLocale) {
     const storedLocale = request.cookies.get('locale')?.value;
     const preferredLocale = new Negotiator({ headers }).language(i18nConfig.locales);

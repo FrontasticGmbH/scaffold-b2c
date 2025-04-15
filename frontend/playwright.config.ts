@@ -8,10 +8,12 @@ export default defineConfig({
   testDir: './e2e',
   fullyParallel: false,
   retries: 2,
-  workers: process.env.CI ? 2 : undefined,
+  workers: 1,
   reporter: 'html',
+  timeout: 60000,
   use: {
     baseURL: 'http://localhost:3000',
+    // baseURL: 'https://poc-b2cdev.frontend.site/en/',
     trace: 'on-first-retry',
   },
   projects: [
@@ -29,9 +31,12 @@ export default defineConfig({
     // },
     //
   ],
-  webServer: {
-    command: 'yarn run start',
-    url: 'http://127.0.0.1:3000',
-    reuseExistingServer: !process.env.CI,
-  },
+  // webServer: process.env.CI
+  //   ? undefined
+  //   : {
+  //       command: 'yarn start',
+  //       url: 'http://127.0.0.1:3000',
+  //       reuseExistingServer: true,
+  //       timeout: 120000,
+  //     },
 });
