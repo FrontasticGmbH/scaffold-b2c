@@ -15,6 +15,17 @@
       ]
     },
     {
+      "name": "Configuration",
+      "fields": [
+        {
+          "label": "Enable Saved Addresses Functionality",
+          "field": "enableSavedAddresses",
+          "type": "boolean",
+          "default": false
+        }
+      ]
+    },
+    {
       "name": "Customer Support Details",
       "fields": [
         {

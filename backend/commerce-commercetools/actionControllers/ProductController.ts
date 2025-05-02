@@ -111,7 +111,7 @@ export const queryCategories: ActionHook = async (request: Request, actionContex
 /*
  * Method used by Studio to dynamically retrieve product filters
  */
-export const productFilters: ActionHook = async (request: Request, actionContext) => {
+export const productFilters: ActionHook = async (request: Request, actionContext: ActionContext) => {
   try {
     const productApi = getProductApi(request, actionContext);
 
@@ -134,7 +134,7 @@ export const productFilters: ActionHook = async (request: Request, actionContext
 /*
  * Method used by Studio to dynamically retrieve category filters
  */
-export const categoryFilters: ActionHook = async (request: Request, actionContext) => {
+export const categoryFilters: ActionHook = async (request: Request, actionContext: ActionContext) => {
   try {
     const productApi = getProductApi(request, actionContext);
 

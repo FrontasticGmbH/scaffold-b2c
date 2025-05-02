@@ -13,6 +13,7 @@ import SpacerTastic from './spacer';
 import { TasticRegistry } from './types';
 
 const Markdown = dynamic(() => import('./markdown'));
+const Banner = dynamic(() => import('./banner'));
 const AccountDetails = dynamic(() => import('./account/details'));
 const AccountLogin = dynamic(() => import('./account/login'));
 const AccountOrdersHistory = dynamic(() => import('./account/orders'));
@@ -38,6 +39,7 @@ export const tastics = {
   'commercetools/ui/content/spacer': SpacerTastic,
   'commercetools/ui/content/showcase': Showcase,
   'commercetools/ui/content/markdown': Markdown,
+  'commercetools/ui/content/banner': Banner,
   'commercetools/ui/cart': Cart,
   'commercetools/ui/products/details': ProductDetails,
   'commercetools/ui/products/product-list': ProductList,

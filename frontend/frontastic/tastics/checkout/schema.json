@@ -16,6 +16,17 @@
       ]
     },
     {
+      "name": "Checkout Mode",
+      "fields": [
+        {
+          "label": "Payment Only",
+          "field": "isCtPaymentOnly",
+          "type": "boolean",
+          "default": false
+        }
+      ]
+    },
+    {
       "name": "Empty Cart",
       "fields": [
         {

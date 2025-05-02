@@ -1,0 +1,61 @@
+{
+  "tasticType": "commercetools/ui/content/banner",
+  "name": "commercetools UI banner",
+  "icon": "image",
+  "category": "Content",
+  "schema": [
+    {
+      "name": "Content",
+      "fields": [
+        {
+          "label": "Title",
+          "field": "title",
+          "type": "string",
+          "required": true
+        },
+        {
+          "label": "Description",
+          "field": "description",
+          "type": "string"
+        },
+        {
+          "label": "CTA Button Text",
+          "field": "buttonText",
+          "type": "string"
+        },
+        {
+          "label": "CTA Button Link",
+          "field": "buttonLink",
+          "type": "reference"
+        }
+      ]
+    },
+    {
+      "name": "Media",
+      "fields": [
+        {
+          "label": "Image",
+          "field": "image",
+          "type": "media",
+          "required": true
+        }
+      ]
+    },
+    {
+      "name": "Configuration",
+      "fields": [
+        {
+          "label": "Size",
+          "field": "size",
+          "type": "enum",
+          "values": [
+            { "name": "Small", "value": "sm" },
+            { "name": "Medium", "value": "md" },
+            { "name": "Large", "value": "lg" }
+          ],
+          "default": "md"
+        }
+      ]
+    }
+  ]
+}

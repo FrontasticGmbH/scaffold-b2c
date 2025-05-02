@@ -63,35 +63,38 @@ export default {
       // Identify Product
       if (ProductRouter.identifyFrom(request)) {
         return ProductRouter.loadFor(request, context.frontasticContext).then((product: Product) => {
-          if (product) {
-            const sku = ProductRouter.skuFromUrl(request);
-            const matchingAttributes: Attributes = {};
-
-            if (sku) {
-              const selectedVariant = product.variants.find((variant) => variant.sku === sku);
-              if (selectedVariant.attributes) {
-                Object.entries(selectedVariant.attributes).forEach(([key, value]) => {
-                  // FECL can't match rules on arrays, so we ignore array attributes
-                  if (!Array.isArray(value)) {
-                    matchingAttributes[key] = value?.key ?? value;
-                  }
-                });
-              }
-            }
-
-            return {
-              dynamicPageType: 'frontastic/product-detail-page',
-              dataSourcePayload: {
-                product: product,
-              },
-              pageMatchingPayload: {
-                productTypeId: product.productTypeId || '',
-                attributes: matchingAttributes,
-                categoryRef: product.categories?.map((category) => category.categoryRef),
-              },
-            };
+          if (!product) {
+            return null;
           }
-          return null;
+
+          const sku = ProductRouter.skuFromUrl(request);
+          const matchingAttributes: Attributes = {};
+
+          if (sku) {
+            const selectedVariant = product.variants.find((variant) => variant.sku === sku);
+            if (selectedVariant.attributes) {
+              Object.entries(selectedVariant.attributes).forEach(([key, value]) => {
+                // FECL can't match rules on arrays, so we ignore array attributes
+                if (!Array.isArray(value)) {
+                  matchingAttributes[key] = value?.key ?? value;
+                }
+              });
+            }
+          }
+
+          return {
+            dynamicPageType: 'frontastic/product-detail-page',
+            dataSourcePayload: {
+              product: product,
+            },
+            pageMatchingPayload: {
+              productTypeId: product.productTypeId || '',
+              variants: {
+                attributes: matchingAttributes,
+              },
+              categoryRef: product.categories?.map((category) => category.categoryRef),
+            },
+          };
         });
       }
 
@@ -111,18 +114,23 @@ export default {
       // Identify Category
       if (CategoryRouter.identifyFrom(request)) {
         return CategoryRouter.loadFor(request, context.frontasticContext).then((category) => {
-          return CategoryRouter.loadProductsFor(request, context.frontasticContext, category).then((result) => {
-            if (result) {
-              return {
-                dynamicPageType: 'frontastic/category',
-                dataSourcePayload: result,
-                pageMatchingPayload: {
-                  categoryRef: category.categoryRef,
-                  isMainCategory: category.parentId === undefined,
-                },
-              };
-            }
+          if (!category) {
             return null;
+          }
+
+          return CategoryRouter.loadProductsFor(request, context.frontasticContext, category).then((result) => {
+            if (!result) {
+              return null;
+            }
+
+            return {
+              dynamicPageType: 'frontastic/category',
+              dataSourcePayload: result,
+              pageMatchingPayload: {
+                categoryRef: category.categoryRef,
+                isMainCategory: category.parentId === undefined,
+              },
+            };
           });
         });
       }

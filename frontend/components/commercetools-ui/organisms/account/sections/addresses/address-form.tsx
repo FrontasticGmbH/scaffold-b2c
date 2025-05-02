@@ -21,6 +21,7 @@ import useFeedbackToasts from '../../hooks/useFeedbackToasts';
 export interface AddressFormProps {
   addressId?: string;
   editedAddressId?: Address['addressId'];
+  countries?: Array<{ name: string; value: string }>;
 }
 
 export interface AddressFormData extends Address {
@@ -35,7 +36,7 @@ export interface AddressFormData extends Address {
 type AddressType = 'shipping' | 'billing';
 type AddressTypeOptions = Array<{ label: string; value: AddressType }>;
 
-const AddressForm: React.FC<AddressFormProps> = ({ editedAddressId }) => {
+const AddressForm: React.FC<AddressFormProps> = ({ editedAddressId, countries = [] }) => {
   const translate = useTranslations();
 
   const { validateTextExists, validatePostalCode } = useValidate();
@@ -45,8 +46,6 @@ const AddressForm: React.FC<AddressFormProps> = ({ editedAddressId }) => {
   const { discardForm } = useDiscardForm();
   const { notifyDataUpdated, notifyWentWrong } = useFeedbackToasts();
   const { country } = useI18n();
-
-  const states = countryStates[country as keyof typeof countryStates] ?? [];
 
   const [loading, setLoading] = useState(false);
   const [loadingDelete, setLoadingDelete] = useState(false);
@@ -70,18 +69,45 @@ const AddressForm: React.FC<AddressFormProps> = ({ editedAddressId }) => {
   }, [account?.addresses, country, editedAddressId, mapPropsToAddress]);
 
   const [data, setData] = useState<AddressFormData>(defaultData);
-  const [modalIsOpen, setModalIsOpen] = useState(false);
 
+  const [modalIsOpen, setModalIsOpen] = useState(false);
   const closeModal = () => {
     setModalIsOpen(false);
   };
+
+  const stateInputInfo = useMemo(() => {
+    switch (data.country) {
+      case 'US':
+        return {
+          type: 'dropdown',
+          label: translate('common.state'),
+          options: countryStates[data.country as keyof typeof countryStates],
+          required: true,
+        };
+      case 'UK':
+        return {
+          type: 'text',
+          label: translate('common.county'),
+          options: [],
+          required: false,
+        };
+      case 'EU':
+      case 'CA':
+        return {
+          type: 'text',
+          label: translate('common.province-region'),
+          options: [],
+          required: true,
+        };
+      default:
+        return null;
+    }
+  }, [translate, data.country]);
 
   const addressTypes: AddressTypeOptions = [
     { label: translate('checkout.shippingAddress'), value: 'shipping' },
     { label: translate('checkout.billingAddress'), value: 'billing' },
   ];
-
-  const formTitle = editedAddressId ? translate('account.address-edit') : translate('account.address-add');
 
   useEffect(() => {
     setData(defaultData);
@@ -128,12 +154,7 @@ const AddressForm: React.FC<AddressFormProps> = ({ editedAddressId }) => {
   };
 
   return (
-    <AccountForm
-      onSubmit={handleSubmit}
-      title={formTitle}
-      loading={loading}
-      containerClassName="grid gap-12 md:px-24 md:px-0"
-    >
+    <AccountForm onSubmit={handleSubmit} loading={loading} containerClassName="grid gap-12 md:px-24 md:px-0">
       <Input
         label={translate('common.firstName')}
         required
@@ -158,6 +179,15 @@ const AddressForm: React.FC<AddressFormProps> = ({ editedAddressId }) => {
         className="border-neutral-500"
         onChange={handleChange}
         validation={validateTextExists}
+      />
+
+      <Dropdown
+        name="country"
+        value={data?.country ?? ''}
+        items={countries.map(({ name, value }) => ({ label: name, value }))}
+        className="w-full border-neutral-500"
+        onChange={handleChange}
+        label={translate('common.country')}
       />
 
       <Input
@@ -215,16 +245,28 @@ const AddressForm: React.FC<AddressFormProps> = ({ editedAddressId }) => {
         </div>
       </div>
 
-      {states.length > 0 && (
-        <Dropdown
-          name="state"
-          value={data.state ?? ''}
-          items={[{ label: '', value: '' }, ...states.map(({ name, code }) => ({ label: name, value: code }))]}
-          className="w-full border-neutral-500"
-          onChange={handleChange}
-          label={translate('common.state')}
-        />
-      )}
+      {stateInputInfo &&
+        (stateInputInfo.type === 'dropdown' ? (
+          <Dropdown
+            name="state"
+            required={stateInputInfo.required}
+            value={data?.state ?? ''}
+            items={stateInputInfo.options.map(({ name, code }) => ({ label: name, value: code }))}
+            className="w-full border-neutral-500"
+            onChange={handleChange}
+            label={stateInputInfo.label}
+          />
+        ) : (
+          <Input
+            label={stateInputInfo.label}
+            required={stateInputInfo.required}
+            type="text"
+            name="state"
+            value={data?.state ?? ''}
+            className="border-neutral-500"
+            onChange={handleChange}
+          />
+        ))}
 
       <Dropdown
         name="addressType"
@@ -238,7 +280,7 @@ const AddressForm: React.FC<AddressFormProps> = ({ editedAddressId }) => {
       <Checkbox
         name="isDefaultAddress"
         id="is-default-address"
-        checked={data?.isDefaultBillingAddress || data?.isDefaultShippingAddress || false}
+        checked={data?.isDefaultBillingAddress || data?.isDefaultShippingAddress || data?.isDefaultAddress || false}
         onChange={({ name, checked }) => updateData(name, checked)}
         containerClassName="mt-4 md:mb-20 mb-12"
         label={translate('account.address-setDefault')}
@@ -247,11 +289,11 @@ const AddressForm: React.FC<AddressFormProps> = ({ editedAddressId }) => {
       <div className="grid h-fit items-center justify-between gap-32 md:mt-20 md:flex md:gap-0">
         {editedAddressId && (
           <div
-            className="flex items-center gap-8 hover:cursor-pointer hover:opacity-70"
+            className="flex items-center gap-8 text-red-600 hover:cursor-pointer hover:opacity-70"
             onClick={() => setModalIsOpen(true)}
           >
-            <TrashIcon className="size-20 text-gray-600" />
-            <span className="text-14 leading-[114%] text-gray-600">{translate('common.delete')}</span>
+            <TrashIcon className="size-20 stroke-[2px]" />
+            <span className="font-semibold leading-[114%]">{translate('common.delete')}</span>
           </div>
         )}
 

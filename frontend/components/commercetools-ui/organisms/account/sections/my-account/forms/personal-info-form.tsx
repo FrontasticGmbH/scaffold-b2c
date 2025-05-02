@@ -65,13 +65,7 @@ const PersonalInfoForm = ({ account, update }: Props) => {
   ];
 
   return (
-    <AccountForm
-      title={translate('account.personal-info-edit')}
-      requiredLabelIsVisible
-      defaultCTASection
-      loading={loading}
-      onSubmit={handleSubmit}
-    >
+    <AccountForm requiredLabelIsVisible defaultCTASection loading={loading} onSubmit={handleSubmit}>
       <div className="grid gap-12">
         {inputFields.map((fieldProps, index) => (
           <Input

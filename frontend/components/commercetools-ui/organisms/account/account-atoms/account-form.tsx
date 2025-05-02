@@ -7,7 +7,7 @@ import useClassNames from 'helpers/hooks/useClassNames';
 import useDiscardForm from '../hooks/useDiscardForm';
 
 export interface AccountFormProps extends ComponentProps<'form'> {
-  title: string;
+  title?: string;
   subtitle?: string;
   containerClassName?: string;
   requiredLabelIsVisible?: boolean;
@@ -42,17 +42,20 @@ const AccountForm: FC<AccountFormProps> = ({
     onSubmit(e);
   };
 
-  const formClassName = useClassNames(['pt-24 pb-40 px-16 md:px-24 lg:px-44', className]);
+  const formClassName = useClassNames(['pb-40', className]);
 
-  const containerClassNames = useClassNames(['max-w-[372px]', containerClassName]);
+  const containerClassNames = useClassNames(['w-full', containerClassName]);
 
   return (
     <form className={formClassName} onSubmit={handleSubmit}>
-      <p className="text-16 text-primary md:mb-28 md:text-24">{title}</p>
+      {(title || subtitle) && (
+        <div className="mb-16">
+          <p className="text-24 font-bold text-gray-700 md:text-28">{title}</p>
+          {subtitle && <p className="text-gray-500">{subtitle}</p>}
+        </div>
+      )}
 
-      <div className="relative border-neutral-400 pb-8 pt-24 md:border md:p-32 md:pr-68">
-        {subtitle && <p className="mb-28 text-14 leading-loose text-primary md:mb-40 md:text-16">{subtitle}</p>}
-
+      <div className="relative border-neutral-400 pb-8 md:border md:p-32">
         <div className={containerClassNames}>
           {children}
 

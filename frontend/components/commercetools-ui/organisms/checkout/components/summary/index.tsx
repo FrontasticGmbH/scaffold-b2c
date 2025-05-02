@@ -10,9 +10,10 @@ import { useCheckout } from '../../provider';
 interface Props {
   isFinalStep: boolean;
   onPurchase: () => void;
+  isCtPaymentOnly?: boolean;
 }
 
-const Summary: React.FC<Props> = ({ isFinalStep, onPurchase }) => {
+const Summary: React.FC<Props> = ({ isFinalStep, onPurchase, isCtPaymentOnly }) => {
   const translate = useTranslations();
 
   const accordionRef = useRef<HTMLDivElement>(null);
@@ -51,8 +52,14 @@ const Summary: React.FC<Props> = ({ isFinalStep, onPurchase }) => {
             disabled={!isFinalStep}
             className="w-full"
             type="submit"
-            onClick={onPurchase}
             loading={processing}
+            {...(isCtPaymentOnly
+              ? {
+                  'data-ctc-selector': 'paymentButton',
+                }
+              : {
+                  onClick: onPurchase,
+                })}
           >
             {translate('cart.complete-purchase')}
           </Button>

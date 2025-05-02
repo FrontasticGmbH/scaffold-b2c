@@ -6,12 +6,15 @@ import Link from 'components/commercetools-ui/atoms/link';
 import { AccountContext } from 'context/account';
 import useClassNames from 'helpers/hooks/useClassNames';
 import { useRouter } from 'i18n/routing';
+import { getLocalizationInfo, i18nConfig } from 'project.config';
 import { Account } from 'types/entity/account';
 import { ShippingMethod } from 'types/entity/cart';
 import { Order } from 'types/entity/order';
 import { Reference } from 'types/reference';
 import { UpdateAccount } from 'frontastic/hooks/useAccount/types';
 import AccountTabsMobile from './account-atoms/account-tabs-mobile';
+import Addresses from './sections/addresses';
+import AddressForm from './sections/addresses/address-form';
 import CustomerSupport from './sections/customer-support';
 import MyAccount from './sections/my-account';
 import ChangePasswordForm from './sections/my-account/forms/change-password-form';
@@ -22,6 +25,8 @@ import OrderPage from './sections/orders/order-page';
 
 export interface AccountTab {
   name: string;
+  pageTitle?: string;
+  pageDescription?: string;
   href: string;
   isActive: boolean;
 }
@@ -31,6 +36,7 @@ export interface FAQ {
 }
 
 export type AccountInfo = {
+  enableSavedAddresses?: boolean;
   loginLink?: Reference;
   phoneNumber: string;
   workingHoursWeekdays: string;
@@ -59,6 +65,7 @@ const AccountDetails: React.FC<AccountDetailsProps> = ({
   hash,
   orders,
   shippingMethods,
+  enableSavedAddresses,
   ordersLoading,
   phoneNumber,
   workingHoursWeekdays,
@@ -79,6 +86,13 @@ const AccountDetails: React.FC<AccountDetailsProps> = ({
 
   const translate = useTranslations();
 
+  const activeEditableId = id?.split('_').slice(1).join('_');
+
+  const countries = i18nConfig.locales.map((locale) => {
+    const { countryName, countryCode } = getLocalizationInfo(locale);
+    return { name: countryName, value: countryCode };
+  });
+
   const handleLogout = () => {
     logout?.().then(() => router.push('/login'));
   };
@@ -87,21 +101,41 @@ const AccountDetails: React.FC<AccountDetailsProps> = ({
     return [
       {
         name: translate('account.my-account'),
+        pageTitle: (() => {
+          if (id === 'edit-personal-info') return translate('account.personal-info-edit');
+          else if (id === 'change-password') return translate('account.password-change');
+          else if (id === 'delete-account') return translate('account.delete-your-account');
+          return translate('account.my-account');
+        })(),
         href: '?',
         isActive: hash === '',
       },
+      ...(enableSavedAddresses
+        ? [
+            {
+              name: translate('account.addresses'),
+              pageDescription: id
+                ? translate('account.addresses-validation-request')
+                : translate('account.address-desc'),
+              href: '?hash=addresses',
+              isActive: hash === 'addresses',
+            },
+          ]
+        : []),
       {
         name: translate('account.orders'),
+        pageDescription: translate('orders.help-question'),
         href: '?hash=orders',
         isActive: hash === 'orders',
       },
       {
         name: translate('account.customer-support'),
+        pageDescription: translate('customer-support.help-question'),
         href: '?hash=support',
         isActive: hash === 'support',
       },
     ];
-  }, [translate, hash]);
+  }, [translate, hash, id]);
 
   const accountPagesRef = useMemo(() => {
     return {
@@ -116,10 +150,16 @@ const AccountDetails: React.FC<AccountDetailsProps> = ({
     [accountPagesRef, id],
   );
 
+  const AddressesSection = useMemo(() => {
+    if (id === 'address-add') return <AddressForm countries={countries} />;
+    else if (id) return <AddressForm editedAddressId={activeEditableId} countries={countries} />;
+    return <Addresses />;
+  }, [id]);
+
   const OrdersSection = useMemo(() => {
     return id && id.startsWith('order') ? (
       <OrderPage
-        order={orders.find((o) => o.orderId === id.split('_')[1]) as Order}
+        order={orders.find((o) => o.orderId === activeEditableId) as Order}
         shippingMethods={shippingMethods}
       />
     ) : (
@@ -129,6 +169,7 @@ const AccountDetails: React.FC<AccountDetailsProps> = ({
 
   const mapping = {
     '': AccountSection,
+    addresses: AddressesSection,
     orders: OrdersSection,
     support: (
       <CustomerSupport
@@ -146,7 +187,12 @@ const AccountDetails: React.FC<AccountDetailsProps> = ({
 
   const contentTitle = useMemo(() => {
     const tabIndex = tabs?.findIndex((tab) => tab.isActive);
-    if (tabs[tabIndex]) return tabs[tabIndex].name ?? '';
+    if (tabs[tabIndex])
+      return {
+        name: tabs[tabIndex].name ?? '',
+        pageTitle: tabs[tabIndex].pageTitle ?? '',
+        pageDescription: tabs[tabIndex].pageDescription ?? '',
+      };
     else return '';
   }, [tabs]);
 
@@ -188,20 +234,28 @@ const AccountDetails: React.FC<AccountDetailsProps> = ({
           </div>
         </div>
       </div>
-      <div className="flex w-full flex-col border-neutral-400 md:border-l lg:items-start">
-        <div className="w-full pb-48">
-          <div className="mt-20 px-16">
+      <div className="flex w-full flex-col border-neutral-400 px-16 md:border-l md:px-24 lg:items-start lg:px-0">
+        <div className="mx-auto w-full max-w-[800px] pb-48">
+          <div className="mt-20">
             {contentTitle && (
-              <div className="block md:hidden">
-                <h2 className="text-18 text-primary">{contentTitle}</h2>
+              <div className="md:hidden">
+                <p className="pb-8 text-14 text-gray-700">{translate('account.go-to-section')}</p>
+                <AccountTabsMobile contentTitle={contentTitle.name} hash={hash} tabs={tabs} />
               </div>
             )}
 
             {contentTitle && (
-              <AccountTabsMobile contentTitle={contentTitle} hash={hash} tabs={tabs} className="mt-20" />
+              <div className="mt-24">
+                <h2 className="text-24 font-bold text-gray-700 md:text-28">
+                  {contentTitle.pageTitle || contentTitle.name}
+                </h2>
+                <p className="pt-8 text-gray-500">{contentTitle.pageDescription}</p>
+              </div>
             )}
           </div>
-          <div key={hash}>{Content && Content}</div>
+          <div key={hash} className="mt-16 md:mt-36">
+            {Content && Content}
+          </div>
         </div>
       </div>
     </div>

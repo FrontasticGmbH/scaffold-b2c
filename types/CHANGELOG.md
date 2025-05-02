@@ -1,4 +1,11 @@
 
+## Version 1.14.1 (2025-04-15)
+
+
+** Bug Fixes **
+
+* Add more fields to LineItem type
+
 ## Version 1.14.0 (2025-04-07)
 
 ** New Features & Improvements **

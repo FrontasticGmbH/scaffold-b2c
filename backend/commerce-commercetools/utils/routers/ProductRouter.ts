@@ -14,7 +14,9 @@ export class ProductRouter {
 
   static generateUrlFor(item: Product | LineItem | WishlistItem) {
     if (ProductRouter.isProduct(item)) {
-      return `/${item.slug}/p/${item.variants[0].sku}`;
+      // If the item is a product, we want to generate a url for a matching variant or the first variant if no matching variant is found
+      const variant = item.variants.find((variant) => variant.isMatchingVariant !== false) ?? item.variants[0];
+      return `/${item.slug}/p/${variant.sku}`;
     }
     return `/${item.productSlug}/p/${item.variant.sku}`;
   }

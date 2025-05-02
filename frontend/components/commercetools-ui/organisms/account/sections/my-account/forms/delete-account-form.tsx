@@ -29,7 +29,6 @@ const DeleteAccountForm = ({ deleteAccount }: Props) => {
 
   return (
     <AccountForm
-      title={translate('account.delete-your-account')}
       subtitle={translate('account.delete-disclosure')}
       defaultCTASection
       requiredLabelIsVisible

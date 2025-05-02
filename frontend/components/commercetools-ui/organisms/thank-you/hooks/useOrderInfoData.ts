@@ -1,5 +1,4 @@
 import { useCallback, useEffect, useState } from 'react';
-import { shippingMethods as shippingMethodsMock } from 'helpers/mocks/mockCommonData';
 import { ShippingMethod } from 'types/entity/cart';
 import { Order } from 'types/entity/order';
 
@@ -24,15 +23,7 @@ const useOrderInfoData = ({ order, shippingMethods }: UseOrderInfoDataProps) => 
       (method) => method.shippingMethodId === order?.shippingInfo?.shippingMethodId,
     ) as ShippingMethod;
 
-    const shippingDate = new Date();
-
-    shippingDate.setDate(shippingDate.getDate() + +(shippingMethod?.description ?? 0));
-
-    const label = `${shippingDate.toISOString().split('T')[0]} by ${
-      shippingMethod?.name ?? shippingMethodsMock[0].name
-    }`;
-
-    setDeliveryMethod(label);
+    setDeliveryMethod(shippingMethod.name ?? '');
   }, [order?.shippingInfo?.shippingMethodId, shippingMethods]);
 
   const updateShippingAddress = useCallback(() => {

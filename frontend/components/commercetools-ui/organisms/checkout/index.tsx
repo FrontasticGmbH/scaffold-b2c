@@ -19,10 +19,12 @@ export type CheckoutWrappedProps = HeaderProps & {
   onApplyDiscountCode?: (code: string) => Promise<void>;
   onRemoveDiscountCode?: (discount: DiscountCode) => Promise<void>;
   onUpdateCart?: (payload: CartDetails) => Promise<Cart>;
+  isCtPaymentOnly?: boolean;
 };
 
 export const CheckoutWrapped = ({
   logo,
+  isCtPaymentOnly,
   cart,
   transaction,
   totalCartItems,
@@ -64,8 +66,14 @@ export const CheckoutWrapped = ({
                 disabled={!isFinalStep}
                 className="w-full"
                 type="submit"
-                onClick={purchase}
                 loading={processing}
+                {...(isCtPaymentOnly
+                  ? {
+                      'data-ctc-selector': 'paymentButton',
+                    }
+                  : {
+                      onClick: purchase,
+                    })}
               >
                 {translate('cart.complete-purchase')}
               </Button>

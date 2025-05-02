@@ -670,9 +670,8 @@ export class ProductSearchFactory {
   ): ProductSearchRequest {
     if (productQuery.filters?.length) {
       const productSearchExpressions: (SearchExactExpression | SearchNumberRangeExpression)[] = [];
-      productQuery.filters.forEach((filter) => {
-        const filterFiled = `variants.${filter.identifier}`;
 
+      productQuery.filters.forEach((filter) => {
         switch (filter.type) {
           case FilterTypes.TERM:
           case FilterTypes.ENUM:
@@ -680,13 +679,14 @@ export class ProductSearchFactory {
               const productSearchExactSearchExpression: SearchExactExpression = {
                 exact: this.hydrateProductSearchExpressionValue(
                   {
-                    field: filterFiled,
+                    field: filter.identifier,
                     value: term,
                   },
                   facetDefinitions,
                   locale,
                 ) as SearchAnyValue,
               };
+
               productSearchExpressions.push(productSearchExactSearchExpression);
             });
             break;
@@ -695,13 +695,14 @@ export class ProductSearchFactory {
             const productSearchExactSearchExpression: SearchExactExpression = {
               exact: this.hydrateProductSearchExpressionValue(
                 {
-                  field: filterFiled,
+                  field: filter.identifier,
                   value: (filter as TermFilter).terms[0]?.toString().toLowerCase() === 'true',
                 },
                 facetDefinitions,
                 locale,
               ) as SearchAnyValue,
             };
+
             productSearchExpressions.push(productSearchExactSearchExpression);
             break;
 
@@ -709,27 +710,32 @@ export class ProductSearchFactory {
             const rangeQuery: Writeable<SearchNumberRangeExpression> = {
               range: this.hydrateProductSearchExpressionValue(
                 {
-                  field: filterFiled,
+                  field: filter.identifier,
                 },
                 facetDefinitions,
                 locale,
               ) as SearchNumberRangeValue,
             };
+
             if ((filter as RangeFilter).min) {
               rangeQuery.range.gte = (filter as RangeFilter).min;
             }
+
             if ((filter as RangeFilter).max) {
               rangeQuery.range.lte = (filter as RangeFilter).max;
             }
+
             productSearchExpressions.push(rangeQuery);
             break;
         }
       });
+
       commercetoolsProductSearchRequest = this.pushToProductSearchRequestQueryAndExpression(
         commercetoolsProductSearchRequest,
         productSearchExpressions,
       );
     }
+
     return commercetoolsProductSearchRequest;
   }
 

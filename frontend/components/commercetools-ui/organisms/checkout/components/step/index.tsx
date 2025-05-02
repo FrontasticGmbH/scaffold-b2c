@@ -9,7 +9,7 @@ interface Props {
   isCompleted: boolean;
   onEdit: () => void;
   Component: JSX.Element;
-  Preview: JSX.Element;
+  Preview?: JSX.Element;
   CTA?: JSX.Element;
 }
 
@@ -67,7 +67,7 @@ const Step: React.FC<Props> = ({ number, label, isExpanded, isCompleted, onEdit,
       </div>
       <div>
         <div className={isCompleted && !isExpanded ? 'block' : 'hidden'}>{Preview}</div>
-        <div className={isExpanded ? 'block' : 'hidden'}>{Component}</div>
+        <div className={isExpanded || (isCompleted && !Preview) ? 'block' : 'hidden'}>{Component}</div>
       </div>
     </div>
   );

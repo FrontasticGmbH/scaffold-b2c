@@ -1,5 +1,5 @@
 import { DataSourceConfiguration, Request } from '@frontastic/extension-types';
-import { ProductQuery, SortAttributes, SortOrder } from '@Types/query/ProductQuery';
+import { LocalizedString, ProductQuery, SortAttributes, SortOrder } from '@Types/query/ProductQuery';
 import { Filter, FilterTypes } from '@Types/query/Filter';
 import { RangeFilter } from '@Types/query/RangeFilter';
 import { TermFilter } from '@Types/query/TermFilter';
@@ -65,7 +65,7 @@ export class ProductQueryFactory {
     /**
      * Map query
      */
-    productQuery.query = queryParams?.query || queryParams?.lquery || undefined;
+    productQuery.query = queryParams?.query || this.extractLocalizedString(queryParams?.lquery) || undefined;
 
     /**
      * Map products
@@ -179,6 +179,25 @@ export class ProductQueryFactory {
     productQuery.accountGroupId = queryParams?.accountGroupId || getAccountGroupId(request) || undefined;
 
     return productQuery;
+  }
+
+  static extractLocalizedString(lquery: any | undefined): LocalizedString | undefined {
+    if (lquery === undefined) {
+      return undefined;
+    }
+
+    const localizedString: LocalizedString = {};
+    for (const [key, value] of Object.entries(lquery)) {
+      if (typeof key === 'string' && typeof value === 'string') {
+        localizedString[key.replace(/_/g, '-')] = value;
+      }
+    }
+
+    if (Object.keys(localizedString).length === 0) {
+      return undefined;
+    }
+
+    return localizedString;
   }
 
   private static queryParamsToFacets(queryParams: any) {

@@ -7,24 +7,35 @@ import { useRouter } from 'i18n/routing';
 import { Cart, ShippingMethod } from 'types/entity/cart';
 import { CartDetails } from 'frontastic/hooks/useCart/types';
 import AddressesPreview from './previews/addresses';
-import PaymentPreview from './previews/payment';
 import ShippingPreview from './previews/shipping';
 import Addresses from './sections/addresses';
-import Payment from './sections/payment';
+// import Payment from './sections/payment';
+// import PaymentPreview from './previews/payment';
 import Shipping from './sections/shipping';
 import { useCheckout } from '../../provider';
 import CreateAddressModal from '../create-address-modal';
 import Step from '../step';
+import PaymentPreview from './previews/payment';
+import CommercetoolsPayment from './sections/ct-payment';
+import Payment from './sections/payment';
 
 interface Props {
   cart?: Cart;
+  isCtPaymentOnly?: boolean;
   shippingMethods: ShippingMethod[];
   onUpdateCart?: (payload: CartDetails) => Promise<Cart>;
   onPurchase: () => void;
   onFinalStepChange: (isFinalStep: boolean) => void;
 }
 
-const Steps: React.FC<Props> = ({ cart, shippingMethods, onUpdateCart, onPurchase, onFinalStepChange }) => {
+const Steps: React.FC<Props> = ({
+  cart,
+  isCtPaymentOnly,
+  shippingMethods,
+  onUpdateCart,
+  onPurchase,
+  onFinalStepChange,
+}) => {
   const translate = useTranslations();
 
   const router = useRouter();
@@ -35,7 +46,7 @@ const Steps: React.FC<Props> = ({ cart, shippingMethods, onUpdateCart, onPurchas
 
   const { pathWithoutQuery } = usePath();
 
-  const { processing } = useCheckout();
+  const { processing, setProcessing } = useCheckout();
 
   const [active, setActive] = useState<number>(0);
 
@@ -63,11 +74,26 @@ const Steps: React.FC<Props> = ({ cart, shippingMethods, onUpdateCart, onPurchas
         Component: <Shipping goToNextStep={goToNextStep} />,
         Preview: <ShippingPreview cart={cart} shippingMethods={shippingMethods} />,
       },
-      {
-        label: translate('cart.payment'),
-        Component: <Payment goToNextStep={goToNextStep} />,
-        Preview: <PaymentPreview />,
-      },
+      ...[
+        isCtPaymentOnly
+          ? {
+              label: translate('cart.payment'),
+              Component: <Payment goToNextStep={goToNextStep} />,
+              Preview: <PaymentPreview />,
+            }
+          : {
+              label: translate('cart.payment'),
+              Component: (
+                <CommercetoolsPayment
+                  isActive={active === 2}
+                  isCompleted={active > 2}
+                  setCheckoutIsProcessing={setProcessing}
+                  goToNextStep={goToNextStep}
+                  onCompletePayment={async () => {}}
+                />
+              ),
+            },
+      ],
     ];
   }, [translate, goToNextStep, cart, shippingMethods, onUpdateCart]);
 

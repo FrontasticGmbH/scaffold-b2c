@@ -11,11 +11,11 @@ const EditCTA: FC<EditCTAProps> = ({ editHref }) => {
   const translate = useTranslations();
   return (
     <Link link={editHref} className="h-fit">
-      <p className="hidden border-b border-transparent text-14 font-medium text-primary hover:cursor-pointer hover:border-primary md:block">
+      <p className="hidden border-b border-transparent text-14 font-medium text-primary underline hover:cursor-pointer hover:border-primary md:block">
         {translate('common.edit')}
       </p>
-      <div className="relative grid size-40 place-items-center rounded-full bg-neutral-200 shadow-100 md:hidden">
-        <PencilSquareIcon className="absolute size-20 text-gray-600" />
+      <div className="rounded-md border border-gray-700 p-10 md:hidden">
+        <PencilSquareIcon className="size-16 stroke-[2px] text-gray-700" />
       </div>
     </Link>
   );

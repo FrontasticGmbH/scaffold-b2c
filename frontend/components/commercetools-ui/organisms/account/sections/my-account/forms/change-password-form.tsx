@@ -79,13 +79,7 @@ const ChangePasswordForm = ({ changePassword }: Props) => {
   ];
 
   return (
-    <AccountForm
-      title={translate('account.password-change')}
-      requiredLabelIsVisible
-      defaultCTASection
-      loading={loading}
-      onSubmit={handleSubmit}
-    >
+    <AccountForm requiredLabelIsVisible defaultCTASection loading={loading} onSubmit={handleSubmit}>
       <div className="grid gap-12">
         {inputFields.map((fieldProps, index) => (
           <PasswordInput

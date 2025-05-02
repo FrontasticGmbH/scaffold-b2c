@@ -483,7 +483,7 @@ export class ProductMapper {
     }
 
     return {
-      field: `attributes.${commercetoolsAttributeDefinition.name}`,
+      field: `variants.attributes.${commercetoolsAttributeDefinition.name}`,
       type: TypeMap.has(commercetoolsAttributeTypeName)
         ? TypeMap.get(commercetoolsAttributeTypeName)
         : commercetoolsAttributeTypeName,

@@ -1,4 +1,10 @@
 
+## Version 3.4.1 (2025-04-15)
+
+
+* Map more fields in lineitems
+* Aligned discount code to not  add the cart gift and handle invalid discount codes
+
 ## Version 3.4.0 (2025-04-07)
 
 ** New Features & Improvements **
