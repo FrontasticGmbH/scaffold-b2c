@@ -18,6 +18,14 @@ export type CartDiscountValue =
   | FixedDiscountValue
   | GiftLineItemDiscountValue;
 
+export type CartDiscountTargetType = 'lineItems' | 'pattern' | 'shipping' | 'totalPrice';
+
+export type CartDiscountTarget =
+  | CartDiscountLineItemsTarget
+  | CartDiscountPatternTarget
+  | CartDiscountShippingCostTarget
+  | CartDiscountTotalPriceTarget;
+
 export interface BaseDiscountValue {
   type: DiscountType;
 }
@@ -49,11 +57,38 @@ export interface ProductDiscount {
   name?: string;
 }
 
+export type CartDiscountSelectionMode = 'Cheapest' | 'MostExpensive';
+
+export interface BaseCartDiscountTarget {
+  type: CartDiscountTargetType;
+}
+
+export interface CartDiscountLineItemsTarget extends BaseCartDiscountTarget {
+  type: 'lineItems';
+  predicate: string;
+}
+
+export interface CartDiscountPatternTarget extends BaseCartDiscountTarget {
+  type: 'pattern';
+  maxOccurrence?: number;
+  selectionMode?: CartDiscountSelectionMode;
+}
+
+export interface CartDiscountShippingCostTarget extends BaseCartDiscountTarget {
+  type: 'shipping';
+}
+
+export interface CartDiscountTotalPriceTarget extends BaseCartDiscountTarget {
+  type: 'totalPrice';
+}
+
 export interface CartDiscount {
   cartDiscountId?: string;
   name?: string;
   description?: string;
   discountValue?: CartDiscountValue;
+  cartPredicate?: string;
+  target?: CartDiscountTarget;
 }
 
 export interface ProductDiscountedPrice {

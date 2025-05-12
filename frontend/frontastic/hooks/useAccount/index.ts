@@ -42,11 +42,11 @@ const useAccount = () => {
   }, [data.account]);
 
   const defaultShippingAddress = useMemo(() => {
-    return data.account?.addresses?.find((address) => address.isDefaultShippingAddress);
+    return shippingAddresses?.find((address) => address.isDefaultShippingAddress);
   }, [data.account]);
 
   const defaultBillingAddress = useMemo(() => {
-    return data.account?.addresses?.find((address) => address.isDefaultBillingAddress);
+    return billingAddresses?.find((address) => address.isDefaultBillingAddress);
   }, [data.account]);
 
   const login = async (email: string, password: string, remember?: boolean): Promise<Account> => {

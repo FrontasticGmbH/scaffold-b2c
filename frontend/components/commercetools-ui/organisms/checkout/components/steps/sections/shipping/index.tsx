@@ -26,16 +26,6 @@ const Shipping: React.FC<Props> = ({ goToNextStep }) => {
     if (!selectedId && shippingMethods?.[0]) setSelectedId(shippingMethods[0].shippingMethodId);
   }, [shippingMethods, selectedId]);
 
-  const getEstimatedDate = useCallback((days: number) => {
-    if (isNaN(days)) return '';
-
-    const date = new Date(Date.now());
-
-    date.setDate(date.getDate() + days);
-
-    return date.toLocaleDateString().replace(/\//g, '-');
-  }, []);
-
   const { processing, startProcessing, stopProcessing } = useProcessing();
 
   const submit = useCallback(async () => {
@@ -50,8 +40,8 @@ const Shipping: React.FC<Props> = ({ goToNextStep }) => {
   }, [goToNextStep, setShippingMethod, selectedId, processing, startProcessing, stopProcessing]);
 
   return (
-    <div className="lg:px-36 lg:pb-36 lg:pt-0">
-      <div className="mt-24 border-x border-t border-neutral-400 bg-white lg:mt-0">
+    <div>
+      <div className="border-x border-t border-neutral-400 bg-white">
         {shippingMethods.map((shippingMethod) => (
           <div
             key={shippingMethod.shippingMethodId}
@@ -62,9 +52,7 @@ const Shipping: React.FC<Props> = ({ goToNextStep }) => {
               <Radio name="checkout-shipping-method" checked={shippingMethod.shippingMethodId === selectedId} />
               <div>
                 <p className="text-14 font-medium">{shippingMethod.name}</p>
-                <p className="mt-4 text-14 text-gray-600">
-                  {translate('orders.est-shipping')} {getEstimatedDate(+(shippingMethod.description ?? 0))}
-                </p>
+                <p className="mt-4 text-14 text-gray-600">{shippingMethod.description}</p>
               </div>
             </div>
 

@@ -1,6 +1,7 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useEffect } from 'react';
 import { Listbox, Transition, ListboxButton, ListboxOptions, ListboxOption } from '@headlessui/react';
 import { CheckIcon, ChevronDownIcon } from '@heroicons/react/24/outline';
+import useControllableState from 'helpers/hooks/useControllable';
 import { Option } from './index';
 
 export interface Props {
@@ -9,6 +10,7 @@ export interface Props {
   required?: boolean;
   labelClassName?: string;
   options?: Option[];
+  value?: Option;
   defaultValue?: Option;
   onChange?: (option: Option) => void;
   selectButtonClassName?: string;
@@ -17,6 +19,7 @@ export interface Props {
 const Select: React.FC<Props> = ({
   error,
   onChange,
+  value,
   defaultValue,
   label,
   required,
@@ -24,7 +27,7 @@ const Select: React.FC<Props> = ({
   selectButtonClassName,
   options = [],
 }) => {
-  const [selected, setSelected] = useState<Option | undefined>(defaultValue ?? options?.[0]);
+  const [selected, setSelected] = useControllableState(value, defaultValue ?? options?.[0]);
 
   useEffect(() => {
     setSelected(defaultValue ?? options?.[0]);

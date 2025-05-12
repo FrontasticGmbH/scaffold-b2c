@@ -25,6 +25,27 @@ const Addresses = () => {
     [mapPropsToAddress],
   );
 
+  const shippingAddresses = addresses?.filter((address) => address.isShippingAddress) ?? [];
+  const billingAddresses = addresses?.filter((address) => address.isBillingAddress) ?? [];
+
+  const renderAddressesSection = useCallback((title: string, addresses: AddressType[]) => {
+    return (
+      <div>
+        <h2 className="text-18 font-semibold text-gray-700 md:text-20">{title}</h2>
+        <div className="mt-24 flex flex-col items-stretch gap-12">
+          {addresses.map((address) => (
+            <Address
+              key={address.addressId}
+              address={address}
+              selectAddress={setAddressAsDefault}
+              isDefaultAddress={address.isDefaultBillingAddress || address.isDefaultShippingAddress}
+            />
+          ))}
+        </div>
+      </div>
+    );
+  }, []);
+
   if (isEmpty)
     return (
       <div className="flex items-center justify-center rounded-md border border-gray-300 px-20 py-64 lg:py-80">
@@ -100,16 +121,10 @@ const Addresses = () => {
         </Link>
       </div>
 
-      <form className="mt-24 grid gap-20 pb-28 md:mt-36">
-        {addresses?.map((address) => (
-          <Address
-            key={address.addressId}
-            address={address}
-            selectAddress={setAddressAsDefault}
-            isDefaultAddress={address.isDefaultBillingAddress || address.isDefaultShippingAddress}
-          />
-        ))}
-      </form>
+      <div className="mt-36 flex flex-col items-stretch gap-36 pb-28 md:mt-44">
+        {renderAddressesSection(translate('account.shipping-addresses'), shippingAddresses)}
+        {renderAddressesSection(translate('account.billing-addresses'), billingAddresses)}
+      </div>
     </div>
   );
 };

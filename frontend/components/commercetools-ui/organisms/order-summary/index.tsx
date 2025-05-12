@@ -1,14 +1,10 @@
 import { useContext } from 'react';
 import { AccountContext } from 'context/account';
-import useClassNames from 'helpers/hooks/useClassNames';
-import useMediaQuery from 'helpers/hooks/useMediaQuery';
-import { desktop } from 'helpers/utils/screensizes';
+import { classnames } from 'helpers/utils/classnames';
 import LoginSuggestion from './components/login-suggestion';
 import SummaryAccordion from './components/summary-accordion';
 import { OrderSummaryProps } from './types';
-import OrderItemsListing from '../order-items-listing';
 import OrderPaymentSection from '../order-payment-section';
-import DiscountForm from '../order-payment-section/components/discount-form';
 
 const OrderSummary = ({
   title,
@@ -17,7 +13,6 @@ const OrderSummary = ({
   includeLoginSuggestion,
   includeSummaryAccordion,
   paymentMethods,
-  includeItemsList,
   discounts,
   onApplyDiscountCode,
   onRemoveDiscountCode,
@@ -26,16 +21,12 @@ const OrderSummary = ({
   requestPasswordReset,
   ...props
 }: OrderSummaryProps) => {
-  const [isDesktopSize] = useMediaQuery(desktop);
-
   const { loggedIn } = useContext(AccountContext);
 
-  const itemsListClassName = useClassNames(['mb-24 border-y border-neutral-400', props.classNames?.itemsList]);
-
   return (
-    <div className={className}>
+    <div className={classnames('lg:mb rounded-lg bg-white px-16 py-24 lg:px-24', className)}>
       {(title || includeLoginSuggestion) && (
-        <div className="py-16 md:py-24 lg:pb-24 lg:pt-0">
+        <div>
           {title && <p className="md:text-18">{title}</p>}
 
           {includeLoginSuggestion && !loggedIn && (
@@ -48,35 +39,20 @@ const OrderSummary = ({
         </div>
       )}
 
-      {includeItemsList && props.order?.lineItems && (
-        <OrderItemsListing className={itemsListClassName} lineItems={props.order?.lineItems} />
-      )}
+      {includeSummaryAccordion && <SummaryAccordion order={props.order} cart={cart} />}
 
-      {includeSummaryAccordion && <SummaryAccordion className="lg:hidden" order={props.order} cart={cart} />}
-
-      {!isDesktopSize && includeSummaryAccordion && (
-        <DiscountForm
-          discounts={discounts}
-          onApplyDiscountCode={onApplyDiscountCode}
-          onRemoveDiscountCode={onRemoveDiscountCode}
-          className={props.classNames?.applyDiscountButton}
-        />
-      )}
-
-      {(isDesktopSize || !includeSummaryAccordion) && (
-        <OrderPaymentSection
-          discounts={discounts}
-          onApplyDiscountCode={onApplyDiscountCode}
-          onRemoveDiscountCode={onRemoveDiscountCode}
-          classNames={{
-            applyDiscountButton: 'py-14 text-16',
-            totalAmount: 'text-18 md:pb-20',
-            subCostsContainer: 'pt-12 md:pt-16 mb-20 lg:py-24 lg:mb-16 lg:border-b border-neutral-400',
-          }}
-          paymentMethods={paymentMethods}
-          {...props}
-        />
-      )}
+      <OrderPaymentSection
+        discounts={discounts}
+        onApplyDiscountCode={onApplyDiscountCode}
+        onRemoveDiscountCode={onRemoveDiscountCode}
+        classNames={{
+          applyDiscountButton: classnames('py-14 text-16', { 'mt-16': !includeSummaryAccordion }),
+          totalAmount: 'text-18',
+          subCostsContainer: 'pt-12 md:pt-16 mb-20 lg:py-24 lg:mb-16 lg:border-b border-neutral-400',
+        }}
+        paymentMethods={paymentMethods}
+        {...props}
+      />
     </div>
   );
 };

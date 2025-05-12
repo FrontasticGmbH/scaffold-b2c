@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import { useTranslations } from 'use-intl';
 import Button from 'components/commercetools-ui/atoms/button';
+import useMediaQuery from 'helpers/hooks/useMediaQuery';
+import { desktop } from 'helpers/utils/screensizes';
 import { Cart, DiscountCode, ShippingMethod } from 'types/entity/cart';
 import { CartDetails, Transaction } from 'frontastic/hooks/useCart/types';
 import Footer from './components/footer';
@@ -36,6 +38,8 @@ export const CheckoutWrapped = ({
 }: CheckoutWrappedProps) => {
   const translate = useTranslations();
 
+  const [isDesktop] = useMediaQuery(desktop);
+
   const [isFinalStep, setIsFinalStep] = useState(false);
 
   const { processing } = useCheckout();
@@ -43,40 +47,43 @@ export const CheckoutWrapped = ({
   const { purchase } = usePurchase({ cart, transaction, hasOutOfStockItems });
 
   return (
-    <div className="min-h-screen lg:bg-neutral-200">
+    <div className="min-h-screen bg-neutral-200">
       <Header logo={logo} totalCartItems={totalCartItems} />
       <div className="lg:mx-48">
         <Secure />
-        <div className="flex-row-reverse items-start gap-24 lg:flex">
+        <div className="flex flex-col gap-24 p-16 md:p-24 lg:flex-row-reverse lg:items-start lg:p-0">
           <OrderSummary
+            cart={cart}
             discounts={cart?.discountCodes ?? []}
             onApplyDiscountCode={onApplyDiscountCode}
             onRemoveDiscountCode={onRemoveDiscountCode}
-            className="bg-white px-16 md:px-24 lg:w-[30%] lg:rounded-md lg:p-36 xl:px-48"
+            className="lg:min-w-[30%]"
             includeSummaryAccordion
+            includeItemsList
             title={translate('cart.order-summary')}
             classNames={{
-              applyDiscountButton: 'lg:mb-0 py-14 text-16 mb-16 border-b border-neutral-400 lg:border-b-transparent',
-              totalAmount: 'text-18 md:pb-20',
+              totalAmount: 'text-18',
               subCostsContainer: 'pt-12 md:pt-16 mb-20 lg:py-24 lg:mb-16 lg:border-b border-neutral-400',
             }}
             button={
-              <Button
-                variant="primary"
-                disabled={!isFinalStep}
-                className="w-full"
-                type="submit"
-                loading={processing}
-                {...(isCtPaymentOnly
-                  ? {
-                      'data-ctc-selector': 'paymentButton',
-                    }
-                  : {
-                      onClick: purchase,
-                    })}
-              >
-                {translate('cart.complete-purchase')}
-              </Button>
+              isDesktop ? (
+                <Button
+                  variant="primary"
+                  disabled={!isFinalStep}
+                  className="w-full"
+                  type="submit"
+                  loading={processing}
+                  {...(isCtPaymentOnly
+                    ? {
+                        'data-ctc-selector': 'paymentButton',
+                      }
+                    : {
+                        onClick: purchase,
+                      })}
+                >
+                  {translate('cart.complete-purchase')}
+                </Button>
+              ) : undefined
             }
           />
           <Steps
@@ -85,6 +92,7 @@ export const CheckoutWrapped = ({
             shippingMethods={shippingMethods}
             onPurchase={purchase}
             onFinalStepChange={setIsFinalStep}
+            isCtPaymentOnly={isCtPaymentOnly}
           />
         </div>
       </div>

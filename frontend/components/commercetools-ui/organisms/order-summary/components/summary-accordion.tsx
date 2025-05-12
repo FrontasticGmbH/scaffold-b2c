@@ -2,7 +2,6 @@ import React, { FC, useMemo, useState } from 'react';
 import { useParams } from 'next/navigation';
 import Accordion from 'components/commercetools-ui/atoms/accordion';
 import Image from 'components/commercetools-ui/atoms/image';
-import Costs from 'components/commercetools-ui/organisms/order-payment-section/components/costs';
 import { CurrencyHelpers } from 'helpers/currencyHelpers';
 import useClassNames from 'helpers/hooks/useClassNames';
 import useI18n from 'helpers/hooks/useI18n';
@@ -25,13 +24,13 @@ const SummaryAccordion: FC<Props> = ({ className, order, cart }) => {
 
   const [open, setOpen] = useState(false);
 
-  const accordionClassNames = useClassNames(['block lg:mt-40', className]);
+  const accordionClassNames = useClassNames(['block', className]);
 
   const toggleAccordion = () => setOpen(!open);
 
   const lineItemClassNames = (index: number) => {
     return `
-      flex justify-start py-16
+      flex justify-between items-center py-16
       ${data?.lineItems && index === data.lineItems.length - 1 ? '' : 'border-b'}`;
   };
 
@@ -49,26 +48,32 @@ const SummaryAccordion: FC<Props> = ({ className, order, cart }) => {
       <div className="grid max-h-400 w-full grid-cols-1 overflow-auto">
         {data?.lineItems?.map((lineItem, index) => (
           <div key={lineItem.lineItemId} className={lineItemClassNames(index)}>
-            {lineItem.variant?.images?.[0] && (
-              <div className="relative h-104 w-88 shrink-0">
-                <Image
-                  fill
-                  src={lineItem.variant.images[0]}
-                  style={{ objectFit: 'contain' }}
-                  alt={lineItem.name ?? ''}
-                />
+            <div className="flex items-center justify-start">
+              {lineItem.variant?.images?.[0] && (
+                <div className="relative h-104 w-88 shrink-0">
+                  <Image
+                    fill
+                    src={lineItem.variant.images[0]}
+                    style={{ objectFit: 'contain' }}
+                    alt={lineItem.name ?? ''}
+                  />
+                </div>
+              )}
+              <div className="flex flex-col justify-center gap-8 pl-16">
+                <p className="text-14 font-semibold text-gray-700">{lineItem?.name}</p>
+                <p className="text-gray-600 md:hidden">
+                  {CurrencyHelpers.formatForCurrency(lineItem?.price as number, locale)}
+                </p>
+                <p className="text-14 text-gray-400">{`x ${lineItem?.count}`}</p>
               </div>
-            )}
-            <div className="flex flex-col justify-center gap-8 pl-16 text-14 text-primary">
-              <p>{lineItem?.name}</p>
-              <p className="font-medium">{CurrencyHelpers.formatForCurrency(lineItem?.price as number, locale)}</p>
-              <p>{`x ${lineItem?.count}`}</p>
             </div>
+
+            <p className="hidden text-gray-600 md:block">
+              {CurrencyHelpers.formatForCurrency(lineItem?.price as number, locale)}
+            </p>
           </div>
         ))}
       </div>
-
-      <Costs className="bg-neutral-200 p-16 md:px-24 lg:px-44" order={order} />
     </Accordion>
   );
 };

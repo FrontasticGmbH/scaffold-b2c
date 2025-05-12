@@ -57,7 +57,7 @@ const Payment: React.FC<Props> = ({ goToNextStep }) => {
   );
 
   return (
-    <div className="lg:px-36 lg:pb-36 lg:pt-0">
+    <div>
       <div className="mt-24 border-x border-t border-neutral-400 bg-white lg:mt-0">
         {paymentMethods.map(({ name, type, image }) => (
           <div

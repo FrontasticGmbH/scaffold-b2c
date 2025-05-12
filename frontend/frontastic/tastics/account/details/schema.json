@@ -21,7 +21,7 @@
           "label": "Enable Saved Addresses Functionality",
           "field": "enableSavedAddresses",
           "type": "boolean",
-          "default": false
+          "default": true
         }
       ]
     },

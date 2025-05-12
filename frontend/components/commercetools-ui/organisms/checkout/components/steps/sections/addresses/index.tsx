@@ -4,9 +4,9 @@ import { useTranslations } from 'use-intl';
 import * as yup from 'yup';
 import Button from 'components/commercetools-ui/atoms/button';
 import Checkbox from 'components/commercetools-ui/atoms/checkbox';
-import Info from 'components/commercetools-ui/atoms/info';
 import { AccountContext } from 'context/account';
 import useGeo from 'helpers/hooks/useGeo';
+import useI18n from 'helpers/hooks/useI18n';
 import useProcessing from 'helpers/hooks/useProcessing';
 import useValidate from 'helpers/hooks/useValidate';
 import { Cart } from 'types/entity/cart';
@@ -16,22 +16,37 @@ import AddressForm from './components/address-form';
 import { Fields, FieldsOptions } from './components/address-form/types';
 import useMappers from './hooks/useMappers';
 import { Address } from './types';
+import CreateAddress from '../../../create-address';
 
 export interface Props {
+  isCompleted: boolean;
   onUpdateCart?: (payload: CartDetails) => Promise<Cart>;
   goToNextStep: () => void;
+  goToReview: () => void;
 }
 
-const Addresses: React.FC<Props> = ({ goToNextStep, onUpdateCart }) => {
+const Addresses: React.FC<Props> = ({ isCompleted, goToNextStep, goToReview, onUpdateCart }) => {
   const translate = useTranslations();
 
-  const { account, loggedIn, shippingAddresses } = useContext(AccountContext);
+  const {
+    account,
+    loggedIn,
+    shippingAddresses,
+    defaultShippingAddress,
+    defaultBillingAddress,
+    addShippingAddress,
+    addBillingAddress,
+  } = useContext(AccountContext);
 
   const { getInfoByZipcode } = useGeo();
 
-  const { addressToAccountAddress } = useMappers();
+  const { addressToAccountAddress, accountAddressToAddress } = useMappers();
 
   const { validateEmail } = useValidate();
+
+  const [createAddressType, setCreateAddressAdressType] = useState<'shipping' | 'billing'>();
+
+  const { country } = useI18n();
 
   const initialAddressData = {
     firstName: '',
@@ -42,11 +57,16 @@ const Addresses: React.FC<Props> = ({ goToNextStep, onUpdateCart }) => {
     line2: '',
     postalCode: '',
     city: '',
+    country,
   } as Address;
 
-  const [shippingAddress, setShippingAddress] = useState(initialAddressData);
-  const [billingAddress, setBillingAddress] = useState(initialAddressData);
-  const [sameShippingAddress, setSameShippingAddress] = useState(true);
+  const [shippingAddress, setShippingAddress] = useState(
+    defaultShippingAddress ? accountAddressToAddress(defaultShippingAddress) : initialAddressData,
+  );
+  const [billingAddress, setBillingAddress] = useState(
+    defaultBillingAddress ? accountAddressToAddress(defaultBillingAddress) : initialAddressData,
+  );
+  const [sameShippingAddress, setSameShippingAddress] = useState(!loggedIn);
 
   const currentBillingAddress = useMemo(
     () => (sameShippingAddress ? shippingAddress : billingAddress),
@@ -88,7 +108,7 @@ const Addresses: React.FC<Props> = ({ goToNextStep, onUpdateCart }) => {
   }, [addressValidationScehma, currentBillingAddress]);
 
   const handleShippingAddressChange = useCallback(
-    (e: React.ChangeEvent<HTMLInputElement>) => {
+    (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
       setShippingAddress({ ...shippingAddress, [e.target.name]: e.target.value });
 
       if (e.target.name === 'postalCode') {
@@ -102,7 +122,7 @@ const Addresses: React.FC<Props> = ({ goToNextStep, onUpdateCart }) => {
   );
 
   const handleBillingAddressChange = useCallback(
-    (e: React.ChangeEvent<HTMLInputElement>) => {
+    (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
       setBillingAddress({ ...billingAddress, [e.target.name]: e.target.value });
     },
     [billingAddress],
@@ -125,9 +145,12 @@ const Addresses: React.FC<Props> = ({ goToNextStep, onUpdateCart }) => {
 
     stopProcessing();
 
-    if (res?.cartId) goToNextStep();
-    else toast.error(translate('checkout.update-addresses-error'), { position: 'bottom-left' });
+    if (res?.cartId) {
+      if (isCompleted) goToReview();
+      else goToNextStep();
+    } else toast.error(translate('checkout.update-addresses-error'), { position: 'bottom-left' });
   }, [
+    isCompleted,
     account,
     isValidShippingAddress,
     isValidBillingAddress,
@@ -136,6 +159,7 @@ const Addresses: React.FC<Props> = ({ goToNextStep, onUpdateCart }) => {
     addressToAccountAddress,
     onUpdateCart,
     goToNextStep,
+    goToReview,
     translate,
     processing,
     startProcessing,
@@ -151,7 +175,7 @@ const Addresses: React.FC<Props> = ({ goToNextStep, onUpdateCart }) => {
           labelDesc: '',
           required: true,
           type: 'string',
-          className: 'col-span-3',
+          className: 'col-span-12',
         },
         {
           name: 'lastName',
@@ -159,7 +183,7 @@ const Addresses: React.FC<Props> = ({ goToNextStep, onUpdateCart }) => {
           labelDesc: '',
           required: true,
           type: 'string',
-          className: 'col-span-3',
+          className: 'col-span-12',
         },
         {
           name: 'email',
@@ -167,7 +191,7 @@ const Addresses: React.FC<Props> = ({ goToNextStep, onUpdateCart }) => {
           labelDesc: '',
           required: true,
           type: 'email',
-          className: 'col-span-3',
+          className: 'col-span-12',
           validate(value) {
             return validateEmail(value);
           },
@@ -177,7 +201,7 @@ const Addresses: React.FC<Props> = ({ goToNextStep, onUpdateCart }) => {
           label: `${translate('common.phone')}`,
           labelDesc: translate('checkout.for-other-updates'),
           type: 'string',
-          className: 'col-span-3',
+          className: 'col-span-12',
         },
         {
           name: 'line1',
@@ -185,7 +209,7 @@ const Addresses: React.FC<Props> = ({ goToNextStep, onUpdateCart }) => {
           labelDesc: '',
           required: true,
           type: 'string',
-          className: 'col-span-3',
+          className: 'col-span-12',
           render() {
             if (enableAddress2) return <></>;
 
@@ -193,7 +217,7 @@ const Addresses: React.FC<Props> = ({ goToNextStep, onUpdateCart }) => {
               <div className="col-span-3 mt-16 cursor-pointer">
                 {/* eslint-disable-next-line react/jsx-no-literals */}
                 <p className="w-fit text-14 text-gray-600" onClick={onEnableAddress2}>
-                  + {translate('checkout.add-address')}
+                  {'+'} {translate('checkout.add-address')}
                 </p>
               </div>
             );
@@ -206,7 +230,7 @@ const Addresses: React.FC<Props> = ({ goToNextStep, onUpdateCart }) => {
                 label: `${translate('common.address')} 2`,
                 labelDesc: '',
                 type: 'string',
-                className: 'col-span-3',
+                className: 'col-span-12',
               },
             ]
           : []),
@@ -215,44 +239,85 @@ const Addresses: React.FC<Props> = ({ goToNextStep, onUpdateCart }) => {
           label: translate('common.zipCode'),
           labelDesc: '',
           required: true,
-          className: 'col-span-1 mt-12',
+          className: 'col-span-6 mt-12',
         },
-        { name: 'city', label: translate('common.city'), labelDesc: '', required: true, className: 'col-span-2 mt-12' },
+        { name: 'city', label: translate('common.city'), labelDesc: '', required: true, className: 'col-span-6 mt-12' },
       ] as Fields[];
     },
     [translate, validateEmail],
   );
 
   return (
-    <div className="bg-white pt-16 lg:px-36 lg:pb-36 lg:pt-0">
-      {loggedIn ? (
-        shippingAddresses.length > 0 && (
-          <div className="mt-20">
-            <h5 className="text-16 capitalize">{translate('checkout.shippingAddress')}</h5>
-            <AccountAddresses
-              className="mt-20"
-              type="shipping"
-              onSelectAddress={(address) => setShippingAddress(address)}
-            />
-          </div>
-        )
-      ) : (
-        <AddressForm
-          className="md:max-w-400"
-          fields={fields}
-          address={shippingAddress}
-          onChange={handleShippingAddressChange}
-        />
-      )}
+    <div>
+      {loggedIn &&
+        (shippingAddresses.length > 0 ? (
+          <>
+            {!!createAddressType ? (
+              <CreateAddress
+                addressType={createAddressType}
+                onAfterSubmit={() => setCreateAddressAdressType(undefined)}
+              />
+            ) : (
+              <AccountAddresses
+                onSelectShippingAddress={(address) => setShippingAddress(address)}
+                onSelectBillingAddress={(address) => setBillingAddress(address)}
+                onRequestAddAddress={(addressType) => setCreateAddressAdressType(addressType)}
+              />
+            )}
+          </>
+        ) : (
+          <div>
+            <h5 className="pb-32 text-14 font-semibold uppercase">{translate('checkout.deliveryAddress')}</h5>
 
-      {loggedIn && shippingAddresses.length === 0 ? (
-        <></>
-      ) : (
-        <div className="mt-48">
-          <div className="flex items-center gap-8 lg:gap-12">
-            <h5 className="text-16 capitalize">{translate('checkout.billingAddress')}</h5>
-            <Info message={`${translate('checkout.enter-associated-address-with-payment')}.`} />
+            <AddressForm fields={fields} address={shippingAddress} onChange={handleShippingAddressChange}></AddressForm>
+
+            <div className="mt-28 flex items-center gap-12 p-2">
+              <Checkbox
+                label={translate('checkout.billingDetailsLabel')}
+                labelPosition="on-right"
+                checked={sameShippingAddress}
+                onChange={({ checked }) => setSameShippingAddress(checked)}
+                disableBackground
+              />
+            </div>
+
+            {!sameShippingAddress && (
+              <div className="mt-48">
+                <h5 className="pb-32 text-14 font-semibold uppercase">{translate('checkout.billingAddress')}</h5>
+                <AddressForm fields={fields} address={billingAddress} onChange={handleBillingAddressChange} />
+              </div>
+            )}
+
+            <div className="mt-32 flex gap-12">
+              <Button
+                variant="primary"
+                className="px-48"
+                loading={processing}
+                onClick={async () => {
+                  startProcessing();
+                  await addShippingAddress({
+                    ...addressToAccountAddress(shippingAddress),
+                    isDefaultShippingAddress: true,
+                  });
+                  await addBillingAddress({
+                    ...addressToAccountAddress(billingAddress),
+                    isDefaultBillingAddress: true,
+                  });
+                  stopProcessing();
+                  goToNextStep();
+                }}
+              >
+                {translate('cart.continue-to')} <span className="lowercase">{translate('cart.shipping')}</span>
+              </Button>
+            </div>
           </div>
+        ))}
+
+      {!loggedIn && (
+        <div>
+          <h5 className="pb-32 text-14 font-semibold uppercase">{translate('checkout.deliveryAddress')}</h5>
+
+          <AddressForm fields={fields} address={shippingAddress} onChange={handleShippingAddressChange} />
 
           <div className="mt-28 flex items-center gap-12 p-2">
             <Checkbox
@@ -264,36 +329,42 @@ const Addresses: React.FC<Props> = ({ goToNextStep, onUpdateCart }) => {
             />
           </div>
 
-          {!sameShippingAddress &&
-            (loggedIn ? (
-              <AccountAddresses
-                type="billing"
-                className="mt-28"
-                onSelectAddress={(address) => setBillingAddress(address)}
-              />
-            ) : (
-              <AddressForm
-                className="mt-28 md:max-w-400"
-                fields={fields}
-                address={billingAddress}
-                onChange={handleBillingAddressChange}
-              />
-            ))}
+          {!sameShippingAddress && (
+            <div className="mt-48">
+              <h5 className="pb-32 text-14 font-semibold uppercase">{translate('checkout.billingAddress')}</h5>
+              <AddressForm fields={fields} address={billingAddress} onChange={handleBillingAddressChange} />
+            </div>
+          )}
         </div>
       )}
 
-      <div className="mt-28 md:mt-36 lg:mt-45">
-        <Button
-          variant="primary"
-          className="w-full min-w-200 md:text-16 lg:w-fit lg:px-36"
-          disabled={!isValidShippingAddress || !isValidBillingAddress}
-          loading={processing}
-          type="submit"
-          onClick={submit}
-        >
-          {translate('cart.continue-to')} <span className="lowercase">{translate('cart.shipping')}</span>
-        </Button>
-      </div>
+      {!createAddressType && (!loggedIn || shippingAddresses.length > 0) && (
+        <div className="mt-28 md:mt-36 lg:mt-45">
+          <div className="flex items-center gap-12">
+            {isCompleted && (
+              <Button variant="secondary" onClick={goToReview}>
+                {translate('common.cancel')}
+              </Button>
+            )}
+            <Button
+              variant="primary"
+              className="w-full min-w-200 md:text-16 lg:w-fit lg:px-36"
+              disabled={!isValidShippingAddress || !isValidBillingAddress}
+              loading={processing}
+              type="submit"
+              onClick={submit}
+            >
+              {isCompleted ? (
+                translate('checkout.save-and-review-order')
+              ) : (
+                <>
+                  {translate('cart.continue-to')} <span className="lowercase">{translate('cart.shipping')}</span>
+                </>
+              )}
+            </Button>
+          </div>
+        </div>
+      )}
     </div>
   );
 };

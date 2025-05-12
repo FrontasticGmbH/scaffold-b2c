@@ -135,7 +135,7 @@ const CommercetoolsPayment = ({
   }, [isExpired, router, logout, translate, account]);
 
   return (
-    <div className="p-12 lg:px-36 lg:pb-24">
+    <div>
       <div data-ctc />
 
       {!isCompleted && (

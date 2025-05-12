@@ -181,15 +181,6 @@ const AddressForm: React.FC<AddressFormProps> = ({ editedAddressId, countries = 
         validation={validateTextExists}
       />
 
-      <Dropdown
-        name="country"
-        value={data?.country ?? ''}
-        items={countries.map(({ name, value }) => ({ label: name, value }))}
-        className="w-full border-neutral-500"
-        onChange={handleChange}
-        label={translate('common.country')}
-      />
-
       <Input
         label={`${translate('common.address')} 1`}
         type="text"
@@ -245,13 +236,25 @@ const AddressForm: React.FC<AddressFormProps> = ({ editedAddressId, countries = 
         </div>
       </div>
 
+      <Dropdown
+        name="country"
+        value={data?.country ?? ''}
+        items={countries.map(({ name, value }) => ({ label: name, value }))}
+        className="w-full border-neutral-500"
+        onChange={handleChange}
+        label={translate('common.country')}
+      />
+
       {stateInputInfo &&
         (stateInputInfo.type === 'dropdown' ? (
           <Dropdown
             name="state"
             required={stateInputInfo.required}
             value={data?.state ?? ''}
-            items={stateInputInfo.options.map(({ name, code }) => ({ label: name, value: code }))}
+            items={[
+              { label: '', value: '' },
+              ...stateInputInfo.options.map(({ name, code }) => ({ label: name, value: code })),
+            ]}
             className="w-full border-neutral-500"
             onChange={handleChange}
             label={stateInputInfo.label}
@@ -305,6 +308,7 @@ const AddressForm: React.FC<AddressFormProps> = ({ editedAddressId, countries = 
         loading={loadingDelete}
         closeModal={closeModal}
         handleDelete={handleDelete}
+        isDefault={defaultData.isDefaultBillingAddress || defaultData.isDefaultShippingAddress}
       />
     </AccountForm>
   );

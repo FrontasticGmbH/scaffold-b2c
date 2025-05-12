@@ -41,7 +41,7 @@ const OrderPaymentSection: FC<OrderSummaryProps> = ({
           subCostClassName={classNames?.subCost}
         />
 
-        {button}
+        {button && <div className="mt-16 w-full">{button}</div>}
 
         {paymentMethods.length > 0 && <PaymentMethods paymentMethods={paymentMethods} />}
       </div>

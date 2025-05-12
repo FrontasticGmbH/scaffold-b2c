@@ -1,7 +1,6 @@
 import React from 'react';
 import type { Address as AddressType } from 'shared/types/account/Address';
 import { useTranslations } from 'use-intl';
-import Radio from 'components/commercetools-ui/atoms/radio';
 import { classnames } from 'helpers/utils/classnames';
 import { AddressFormData } from './address-form';
 import usePropsToAddressType from './mapPropsToAddressType';
@@ -34,34 +33,24 @@ const Address: React.FC<AddressProps> = ({ address, isDefaultAddress, selectAddr
       key={address.addressId}
       onClick={() => selectAddress(address as AddressFormData)}
     >
-      <div className="flex items-center gap-28">
-        <Radio
-          className="cursor-pointer"
-          inputClassName="cursor-pointer"
-          id={address.addressId}
-          name={address.addressId}
-          value={address.addressId}
-          checked={isDefaultAddress}
-        />
-        <div className="grid gap-8">
-          <div>
-            <p className="pb-2 text-14 font-medium capitalize md:text-16">{label}</p>
+      <div className="grid gap-8">
+        <div>
+          <p className="pb-2 text-14 font-medium capitalize md:text-16">{label}</p>
 
-            <div className="grid">
-              {addressInfoTypographyElements.map((element) => (
-                <p key={element} className="text-14 leading-loose text-gray-600">
-                  {element}
-                </p>
-              ))}
-            </div>
+          <div className="grid">
+            {addressInfoTypographyElements.map((element) => (
+              <p key={element} className="text-14 leading-loose text-gray-600">
+                {element}
+              </p>
+            ))}
           </div>
-
-          {isDefaultAddress && (
-            <div className="rounded-md bg-green-100 px-8 py-4 text-12 font-semibold text-green-700 md:mt-4">
-              {translate('account.primary-address')}
-            </div>
-          )}
         </div>
+
+        {isDefaultAddress && (
+          <div className="rounded-md bg-green-100 px-8 py-4 text-12 font-semibold text-green-700 md:mt-4">
+            {translate('account.default-address')}
+          </div>
+        )}
       </div>
 
       <div onClick={(e) => e.stopPropagation()}>

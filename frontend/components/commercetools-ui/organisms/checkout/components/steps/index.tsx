@@ -3,6 +3,7 @@ import { useSearchParams } from 'next/navigation';
 import { useTranslations } from 'use-intl';
 import Button from 'components/commercetools-ui/atoms/button';
 import usePath from 'helpers/hooks/usePath';
+import { classnames } from 'helpers/utils/classnames';
 import { useRouter } from 'i18n/routing';
 import { Cart, ShippingMethod } from 'types/entity/cart';
 import { CartDetails } from 'frontastic/hooks/useCart/types';
@@ -13,7 +14,6 @@ import Addresses from './sections/addresses';
 // import PaymentPreview from './previews/payment';
 import Shipping from './sections/shipping';
 import { useCheckout } from '../../provider';
-import CreateAddressModal from '../create-address-modal';
 import Step from '../step';
 import PaymentPreview from './previews/payment';
 import CommercetoolsPayment from './sections/ct-payment';
@@ -48,12 +48,18 @@ const Steps: React.FC<Props> = ({
 
   const { processing, setProcessing } = useCheckout();
 
-  const [active, setActive] = useState<number>(0);
+  const [active, setActive] = useState(0);
+  const [peakActive, setPeakActive] = useState(step);
 
   const goToNextStep = useCallback(() => {
     setActive(active + 1);
-    router.push(`${pathWithoutQuery}?step=${active + 1}`);
-  }, [active, router, pathWithoutQuery]);
+    setPeakActive(Math.max(peakActive, active + 1));
+    router.push(`${pathWithoutQuery}?step=${active + 1}`, { scroll: false });
+  }, [active, peakActive, router, pathWithoutQuery]);
+
+  const goToReview = useCallback(() => {
+    setActive(peakActive);
+  }, [peakActive]);
 
   useEffect(() => {
     setActive(step);
@@ -65,9 +71,15 @@ const Steps: React.FC<Props> = ({
     return [
       {
         label: translate('cart.addresses'),
-        Component: <Addresses onUpdateCart={onUpdateCart} goToNextStep={goToNextStep} />,
+        Component: (
+          <Addresses
+            isCompleted={peakActive > 0}
+            onUpdateCart={onUpdateCart}
+            goToNextStep={goToNextStep}
+            goToReview={goToReview}
+          />
+        ),
         Preview: <AddressesPreview cart={cart} />,
-        CTA: <CreateAddressModal />,
       },
       {
         label: translate('cart.shipping'),
@@ -75,7 +87,7 @@ const Steps: React.FC<Props> = ({
         Preview: <ShippingPreview cart={cart} shippingMethods={shippingMethods} />,
       },
       ...[
-        isCtPaymentOnly
+        !isCtPaymentOnly
           ? {
               label: translate('cart.payment'),
               Component: <Payment goToNextStep={goToNextStep} />,
@@ -86,7 +98,7 @@ const Steps: React.FC<Props> = ({
               Component: (
                 <CommercetoolsPayment
                   isActive={active === 2}
-                  isCompleted={active > 2}
+                  isCompleted={peakActive > 2}
                   setCheckoutIsProcessing={setProcessing}
                   goToNextStep={goToNextStep}
                   onCompletePayment={async () => {}}
@@ -104,29 +116,38 @@ const Steps: React.FC<Props> = ({
   }, [isFinalStep, onFinalStepChange]);
 
   return (
-    <div className="px-16 md:px-24 lg:grow lg:px-0">
+    <div className="lg:grow">
       <div className="flex flex-col gap-24 lg:bg-neutral-200">
-        {steps.map(({ Component, Preview, label, CTA }, index) => (
+        {steps.map(({ Component, Preview, label }, index) => (
           <Step
             key={index}
             label={label}
             number={index + 1}
             isExpanded={index === active}
-            isCompleted={index < active}
+            isCompleted={index < peakActive}
             onEdit={() => onEdit(index)}
             Component={Component}
             Preview={Preview}
-            CTA={CTA}
           />
         ))}
       </div>
-      {isFinalStep && (
-        <div className="mt-24 lg:hidden">
-          <Button variant="primary" className="w-full" type="submit" onClick={onPurchase} loading={processing}>
-            {translate('cart.complete-purchase')}
-          </Button>
-        </div>
-      )}
+      <div className={classnames('mt-24 lg:hidden', { hidden: !isFinalStep })}>
+        <Button
+          variant="primary"
+          className="w-full"
+          type="submit"
+          loading={processing}
+          {...(isCtPaymentOnly
+            ? {
+                'data-ctc-selector': 'paymentButton',
+              }
+            : {
+                onClick: onPurchase,
+              })}
+        >
+          {translate('cart.complete-purchase')}
+        </Button>
+      </div>
     </div>
   );
 };

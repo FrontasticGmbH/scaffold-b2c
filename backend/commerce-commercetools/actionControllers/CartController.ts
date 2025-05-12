@@ -10,21 +10,17 @@ import { OrderQuery } from '@Types/query';
 import { Token } from '@Types/Token';
 import { CartFetcher } from '../utils/CartFetcher';
 import { CartApi } from '../apis/CartApi';
-import { getCurrency, getLocale } from '../utils/Request';
+import { getLocale } from '../utils/Request';
 import { EmailApiFactory } from '../utils/EmailApiFactory';
-import { AccountAuthenticationError } from '../errors/AccountAuthenticationError';
 import queryParamsToStates from '@Commerce-commercetools/utils/queryParamsToState';
 import queryParamsToIds from '@Commerce-commercetools/utils/queryParamsToIds';
 import handleError from '@Commerce-commercetools/utils/handleError';
-import { fetchAccountFromSession } from '@Commerce-commercetools/utils/fetchAccountFromSession';
 import { CartNotMatchOrderError } from '@Commerce-commercetools/errors/CartNotMatchOrderError';
 import { ValidationError } from '@Commerce-commercetools/errors/ValidationError';
+import { AccountFetcher } from '@Commerce-commercetools/utils/AccountFetcher';
+import getCartApi from '@Commerce-commercetools/utils/apiFactory/getCartApi';
 
 type ActionHook = (request: Request, actionContext: ActionContext) => Promise<Response>;
-
-function getCartApi(request: Request, actionContext: ActionContext) {
-  return new CartApi(actionContext.frontasticContext, getLocale(request), getCurrency(request), request);
-}
 
 function queryParamsToSortAttributes(queryParams: any) {
   const sortAttributes: SortAttributes = {};
@@ -71,7 +67,7 @@ async function updateCartFromRequest(cartApi: CartApi, request: Request): Promis
 
 export const getCart: ActionHook = async (request: Request, actionContext: ActionContext) => {
   try {
-    const cartApi = getCartApi(request, actionContext);
+    const cartApi = getCartApi(request, actionContext.frontasticContext);
 
     try {
       const cart = await CartFetcher.fetchActiveCartFromSession(cartApi, request);
@@ -97,15 +93,15 @@ export const getCart: ActionHook = async (request: Request, actionContext: Actio
 };
 
 export const resetCart: ActionHook = async (request: Request, actionContext: ActionContext) => {
-  const cartApi = getCartApi(request, actionContext);
+  const cartApi = getCartApi(request, actionContext.frontasticContext);
   cartApi.invalidateSessionCheckoutData();
 
   const response: Response = {
     statusCode: 200,
-    body: null,
+    body: JSON.stringify({}),
     sessionData: {
       ...request.sessionData,
-      cartId: null,
+      cartId: undefined,
     },
   };
 
@@ -114,7 +110,7 @@ export const resetCart: ActionHook = async (request: Request, actionContext: Act
 
 export const addToCart: ActionHook = async (request: Request, actionContext: ActionContext) => {
   try {
-    const cartApi = getCartApi(request, actionContext);
+    const cartApi = getCartApi(request, actionContext.frontasticContext);
 
     const body: {
       variant?: { sku?: string; count: number };
@@ -150,7 +146,8 @@ export const addToCart: ActionHook = async (request: Request, actionContext: Act
 
 export const replicateCart: ActionHook = async (request: Request, actionContext: ActionContext) => {
   try {
-    const cartApi = getCartApi(request, actionContext);
+    const cartApi = getCartApi(request, actionContext.frontasticContext);
+
     const orderId = request.query?.['orderId'];
 
     if (!orderId) {
@@ -174,7 +171,7 @@ export const replicateCart: ActionHook = async (request: Request, actionContext:
 
 export const updateLineItem: ActionHook = async (request: Request, actionContext: ActionContext) => {
   try {
-    const cartApi = getCartApi(request, actionContext);
+    const cartApi = getCartApi(request, actionContext.frontasticContext);
 
     const body: {
       lineItem?: { id?: string; count: number };
@@ -207,7 +204,7 @@ export const updateLineItem: ActionHook = async (request: Request, actionContext
 
 export const removeLineItem: ActionHook = async (request: Request, actionContext: ActionContext) => {
   try {
-    const cartApi = getCartApi(request, actionContext);
+    const cartApi = getCartApi(request, actionContext.frontasticContext);
 
     const body: {
       lineItem?: { id?: string };
@@ -239,7 +236,7 @@ export const removeLineItem: ActionHook = async (request: Request, actionContext
 
 export const updateCart: ActionHook = async (request: Request, actionContext: ActionContext) => {
   try {
-    const cartApi = getCartApi(request, actionContext);
+    const cartApi = getCartApi(request, actionContext.frontasticContext);
 
     const cart = await updateCartFromRequest(cartApi, request);
     const cartId = cart.cartId;
@@ -266,7 +263,8 @@ export const checkout: ActionHook = async (request: Request, actionContext: Acti
       purchaseOrderNumber?: string;
     } = JSON.parse(request.body);
 
-    const cartApi = getCartApi(request, actionContext);
+    const cartApi = getCartApi(request, actionContext.frontasticContext);
+
     const emailApi = EmailApiFactory.getDefaultApi(actionContext.frontasticContext, locale);
 
     const cart = await updateCartFromRequest(cartApi, request);
@@ -295,7 +293,8 @@ export const checkout: ActionHook = async (request: Request, actionContext: Acti
 
 export const getShippingMethods: ActionHook = async (request: Request, actionContext: ActionContext) => {
   try {
-    const cartApi = getCartApi(request, actionContext);
+    const cartApi = getCartApi(request, actionContext.frontasticContext);
+
     const onlyMatching = request.query.onlyMatching === 'true';
 
     const shippingMethods = await cartApi.getShippingMethods(onlyMatching);
@@ -316,7 +315,8 @@ export const getShippingMethods: ActionHook = async (request: Request, actionCon
 
 export const getAvailableShippingMethods: ActionHook = async (request: Request, actionContext: ActionContext) => {
   try {
-    const cartApi = getCartApi(request, actionContext);
+    const cartApi = getCartApi(request, actionContext.frontasticContext);
+
     const cart = await CartFetcher.fetchCart(cartApi, request);
 
     const availableShippingMethods = await cartApi.getAvailableShippingMethods(cart);
@@ -338,7 +338,7 @@ export const getAvailableShippingMethods: ActionHook = async (request: Request, 
 
 export const setShippingMethod: ActionHook = async (request: Request, actionContext: ActionContext) => {
   try {
-    const cartApi = getCartApi(request, actionContext);
+    const cartApi = getCartApi(request, actionContext.frontasticContext);
 
     let cart = await CartFetcher.fetchCart(cartApi, request);
 
@@ -369,7 +369,7 @@ export const setShippingMethod: ActionHook = async (request: Request, actionCont
 
 export const addPaymentByInvoice: ActionHook = async (request: Request, actionContext: ActionContext) => {
   try {
-    const cartApi = getCartApi(request, actionContext);
+    const cartApi = getCartApi(request, actionContext.frontasticContext);
 
     let cart = await CartFetcher.fetchCart(cartApi, request);
 
@@ -410,7 +410,8 @@ export const addPaymentByInvoice: ActionHook = async (request: Request, actionCo
 
 export const updatePayment: ActionHook = async (request: Request, actionContext: ActionContext) => {
   try {
-    const cartApi = getCartApi(request, actionContext);
+    const cartApi = getCartApi(request, actionContext.frontasticContext);
+
     const cart = await CartFetcher.fetchCart(cartApi, request);
 
     const body: {
@@ -436,7 +437,8 @@ export const updatePayment: ActionHook = async (request: Request, actionContext:
 
 export const redeemDiscount: ActionHook = async (request: Request, actionContext: ActionContext) => {
   try {
-    const cartApi = getCartApi(request, actionContext);
+    const cartApi = getCartApi(request, actionContext.frontasticContext);
+
     let cart = await CartFetcher.fetchCart(cartApi, request);
 
     const body: {
@@ -460,7 +462,8 @@ export const redeemDiscount: ActionHook = async (request: Request, actionContext
 
 export const removeDiscount: ActionHook = async (request: Request, actionContext: ActionContext) => {
   try {
-    const cartApi = getCartApi(request, actionContext);
+    const cartApi = getCartApi(request, actionContext.frontasticContext);
+
     let cart = await CartFetcher.fetchCart(cartApi, request);
 
     const body: {
@@ -490,15 +493,12 @@ export const removeDiscount: ActionHook = async (request: Request, actionContext
 
 export const queryOrders: ActionHook = async (request, actionContext) => {
   try {
-    const cartApi = getCartApi(request, actionContext);
+    const cartApi = getCartApi(request, actionContext.frontasticContext);
 
-    const account = fetchAccountFromSession(request);
-    if (account === undefined) {
-      throw new AccountAuthenticationError({ message: 'Not logged in.' });
-    }
+    const accountId = AccountFetcher.fetchAccountIdFromSessionEnsureLoggedIn(request);
 
     const orderQuery: OrderQuery = {
-      accountId: account.accountId,
+      accountId: accountId,
       limit: request.query?.limit ?? undefined,
       cursor: request.query?.cursor ?? undefined,
       orderNumbers: queryParamsToIds('orderNumbers', request.query),
@@ -526,11 +526,14 @@ export const queryOrders: ActionHook = async (request, actionContext) => {
 
 export const getOrder: ActionHook = async (request, actionContext) => {
   try {
-    const cartApi = getCartApi(request, actionContext);
+    const cartApi = getCartApi(request, actionContext.frontasticContext);
 
-    const account = fetchAccountFromSession(request);
+    // For order confirmation page we need to consider that the order might be placed by an anonymous user.
+    // In that case, the accountId will be undefined
+    const accountId = AccountFetcher.fetchAccountIdFromSession(request);
+
     const orderQuery: OrderQuery = {
-      accountId: account?.accountId,
+      accountId: accountId,
       orderIds: [request.query?.orderId],
       limit: 1,
     };
@@ -540,8 +543,9 @@ export const getOrder: ActionHook = async (request, actionContext) => {
     // We'll consider the first order as the checkout order
     const order = queryResult.items[0];
 
-    if (account === undefined) {
-      // If account is not logged in, we need to validate if the order belongs to the current session cart
+    if (accountId === undefined) {
+      // For anonymous users, we need to validate if the order belongs to the current session cart
+      // This is to avoid that an anonymous user can access an order of a different user
       if (order?.cartId !== request.sessionData?.cartId) {
         throw new CartNotMatchOrderError({ message: 'Order does not match the current cart.' });
       }
@@ -564,7 +568,7 @@ export const getOrder: ActionHook = async (request, actionContext) => {
 export const getCheckoutSessionToken: ActionHook = async (request: Request, actionContext: ActionContext) => {
   try {
     let checkoutSessionToken: Token;
-    const cartApi = getCartApi(request, actionContext);
+    const cartApi = getCartApi(request, actionContext.frontasticContext);
 
     // We are getting the cartId from the session data so carts that are not active can be used
     const cartId = request.sessionData?.cartId;

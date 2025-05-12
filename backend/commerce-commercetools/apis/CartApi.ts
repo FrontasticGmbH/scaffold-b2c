@@ -201,6 +201,7 @@ export class CartApi extends BaseApi {
         return this.buildCartWithAvailableShippingMethods(response.body, locale);
       })
       .catch((error) => {
+        // The 404 error is thrown when the cart can't be found
         if (error.code === 404) {
           throw new ResourceNotFoundError({ message: error.message });
         }

@@ -47,7 +47,7 @@ const Modal: FC<ModalProps> = ({ children, style, preventScroll, closeButton, cl
       ariaHideApp={false}
       style={modalStyle}
       preventScroll={preventScroll}
-      className={`${className} relative`}
+      className={`${className} relative overflow-hidden rounded-lg bg-white`}
       parentSelector={() => document.getElementById('react-modal-custom-portal') ?? document.body}
     >
       {closeButton && (

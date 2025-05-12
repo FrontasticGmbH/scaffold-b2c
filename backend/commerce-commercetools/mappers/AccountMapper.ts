@@ -1,6 +1,6 @@
 import {
   Address as CommercetoolsAddress,
-  BaseAddress,
+  BaseAddress as CommercetoolsBaseAddress,
   Customer as commercetoolsCustomer,
   CustomerGroup as CommercetoolsCustomerGroup,
 } from '@commercetools/platform-sdk';
@@ -20,7 +20,7 @@ export class AccountMapper {
       lastName: commercetoolsCustomer?.lastName,
       birthday: commercetoolsCustomer?.dateOfBirth ? new Date(commercetoolsCustomer.dateOfBirth) : undefined,
       confirmed: commercetoolsCustomer.isEmailVerified,
-      version: commercetoolsCustomer.version,
+      accountVersion: commercetoolsCustomer.version,
       addresses: this.commercetoolsAddressesToAddresses(
         commercetoolsCustomer.addresses,
         commercetoolsCustomer.defaultBillingAddressId,
@@ -88,7 +88,7 @@ export class AccountMapper {
       return addresses;
     };
 
-  static addressToCommercetoolsAddress: (address: Address) => BaseAddress = (address: Address) => {
+  static addressToCommercetoolsAddress(address: Address): CommercetoolsBaseAddress {
     return {
       id: address.addressId,
       key: Guid.newGuid(),
@@ -104,8 +104,8 @@ export class AccountMapper {
       country: address.country,
       state: address.state,
       phone: address.phone,
-    } as BaseAddress;
-  };
+    };
+  }
 
   static commercetoolsCustomerGroupToAccountGroup(
     commercetoolsCustomerGroup: CommercetoolsCustomerGroup,
@@ -114,6 +114,44 @@ export class AccountMapper {
       accountGroupId: commercetoolsCustomerGroup?.id,
       name: commercetoolsCustomerGroup?.name,
       key: commercetoolsCustomerGroup?.key,
+    };
+  }
+
+  static extractAddressesFromAccount(account: Account): {
+    commercetoolsBaseAddresses: CommercetoolsBaseAddress[];
+    billingAddresses: number[];
+    shippingAddresses: number[];
+    defaultBillingAddress: number | undefined;
+    defaultShippingAddress: number | undefined;
+  } {
+    const commercetoolsAddresses: CommercetoolsBaseAddress[] = [];
+    const billingAddresses: number[] = [];
+    const shippingAddresses: number[] = [];
+    let defaultBillingAddress: number | undefined;
+    let defaultShippingAddress: number | undefined;
+
+    account.addresses.forEach((address, key) => {
+      const addressData = AccountMapper.addressToCommercetoolsAddress(address);
+
+      commercetoolsAddresses.push(addressData);
+
+      if (address.isDefaultBillingAddress) {
+        billingAddresses.push(key);
+        defaultBillingAddress = key;
+      }
+
+      if (address.isDefaultShippingAddress) {
+        shippingAddresses.push(key);
+        defaultShippingAddress = key;
+      }
+    });
+
+    return {
+      commercetoolsBaseAddresses: commercetoolsAddresses,
+      billingAddresses,
+      shippingAddresses,
+      defaultBillingAddress,
+      defaultShippingAddress,
     };
   }
 }

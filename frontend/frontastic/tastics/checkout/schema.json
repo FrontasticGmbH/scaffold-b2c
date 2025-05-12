@@ -22,7 +22,7 @@
           "label": "Payment Only",
           "field": "isCtPaymentOnly",
           "type": "boolean",
-          "default": false
+          "default": true
         }
       ]
     },

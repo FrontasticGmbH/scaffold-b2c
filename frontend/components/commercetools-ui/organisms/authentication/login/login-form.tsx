@@ -167,6 +167,7 @@ const LoginForm: FC<Props> = ({ login, requestConfirmationEmail, requestPassword
               <Checkbox id="remember-me" label={translate('common.rememberMe')} onChange={handleCheckboxChange} />
 
               <button
+                type="button"
                 className="cursor-pointer text-12 text-gray-600 hover:underline md:text-14"
                 onClick={toResendPassword}
               >

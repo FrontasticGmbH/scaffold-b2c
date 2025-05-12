@@ -1,12 +1,10 @@
 import { useCallback, useContext } from 'react';
 import { Address as AccountAddress } from 'shared/types/account';
 import { AccountContext } from 'context/account';
-import useI18n from 'helpers/hooks/useI18n';
 import { Address } from '../types';
 
 const useMappers = () => {
   const { account } = useContext(AccountContext);
-  const { country } = useI18n();
 
   const accountAddressToAddress = useCallback(
     (address: AccountAddress) => {
@@ -16,6 +14,7 @@ const useMappers = () => {
         lastName: address.lastName,
         email: account?.email ?? '',
         phone: address.phone,
+        country: address.country,
         line1: address.streetName ?? '',
         line2: address.additionalAddressInfo,
         postalCode: address.postalCode ?? '',
@@ -26,22 +25,19 @@ const useMappers = () => {
     [account],
   );
 
-  const addressToAccountAddress = useCallback(
-    (address: Address) => {
-      return {
-        firstName: address.firstName,
-        lastName: address.lastName,
-        phone: address.phone,
-        streetName: address.line1,
-        additionalAddressInfo: address.line2,
-        postalCode: address.postalCode,
-        city: address.city,
-        country,
-        state: address.state,
-      } as AccountAddress;
-    },
-    [country],
-  );
+  const addressToAccountAddress = useCallback((address: Address) => {
+    return {
+      firstName: address.firstName,
+      lastName: address.lastName,
+      phone: address.phone,
+      streetName: address.line1,
+      additionalAddressInfo: address.line2,
+      postalCode: address.postalCode,
+      city: address.city,
+      country: address.country,
+      state: address.state,
+    } as AccountAddress;
+  }, []);
 
   return { addressToAccountAddress, accountAddressToAddress };
 };

@@ -4,6 +4,7 @@ export interface Address {
   lastName: string;
   email: string;
   phone?: string;
+  country: string;
   line1: string;
   line2?: string;
   postalCode: string;

@@ -27,6 +27,7 @@ export interface AccountToken {
 
 export interface Account {
   accountId?: string;
+  accountVersion?: number;
   email: string;
   salutation?: string;
   firstName?: string;
@@ -37,5 +38,4 @@ export interface Account {
   confirmed?: boolean;
   addresses?: Address[];
   apiToken?: string;
-  version?: number;
 }

@@ -1,7 +1,6 @@
 import React, { useMemo } from 'react';
 import useResolveCCImage from 'components/commercetools-ui/organisms/checkout/hooks/useResolveCCImage';
 import { useCheckout } from 'components/commercetools-ui/organisms/checkout/provider';
-import Preview from '../wrapper';
 
 const PaymentPreview = () => {
   const { paymentData } = useCheckout();
@@ -36,7 +35,7 @@ const PaymentPreview = () => {
     return <></>;
   }, [paymentData, resolveCCImage]);
 
-  return <Preview>{PreviewComponent}</Preview>;
+  return <>{PreviewComponent}</>;
 };
 
 export default PaymentPreview;
