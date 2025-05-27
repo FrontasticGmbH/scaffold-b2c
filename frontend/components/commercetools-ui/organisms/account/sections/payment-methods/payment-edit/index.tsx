@@ -57,7 +57,6 @@ const PaymentEdit = () => {
               labelPosition="inline"
               type="text"
               onChange={paymentEditData.handleCardNumberChange}
-              validation={paymentEditData.isCardNumber}
               errorMessage={translate('payment.card-number-error')}
             />
             {resolveCCImage(cardNumberFormatted) && (

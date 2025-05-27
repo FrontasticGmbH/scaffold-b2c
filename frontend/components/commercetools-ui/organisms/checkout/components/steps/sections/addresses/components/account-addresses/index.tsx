@@ -96,7 +96,7 @@ const AccountAddresses: React.FC<Props> = ({
             }))}
             value={value}
             onChange={({ value }) => {
-              onSelect(accountAddressToAddress(addresses.find((adress) => adress.addressId === value) as Address));
+              onSelect(accountAddressToAddress(addresses.find((address) => address.addressId === value) as Address));
             }}
           />
         </div>

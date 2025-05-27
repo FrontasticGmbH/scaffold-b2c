@@ -1,4 +1,18 @@
-## Version 4.2.0 (2025-04-15)
+## Version 4.3.0 (2025-05-12)
+
+** New Features & Improvements **
+
+- Renamed account version field to align with common types
+- UI/UX enhancement for checkout
+- B2C Redesign addresses
+- Update e2e tests to support locales and add DE locale test to checkout
+- Add toggle for saved addresses func.
+- Add category banner component to B2C
+
+** Bug Fixes **
+
+- Replace hardcoded shipping method description with value from MC
+- Fix border radius for banner component
 
 ** New Features & Improvements **
 

@@ -1,5 +1,7 @@
-import { useContext, useEffect, useMemo, useState } from 'react';
+import { useContext, useMemo, useState } from 'react';
+import { useSearchParams } from 'next/navigation';
 import { TrashIcon } from '@heroicons/react/24/outline';
+import { SubmitHandler, useForm } from 'react-hook-form';
 import toast from 'react-hot-toast';
 import { Account } from 'shared/types/account';
 import { Address } from 'shared/types/account/Address';
@@ -9,7 +11,6 @@ import Dropdown from 'components/commercetools-ui/atoms/dropdown';
 import Input from 'components/commercetools-ui/atoms/input';
 import { AccountContext } from 'context/account';
 import useI18n from 'helpers/hooks/useI18n';
-import useValidate from 'helpers/hooks/useValidate';
 import countryStates from 'public/static/states.json';
 import DeleteModal from './deleteModal';
 import usePropsToAddressType from './mapPropsToAddressType';
@@ -36,10 +37,23 @@ export interface AddressFormData extends Address {
 type AddressType = 'shipping' | 'billing';
 type AddressTypeOptions = Array<{ label: string; value: AddressType }>;
 
+interface Inputs extends AddressFormData {
+  firstName: string;
+  lastName: string;
+  streetName: string;
+  additionalAddressInfo?: string;
+  postalCode: string;
+  city: string;
+  state?: string;
+  country: string;
+}
+
 const AddressForm: React.FC<AddressFormProps> = ({ editedAddressId, countries = [] }) => {
   const translate = useTranslations();
 
-  const { validateTextExists, validatePostalCode } = useValidate();
+  const searchParams = useSearchParams();
+
+  const defaultTypeForNewAddress = (searchParams.get('type') ?? 'shipping') as AddressType;
 
   const { removeAddress, account } = useContext(AccountContext);
   const { mapPropsToAddress } = usePropsToAddressType();
@@ -47,15 +61,11 @@ const AddressForm: React.FC<AddressFormProps> = ({ editedAddressId, countries = 
   const { notifyDataUpdated, notifyWentWrong } = useFeedbackToasts();
   const { country } = useI18n();
 
-  const [loading, setLoading] = useState(false);
   const [loadingDelete, setLoadingDelete] = useState(false);
-
-  const toggleLoadingOn = () => setLoading(true);
-  const toggleLoadingOff = () => setLoading(false);
 
   //new address data
   const defaultData = useMemo(() => {
-    if (!editedAddressId) return { country } as AddressFormData;
+    if (!editedAddressId) return { country, addressType: defaultTypeForNewAddress } as AddressFormData;
 
     const accountAddress = account?.addresses?.find(
       (address) => address.addressId === editedAddressId,
@@ -66,11 +76,38 @@ const AddressForm: React.FC<AddressFormProps> = ({ editedAddressId, countries = 
     }
 
     return accountAddress;
-  }, [account?.addresses, country, editedAddressId, mapPropsToAddress]);
+  }, [account?.addresses, country, editedAddressId, mapPropsToAddress, defaultTypeForNewAddress]);
 
-  const [data, setData] = useState<AddressFormData>(defaultData);
+  const isTheOnlyAddress =
+    (account?.addresses ?? []).filter((address) =>
+      defaultData?.isShippingAddress ? address.isShippingAddress : address.isBillingAddress,
+    ).length === 1;
 
   const [modalIsOpen, setModalIsOpen] = useState(false);
+
+  const {
+    register,
+    formState: { errors, isSubmitting },
+    handleSubmit,
+    setValue,
+    getValues,
+    watch,
+  } = useForm<Inputs>({
+    defaultValues: {
+      firstName: '',
+      lastName: '',
+      streetName: '',
+      additionalAddressInfo: '',
+      postalCode: '',
+      city: '',
+      state: '',
+      country: '',
+      ...defaultData,
+    },
+  });
+
+  const data = watch();
+
   const closeModal = () => {
     setModalIsOpen(false);
   };
@@ -109,99 +146,77 @@ const AddressForm: React.FC<AddressFormProps> = ({ editedAddressId, countries = 
     { label: translate('checkout.billingAddress'), value: 'billing' },
   ];
 
-  useEffect(() => {
-    setData(defaultData);
-  }, [defaultData]);
-
-  const updateData = (name: string, value: boolean | string) => {
-    setData({ ...data, [name]: value });
-  };
-
-  const handleChange = (e: React.ChangeEvent<HTMLSelectElement | HTMLInputElement>) => {
-    updateData(e.target.name, e.target.value);
-  };
-
   const discardFormAndNotify = (promise: Promise<Account | void>) => {
-    promise.then(toggleLoadingOff).then(discardForm).then(notifyDataUpdated).catch(notifyWentWrong);
+    promise.then(discardForm).then(notifyDataUpdated).catch(notifyWentWrong);
   };
 
   const handleDelete = () => {
     setLoadingDelete(true);
 
-    removeAddress(data.addressId)
+    removeAddress(getValues('addressId'))
       .then(() => setLoadingDelete(false))
       .then(closeModal)
       .then(() => toast.success(translate('account.address-deleted')))
       .then(discardForm);
   };
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    toggleLoadingOn();
-
-    const { addAddress, updateAddress } = mapPropsToAddress(data);
+  const onSubmit: SubmitHandler<Inputs> = (formData) => {
+    const { addAddress, updateAddress } = mapPropsToAddress(formData);
 
     if (editedAddressId) {
-      if (defaultData.addressType !== data.addressType) {
-        discardFormAndNotify(removeAddress(defaultData.addressId).then(addAddress));
-      } else {
-        discardFormAndNotify(updateAddress());
-      }
-
+      discardFormAndNotify(updateAddress());
       return;
     }
+
     discardFormAndNotify(addAddress());
   };
 
   return (
-    <AccountForm onSubmit={handleSubmit} loading={loading} containerClassName="grid gap-12 md:px-24 md:px-0">
+    <AccountForm
+      onSubmit={handleSubmit(onSubmit)}
+      loading={isSubmitting}
+      containerClassName="grid gap-12 md:px-24 md:px-0"
+    >
       <Input
         label={translate('common.firstName')}
         required
         type="text"
-        name="firstName"
         id="first-name"
-        value={data?.firstName ?? ''}
-        autoComplete="first-name"
+        autoComplete="given-name"
         className="border-neutral-500"
-        onChange={handleChange}
-        validation={validateTextExists}
+        {...register('firstName', { required: { value: true, message: translate('common.fieldIsRequired') } })}
+        error={errors.firstName?.message}
       />
 
       <Input
         label={translate('common.lastName')}
         required
         type="text"
-        name="lastName"
         id="last-name"
-        value={data?.lastName ?? ''}
-        autoComplete="last-name"
+        autoComplete="family-name"
         className="border-neutral-500"
-        onChange={handleChange}
-        validation={validateTextExists}
+        {...register('lastName', { required: { value: true, message: translate('common.fieldIsRequired') } })}
+        error={errors.lastName?.message}
       />
 
       <Input
         label={`${translate('common.address')} 1`}
         type="text"
         required
-        name="streetName"
         id="street-name"
-        value={data?.streetName ?? ''}
-        autoComplete="primary-address"
+        autoComplete="address-line1"
         className="border-neutral-500"
-        onChange={handleChange}
+        {...register('streetName', { required: { value: true, message: translate('common.fieldIsRequired') } })}
+        error={errors.streetName?.message}
       />
 
       <Input
         label={`${translate('common.address')} 2 (${translate('common.optional')})`}
         type="text"
-        name="additionalAddressInfo"
         id="additional-address-info"
-        value={data?.additionalAddressInfo ?? ''}
-        autoComplete="additional-address-info"
+        autoComplete="address-line2"
         className="border-neutral-500"
-        onChange={handleChange}
+        {...register('additionalAddressInfo')}
       />
 
       <div className="grid grid-cols-3 gap-12">
@@ -210,13 +225,11 @@ const AddressForm: React.FC<AddressFormProps> = ({ editedAddressId, countries = 
             label={translate('common.zipCode')}
             required
             type="text"
-            name="postalCode"
             id="postal-code"
-            value={data?.postalCode ?? ''}
             autoComplete="postal-code"
             className="border-neutral-500"
-            validation={validatePostalCode}
-            onChange={handleChange}
+            {...register('postalCode', { required: { value: true, message: translate('common.fieldIsRequired') } })}
+            error={errors.postalCode?.message}
           />
         </div>
 
@@ -225,66 +238,62 @@ const AddressForm: React.FC<AddressFormProps> = ({ editedAddressId, countries = 
             label={translate('common.city')}
             required
             type="text"
-            name="city"
             id="city"
-            value={data?.city ?? ''}
-            autoComplete="city"
+            autoComplete="address-level2"
             className="border-neutral-500"
-            onChange={handleChange}
-            validation={validateTextExists}
+            {...register('city', { required: { value: true, message: translate('common.fieldIsRequired') } })}
+            error={errors.city?.message}
           />
         </div>
       </div>
 
       <Dropdown
-        name="country"
-        value={data?.country ?? ''}
         items={countries.map(({ name, value }) => ({ label: name, value }))}
         className="w-full border-neutral-500"
-        onChange={handleChange}
+        {...register('country')}
         label={translate('common.country')}
       />
 
       {stateInputInfo &&
         (stateInputInfo.type === 'dropdown' ? (
           <Dropdown
-            name="state"
             required={stateInputInfo.required}
-            value={data?.state ?? ''}
             items={[
               { label: '', value: '' },
               ...stateInputInfo.options.map(({ name, code }) => ({ label: name, value: code })),
             ]}
             className="w-full border-neutral-500"
-            onChange={handleChange}
             label={stateInputInfo.label}
+            {...register('state', {
+              required: { value: stateInputInfo.required, message: translate('common.fieldIsRequired') },
+            })}
+            error={!!errors.state?.message}
           />
         ) : (
           <Input
             label={stateInputInfo.label}
             required={stateInputInfo.required}
             type="text"
-            name="state"
-            value={data?.state ?? ''}
             className="border-neutral-500"
-            onChange={handleChange}
+            {...register('state', {
+              required: { value: stateInputInfo.required, message: translate('common.fieldIsRequired') },
+            })}
           />
         ))}
 
       <Dropdown
-        name="addressType"
         items={addressTypes}
         className="w-full border-neutral-500"
-        onChange={handleChange}
-        defaultValue={editedAddressId ? mapPropsToAddress(data).addressType : addressTypes[0].value}
+        defaultValue={editedAddressId ? mapPropsToAddress(getValues()).addressType : addressTypes[0].value}
         label={translate('account.address-type')}
+        {...register('addressType')}
       />
 
       <Checkbox
         name="isDefaultAddress"
         id="is-default-address"
         checked={data?.isDefaultBillingAddress || data?.isDefaultShippingAddress || data?.isDefaultAddress || false}
-        onChange={({ name, checked }) => updateData(name, checked)}
+        onChange={(item) => setValue('isDefaultAddress', item.checked)}
         containerClassName="mt-4 md:mb-20 mb-12"
         label={translate('account.address-setDefault')}
       />
@@ -300,7 +309,7 @@ const AddressForm: React.FC<AddressFormProps> = ({ editedAddressId, countries = 
           </div>
         )}
 
-        <SaveOrCancel onCancel={discardForm} loading={loading} />
+        <SaveOrCancel onCancel={discardForm} loading={isSubmitting} />
       </div>
 
       <DeleteModal
@@ -308,7 +317,7 @@ const AddressForm: React.FC<AddressFormProps> = ({ editedAddressId, countries = 
         loading={loadingDelete}
         closeModal={closeModal}
         handleDelete={handleDelete}
-        isDefault={defaultData.isDefaultBillingAddress || defaultData.isDefaultShippingAddress}
+        canDelete={!(defaultData.isDefaultBillingAddress || defaultData.isDefaultShippingAddress) || isTheOnlyAddress}
       />
     </AccountForm>
   );

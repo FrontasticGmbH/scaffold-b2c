@@ -5,6 +5,7 @@ import Button from 'components/commercetools-ui/atoms/button';
 import Radio from 'components/commercetools-ui/atoms/radio';
 import { CurrencyHelpers } from 'helpers/currencyHelpers';
 import useProcessing from 'helpers/hooks/useProcessing';
+import { StringHelpers } from 'helpers/stringHelpers';
 import { useCart } from 'frontastic';
 
 export interface Props {
@@ -49,9 +50,15 @@ const Shipping: React.FC<Props> = ({ goToNextStep }) => {
             onClick={() => setSelectedId(shippingMethod.shippingMethodId)}
           >
             <div className="flex items-center gap-16">
-              <Radio name="checkout-shipping-method" checked={shippingMethod.shippingMethodId === selectedId} />
+              <Radio
+                id={StringHelpers.convertToKebabCase(shippingMethod.name)}
+                name="checkout-shipping-method"
+                checked={shippingMethod.shippingMethodId === selectedId}
+              />
               <div>
-                <p className="text-14 font-medium">{shippingMethod.name}</p>
+                <label htmlFor={StringHelpers.convertToKebabCase(shippingMethod.name)} className="text-14 font-medium">
+                  {shippingMethod.name}
+                </label>
                 <p className="mt-4 text-14 text-gray-600">{shippingMethod.description}</p>
               </div>
             </div>

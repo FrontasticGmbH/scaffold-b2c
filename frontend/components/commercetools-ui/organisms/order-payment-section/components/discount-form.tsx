@@ -1,5 +1,6 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { XMarkIcon } from '@heroicons/react/24/outline';
+import { SubmitHandler, useForm } from 'react-hook-form';
 import { useTranslations } from 'use-intl';
 import AccordionBtn, { AccordionProps } from 'components/commercetools-ui/atoms/accordion';
 import CloseIcon from 'components/icons/close';
@@ -14,6 +15,10 @@ export interface Props {
   onRemoveDiscountCode?: (discount: DiscountCode) => Promise<void>;
 }
 
+type UserInput = {
+  code: string;
+};
+
 const DiscountForm: React.FC<Props> = ({
   className,
   accordionProps,
@@ -23,15 +28,17 @@ const DiscountForm: React.FC<Props> = ({
 }) => {
   const translate = useTranslations();
 
-  const [code, setCode] = useState('');
-  const [codeIsInvalid, setCodeIsInvalid] = useState(false);
-  const [erroMessage, setErrorMessage] = useState('');
-
-  const [processing, setProcessing] = useState(false);
+  const {
+    register,
+    handleSubmit,
+    reset,
+    setError,
+    formState: { isSubmitting, errors },
+  } = useForm<UserInput>({ defaultValues: { code: '' } });
 
   const inputClassName = useClassNames([
     'h-40 w-full border rounded-sm px-10 py-12 text-14 placeholder:text-gray-600 disabled:bg-neutral-300 focus:outline-none',
-    codeIsInvalid ? 'border-red-500 text-red-500 focus:border-red-500' : 'border-neutral-300',
+    errors.code ? 'border-red-500 text-red-500 focus:border-red-500' : 'border-neutral-300',
   ]);
 
   const discountsContainerClassName = useClassNames([
@@ -41,48 +48,28 @@ const DiscountForm: React.FC<Props> = ({
 
   const containerClassName = useClassNames(['py-16 text-16 border-t border-neutral-400 text-14', className]);
 
-  const onApplyDiscount = () => {
-    if (processing || !code) return;
-
-    setProcessing(true);
+  const onApplyDiscount: SubmitHandler<UserInput> = ({ code }) => {
+    if (isSubmitting || !code) return;
 
     onApplyDiscountCode?.(code)
-      .then(() => setCode(''))
+      .then(() => reset())
       .catch((err: Error) => {
         if (err.message.includes('MaxApplicationReached')) {
-          setErrorMessage(
-            translate('cart.voucher-max-usage-singular', {
-              codes: '',
-            }),
-          );
+          setError('code', {
+            type: 'custom',
+            message: translate('cart.voucher-max-usage-singular'),
+          });
         } else {
-          setErrorMessage(translate('cart.codeNotValid'));
+          setError('code', {
+            type: 'custom',
+            message: translate('cart.codeNotValid'),
+          });
         }
-
-        setCodeIsInvalid(true);
-      })
-      .finally(() => {
-        setProcessing(false);
       });
-  };
-
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setCode(e.target.value);
-    setCodeIsInvalid(false);
   };
 
   const handleRemove = (discount: DiscountCode) => {
     onRemoveDiscountCode?.(discount);
-  };
-
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    onApplyDiscount();
-  };
-
-  const resetCode = () => {
-    setCode('');
-    setCodeIsInvalid(false);
   };
 
   return (
@@ -93,29 +80,28 @@ const DiscountForm: React.FC<Props> = ({
         {...accordionProps}
       >
         <div>
-          <form className="mt-24" onSubmit={handleSubmit}>
+          <form className="mt-24" onSubmit={handleSubmit(onApplyDiscount)}>
             <div className="relative">
               <input
                 className={inputClassName}
-                value={code}
                 placeholder={translate('cart.cart-discount-enter')}
-                onChange={handleChange}
-                disabled={processing}
+                disabled={isSubmitting}
+                {...register('code')}
               />
-              {codeIsInvalid && (
+              {errors.code && (
                 <span
                   className="absolute right-16 top-1/2 -translate-y-1/2"
                   onClick={(e) => {
                     e.stopPropagation();
-                    resetCode();
+                    reset();
                   }}
                 >
                   <CloseIcon className="size-10 cursor-pointer" />
                 </span>
               )}
             </div>
-            {codeIsInvalid && (
-              <p className="mt-16 font-body text-12 font-medium leading-normal text-red-500">{erroMessage}</p>
+            {errors.code && (
+              <p className="mt-16 font-body text-12 font-medium leading-normal text-red-500">{errors.code?.message}</p>
             )}
           </form>
 

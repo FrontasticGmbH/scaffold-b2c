@@ -23,7 +23,7 @@ const ResetPasswordForm: FC<ResetPasswordProps> = ({ accountLink, signInLink, re
   const {
     register,
     handleSubmit,
-    getValues,
+    watch,
     formState: { errors, isSubmitting },
     setError,
     clearErrors,
@@ -56,7 +56,7 @@ const ResetPasswordForm: FC<ResetPasswordProps> = ({ accountLink, signInLink, re
           <PasswordInput
             required
             id="password"
-            autoComplete="current-password"
+            autoComplete="new-password"
             placeholder={translate('account.password')}
             {...register('password', { required: { value: true, message: translate('common.fieldIsRequired') } })}
             error={errors.password?.message}
@@ -65,20 +65,13 @@ const ResetPasswordForm: FC<ResetPasswordProps> = ({ accountLink, signInLink, re
           <PasswordInput
             required
             id="confirm-password"
-            autoComplete="current-password"
+            autoComplete="new-password"
             placeholder={translate('account.password-confirm')}
             {...register('confirmPassword', {
               required: { value: true, message: translate('common.fieldIsRequired') },
               validate: (value) => {
-                const isValid = value === getValues('password');
-
-                if (isValid) {
-                  clearErrors('root');
-                } else {
-                  setError('root', { type: 'custom', message: translate('error.password-noMatch') });
-                }
-
-                return isValid;
+                const isValid = value === watch('password');
+                return isValid || translate('error.password-noMatch');
               },
             })}
             error={errors.confirmPassword?.message}

@@ -74,7 +74,7 @@ const RegisterForm: FC<RegisterFormProps> = ({ termsOfUseLink, loggedIn, registe
           <Input
             id="name"
             type="text"
-            autoComplete="firstName"
+            autoComplete="given-name"
             required
             placeholder={translate('common.firstName')}
             {...register('firstName', { required })}
@@ -84,7 +84,7 @@ const RegisterForm: FC<RegisterFormProps> = ({ termsOfUseLink, loggedIn, registe
           <Input
             id="name"
             type="text"
-            autoComplete="lastName"
+            autoComplete="family-name"
             required
             placeholder={translate('common.lastName')}
             {...register('lastName', { required })}
@@ -107,7 +107,7 @@ const RegisterForm: FC<RegisterFormProps> = ({ termsOfUseLink, loggedIn, registe
           <PasswordInput
             required
             id="password"
-            autoComplete="current-password"
+            autoComplete="new-password"
             placeholder={translate('account.password')}
             {...register('password', {
               required,

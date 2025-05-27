@@ -1414,22 +1414,21 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@commercetools/sdk-client-v2@npm:2.3.0":
-  version: 2.3.0
-  resolution: "@commercetools/sdk-client-v2@npm:2.3.0"
-  dependencies:
-    buffer: "npm:^6.0.3"
-    node-fetch: "npm:^2.6.1"
-  checksum: 10c0/b4e65f1fb4a7f90062ad34111ff8cc2a873a4e702efa544f9ef4b08a8b05bc692adf01ff50ac6766b0742961da4a859644e0e3e3aeb19dd29f523e3459927f24
-  languageName: node
-  linkType: hard
-
 "@commercetools/ts-client@npm:^3.2.1":
   version: 3.3.0
   resolution: "@commercetools/ts-client@npm:3.3.0"
   dependencies:
     buffer: "npm:^6.0.3"
   checksum: 10c0/f89bc5607503fa1bad24bea896cb2461f18c74430f5c2b09b70d91f6333e032b55c0c47fb7fc853cff006ba12f8f281d2b3cdeb963779a448c95d1bab058d64d
+  languageName: node
+  linkType: hard
+
+"@commercetools/ts-client@npm:^3.3.1":
+  version: 3.3.1
+  resolution: "@commercetools/ts-client@npm:3.3.1"
+  dependencies:
+    buffer: "npm:^6.0.3"
+  checksum: 10c0/59b5a8387478840ac7f5026c4b1ea7e4e74523c4775ad5f2c9a731eacd48632cf6a07f7b0b69600b9ae07a4f8cf409a6cb63ba0c48d0a2f0fa36c9fb3bf346bd
   languageName: node
   linkType: hard
 
@@ -1663,7 +1662,7 @@ __metadata:
     "@babel/runtime": "npm:^7.16.5"
     "@bloomreach/spa-sdk": "npm:^22.0.0"
     "@commercetools/platform-sdk": "npm:8.7.0"
-    "@commercetools/sdk-client-v2": "npm:2.3.0"
+    "@commercetools/ts-client": "npm:^3.3.1"
     "@frontastic/extension-types": "npm:0.0.13"
     "@sendgrid/mail": "npm:^7.7.0"
     "@types/axios": "npm:^0.14.0"

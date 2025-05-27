@@ -15,7 +15,7 @@ const useBottomSectionProps = (loggedIn: boolean) => {
         title: translate('thank-you.user-title'),
         subtitle: translate('thank-you.user-subtitle'),
         cta: translate('thank-you.user-cta'),
-        onClick: () => router.push('/account#orders'),
+        onClick: () => router.push('/account/?hash=orders'),
       },
       guest: {
         title: translate('thank-you.guest-title'),

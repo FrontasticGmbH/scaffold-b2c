@@ -1,6 +1,7 @@
 import React, { useCallback, useEffect } from 'react';
 import { Listbox, Transition, ListboxButton, ListboxOptions, ListboxOption } from '@headlessui/react';
 import { CheckIcon, ChevronDownIcon } from '@heroicons/react/24/outline';
+import { useTranslations } from 'next-intl';
 import useControllableState from 'helpers/hooks/useControllable';
 import { Option } from './index';
 
@@ -28,6 +29,7 @@ const Select: React.FC<Props> = ({
   options = [],
 }) => {
   const [selected, setSelected] = useControllableState(value, defaultValue ?? options?.[0]);
+  const translate = useTranslations();
 
   useEffect(() => {
     setSelected(defaultValue ?? options?.[0]);
@@ -70,7 +72,10 @@ const Select: React.FC<Props> = ({
           <div className="relative w-full">
             <ListboxButton className={buttonClassNames(open)} data-test-error={error ? '1' : '0'}>
               <span className="text-14">{selected?.name}</span>
-              <span className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-8">
+              <span
+                className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-8"
+                aria-label={translate('common.caret-down')}
+              >
                 <ChevronDownIcon data-testid="chevron-down-icon" className="size-20 text-gray-600" aria-hidden="true" />
               </span>
             </ListboxButton>

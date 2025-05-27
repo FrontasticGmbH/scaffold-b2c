@@ -4,7 +4,7 @@ import crypto from 'crypto';
 import fetch from 'node-fetch';
 import { ApiRoot, createApiBuilderFromCtpClient, ProductType, Project } from '@commercetools/platform-sdk';
 import { Context, Request } from '@frontastic/extension-types';
-import { TokenCache, TokenStore } from '@commercetools/sdk-client-v2';
+import { TokenCache, TokenStore } from '@commercetools/ts-client';
 import { Token } from '@Types/Token';
 import { ClientFactory } from '../ClientFactory';
 import { getConfig } from '../utils/GetConfig';

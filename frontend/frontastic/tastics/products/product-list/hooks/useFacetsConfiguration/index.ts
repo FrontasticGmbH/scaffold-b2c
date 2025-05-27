@@ -41,7 +41,7 @@ const useFacetsConfiguration = ({ facets, facetsConfiguration, categories }: Con
         } else if (facet.type === 'boolean') {
           (facet as TermFacet).terms = (facet as TermFacet).terms.map((term) => ({
             ...term,
-            label: term.key === 'T' ? externalFacetsConfiguration[facet.key].label : translate('product.regular'),
+            label: term.key === 'true' ? externalFacetsConfiguration[facet.key].label : translate('product.regular'),
           }));
         }
 
@@ -49,7 +49,8 @@ const useFacetsConfiguration = ({ facets, facetsConfiguration, categories }: Con
       })
       .filter(
         (facet) =>
-          facet.type !== 'boolean' || !!(facet as TermFacet).terms.find((term) => term.key === 'T' && term.count > 0),
+          facet.type !== 'boolean' ||
+          !!(facet as TermFacet).terms.find((term) => term.key === 'true' && term.count > 0),
       )
       .reduce(
         (acc, configuration) => ({

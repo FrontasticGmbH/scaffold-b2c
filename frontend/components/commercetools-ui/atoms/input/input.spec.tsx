@@ -13,33 +13,17 @@ describe('[Component] Input', () => {
 
   it('Changes value while validating correctly', async () => {
     const onChange = jest.fn();
-    const validate = jest.fn();
 
-    render(<Input onChange={onChange} validation={validate} />);
+    render(<Input onChange={onChange} />);
 
     await act(async () => userEvent.type(screen.getByRole('textbox'), 'Hello!'));
 
     expect(onChange).toHaveBeenCalledTimes(6);
     expect(onChange.mock.calls.at(-1)[0].target.value).toBe('Hello!');
-    expect(validate).toHaveBeenLastCalledWith('Hello!');
-  });
-
-  it('Works with controlled state correctly', async () => {
-    const onChange = jest.fn();
-
-    render(<Input onChange={onChange} value="Hello!" />);
-
-    expect(screen.queryByDisplayValue('Hello!')).toBeInTheDocument();
-
-    await act(async () => userEvent.type(screen.getByRole('textbox'), 'Bye!'));
-
-    expect(screen.queryByDisplayValue('Hello!')).toBeInTheDocument();
-
-    for (const call of onChange.mock.calls) expect(call[0].target.value).toBe('Hello!');
   });
 
   it('Renders valid state correctly', async () => {
-    const result = render(<Input isValid />);
+    const result = render(<Input error="" isDirty />);
 
     expect(screen.queryByTestId('check-icon')).toBeInTheDocument();
 
@@ -47,24 +31,13 @@ describe('[Component] Input', () => {
 
     expect(screen.queryByTestId('check-icon')).not.toBeInTheDocument();
 
-    result.rerender(<Input isValid hideCheckIcon />);
+    result.rerender(<Input error="" isDirty hideCheckIcon />);
 
     expect(screen.queryByTestId('check-icon')).not.toBeInTheDocument();
   });
 
   it('Renders error state correctly', async () => {
     render(<Input error="Error!" />);
-
-    expect(screen.queryByText('Error!')).toBeInTheDocument();
-  });
-
-  it('Renders error state after validating correctly', async () => {
-    const validate = jest.fn(() => false);
-
-    render(<Input validation={validate} errorMessage="Error!" />);
-
-    await act(async () => userEvent.type(screen.getByRole('textbox'), 'Hello!'));
-    await act(async () => fireEvent.blur(screen.getByRole('textbox')));
 
     expect(screen.queryByText('Error!')).toBeInTheDocument();
   });

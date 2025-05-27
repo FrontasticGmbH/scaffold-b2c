@@ -9,4 +9,8 @@ export class StringHelpers {
    * rest unedited
    */
   static capitalise = (val: string) => val.charAt(0).toUpperCase() + val.slice(1);
+
+  static convertToKebabCase = (val?: string) => {
+    return val ? val.replace(/([a-z0-9]|(?=[A-Z]))([A-Z])/g, '$1-$2').toLowerCase() : '';
+  };
 }

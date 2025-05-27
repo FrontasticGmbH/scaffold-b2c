@@ -1,4 +1,11 @@
 
+## Version 1.15.0 (2025-05-12)
+
+** New Features & Improvements **
+
+- Moved all usages of account to accountId
+- Added target to the discount
+
 ## Version 1.14.1 (2025-04-15)
 
 

@@ -34,7 +34,7 @@ const LoginForm: FC<Props> = ({ login, requestConfirmationEmail, requestPassword
     setValue,
     setError,
     clearErrors,
-  } = useForm<FormInput>();
+  } = useForm<FormInput>({ defaultValues: { email: '', password: '', rememberMe: false } });
 
   //success
   const [success, setSuccess] = useState('');
@@ -49,7 +49,7 @@ const LoginForm: FC<Props> = ({ login, requestConfirmationEmail, requestPassword
   const subModal = resendVerification || resendPasswordReset;
 
   const resetFeedback = () => {
-    clearErrors('root');
+    clearErrors();
     setSuccess('');
   };
 
@@ -58,6 +58,7 @@ const LoginForm: FC<Props> = ({ login, requestConfirmationEmail, requestPassword
     setResendPasswordReset(false);
     setResendVerification(false);
     resetFeedback();
+    clearErrors();
   };
 
   //requesting a password reset
@@ -65,6 +66,7 @@ const LoginForm: FC<Props> = ({ login, requestConfirmationEmail, requestPassword
     setResendPasswordReset(true);
     setResendVerification(false);
     resetFeedback();
+    clearErrors();
   };
 
   //handle checkbox input change

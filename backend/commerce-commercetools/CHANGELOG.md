@@ -1,4 +1,23 @@
 
+## Version 3.5.0 (2025-05-12)
+
+
+** New Features & Improvements **
+
+- Sent confirmation email if user tries to login but haven't confirmed email yet
+- Return 200 response if account is not yet logged in
+- Streamline account and cart API usage by consolidating account fetching logic and removing unused functions
+- Moved all usages of account to accountId
+- Added info to the cart error code and support 400 errors
+- Added target to the discount
+- Use full identifier for filter attributes
+- Backported style changs from B2B
+
+
+** Bug Fixes **
+
+- Validated discount target before map it
+
 ## Version 3.4.1 (2025-04-15)
 
 

@@ -78,6 +78,7 @@ const Dropdown: FC<DropdownProps> = ({
           items={items ?? []}
           onChange={onChange}
           value={value}
+          error={error}
           {...props}
         />
       )}

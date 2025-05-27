@@ -83,7 +83,6 @@ const CommercetoolsPayment = ({
           }
         },
         onInfo(message) {
-          console.log(message);
           switch (message.code) {
             case 'payment_method_selection_confirmation':
               const { method } = message.payload as { method: { type: string } };

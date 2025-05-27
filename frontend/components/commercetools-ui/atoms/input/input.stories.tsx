@@ -32,7 +32,7 @@ const Template: StoryFn<typeof Input> = (args) => (
         <div className="mt-16">
           <Input
             {...args}
-            isValid
+            isDirty={true}
             variant="secondary"
             placeholder="Placeholder"
             label="Secondary input - valid"

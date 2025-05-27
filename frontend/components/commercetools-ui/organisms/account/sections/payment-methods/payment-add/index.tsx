@@ -31,7 +31,6 @@ const PaymentAdd = () => {
               labelPosition="inline"
               type="text"
               onChange={paymentAddData.handleCardNumberChange}
-              validation={paymentAddData.isCardNumber}
               errorMessage={translate('payment.card-number-error')}
             />
             {resolveCCImage(paymentAddData.cardNumberFormatted) && (

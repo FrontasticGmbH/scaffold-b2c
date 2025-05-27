@@ -47,7 +47,7 @@ const AccountForm: FC<AccountFormProps> = ({
   const containerClassNames = useClassNames(['w-full', containerClassName]);
 
   return (
-    <form className={formClassName} onSubmit={handleSubmit}>
+    <form className={formClassName} onSubmit={handleSubmit} noValidate>
       {(title || subtitle) && (
         <div className="mb-16">
           <p className="text-24 font-bold text-gray-700 md:text-28">{title}</p>

@@ -13,7 +13,7 @@ const BooleanFacet: React.FC<React.PropsWithChildren<FacetProps>> = ({ attribute
     <div>
       <div className="flex flex-col gap-47 py-22 lg:min-w-340">
         {facet.terms
-          .filter((term) => term.key === 'T')
+          .filter((term) => term.key === 'true')
           .map((term) => (
             <div key={term.key} className="flex items-center justify-between gap-8">
               <div>{term.label}</div>

@@ -10,10 +10,10 @@ type DeleteModalProps = {
   loading: boolean;
   closeModal: () => void;
   handleDelete: () => void;
-  isDefault?: boolean;
+  canDelete?: boolean;
 };
 
-const DeleteModal: FC<DeleteModalProps> = ({ modalIsOpen, loading, closeModal, handleDelete, isDefault }) => {
+const DeleteModal: FC<DeleteModalProps> = ({ modalIsOpen, loading, closeModal, handleDelete, canDelete }) => {
   const translate = useTranslations();
 
   const canDeleteContent = (
@@ -69,7 +69,7 @@ const DeleteModal: FC<DeleteModalProps> = ({ modalIsOpen, loading, closeModal, h
       onRequestClose={closeModal}
       closeButton
     >
-      {isDefault ? canNotDeleteContent : canDeleteContent}
+      {canDelete ? canDeleteContent : canNotDeleteContent}
     </Modal>
   );
 };

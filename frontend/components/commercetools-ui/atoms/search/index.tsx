@@ -1,6 +1,7 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { Transition } from '@headlessui/react';
 import { MagnifyingGlassIcon as SearchIcon, XMarkIcon as CloseIcon } from '@heroicons/react/24/solid';
+import { useForm, SubmitHandler } from 'react-hook-form';
 import { useTranslations } from 'use-intl';
 import useScrollBlock from 'helpers/hooks/useScrollBlock';
 import { useRouter } from 'i18n/routing';
@@ -15,15 +16,18 @@ interface Props {
   onQueryUpdate?: (query: string) => void;
 }
 
+type UserInput = {
+  search: string;
+};
+
 const Search: React.FC<Props> = ({ categories, items, onQueryUpdate }) => {
   const router = useRouter();
-
+  const { register, handleSubmit, reset, watch } = useForm<UserInput>({ defaultValues: { search: '' } });
+  const searchValue = watch('search');
   const translate = useTranslations();
 
   const form = useRef<HTMLFormElement>(null);
   const input = useRef<HTMLInputElement>(null);
-
-  const [value, setValue] = useState('');
 
   const [focused, setFocused] = useState(false);
 
@@ -38,7 +42,6 @@ const Search: React.FC<Props> = ({ categories, items, onQueryUpdate }) => {
 
   const onChange = useCallback(
     (e: React.ChangeEvent<HTMLInputElement>) => {
-      setValue(e.target.value);
       onQueryUpdate?.(e.target.value);
     },
     [onQueryUpdate],
@@ -46,19 +49,17 @@ const Search: React.FC<Props> = ({ categories, items, onQueryUpdate }) => {
 
   const cleanUp = useCallback(() => {
     onQueryUpdate?.('');
-    setValue('');
-  }, [onQueryUpdate]);
+    reset();
+  }, [reset, onQueryUpdate]);
 
-  const onSubmit = useCallback(
-    (e: React.FormEvent) => {
-      e.preventDefault();
+  const onSubmit: SubmitHandler<UserInput> = useCallback(
+    ({ search }) => {
+      if (!search) return;
 
-      if (!value) return;
-
-      router.push(`/search?query=${value}`);
+      router.push(`/search?query=${search}`);
       input.current?.blur();
     },
-    [value, router],
+    [router],
   );
 
   return (
@@ -71,17 +72,21 @@ const Search: React.FC<Props> = ({ categories, items, onQueryUpdate }) => {
             focused ? 'border-b' : 'border'
           }`}
         >
-          <form className="quick-search relative flex w-full items-stretch" ref={form} onSubmit={onSubmit}>
+          <form
+            className="quick-search relative flex w-full items-stretch"
+            ref={form}
+            onSubmit={handleSubmit(onSubmit)}
+          >
             <input
-              ref={input}
               title={translate('common.type-search-term')}
               aria-label={translate('common.type-search-term')}
               className="box-content grow border-none p-0 px-12 py-10 transition placeholder:text-14 placeholder:text-gray-600 focus:outline-none"
-              value={value}
-              onChange={onChange}
               onFocus={onFocus}
-              onBlur={onBlur}
               placeholder={`${translate('common.search-placeholder')}...`}
+              {...register('search', {
+                onChange,
+                onBlur,
+              })}
             />
             <button
               data-testid="submit-button"
@@ -94,7 +99,7 @@ const Search: React.FC<Props> = ({ categories, items, onQueryUpdate }) => {
             >
               <SearchIcon className={`size-24 stroke-0 ${focused ? 'fill-white' : 'fill-gray-600'}`} />
             </button>
-            {value && (
+            {searchValue && (
               <button
                 data-testid="reset-button"
                 type="reset"

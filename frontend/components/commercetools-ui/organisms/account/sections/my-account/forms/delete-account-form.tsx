@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { SubmitHandler, useForm } from 'react-hook-form';
 import { useTranslations } from 'use-intl';
 import PasswordInput from 'components/commercetools-ui/atoms/input-password';
 import AccountForm from '../../../account-atoms/account-form';
@@ -7,22 +7,27 @@ interface Props {
   deleteAccount?: (password: string) => Promise<{ success: boolean }>;
 }
 
+type InputData = { password: string };
+
 const DeleteAccountForm = ({ deleteAccount }: Props) => {
   const translate = useTranslations();
-  const [data, setData] = useState({ password: '' });
-  const [error, setError] = useState(false);
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setError(false);
-    setData({ ...data, [e.target.name]: e.target.value });
-  };
+  const {
+    register,
+    formState: { errors },
+    handleSubmit,
+    setError,
+  } = useForm<InputData>({
+    defaultValues: {
+      password: '',
+    },
+  });
 
-  const onDeleteAccount = async (form: React.FormEvent) => {
-    form.preventDefault();
+  const onDeleteAccount: SubmitHandler<InputData> = async (data) => {
     if (confirm(translate('account.delete-disclosure'))) {
       const deleteAccountState = await deleteAccount?.(data.password);
       if (!deleteAccountState?.success) {
-        setError(true);
+        setError('password', { type: 'manual', message: translate('account.password-invalid') });
       }
     }
   };
@@ -33,13 +38,12 @@ const DeleteAccountForm = ({ deleteAccount }: Props) => {
       defaultCTASection
       requiredLabelIsVisible
       ctaVariant="delete"
-      onSubmit={onDeleteAccount}
+      onSubmit={handleSubmit(onDeleteAccount)}
     >
       <PasswordInput
-        error={error ? translate('account.password-invalid') : ''}
-        name={'password'}
-        onChange={handleChange}
+        error={errors.password?.message}
         label="Password confirmation"
+        {...register('password', { required: { value: true, message: translate('common.fieldIsRequired') } })}
         required
       />
     </AccountForm>

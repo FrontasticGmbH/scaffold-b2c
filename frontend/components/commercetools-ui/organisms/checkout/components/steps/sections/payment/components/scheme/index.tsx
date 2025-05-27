@@ -92,7 +92,6 @@ const Scheme = () => {
           className="text-14 placeholder:text-gray-600 sm:px-8"
           placeholder={translate('checkout.card-number')}
           onChange={handleCardNumberChange}
-          isValid={!!(paymentData.number && paymentData.number.length >= 12 && paymentData.number.length <= 19)}
           defaultValue={paymentData.number}
         >
           {resolveCCImage(paymentData.number) && (

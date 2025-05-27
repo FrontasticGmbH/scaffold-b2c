@@ -1,5 +1,6 @@
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { useParams } from 'next/navigation';
+import { SubmitHandler, useForm } from 'react-hook-form';
 import { useHits, useRange } from 'react-instantsearch';
 import { useTranslations } from 'use-intl';
 import Checkbox from 'components/commercetools-ui/atoms/checkbox';
@@ -9,6 +10,11 @@ import { FacetProps } from './types';
 import { useProductList } from '../../context';
 import { refinementRemovedEventName, refinementsClearedEventName } from '../../context/constants';
 import { RefinementRemovedEvent } from '../../context/types';
+
+type Inputs = {
+  min: number;
+  max: number;
+};
 
 const RangeFacet: React.FC<FacetProps> = ({ attribute }) => {
   const translate = useTranslations();
@@ -32,29 +38,43 @@ const RangeFacet: React.FC<FacetProps> = ({ attribute }) => {
 
   const [appliedOptions, setAppliedOptions] = useState<Array<number>>([]);
 
-  const [priceRange, setPriceRange] = useState({ min: -Infinity, max: Infinity });
+  const {
+    register,
+    handleSubmit,
+    reset: resetForm,
+    setValue,
+    getValues,
+  } = useForm<Inputs>({
+    defaultValues: {
+      min: -Infinity,
+      max: Infinity,
+    },
+  });
 
   useEffect(() => {
-    setPriceRange((priceRange) => {
-      const min = start[0] && start[0] !== -Infinity ? start[0] / 100 : priceRange.min;
-      const max = start[1] && start[1] !== Infinity ? start[1] / 100 : priceRange.max;
+    const min = start[0] && start[0] !== -Infinity ? start[0] / 100 : getValues('min');
+    const max = start[1] && start[1] !== Infinity ? start[1] / 100 : getValues('max');
 
-      return { min, max };
-    });
-  }, [start]);
+    setValue('min', min);
+    setValue('max', max);
+  }, [start, getValues, setValue]);
 
   useEffect(() => {
     if (range.min && range.max) updateNumericRange(attribute, [range.min, range.max]);
   }, [range.min, range.max, updateNumericRange, attribute]);
 
   const applyRefinement = useCallback(
-    (appliedRange: typeof priceRange) => {
+    (appliedRange: Inputs) => {
       const min = Math.max(range.min as number, appliedRange.min);
       const max = Math.min(range.max as number, appliedRange.max);
 
-      refine([min, max]);
+      if (max === min) {
+        refine([min, max + 1]);
+      } else {
+        refine([min, max]);
+      }
     },
-    [range, refine],
+    [refine, range.min, range.max],
   );
 
   const handleRangeOptionChange = useCallback(
@@ -80,23 +100,20 @@ const RangeFacet: React.FC<FacetProps> = ({ attribute }) => {
 
       setAppliedOptions(newAppliedOptions);
 
-      setPriceRange({ ...appliedRange });
+      setValue('min', appliedRange.min);
+      setValue('max', appliedRange.max);
     },
-    [appliedOptions, configuration, applyRefinement],
+    [appliedOptions, configuration.ranges, applyRefinement, setValue],
   );
 
-  const clearAppliedOptions = useCallback(() => {
-    setAppliedOptions([]);
-  }, []);
-
   useEffect(() => {
-    clearAppliedOptions();
-  }, [range.min, range.max, clearAppliedOptions]);
+    setAppliedOptions([]);
+  }, [range.min, range.max, setAppliedOptions]);
 
   const reset = useCallback(() => {
-    clearAppliedOptions();
-    setPriceRange({ min: -Infinity, max: Infinity });
-  }, [clearAppliedOptions]);
+    setAppliedOptions([]);
+    resetForm();
+  }, [resetForm, setAppliedOptions]);
 
   const handleRefinementRemoved = useCallback(
     (e: CustomEvent<RefinementRemovedEvent>) => {
@@ -115,23 +132,10 @@ const RangeFacet: React.FC<FacetProps> = ({ attribute }) => {
     };
   }, [reset, handleRefinementRemoved]);
 
-  const handleRangeInputChange = useCallback(
-    (e: React.ChangeEvent<HTMLInputElement>) => {
-      setPriceRange({ ...priceRange, [e.target.name]: +e.target.value });
-    },
-    [priceRange],
-  );
-
-  const handleRangeSubmit = useCallback(
-    (e: React.FormEvent) => {
-      e.preventDefault();
-
-      applyRefinement({ min: priceRange.min * 100, max: priceRange.max * 100 });
-
-      clearAppliedOptions();
-    },
-    [priceRange, clearAppliedOptions, applyRefinement],
-  );
+  const handleRangeSubmit: SubmitHandler<Inputs> = ({ min, max }) => {
+    applyRefinement({ min: min * 100, max: max * 100 });
+    setAppliedOptions([]);
+  };
 
   const rangeOptions = useMemo(() => {
     if (!configuration) return { available: false, Component: <></> };
@@ -178,7 +182,7 @@ const RangeFacet: React.FC<FacetProps> = ({ attribute }) => {
       <div className={rangeOptions.available ? 'mt-48' : ''}>
         <p className="text-16 font-medium">{translate('product.price-range-custom')}</p>
       </div>
-      <form className="mt-36 flex items-center gap-16" onSubmit={handleRangeSubmit}>
+      <form className="mt-36 flex items-center gap-16" onSubmit={handleSubmit(handleRangeSubmit)}>
         <label
           htmlFor="min"
           className="flex w-85 items-center gap-4 border border-neutral-500 bg-white p-7"
@@ -186,12 +190,10 @@ const RangeFacet: React.FC<FacetProps> = ({ attribute }) => {
         >
           <input
             id="min"
-            name="min"
             className="w-full border-none p-0 outline-none focus:border-none focus:outline-none"
             type="number"
-            value={priceRange.min !== -Infinity ? priceRange.min.toString() : ''}
             placeholder={translate('product.min')}
-            onChange={handleRangeInputChange}
+            {...register('min')}
           />
           <span>{currencySymbol}</span>
         </label>
@@ -205,12 +207,10 @@ const RangeFacet: React.FC<FacetProps> = ({ attribute }) => {
         >
           <input
             id="max"
-            name="max"
             className="w-full border-none p-0 outline-none focus:border-none focus:outline-none"
             type="number"
-            value={priceRange.max !== Infinity ? priceRange.max.toString() : ''}
             placeholder={translate('product.max')}
-            onChange={handleRangeInputChange}
+            {...register('max')}
           />
           <span>{currencySymbol}</span>
         </label>

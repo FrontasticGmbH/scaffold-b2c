@@ -5,7 +5,7 @@ import {
   HttpMiddlewareOptions,
   RefreshAuthMiddlewareOptions,
   TokenCache,
-} from '@commercetools/sdk-client-v2';
+} from '@commercetools/ts-client';
 // @ts-ignore
 import fetch from 'node-fetch';
 import { ClientConfig } from './interfaces/ClientConfig';
@@ -24,7 +24,7 @@ export class ClientFactory {
   ) => {
     const httpMiddlewareOptions: HttpMiddlewareOptions = {
       host: clientConfig.hostUrl,
-      fetch,
+      httpClient: fetch,
     };
 
     let clientBuilder: ClientBuilder;
@@ -70,7 +70,7 @@ export class ClientFactory {
         clientSecret: clientConfig.clientSecret,
       },
       // scopes: ['manage_project:' + clientConfig.projectKey],
-      fetch,
+      httpClient: fetch,
       tokenCache: tokenCache,
       refreshToken: refreshToken,
     };
@@ -93,7 +93,7 @@ export class ClientFactory {
         clientSecret: clientConfig.clientSecret,
       },
       // scopes: ['manage_project:' + clientConfig.projectKey],
-      fetch,
+      httpClient: fetch,
       tokenCache: tokenCache,
     };
 

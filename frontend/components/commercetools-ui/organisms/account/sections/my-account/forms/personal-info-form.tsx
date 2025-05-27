@@ -1,14 +1,18 @@
-import { useState } from 'react';
+import { SubmitHandler, useForm } from 'react-hook-form';
 import { useTranslations } from 'use-intl';
-import Input, { InputProps } from 'components/commercetools-ui/atoms/input';
+import Input from 'components/commercetools-ui/atoms/input';
 import useFeedbackToasts from 'components/commercetools-ui/organisms/account/hooks/useFeedbackToasts';
-import useValidate from 'helpers/hooks/useValidate';
+import { EMAIL_REGX } from 'helpers/constants/auth';
 import { Account } from 'types/entity/account';
 import { UpdateAccount } from 'frontastic/hooks/useAccount/types';
 import AccountForm from '../../../account-atoms/account-form';
 import useDiscardForm from '../../../hooks/useDiscardForm';
 
-type inputNameType = 'firstName' | 'lastName' | 'email';
+type Inputs = {
+  firstName: string;
+  lastName: string;
+  email: string;
+};
 
 interface Props {
   account?: Account;
@@ -17,10 +21,19 @@ interface Props {
 const PersonalInfoForm = ({ account, update }: Props) => {
   const { discardForm } = useDiscardForm();
 
-  const [data, setData] = useState<Account>(account as Account);
-  const [loading, setLoading] = useState(false);
+  const {
+    register,
+    handleSubmit,
+    formState: { isSubmitting, errors, dirtyFields },
+  } = useForm<Inputs>({
+    defaultValues: {
+      firstName: account?.firstName ?? '',
+      lastName: account?.lastName ?? '',
+      email: account?.email ?? '',
+    },
+    mode: 'onChange',
+  });
 
-  const { validateEmail, validateTextExists } = useValidate();
   const { notifyDataUpdated, notifyWentWrong } = useFeedbackToasts();
 
   const translate = useTranslations();
@@ -28,54 +41,43 @@ const PersonalInfoForm = ({ account, update }: Props) => {
   const invalidNameErrorMessage = translate('error.name');
   const invalidEmailErrorMessage = translate('error.email');
 
-  //input change handler
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setData({ ...data, [e.target.name]: e.target.value });
-  };
-
-  const handleSubmit = () => {
-    setLoading(true);
-
+  const onSubmit: SubmitHandler<Inputs> = (data) => {
     update?.({ ...data, email: data.email && data.email !== account?.email ? data.email : undefined })
       .then(() => notifyDataUpdated())
       .then(() => discardForm())
-      .then(() => setLoading(false))
       .catch(() => notifyWentWrong());
   };
 
-  const inputFields: Array<InputProps> = [
-    {
-      label: translate('common.firstName'),
-      name: 'firstName',
-      errorMessage: invalidNameErrorMessage,
-      validation: validateTextExists,
-    },
-    {
-      label: translate('common.lastName'),
-      name: 'lastName',
-      errorMessage: invalidNameErrorMessage,
-      validation: validateTextExists,
-    },
-    {
-      label: translate('common.email'),
-      name: 'email',
-      errorMessage: invalidEmailErrorMessage,
-      validation: validateEmail,
-    },
-  ];
-
   return (
-    <AccountForm requiredLabelIsVisible defaultCTASection loading={loading} onSubmit={handleSubmit}>
+    <AccountForm requiredLabelIsVisible defaultCTASection loading={isSubmitting} onSubmit={handleSubmit(onSubmit)}>
       <div className="grid gap-12">
-        {inputFields.map((fieldProps, index) => (
-          <Input
-            key={index}
-            {...fieldProps}
-            onChange={handleChange}
-            value={data?.[fieldProps.name as inputNameType] ?? ''}
-            required
-          />
-        ))}
+        <Input
+          label={translate('common.firstName')}
+          {...register('firstName', {
+            minLength: { value: 2, message: invalidNameErrorMessage },
+            required: { value: true, message: invalidNameErrorMessage },
+          })}
+          error={errors.firstName?.message}
+          isDirty={dirtyFields.firstName}
+        />
+        <Input
+          label={translate('common.lastName')}
+          {...register('lastName', {
+            minLength: { value: 2, message: invalidNameErrorMessage },
+            required: { value: true, message: invalidNameErrorMessage },
+          })}
+          error={errors.lastName?.message}
+          isDirty={dirtyFields.lastName}
+        />
+        <Input
+          label={translate('common.email')}
+          {...register('email', {
+            required: { value: true, message: invalidEmailErrorMessage },
+            pattern: { value: EMAIL_REGX, message: invalidEmailErrorMessage },
+          })}
+          error={errors.email?.message}
+          isDirty={dirtyFields.email}
+        />
       </div>
     </AccountForm>
   );

@@ -25,7 +25,7 @@ const Template: StoryFn<typeof PasswordInput> = (args) => (
             <PasswordInput
               {...args}
               variant="primary"
-              error="An error occured while entering an unworthy password"
+              error="An error occurred while entering an unworthy password"
               placeholder="Placeholder"
               label="Primary password - Invalid"
               className="border-red-500"
@@ -38,10 +38,10 @@ const Template: StoryFn<typeof PasswordInput> = (args) => (
             <PasswordInput
               {...args}
               variant="secondary"
-              isValid
               placeholder="Placeholder"
               label="Secondary password - valid"
               className="border-green-500"
+              isDirty={true}
             />
           </div>
           <div className="mt-16">

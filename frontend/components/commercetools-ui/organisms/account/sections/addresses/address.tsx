@@ -35,7 +35,7 @@ const Address: React.FC<AddressProps> = ({ address, isDefaultAddress, selectAddr
     >
       <div className="grid gap-8">
         <div>
-          <p className="pb-2 text-14 font-medium capitalize md:text-16">{label}</p>
+          <p className="pb-4 text-14 font-medium capitalize md:text-16">{label}</p>
 
           <div className="grid">
             {addressInfoTypographyElements.map((element) => (
@@ -47,7 +47,7 @@ const Address: React.FC<AddressProps> = ({ address, isDefaultAddress, selectAddr
         </div>
 
         {isDefaultAddress && (
-          <div className="rounded-md bg-green-100 px-8 py-4 text-12 font-semibold text-green-700 md:mt-4">
+          <div className="mt-8 w-fit rounded-md bg-green-100 p-8 text-12 font-semibold text-green-700">
             {translate('account.default-address')}
           </div>
         )}

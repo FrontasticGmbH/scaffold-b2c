@@ -28,7 +28,6 @@ const CommercetoolsCheckout = ({ logo }: Pick<CheckoutWrappedProps, 'logo'>) => 
 
   const { account, logout } = useContext(AccountContext);
 
-  console.log(projectSettings);
   useEffect(() => {
     if (initiatedCheckout.current || !projectKey || !region || !session?.token) return;
 

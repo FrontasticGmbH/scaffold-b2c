@@ -2,6 +2,7 @@ import React, { ChangeEvent, ComponentProps, FC } from 'react';
 import { ChevronDownIcon } from '@heroicons/react/24/outline';
 import useClassNames from 'helpers/hooks/useClassNames';
 import useControllableState from 'helpers/hooks/useControllable';
+import { classnames } from 'helpers/utils/classnames';
 
 export interface DropdownProps extends ComponentProps<'select'> {
   className?: string;
@@ -11,6 +12,7 @@ export interface DropdownProps extends ComponentProps<'select'> {
   label?: string;
   value?: string;
   defaultValue?: string;
+  error?: boolean;
 }
 
 const DefaultDropdown: FC<DropdownProps> = ({
@@ -42,10 +44,16 @@ const DefaultDropdown: FC<DropdownProps> = ({
 
   return (
     <div className={containerClassNames}>
-      {label && <label className={labelClassNames}>{`${label}${props.required ? ' *' : ''}`}</label>}
+      {label && (
+        <label htmlFor={props.name} className={labelClassNames}>{`${label}${props.required ? ' *' : ''}`}</label>
+      )}
 
-      <div className="relative h-40 min-w-64 overflow-hidden rounded-sm border border-neutral-500">
-        <select className={selectClassName} value={selectedValue} onChange={handleChange} {...props}>
+      <div
+        className={classnames('relative h-40 min-w-64 overflow-hidden rounded-sm border border-neutral-500', {
+          'border-red-500': props.error,
+        })}
+      >
+        <select id={props.name} className={selectClassName} value={selectedValue} onChange={handleChange} {...props}>
           {items.map(({ label, value }, index) => (
             <option key={index} value={value}>
               {label}
