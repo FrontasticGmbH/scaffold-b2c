@@ -87,7 +87,7 @@ const RangeFacet: React.FC<FacetProps> = ({ attribute }) => {
       setValue('min', appliedRange.min);
       setValue('max', appliedRange.max);
     },
-    [appliedOptions, configuration.ranges, applyRefinement, setValue],
+    [appliedOptions, configuration?.ranges, applyRefinement, setValue],
   );
 
   const reset = useCallback(() => {
@@ -110,7 +110,10 @@ const RangeFacet: React.FC<FacetProps> = ({ attribute }) => {
     if (facet?.maxSelected) max = facet.maxSelected / 100;
 
     setValue('min', min);
-    setValue('max', max);
+
+    if (facet?.max !== facet?.maxSelected) {
+      setValue('max', max);
+    }
   }, [facet?.minSelected, facet?.maxSelected, setValue]);
 
   useEffect(() => {
@@ -137,7 +140,7 @@ const RangeFacet: React.FC<FacetProps> = ({ attribute }) => {
   }, [reset, handleRefinementRemoved]);
 
   const handleRangeSubmit: SubmitHandler<Inputs> = ({ min, max }) => {
-    applyRefinement({ min: min * 100, max: max * 100 });
+    applyRefinement({ min: min * 100, max: max ? max * 100 : Infinity });
     setAppliedOptions([]);
   };
 

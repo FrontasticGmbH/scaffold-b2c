@@ -65,7 +65,7 @@ const AccountAddresses: React.FC<Props> = ({
       });
       onSelectShippingAddress(accountAddressToAddress(defaultShippingAddress));
     }
-  }, [defaultShippingAddress]);
+  }, [accountAddressToAddress, defaultShippingAddress, formatAddress, onSelectShippingAddress]);
 
   useEffect(() => {
     if (defaultBillingAddress) {
@@ -75,7 +75,7 @@ const AccountAddresses: React.FC<Props> = ({
       });
       onSelectBillingAddress(accountAddressToAddress(defaultBillingAddress));
     }
-  }, [defaultBillingAddress]);
+  }, [accountAddressToAddress, defaultBillingAddress, formatAddress, onSelectBillingAddress]);
 
   return (
     <div className={`flex flex-col gap-20 ${className}`}>

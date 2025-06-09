@@ -11,6 +11,8 @@ import {
   CategoryReference,
   DiscountedPrice as CommercetoolsDiscountedPrice,
   Price as CommercetoolsPrice,
+  ProductDiscount as CommercetoolsProductDiscount,
+  ProductDiscountValue as CommercetoolsProductDiscountValue,
   ProductSearchFacetCountExpression,
   ProductSearchFacetDistinctExpression,
   ProductSearchFacetExpression,
@@ -24,8 +26,6 @@ import {
   ProductType as CommercetoolsProductType,
   ProductVariant as CommercetoolsProductVariant,
   TypedMoney,
-  ProductDiscount as CommercetoolsProductDiscount,
-  ProductDiscountValue as CommercetoolsProductDiscountValue,
 } from '@commercetools/platform-sdk';
 import { Product } from '@Types/product/Product';
 import { Variant } from '@Types/product/Variant';
@@ -37,7 +37,7 @@ import { Facet, FacetTypes } from '@Types/result/Facet';
 import { TermFacet } from '@Types/result/TermFacet';
 import { RangeFacet } from '@Types/result/RangeFacet';
 import { Term } from '@Types/result/Term';
-import { ProductQuery, LocalizedString } from '@Types/query/ProductQuery';
+import { LocalizedString, ProductQuery } from '@Types/query/ProductQuery';
 import { TermFacet as QueryTermFacet } from '@Types/query/TermFacet';
 import { RangeFacet as QueryRangeFacet } from '@Types/query/RangeFacet';
 import { FacetDefinition } from '@Types/product/FacetDefinition';
@@ -500,7 +500,6 @@ export class ProductMapper {
     locale: Locale,
   ): FacetDefinition[] {
     const facetDefinitionsIndex: { [key: string]: FacetDefinition } = {};
-    const facetDefinitions: FacetDefinition[] = [];
 
     commercetoolsProductTypes?.forEach((productType) => {
       productType.attributes?.forEach((attribute) => {
@@ -524,11 +523,7 @@ export class ProductMapper {
       });
     });
 
-    for (const [attributeId, facetDefinition] of Object.entries(facetDefinitionsIndex)) {
-      facetDefinitions.push(facetDefinition);
-    }
-
-    return facetDefinitions;
+    return Object.values(facetDefinitionsIndex);
   }
 
   static commercetoolsFacetResultsToFacets(
@@ -674,7 +669,7 @@ export class ProductMapper {
           label: facetResultTerm.key.toString(),
           count: facetResultTerm.count,
           key: facetResultTerm.key.toString(),
-          selected: facetQuery !== undefined && facetQuery.terms?.includes(facetResultTerm.key.toString()),
+          selected: facetQuery?.terms?.includes(facetResultTerm.key.toString()),
         };
         return term;
       }),

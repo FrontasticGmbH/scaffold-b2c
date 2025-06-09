@@ -414,7 +414,7 @@ export abstract class BaseApi {
   protected checkoutHashKey: string;
   protected token: Token;
   protected currency: string;
-  protected sessionData: any | null;
+  protected sessionData: Request['sessionData'];
 
   constructor(
     commercetoolsFrontendContext: Context,
@@ -425,11 +425,11 @@ export abstract class BaseApi {
     this.defaultLocale = commercetoolsFrontendContext.project.defaultLocale;
     this.defaultCurrency = defaultCurrency;
 
-    this.locale = locale !== null ? locale : this.defaultLocale;
+    this.locale = locale ?? this.defaultLocale;
     this.currency = currency;
 
     const engine = 'commercetools';
-    this.clientSettings = getConfig(commercetoolsFrontendContext, engine, this.locale);
+    this.clientSettings = getConfig(commercetoolsFrontendContext, engine);
 
     this.environment = commercetoolsFrontendContext.environment;
     this.projectKey = this.clientSettings.projectKey;
@@ -441,7 +441,7 @@ export abstract class BaseApi {
     this.sessionData = request?.sessionData ?? {};
   }
 
-  getSessionData(): any | null {
+  getSessionData(): Request['sessionData'] {
     return this.sessionData;
   }
 
@@ -458,9 +458,7 @@ export abstract class BaseApi {
   async setSessionCheckoutSessionToken(cartId: string, token: Token): Promise<void> {
     const checkoutHashKey = await this.getCheckoutHashKey(cartId);
 
-    if (!this.sessionData) {
-      this.sessionData = {};
-    }
+    this.sessionData ??= {};
 
     this.sessionData.checkoutSessionToken = {};
     this.sessionData.checkoutSessionToken[checkoutHashKey] = token;
@@ -533,7 +531,7 @@ export abstract class BaseApi {
         return productTypes;
       })
       .catch((error) => {
-        throw new ExternalError({ statusCode: error.code, message: error.message, body: error.body });
+        throw new ExternalError({ statusCode: error.statusCode, message: error.message, body: error.body });
       });
   }
 
@@ -552,7 +550,7 @@ export abstract class BaseApi {
       .get()
       .execute()
       .catch((error) => {
-        throw new ExternalError({ statusCode: error.code, message: error.message, body: error.body });
+        throw new ExternalError({ statusCode: error.statusCode, message: error.message, body: error.body });
       });
     const project = response.body;
 
@@ -634,11 +632,11 @@ export abstract class BaseApi {
     };
 
     const response = await fetch(url, requestOptions)
-      .then((response: any) => {
+      .then((response: { json: () => { id?: string; expiryAt?: string | number } }) => {
         return response.json();
       })
-      .catch((error: any) => {
-        throw new ExternalError({ statusCode: error.code, message: error.message, body: error });
+      .catch((error: { code: number; message: string }) => {
+        throw new ExternalError({ statusCode: error.statusCode, message: error.message, body: JSON.stringify(error) });
       });
 
     if (response?.errors) {

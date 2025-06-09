@@ -26,7 +26,7 @@ import { ValidationError } from '@Commerce-commercetools/errors/ValidationError'
 import handleError from '@Commerce-commercetools/utils/handleError';
 
 const getPreviewPayload = (queryResult: ProductPaginatedResult) => {
-  return (queryResult.items as Product[]).map((product): DataSourcePreviewPayloadElement => {
+  return queryResult.items.map((product): DataSourcePreviewPayloadElement => {
     return {
       title: product.name,
       image: product?.variants[0]?.images[0],
@@ -39,7 +39,7 @@ const findDynamicPageMasterDataSource = (context: DataSourceContext, dataSourceT
   // Since the DataSourceConfiguration doesn't return the streamId, we need to access the private property directly.
   // This needs to be refactored once the dataSourceId is returned in the DataSourceConfiguration.
   return context.pageFolder.dataSourceConfigurations.find(
-    (dataSource) => (dataSource as any).streamId === '__master' && dataSource.type === dataSourceType,
+    (dataSource) => dataSource.streamId === '__master' && dataSource.type === dataSourceType,
   );
 };
 
@@ -268,7 +268,7 @@ export default {
         );
         const productQuery = ProductQueryFactory.queryFromParams(context.request, config);
 
-        const shuffleArray = (array: any) => {
+        const shuffleArray = <T>(array: T[]): T[] => {
           for (let i = array.length - 1; i > 0; i--) {
             const j = Math.floor(Math.random() * (i + 1));
             const temp = array[i];
@@ -316,7 +316,7 @@ export default {
 
         const masterProductReferencedProductIds = masterProduct.variants?.[0]?.attributes?.[referencedProductsIdField];
 
-        context.request.query['productIds'] = masterProductReferencedProductIds || [];
+        context.request.query['productIds'] = masterProductReferencedProductIds ?? [];
 
         const productApi = new ProductApi(
           context.frontasticContext,

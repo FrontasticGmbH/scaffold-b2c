@@ -24,7 +24,7 @@ const CreateAddress = ({ addressType, onAfterSubmit }: Props) => {
 
   const { country } = useI18n();
 
-  const initialData = useMemo(() => ({ addressType, country }) as Address, [addressType]);
+  const initialData = useMemo(() => ({ addressType, country }) as Address, [addressType, country]);
 
   const [saveAsDefault, setSaveAsDefault] = useState(false);
 

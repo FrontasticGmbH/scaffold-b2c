@@ -2,34 +2,34 @@ import { Cart, CartOrigin, CartState } from '@Types/cart/Cart';
 import {
   BaseAddress as CommercetoolsAddress,
   Cart as CommercetoolsCart,
+  CartDiscount as CommercetoolsCartDiscount,
   CartDiscountReference,
+  CartDiscountTarget as CommercetoolsCartDiscountTarget,
+  CartDiscountValue as CommercetoolsCartDiscountValue,
   CartOrigin as CommercetoolsCartOrigin,
   CartState as CommercetoolsCartState,
   DiscountCodeInfo as CommercetoolsDiscountCodeInfo,
   DiscountCodeState as CommercetoolsDiscountCodeState,
   DiscountedLineItemPortion as CommercetoolsDiscountedLineItemPortion,
-  DiscountedLineItemPriceForQuantity as CommercetoolsDiscountedLineItemPriceForQuantity,
   DiscountedLineItemPrice as CommercetoolsDiscountedLineItemPrice,
+  DiscountedLineItemPriceForQuantity as CommercetoolsDiscountedLineItemPriceForQuantity,
+  DiscountedTotalPricePortion as CommercetoolsDiscountedTotalPricePortion,
+  DiscountOnTotalPrice as CommercetoolsDiscountOnTotalPrice,
   LineItem as CommercetoolsLineItem,
   Order as CommercetoolsOrder,
   OrderState as CommercetoolsOrderState,
   Payment as CommercetoolsPayment,
   PaymentInfo as CommercetoolsPaymentInfo,
   Reference,
+  SelectionMode as CommercetoolsSelectionMode,
   ShipmentState as CommercetoolsShipmentState,
   ShippingInfo as CommercetoolsShippingInfo,
   ShippingMethod as CommercetoolsShippingMethod,
+  ShippingRate as CommercetoolsShippingRate,
+  TaxedItemPrice as CommercetoolsTaxedItemPrice,
   TaxedPrice as CommercetoolsTaxedPrice,
   TaxRate as CommercetoolsTaxRate,
-  TaxedItemPrice as CommercetoolsTaxedItemPrice,
   ZoneRate as CommercetoolsZoneRate,
-  DiscountOnTotalPrice as CommercetoolsDiscountOnTotalPrice,
-  CartDiscountValue as CommercetoolsCartDiscountValue,
-  CartDiscount as CommercetoolsCartDiscount,
-  DiscountedTotalPricePortion as CommercetoolsDiscountedTotalPricePortion,
-  ShippingRate as CommercetoolsShippingRate,
-  CartDiscountTarget as CommercetoolsCartDiscountTarget,
-  SelectionMode as CommercetoolsSelectionMode,
 } from '@commercetools/platform-sdk';
 import { LineItem } from '@Types/cart/LineItem';
 import { Address } from '@Types/account/Address';
@@ -38,19 +38,19 @@ import {
   CartDiscount,
   CartDiscountValue,
   DiscountCode,
-  DiscountedPricePerCount,
-  DiscountedPrice,
-  DiscountedPortion,
   DiscountCodeState,
+  DiscountedPortion,
+  DiscountedPrice,
+  DiscountedPricePerCount,
   DiscountOnTotalPrice,
-  Tax,
-  TaxRate,
-  TaxPortion,
+  Payment,
   ShippingInfo,
   ShippingLocation,
   ShippingMethod,
   ShippingRate,
-  Payment,
+  Tax,
+  TaxPortion,
+  TaxRate,
 } from '@Types/cart';
 import { CartDiscountSelectionMode, CartDiscountTarget } from '@Types/cart/Discount';
 import { ProductRouter } from '../utils/routers/ProductRouter';
@@ -332,18 +332,12 @@ export class CartMapper {
       // When we tried to get only matching shipping methods, `isMatching` value will be returned.
       // In those cases, we'll only map the ones with value `true`.
       const matchingShippingRates = commercetoolsZoneRate.shippingRates.filter(function (shippingRate) {
-        if (shippingRate.isMatching !== undefined && shippingRate.isMatching !== true) {
-          return false; // skip
-        }
-        return true;
+        return shippingRate?.isMatching !== false;
       });
 
       matchingShippingRates.forEach((matchingShippingRate) => {
         const matchingShippingRatePriceTiers = matchingShippingRate.tiers.filter(function (shippingRatePriceTier) {
-          if (shippingRatePriceTier.isMatching !== true) {
-            return false; // skip
-          }
-          return true;
+          return shippingRatePriceTier.isMatching;
         });
 
         shippingRates.push({
@@ -380,7 +374,6 @@ export class CartMapper {
 
   static commercetoolsPaymentToPayment: (commercetoolsPayment: CommercetoolsPayment, locale: Locale) => Payment = (
     commercetoolsPayment: CommercetoolsPayment,
-    locale: Locale,
   ) => {
     return {
       id: commercetoolsPayment.id ?? null,
@@ -604,7 +597,7 @@ export class CartMapper {
   static commercetoolsTaxedPriceToTaxed: (
     commercetoolsTaxedPrice: CommercetoolsTaxedPrice | undefined,
     locale: Locale,
-  ) => Tax | undefined = (commercetoolsTaxedPrice: CommercetoolsTaxedPrice | undefined, locale: Locale) => {
+  ) => Tax | undefined = (commercetoolsTaxedPrice: CommercetoolsTaxedPrice | undefined) => {
     if (commercetoolsTaxedPrice === undefined) {
       return undefined;
     }

@@ -1,5 +1,4 @@
 import { Request } from '@frontastic/extension-types';
-import { ValidationError } from '@Commerce-commercetools/errors/ValidationError';
 
 enum requestHeaders {
   'commercetoolsFrontendPath' = 'commercetools-frontend-path',

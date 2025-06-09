@@ -10,7 +10,6 @@ import { getLocalizationInfo, i18nConfig } from 'project.config';
 import { Account } from 'types/entity/account';
 import { ShippingMethod } from 'types/entity/cart';
 import { Order } from 'types/entity/order';
-import { Reference } from 'types/reference';
 import { UpdateAccount } from 'frontastic/hooks/useAccount/types';
 import AccountTabsMobile from './account-atoms/account-tabs-mobile';
 import Addresses from './sections/addresses';
@@ -30,6 +29,7 @@ export interface AccountTab {
   href: string;
   isActive: boolean;
 }
+
 export interface FAQ {
   question: string;
   answer: string;
@@ -37,7 +37,6 @@ export interface FAQ {
 
 export type AccountInfo = {
   enableSavedAddresses?: boolean;
-  loginLink?: Reference;
   phoneNumber: string;
   workingHoursWeekdays: string;
   workingHoursWeekends: string;
@@ -135,7 +134,7 @@ const AccountDetails: React.FC<AccountDetailsProps> = ({
         isActive: hash === 'support',
       },
     ];
-  }, [translate, hash, id]);
+  }, [translate, hash, id, enableSavedAddresses]);
 
   const accountPagesRef = useMemo(() => {
     return {
@@ -154,10 +153,10 @@ const AccountDetails: React.FC<AccountDetailsProps> = ({
     if (id === 'address-add') return <AddressForm countries={countries} />;
     else if (id) return <AddressForm editedAddressId={activeEditableId} countries={countries} />;
     return <Addresses />;
-  }, [id]);
+  }, [id, activeEditableId, countries]);
 
   const OrdersSection = useMemo(() => {
-    return id && id.startsWith('order') ? (
+    return id?.startsWith('order') ? (
       <OrderPage
         order={orders.find((o) => o.orderId === activeEditableId) as Order}
         shippingMethods={shippingMethods}
@@ -165,7 +164,7 @@ const AccountDetails: React.FC<AccountDetailsProps> = ({
     ) : (
       <Orders orders={orders} loading={ordersLoading} />
     );
-  }, [id, orders, ordersLoading, shippingMethods]);
+  }, [id, orders, ordersLoading, shippingMethods, activeEditableId]);
 
   const mapping = {
     '': AccountSection,

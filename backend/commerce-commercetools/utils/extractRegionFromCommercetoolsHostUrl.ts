@@ -1,5 +1,4 @@
 import { URL } from 'url';
-import { Context } from '@frontastic/extension-types';
 
 /**
  * Extracts the region and cloud provider from a commercetools API host URL.
@@ -31,7 +30,7 @@ const extractRegionFromCommercetoolsHostUrl = (hostUrl: string): string => {
     const hostname = url.hostname;
 
     const regionMatch = hostname.match(/^api\.([\w-]+\.(?:gcp|aws|azure))\.commercetools\.(com|cn)$/);
-    if (regionMatch && regionMatch[1]) {
+    if (regionMatch?.[1]) {
       return regionMatch[1];
     } else {
       return '';

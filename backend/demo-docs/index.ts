@@ -2,7 +2,6 @@ import {
   DataSourceConfiguration,
   DataSourceContext,
   DataSourceResult,
-  DynamicPageContext,
   DynamicPageRedirectResult,
   DynamicPageSuccessResult,
   Request,
@@ -10,13 +9,13 @@ import {
 } from '@frontastic/extension-types';
 
 import axios from 'axios';
+import { Filter } from '@Types/query';
 import { loadMovieData, MovieData } from './movieData';
 import { getPath } from './utils/Request';
 
 export default {
   'dynamic-page-handler': async (
     request: Request,
-    context: DynamicPageContext,
   ): Promise<DynamicPageSuccessResult | DynamicPageRedirectResult | null> => {
     const staticPageMatch = getPath(request)?.match(/^\/(foo-handler)/);
     if (staticPageMatch) {
@@ -91,8 +90,9 @@ export default {
     ): Promise<DataSourceResult> => {
       const pageSize = context.request.query.pageSize || 10;
       const after = context.request.query.cursor || null;
-      const { characterFilters } = config.configuration;
-      const filters = characterFilters.filters.map((filter: any) => {
+      const { characterFilters }: { characterFilters: { filters: Filter[]; values: Record<string, string> } } =
+        config.configuration.characterFilters;
+      const filters = characterFilters.filters.map((filter) => {
         let value = characterFilters.values[filter.field];
         if (typeof value !== 'number') {
           value = `"${value}"`;
@@ -190,14 +190,14 @@ export default {
           }}`,
           })
           .then((response) => {
-            const { filter } = response.data?.data?.getAllPossiblePeopleFilters;
-            const responseData = filter.map((filter: any) => {
+            const filter: Filter<string[]>[] = response.data?.data?.getAllPossiblePeopleFilters.filter;
+            const responseData = filter.map((filter) => {
               return {
                 field: filter.name,
                 label: filter.name,
                 type: filter.type,
                 translatable: false,
-                values: filter.values?.map((val: string) => {
+                values: filter.values?.map((val) => {
                   return { name: val, value: val };
                 }),
               };

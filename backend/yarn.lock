@@ -1423,12 +1423,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@commercetools/ts-client@npm:^3.3.1":
-  version: 3.3.1
-  resolution: "@commercetools/ts-client@npm:3.3.1"
+"@commercetools/ts-client@npm:^3.4.0":
+  version: 3.4.0
+  resolution: "@commercetools/ts-client@npm:3.4.0"
   dependencies:
     buffer: "npm:^6.0.3"
-  checksum: 10c0/59b5a8387478840ac7f5026c4b1ea7e4e74523c4775ad5f2c9a731eacd48632cf6a07f7b0b69600b9ae07a4f8cf409a6cb63ba0c48d0a2f0fa36c9fb3bf346bd
+  checksum: 10c0/defb13bd00af42fbff8ffcdd15a0aac2004084d27308d018bd046cca52438182413f63b893e4cfc60b0be9876bdf8f7fcceca1afe93fe1a9f7783c45d35cb93a
   languageName: node
   linkType: hard
 
@@ -1662,7 +1662,7 @@ __metadata:
     "@babel/runtime": "npm:^7.16.5"
     "@bloomreach/spa-sdk": "npm:^22.0.0"
     "@commercetools/platform-sdk": "npm:8.7.0"
-    "@commercetools/ts-client": "npm:^3.3.1"
+    "@commercetools/ts-client": "npm:^3.4.0"
     "@frontastic/extension-types": "npm:0.0.13"
     "@sendgrid/mail": "npm:^7.7.0"
     "@types/axios": "npm:^0.14.0"
@@ -1670,6 +1670,7 @@ __metadata:
     "@types/crypto-js": "npm:^4.1.1"
     "@types/jest": "npm:^29.5.12"
     "@types/node": "npm:^14.14.35"
+    "@types/node-fetch": "npm:^2.6.12"
     "@types/nodemailer": "npm:^6.4.14"
     "@types/qs": "npm:^6.9.7"
     "@types/uuid": "npm:^8.3.4"
@@ -2291,6 +2292,16 @@ __metadata:
   version: 0.0.29
   resolution: "@types/json5@npm:0.0.29"
   checksum: 10c0/6bf5337bc447b706bb5b4431d37686aa2ea6d07cfd6f79cc31de80170d6ff9b1c7384a9c0ccbc45b3f512bae9e9f75c2e12109806a15331dc94e8a8db6dbb4ac
+  languageName: node
+  linkType: hard
+
+"@types/node-fetch@npm:^2.6.12":
+  version: 2.6.12
+  resolution: "@types/node-fetch@npm:2.6.12"
+  dependencies:
+    "@types/node": "npm:*"
+    form-data: "npm:^4.0.0"
+  checksum: 10c0/7693acad5499b7df2d1727d46cff092a63896dc04645f36b973dd6dd754a59a7faba76fcb777bdaa35d80625c6a9dd7257cca9c401a4bab03b04480cda7fd1af
   languageName: node
   linkType: hard
 

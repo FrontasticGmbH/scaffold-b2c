@@ -1,13 +1,12 @@
 import { DataSourceConfiguration, Request } from '@frontastic/extension-types';
 import { LocalizedString, ProductQuery, SortAttributes, SortOrder } from '@Types/query/ProductQuery';
-import { Filter, FilterTypes } from '@Types/query/Filter';
-import { RangeFilter } from '@Types/query/RangeFilter';
-import { TermFilter } from '@Types/query/TermFilter';
-import { FilterFieldTypes } from '@Types/product/FilterField';
+import { Filter, FilterTypes, QueryParamsWithFilters } from '@Types/query/Filter';
 import { Facet } from '@Types/query/Facet';
 import { TermFacet } from '@Types/query/TermFacet';
 import { RangeFacet } from '@Types/query/RangeFacet';
 import { getAccountGroupId } from '@Commerce-commercetools/utils/Request';
+import { QueryParams } from '@Commerce-commercetools/interfaces/cartApi';
+import { RawFacetData } from '@Commerce-commercetools/interfaces/frontastic-override';
 
 export class ProductQueryFactory {
   static queryFromParams(request: Request, dataSourceConfiguration?: DataSourceConfiguration): ProductQuery {
@@ -123,9 +122,9 @@ export class ProductQueryFactory {
      * Map product filters
      */
     if (queryParams?.productFilters) {
-      const productFiltersData = this.mergeFiltersAndValues(queryParams, 'productFilters');
+      const productFiltersData = this.mergeFiltersAndValues<string[]>(queryParams, 'productFilters');
 
-      productFiltersData.map((productFilterData: any) => {
+      productFiltersData.forEach((productFilterData) => {
         switch (true) {
           case productFilterData.field === 'categoryRef':
             productQuery.categories = productFilterData.values;
@@ -158,7 +157,7 @@ export class ProductQueryFactory {
 
       for (sortAttribute of Object.values(queryParams.sortAttributes)) {
         const key = Object.keys(sortAttribute)[0];
-        sortAttributes[key] = sortAttribute[key] ? sortAttribute[key] : SortOrder.ASCENDING;
+        sortAttributes[key] = sortAttribute[key] || SortOrder.ASCENDING;
       }
       productQuery.sortAttributes = sortAttributes;
     }
@@ -181,7 +180,7 @@ export class ProductQueryFactory {
     return productQuery;
   }
 
-  static extractLocalizedString(lquery: any | undefined): LocalizedString | undefined {
+  static extractLocalizedString(lquery?: Record<string, string>): LocalizedString | undefined {
     if (lquery === undefined) {
       return undefined;
     }
@@ -200,10 +199,10 @@ export class ProductQueryFactory {
     return localizedString;
   }
 
-  private static queryParamsToFacets(queryParams: any) {
+  private static queryParamsToFacets(queryParams: QueryParams) {
     const facets: Facet[] = [];
-    let key: any;
-    let facetData: any;
+    let key: string;
+    let facetData: RawFacetData;
 
     for ([key, facetData] of Object.entries(queryParams.facets)) {
       // Force terms as an array if exist
@@ -213,8 +212,8 @@ export class ProductQueryFactory {
 
       switch (true) {
         case facetData.min !== undefined && facetData.max !== undefined:
-          const min = parseInt(facetData.min);
-          const max = parseInt(facetData.max);
+          const min = parseInt(String(facetData.min));
+          const max = parseInt(String(facetData.max));
           facets.push({
             type: FilterTypes.RANGE,
             identifier: key,
@@ -226,7 +225,9 @@ export class ProductQueryFactory {
           facets.push({
             type: FilterTypes.TERM,
             identifier: key,
-            terms: facetData.terms.map((facetValueData: string) => facetValueData),
+            terms: Array.isArray(facetData.terms)
+              ? facetData.terms.map((facetValueData: string) => facetValueData)
+              : [],
           } as TermFacet);
           break;
         case facetData.boolean !== undefined:
@@ -244,8 +245,11 @@ export class ProductQueryFactory {
     return facets;
   }
 
-  private static mergeFiltersAndValues(queryParams: any, filterKey: 'productFilters' | 'categoryFilters') {
-    const filtersData: any[] = [];
+  private static mergeFiltersAndValues<T extends string[]>(
+    queryParams: QueryParamsWithFilters,
+    filterKey: 'productFilters' | 'categoryFilters',
+  ): Filter<T>[] {
+    const filtersData: Filter<T>[] = [];
 
     if (queryParams?.[filterKey]?.filters === undefined) {
       return filtersData;
@@ -255,9 +259,9 @@ export class ProductQueryFactory {
       return queryParams[filterKey].filters;
     }
 
-    queryParams[filterKey].filters.forEach((filter: any) => {
+    queryParams[filterKey].filters.forEach((filter) => {
       if (filter?.field) {
-        const filterValues = [queryParams[filterKey]?.values[filter.field]];
+        const filterValues = queryParams[filterKey]?.values[filter.field] as T;
         filtersData.push({
           ...filter,
           values: filterValues,
@@ -268,43 +272,48 @@ export class ProductQueryFactory {
     return filtersData;
   }
 
-  private static productFiltersDataToProductFilter(productFilterData: any): Filter {
-    let filter: Filter;
+  //TODO refactor to reduce complexity
+  private static productFiltersDataToProductFilter<T>(
+    productFilterData: Filter<Array<{ min?: number; max?: number } | string>>,
+  ): Filter<T> {
+    let filter;
 
     switch (productFilterData.type) {
-      case FilterFieldTypes.NUMBER:
-      case FilterFieldTypes.MONEY:
-        const rangeFilter: RangeFilter = {
+      case FilterTypes.NUMBER:
+      case FilterTypes.MONEY:
+        filter = {
           identifier: productFilterData?.field,
           type: FilterTypes.RANGE,
-          min: +productFilterData?.values?.[0]?.min || +productFilterData?.values?.[0] || undefined,
-          max: +productFilterData?.values?.[0]?.max || +productFilterData?.values?.[0] || undefined,
+          min:
+            typeof productFilterData?.values?.[0] === 'object'
+              ? productFilterData?.values?.[0]?.min
+              : +productFilterData?.values?.[0] || undefined,
+          max:
+            typeof productFilterData?.values?.[0] === 'object'
+              ? productFilterData?.values?.[0]?.max
+              : +productFilterData?.values?.[0] || undefined,
         };
-        filter = rangeFilter;
         break;
-      case FilterFieldTypes.TEXT:
-        const termFilter: TermFilter = {
+      case FilterTypes.TEXT:
+        filter = {
           identifier: productFilterData?.field,
           type: FilterTypes.TERM,
           terms: this.getTermsFromConfigFilterData(productFilterData),
         };
-        filter = termFilter;
         break;
-      case FilterFieldTypes.ENUM:
-        const enumFilter: TermFilter = {
+      case FilterTypes.ENUM:
+        filter = {
           identifier: productFilterData?.field,
           type: FilterTypes.ENUM,
           terms: this.getTermsFromConfigFilterData(productFilterData),
         };
-        filter = enumFilter;
         break;
-      case FilterFieldTypes.BOOLEAN:
-        const booleanFilter: TermFilter = {
+      case FilterTypes.BOOLEAN:
+        filter = {
           identifier: productFilterData?.field,
           type: FilterTypes.BOOLEAN,
-          terms: [productFilterData?.values[0]],
+          terms: [String(productFilterData?.values[0])],
         };
-        filter = booleanFilter;
         break;
       default:
         break;
@@ -313,7 +322,9 @@ export class ProductQueryFactory {
     return filter;
   }
 
-  private static getTermsFromConfigFilterData(configFilterData: any) {
+  private static getTermsFromConfigFilterData(
+    configFilterData: Filter<Array<{ min?: number; max?: number } | string>>,
+  ): string[] {
     return configFilterData?.values.map((term: object | string | number) => {
       if (typeof term !== 'object') {
         return term;

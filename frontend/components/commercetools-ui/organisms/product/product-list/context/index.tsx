@@ -12,6 +12,7 @@ import { LineItem as WishlistLineItem, Wishlist } from 'types/entity/wishlist';
 import { refinementRemovedEventName, refinementsClearedEventName } from './constants';
 import { ActiveRefinement, ProductListContextShape, RefinementRemovedEvent, Sort, UiState } from './types';
 import { BooleanFacet, FacetConfiguration, PriceConfiguration, RangeFacet, TermFacet } from '../types';
+import { useTranslations } from 'use-intl';
 
 export const ProductListContext = createContext<ProductListContextShape>({
   categories: [],
@@ -51,6 +52,7 @@ const ProductListProvider = ({
   onAddToCart,
 }: React.PropsWithChildren<ProductListPropsProps>) => {
   const router = useRouter();
+  const translate = useTranslations();
 
   const { pathWithoutQuery } = usePath();
 
@@ -143,21 +145,23 @@ const ProductListProvider = ({
       .filter((configuration) => configuration.selected)
       .forEach((configuration) => {
         if (configuration.type === 'range') {
-          addRefinement(
-            configuration,
-            `${CurrencyHelpers.formatForCurrency(
+          let refinementLabel = `${CurrencyHelpers.formatForCurrency(
+            configuration.minSelected ?? configuration.min,
+            locale,
+            currency,
+          )} - ${CurrencyHelpers.formatForCurrency(configuration.maxSelected ?? configuration.max, locale, currency)}`;
+
+          if (configuration.max === configuration.maxSelected) {
+            refinementLabel = `${translate('common.from')} ${CurrencyHelpers.formatForCurrency(
               configuration.minSelected ?? configuration.min,
               locale,
               currency,
-            )} - ${CurrencyHelpers.formatForCurrency(
-              configuration.maxSelected ?? configuration.max,
-              locale,
-              currency,
-            )}`,
-            () => {
-              configuration.selected = false;
-            },
-          );
+            )}`;
+          }
+
+          addRefinement(configuration, refinementLabel, () => {
+            configuration.selected = false;
+          });
         } else if (
           configuration.type === 'term' ||
           configuration.type === 'color' ||

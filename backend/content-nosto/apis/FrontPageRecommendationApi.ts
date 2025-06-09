@@ -1,8 +1,7 @@
 import { Product } from '@Types/product/Product';
 import { NostoMapper } from '../mappers/NostoMapper';
-import { Recommendations } from '../interfaces/Recommendations';
-import { NostoProduct } from '../interfaces/NostoProduct';
 import BaseApi from './BaseApi';
+import { NostoPageTypes } from '@Content-nosto/interfaces/NostoResponse';
 
 export default class FrontPageRecommendationApi extends BaseApi {
   async fetchRecommendation(target: string, placementId: string): Promise<Product[]> {
@@ -24,9 +23,8 @@ export default class FrontPageRecommendationApi extends BaseApi {
       }
     }`;
     const recommendationResult = await this.fetch(body);
-    const placementList: Recommendations[] = recommendationResult?.data?.updateSession?.pages?.forFrontPage;
-    const recommendations: Recommendations = placementList.filter((obj) => obj?.resultId == placementId)[0];
-    const recommendedProducts: NostoProduct[] = recommendations?.primary;
+    const placementList = recommendationResult?.data?.updateSession?.pages?.[NostoPageTypes.FRONT];
+    const recommendedProducts = placementList.filter((obj) => obj?.resultId == placementId)[0].primary;
     return NostoMapper.mapNostoResponseToProducts(recommendedProducts);
   }
 }

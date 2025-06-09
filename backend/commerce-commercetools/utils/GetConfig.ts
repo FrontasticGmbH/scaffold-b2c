@@ -3,7 +3,7 @@ import { ClientConfig } from '../interfaces/ClientConfig';
 import { getFromProjectConfig } from './Context';
 import { normalizeUrl } from '@Commerce-commercetools/utils/NormalizeData';
 
-export const getConfig = (context: Context, engine: string, locale: string | null): ClientConfig => {
+export const getConfig = (context: Context, engine: string): ClientConfig => {
   const prefix = `EXTENSION_${engine.toUpperCase()}`;
 
   const clientConfig: ClientConfig = {

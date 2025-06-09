@@ -10,8 +10,6 @@ import { CartDetails } from 'frontastic/hooks/useCart/types';
 import AddressesPreview from './previews/addresses';
 import ShippingPreview from './previews/shipping';
 import Addresses from './sections/addresses';
-// import Payment from './sections/payment';
-// import PaymentPreview from './previews/payment';
 import Shipping from './sections/shipping';
 import { useCheckout } from '../../provider';
 import Step from '../step';
@@ -107,7 +105,18 @@ const Steps: React.FC<Props> = ({
             },
       ],
     ];
-  }, [translate, goToNextStep, cart, shippingMethods, onUpdateCart]);
+  }, [
+    translate,
+    peakActive,
+    onUpdateCart,
+    goToNextStep,
+    goToReview,
+    cart,
+    shippingMethods,
+    isCtPaymentOnly,
+    active,
+    setProcessing,
+  ]);
 
   const isFinalStep = useMemo(() => active === steps.length, [active, steps.length]);
 

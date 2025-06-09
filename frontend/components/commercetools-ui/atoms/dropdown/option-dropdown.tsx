@@ -33,14 +33,14 @@ const Select: React.FC<Props> = ({
 
   useEffect(() => {
     setSelected(defaultValue ?? options?.[0]);
-  }, [defaultValue, options]);
+  }, [defaultValue, options, setSelected]);
 
   const handleChange = useCallback(
     (option: Option) => {
       setSelected(option);
       onChange?.(option);
     },
-    [onChange],
+    [onChange, setSelected],
   );
 
   const buttonClassNames = useCallback(

@@ -1,4 +1,11 @@
 
+## Version 3.6.0 (2025-05-27)
+
+
+** New Features & Improvements **
+
+- Migrate from commercetools/sdk-client-v2 to commercetools/ts-client
+
 ## Version 3.5.0 (2025-05-12)
 
 

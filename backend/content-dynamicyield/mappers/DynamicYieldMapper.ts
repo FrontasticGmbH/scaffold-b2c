@@ -21,7 +21,7 @@ export class DynamicYieldMapper {
     const categories: Category[] = [];
     const categoriesText: string[] = slotItem?.productData?.categories;
     categoriesText.forEach((categoryName) => {
-      const category: Category = {
+      const category = {
         name: categoryName,
       };
       categories.push(category);
@@ -29,12 +29,12 @@ export class DynamicYieldMapper {
     return categories;
   }
 
-  static mapChooseResponseToProducts(result: any): Product[] {
+  static mapChooseResponseToProducts(result: string): Product[] {
     const products: Product[] = [];
     const resultJson = JSON.parse(result);
     const variation = resultJson?.choices[0]?.variations[0];
-    const slots = variation?.payload?.data?.slots;
-    slots.forEach((slotItem: Slot) => {
+    const slots: Slot[] = variation?.payload?.data?.slots;
+    slots.forEach((slotItem) => {
       const price: Money = {
         fractionDigits: 2,
         centAmount: slotItem?.productData?.price,

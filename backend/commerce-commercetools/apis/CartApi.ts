@@ -1,7 +1,6 @@
 import { Cart } from '@Types/cart/Cart';
 import {
   Cart as CommercetoolsCart,
-  Order as CommercetoolsOrder,
   CartAddDiscountCodeAction,
   CartAddLineItemAction,
   CartAddPaymentAction,
@@ -16,6 +15,7 @@ import {
   CartSetShippingAddressAction,
   CartSetShippingMethodAction,
   CartUpdate,
+  Order as CommercetoolsOrder,
   OrderFromCartDraft,
   OrderState,
   OrderUpdate,
@@ -88,7 +88,7 @@ export class CartApi extends BaseApi {
       })
       .execute()
       .catch((error) => {
-        throw new ExternalError({ statusCode: error.code, message: error.message, body: error.body });
+        throw new ExternalError({ statusCode: error.statusCode, message: error.message, body: error.body });
       });
 
     return await this.buildCartWithAvailableShippingMethods(response.body, locale);
@@ -111,7 +111,7 @@ export class CartApi extends BaseApi {
       })
       .execute()
       .catch((error) => {
-        throw new ExternalError({ statusCode: error.code, message: error.message, body: error.body });
+        throw new ExternalError({ statusCode: error.statusCode, message: error.message, body: error.body });
       });
 
     if (response.body.count === 0) {
@@ -148,7 +148,7 @@ export class CartApi extends BaseApi {
         return this.buildCartWithAvailableShippingMethods(response.body, locale);
       })
       .catch((error) => {
-        throw new ExternalError({ statusCode: error.code, message: error.message, body: error.body });
+        throw new ExternalError({ statusCode: error.statusCode, message: error.message, body: error.body });
       });
   }
 
@@ -178,7 +178,7 @@ export class CartApi extends BaseApi {
         return this.buildCartWithAvailableShippingMethods(response.body, locale);
       })
       .catch((error) => {
-        throw new ExternalError({ statusCode: error.code, message: error.message, body: error.body });
+        throw new ExternalError({ statusCode: error.statusCode, message: error.message, body: error.body });
       });
   }
 
@@ -202,11 +202,11 @@ export class CartApi extends BaseApi {
       })
       .catch((error) => {
         // The 404 error is thrown when the cart can't be found
-        if (error.code === 404) {
+        if (error.statusCode === 404) {
           throw new ResourceNotFoundError({ message: error.message });
         }
 
-        throw new ExternalError({ statusCode: error.code, message: error.message, body: error.body });
+        throw new ExternalError({ statusCode: error.statusCode, message: error.message, body: error.body });
       });
   }
 
@@ -372,7 +372,7 @@ export class CartApi extends BaseApi {
         return CartMapper.commercetoolsOrderToOrder(response.body, locale, this.defaultLocale);
       })
       .catch((error) => {
-        throw new ExternalError({ statusCode: error.code, message: error.message, body: error.body });
+        throw new ExternalError({ statusCode: error.statusCode, message: error.message, body: error.body });
       });
   }
 
@@ -382,14 +382,13 @@ export class CartApi extends BaseApi {
     const methodArgs = {
       queryArgs: {
         expand: ['zoneRates[*].zone'],
-        country: undefined as string | any,
+        country: onlyMatching ? locale.country : undefined,
       },
     };
 
     let requestBuilder = this.requestBuilder().shippingMethods().get(methodArgs);
 
     if (onlyMatching) {
-      methodArgs.queryArgs.country = locale.country;
       requestBuilder = this.requestBuilder().shippingMethods().matchingLocation().get(methodArgs);
     }
 
@@ -401,7 +400,7 @@ export class CartApi extends BaseApi {
         );
       })
       .catch((error) => {
-        throw new ExternalError({ statusCode: error.code, message: error.message, body: error.body });
+        throw new ExternalError({ statusCode: error.statusCode, message: error.message, body: error.body });
       });
   }
 
@@ -424,7 +423,7 @@ export class CartApi extends BaseApi {
         );
       })
       .catch((error) => {
-        throw new ExternalError({ statusCode: error.code, message: error.message, body: error.body });
+        throw new ExternalError({ statusCode: error.statusCode, message: error.message, body: error.body });
       });
   }
 
@@ -527,11 +526,11 @@ export class CartApi extends BaseApi {
         return CartMapper.commercetoolsPaymentToPayment(response.body, locale);
       })
       .catch((error) => {
-        throw new ExternalError({ statusCode: error.code, message: error.message, body: error.body });
+        throw new ExternalError({ statusCode: error.statusCode, message: error.message, body: error.body });
       });
   }
 
-  async getPayment(paymentId: string): Promise<any> {
+  async getPayment(paymentId: string) {
     return await this.requestBuilder()
       .payments()
       .withId({
@@ -589,7 +588,7 @@ export class CartApi extends BaseApi {
       .execute()
       .then((response) => CartMapper.commercetoolsOrderToOrder(response.body, locale, this.defaultLocale))
       .catch((error) => {
-        throw new ExternalError({ statusCode: error.code, message: error.message, body: error.body });
+        throw new ExternalError({ statusCode: error.statusCode, message: error.message, body: error.body });
       });
   }
 
@@ -605,7 +604,7 @@ export class CartApi extends BaseApi {
     return payment;
   }
 
-  async updateOrderPayment(paymentId: string, paymentDraft: Payment): Promise<any> {
+  async updateOrderPayment(paymentId: string, paymentDraft: Payment) {
     const locale = await this.getCommercetoolsLocal();
 
     const paymentUpdateActions: PaymentUpdateAction[] = [];
@@ -650,7 +649,7 @@ export class CartApi extends BaseApi {
         return CartMapper.commercetoolsPaymentToPayment(response.body, locale);
       })
       .catch((error) => {
-        throw new ExternalError({ statusCode: error.code, message: error.message, body: error.body });
+        throw new ExternalError({ statusCode: error.statusCode, message: error.message, body: error.body });
       });
   }
 
@@ -799,7 +798,7 @@ export class CartApi extends BaseApi {
         };
       })
       .catch((error) => {
-        throw new ExternalError({ statusCode: error.code, message: error.message, body: error.body });
+        throw new ExternalError({ statusCode: error.statusCode, message: error.message, body: error.body });
       });
   }
 
@@ -850,7 +849,7 @@ export class CartApi extends BaseApi {
         return response.body;
       })
       .catch((error) => {
-        throw new ExternalError({ statusCode: error.code, message: error.message, body: error.body });
+        throw new ExternalError({ statusCode: error.statusCode, message: error.message, body: error.body });
       });
   }
 
@@ -871,14 +870,14 @@ export class CartApi extends BaseApi {
         return response.body;
       })
       .catch((error) => {
-        throw new ExternalError({ statusCode: error.code, message: error.message, body: error.body });
+        throw new ExternalError({ statusCode: error.statusCode, message: error.message, body: error.body });
       });
   }
 
-  protected buildCartWithAvailableShippingMethods: (
+  protected async buildCartWithAvailableShippingMethods(
     commercetoolsCart: CommercetoolsCart,
     locale: Locale,
-  ) => Promise<Cart> = async (commercetoolsCart: CommercetoolsCart, locale: Locale) => {
+  ): Promise<Cart> {
     const cart = await this.assertCorrectLocale(commercetoolsCart, locale);
 
     // It would not be possible to get available shipping method
@@ -888,12 +887,9 @@ export class CartApi extends BaseApi {
     }
 
     return cart;
-  };
+  }
 
-  protected assertCorrectLocale: (commercetoolsCart: CommercetoolsCart, locale: Locale) => Promise<Cart> = async (
-    commercetoolsCart: CommercetoolsCart,
-    locale: Locale,
-  ) => {
+  protected async assertCorrectLocale(commercetoolsCart: CommercetoolsCart, locale: Locale): Promise<Cart> {
     if (commercetoolsCart.totalPrice.currencyCode !== locale.currency.toLocaleUpperCase()) {
       return this.recreate(commercetoolsCart, locale);
     }
@@ -917,7 +913,7 @@ export class CartApi extends BaseApi {
     }
 
     return CartMapper.commercetoolsCartToCart(commercetoolsCart, locale, this.defaultLocale);
-  };
+  }
 
   protected async recreate(primaryCommercetoolsCart: CommercetoolsCart, locale: Locale): Promise<Cart> {
     const primaryCartId = primaryCommercetoolsCart.id;
@@ -965,7 +961,7 @@ export class CartApi extends BaseApi {
         return response.body;
       })
       .catch((error) => {
-        throw new ExternalError({ statusCode: error.code, message: error.message, body: error.body });
+        throw new ExternalError({ statusCode: error.statusCode, message: error.message, body: error.body });
       });
 
     // Add line items to the replicated cart one by one to handle the exception
@@ -1006,7 +1002,7 @@ export class CartApi extends BaseApi {
       })
       .execute()
       .catch((error) => {
-        throw new ExternalError({ statusCode: error.code, message: error.message, body: error.body });
+        throw new ExternalError({ statusCode: error.statusCode, message: error.message, body: error.body });
       });
 
     return CartMapper.commercetoolsCartToCart(replicatedCommercetoolsCart, locale, this.defaultLocale);

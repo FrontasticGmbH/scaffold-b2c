@@ -1,9 +1,9 @@
-export interface ContextType {
+export interface ContextType<T = never> {
   page: {
     location: string;
     referrer: string;
     type: string;
-    data: any[];
+    data: T[];
   };
   device: {
     userAgent: string;

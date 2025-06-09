@@ -24,7 +24,7 @@ const OrderSummary = ({
   const { loggedIn } = useContext(AccountContext);
 
   return (
-    <div className={classnames('lg:mb rounded-lg bg-white px-16 py-24 lg:px-24', className)}>
+    <div className={classnames('rounded-lg bg-white px-16 py-24 lg:px-24', className)}>
       {(title || includeLoginSuggestion) && (
         <div>
           {title && <p className="md:text-18">{title}</p>}

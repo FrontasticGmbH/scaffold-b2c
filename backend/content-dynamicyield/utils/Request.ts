@@ -32,12 +32,12 @@ export const getContext = (request: Request, pageContextType: string): ContextTy
   const referrer: string | undefined = getHeader(request, ['referrer']);
   const userAgent: string | undefined = getHeader(request, ['userAgent']);
 
-  const ip: string = request?.clientIp;
-  const hostname: string = request?.hostname;
-  const path: string = getPath(request);
+  const ip = request?.clientIp;
+  const hostname = request?.hostname;
+  const path = getPath(request);
   const query: string = request?.query;
-  const data: string[] = [];
-  const dyContext = {
+  const data: never[] = [];
+  return {
     page: {
       location: `https://${hostname}${path}`,
       referrer: referrer || '',
@@ -50,7 +50,6 @@ export const getContext = (request: Request, pageContextType: string): ContextTy
     },
     pageAttributes: query,
   };
-  return dyContext;
 };
 
 const getHeader = (request: Request, headers: string[]): string | null => {

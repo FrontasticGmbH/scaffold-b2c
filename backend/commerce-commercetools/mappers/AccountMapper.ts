@@ -73,7 +73,7 @@ export class AccountMapper {
   }
 
   static commercetoolsCustomerToAddresses: (commercetoolsCustomer: commercetoolsCustomer, locale: Locale) => Address[] =
-    (commercetoolsCustomer: commercetoolsCustomer, locale: Locale) => {
+    (commercetoolsCustomer: commercetoolsCustomer) => {
       const addresses: Address[] = [];
 
       commercetoolsCustomer.addresses.forEach((commercetoolsAddress) => {

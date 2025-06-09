@@ -6,7 +6,7 @@ export interface Slot {
     description: string;
     url: string;
     image_url: string;
-    categories: any;
+    categories: string[];
     group_id: string;
   };
 }

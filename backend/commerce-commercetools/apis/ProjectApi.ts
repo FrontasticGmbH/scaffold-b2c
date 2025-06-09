@@ -1,5 +1,4 @@
 import { ProjectSettings } from '@Types/ProjectSettings';
-import { Context } from '@frontastic/extension-types';
 import { BaseApi } from './BaseApi';
 import extractRegionFromCommercetoolsHostUrl from '@Commerce-commercetools/utils/extractRegionFromCommercetoolsHostUrl';
 

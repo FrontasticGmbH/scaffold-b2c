@@ -1,4 +1,33 @@
-## Version 4.3.0 (2025-05-12)
+## Version 4.4.0 (2025-05-27)
+
+** New Features & Improvements **
+
+- Update translations
+- B2C React Hook Form changes
+- Fix shipping accessibility
+- Fix accessibility warnings
+- Implement feedback on address forms
+- Rework shipping methods in PDP
+- Improve empty state for addresses section
+- Allow deletion for single default addresses
+- Add react hook form to Discount Form
+- Add React Hook Form changes to B2C
+- Add React Hook Form to the RangeFacet component
+- Add default values to CreateAddressModal
+- Modify AddressForm implementation
+- Add React Hook Form to the RangeFacet component
+- Remove deprecated Input props
+- Adapt auth forms to Input component changes
+- Refactor Input component
+- Add react hook form
+
+** Bug Fixes **
+
+- Width for default address badge
+- discount badge UI fix
+- Use correct term key for boolean facet
+- Empty billing address when selecting same shipping address in checkout
+- proper link for thank you page
 
 ** New Features & Improvements **
 

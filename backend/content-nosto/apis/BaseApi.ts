@@ -1,11 +1,11 @@
-// @ts-ignore
 import fetch from 'node-fetch';
 import { Context } from '@frontastic/extension-types';
 import { Product } from '@Types/product/Product';
 import { getFromProjectConfig } from '@Content-nosto/utils/Context';
+import { NostoResponse } from '@Content-nosto/interfaces/NostoResponse';
 
 export default abstract class BaseApi {
-  private graphqlQueryFields = `{
+  private readonly graphqlQueryFields = `{
     divId
     resultId
     primary {
@@ -17,21 +17,15 @@ export default abstract class BaseApi {
       url
     }
   }`;
-  private graphqlQueryImageVersion = `VERSION_8_400_400`;
+  private readonly graphqlQueryImageVersion = `VERSION_8_400_400`;
   private sessionId: string;
   private apiToken: string;
   private apiUrl: string;
 
   constructor(frontasticContext: Context, nostoSessionId: string) {
-    this.apiToken = getFromProjectConfig('EXTENSION_NOSTO_API_TOKEN', frontasticContext);
-    if (!this.apiToken) {
-      this.apiToken = frontasticContext.project.configuration?.nosto?.apiToken;
-    }
-
-    this.apiUrl = getFromProjectConfig('EXTENSION_NOSTO_API_URL', frontasticContext);
-    if (!this.apiUrl) {
-      this.apiUrl = frontasticContext.project.configuration?.nosto?.apiUrl;
-    }
+    const nostoConfig = frontasticContext.project.configuration?.nosto;
+    this.apiToken = getFromProjectConfig('EXTENSION_NOSTO_API_TOKEN', frontasticContext) ?? nostoConfig.apiToken;
+    this.apiUrl = getFromProjectConfig('EXTENSION_NOSTO_API_URL', frontasticContext) ?? nostoConfig.apiUrl;
 
     this.sessionId = nostoSessionId;
   }
@@ -50,20 +44,18 @@ export default abstract class BaseApi {
     return this.graphqlQueryImageVersion;
   }
 
-  protected fetch(body: string) {
+  protected async fetch(body: string): Promise<NostoResponse> {
     const headers = {
       'Content-Type': 'application/graphql',
       Authorization: 'Basic ' + Buffer.from(`:${this.apiToken}`).toString('base64'),
     };
     try {
-      const responseJson = fetch(this.apiUrl, {
+      const response = await fetch(this.apiUrl, {
         method: 'POST',
         body,
         headers,
-      }).then((response: any) => {
-        return response.json();
       });
-      return responseJson;
+      return response.json();
     } catch (error) {
       throw error;
     }

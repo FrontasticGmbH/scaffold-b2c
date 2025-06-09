@@ -32,12 +32,11 @@ export default class DynamicYieldApi extends BaseApi {
       body: JSON.stringify(body),
       headers,
     })
-      .then((response: any) => response.json())
-      .catch((error: any) => {
+      .then((response: { json: () => never }) => response.json())
+      .catch((error: { code: number; message: string; body: string }) => {
         throw new ExternalError({ status: error.code, message: error.message, body: error.body });
       });
     const stringifyResultBody = JSON.stringify(resultBody);
-    const items: Product[] = DynamicYieldMapper.mapChooseResponseToProducts(stringifyResultBody);
-    return items;
+    return DynamicYieldMapper.mapChooseResponseToProducts(stringifyResultBody);
   }
 }

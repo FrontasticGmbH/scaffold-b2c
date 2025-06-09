@@ -1,18 +1,16 @@
-const queryParamsToStates = <T>(param: string, queryParams: any): T[] => {
+const queryParamsToStates = <T extends string>(
+  param: string,
+  queryParams: Record<string, string | string[] | undefined>,
+): T[] => {
   const states: T[] = [];
 
-  const requestParamStates = queryParams?.[param];
+  const requestParamStates = queryParams[param];
 
   if (requestParamStates) {
     if (Array.isArray(requestParamStates)) {
-      states.push(...requestParamStates);
+      requestParamStates.forEach((value) => states.push(value as T));
     } else {
-      const params = requestParamStates.split(',');
-      if (params.length > 1) {
-        states.push(...params);
-      } else {
-        states.push(requestParamStates);
-      }
+      requestParamStates.split(',').forEach((value) => states.push(value as T));
     }
   }
 

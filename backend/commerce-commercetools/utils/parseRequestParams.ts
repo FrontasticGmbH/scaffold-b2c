@@ -1,9 +1,8 @@
-const parseQueryParams = <T>(query: any): T => {
-  const queryParams: T = {} as T;
-
+const parseQueryParams = <T extends Record<string, unknown>>(query: T): Partial<T> => {
+  const queryParams: Partial<T> = {};
   for (const key in query) {
     if (query.hasOwnProperty(key)) {
-      queryParams[key] = query[key] as unknown as T[keyof T];
+      queryParams[key] = query[key];
     }
   }
 

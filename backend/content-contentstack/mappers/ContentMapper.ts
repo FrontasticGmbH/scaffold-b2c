@@ -1,7 +1,8 @@
 import { Content } from '@Types/content/Content';
+import { ContentstackEntryResponse } from '@Content-contentstack/interfaces';
 
 export class ContentMapper {
-  static contentstackEntryToContent(response: any): Content {
+  static contentstackEntryToContent(response: ContentstackEntryResponse): Content {
     response = JSON.parse(JSON.stringify(response));
     delete response._version;
     delete response.created_at;

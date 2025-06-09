@@ -3,7 +3,7 @@ export class ContentMapper {
     return `https://${mediaObj.host ?? mediaObj.defaultHost}/${suffix}/${mediaObj.endpoint}/${mediaObj.name}`;
   }
 
-  static amplienceContentToContent({ _meta, ...attrs }: any) {
+  static amplienceContentToContent({ _meta, ...attrs }) {
     const content = { _meta };
 
     for (const attr in attrs) {

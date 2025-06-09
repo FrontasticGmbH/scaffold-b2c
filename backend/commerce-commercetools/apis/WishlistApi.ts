@@ -27,7 +27,7 @@ export class WishlistApi extends BaseApi {
         return WishlistMapper.commercetoolsShoppingListToWishlist(response.body, locale, this.defaultLocale);
       })
       .catch((error) => {
-        throw new ExternalError({ statusCode: error.code, message: error.message, body: error.body });
+        throw new ExternalError({ statusCode: error.statusCode, message: error.message, body: error.body });
       });
   }
 
@@ -48,7 +48,7 @@ export class WishlistApi extends BaseApi {
         );
       })
       .catch((error) => {
-        throw new ExternalError({ statusCode: error.code, message: error.message, body: error.body });
+        throw new ExternalError({ statusCode: error.statusCode, message: error.message, body: error.body });
       });
   }
 
@@ -68,7 +68,7 @@ export class WishlistApi extends BaseApi {
         return WishlistMapper.commercetoolsShoppingListToWishlist(response.body, locale, this.defaultLocale);
       })
       .catch((error) => {
-        throw new ExternalError({ statusCode: error.code, message: error.message, body: error.body });
+        throw new ExternalError({ statusCode: error.statusCode, message: error.message, body: error.body });
       });
   }
 
@@ -88,7 +88,7 @@ export class WishlistApi extends BaseApi {
         return WishlistMapper.commercetoolsShoppingListToWishlist(response.body, locale, this.defaultLocale);
       })
       .catch((error) => {
-        throw new ExternalError({ statusCode: error.code, message: error.message, body: error.body });
+        throw new ExternalError({ statusCode: error.statusCode, message: error.message, body: error.body });
       });
   }
 
@@ -118,7 +118,7 @@ export class WishlistApi extends BaseApi {
         return WishlistMapper.commercetoolsShoppingListToWishlist(response.body, locale, this.defaultLocale);
       })
       .catch((error) => {
-        throw new ExternalError({ statusCode: error.code, message: error.message, body: error.body });
+        throw new ExternalError({ statusCode: error.statusCode, message: error.message, body: error.body });
       });
   }
 
@@ -147,7 +147,7 @@ export class WishlistApi extends BaseApi {
         return WishlistMapper.commercetoolsShoppingListToWishlist(response.body, locale, this.defaultLocale);
       })
       .catch((error) => {
-        throw new ExternalError({ statusCode: error.code, message: error.message, body: error.body });
+        throw new ExternalError({ statusCode: error.statusCode, message: error.message, body: error.body });
       });
   }
 
@@ -162,7 +162,7 @@ export class WishlistApi extends BaseApi {
       })
       .execute()
       .catch((error) => {
-        throw new ExternalError({ statusCode: error.code, message: error.message, body: error.body });
+        throw new ExternalError({ statusCode: error.statusCode, message: error.message, body: error.body });
       });
   }
 
@@ -192,7 +192,7 @@ export class WishlistApi extends BaseApi {
         return WishlistMapper.commercetoolsShoppingListToWishlist(response.body, locale, this.defaultLocale);
       })
       .catch((error) => {
-        throw new ExternalError({ statusCode: error.code, message: error.message, body: error.body });
+        throw new ExternalError({ statusCode: error.statusCode, message: error.message, body: error.body });
       });
   }
 }

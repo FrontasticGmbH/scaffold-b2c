@@ -6,7 +6,7 @@
   "main": "./index.ts",
   "packageManager": "yarn@4.4.1",
   "engines": {
-    "node": "22.x"
+    "node": "24.x"
   },
   "scripts": {
     "extensions:watch": "tsup --env.NODE_ENV dev",
@@ -27,7 +27,7 @@
     "@babel/runtime": "^7.16.5",
     "@bloomreach/spa-sdk": "^22.0.0",
     "@commercetools/platform-sdk": "8.7.0",
-    "@commercetools/ts-client": "^3.3.1",
+    "@commercetools/ts-client": "^3.4.0",
     "@sendgrid/mail": "^7.7.0",
     "axios": "^0.26.1",
     "contentful": "^9.3.7",
@@ -54,6 +54,7 @@
     "@types/crypto-js": "^4.1.1",
     "@types/jest": "^29.5.12",
     "@types/node": "^14.14.35",
+    "@types/node-fetch": "^2.6.12",
     "@types/nodemailer": "^6.4.14",
     "@types/qs": "^6.9.7",
     "@types/uuid": "^8.3.4",

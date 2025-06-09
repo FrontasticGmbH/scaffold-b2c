@@ -12,7 +12,7 @@ import { ExternalError } from '@Commerce-commercetools/errors/ExternalError';
 import { ProductSearchFactory } from '@Commerce-commercetools/utils/ProductSearchQueryFactory';
 
 export class ProductApi extends BaseApi {
-  query: (productQuery: ProductQuery) => Promise<ProductPaginatedResult> = async (productQuery: ProductQuery) => {
+  async query(productQuery: ProductQuery): Promise<ProductPaginatedResult> {
     const locale = await this.getCommercetoolsLocal();
     const defaultLocale = this.defaultLocale;
     productQuery.categories = await this.hydrateCategories(productQuery);
@@ -71,9 +71,9 @@ export class ProductApi extends BaseApi {
         return result;
       })
       .catch((error) => {
-        throw new ExternalError({ statusCode: error.code, message: error.message, body: error.body });
+        throw new ExternalError({ statusCode: error.statusCode, message: error.message, body: error.body });
       });
-  };
+  }
 
   async getProduct(productQuery: ProductQuery): Promise<Product> {
     const result = await this.query(productQuery);
@@ -128,7 +128,7 @@ export class ProductApi extends BaseApi {
         return result;
       })
       .catch((error) => {
-        throw new ExternalError({ statusCode: error.code, message: error.message, body: error.body });
+        throw new ExternalError({ statusCode: error.statusCode, message: error.message, body: error.body });
       });
   }
 
@@ -195,7 +195,7 @@ export class ProductApi extends BaseApi {
       .get(methodArgs)
       .execute()
       .catch((error) => {
-        throw new ExternalError({ statusCode: error.code, message: error.message, body: error.body });
+        throw new ExternalError({ statusCode: error.statusCode, message: error.message, body: error.body });
       });
   }
 
@@ -205,7 +205,7 @@ export class ProductApi extends BaseApi {
       .get(methodArgs)
       .execute()
       .catch((error) => {
-        throw new ExternalError({ statusCode: error.code, message: error.message, body: error.body });
+        throw new ExternalError({ statusCode: error.statusCode, message: error.message, body: error.body });
       });
   }
 

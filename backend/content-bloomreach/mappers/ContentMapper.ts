@@ -1,7 +1,7 @@
 import { Content } from '@Types/content/Content';
 
 export class ContentMapper {
-  static bloomreachDocumentToContent(response: any): Content {
+  static bloomreachDocumentToContent(response): Content {
     response = JSON.parse(JSON.stringify(response));
 
     const pageRef = response.root.$ref.split('/').pop();

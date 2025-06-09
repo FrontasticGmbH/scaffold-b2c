@@ -5,26 +5,21 @@ import {
   HttpMiddlewareOptions,
   RefreshAuthMiddlewareOptions,
   TokenCache,
+  MiddlewareResponse,
+  LoggerMiddlewareOptions,
 } from '@commercetools/ts-client';
-// @ts-ignore
-import fetch from 'node-fetch';
 import { ClientConfig } from './interfaces/ClientConfig';
 
 export class ClientFactory {
-  static factor: (
+  static factor(
     clientConfig: ClientConfig,
     environment: string | undefined,
     tokenCache: TokenCache | undefined,
     refreshToken?: string,
-  ) => Client = (
-    clientConfig: ClientConfig,
-    environment: string | undefined,
-    tokenCache: TokenCache | undefined,
-    refreshToken?: string,
-  ) => {
+  ): Client {
     const httpMiddlewareOptions: HttpMiddlewareOptions = {
       host: clientConfig.hostUrl,
-      httpClient: fetch,
+      includeOriginalRequest: true,
     };
 
     let clientBuilder: ClientBuilder;
@@ -48,13 +43,22 @@ export class ClientFactory {
         break;
     }
 
-    // To avoid logging sensible data, only enable the logger if the environment is defined and not production.
+    // To avoid logging sensitive data, only enable the logger if the environment is defined and not production.
     if (environment !== undefined && environment !== 'prod' && environment !== 'production') {
-      clientBuilder = clientBuilder.withLoggerMiddleware();
+      const loggerMiddlewareOptions: LoggerMiddlewareOptions = {
+        loggerFn: (middlewareResponse: MiddlewareResponse) => {
+          const { originalRequest, ...response } = middlewareResponse;
+
+          console.log(`----+ Request for "${originalRequest.uriTemplate}" is: `, originalRequest);
+          console.log(`+---- Response for "${originalRequest.uriTemplate}" is: `, response);
+        },
+      };
+
+      clientBuilder = clientBuilder.withLoggerMiddleware(loggerMiddlewareOptions);
     }
 
     return clientBuilder.build();
-  };
+  }
 
   private static getClientBuilderWithRefreshTokenFlow(
     clientConfig: ClientConfig,
@@ -69,8 +73,6 @@ export class ClientFactory {
         clientId: clientConfig.clientId,
         clientSecret: clientConfig.clientSecret,
       },
-      // scopes: ['manage_project:' + clientConfig.projectKey],
-      httpClient: fetch,
       tokenCache: tokenCache,
       refreshToken: refreshToken,
     };
@@ -92,8 +94,6 @@ export class ClientFactory {
         clientId: clientConfig.clientId,
         clientSecret: clientConfig.clientSecret,
       },
-      // scopes: ['manage_project:' + clientConfig.projectKey],
-      httpClient: fetch,
       tokenCache: tokenCache,
     };
 

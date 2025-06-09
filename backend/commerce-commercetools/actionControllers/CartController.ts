@@ -19,10 +19,11 @@ import { CartNotMatchOrderError } from '@Commerce-commercetools/errors/CartNotMa
 import { ValidationError } from '@Commerce-commercetools/errors/ValidationError';
 import { AccountFetcher } from '@Commerce-commercetools/utils/AccountFetcher';
 import getCartApi from '@Commerce-commercetools/utils/apiFactory/getCartApi';
+import { QueryParams } from '@Commerce-commercetools/interfaces/cartApi';
 
 type ActionHook = (request: Request, actionContext: ActionContext) => Promise<Response>;
 
-function queryParamsToSortAttributes(queryParams: any) {
+function queryParamsToSortAttributes(queryParams: QueryParams) {
   const sortAttributes: SortAttributes = {};
 
   if (queryParams.sortAttributes) {
@@ -55,8 +56,8 @@ async function updateCartFromRequest(cartApi: CartApi, request: Request): Promis
   }
 
   if (body?.shipping !== undefined || body?.billing !== undefined) {
-    const shippingAddress = body?.shipping !== undefined ? body.shipping : body.billing;
-    const billingAddress = body?.billing !== undefined ? body.billing : body.shipping;
+    const shippingAddress = body?.shipping ?? body.billing;
+    const billingAddress = body?.billing ?? body.shipping;
 
     cart = await cartApi.setShippingAddress(cart, shippingAddress);
     cart = await cartApi.setBillingAddress(cart, billingAddress);
@@ -271,7 +272,7 @@ export const checkout: ActionHook = async (request: Request, actionContext: Acti
 
     const order = await cartApi.order(cart, body?.purchaseOrderNumber);
 
-    emailApi.sendOrderConfirmationEmail({ ...order, email: order.email || cart.email });
+    await emailApi.sendOrderConfirmationEmail({ ...order, email: order.email || cart.email });
 
     // Unset the cartId
     const cartId: string = undefined;
@@ -384,9 +385,7 @@ export const addPaymentByInvoice: ActionHook = async (request: Request, actionCo
       paymentStatus: PaymentStatuses.PENDING,
     };
 
-    if (payment.amountPlanned === undefined) {
-      payment.amountPlanned = {};
-    }
+    payment.amountPlanned ??= {};
 
     payment.amountPlanned.centAmount = payment.amountPlanned.centAmount ?? cart.sum.centAmount ?? undefined;
     payment.amountPlanned.currencyCode = payment.amountPlanned.currencyCode ?? cart.sum.currencyCode ?? undefined;
@@ -491,7 +490,7 @@ export const removeDiscount: ActionHook = async (request: Request, actionContext
   }
 };
 
-export const queryOrders: ActionHook = async (request, actionContext) => {
+export const queryOrders: ActionHook = async (request: Request, actionContext) => {
   try {
     const cartApi = getCartApi(request, actionContext.frontasticContext);
 
