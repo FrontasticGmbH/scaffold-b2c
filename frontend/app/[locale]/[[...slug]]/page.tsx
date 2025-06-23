@@ -11,6 +11,7 @@ import { Providers } from 'providers';
 import { sdk } from 'sdk';
 import { PageProps } from 'types/next';
 import Renderer from 'frontastic/renderer';
+import { getSeoInfoFromPageResponse } from 'helpers/seo-tools';
 
 export const revalidate = 120;
 
@@ -27,7 +28,7 @@ export async function generateMetadata(props: PageProps): Promise<Metadata> {
     return {};
   }
 
-  const { seoTitle, seoDescription, seoKeywords } = response.data.pageFolder?.configuration ?? {};
+  const { seoTitle, seoDescription, seoKeywords } = getSeoInfoFromPageResponse(response.data, params);
 
   return {
     title: seoTitle ?? '',

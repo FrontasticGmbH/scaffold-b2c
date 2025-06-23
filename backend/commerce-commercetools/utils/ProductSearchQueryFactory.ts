@@ -124,8 +124,9 @@ export class ProductSearchFactory {
     commercetoolsProductSearchRequest.limit = +productQuery.limit || 24;
     commercetoolsProductSearchRequest.offset = this.getOffsetFromCursor(productQuery.cursor);
 
-    if (productQuery.accountGroupId) {
-      commercetoolsProductSearchRequest.productProjectionParameters.priceCustomerGroup = productQuery.accountGroupId;
+    if (productQuery.accountGroupIds?.length) {
+      commercetoolsProductSearchRequest.productProjectionParameters.priceCustomerGroupAssignments =
+        productQuery.accountGroupIds;
     }
 
     return commercetoolsProductSearchRequest;

@@ -1,3 +1,6 @@
+import { RangeFilter } from "./RangeFilter";
+import { TermFilter } from "./TermFilter";
+
 export enum FilterTypes {
   BOOLEAN = 'boolean',
   ENUM = 'enum',
@@ -8,23 +11,8 @@ export enum FilterTypes {
   TEXT = 'text',
 }
 
-export interface Filter<T = string[] | number[] | { min: string | number; max: string | number }> {
-  type: FilterTypes;
+export interface BaseFilter {
   identifier: string;
-  field?: string;
-  values?: T;
-  terms?: string[];
-  name?: string;
-  min?: number;
-  max?: number;
+  type: FilterTypes;
 }
-
-export interface FilterSet<T = never> {
-  filters: Filter<T>[];
-  values: Record<string, string[]>;
-}
-
-export interface QueryParamsWithFilters<T = never> {
-  productFilters?: Partial<FilterSet<T>>;
-  categoryFilters?: Partial<FilterSet<T>>;
-}
+export type Filter = RangeFilter | TermFilter;

@@ -1,4 +1,4 @@
-import { ActionContext, Request, Response } from '@frontastic/extension-types';
+import { ActionContext, Context, Request, Response } from '@frontastic/extension-types';
 import { Cart } from '@Types/cart/Cart';
 import { LineItem } from '@Types/cart/LineItem';
 import { Address } from '@Types/account/Address';
@@ -9,7 +9,6 @@ import { SortAttributes, SortOrder } from '@Types/query/ProductQuery';
 import { OrderQuery } from '@Types/query';
 import { Token } from '@Types/Token';
 import { CartFetcher } from '../utils/CartFetcher';
-import { CartApi } from '../apis/CartApi';
 import { getLocale } from '../utils/Request';
 import { EmailApiFactory } from '../utils/EmailApiFactory';
 import queryParamsToStates from '@Commerce-commercetools/utils/queryParamsToState';
@@ -19,7 +18,7 @@ import { CartNotMatchOrderError } from '@Commerce-commercetools/errors/CartNotMa
 import { ValidationError } from '@Commerce-commercetools/errors/ValidationError';
 import { AccountFetcher } from '@Commerce-commercetools/utils/AccountFetcher';
 import getCartApi from '@Commerce-commercetools/utils/apiFactory/getCartApi';
-import { QueryParams } from '@Commerce-commercetools/interfaces/cartApi';
+import { QueryParams } from '@Commerce-commercetools/interfaces/QueryParams';
 
 type ActionHook = (request: Request, actionContext: ActionContext) => Promise<Response>;
 
@@ -38,8 +37,10 @@ function queryParamsToSortAttributes(queryParams: QueryParams) {
   return sortAttributes;
 }
 
-async function updateCartFromRequest(cartApi: CartApi, request: Request): Promise<Cart> {
-  let cart = await CartFetcher.fetchCart(cartApi, request);
+async function updateCartFromRequest(request: Request, context: Context): Promise<Cart> {
+  const cartApi = getCartApi(request, context);
+
+  let cart = await CartFetcher.fetchCart(request, context);
 
   if (request?.body === undefined || request?.body === '') {
     return cart;
@@ -71,7 +72,7 @@ export const getCart: ActionHook = async (request: Request, actionContext: Actio
     const cartApi = getCartApi(request, actionContext.frontasticContext);
 
     try {
-      const cart = await CartFetcher.fetchActiveCartFromSession(cartApi, request);
+      const cart = await CartFetcher.fetchActiveCartFromSession(request, actionContext.frontasticContext);
 
       return {
         statusCode: 200,
@@ -125,7 +126,7 @@ export const addToCart: ActionHook = async (request: Request, actionContext: Act
       count: +body.variant?.count || 1,
     };
 
-    let cart = await CartFetcher.fetchCart(cartApi, request);
+    let cart = await CartFetcher.fetchCart(request, actionContext.frontasticContext);
     cart = await cartApi.addToCart(cart, lineItem);
 
     const cartId = cart.cartId;
@@ -183,7 +184,7 @@ export const updateLineItem: ActionHook = async (request: Request, actionContext
       count: +body.lineItem?.count || 1,
     };
 
-    let cart = await CartFetcher.fetchCart(cartApi, request);
+    let cart = await CartFetcher.fetchCart(request, actionContext.frontasticContext);
     cart = await cartApi.updateLineItem(cart, lineItem);
 
     const cartId = cart.cartId;
@@ -215,7 +216,7 @@ export const removeLineItem: ActionHook = async (request: Request, actionContext
       lineItemId: body.lineItem?.id,
     };
 
-    let cart = await CartFetcher.fetchCart(cartApi, request);
+    let cart = await CartFetcher.fetchCart(request, actionContext.frontasticContext);
     cart = await cartApi.removeLineItem(cart, lineItem);
 
     const cartId = cart.cartId;
@@ -239,7 +240,7 @@ export const updateCart: ActionHook = async (request: Request, actionContext: Ac
   try {
     const cartApi = getCartApi(request, actionContext.frontasticContext);
 
-    const cart = await updateCartFromRequest(cartApi, request);
+    const cart = await updateCartFromRequest(request, actionContext.frontasticContext);
     const cartId = cart.cartId;
 
     const response: Response = {
@@ -268,7 +269,7 @@ export const checkout: ActionHook = async (request: Request, actionContext: Acti
 
     const emailApi = EmailApiFactory.getDefaultApi(actionContext.frontasticContext, locale);
 
-    const cart = await updateCartFromRequest(cartApi, request);
+    const cart = await updateCartFromRequest(request, actionContext.frontasticContext);
 
     const order = await cartApi.order(cart, body?.purchaseOrderNumber);
 
@@ -318,7 +319,7 @@ export const getAvailableShippingMethods: ActionHook = async (request: Request, 
   try {
     const cartApi = getCartApi(request, actionContext.frontasticContext);
 
-    const cart = await CartFetcher.fetchCart(cartApi, request);
+    const cart = await CartFetcher.fetchCart(request, actionContext.frontasticContext);
 
     const availableShippingMethods = await cartApi.getAvailableShippingMethods(cart);
 
@@ -341,7 +342,7 @@ export const setShippingMethod: ActionHook = async (request: Request, actionCont
   try {
     const cartApi = getCartApi(request, actionContext.frontasticContext);
 
-    let cart = await CartFetcher.fetchCart(cartApi, request);
+    let cart = await CartFetcher.fetchCart(request, actionContext.frontasticContext);
 
     const body: {
       shippingMethod?: { id?: string };
@@ -372,7 +373,7 @@ export const addPaymentByInvoice: ActionHook = async (request: Request, actionCo
   try {
     const cartApi = getCartApi(request, actionContext.frontasticContext);
 
-    let cart = await CartFetcher.fetchCart(cartApi, request);
+    let cart = await CartFetcher.fetchCart(request, actionContext.frontasticContext);
 
     const body: {
       payment?: Payment;
@@ -411,7 +412,7 @@ export const updatePayment: ActionHook = async (request: Request, actionContext:
   try {
     const cartApi = getCartApi(request, actionContext.frontasticContext);
 
-    const cart = await CartFetcher.fetchCart(cartApi, request);
+    const cart = await CartFetcher.fetchCart(request, actionContext.frontasticContext);
 
     const body: {
       payment?: Payment;
@@ -438,7 +439,7 @@ export const redeemDiscount: ActionHook = async (request: Request, actionContext
   try {
     const cartApi = getCartApi(request, actionContext.frontasticContext);
 
-    let cart = await CartFetcher.fetchCart(cartApi, request);
+    let cart = await CartFetcher.fetchCart(request, actionContext.frontasticContext);
 
     const body: {
       code?: string;
@@ -463,7 +464,7 @@ export const removeDiscount: ActionHook = async (request: Request, actionContext
   try {
     const cartApi = getCartApi(request, actionContext.frontasticContext);
 
-    let cart = await CartFetcher.fetchCart(cartApi, request);
+    let cart = await CartFetcher.fetchCart(request, actionContext.frontasticContext);
 
     const body: {
       discountCodeId?: string;

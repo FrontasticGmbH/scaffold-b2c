@@ -22,6 +22,7 @@ interface Props {
   isCtPaymentOnly?: boolean;
   shippingMethods: ShippingMethod[];
   onUpdateCart?: (payload: CartDetails) => Promise<Cart>;
+  hasOutOfStockItems?: boolean;
   onPurchase: () => void;
   onFinalStepChange: (isFinalStep: boolean) => void;
 }
@@ -30,6 +31,7 @@ const Steps: React.FC<Props> = ({
   cart,
   isCtPaymentOnly,
   shippingMethods,
+  hasOutOfStockItems,
   onUpdateCart,
   onPurchase,
   onFinalStepChange,
@@ -146,6 +148,7 @@ const Steps: React.FC<Props> = ({
           className="w-full"
           type="submit"
           loading={processing}
+          disabled={hasOutOfStockItems}
           {...(isCtPaymentOnly
             ? {
                 'data-ctc-selector': 'paymentButton',

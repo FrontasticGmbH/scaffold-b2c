@@ -36,10 +36,8 @@ const getPreviewPayload = (queryResult: ProductPaginatedResult) => {
 
 // Master data source is only available in the context of a dynamic page
 const findDynamicPageMasterDataSource = (context: DataSourceContext, dataSourceType: string) => {
-  // Since the DataSourceConfiguration doesn't return the streamId, we need to access the private property directly.
-  // This needs to be refactored once the dataSourceId is returned in the DataSourceConfiguration.
   return context.pageFolder.dataSourceConfigurations.find(
-    (dataSource) => dataSource.streamId === '__master' && dataSource.type === dataSourceType,
+    (dataSource) => dataSource.dataSourceId === '__master' && dataSource.type === dataSourceType,
   );
 };
 

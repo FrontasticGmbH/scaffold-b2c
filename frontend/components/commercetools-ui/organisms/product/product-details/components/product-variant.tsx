@@ -101,17 +101,25 @@ const ProductVariant: FC<ProductVariantProps> = ({
       </div>
 
       <div className={variantContainerClassName}>
-        {(variantsToUse ?? []).map(({ attributes, id, sku }) => (
-          <button
-            key={id}
-            title={getButtonDescriptiveTitle(attributes as Record<string, string>)}
-            onClick={() => onClick?.(sku)}
-            className={getVariantClassName(id)}
-            style={attribute !== 'size' ? { backgroundColor: textToColor(attributes?.[attribute]).code } : {}}
-          >
-            {attribute == 'size' && attributes?.[attribute]}
-          </button>
-        ))}
+        {(variantsToUse ?? []).map(({ attributes, id, sku }) => {
+          const attributeCodeLabel = attribute.split('-').length === 2 ? `${attribute.split('-')[0]}-code` : '';
+
+          const backgroundColor = attributeCodeLabel
+            ? attributes?.[attributeCodeLabel]
+            : textToColor(attributes?.[attribute]).code;
+
+          return (
+            <button
+              key={id}
+              title={getButtonDescriptiveTitle(attributes as Record<string, string>)}
+              onClick={() => onClick?.(sku)}
+              className={getVariantClassName(id)}
+              style={attribute !== 'size' ? { backgroundColor } : {}}
+            >
+              {attribute == 'size' && attributes?.[attribute]}
+            </button>
+          );
+        })}
       </div>
     </div>
   );

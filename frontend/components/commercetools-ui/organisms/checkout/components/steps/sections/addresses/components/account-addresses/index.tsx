@@ -10,6 +10,8 @@ interface Props {
   onSelectShippingAddress: (address: Address) => void;
   onSelectBillingAddress: (address: Address) => void;
   onRequestAddAddress: (type: 'shipping' | 'billing') => void;
+  shippingAddressHasError?: boolean;
+  billingAddressHasError?: boolean;
 }
 
 const AccountAddresses: React.FC<Props> = ({
@@ -17,6 +19,8 @@ const AccountAddresses: React.FC<Props> = ({
   onSelectShippingAddress,
   onSelectBillingAddress,
   onRequestAddAddress,
+  shippingAddressHasError,
+  billingAddressHasError,
 }) => {
   const translate = useTranslations();
 
@@ -43,6 +47,7 @@ const AccountAddresses: React.FC<Props> = ({
         setSelectedShippingAddress({ name: formatAddress(address), value: address.addressId });
         onSelectShippingAddress(address);
       },
+      hasError: shippingAddressHasError,
     },
     {
       label: translate('checkout.billingAddress'),
@@ -54,6 +59,7 @@ const AccountAddresses: React.FC<Props> = ({
         setSelectedBillingAddress({ name: formatAddress(address), value: address.addressId });
         onSelectBillingAddress(address);
       },
+      hasError: billingAddressHasError,
     },
   ];
 
@@ -79,7 +85,7 @@ const AccountAddresses: React.FC<Props> = ({
 
   return (
     <div className={`flex flex-col gap-20 ${className}`}>
-      {sections.map(({ label, onAddNew, addNewLabel, addresses, value, onSelect }, index) => (
+      {sections.map(({ label, onAddNew, addNewLabel, addresses, value, hasError, onSelect }, index) => (
         <div key={index}>
           <div className="flex w-full items-center justify-between pb-16">
             <span className="text-14 font-semibold uppercase text-gray-700">{label}</span>
@@ -98,7 +104,13 @@ const AccountAddresses: React.FC<Props> = ({
             onChange={({ value }) => {
               onSelect(accountAddressToAddress(addresses.find((address) => address.addressId === value) as Address));
             }}
+            error={hasError}
           />
+          {hasError && (
+            <span className="text-12 font-medium leading-[16px] text-red-500">
+              {translate('checkout.invalidAddressError')}
+            </span>
+          )}
         </div>
       ))}
     </div>

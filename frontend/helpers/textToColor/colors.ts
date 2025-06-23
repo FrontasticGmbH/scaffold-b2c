@@ -140,6 +140,7 @@ export const colors: Record<string, string> = {
   teal: '#008080',
   thistle: '#d8bfd8',
   tomato: '#ff6347',
+  transparent: '#fffff',
   turquoise: '#40e0d0',
   violet: '#ee82ee',
   wheat: '#f5deb3',

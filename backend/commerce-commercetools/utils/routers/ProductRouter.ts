@@ -4,7 +4,7 @@ import { ProductQuery } from '@Types/query/ProductQuery';
 import { LineItem } from '@Types/cart/LineItem';
 import { LineItem as WishlistItem } from '@Types/wishlist/LineItem';
 import { ProductApi } from '../../apis/ProductApi';
-import { getPath, getLocale, getCurrency, getAccountGroupId } from '../Request';
+import { getPath, getLocale, getCurrency, getAccountGroupIds } from '../Request';
 
 export class ProductRouter {
   private static isProduct(product: Product | LineItem | WishlistItem): product is Product {
@@ -45,7 +45,7 @@ export class ProductRouter {
     if (sku) {
       const productQuery: ProductQuery = {
         skus: [sku],
-        accountGroupId: getAccountGroupId(request),
+        accountGroupIds: getAccountGroupIds(request),
       };
       return productApi.getProduct(productQuery);
     }

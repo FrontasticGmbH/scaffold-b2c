@@ -1,5 +1,4 @@
 import { SortOrder } from '@Types/query';
-import { RawFacetData } from '@Commerce-commercetools/interfaces/frontastic-override';
 
 export type QueryParams = {
   facets?: Record<string, RawFacetData>;
@@ -9,3 +8,10 @@ export type QueryParams = {
     };
   };
 };
+
+export interface RawFacetData {
+  min?: number;
+  max?: number;
+  terms?: string[] | Record<string, string>;
+  boolean?: string | boolean;
+}

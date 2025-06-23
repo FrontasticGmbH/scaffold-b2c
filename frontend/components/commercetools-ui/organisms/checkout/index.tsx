@@ -69,7 +69,7 @@ export const CheckoutWrapped = ({
               isDesktop ? (
                 <Button
                   variant="primary"
-                  disabled={!isFinalStep}
+                  disabled={!isFinalStep || hasOutOfStockItems}
                   className="w-full"
                   type="submit"
                   loading={processing}
@@ -93,6 +93,7 @@ export const CheckoutWrapped = ({
             onPurchase={purchase}
             onFinalStepChange={setIsFinalStep}
             isCtPaymentOnly={isCtPaymentOnly}
+            hasOutOfStockItems={hasOutOfStockItems}
           />
         </div>
       </div>

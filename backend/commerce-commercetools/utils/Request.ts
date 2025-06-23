@@ -73,12 +73,12 @@ export const getProductSelectionId = (request: Request): string | null => {
   return null;
 };
 
-export const getAccountGroupId = (request: Request): string | null => {
+export const getAccountGroupIds = (request: Request): string[] | null => {
   if (request !== undefined) {
-    const { accountGroupId } = parseQueryParams<{
-      accountGroupId: string;
+    const { accountGroupIds } = parseQueryParams<{
+      accountGroupIds: string[];
     }>(request.query);
-    return accountGroupId ?? request.sessionData?.account?.accountGroupId;
+    return accountGroupIds ?? request.sessionData?.accountGroupIds;
   }
 
   return null;

@@ -1,4 +1,4 @@
-import React, { useContext, useState, useMemo } from 'react';
+import React, { useContext, useState, useMemo, useCallback } from 'react';
 import { useForm } from 'react-hook-form';
 import toast from 'react-hot-toast';
 import { useTranslations } from 'use-intl';
@@ -141,7 +141,12 @@ const Addresses: React.FC<Props> = ({ isCompleted, goToNextStep, goToReview, onU
       else goToNextStep();
     } else toast.error(translate('checkout.update-addresses-error'), { position: 'bottom-left' });
   };
-
+  const onSelectShippingAddress = useCallback((address: Address) => setShippingAddress(address), []);
+  const onSelectBillingAddress = useCallback((address: Address) => setBillingAddress(address), []);
+  const onRequestAddAddress = useCallback(
+    (addressType: 'shipping' | 'billing') => setCreateAddressType(addressType),
+    [],
+  );
   return (
     <div>
       {loggedIn &&
@@ -151,9 +156,11 @@ const Addresses: React.FC<Props> = ({ isCompleted, goToNextStep, goToReview, onU
               <CreateAddress addressType={createAddressType} onAfterSubmit={() => setCreateAddressType(undefined)} />
             ) : (
               <AccountAddresses
-                onSelectShippingAddress={(address) => setShippingAddress(address)}
-                onSelectBillingAddress={(address) => setBillingAddress(address)}
-                onRequestAddAddress={(addressType) => setCreateAddressType(addressType)}
+                onSelectShippingAddress={onSelectShippingAddress}
+                onSelectBillingAddress={onSelectBillingAddress}
+                onRequestAddAddress={onRequestAddAddress}
+                shippingAddressHasError={!isValidShippingAddress}
+                billingAddressHasError={!isValidBillingAddress}
               />
             )}
           </>

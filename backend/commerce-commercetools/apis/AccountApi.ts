@@ -104,6 +104,8 @@ export class AccountApi extends BaseApi {
   }
 
   async login(account: Account, cart: Cart | undefined): Promise<{ account: Account; cart: Cart | undefined }> {
+    this.invalidateSessionCheckoutData();
+
     const locale = await this.getCommercetoolsLocal();
     const defaultLocale = this.defaultLocale;
 

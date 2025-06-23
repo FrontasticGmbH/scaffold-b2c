@@ -1,7 +1,7 @@
 // @ts-ignore
 import crypto from 'crypto';
 // @ts-ignore
-import fetch from 'node-fetch';
+import fetch, { Response } from 'node-fetch';
 import { ApiRoot, createApiBuilderFromCtpClient, ProductType, Project } from '@commercetools/platform-sdk';
 import { Context, Request } from '@frontastic/extension-types';
 import { TokenCache, TokenStore } from '@commercetools/ts-client';
@@ -632,10 +632,10 @@ export abstract class BaseApi {
     };
 
     const response = await fetch(url, requestOptions)
-      .then((response: { json: () => { id?: string; expiryAt?: string | number } }) => {
+      .then((response: Response) => {
         return response.json();
       })
-      .catch((error: { code: number; message: string }) => {
+      .catch((error: { statusCode: number; message: string }) => {
         throw new ExternalError({ statusCode: error.statusCode, message: error.message, body: JSON.stringify(error) });
       });
 

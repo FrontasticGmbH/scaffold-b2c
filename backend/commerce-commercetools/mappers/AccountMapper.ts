@@ -13,7 +13,9 @@ export class AccountMapper {
   static commercetoolsCustomerToAccount(commercetoolsCustomer: commercetoolsCustomer): Account {
     return {
       accountId: commercetoolsCustomer.id,
-      accountGroupId: commercetoolsCustomer?.customerGroup?.id,
+      accountGroupIds: commercetoolsCustomer?.customerGroupAssignments.map((customerGroupAssignment) => {
+        return customerGroupAssignment.customerGroup.id;
+      }),
       email: commercetoolsCustomer.email,
       salutation: commercetoolsCustomer?.salutation,
       firstName: commercetoolsCustomer?.firstName,

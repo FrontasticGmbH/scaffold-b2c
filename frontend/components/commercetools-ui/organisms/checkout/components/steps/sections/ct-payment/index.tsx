@@ -73,10 +73,17 @@ const CommercetoolsPayment = ({
         sessionId: session.token,
         locale,
         onError(message) {
-          switch (message.code) {
-            case 'payment_failed':
-              setCheckoutIsProcessing(false);
+          setCheckoutIsProcessing(false);
 
+          switch (message.code) {
+            case 'order_creation_error':
+              if ((message.payload as { errors: Array<{ code: string }> })?.errors?.[0]?.code === 'OutOfStock') {
+                toast.error(translate('checkout.items-outOfStock'), { position: 'top-right' });
+              } else {
+                toast.error(translate('checkout.wentWrong'), { position: 'top-right' });
+              }
+              break;
+            case 'payment_failed':
               toast.error(translate('checkout.wentWrong'), { position: 'top-right' });
 
               break;

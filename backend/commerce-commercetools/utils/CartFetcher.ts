@@ -1,23 +1,33 @@
-import { Request } from '@frontastic/extension-types';
+import { Context, Request } from '@frontastic/extension-types';
 import { Cart } from '@Types/cart/Cart';
-import { CartApi } from '../apis/CartApi';
+import getCartApi from './apiFactory/getCartApi';
+import getAccountApi from './apiFactory/getAccountApi';
 import { ResourceNotFoundError } from '@Commerce-commercetools/errors/ResourceNotFoundError';
 
 export class CartFetcher {
-  static async fetchCart(cartApi: CartApi, request: Request): Promise<Cart> {
-    const cart = await this.fetchActiveCartFromSession(cartApi, request);
+  static async fetchCart(request: Request, context: Context): Promise<Cart> {
+    const cart = await this.fetchActiveCartFromSession(request, context);
 
     if (cart) {
       return cart;
     }
 
-    return request.sessionData?.account !== undefined
-      ? await cartApi.createForAccount(request.sessionData.account)
-      : await cartApi.createAnonymous();
+    const cartApi = getCartApi(request, context);
+
+    if (request.sessionData?.accountId) {
+      const accountApi = getAccountApi(request, context);
+      const account = await accountApi.getById(request.sessionData.accountId);
+
+      return await cartApi.createForAccount(account);
+    }
+
+    return await cartApi.createAnonymous();
   }
 
-  static async fetchActiveCartFromSession(cartApi: CartApi, request: Request): Promise<Cart | undefined> {
-    if (request.sessionData?.cartId !== undefined) {
+  static async fetchActiveCartFromSession(request: Request, context: Context): Promise<Cart | undefined> {
+    const cartApi = getCartApi(request, context);
+
+    if (request.sessionData?.cartId) {
       try {
         const cart = await cartApi.getById(request.sessionData.cartId);
         if (cartApi.assertCartIsActive(cart)) {
@@ -31,8 +41,8 @@ export class CartFetcher {
       }
     }
 
-    if (request.sessionData?.account !== undefined) {
-      return await cartApi.getActiveCartForAccount(request.sessionData.account);
+    if (request.sessionData?.accountId) {
+      return await cartApi.getActiveCartForAccount(request.sessionData.accountId);
     }
 
     return undefined;

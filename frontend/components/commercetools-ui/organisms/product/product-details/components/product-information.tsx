@@ -29,7 +29,7 @@ const ProductInformation: FC<ProductInformationProps> = ({
 
   const { path } = usePath();
 
-  const attributesToDisplay = ['color', 'finish', 'size'];
+  const attributesToDisplay = ['color', 'finish', 'size', 'color-label', 'finish-label'];
 
   const discountPercentage =
     variant.discountedPrice &&

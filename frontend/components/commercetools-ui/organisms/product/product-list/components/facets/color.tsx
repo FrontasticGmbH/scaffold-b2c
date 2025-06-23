@@ -1,5 +1,5 @@
 import React, { useMemo } from 'react';
-import { Popover } from '@headlessui/react';
+import { PopoverButton } from '@headlessui/react';
 import { useTranslations } from 'use-intl';
 import { textToColor } from 'helpers/textToColor/textToColor';
 import { FacetProps } from './types';
@@ -17,7 +17,7 @@ const ColorFacet: React.FC<FacetProps> = ({ attribute }) => {
       {facet.terms.map(({ identifier, key, selected, count }) => {
         const color = textToColor(key);
         return (
-          <Popover.Button
+          <PopoverButton
             key={identifier}
             className="flex flex-col items-center py-2 text-center"
             onClick={() => refine(attribute, key)}
@@ -33,7 +33,7 @@ const ColorFacet: React.FC<FacetProps> = ({ attribute }) => {
               {color.label}
             </span>
             <span className="mt-2 block text-14 text-gray-600">{count}</span>
-          </Popover.Button>
+          </PopoverButton>
         );
       })}
     </div>

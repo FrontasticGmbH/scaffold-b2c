@@ -1,8 +1,5 @@
-function queryParamsToIds<T extends string>(
-  param: string,
-  queryParams: Record<string, string | string[] | undefined>,
-): string[] {
-  const ids: T[] = [];
+function queryParamsToIds(param: string, queryParams: Record<string, string>): string[] {
+  const ids: string[] = [];
 
   const requestParamIds = queryParams?.[param];
 

@@ -22,7 +22,7 @@ const useCart = (): UseCartReturn => {
 
   const shippingMethodsResults = useSWR(
     '/action/cart/getShippingMethods',
-    extensions.cart.getShippingMethods,
+    () => extensions.cart.getShippingMethods({ query: { onlyMatching: true } }),
     revalidateOptions,
   );
 

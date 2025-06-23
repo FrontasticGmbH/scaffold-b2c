@@ -6,7 +6,6 @@ import { getLocale } from '../utils/Request';
 import { EmailApiFactory } from '../utils/EmailApiFactory';
 import handleError from '@Commerce-commercetools/utils/handleError';
 import getAccountApi from '@Commerce-commercetools/utils/apiFactory/getAccountApi';
-import getCartApi from '@Commerce-commercetools/utils/apiFactory/getCartApi';
 import { AccountFetcher } from '@Commerce-commercetools/utils/AccountFetcher';
 import { AccountAuthenticationError } from '@Commerce-commercetools/errors/AccountAuthenticationError';
 
@@ -37,9 +36,8 @@ type AccountChangePasswordBody = {
 
 async function loginAccount(request: Request, actionContext: ActionContext, account: Account): Promise<Response> {
   const accountApi = getAccountApi(request, actionContext.frontasticContext);
-  const cartApi = getCartApi(request, actionContext.frontasticContext);
 
-  const cart = await CartFetcher.fetchCart(cartApi, request);
+  const cart = await CartFetcher.fetchCart(request, actionContext.frontasticContext);
 
   const { account: loggedInAccount, cart: loggedInCart } = await accountApi.login(account, cart);
 
@@ -59,7 +57,9 @@ async function loginAccount(request: Request, actionContext: ActionContext, acco
     body: JSON.stringify(loggedInAccount),
     sessionData: {
       ...accountApi.getSessionData(),
-      ...(loggedInAccount ? { accountId: loggedInAccount.accountId } : {}),
+      ...(loggedInAccount
+        ? { accountId: loggedInAccount.accountId, accountGroupIds: loggedInAccount.accountGroupIds }
+        : {}),
       ...(loggedInCart ? { cartId: loggedInCart.cartId } : {}),
     },
   };
@@ -144,11 +144,10 @@ export const register: ActionHook = async (request: Request, actionContext: Acti
     const locale = getLocale(request);
 
     const accountApi = getAccountApi(request, actionContext.frontasticContext);
-    const cartApi = getCartApi(request, actionContext.frontasticContext);
 
     const account = mapRequestToAccount(request);
 
-    const cart = await CartFetcher.fetchCart(cartApi, request);
+    const cart = await CartFetcher.fetchCart(request, actionContext.frontasticContext);
 
     const createdAccount = await accountApi.create(account, cart);
 
@@ -182,7 +181,6 @@ export const requestConfirmationEmail: ActionHook = async (request: Request, act
     const locale = getLocale(request);
 
     const accountApi = getAccountApi(request, actionContext.frontasticContext);
-    const cartApi = getCartApi(request, actionContext.frontasticContext);
 
     const accountLoginBody: AccountLoginBody = JSON.parse(request.body);
 
@@ -191,7 +189,7 @@ export const requestConfirmationEmail: ActionHook = async (request: Request, act
       password: accountLoginBody.password,
     } as Account;
 
-    const cart = await CartFetcher.fetchCart(cartApi, request);
+    const cart = await CartFetcher.fetchCart(request, actionContext.frontasticContext);
 
     const { account: loggedInAccount, cart: loggedInCart } = await accountApi.login(account, cart);
 
@@ -268,18 +266,11 @@ export const login: ActionHook = async (request: Request, actionContext: ActionC
   }
 };
 
-export const logout: ActionHook = async (request: Request, actionContext: ActionContext) => {
-  const accountApi = getAccountApi(request, actionContext.frontasticContext);
-
+export const logout: ActionHook = async () => {
   return {
     statusCode: 200,
     body: JSON.stringify({}),
-    sessionData: {
-      ...accountApi.getSessionData(),
-      accountId: undefined,
-      cartId: undefined,
-      wishlistId: undefined,
-    },
+    sessionData: {},
   } as Response;
 };
 

@@ -1,12 +1,16 @@
 import { DataSourceConfiguration, Request } from '@frontastic/extension-types';
+import { Filter } from '@Types/query';
+import { FilterTypes } from '@Types/query/Filter';
 import { LocalizedString, ProductQuery, SortAttributes, SortOrder } from '@Types/query/ProductQuery';
-import { Filter, FilterTypes, QueryParamsWithFilters } from '@Types/query/Filter';
-import { Facet } from '@Types/query/Facet';
-import { TermFacet } from '@Types/query/TermFacet';
 import { RangeFacet } from '@Types/query/RangeFacet';
-import { getAccountGroupId } from '@Commerce-commercetools/utils/Request';
-import { QueryParams } from '@Commerce-commercetools/interfaces/cartApi';
-import { RawFacetData } from '@Commerce-commercetools/interfaces/frontastic-override';
+import { TermFacet } from '@Types/query/TermFacet';
+import { getAccountGroupIds } from '@Commerce-commercetools/utils/Request';
+import { QueryParams, RawFacetData } from '@Commerce-commercetools/interfaces/QueryParams';
+import {
+  DynamicFilter,
+  DynamicFilterValue,
+  ProductListDataSourceConfiguration,
+} from '@Commerce-commercetools/interfaces/DataSource';
 
 export class ProductQueryFactory {
   static queryFromParams(request: Request, dataSourceConfiguration?: DataSourceConfiguration): ProductQuery {
@@ -29,7 +33,8 @@ export class ProductQueryFactory {
 
     // Overwrite queryParams with configuration from Studio
     if (dataSourceConfiguration?.configuration) {
-      for (const [key, value] of Object.entries(dataSourceConfiguration?.configuration)) {
+      const configuration: ProductListDataSourceConfiguration = dataSourceConfiguration?.configuration;
+      for (const [key, value] of Object.entries(configuration)) {
         if (value === undefined || value === '') {
           continue;
         }
@@ -39,20 +44,20 @@ export class ProductQueryFactory {
           case 'categories':
           case 'categoryRef':
           case 'categoryRefs':
-            queryParams['categories'] = (value as string).split(',').map((val: string) => val.trim());
+            queryParams['categories'] = value.split(',').map((val: string) => val.trim());
             break;
           case 'productId':
           case 'productRef':
           case 'productIds':
           case 'productRefs':
             // For backward compatibility, productIds and productRefs from Studio are the same
-            queryParams['productRefs'] = (value as string).split(',').map((val: string) => val.trim());
+            queryParams['productRefs'] = value.split(',').map((val: string) => val.trim());
             break;
           case 'productKeys': // For backward compatibility, we support both productIds and products
-            queryParams['productKeys'] = (value as string).split(',').map((val: string) => val.trim());
+            queryParams['productKeys'] = value.split(',').map((val: string) => val.trim());
             break;
           case 'productSkus':
-            queryParams['skus'] = (value as string).split(',').map((val: string) => val.trim());
+            queryParams['skus'] = value.split(',').map((val: string) => val.trim());
             break;
           default:
             queryParams[key] = value;
@@ -122,18 +127,24 @@ export class ProductQueryFactory {
      * Map product filters
      */
     if (queryParams?.productFilters) {
-      const productFiltersData = this.mergeFiltersAndValues<string[]>(queryParams, 'productFilters');
+      const productFilters: DynamicFilter = queryParams?.productFilters;
 
-      productFiltersData.forEach((productFilterData) => {
+      productFilters?.filters.forEach((filter) => {
         switch (true) {
-          case productFilterData.field === 'categoryRef':
-            productQuery.categories = productFilterData.values;
+          case filter.field === 'categoryRef':
+            const categoryRefValues = productFilters.values?.['categoryRef'];
+            productQuery.categories = Array.isArray(categoryRefValues)
+              ? categoryRefValues.map((value) => value.toString())
+              : [categoryRefValues.toString()];
             break;
-          case productFilterData.field === 'productTypeId':
-            productQuery.productTypeId = productFilterData.values[0];
+          case filter.field === 'productTypeId':
+            const productTypeIdValues = productFilters.values?.['productTypeId'];
+            productQuery.productTypeId = productTypeIdValues.toString();
             break;
-          case productFilterData.field.startsWith('attributes.'):
-            productQuery.filters.push(this.productFiltersDataToProductFilter(productFilterData));
+          case filter.field.startsWith('variants.'):
+            const { field, type } = filter;
+            const filterValue = productFilters.values[field];
+            productQuery.filters.push(this.productFiltersDataToProductFilter(field, type, filterValue));
             break;
           default:
             break;
@@ -153,9 +164,10 @@ export class ProductQueryFactory {
      */
     if (queryParams.sortAttributes) {
       const sortAttributes: SortAttributes = {};
-      let sortAttribute;
+      let sortAttribute: Record<string, SortOrder>;
+      const sortAttributesArray: Array<Record<string, SortOrder>> = Object.values(queryParams.sortAttributes);
 
-      for (sortAttribute of Object.values(queryParams.sortAttributes)) {
+      for (sortAttribute of sortAttributesArray) {
         const key = Object.keys(sortAttribute)[0];
         sortAttributes[key] = sortAttribute[key] || SortOrder.ASCENDING;
       }
@@ -173,9 +185,9 @@ export class ProductQueryFactory {
     productQuery.cursor = queryParams?.cursor || undefined;
 
     /**
-     * Map accountGroupId
+     * Map accountGroupIds
      */
-    productQuery.accountGroupId = queryParams?.accountGroupId || getAccountGroupId(request) || undefined;
+    productQuery.accountGroupIds = queryParams?.accountGroupIds || getAccountGroupIds(request) || undefined;
 
     return productQuery;
   }
@@ -200,7 +212,7 @@ export class ProductQueryFactory {
   }
 
   private static queryParamsToFacets(queryParams: QueryParams) {
-    const facets: Facet[] = [];
+    const facets: Array<RangeFacet | TermFacet> = [];
     let key: string;
     let facetData: RawFacetData;
 
@@ -212,14 +224,13 @@ export class ProductQueryFactory {
 
       switch (true) {
         case facetData.min !== undefined && facetData.max !== undefined:
-          const min = parseInt(String(facetData.min));
-          const max = parseInt(String(facetData.max));
+          const { min, max } = facetData;
           facets.push({
             type: FilterTypes.RANGE,
             identifier: key,
             min: isNaN(min) ? 0 : min,
             max: isNaN(max) ? Number.MAX_SAFE_INTEGER : max,
-          } as RangeFacet);
+          });
           break;
         case facetData.terms !== undefined:
           facets.push({
@@ -228,14 +239,14 @@ export class ProductQueryFactory {
             terms: Array.isArray(facetData.terms)
               ? facetData.terms.map((facetValueData: string) => facetValueData)
               : [],
-          } as TermFacet);
+          });
           break;
         case facetData.boolean !== undefined:
           facets.push({
             type: FilterTypes.BOOLEAN,
             identifier: key,
-            terms: [facetData.boolean],
-          } as TermFacet);
+            terms: [facetData.boolean.toString()],
+          });
           break;
         default:
           break;
@@ -245,74 +256,42 @@ export class ProductQueryFactory {
     return facets;
   }
 
-  private static mergeFiltersAndValues<T extends string[]>(
-    queryParams: QueryParamsWithFilters,
-    filterKey: 'productFilters' | 'categoryFilters',
-  ): Filter<T>[] {
-    const filtersData: Filter<T>[] = [];
+  private static productFiltersDataToProductFilter(
+    filterField: string,
+    filterType: FilterTypes,
+    filterValue: DynamicFilterValue & { min?: number; max?: number },
+  ): Filter {
+    let filter: Filter;
 
-    if (queryParams?.[filterKey]?.filters === undefined) {
-      return filtersData;
-    }
-
-    if (queryParams?.[filterKey]?.values === undefined) {
-      return queryParams[filterKey].filters;
-    }
-
-    queryParams[filterKey].filters.forEach((filter) => {
-      if (filter?.field) {
-        const filterValues = queryParams[filterKey]?.values[filter.field] as T;
-        filtersData.push({
-          ...filter,
-          values: filterValues,
-        });
-      }
-    });
-
-    return filtersData;
-  }
-
-  //TODO refactor to reduce complexity
-  private static productFiltersDataToProductFilter<T>(
-    productFilterData: Filter<Array<{ min?: number; max?: number } | string>>,
-  ): Filter<T> {
-    let filter;
-
-    switch (productFilterData.type) {
+    switch (filterType) {
       case FilterTypes.NUMBER:
       case FilterTypes.MONEY:
         filter = {
-          identifier: productFilterData?.field,
+          identifier: filterField,
           type: FilterTypes.RANGE,
-          min:
-            typeof productFilterData?.values?.[0] === 'object'
-              ? productFilterData?.values?.[0]?.min
-              : +productFilterData?.values?.[0] || undefined,
-          max:
-            typeof productFilterData?.values?.[0] === 'object'
-              ? productFilterData?.values?.[0]?.max
-              : +productFilterData?.values?.[0] || undefined,
+          min: filterValue?.min ?? +filterValue,
+          max: filterValue?.max ?? +filterValue,
         };
         break;
       case FilterTypes.TEXT:
         filter = {
-          identifier: productFilterData?.field,
+          identifier: filterField,
           type: FilterTypes.TERM,
-          terms: this.getTermsFromConfigFilterData(productFilterData),
+          terms: Array.isArray(filterValue) ? filterValue.map((value) => value.toString()) : [filterValue.toString()],
         };
         break;
       case FilterTypes.ENUM:
         filter = {
-          identifier: productFilterData?.field,
+          identifier: filterField,
           type: FilterTypes.ENUM,
-          terms: this.getTermsFromConfigFilterData(productFilterData),
+          terms: Array.isArray(filterValue) ? filterValue.map((value) => String(value)) : [String(filterValue)],
         };
         break;
       case FilterTypes.BOOLEAN:
         filter = {
-          identifier: productFilterData?.field,
+          identifier: filterField,
           type: FilterTypes.BOOLEAN,
-          terms: [String(productFilterData?.values[0])],
+          terms: [String(filterValue)],
         };
         break;
       default:
@@ -320,23 +299,5 @@ export class ProductQueryFactory {
     }
 
     return filter;
-  }
-
-  private static getTermsFromConfigFilterData(
-    configFilterData: Filter<Array<{ min?: number; max?: number } | string>>,
-  ): string[] {
-    return configFilterData?.values.map((term: object | string | number) => {
-      if (typeof term !== 'object') {
-        return term;
-      }
-
-      // The config might include a key-value pair that include the locale and the term value. If this is
-      // the case, we'll return the term value and ignore the locale
-      const key = Object.keys(term)[0];
-      if (term.hasOwnProperty(key)) {
-        // term has a key-value pair, return the value
-        return term[key];
-      }
-    });
   }
 }

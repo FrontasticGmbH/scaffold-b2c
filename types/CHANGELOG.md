@@ -1,4 +1,12 @@
 
+## Version 1.15.1 (2025-06-09)
+
+** Bug Fixes **
+
+- Update Filter interface to support expanded data types
+- Refactor filter handling and improve type safety
+- Add new filter interfaces and update Filter type definition
+
 ## Version 1.15.0 (2025-05-12)
 
 ** New Features & Improvements **

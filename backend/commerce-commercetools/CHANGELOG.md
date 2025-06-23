@@ -1,4 +1,28 @@
 
+## Version 3.7.0 (2025-06-09)
+
+
+** New Features & Improvements **
+
+- Aded request log and api endpoint name
+- Upgrade commercetools ts client and removed fetch
+- Switch method to standard class method for uniformity
+
+** Bug Fixes **
+
+- Get the error code from statusCode instead of code
+- Refactor type handling for query parameter utilities.
+- Refactor `queryParamsToStates` for improved typing and clarity
+- Refactor and clean up type management and configs.
+- Improve type safety and simplify query assignment logic
+- Simplify matching logic in CartMapper shipping rates
+- Refactor filter handling and improve type safety.
+- Refactor type handling and improve query parameter parsing
+- Add type definitions for cart API and datasource configuration
+- Refactor mappers to simplify code and remove unused parameters.
+- Refactor types and improve session data handling.
+- Refactor CartController for improved readability and consistency
+
 ## Version 3.6.0 (2025-05-27)
 
 

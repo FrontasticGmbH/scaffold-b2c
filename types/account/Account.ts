@@ -14,7 +14,7 @@ export interface Account {
   confirmed?: boolean;
   addresses?: Address[];
   apiToken?: string;
-  accountGroupId?: string;
+  accountGroupIds?: string[];
 }
 
 export interface AccountGroup {

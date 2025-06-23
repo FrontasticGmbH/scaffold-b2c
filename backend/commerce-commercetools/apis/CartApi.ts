@@ -41,7 +41,6 @@ import { CartNotCompleteError } from '../errors/CartNotCompleteError';
 import { CartPaymentNotFoundError } from '../errors/CartPaymentNotFoundError';
 import { CartRedeemDiscountCodeError } from '../errors/CartRedeemDiscountCodeError';
 import { CartMapper } from '../mappers/CartMapper';
-import { ProductApi } from './ProductApi';
 import { BaseApi } from './BaseApi';
 import { ProductMapper } from '@Commerce-commercetools/mappers/ProductMapper';
 import { getOffsetFromCursor } from '@Commerce-commercetools/utils/Pagination';
@@ -54,6 +53,7 @@ const CART_EXPANDS = [
   'lineItems[*].price.discounted.discount',
   'discountCodes[*].discountCode',
   'discountOnTotalPrice.includedDiscounts[*].discount',
+  'discountCodes[*].discountCode.cartDiscounts[*]',
   'paymentInfo.payments[*]',
   'shippingInfo.discountedPrice.includedDiscounts[*].discount',
   'customerGroup',
@@ -61,8 +61,6 @@ const CART_EXPANDS = [
 const ORDER_EXPANDS = [...CART_EXPANDS, 'orderState'];
 
 export class CartApi extends BaseApi {
-  productApi: ProductApi;
-
   constructor(
     commercetoolsFrontendContext: Context,
     locale: string | null,
@@ -70,7 +68,6 @@ export class CartApi extends BaseApi {
     request?: Request | null,
   ) {
     super(commercetoolsFrontendContext, locale, currency, request);
-    this.productApi = new ProductApi(commercetoolsFrontendContext, locale, currency, request);
   }
 
   async replicateCart(orderId: string): Promise<Cart> {
@@ -94,7 +91,7 @@ export class CartApi extends BaseApi {
     return await this.buildCartWithAvailableShippingMethods(response.body, locale);
   }
 
-  async getActiveCartForAccount(account: Account): Promise<Cart | undefined> {
+  async getActiveCartForAccount(accountId: string): Promise<Cart | undefined> {
     this.invalidateSessionCheckoutData();
 
     const locale = await this.getCommercetoolsLocal();
@@ -105,7 +102,7 @@ export class CartApi extends BaseApi {
         queryArgs: {
           limit: 1,
           expand: CART_EXPANDS,
-          where: [`customerId="${account.accountId}"`, `cartState="Active"`],
+          where: [`customerId="${accountId}"`, `cartState="Active"`],
           sort: 'lastModifiedAt desc',
         },
       })
