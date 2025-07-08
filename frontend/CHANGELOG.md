@@ -1,3 +1,21 @@
+## Version 4.6.0 (2025-06-24)
+
+** New Features & Improvements **
+
+- implementation for out of stock items scenarios
+- adding validation message for invalid addresses in checkout
+- fix how colors are formatted in B2C
+- modify code for new color-data
+- Seo information for dynamic pages
+
+** Bug Fixes **
+
+- seo meta info bug
+- fixing infinite loop in checkout
+- type issues for storybook
+- Checkout handle out of stock items scenario
+- Filter out inactive shipping methods from display
+
 ## Version 4.5.0 (2025-06-09)
 
 ** New Features & Improvements **
@@ -11,6 +29,8 @@
 - Refactor AddressForm to use react-hook-form for form handling
 - Address rendering with improved callback formatting
 - Refactor imports in shipping-section and address-form components
+
+## Version 4.4.0 (2025-05-27)
 
 ** New Features & Improvements **
 
@@ -41,6 +61,8 @@
 - Empty billing address when selecting same shipping address in checkout
 - proper link for thank you page
 
+## Version 4.3.0 (2025-05-12)
+
 ** New Features & Improvements **
 
 - Renamed account version field to align with common types
@@ -54,6 +76,8 @@
 
 - Replace hardcoded shipping method description with value from MC
 - Fix border radius for banner component
+
+## Version 4.2.0 (2025-04-15)
 
 ** New Features & Improvements **
 

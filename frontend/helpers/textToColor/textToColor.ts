@@ -1,6 +1,11 @@
 import { colors } from './colors';
 
 export const textToColor = (text: string) => {
+  if (!text) return { label: '', code: '' };
+
+  // Missing text for current active language.. so use any fallback language in that case
+  if (typeof text !== 'string') text = (Object.values(text)[0] as string) ?? '';
+
   const cleanedText = text?.toLowerCase().replace(/[ -_]/g, '');
 
   if (text?.includes(':')) {

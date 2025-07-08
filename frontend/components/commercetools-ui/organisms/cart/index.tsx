@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react';
+import React, { useMemo, useState } from 'react';
 import { useTranslations } from 'use-intl';
 import useCloseFlyouts from 'helpers/hooks/useCloseFlyouts';
 import CartContent from './components/cart-content';
@@ -6,6 +6,9 @@ import { CartProps } from './types';
 import OrderSummary from '../order-summary';
 import CheckoutButton from '../order-summary/components/checkout-button';
 import { CheckoutButtonProps } from '../order-summary/types';
+import InfoBanner from 'components/commercetools-ui/molecules/info-banner';
+import { ExclamationTriangleIcon } from '@heroicons/react/24/solid';
+import { classnames } from 'helpers/utils/classnames';
 
 const Cart = ({
   isEmpty,
@@ -28,20 +31,49 @@ const Cart = ({
       link: '/checkout',
       onClick: closeFlyouts,
       disabled: isEmpty || hasOutOfStockItems,
+      hasOutOfStockItems,
     };
   }, [closeFlyouts, translate, hasOutOfStockItems, isEmpty]);
 
+  const [isProcessing, setIsProcessing] = useState(false);
+
+  const removeAllSoldOutItems = async () => {
+    setIsProcessing(true);
+
+    const soldOutItems = (props?.cart?.lineItems ?? []).filter((lineItem) => !lineItem.variant?.isOnStock);
+
+    for (const item of soldOutItems) {
+      await props.onRemoveItem(item.lineItemId ?? '');
+    }
+
+    setIsProcessing(false);
+  };
+
   return (
-    <div className="relative bg-neutral-200">
-      <div className="flex flex-col lg:flex-row lg:items-start lg:gap-26 lg:px-20 lg:py-48 xl:px-48">
-        <CartContent
-          className="bg-white px-16 md:px-24 lg:w-[70%] lg:rounded-md lg:px-20 lg:py-48 xl:px-48"
-          isEmpty={isEmpty}
-          {...props}
-        />
+    <div className="relative bg-neutral-200 p-20 md:p-24 lg:p-48">
+      {hasOutOfStockItems && (
+        <div className="pb-24">
+          <InfoBanner variant="warning">
+            <div className="flex items-start gap-8">
+              <ExclamationTriangleIcon className="size-20 shrink-0 text-yellow-600" />
+              <div className="flex flex-col items-start gap-8 lg:flex-row lg:items-center">
+                <p className="text-gray-600">{translate('cart.items-out-of-stock')}</p>
+                <p
+                  className={classnames('cursor-pointer font-semibold underline', { 'text-gray-300': isProcessing })}
+                  onClick={removeAllSoldOutItems}
+                >
+                  {translate('cart.remove-unavailable-items')}
+                </p>
+              </div>
+            </div>
+          </InfoBanner>
+        </div>
+      )}
+      <div className="flex flex-col lg:flex-row lg:items-start lg:gap-26">
+        <CartContent className="bg-white p-20 md:p-24 lg:w-[70%] lg:rounded-md" isEmpty={isEmpty} {...props} />
 
         <OrderSummary
-          className="bg-white px-16 pb-12 pt-24 md:px-24 md:py-12 lg:mt-0 lg:w-[30%] lg:rounded-md lg:p-36 lg:px-32 lg:pb-44 xl:px-48"
+          className="bg-white lg:mt-0 lg:w-[30%] lg:rounded-md"
           title={translate('cart.order-summary')}
           includeLoginSuggestion
           paymentMethods={paymentMethods}

@@ -6,6 +6,7 @@ import { classnames } from 'helpers/utils/classnames';
 import { LayoutProps } from 'types/next';
 import 'tailwindcss/tailwind.css';
 import 'react-loading-skeleton/dist/skeleton.css';
+import 'react-tooltip/dist/react-tooltip.css';
 import 'flag-icons/css/flag-icons.min.css';
 import 'styles/app.css';
 

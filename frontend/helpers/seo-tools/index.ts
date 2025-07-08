@@ -1,50 +1,72 @@
 import { PageResponse } from '@commercetools/frontend-sdk';
-import { Product } from 'shared/types/product';
-import { ProductPaginatedResult } from 'shared/types/result';
-import { Params } from 'types/next';
+import { Product, Category } from 'shared/types/product';
 
-export const getSeoInfoFromPageResponse = (response: PageResponse, params: Params) => {
+interface ProductListData {
+  items: Product[];
+  query?: { categories?: string[] };
+}
+
+// takes the provided categories and returns the first one that matches the categoryId
+const findCurrentCategory = (response: PageResponse, categories: Category[]): Category | null => {
+  const data = response.data.dataSources.__master as ProductListData;
+  const categoryId = data?.query?.categories?.[0];
+
+  if (!categoryId || !categories.length) return null;
+
+  return categories.find((cat) => cat.categoryId === categoryId) ?? null;
+};
+
+const extractKeywords = (text: string): string[] => {
+  return text.split(/\s+/).filter((word) => word.length > 2);
+};
+
+const getCategoryKeywords = (category: Category): string[] => {
+  if (!category.name) return [];
+  return [category.name, ...extractKeywords(category.name)];
+};
+
+const getProductKeywords = (product: Product): string[] => {
+  if (product.metaKeywords) {
+    return product.metaKeywords
+      .split(',')
+      .map((k) => k.trim())
+      .filter(Boolean);
+  }
+  return product.categories?.map((cat) => cat.name).filter((name): name is string => Boolean(name)) ?? [];
+};
+
+export const getSeoInfoFromPageResponse = (response: PageResponse, categories: Category[]) => {
+  const pageConfig = response.pageFolder?.configuration ?? {};
+  const pageType = response.pageFolder?.pageFolderType;
+
   let seoTitle: string | undefined;
   let seoDescription: string | undefined;
-  const seoKeywords: (string | undefined)[] = [];
+  let keywords: string[] = [];
 
-  /* Category Page (PLP) */
-  switch (response.pageFolder.pageFolderType) {
-    case 'frontastic/category':
-      const categoryName = (params.slug.at(-1) ?? '')
-        .split('_')
-        .map((word) => word.slice(0, 1).toUpperCase() + word.slice(1))
-        .join(' ');
-
-      seoTitle = categoryName;
-
-      seoKeywords.push(categoryName);
-      break;
-    case 'frontastic/product-detail-page':
-      const productData = (response.data.dataSources.__master as unknown as { product: Product }).product;
-      seoTitle = productData.metaTitle || productData.name;
-      seoDescription = productData.metaDescription || productData.description;
-
-      if (productData.metaKeywords) {
-        productData.metaKeywords.split(',').forEach((keyword) => seoKeywords.push(keyword));
-      } else {
-        productData.categories?.forEach((category) => seoKeywords.push(category.name));
-      }
-      break;
+  if (pageType === 'frontastic/category') {
+    const category = findCurrentCategory(response, categories);
+    if (category) {
+      seoTitle = category.metaTitle ?? category.name;
+      seoDescription = category.metaDescription;
+      keywords = getCategoryKeywords(category);
+    }
   }
 
-  const {
-    seoTitle: pageSeoTitle,
-    seoDescription: pageSeoDescription,
-    seoKeywords: pageSeoKeywords,
-  } = response.pageFolder?.configuration ?? {};
+  if (pageType === 'frontastic/product-detail-page') {
+    const data = response.data.dataSources.__master as any;
+    const product = data?.product as Product | undefined;
+    if (product) {
+      seoTitle = product.metaTitle ?? product.name;
+      seoDescription = product.metaDescription ?? product.description;
+      keywords = getProductKeywords(product);
+    }
+  }
+
+  const allKeywords = [...keywords, ...(pageConfig.seoKeywords ?? [])].filter(Boolean).map((k) => k.trim());
 
   return {
-    seoTitle: (seoTitle || pageSeoTitle) as string,
-    seoDescription: (seoDescription || pageSeoDescription) as string,
-    seoKeywords: [...seoKeywords, ...(pageSeoKeywords as string[])]
-      .map((keyword) => (keyword ?? '').trim())
-      .filter(Boolean)
-      .join(','),
+    seoTitle: seoTitle ?? pageConfig.seoTitle ?? '',
+    seoDescription: seoDescription ?? pageConfig.seoDescription ?? '',
+    seoKeywords: [...new Set(allKeywords)].join(','),
   };
 };

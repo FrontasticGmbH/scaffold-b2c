@@ -22,13 +22,17 @@ export async function generateMetadata(props: PageProps): Promise<Metadata> {
 
   sdk.defaultConfigure(nextLocale);
 
-  const response = await fetchPageData(params, searchParams);
+  const [response, flatCategories] = await Promise.all([
+    fetchPageData(params, searchParams),
+    fetchCategories({ format: 'flat' }),
+  ]);
 
   if (response.isError || isRedirectResponse(response.data)) {
     return {};
   }
 
-  const { seoTitle, seoDescription, seoKeywords } = getSeoInfoFromPageResponse(response.data, params);
+  const categories = flatCategories.isError ? [] : flatCategories.data.items;
+  const { seoTitle, seoDescription, seoKeywords } = getSeoInfoFromPageResponse(response.data, categories);
 
   return {
     title: seoTitle ?? '',

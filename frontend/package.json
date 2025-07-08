@@ -1,6 +1,6 @@
 {
   "name": "@b2cdev/poc-frontend",
-  "version": "4.5.0",
+  "version": "4.6.0",
   "license": "MIT",
   "main": "index.js",
   "private": true,
@@ -63,6 +63,7 @@
     "react-loading-skeleton": "^3.5.0",
     "react-markdown": "^8.0.7",
     "react-modal": "^3.16.3",
+    "react-tooltip": "^5.29.1",
     "search-insights": "^2.17.3",
     "storybook": "^8.6.11",
     "string-to-color": "^2.2.2",

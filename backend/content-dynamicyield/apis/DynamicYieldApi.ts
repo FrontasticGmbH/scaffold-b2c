@@ -1,5 +1,4 @@
-// @ts-ignore
-import fetch from 'node-fetch';
+import fetch, { Response } from 'node-fetch';
 import { Product } from '@Types/product/Product';
 import { ContextType } from '../interfaces/ContextType';
 import BaseApi from './BaseApi';
@@ -32,7 +31,7 @@ export default class DynamicYieldApi extends BaseApi {
       body: JSON.stringify(body),
       headers,
     })
-      .then((response: { json: () => never }) => response.json())
+      .then((response: Response) => response.json())
       .catch((error: { code: number; message: string; body: string }) => {
         throw new ExternalError({ status: error.code, message: error.message, body: error.body });
       });

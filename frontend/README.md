@@ -1,6 +1,6 @@
-# Store Launchpad for B2C Next.js Starter
+# B2C Launchpad Frontend
 
-> :information_source: Full documentation can be found [Here](https://docs.commercetools.com/docs/frontend)
+> :information_source: Full documentation can be found [Here](https://docs.commercetools.com/frontend-development/b2c-store-launchpad-overview)
 
 This is a commercetools Launchpad project that uses Next.js
 

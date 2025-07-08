@@ -102,6 +102,7 @@ const Steps: React.FC<Props> = ({
                   setCheckoutIsProcessing={setProcessing}
                   goToNextStep={goToNextStep}
                   onCompletePayment={async () => {}}
+                  hasOutOfStockItems={hasOutOfStockItems}
                 />
               ),
             },

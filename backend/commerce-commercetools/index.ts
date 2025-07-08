@@ -178,33 +178,28 @@ export default {
           });
         }
 
-        const masterDataSource = findDynamicPageMasterDataSource(context, 'frontastic/product');
-
-        if (!masterDataSource) {
-          return {
-            dataSourcePayload: {},
-            previewPayload: [],
-          };
-        }
-
         const productApi = new ProductApi(
           context.frontasticContext,
           getLocale(context.request),
           getCurrency(context.request),
           context.request,
         );
-        const productQuery = ProductQueryFactory.queryFromParams(context.request, config);
 
-        const masterProduct = masterDataSource.preloadedValue?.product as Product;
+        let productQuery = ProductQueryFactory.queryFromParams(context.request, config);
 
-        const masterProductCategories = masterProduct ? [masterProduct.categories?.[0]?.categoryId] : [];
+        const masterDataSource = findDynamicPageMasterDataSource(context, 'frontastic/product');
 
-        const query = {
+        const masterProduct = masterDataSource?.preloadedValue?.product as Product;
+
+        const masterProductCategories = masterProduct ? [masterProduct.categories?.[0]?.categoryId] : undefined;
+
+        // Skip category filter if no master product categories to avoid empty results
+        productQuery = {
           ...productQuery,
-          categories: masterProductCategories,
+          ...(masterProductCategories ? { categories: masterProductCategories } : {}),
         };
 
-        const queryResult = await productApi.query(query);
+        const queryResult = await productApi.query(productQuery);
 
         return !context.isPreview
           ? { dataSourcePayload: queryResult }

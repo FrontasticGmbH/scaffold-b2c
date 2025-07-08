@@ -2,7 +2,7 @@
  * Module augmentation for '@frontastic/extension-types'.
  *
  * Purpose:
- * - Provide type-safe `query` and `sessionData` properties on the `Request` interface
+ * - Provide type-safe `sessionData` properties on the `Request` interface
  * - Avoid usage of `any` in request handlers
  */
 

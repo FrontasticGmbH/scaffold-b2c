@@ -154,7 +154,7 @@ export class ProductApi extends BaseApi {
 
     // Variants price filter. Not included as commercetools product type.
     filterFields.push({
-      field: 'variants.price',
+      field: 'variants.prices',
       type: FilterFieldTypes.MONEY,
       label: 'Variants price',
     });

@@ -8,6 +8,7 @@ export type CheckoutButtonProps = {
   className?: string;
   link: string;
   disabled?: boolean;
+  hasOutOfStockItems?: boolean;
   text: string;
   onClick?: () => void;
 };

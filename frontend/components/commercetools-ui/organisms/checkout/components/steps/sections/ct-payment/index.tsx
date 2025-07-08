@@ -7,6 +7,9 @@ import { AccountContext } from 'context/account';
 import { useRouter } from 'i18n/routing';
 import { useProjectSettings } from 'frontastic';
 import useSession from 'frontastic/hooks/useSession';
+import Modal from 'components/commercetools-ui/organisms/modal';
+import { ExclamationTriangleIcon } from '@heroicons/react/24/outline';
+import Link from 'components/commercetools-ui/atoms/link';
 
 interface Props {
   isActive: boolean;
@@ -17,6 +20,7 @@ interface Props {
   onCompletePayment: (paymentMethodId: string, data: unknown) => Promise<void>;
   goToNextStep: () => void;
   setCheckoutIsProcessing: (processing: boolean) => void;
+  hasOutOfStockItems?: boolean;
 }
 
 const CommercetoolsPayment = ({
@@ -26,6 +30,7 @@ const CommercetoolsPayment = ({
   onCompletePayment,
   goToNextStep,
   setCheckoutIsProcessing,
+  hasOutOfStockItems,
 }: Props) => {
   const router = useRouter();
 
@@ -142,6 +147,22 @@ const CommercetoolsPayment = ({
 
   return (
     <div>
+      {hasOutOfStockItems && (
+        <Modal isOpen style={{ content: { maxWidth: 400 } }}>
+          <div className="flex flex-col items-center gap-12 border-b border-gray-300 p-20 text-center md:p-24">
+            <ExclamationTriangleIcon className="size-32 text-yellow-500" />
+            <h3 className="text-18 font-semibold text-gray-700 md:text-20">
+              {translate('checkout.update-needed-before-checkout')}
+            </h3>
+            <p className="text-14 text-gray-700">{translate('checkout.items-in-cart-out-of-stock')}</p>
+          </div>
+          <div className="flex justify-center p-20 md:p-24">
+            <Link link="/cart" tabIndex={-1}>
+              <Button>{translate('checkout.go-to-cart')}</Button>
+            </Link>
+          </div>
+        </Modal>
+      )}
       <div data-ctc />
 
       {!isCompleted && (

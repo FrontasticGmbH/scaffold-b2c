@@ -1,4 +1,17 @@
 
+## Version 1.16.0 (2025-06-24)
+
+** New Features & Improvements **
+
+- Enhance product query capabilities with dynamic filters and data source configuration
+- add support for multiple customer groups
+- add if check for discount and include missing field
+
+
+** Bug Fixes **
+
+- Update ProductQuery to use Filter type instead of BaseFilter
+
 ## Version 1.15.1 (2025-06-09)
 
 ** Bug Fixes **

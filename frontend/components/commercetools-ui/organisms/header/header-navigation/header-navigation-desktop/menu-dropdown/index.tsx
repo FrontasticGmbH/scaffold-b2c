@@ -4,6 +4,8 @@ import { Tile } from 'components/commercetools-ui/organisms/header/types';
 import useClassNames from 'helpers/hooks/useClassNames';
 import { Category } from 'types/entity/category';
 import HeaderDropdownTile from './header-menu-tile';
+import { usePathname } from 'i18n/routing';
+import { classnames } from 'helpers/utils/classnames';
 
 export interface Props {
   show: boolean | undefined;
@@ -26,6 +28,16 @@ const MenuDropdown: FC<Props> = ({ show, links, tileContent, onClick }) => {
       ref.current?.focus();
     }
   }, [show, links]);
+
+  const pathname = usePathname();
+  const pathnameWithoutQuery = pathname.split('?')[0];
+
+  const getLinkClassName = (link: Category) => {
+    return classnames('whitespace-nowrap', {
+      'underline underline-offset-2 font-semibold': `${link._url}/` === pathnameWithoutQuery,
+    });
+  };
+
   return (
     <div className={wrapperClassNames}>
       <ul className={linksClassNames}>
@@ -38,21 +50,21 @@ const MenuDropdown: FC<Props> = ({ show, links, tileContent, onClick }) => {
                     link={link?._url}
                     ref={index === 0 ? ref : null}
                     variant="menu-header"
-                    className="whitespace-nowrap"
+                    className={getLinkClassName(link)}
                   >
                     <p className="text-14">{link.name}</p>
                   </Link>
                 </div>
                 {link.descendants?.map((field) => (
                   <div key={field.categoryId} className="w-min pb-8">
-                    <Link link={field?._url} onClick={onClick} variant="menu-item" className="whitespace-nowrap">
+                    <Link link={field?._url} onClick={onClick} variant="menu-item" className={getLinkClassName(field)}>
                       <p className="text-14">{field.name}</p>
                     </Link>
                   </div>
                 ))}
               </>
             ) : (
-              <Link key={link.categoryId} link={link?._url} variant="menu-header">
+              <Link key={link.categoryId} link={link?._url} variant="menu-header" className={getLinkClassName(link)}>
                 <p className="text-14">{link.name}</p>
               </Link>
             )}

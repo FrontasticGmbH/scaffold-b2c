@@ -1,4 +1,32 @@
 
+## Version 3.8.0 (2025-06-24)
+
+** New Features & Improvements **
+
+- update account login response
+- Simplify queryParamsToIds function signature for improved readability
+- Enhance type definitions and error handling in API and utility functions
+- rename variable, pass in accountGroupIds into session
+- Clean up DataSource and QueryParams interfaces for improved readability
+- Consolidate RawFacetData interface and update imports for better structure
+- Reorganize imports in ProductQueryFactory for improved readability
+- Enhance product query capabilities with dynamic filters and data source configuration
+- added price filter as product filters
+- add support for multiple customer groups
+- Update QueryParams import and remove obsolete cartApi interface
+- port changes to b2c
+- removed usage of streamId and replace by the new dataSourceId field
+
+
+** Bug Fixes **
+
+- fix lint errors
+- Correct error handling in BaseApi to use statusCode for improved accuracy
+- Update DataSource and ProductQueryFactory to use optional properties for min and max values
+- Update DataSourceConfiguration to enforce specific type for configuration
+- remove account usage from session
+- handle single value on product filter query
+
 ## Version 3.7.0 (2025-06-09)
 
 

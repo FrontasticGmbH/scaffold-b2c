@@ -29,6 +29,7 @@ const Modal: FC<ModalProps> = ({ children, style, preventScroll, closeButton, cl
       maxWidth: isDesktopSize ? 800 : '100%',
       position: 'relative',
       padding: 0,
+      outline: 'none',
       ...style?.content,
     },
   };

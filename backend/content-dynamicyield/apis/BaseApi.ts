@@ -1,4 +1,3 @@
-// @ts-ignore
 import { Context } from '@frontastic/extension-types';
 import { getFromProjectConfig } from '@Commerce-commercetools/utils/Context';
 

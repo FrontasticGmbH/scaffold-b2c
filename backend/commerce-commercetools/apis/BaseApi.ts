@@ -1,6 +1,4 @@
-// @ts-ignore
 import crypto from 'crypto';
-// @ts-ignore
 import fetch, { Response } from 'node-fetch';
 import { ApiRoot, createApiBuilderFromCtpClient, ProductType, Project } from '@commercetools/platform-sdk';
 import { Context, Request } from '@frontastic/extension-types';

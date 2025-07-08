@@ -3,6 +3,7 @@ import 'tailwindcss/tailwind.css';
 import 'flag-icons/css/flag-icons.min.css';
 import '../styles/app.css';
 import 'react-loading-skeleton/dist/skeleton.css';
+import 'react-tooltip/dist/react-tooltip.css';
 import theme from './theme';
 import { sdk } from '../sdk';
 import { AccountProvider } from '../context/account';
@@ -37,13 +38,12 @@ const preview: Preview = {
   },
 
   decorators: [
-    (Story, context) => {
-      const { account } = context.parameters;
+    (Story) => {
       sdk.defaultConfigure('en');
       return (
         <div data-theme="default">
           <ShipAndLanguageProvider>
-            <AccountProvider value={{ account }}>
+            <AccountProvider>
               <Story />
             </AccountProvider>
           </ShipAndLanguageProvider>
