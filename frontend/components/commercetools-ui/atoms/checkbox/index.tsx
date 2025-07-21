@@ -57,12 +57,12 @@ const Checkbox: React.FC<CheckboxProps> = ({
 
   const containerClassNames = useClassNames(['flex items-center gap-12', containerClassName]);
   const buttonClassName = useClassNames([
-    'h-20 w-20 min-w-[20px] rounded-sm relative outline outline-1 cursor-pointer',
+    'h-20 w-20 min-w-[20px] rounded-sm relative cursor-pointer ',
     isHovered ? 'outline-gray-600' : 'outline-neutral-400',
   ]);
 
   const inputClassName = useClassNames([
-    'absolute w-full h-full z-[2] checked:bg-none bg-transparent text-transparent border-transparent',
+    'absolute w-full h-full z-[2] checked:bg-none bg-transparent focus:border-gray-600 rounded-sm text-transparent border-neutral-400',
     className,
   ]);
 

@@ -6,11 +6,13 @@ import CommercetoolsCheckout from 'components/commercetools-ui/organisms/checkou
 import { TasticProps } from '../types';
 import { useCart } from 'frontastic/hooks';
 
-const CheckoutTastic = ({ data }: TasticProps<Pick<CheckoutWrappedProps, 'logo' | 'isCtPaymentOnly'>>) => {
+const CheckoutTastic = ({
+  data,
+}: TasticProps<Pick<CheckoutWrappedProps, 'logo' | 'isCtPaymentOnly' | 'callbackUrl'>>) => {
   const { data: cart, transaction, updateCart, shippingMethods, redeemDiscountCode, removeDiscountCode } = useCart();
 
   //Full commercetools checkout
-  if (!data.isCtPaymentOnly) return <CommercetoolsCheckout logo={data.logo} />;
+  if (!data.isCtPaymentOnly) return <CommercetoolsCheckout logo={data.logo} callbackUrl={data.callbackUrl} />;
 
   //Custom checkout with commercetools payment only
   return (
@@ -24,6 +26,7 @@ const CheckoutTastic = ({ data }: TasticProps<Pick<CheckoutWrappedProps, 'logo' 
       shippingMethods={shippingMethods.data ?? []}
       onApplyDiscountCode={redeemDiscountCode}
       onRemoveDiscountCode={removeDiscountCode}
+      callbackUrl={data.callbackUrl}
     />
   );
 };

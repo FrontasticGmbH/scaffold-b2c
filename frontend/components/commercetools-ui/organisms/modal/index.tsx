@@ -52,10 +52,9 @@ const Modal: FC<ModalProps> = ({ children, style, preventScroll, closeButton, cl
       parentSelector={() => document.getElementById('react-modal-custom-portal') ?? document.body}
     >
       {closeButton && (
-        <CloseIcon
-          className="absolute right-20 top-20 size-24 cursor-pointer text-gray-600"
-          onClick={props.onRequestClose}
-        />
+        <button onClick={props.onRequestClose} className="absolute right-20 top-20 focus:ring-1">
+          <CloseIcon className="size-24 text-gray-600" />
+        </button>
       )}
       {children}
     </ReactModal>

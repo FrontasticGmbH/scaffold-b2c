@@ -21,6 +21,7 @@ interface Props {
   goToNextStep: () => void;
   setCheckoutIsProcessing: (processing: boolean) => void;
   hasOutOfStockItems?: boolean;
+  callbackUrl?: string;
 }
 
 const CommercetoolsPayment = ({
@@ -31,6 +32,7 @@ const CommercetoolsPayment = ({
   goToNextStep,
   setCheckoutIsProcessing,
   hasOutOfStockItems,
+  callbackUrl,
 }: Props) => {
   const router = useRouter();
 
@@ -112,7 +114,7 @@ const CommercetoolsPayment = ({
 
               const { order } = message.payload as { order: { id: string } };
 
-              router.push(`${process.env.NEXT_PUBLIC_COMMERCETOOLS_CHECKOUT_CALLBACK_URL}?orderId=${order.id}`);
+              router.push(`${callbackUrl}?orderId=${order.id}`);
 
               break;
           }

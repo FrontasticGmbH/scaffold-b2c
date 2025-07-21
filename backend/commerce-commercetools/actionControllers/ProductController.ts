@@ -1,20 +1,15 @@
 import { ActionContext, Request, Response } from '@frontastic/extension-types';
 import { ProductQuery } from '@Types/query/ProductQuery';
 import { CategoryQuery, CategoryQueryFormat } from '@Types/query/CategoryQuery';
-import { ProductApi } from '../apis/ProductApi';
 import { ProductQueryFactory } from '../utils/ProductQueryFactory';
-import { getCurrency, getLocale } from '../utils/Request';
 import handleError from '@Commerce-commercetools/utils/handleError';
+import getProductApi from '@Commerce-commercetools/utils/apiFactories/getProductApi';
 
 type ActionHook = (request: Request, actionContext: ActionContext) => Promise<Response>;
 
-function getProductApi(request: Request, actionContext: ActionContext) {
-  return new ProductApi(actionContext.frontasticContext, getLocale(request), getCurrency(request), request);
-}
-
 export const getProduct: ActionHook = async (request: Request, actionContext: ActionContext) => {
   try {
-    const productApi = getProductApi(request, actionContext);
+    const productApi = getProductApi(request, actionContext.frontasticContext);
 
     let productQuery: ProductQuery = {};
 
@@ -60,7 +55,7 @@ export const getProduct: ActionHook = async (request: Request, actionContext: Ac
 
 export const query: ActionHook = async (request: Request, actionContext: ActionContext) => {
   try {
-    const productApi = getProductApi(request, actionContext);
+    const productApi = getProductApi(request, actionContext.frontasticContext);
 
     const productQuery = ProductQueryFactory.queryFromParams(request);
 
@@ -82,7 +77,7 @@ export const query: ActionHook = async (request: Request, actionContext: ActionC
 
 export const queryCategories: ActionHook = async (request: Request, actionContext: ActionContext) => {
   try {
-    const productApi = getProductApi(request, actionContext);
+    const productApi = getProductApi(request, actionContext.frontasticContext);
 
     const categoryQuery: CategoryQuery = {
       limit: request.query?.limit ?? undefined,
@@ -113,7 +108,7 @@ export const queryCategories: ActionHook = async (request: Request, actionContex
  */
 export const productFilters: ActionHook = async (request: Request, actionContext: ActionContext) => {
   try {
-    const productApi = getProductApi(request, actionContext);
+    const productApi = getProductApi(request, actionContext.frontasticContext);
 
     const result = await productApi.getProductFilters();
 
@@ -136,7 +131,7 @@ export const productFilters: ActionHook = async (request: Request, actionContext
  */
 export const categoryFilters: ActionHook = async (request: Request, actionContext: ActionContext) => {
   try {
-    const productApi = getProductApi(request, actionContext);
+    const productApi = getProductApi(request, actionContext.frontasticContext);
 
     const result = await productApi.getCategoryFilters();
 

@@ -6,6 +6,7 @@ import toast from 'react-hot-toast';
 import { Account } from 'shared/types/account';
 import { Address } from 'shared/types/account/Address';
 import { useTranslations } from 'use-intl';
+import Button from 'components/commercetools-ui/atoms/button';
 import Checkbox from 'components/commercetools-ui/atoms/checkbox';
 import Dropdown from 'components/commercetools-ui/atoms/dropdown';
 import Input from 'components/commercetools-ui/atoms/input';
@@ -15,7 +16,6 @@ import countryStates from 'public/static/states.json';
 import DeleteModal from './deleteModal';
 import usePropsToAddressType from './mapPropsToAddressType';
 import AccountForm from '../../account-atoms/account-form';
-import SaveOrCancel from '../../account-atoms/save-or-cancel';
 import useDiscardForm from '../../hooks/useDiscardForm';
 import useFeedbackToasts from '../../hooks/useFeedbackToasts';
 
@@ -36,17 +36,6 @@ export interface AddressFormData extends Address {
 
 type AddressType = 'shipping' | 'billing';
 type AddressTypeOptions = Array<{ label: string; value: AddressType }>;
-
-interface Inputs extends AddressFormData {
-  firstName: string;
-  lastName: string;
-  streetName: string;
-  additionalAddressInfo?: string;
-  postalCode: string;
-  city: string;
-  state?: string;
-  country: string;
-}
 
 const AddressForm: React.FC<AddressFormProps> = ({ editedAddressId, countries = [] }) => {
   const translate = useTranslations();
@@ -92,12 +81,13 @@ const AddressForm: React.FC<AddressFormProps> = ({ editedAddressId, countries = 
     setValue,
     getValues,
     watch,
-  } = useForm<Inputs>({
+  } = useForm<AddressFormData>({
     defaultValues: {
       firstName: '',
       lastName: '',
       streetName: '',
-      additionalAddressInfo: '',
+      streetNumber: '',
+      apartment: '',
       postalCode: '',
       city: '',
       state: '',
@@ -160,7 +150,7 @@ const AddressForm: React.FC<AddressFormProps> = ({ editedAddressId, countries = 
       .then(discardForm);
   };
 
-  const onSubmit: SubmitHandler<Inputs> = (formData) => {
+  const onSubmit: SubmitHandler<AddressFormData> = (formData) => {
     const { addAddress, updateAddress } = mapPropsToAddress(formData);
 
     if (editedAddressId) {
@@ -199,28 +189,55 @@ const AddressForm: React.FC<AddressFormProps> = ({ editedAddressId, countries = 
         error={errors.lastName?.message}
       />
 
-      <Input
-        label={`${translate('common.address')} 1`}
-        type="text"
+      <Dropdown
+        items={countries.map(({ name, value }) => ({ label: name, value }))}
+        className="w-full border-neutral-500"
+        {...register('country', { required: { value: true, message: translate('common.fieldIsRequired') } })}
+        label={translate('common.country')}
         required
-        id="street-name"
+      />
+
+      <div className="mt-4 flex gap-12">
+        <div className="col-span-6 max-w-120">
+          <Input
+            label={translate('common.street-number')}
+            type="text"
+            required
+            id="street-number"
+            autoComplete="address-line1"
+            className="border-neutral-500"
+            {...register('streetNumber', { required: { value: true, message: translate('common.fieldIsRequired') } })}
+            error={errors.streetNumber?.message}
+          />
+        </div>
+
+        <div className="grow">
+          <Input
+            label={translate('common.street-name')}
+            type="text"
+            id="street-name"
+            autoComplete="address-line1"
+            className="border-neutral-500"
+            {...register('streetName', { required: { value: true, message: translate('common.fieldIsRequired') } })}
+            error={errors.streetName?.message}
+            required
+          />
+        </div>
+      </div>
+
+      <Input
+        label={translate('common.apartment-suite')}
+        labelDesc={translate('common.optional')}
+        type="text"
+        id="apartment"
         autoComplete="address-line1"
         className="border-neutral-500"
-        {...register('streetName', { required: { value: true, message: translate('common.fieldIsRequired') } })}
-        error={errors.streetName?.message}
+        {...register('apartment')}
+        error={errors.apartment?.message}
       />
 
-      <Input
-        label={`${translate('common.address')} 2 (${translate('common.optional')})`}
-        type="text"
-        id="additional-address-info"
-        autoComplete="address-line2"
-        className="border-neutral-500"
-        {...register('additionalAddressInfo')}
-      />
-
-      <div className="grid grid-cols-3 gap-12">
-        <div className="col-span-3 md:col-span-1">
+      <div className="grid grid-cols-4 gap-12">
+        <div className="col-span-4 md:col-span-2">
           <Input
             label={translate('common.zipCode')}
             required
@@ -233,7 +250,7 @@ const AddressForm: React.FC<AddressFormProps> = ({ editedAddressId, countries = 
           />
         </div>
 
-        <div className="col-span-3 md:col-span-2">
+        <div className="col-span-4 md:col-span-2">
           <Input
             label={translate('common.city')}
             required
@@ -246,13 +263,6 @@ const AddressForm: React.FC<AddressFormProps> = ({ editedAddressId, countries = 
           />
         </div>
       </div>
-
-      <Dropdown
-        items={countries.map(({ name, value }) => ({ label: name, value }))}
-        className="w-full border-neutral-500"
-        {...register('country')}
-        label={translate('common.country')}
-      />
 
       {stateInputInfo &&
         (stateInputInfo.type === 'dropdown' ? (
@@ -296,20 +306,36 @@ const AddressForm: React.FC<AddressFormProps> = ({ editedAddressId, countries = 
         onChange={(item) => setValue('isDefaultAddress', item.checked)}
         containerClassName="mt-4 md:mb-20 mb-12"
         label={translate('account.address-setDefault')}
+        onKeyDown={(e) => {
+          e.stopPropagation();
+
+          if (e.key === 'Enter') {
+            setValue('isDefaultAddress', !data.isDefaultAddress);
+          }
+        }}
       />
 
-      <div className="grid h-fit items-center justify-between gap-32 md:mt-20 md:flex md:gap-0">
+      <div className="grid h-fit w-full grid-cols-4 items-center justify-between gap-32 md:flex md:gap-0">
         {editedAddressId && (
-          <div
-            className="flex items-center gap-8 text-red-600 hover:cursor-pointer hover:opacity-70"
+          <button
+            type="button"
+            className="col-span-2 mt-6 flex items-center gap-8 p-4 text-red-600 hover:cursor-pointer hover:opacity-70 md:mt-0"
             onClick={() => setModalIsOpen(true)}
           >
             <TrashIcon className="size-20 stroke-[2px]" />
             <span className="font-semibold leading-[114%]">{translate('common.delete')}</span>
-          </div>
+          </button>
         )}
 
-        <SaveOrCancel onCancel={discardForm} loading={isSubmitting} />
+        <div className="col-span-4 flex flex-col gap-12 md:w-full md:flex-row md:justify-end">
+          <Button type="button" variant="secondary" onClick={discardForm}>
+            {translate('common.cancel')}
+          </Button>
+
+          <Button type="submit" loading={isSubmitting}>
+            {editedAddressId ? translate('account.update-address') : translate('account.save-address')}
+          </Button>
+        </div>
       </div>
 
       <DeleteModal

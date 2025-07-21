@@ -9,7 +9,7 @@ import { useProjectSettings, useCheckout } from 'frontastic';
 import { CheckoutWrappedProps } from '..';
 import Header from '../components/header';
 
-const CommercetoolsCheckout = ({ logo }: Pick<CheckoutWrappedProps, 'logo'>) => {
+const CommercetoolsCheckout = ({ logo, callbackUrl }: Pick<CheckoutWrappedProps, 'logo' | 'callbackUrl'>) => {
   const { push: pushRoute } = useRouter();
 
   const translate = useTranslations();
@@ -71,7 +71,7 @@ const CommercetoolsCheckout = ({ logo }: Pick<CheckoutWrappedProps, 'logo'>) => 
             break;
           case 'checkout_completed':
             pushRoute(
-              `${process.env.NEXT_PUBLIC_COMMERCETOOLS_CHECKOUT_CALLBACK_URL}?orderId=${
+              `${callbackUrl}?orderId=${
                 (message.payload as any)?.order?.id //eslint-disable-line
               }`,
             );

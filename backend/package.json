@@ -16,7 +16,7 @@
     "lint": "eslint .",
     "lint:fix": "eslint --fix .",
     "format": "prettier --write \"**/*.ts\"",
-    "test": "jest"
+    "test": "jest --passWithNoTests"
   },
   "resolutions": {
     "string-width": "4.2.2",
@@ -35,7 +35,6 @@
     "core-js": "^3.20.0",
     "crypto-js": "^4.2.0",
     "dc-delivery-sdk-js": "^0.11.0",
-    "node-fetch": "^2.6.7",
     "nodemailer": "^6.9.10",
     "performance-now": "^2.1.0",
     "qs": "^6.10.1",
@@ -54,7 +53,6 @@
     "@types/crypto-js": "^4.1.1",
     "@types/jest": "^29.5.12",
     "@types/node": "^14.14.35",
-    "@types/node-fetch": "^2.6.12",
     "@types/nodemailer": "^6.4.14",
     "@types/qs": "^6.9.7",
     "@types/uuid": "^8.3.4",

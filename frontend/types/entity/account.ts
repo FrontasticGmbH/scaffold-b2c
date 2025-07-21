@@ -8,6 +8,7 @@ export interface Address {
   streetNumber?: string;
   additionalStreetInfo?: string;
   additionalAddressInfo?: string;
+  apartment?: string;
   postalCode?: string;
   city?: string;
   country?: string; // 2 letter ISO code (https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2)

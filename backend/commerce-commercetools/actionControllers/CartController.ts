@@ -17,7 +17,7 @@ import handleError from '@Commerce-commercetools/utils/handleError';
 import { CartNotMatchOrderError } from '@Commerce-commercetools/errors/CartNotMatchOrderError';
 import { ValidationError } from '@Commerce-commercetools/errors/ValidationError';
 import { AccountFetcher } from '@Commerce-commercetools/utils/AccountFetcher';
-import getCartApi from '@Commerce-commercetools/utils/apiFactory/getCartApi';
+import getCartApi from '@Commerce-commercetools/utils/apiFactories/getCartApi';
 import { QueryParams } from '@Commerce-commercetools/interfaces/QueryParams';
 
 type ActionHook = (request: Request, actionContext: ActionContext) => Promise<Response>;

@@ -1,4 +1,3 @@
-import fetch, { Response } from 'node-fetch';
 import { Product } from '@Types/product/Product';
 import { ContextType } from '../interfaces/ContextType';
 import BaseApi from './BaseApi';

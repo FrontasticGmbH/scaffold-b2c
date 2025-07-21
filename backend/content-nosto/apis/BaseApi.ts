@@ -1,4 +1,3 @@
-import fetch from 'node-fetch';
 import { Context } from '@frontastic/extension-types';
 import { Product } from '@Types/product/Product';
 import { getFromProjectConfig } from '@Content-nosto/utils/Context';

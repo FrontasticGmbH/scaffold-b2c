@@ -19,7 +19,11 @@ export class ProductApi extends BaseApi {
     productQuery.filters = await this.hydrateFilters(productQuery);
 
     const facetDefinitions: FacetDefinition[] = [
-      ...ProductMapper.commercetoolsProductTypesToFacetDefinitions(await this.getCommercetoolsProductTypes(), locale),
+      ...ProductMapper.commercetoolsProductTypesToFacetDefinitions(
+        await this.getCommercetoolsProductTypes(),
+        locale,
+        defaultLocale,
+      ),
       // Include Price facet
       {
         attributeId: 'variants.prices',

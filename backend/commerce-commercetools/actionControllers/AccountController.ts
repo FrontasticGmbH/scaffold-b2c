@@ -5,7 +5,7 @@ import { CartFetcher } from '../utils/CartFetcher';
 import { getLocale } from '../utils/Request';
 import { EmailApiFactory } from '../utils/EmailApiFactory';
 import handleError from '@Commerce-commercetools/utils/handleError';
-import getAccountApi from '@Commerce-commercetools/utils/apiFactory/getAccountApi';
+import getAccountApi from '@Commerce-commercetools/utils/apiFactories/getAccountApi';
 import { AccountFetcher } from '@Commerce-commercetools/utils/AccountFetcher';
 import { AccountAuthenticationError } from '@Commerce-commercetools/errors/AccountAuthenticationError';
 

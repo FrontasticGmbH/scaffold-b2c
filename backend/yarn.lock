@@ -1670,7 +1670,6 @@ __metadata:
     "@types/crypto-js": "npm:^4.1.1"
     "@types/jest": "npm:^29.5.12"
     "@types/node": "npm:^14.14.35"
-    "@types/node-fetch": "npm:^2.6.12"
     "@types/nodemailer": "npm:^6.4.14"
     "@types/qs": "npm:^6.9.7"
     "@types/uuid": "npm:^8.3.4"
@@ -1689,7 +1688,6 @@ __metadata:
     eslint-plugin-jest: "npm:^27.6.3"
     eslint-plugin-prettier: "npm:^5.1.3"
     jest: "npm:^27.5.1"
-    node-fetch: "npm:^2.6.7"
     nodemailer: "npm:^6.9.10"
     performance-now: "npm:^2.1.0"
     prettier: "npm:^3.2.5"
@@ -2292,16 +2290,6 @@ __metadata:
   version: 0.0.29
   resolution: "@types/json5@npm:0.0.29"
   checksum: 10c0/6bf5337bc447b706bb5b4431d37686aa2ea6d07cfd6f79cc31de80170d6ff9b1c7384a9c0ccbc45b3f512bae9e9f75c2e12109806a15331dc94e8a8db6dbb4ac
-  languageName: node
-  linkType: hard
-
-"@types/node-fetch@npm:^2.6.12":
-  version: 2.6.12
-  resolution: "@types/node-fetch@npm:2.6.12"
-  dependencies:
-    "@types/node": "npm:*"
-    form-data: "npm:^4.0.0"
-  checksum: 10c0/7693acad5499b7df2d1727d46cff092a63896dc04645f36b973dd6dd754a59a7faba76fcb777bdaa35d80625c6a9dd7257cca9c401a4bab03b04480cda7fd1af
   languageName: node
   linkType: hard
 
@@ -6474,7 +6462,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"node-fetch@npm:^2.6.1, node-fetch@npm:^2.6.7":
+"node-fetch@npm:^2.6.1":
   version: 2.7.0
   resolution: "node-fetch@npm:2.7.0"
   dependencies:

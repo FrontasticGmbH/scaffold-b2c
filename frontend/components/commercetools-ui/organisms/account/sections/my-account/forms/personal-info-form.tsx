@@ -59,6 +59,7 @@ const PersonalInfoForm = ({ account, update }: Props) => {
           })}
           error={errors.firstName?.message}
           isDirty={dirtyFields.firstName}
+          required
         />
         <Input
           label={translate('common.lastName')}
@@ -68,6 +69,7 @@ const PersonalInfoForm = ({ account, update }: Props) => {
           })}
           error={errors.lastName?.message}
           isDirty={dirtyFields.lastName}
+          required
         />
         <Input
           label={translate('common.email')}
@@ -77,6 +79,7 @@ const PersonalInfoForm = ({ account, update }: Props) => {
           })}
           error={errors.email?.message}
           isDirty={dirtyFields.email}
+          required
         />
       </div>
     </AccountForm>

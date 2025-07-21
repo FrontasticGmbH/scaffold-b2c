@@ -1,7 +1,7 @@
 import { Context, Request } from '@frontastic/extension-types';
 import { Cart } from '@Types/cart/Cart';
-import getCartApi from './apiFactory/getCartApi';
-import getAccountApi from './apiFactory/getAccountApi';
+import getCartApi from './apiFactories/getCartApi';
+import getAccountApi from './apiFactories/getAccountApi';
 import { ResourceNotFoundError } from '@Commerce-commercetools/errors/ResourceNotFoundError';
 
 export class CartFetcher {

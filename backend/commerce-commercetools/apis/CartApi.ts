@@ -472,7 +472,6 @@ export class CartApi extends BaseApi {
   }
 
   async updatePayment(cart: Cart, payment: Payment): Promise<Payment> {
-    const locale = await this.getCommercetoolsLocal();
     const originalPayment = cart.payments.find((cartPayment) => cartPayment.id === payment.id);
 
     if (originalPayment === undefined) {
@@ -520,7 +519,7 @@ export class CartApi extends BaseApi {
       })
       .execute()
       .then((response) => {
-        return CartMapper.commercetoolsPaymentToPayment(response.body, locale);
+        return CartMapper.commercetoolsPaymentToPayment(response.body);
       })
       .catch((error) => {
         throw new ExternalError({ statusCode: error.statusCode, message: error.message, body: error.body });
@@ -590,20 +589,16 @@ export class CartApi extends BaseApi {
   }
 
   async createPayment(payload: PaymentDraft): Promise<Payment> {
-    const locale = await this.getCommercetoolsLocal();
-
     const payment = this.requestBuilder()
       .payments()
       .post({ body: payload })
       .execute()
-      .then((response) => CartMapper.commercetoolsPaymentToPayment(response.body, locale));
+      .then((response) => CartMapper.commercetoolsPaymentToPayment(response.body));
 
     return payment;
   }
 
   async updateOrderPayment(paymentId: string, paymentDraft: Payment) {
-    const locale = await this.getCommercetoolsLocal();
-
     const paymentUpdateActions: PaymentUpdateAction[] = [];
 
     if (paymentDraft.paymentMethod) {
@@ -643,7 +638,7 @@ export class CartApi extends BaseApi {
       })
       .execute()
       .then((response) => {
-        return CartMapper.commercetoolsPaymentToPayment(response.body, locale);
+        return CartMapper.commercetoolsPaymentToPayment(response.body);
       })
       .catch((error) => {
         throw new ExternalError({ statusCode: error.statusCode, message: error.message, body: error.body });
@@ -803,9 +798,9 @@ export class CartApi extends BaseApi {
     return await this.generateCheckoutSessionToken(cartId);
   }
 
-  assertCartIsActive: (cart: Cart) => boolean = (cart: Cart) => {
+  assertCartIsActive(cart: Cart): boolean {
     return cart.cartState === 'Active';
-  };
+  }
 
   protected async setOrderNumber(order: Order): Promise<Order> {
     const locale = await this.getCommercetoolsLocal();

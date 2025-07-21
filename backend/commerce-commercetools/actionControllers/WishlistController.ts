@@ -3,7 +3,7 @@ import { WishlistApi } from '../apis/WishlistApi';
 import { Guid } from '../utils/Guid';
 import handleError from '@Commerce-commercetools/utils/handleError';
 import { AccountFetcher } from '@Commerce-commercetools/utils/AccountFetcher';
-import getWishlistApi from '@Commerce-commercetools/utils/apiFactory/getWishlistApi';
+import getWishlistApi from '@Commerce-commercetools/utils/apiFactories/getWishlistApi';
 
 type ActionHook = (request: Request, actionContext: ActionContext) => Promise<Response>;
 

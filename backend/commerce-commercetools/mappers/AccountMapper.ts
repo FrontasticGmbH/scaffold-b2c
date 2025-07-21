@@ -6,7 +6,6 @@ import {
 } from '@commercetools/platform-sdk';
 import { Account, AccountGroup } from '@Types/account/Account';
 import { Address } from '@Types/account/Address';
-import { Locale } from '../Locale';
 import { Guid } from '@Commerce-commercetools/utils/Guid';
 
 export class AccountMapper {
@@ -66,6 +65,8 @@ export class AccountMapper {
       streetNumber: commercetoolsAddress.streetNumber ?? undefined,
       additionalStreetInfo: commercetoolsAddress.additionalStreetInfo ?? undefined,
       additionalAddressInfo: commercetoolsAddress.additionalAddressInfo ?? undefined,
+      building: commercetoolsAddress.building ?? undefined,
+      apartment: commercetoolsAddress.apartment ?? undefined,
       postalCode: commercetoolsAddress.postalCode ?? undefined,
       city: commercetoolsAddress.city ?? undefined,
       country: commercetoolsAddress.country ?? undefined,
@@ -74,21 +75,20 @@ export class AccountMapper {
     };
   }
 
-  static commercetoolsCustomerToAddresses: (commercetoolsCustomer: commercetoolsCustomer, locale: Locale) => Address[] =
-    (commercetoolsCustomer: commercetoolsCustomer) => {
-      const addresses: Address[] = [];
+  static commercetoolsCustomerToAddresses(commercetoolsCustomer: commercetoolsCustomer): Address[] {
+    const addresses: Address[] = [];
 
-      commercetoolsCustomer.addresses.forEach((commercetoolsAddress) => {
-        addresses.push({
-          isDefaultBillingAddress: commercetoolsAddress.id === commercetoolsCustomer.defaultBillingAddressId,
-          isBillingAddress: commercetoolsCustomer.billingAddressIds.includes(commercetoolsAddress.id),
-          isDefaultShippingAddress: commercetoolsAddress.id === commercetoolsCustomer.defaultShippingAddressId,
-          isShippingAddress: commercetoolsCustomer.shippingAddressIds.includes(commercetoolsAddress.id),
-        } as Address);
-      });
+    commercetoolsCustomer.addresses.forEach((commercetoolsAddress) => {
+      addresses.push({
+        isDefaultBillingAddress: commercetoolsAddress.id === commercetoolsCustomer.defaultBillingAddressId,
+        isBillingAddress: commercetoolsCustomer.billingAddressIds.includes(commercetoolsAddress.id),
+        isDefaultShippingAddress: commercetoolsAddress.id === commercetoolsCustomer.defaultShippingAddressId,
+        isShippingAddress: commercetoolsCustomer.shippingAddressIds.includes(commercetoolsAddress.id),
+      } as Address);
+    });
 
-      return addresses;
-    };
+    return addresses;
+  }
 
   static addressToCommercetoolsAddress(address: Address): CommercetoolsBaseAddress {
     return {
@@ -101,6 +101,8 @@ export class AccountMapper {
       streetNumber: address.streetNumber,
       additionalStreetInfo: address.additionalStreetInfo,
       additionalAddressInfo: address.additionalAddressInfo,
+      building: address.building,
+      apartment: address.apartment,
       postalCode: address.postalCode,
       city: address.city,
       country: address.country,

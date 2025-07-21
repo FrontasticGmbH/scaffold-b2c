@@ -24,6 +24,7 @@ import { ProductApi } from './apis/ProductApi';
 import { ProductQueryFactory } from './utils/ProductQueryFactory';
 import { ValidationError } from '@Commerce-commercetools/errors/ValidationError';
 import handleError from '@Commerce-commercetools/utils/handleError';
+import getProductApi from './utils/apiFactories/getProductApi';
 
 const getPreviewPayload = (queryResult: ProductPaginatedResult) => {
   return queryResult.items.map((product): DataSourcePreviewPayloadElement => {
@@ -216,12 +217,7 @@ export default {
 
     'frontastic/product': async (config: DataSourceConfiguration, context: DataSourceContext) => {
       try {
-        const productApi = new ProductApi(
-          context.frontasticContext,
-          getLocale(context.request),
-          getCurrency(context.request),
-          context.request,
-        );
+        const productApi = getProductApi(context.request, context.frontasticContext);
         const productQuery = ProductQueryFactory.queryFromParams(context?.request, config);
 
         const queryResult = await productApi.getProduct(productQuery);

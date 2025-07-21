@@ -1,4 +1,4 @@
-import extensions from '../demo-docs';
+import extensions from '..';
 
 const StarWarsMovies = extensions['data-sources']['example/star-wars/movie'];
 

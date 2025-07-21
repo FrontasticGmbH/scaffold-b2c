@@ -13,6 +13,8 @@ export interface Address {
   country?: string; // 2 letter ISO code (https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2)
   state?: string;
   phone?: string;
+  building?: string;
+  apartment?: string;
   isDefaultBillingAddress?: boolean;
   isDefaultShippingAddress?: boolean;
   isShippingAddress?: boolean;

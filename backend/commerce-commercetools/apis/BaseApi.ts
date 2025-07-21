@@ -1,5 +1,4 @@
 import crypto from 'crypto';
-import fetch, { Response } from 'node-fetch';
 import { ApiRoot, createApiBuilderFromCtpClient, ProductType, Project } from '@commercetools/platform-sdk';
 import { Context, Request } from '@frontastic/extension-types';
 import { TokenCache, TokenStore } from '@commercetools/ts-client';

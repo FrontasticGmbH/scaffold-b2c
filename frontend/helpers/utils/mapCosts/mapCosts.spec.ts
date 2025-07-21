@@ -145,7 +145,10 @@ describe('[Utility] mapCosts', () => {
   it('Applies cart discounts correctly', () => {
     const result = mapCosts({
       cart: {
-        discountedAmount: { fractionDigits: 2, centAmount: 7182, currencyCode: 'USD' },
+        discountOnTotalPrice: {
+          discountedAmount: { fractionDigits: 2, centAmount: 7182, currencyCode: 'USD' },
+          includedDiscounts: [],
+        },
         lineItems: [
           {
             count: 1,

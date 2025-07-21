@@ -70,6 +70,21 @@
           ]
         }
       ]
+    },
+    {
+      "name": "Redirect URL after Checkout",
+      "fields": [
+        {
+          "type": "description",
+          "text": "This is the url where the customer will be redirected after a successful checkout."
+        },
+        {
+          "label": "URL",
+          "field": "callbackUrl",
+          "type": "string",
+          "default": "/thank-you"
+        }
+      ]
     }
   ]
 }

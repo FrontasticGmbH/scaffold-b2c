@@ -2,7 +2,7 @@ import { useCallback, useContext } from 'react';
 import { useParams } from 'next/navigation';
 import toast from 'react-hot-toast';
 import { useTranslations } from 'use-intl';
-import * as uuid from 'uuid';
+import { v4 } from 'uuid';
 import { PaymentResponse } from 'components/commercetools-ui/organisms/checkout/provider/payment/types';
 import { AccountContext } from 'context/account';
 import useI18n from 'helpers/hooks/useI18n';
@@ -18,8 +18,9 @@ interface Options {
   cart?: Cart;
   transaction: Transaction;
   hasOutOfStockItems?: boolean;
+  callbackUrl?: string;
 }
-const usePurchase = ({ cart, transaction, hasOutOfStockItems }: Options) => {
+const usePurchase = ({ cart, transaction, hasOutOfStockItems, callbackUrl }: Options) => {
   const translate = useTranslations();
 
   const router = useRouter();
@@ -34,14 +35,14 @@ const usePurchase = ({ cart, transaction, hasOutOfStockItems }: Options) => {
       if (['Authorised', 'RedirectShopper', 'IdentifyShopper', 'ChallengeShopper'].includes(response?.resultCode)) {
         if (!response.action) {
           await sdk.callAction({ actionName: 'cart/resetCart' });
-          router.push(`/thank-you?orderId=${orderNumber}`);
+          router.push(`${callbackUrl}?orderId=${orderNumber}`);
           return;
         }
 
         switch (response.action.type) {
           case 'redirect':
             await sdk.callAction({ actionName: 'cart/resetCart' });
-            window.location.replace(response.action.url as string);
+            window.location.replace(response.action.url);
             break;
           case 'threeDS2':
             await handleThreeDS2Action(response.action, (threeDS2AuthResponse) =>
@@ -87,7 +88,7 @@ const usePurchase = ({ cart, transaction, hasOutOfStockItems }: Options) => {
       response = await makePayment({
         amount: { currency: transaction.total.currencyCode, value: transaction.total.centAmount },
         returnUrl: `${window.location.origin}/thank-you?orderId=${orderNumber}`,
-        reference: orderNumber as string,
+        reference: orderNumber,
         channel: 'web',
         origin: window.location.origin,
         countryCode: country,
@@ -115,15 +116,15 @@ const usePurchase = ({ cart, transaction, hasOutOfStockItems }: Options) => {
       response = await makeKlarnaPayment({
         amount: { currency: transaction.total.currencyCode, value: transaction.total.centAmount },
         returnUrl: `${window.location.origin}/thank-you?orderId=${orderNumber}`,
-        reference: orderNumber as string,
-        shopperReference: account?.accountId ?? uuid.v4(),
+        reference: orderNumber,
+        shopperReference: account?.accountId ?? v4(),
         countryCode: country,
         shopperLocale: getLocalizationInfo(locale).locale,
         lineItems: (cart?.lineItems ?? []).map((lineItem) => ({
           id: lineItem.lineItemId as string,
-          quantity: (lineItem.count ?? 1).toString() as string,
-          description: lineItem.name as string,
-          amountIncludingTax: lineItem.totalPrice?.centAmount as number,
+          quantity: (lineItem.count ?? 1).toString(),
+          description: lineItem.name ?? '',
+          amountIncludingTax: lineItem.totalPrice?.centAmount ?? 0,
           productUrl: lineItem._url,
           imageUrl: lineItem.variant?.images?.[0],
         })),

@@ -25,6 +25,7 @@ interface Props {
   hasOutOfStockItems?: boolean;
   onPurchase: () => void;
   onFinalStepChange: (isFinalStep: boolean) => void;
+  callbackUrl?: string;
 }
 
 const Steps: React.FC<Props> = ({
@@ -35,6 +36,7 @@ const Steps: React.FC<Props> = ({
   onUpdateCart,
   onPurchase,
   onFinalStepChange,
+  callbackUrl,
 }) => {
   const translate = useTranslations();
 
@@ -103,6 +105,7 @@ const Steps: React.FC<Props> = ({
                   goToNextStep={goToNextStep}
                   onCompletePayment={async () => {}}
                   hasOutOfStockItems={hasOutOfStockItems}
+                  callbackUrl={callbackUrl}
                 />
               ),
             },

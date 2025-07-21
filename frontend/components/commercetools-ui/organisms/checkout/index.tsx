@@ -22,6 +22,7 @@ export type CheckoutWrappedProps = HeaderProps & {
   onRemoveDiscountCode?: (discount: DiscountCode) => Promise<void>;
   onUpdateCart?: (payload: CartDetails) => Promise<Cart>;
   isCtPaymentOnly?: boolean;
+  callbackUrl?: string;
 };
 
 export const CheckoutWrapped = ({
@@ -35,6 +36,7 @@ export const CheckoutWrapped = ({
   onApplyDiscountCode,
   onRemoveDiscountCode,
   onUpdateCart,
+  callbackUrl,
 }: CheckoutWrappedProps) => {
   const translate = useTranslations();
 
@@ -44,7 +46,7 @@ export const CheckoutWrapped = ({
 
   const { processing } = useCheckout();
 
-  const { purchase } = usePurchase({ cart, transaction, hasOutOfStockItems });
+  const { purchase } = usePurchase({ cart, transaction, hasOutOfStockItems, callbackUrl });
 
   return (
     <div className="min-h-screen bg-neutral-200">
@@ -94,6 +96,7 @@ export const CheckoutWrapped = ({
             onFinalStepChange={setIsFinalStep}
             isCtPaymentOnly={isCtPaymentOnly}
             hasOutOfStockItems={hasOutOfStockItems}
+            callbackUrl={callbackUrl}
           />
         </div>
       </div>

@@ -1,4 +1,4 @@
-import extensions from '../demo-docs';
+import extensions from '..';
 
 const StarWarsAction = extensions['actions']['star-wars']['character'];
 

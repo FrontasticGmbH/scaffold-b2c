@@ -31,7 +31,7 @@ const mapCosts: MapCosts = ({ cart: data, currency = 'USD' }) => {
   }, 0);
 
   const discountedAmount =
-    (data.discountedAmount?.centAmount || 0) +
+    (data.discountOnTotalPrice?.discountedAmount?.centAmount || 0) +
     (data.lineItems ?? []).reduce((acc, curr) => {
       if (curr.isGift) {
         return acc;

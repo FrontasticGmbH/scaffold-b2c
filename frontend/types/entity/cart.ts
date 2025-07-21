@@ -193,7 +193,6 @@ export interface Cart {
   discountOnTotalPrice?: DiscountOnTotalPrice;
   taxed?: Tax;
   payments?: Payment[];
-  discountedAmount?: Money;
   origin?: CartOrigin;
   cartState?: CartState;
   accountId?: string;

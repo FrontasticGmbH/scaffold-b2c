@@ -1,4 +1,4 @@
-import extensions from '../demo-docs';
+import extensions from '..';
 
 const DynamicPageHandler = extensions['dynamic-page-handler'];
 

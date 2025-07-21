@@ -1,8 +1,8 @@
 import React, { ChangeEvent, ComponentProps, FC } from 'react';
 import { ChevronDownIcon } from '@heroicons/react/24/outline';
+import { useTranslations } from 'next-intl';
 import useClassNames from 'helpers/hooks/useClassNames';
 import useControllableState from 'helpers/hooks/useControllable';
-import { classnames } from 'helpers/utils/classnames';
 
 export interface DropdownProps extends ComponentProps<'select'> {
   className?: string;
@@ -23,9 +23,11 @@ const DefaultDropdown: FC<DropdownProps> = ({
   items,
   onChange,
   value,
+  error,
   ...props
 }) => {
   const [selectedValue, setSelectedValue] = useControllableState(value);
+  const translate = useTranslations();
 
   const handleChange = (e: ChangeEvent<HTMLSelectElement>) => {
     const value = e.target.value;
@@ -36,8 +38,11 @@ const DefaultDropdown: FC<DropdownProps> = ({
   const containerClassNames = useClassNames(['grid', containerClassName]);
 
   const selectClassName = useClassNames([
-    'absolute font-body z-[1] h-40 text-14 border-none focus:ring-0 rounded-sm w-full bg-transparent disabled:bg-neutral-200 bg-none font-regular leading-loose pl-12 pr-0 py-0',
+    'absolute font-body z-[1] h-40 text-14 border border-neutral-500 focus:ring-0 rounded-sm w-full focus:border-gray-500 bg-transparent disabled:bg-neutral-200 bg-none font-regular leading-loose pl-12 pr-0 py-0',
     className,
+    {
+      'border-red-500': error,
+    },
   ]);
 
   const labelClassNames = useClassNames(['mb-8 text-gray-600 leading-loose font-medium text-14', labelClassName]);
@@ -48,11 +53,7 @@ const DefaultDropdown: FC<DropdownProps> = ({
         <label htmlFor={props.name} className={labelClassNames}>{`${label}${props.required ? ' *' : ''}`}</label>
       )}
 
-      <div
-        className={classnames('relative h-40 min-w-64 overflow-hidden rounded-sm border border-neutral-500', {
-          'border-red-500': props.error,
-        })}
-      >
+      <div className="relative h-40 min-w-64 overflow-hidden">
         <select id={props.name} className={selectClassName} value={selectedValue} onChange={handleChange} {...props}>
           {items.map(({ label, value }, index) => (
             <option key={index} value={value}>
@@ -66,6 +67,7 @@ const DefaultDropdown: FC<DropdownProps> = ({
           className="absolute right-5 top-1/2 z-0 h-20 w-30 -translate-y-1/2 stroke-1 text-gray-600"
         />
       </div>
+      <p className="mt-2 text-12 font-medium text-red-500">{error && translate('common.fieldIsRequired')}</p>
     </div>
   );
 };

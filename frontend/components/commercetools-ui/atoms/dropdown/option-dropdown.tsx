@@ -52,7 +52,7 @@ const Select: React.FC<Props> = ({
             ? 'rounded-t-sm rounded-b-none border-x-neutral-500 border-b-neutral-400 border-t-neutral-500'
             : 'rounded-sm'
         }
-        w-full bg-white py-12 focus:border-gray-500 focus:shadow-md active:border-gray-500
+        w-full bg-white py-12 focus:border-gray-500 focus:ring-0 rounded-sm border focus:shadow-sm focus:outline-none active:border-gray-500
         ${selectButtonClassName}`;
     },
     [selectButtonClassName, error],
@@ -89,7 +89,7 @@ const Select: React.FC<Props> = ({
             >
               <ListboxOptions
                 className={(active) =>
-                  `absolute top-39 z-50 max-h-200 w-full overflow-scroll rounded-b-sm border py-8 ${
+                  `absolute top-39 z-50 max-h-200 w-full overflow-scroll rounded-b-sm border py-8 focus:border-gray-500 focus:outline-none focus:ring-0 ${
                     active ? 'border-x-neutral-500 border-b-neutral-500' : 'border-neutral-400'
                   } bg-white`
                 }

@@ -7,7 +7,7 @@ import defaultLoader from './loaders/default';
 import { ImageProps } from './types';
 
 // Fallback image to use when no valid source is provided
-const PLACEHOLDER_IMAGE = '/placeholder.jpg';
+const PLACEHOLDER_IMAGE = '/images/placeholder.jpg';
 
 const getCropConfig = (gravity?: ImageProps['gravity']) => {
   if (gravity?.mode === 'custom' && gravity.coordinates) {
