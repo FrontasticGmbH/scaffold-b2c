@@ -1,7 +1,7 @@
 import React, { createContext, useContext, useState } from 'react';
+import { useCookies } from 'next-client-cookies';
 import { useParams } from 'next/navigation';
 import { ProjectSettings } from 'shared/types/ProjectSettings';
-import { useRouter } from 'i18n/routing';
 import { Category } from 'types/entity/category';
 import { ContextShape, Option, Location } from './types';
 import usePath from '../../helpers/hooks/usePath';
@@ -21,8 +21,8 @@ const ShipAndLanguageProvider = ({
   projectSettings,
   categories = [],
 }: React.PropsWithChildren<{ projectSettings?: ProjectSettings; categories?: Category[] }>) => {
-  const router = useRouter();
   const { path } = usePath();
+  const cookies = useCookies();
 
   const countries = (projectSettings?.countries ?? []).map(mapCountry).filter((value): value is Country => {
     return value !== null && value !== undefined;
@@ -60,7 +60,11 @@ const ShipAndLanguageProvider = ({
 
     if (correctPath && path !== correctPath) pathToGo = correctPath;
 
-    router.push(pathToGo, { locale: language });
+    if (pathToGo.startsWith('/')) pathToGo = pathToGo.slice(1);
+
+    cookies.set('locale', language);
+
+    window.location.assign(`/${language}/${pathToGo}`);
   };
 
   const onLocationSelect = (location: string) => {

@@ -6,6 +6,7 @@ import { StringHelpers } from 'helpers/stringHelpers';
 export interface InputProps extends ComponentProps<'input'> {
   label?: string;
   labelDesc?: string;
+  labelDescClassName?: string;
   variant?: 'primary' | 'secondary';
   labelPosition?: 'top' | 'inline';
   error?: string;
@@ -28,6 +29,7 @@ const Input: FC<InputProps> = ({
   onFocus,
   onBlur,
   error,
+  labelDescClassName = '',
   ...props
 }) => {
   const [isFocused, setIsFocused] = useState(false);
@@ -69,7 +71,7 @@ const Input: FC<InputProps> = ({
   ]);
 
   const inputClassName = useClassNames([
-    'h-40 focus:border-gray-500 focus:ring-0 w-full rounded-sm border border-neutral-500 px-12 text-primary placeholder:text-14 placeholder:leading-normal placeholder:text-gray-600 focus:outline-none disabled:cursor-not-allowed disabled:bg-neutral-400',
+    'h-40 focus:border-gray-400 focus:ring-0 w-full rounded-md border border-gray-300 px-12 text-primary placeholder:text-14 placeholder:leading-normal placeholder:text-gray-600 focus:outline-none disabled:cursor-not-allowed disabled:bg-neutral-400',
     bgClassName,
     isFocused && label && labelPosition == 'inline' ? 'pt-[20px] pb-[4px]' : 'py-10',
     {
@@ -89,7 +91,7 @@ const Input: FC<InputProps> = ({
             {props.required ? `${label} *` : label}
           </label>
         )}
-        {labelDesc && <label className={labelClassName}>{` (${labelDesc})`}</label>}
+        {labelDesc && <label className={labelDescClassName || 'text-sm text-gray-500'}>{` (${labelDesc})`}</label>}
       </div>
       <div className="relative">
         <input

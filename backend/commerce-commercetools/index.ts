@@ -22,9 +22,9 @@ import { SearchRouter } from './utils/routers/SearchRouter';
 import { CategoryRouter } from './utils/routers/CategoryRouter';
 import { ProductApi } from './apis/ProductApi';
 import { ProductQueryFactory } from './utils/ProductQueryFactory';
+import getProductApi from './utils/apiFactories/getProductApi';
 import { ValidationError } from '@Commerce-commercetools/errors/ValidationError';
 import handleError from '@Commerce-commercetools/utils/handleError';
-import getProductApi from './utils/apiFactories/getProductApi';
 
 const getPreviewPayload = (queryResult: ProductPaginatedResult) => {
   return queryResult.items.map((product): DataSourcePreviewPayloadElement => {

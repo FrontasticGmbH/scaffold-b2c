@@ -1,9 +1,9 @@
-import React, { useState, useMemo } from 'react';
+import React, { useContext, useMemo } from 'react';
 import { useTranslations } from 'next-intl';
 import { FieldErrors, UseFormRegister, UseFormSetValue } from 'react-hook-form';
 import Dropdown from 'components/commercetools-ui/atoms/dropdown';
 import Input from 'components/commercetools-ui/atoms/input';
-import { EMAIL_REGX } from 'helpers/constants/auth';
+import { AccountContext } from 'context/account';
 import useGeo from 'helpers/hooks/useGeo';
 import { getLocalizationInfo, i18nConfig } from 'project.config';
 import countryStates from 'public/static/states.json';
@@ -28,9 +28,8 @@ const AddressForm = ({
   onSubmit,
 }: React.PropsWithChildren<Props>) => {
   const translate = useTranslations();
-
-  const [enableAddress2, setEnableAddress2] = useState(false);
   const { getInfoByZipcode } = useGeo();
+  const { loggedIn } = useContext(AccountContext);
 
   const countries = i18nConfig.locales.map((locale) => {
     const { countryName, countryCode } = getLocalizationInfo(locale);
@@ -78,7 +77,7 @@ const AddressForm = ({
           <Input
             type="string"
             label={translate('common.firstName')}
-            {...register('firstName', { required: { value: true, message: translate('common.fieldIsRequired') } })}
+            {...register('firstName')}
             error={errors.firstName?.message}
             required
           />
@@ -87,89 +86,104 @@ const AddressForm = ({
           <Input
             type="string"
             label={translate('common.lastName')}
-            {...register('lastName', { required: { value: true, message: translate('common.fieldIsRequired') } })}
+            {...register('lastName')}
             error={errors.lastName?.message}
             required
           />
         </div>
-        <div className="col-span-3">
-          <Input
-            type="email"
-            label={translate('common.email')}
-            {...register('email', {
-              required: { value: true, message: translate('common.fieldIsRequired') },
-              pattern: { value: EMAIL_REGX, message: translate('error.email') },
-            })}
-            error={errors.email?.message}
-            required
-          />
-        </div>
 
-        <div className="col-span-3">
-          <Input
-            type="string"
-            label={translate('common.phone')}
-            labelDesc={translate('checkout.for-other-updates')}
-            error={errors.phone?.message}
-            {...register('phone')}
-          />
-        </div>
-        <div className="col-span-3">
-          <Input
-            type="string"
-            label={translate('common.address')}
-            {...register('line1', { required: { value: true, message: translate('common.fieldIsRequired') } })}
-            error={errors.line1?.message}
-            required
-          />
-        </div>
-
-        {enableAddress2 ? (
+        {!loggedIn && (
           <div className="col-span-3">
-            <Input name="line2" label={`${translate('common.address')} 2`} type="string" />
-          </div>
-        ) : (
-          <div className="col-span-3 mt-16">
-            <button type="button" onClick={() => setEnableAddress2(true)} className="w-fit text-14 text-gray-600">
-              {`+ ${translate('checkout.add-address')}`}
-            </button>
+            <Input
+              type="string"
+              label={translate('customer-support.email')}
+              {...register('email')}
+              error={errors.email?.message}
+              required
+            />
           </div>
         )}
 
-        <Input
-          type="string"
-          label={translate('common.zipCode')}
-          {...register('postalCode', {
-            required: { value: true, message: translate('common.fieldIsRequired') },
-            onChange: (event) => {
-              getInfoByZipcode(event.target.value).then((data) => {
-                if (data.places?.[0]) {
-                  setValue('city', data.places[0]['place name'] ?? '');
-                }
-              });
-            },
-          })}
-          error={errors.postalCode?.message}
-          required
-        />
+        <div className="col-span-3">
+          <Input
+            type="string"
+            label={translate('customer-support.phone')}
+            labelDesc={translate('common.optional')}
+            labelDescClassName="text-gray-500 text-sm lowercase"
+            {...register('phone')}
+          />
+        </div>
 
-        <Input
-          type="string"
-          label={translate('common.city')}
-          {...register('city', { required: { value: true, message: translate('common.fieldIsRequired') } })}
-          error={errors.city?.message}
-          required
-        />
+        <div className="col-span-3 my-8">
+          <Dropdown
+            value={address.country ?? ''}
+            items={countries.map(({ name, value }) => ({ label: name, value }))}
+            className="w-full border-neutral-500"
+            label={translate('common.country')}
+            {...register('country')}
+            required
+          />
+        </div>
+
+        <div className="col-span-3 grid grid-cols-10 gap-16">
+          <div className="col-span-10 md:col-span-2">
+            <Input
+              type="string"
+              label={translate('common.street-number')}
+              {...register('streetNumber')}
+              error={errors.streetNumber?.message}
+              required
+            />
+          </div>
+
+          <div className="col-span-10 md:col-span-8">
+            <Input
+              type="string"
+              label={translate('common.street-name')}
+              {...register('streetName')}
+              error={errors.streetName?.message}
+              required
+            />
+          </div>
+        </div>
+
+        <div className="col-span-3">
+          <Input
+            type="string"
+            label={translate('common.apartment-suite')}
+            labelDesc={translate('common.optional')}
+            labelDescClassName="text-gray-500 text-sm lowercase"
+            {...register('apartment')}
+          />
+        </div>
+
+        <div className="col-span-3 grid grid-cols-2 gap-16">
+          <Input
+            type="string"
+            label={translate('common.zipCode')}
+            {...register('postalCode', {
+              onChange: (event) => {
+                getInfoByZipcode(event.target.value).then((data) => {
+                  if (data.places?.[0]) {
+                    setValue('city', data.places[0]['place name'] ?? '');
+                  }
+                });
+              },
+            })}
+            error={errors.postalCode?.message}
+            required
+          />
+
+          <Input
+            type="string"
+            label={translate('common.city')}
+            {...register('city')}
+            error={errors.city?.message}
+            required
+          />
+        </div>
       </div>
-      <div className="mt-12">
-        <Dropdown
-          value={address.country ?? ''}
-          items={countries.map(({ name, value }) => ({ label: name, value }))}
-          className="w-full border-neutral-500"
-          label={translate('common.country')}
-          {...register('country')}
-        />
-      </div>
+
       <div className="mt-12">
         {stateInputInfo &&
           (stateInputInfo.type === 'dropdown' ? (
@@ -181,9 +195,7 @@ const AddressForm = ({
                 ...stateInputInfo.options.map(({ name, code }) => ({ label: name, value: code })),
               ]}
               className="w-full border-neutral-500"
-              {...register('state', {
-                required: { value: stateInputInfo.required, message: translate('common.fieldIsRequired') },
-              })}
+              {...register('state')}
               error={!!errors.state?.message}
               label={stateInputInfo.label}
             />
@@ -194,9 +206,7 @@ const AddressForm = ({
               type="text"
               value={address?.state ?? ''}
               className="border-neutral-500"
-              {...register('state', {
-                required: { value: stateInputInfo.required, message: translate('common.fieldIsRequired') },
-              })}
+              {...register('state')}
               error={errors.state?.message}
             />
           ))}

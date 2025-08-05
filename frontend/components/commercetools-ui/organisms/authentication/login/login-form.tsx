@@ -129,7 +129,7 @@ const LoginForm: FC<Props> = ({ login, requestConfirmationEmail, requestPassword
         {resendPasswordReset ? translate('account.password-reset-headline') : translate('account.welcome-back')}
       </h3>
 
-      <form onSubmit={handleSubmit(onSubmit)} noValidate>
+      <form onSubmit={handleSubmit(onSubmit)} noValidate method="post">
         <Feedback success={success} error={errors.root?.message as string} />
         <div className="flex flex-col gap-16 md:gap-20">
           <Input

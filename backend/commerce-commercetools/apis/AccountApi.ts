@@ -16,6 +16,7 @@ import { BaseApi } from './BaseApi';
 import { ExternalError } from '@Commerce-commercetools/errors/ExternalError';
 import { ValidationError } from '@Commerce-commercetools/errors/ValidationError';
 import { CartMapper } from '@Commerce-commercetools/mappers/CartMapper';
+import { ResourceNotFoundError } from '@Commerce-commercetools/errors/ResourceNotFoundError';
 
 export class AccountApi extends BaseApi {
   async create(account: Account, cart: Cart | undefined): Promise<Account> {
@@ -412,6 +413,11 @@ export class AccountApi extends BaseApi {
         return AccountMapper.commercetoolsCustomerToAccount(response.body);
       })
       .catch((error) => {
+        // The 404 error is thrown when the cart can't be found
+        if (error.statusCode === 404) {
+          throw new ResourceNotFoundError({ message: error.message });
+        }
+
         throw new ExternalError({ statusCode: error.statusCode, message: error.message, body: error.body });
       });
   }

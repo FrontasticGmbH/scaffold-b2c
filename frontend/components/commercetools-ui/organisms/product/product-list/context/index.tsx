@@ -1,6 +1,7 @@
 import React, { createContext, useCallback, useContext, useMemo } from 'react';
 import { useParams, useSearchParams } from 'next/navigation';
 import cloneDeep from 'lodash/cloneDeep';
+import { useTranslations } from 'use-intl';
 import { CurrencyHelpers } from 'helpers/currencyHelpers';
 import useI18n from 'helpers/hooks/useI18n';
 import usePath from 'helpers/hooks/usePath';
@@ -12,7 +13,6 @@ import { LineItem as WishlistLineItem, Wishlist } from 'types/entity/wishlist';
 import { refinementRemovedEventName, refinementsClearedEventName } from './constants';
 import { ActiveRefinement, ProductListContextShape, RefinementRemovedEvent, Sort, UiState } from './types';
 import { BooleanFacet, FacetConfiguration, PriceConfiguration, RangeFacet, TermFacet } from '../types';
-import { useTranslations } from 'use-intl';
 
 export const ProductListContext = createContext<ProductListContextShape>({
   categories: [],

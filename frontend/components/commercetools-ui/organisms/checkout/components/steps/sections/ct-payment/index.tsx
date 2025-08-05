@@ -166,19 +166,20 @@ const CommercetoolsPayment = ({
         </Modal>
       )}
       <div data-ctc />
-
-      {!isCompleted && (
-        <Button
-          type="submit"
-          className="mt-9 w-full md:w-fit"
-          size="l"
-          variant="primary"
-          loading={loading}
-          data-ctc-selector="confirmMethod"
-        >
-          {translations?.review ?? translate('cart.review-order')}
-        </Button>
-      )}
+      <div className="flex justify-end px-12">
+        {!isCompleted && (
+          <Button
+            type="submit"
+            className="mt-9 w-full md:w-fit"
+            size="l"
+            variant="primary"
+            loading={loading}
+            data-ctc-selector="confirmMethod"
+          >
+            {translations?.review ?? translate('cart.review-order')}
+          </Button>
+        )}
+      </div>
     </div>
   );
 };

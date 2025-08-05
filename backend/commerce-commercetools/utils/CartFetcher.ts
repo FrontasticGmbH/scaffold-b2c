@@ -15,10 +15,17 @@ export class CartFetcher {
     const cartApi = getCartApi(request, context);
 
     if (request.sessionData?.accountId) {
-      const accountApi = getAccountApi(request, context);
-      const account = await accountApi.getById(request.sessionData.accountId);
+      try {
+        const accountApi = getAccountApi(request, context);
+        const account = await accountApi.getById(request.sessionData.accountId);
 
-      return await cartApi.createForAccount(account);
+        return await cartApi.createForAccount(account);
+      } catch (error) {
+        // Ignore the ResourceNotFoundError as it's expected if the account does not exist
+        if (!(error instanceof ResourceNotFoundError)) {
+          throw error;
+        }
+      }
     }
 
     return await cartApi.createAnonymous();
@@ -42,7 +49,14 @@ export class CartFetcher {
     }
 
     if (request.sessionData?.accountId) {
-      return await cartApi.getActiveCartForAccount(request.sessionData.accountId);
+      try {
+        return await cartApi.getActiveCartForAccount(request.sessionData.accountId);
+      } catch (error) {
+        // Ignore the ResourceNotFoundError as it's expected if the account does not exist
+        if (!(error instanceof ResourceNotFoundError)) {
+          throw error;
+        }
+      }
     }
 
     return undefined;

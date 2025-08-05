@@ -57,7 +57,7 @@ const Address = ({ address, isDefaultAddress }: AddressProps) => {
           <div className="grid text-sm text-gray-600">
             <p className="font-semibold">{`${address.firstName} ${address.lastName}`}</p>
             <p>
-              {`${address.streetName ?? ''}${address.streetNumber ?? ''}, `}
+              {`${address.streetName ?? ''} ${address.streetNumber ?? ''}, ${address.apartment ?? ''}`}
               <span>{address.additionalAddressInfo}</span>
             </p>
             <p>{`${address.postalCode} ${address.city}`}</p>

@@ -19,9 +19,13 @@ const ThankYouHeader: FC<ThankYouHeaderProps> = ({ email, onPrint }) => {
       </h3>
 
       {/* Subtitle */}
-      <div className="flex flex-col items-center gap-5 md:flex-row">
-        <p className="text-14 leading-loose text-primary md:text-16">{translate('thank-you.email-sent')}</p>
-        <p className="text-14 font-medium leading-loose text-primary md:text-16">{email ?? 'example@email.com'}</p>
+      <div className="flex flex-col md:flex-row">
+        <p className="text-14 leading-loose text-primary md:text-16">
+          {translate('thank-you.email-sent')}
+          <span className="text-wrap text-14 font-medium leading-loose text-primary md:text-16">
+            {email ?? 'example@email.com'}
+          </span>
+        </p>
       </div>
 
       <PrintButton asSkeleton={!email} onPrint={onPrint} className="w-full py-8 md:w-fit md:px-68 lg:hidden" />

@@ -25,7 +25,7 @@ const Select: React.FC<Props> = ({
   label,
   required,
   labelClassName = '',
-  selectButtonClassName,
+  selectButtonClassName = '',
   options = [],
 }) => {
   const [selected, setSelected] = useControllableState(value, defaultValue ?? options?.[0]);
@@ -45,14 +45,10 @@ const Select: React.FC<Props> = ({
 
   const buttonClassNames = useCallback(
     (open?: boolean) => {
-      return `${error ? 'border-red-500' : 'border-neutral-500'}
-        cursor-pointer relative flex h-[40px] cursor-default items-center rounded-sm border pl-8 pr-32 text-left
-        ${
-          open
-            ? 'rounded-t-sm rounded-b-none border-x-neutral-500 border-b-neutral-400 border-t-neutral-500'
-            : 'rounded-sm'
-        }
-        w-full bg-white py-12 focus:border-gray-500 focus:ring-0 rounded-sm border focus:shadow-sm focus:outline-none active:border-gray-500
+      return `${error ? 'border-red-500' : 'border-gray-300'}
+        relative w-full flex h-[40px] items-center rounded-sm border py-6 px-12 text-left
+        w-full bg-white focus:border-gray-500 focus:ring-0 border  focus:outline-none active:border-gray-400
+        ${open ? 'border-gray-400' : ''}
         ${selectButtonClassName}`;
     },
     [selectButtonClassName, error],
@@ -62,7 +58,7 @@ const Select: React.FC<Props> = ({
     <>
       {label && (
         <div className="mb-8">
-          <label className={`${labelClassName} text-14 font-medium text-gray-600`}>
+          <label className={labelClassName || 'text-14 font-medium text-gray-600'}>
             {required ? `${label} *` : label}
           </label>
         </div>
@@ -87,18 +83,12 @@ const Select: React.FC<Props> = ({
               leaveFrom="transform origin-top scale-y-150"
               leaveTo="transform origin-top scale-y-0"
             >
-              <ListboxOptions
-                className={(active) =>
-                  `absolute top-39 z-50 max-h-200 w-full overflow-scroll rounded-b-sm border py-8 focus:border-gray-500 focus:outline-none focus:ring-0 ${
-                    active ? 'border-x-neutral-500 border-b-neutral-500' : 'border-neutral-400'
-                  } bg-white`
-                }
-              >
+              <ListboxOptions className="z-50 mt-3 max-h-100 overflow-y-auto rounded-sm border border-gray-400 bg-white px-3 py-8 focus:outline-none focus:ring-0">
                 {options.map((option) => (
                   <ListboxOption
                     key={option.value}
                     className={({ focus }) =>
-                      `relative cursor-pointer select-none py-4 pl-8 pr-4 text-14 hover:bg-neutral-200 ${
+                      `relative w-full cursor-pointer select-none py-4 pl-8 pr-4 text-14 hover:bg-neutral-200 ${
                         focus ? 'bg-neutral-200' : ''
                       }`
                     }
@@ -106,7 +96,7 @@ const Select: React.FC<Props> = ({
                   >
                     {({ selected }) => (
                       <>
-                        <span className={`block truncate text-14 ${selected ? 'font-medium' : 'font-normal'}`}>
+                        <span className={`block truncate text-sm ${selected ? 'font-medium' : 'font-normal'}`}>
                           {option.name}
                         </span>
                         {selected ? (

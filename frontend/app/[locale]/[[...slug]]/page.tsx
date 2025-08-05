@@ -2,6 +2,7 @@ import { Metadata } from 'next';
 import { redirect } from 'next/navigation';
 import { RedirectResponse } from '@commercetools/frontend-sdk';
 import GASnippet from 'helpers/analytics/GASnippet';
+import { getSeoInfoFromPageResponse } from 'helpers/seo-tools';
 import fetchAccount from 'helpers/server/fetch-account';
 import fetchCategories from 'helpers/server/fetch-categories';
 import fetchPageData from 'helpers/server/fetch-page-data';
@@ -11,7 +12,6 @@ import { Providers } from 'providers';
 import { sdk } from 'sdk';
 import { PageProps } from 'types/next';
 import Renderer from 'frontastic/renderer';
-import { getSeoInfoFromPageResponse } from 'helpers/seo-tools';
 
 export const revalidate = 120;
 

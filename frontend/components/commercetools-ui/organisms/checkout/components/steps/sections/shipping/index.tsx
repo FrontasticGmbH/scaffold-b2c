@@ -42,12 +42,18 @@ const Shipping: React.FC<Props> = ({ goToNextStep }) => {
 
   return (
     <div>
-      <div className="border-x border-t border-neutral-400 bg-white">
+      <div className="bg-white">
         {shippingMethods.map((shippingMethod) => (
-          <div
+          <button
             key={shippingMethod.shippingMethodId}
-            className="flex cursor-pointer items-center justify-between border-b border-neutral-400 p-16"
+            className="mb-12 flex w-full items-center justify-between rounded-md border border-gray-300 px-20 py-16 focus:border-transparent focus:ring-2 focus:ring-gray-500"
             onClick={() => setSelectedId(shippingMethod.shippingMethodId)}
+            onKeyDown={(e) => {
+              if (e.key === 'Enter' || e.key === ' ') {
+                setSelectedId(shippingMethod.shippingMethodId);
+              }
+            }}
+            tabIndex={0}
           >
             <div className="flex items-center gap-16">
               <Radio
@@ -66,10 +72,10 @@ const Shipping: React.FC<Props> = ({ goToNextStep }) => {
             <span className="text-14 font-medium">
               {CurrencyHelpers.formatForCurrency(shippingMethod.rates?.[0]?.price ?? {}, locale)}
             </span>
-          </div>
+          </button>
         ))}
       </div>
-      <div className="mt-24">
+      <div className="mt-24 flex justify-end">
         <Button
           variant="primary"
           className="w-full min-w-200 md:text-16 lg:w-fit lg:px-36"

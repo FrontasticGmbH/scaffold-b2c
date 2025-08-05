@@ -37,7 +37,7 @@ type AccountChangePasswordBody = {
 async function loginAccount(request: Request, actionContext: ActionContext, account: Account): Promise<Response> {
   const accountApi = getAccountApi(request, actionContext.frontasticContext);
 
-  const cart = await CartFetcher.fetchCart(request, actionContext.frontasticContext);
+  const cart = await CartFetcher.fetchActiveCartFromSession(request, actionContext.frontasticContext);
 
   const { account: loggedInAccount, cart: loggedInCart } = await accountApi.login(account, cart);
 
@@ -147,7 +147,7 @@ export const register: ActionHook = async (request: Request, actionContext: Acti
 
     const account = mapRequestToAccount(request);
 
-    const cart = await CartFetcher.fetchCart(request, actionContext.frontasticContext);
+    const cart = await CartFetcher.fetchActiveCartFromSession(request, actionContext.frontasticContext);
 
     const createdAccount = await accountApi.create(account, cart);
 
