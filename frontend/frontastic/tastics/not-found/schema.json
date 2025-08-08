@@ -3,20 +3,5 @@
   "name": "commercetools UI not found",
   "icon": "favorite",
   "category": "Error",
-  "schema": [
-    {
-      "name": "",
-      "fields": []
-    },
-    {
-      "name": "Image",
-      "fields": [
-        {
-          "type": "media",
-          "field": "image",
-          "label": "image"
-        }
-      ]
-    }
-  ]
+  "schema": []
 }
