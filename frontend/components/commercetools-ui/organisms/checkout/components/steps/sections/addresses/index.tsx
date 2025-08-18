@@ -56,7 +56,7 @@ const Addresses: React.FC<Props> = ({ isCompleted, goToNextStep, goToReview, onU
     country,
   } as Address;
 
-  const [sameShippingAddress, setSameShippingAddress] = useState(!loggedIn);
+  const [sameShippingAddress, setSameShippingAddress] = useState(true);
 
   const {
     register: registerShippingInput,
@@ -232,16 +232,39 @@ const Addresses: React.FC<Props> = ({ isCompleted, goToNextStep, goToReview, onU
                   if (disabled) return;
 
                   startProcessing();
-                  await addShippingAddress({
-                    ...addressToAccountAddress(shippingAddress),
-                    isDefaultShippingAddress: addressDefaults.shipping,
-                  });
-                  await addBillingAddress({
-                    ...addressToAccountAddress(currentBillingAddress),
-                    isDefaultBillingAddress: addressDefaults.billing,
-                  });
-                  stopProcessing();
-                  goToNextStep();
+
+                  const isDefaultBillingAddress = addressDefaults.billing;
+                  const isDefaultShippingAddress = addressDefaults.shipping;
+
+                  try {
+                    await addShippingAddress({
+                      ...addressToAccountAddress(shippingAddress),
+                      isDefaultShippingAddress,
+                    });
+
+                    await addBillingAddress({
+                      ...addressToAccountAddress(currentBillingAddress),
+                      isDefaultBillingAddress,
+                    });
+
+                    const cartAddress = {
+                      shipping: {
+                        ...addressToAccountAddress(shippingAddress),
+                        isDefaultShippingAddress,
+                      },
+                      billing: {
+                        ...addressToAccountAddress(currentBillingAddress),
+                        isDefaultBillingAddress,
+                      },
+                    };
+                    await onUpdateCart?.(cartAddress);
+
+                    stopProcessing();
+                    goToNextStep();
+                  } catch {
+                    toast.error(translate('error.wentWrong'));
+                    stopProcessing();
+                  }
                 }}
                 disabled={disabled}
               >

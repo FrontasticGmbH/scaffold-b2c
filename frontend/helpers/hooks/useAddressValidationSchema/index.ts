@@ -10,24 +10,24 @@ const useAddressValidationSchema = () => {
       yup
         .object()
         .shape({
-          firstName: yup.string().required(translate('common.fieldIsRequired')),
-          lastName: yup.string().required(translate('common.fieldIsRequired')),
+          firstName: yup.string().trim().required(translate('common.fieldIsRequired')),
+          lastName: yup.string().trim().required(translate('common.fieldIsRequired')),
           email: yup.string().when('$loggedIn', {
             is: false,
-            then: yup.string().email().required(translate('common.fieldIsRequired')),
+            then: yup.string().email(translate('error.email')).required(translate('common.fieldIsRequired')),
             otherwise: yup.string().optional(),
           }),
           phone: yup.string().optional(),
-          country: yup.string().required(translate('common.fieldIsRequired')),
-          streetName: yup.string().required(translate('common.fieldIsRequired')),
-          streetNumber: yup.string().required(translate('common.fieldIsRequired')),
-          postalCode: yup.string().required(translate('common.fieldIsRequired')),
+          country: yup.string().trim().required(translate('common.fieldIsRequired')),
+          streetName: yup.string().trim().required(translate('common.fieldIsRequired')),
+          streetNumber: yup.string().trim().required(translate('common.fieldIsRequired')),
+          postalCode: yup.string().trim().required(translate('common.fieldIsRequired')),
           state: yup.string().when('country', (country, schema) => {
             return ['US', 'CA'].includes(country)
-              ? schema.required(translate('common.fieldIsRequired'))
+              ? schema.trim().required(translate('common.fieldIsRequired'))
               : schema.optional();
           }),
-          city: yup.string().required(translate('common.fieldIsRequired')),
+          city: yup.string().trim().required(translate('common.fieldIsRequired')),
         })
         .required(),
     [],

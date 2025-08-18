@@ -2,6 +2,21 @@ import { useCallback } from 'react';
 import { useParams } from 'next/navigation';
 import { getLocalizationInfo } from 'project.config';
 
+type Place = {
+  'place name': string;
+  state: string;
+  'state abbreviation': string;
+  longitude: string;
+  latitude: string;
+};
+
+type GeoInfo = {
+  'country abbreviation'?: string;
+  country?: string;
+  'post code'?: string;
+  places?: Array<Place>;
+};
+
 const useGeo = () => {
   const { locale } = useParams();
 
@@ -17,7 +32,7 @@ const useGeo = () => {
 
       const response = await fetch(`https://api.zippopotam.us/${countryCode.toLowerCase()}/${zipcode}`);
 
-      const data = await response.json();
+      const data: GeoInfo = await response.json();
 
       return data;
     },

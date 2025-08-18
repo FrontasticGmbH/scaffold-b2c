@@ -126,7 +126,7 @@ const AddressForm = ({
         </div>
 
         <div className="col-span-3 grid grid-cols-10 gap-16">
-          <div className="col-span-10 md:col-span-2">
+          <div className="col-span-10 min-w-112 md:col-span-2">
             <Input
               type="string"
               label={translate('common.street-number')}
@@ -164,9 +164,10 @@ const AddressForm = ({
             {...register('postalCode', {
               onChange: (event) => {
                 getInfoByZipcode(event.target.value).then((data) => {
-                  if (data.places?.[0]) {
-                    setValue('city', data.places[0]['place name'] ?? '');
-                  }
+                  const { 'place name': city, 'state abbreviation': state } = data.places?.[0] ?? {};
+
+                  setValue('city', city ?? '');
+                  setValue('state', state ?? '');
                 });
               },
             })}
