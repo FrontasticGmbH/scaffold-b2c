@@ -1,4 +1,5 @@
 import type { Metadata, Viewport } from 'next';
+import { CookiesProvider } from 'next-client-cookies/server';
 import { NextIntlClientProvider } from 'next-intl';
 import { getMessages } from 'next-intl/server';
 import { inter, libre } from 'fonts';
@@ -31,9 +32,11 @@ export default async function RootLayout(props: LayoutProps) {
   return (
     <html lang={locale} className={classnames(inter.variable, libre.variable)}>
       <body>
-        <NextIntlClientProvider messages={messages} locale={locale}>
-          {children}
-        </NextIntlClientProvider>
+        <CookiesProvider>
+          <NextIntlClientProvider messages={messages} locale={locale}>
+            {children}
+          </NextIntlClientProvider>
+        </CookiesProvider>
       </body>
     </html>
   );

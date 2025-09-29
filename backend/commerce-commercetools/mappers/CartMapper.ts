@@ -66,6 +66,7 @@ export class CartMapper {
       accountId: commercetoolsCart.customerId,
       cartVersion: commercetoolsCart.version.toString(),
       lineItems: CartMapper.commercetoolsLineItemsToLineItems(commercetoolsCart.lineItems, locale, defaultLocale),
+      totalLineItemQuantity: commercetoolsCart?.totalLineItemQuantity,
       email: commercetoolsCart?.customerEmail,
       sum: ProductMapper.commercetoolsMoneyToMoney(commercetoolsCart.totalPrice),
       shippingAddress: CartMapper.commercetoolsAddressToAddress(commercetoolsCart.shippingAddress),

@@ -1,4 +1,4 @@
-import React, { useContext, useState, useMemo, useCallback } from 'react';
+import React, { useContext, useState, useMemo, useCallback, useEffect } from 'react';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useForm } from 'react-hook-form';
 import toast from 'react-hot-toast';
@@ -23,9 +23,10 @@ export interface Props {
   onUpdateCart?: (payload: CartDetails) => Promise<Cart>;
   goToNextStep: () => void;
   goToReview: () => void;
+  cart?: Cart;
 }
 
-const Addresses: React.FC<Props> = ({ isCompleted, goToNextStep, goToReview, onUpdateCart }) => {
+const Addresses: React.FC<Props> = ({ isCompleted, goToNextStep, goToReview, onUpdateCart, cart }) => {
   const translate = useTranslations();
 
   const {
@@ -46,17 +47,41 @@ const Addresses: React.FC<Props> = ({ isCompleted, goToNextStep, goToReview, onU
 
   const { country } = useI18n();
 
-  const initialAddressData = {
-    firstName: '',
-    lastName: '',
-    streetName: '',
-    streetNumber: '',
-    postalCode: '',
-    city: '',
-    country,
-  } as Address;
+  const initialAddressData: Address = useMemo(
+    () => ({
+      addressId: '',
+      firstName: '',
+      lastName: '',
+      email: '',
+      streetName: '',
+      line1: '',
+      streetNumber: '',
+      postalCode: '',
+      city: '',
+      country,
+    }),
+    [country],
+  );
 
-  const [sameShippingAddress, setSameShippingAddress] = useState(true);
+  const [sameShippingAddress, setSameShippingAddress] = useState<boolean>(!cart?.billingAddress);
+
+  const resolvedDefaultShipping: Address = useMemo(() => {
+    if (cart?.shippingAddress) {
+      const addr = cart.shippingAddress as Address;
+      return { ...addr, email: cart.email ?? addr.email };
+    }
+    if (defaultShippingAddress) return accountAddressToAddress(defaultShippingAddress);
+    return initialAddressData;
+  }, [cart?.shippingAddress, cart?.email, defaultShippingAddress, accountAddressToAddress, initialAddressData]);
+
+  const resolvedDefaultBilling: Address = useMemo(() => {
+    if (cart?.billingAddress) {
+      const addr = cart.billingAddress as Address;
+      return { ...addr, email: cart.email ?? addr.email };
+    }
+    if (defaultBillingAddress) return accountAddressToAddress(defaultBillingAddress);
+    return initialAddressData;
+  }, [cart?.billingAddress, cart?.email, defaultBillingAddress, accountAddressToAddress, initialAddressData]);
 
   const {
     register: registerShippingInput,
@@ -65,7 +90,7 @@ const Addresses: React.FC<Props> = ({ isCompleted, goToNextStep, goToReview, onU
     reset: setShippingAddress,
     setValue: setShippingValue,
   } = useForm<Address>({
-    defaultValues: defaultShippingAddress ? accountAddressToAddress(defaultShippingAddress) : initialAddressData,
+    defaultValues: resolvedDefaultShipping,
     mode: 'onBlur',
     resolver: yupResolver(addressValidationSchema),
     context: {
@@ -80,13 +105,21 @@ const Addresses: React.FC<Props> = ({ isCompleted, goToNextStep, goToReview, onU
     reset: setBillingAddress,
     setValue: setBillingValue,
   } = useForm<Address>({
-    defaultValues: defaultBillingAddress ? accountAddressToAddress(defaultBillingAddress) : initialAddressData,
+    defaultValues: resolvedDefaultBilling,
     mode: 'onBlur',
     resolver: yupResolver(addressValidationSchema),
     context: {
       loggedIn,
     },
   });
+
+  useEffect(() => {
+    setShippingAddress(resolvedDefaultShipping);
+  }, [resolvedDefaultShipping, setShippingAddress]);
+
+  useEffect(() => {
+    setBillingAddress(resolvedDefaultBilling);
+  }, [resolvedDefaultBilling, setBillingAddress]);
 
   const shippingAddress = getShippingValues();
   const billingAddress = getBillingValues();
@@ -100,7 +133,7 @@ const Addresses: React.FC<Props> = ({ isCompleted, goToNextStep, goToReview, onU
     } catch {
       return false;
     }
-  }, [shippingAddress]);
+  }, [shippingAddress, addressValidationSchema, loggedIn]);
 
   const isValidBillingAddress = useMemo(() => {
     try {
@@ -109,7 +142,7 @@ const Addresses: React.FC<Props> = ({ isCompleted, goToNextStep, goToReview, onU
     } catch {
       return false;
     }
-  }, [currentBillingAddress]);
+  }, [currentBillingAddress, addressValidationSchema, loggedIn]);
 
   const disabled = sameShippingAddress ? !isValidShippingAddress : !isValidBillingAddress || !isValidShippingAddress;
 
@@ -134,11 +167,14 @@ const Addresses: React.FC<Props> = ({ isCompleted, goToNextStep, goToReview, onU
     } else toast.error(translate('checkout.update-addresses-error'), { position: 'bottom-left' });
   };
 
-  const onSelectShippingAddress = useCallback((address: Address) => {
-    setShippingAddress(address);
-  }, []);
+  const onSelectShippingAddress = useCallback(
+    (address: Address) => {
+      setShippingAddress(address);
+    },
+    [setShippingAddress],
+  );
 
-  const onSelectBillingAddress = useCallback((address: Address) => setBillingAddress(address), []);
+  const onSelectBillingAddress = useCallback((address: Address) => setBillingAddress(address), [setBillingAddress]);
   const onRequestAddAddress = useCallback(
     (addressType: 'shipping' | 'billing') => setCreateAddressType(addressType),
     [],

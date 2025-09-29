@@ -75,6 +75,7 @@ const Steps: React.FC<Props> = ({
         label: translate('cart.addresses'),
         Component: (
           <Addresses
+            cart={cart}
             isCompleted={peakActive > 0}
             onUpdateCart={onUpdateCart}
             goToNextStep={goToNextStep}
@@ -129,6 +130,18 @@ const Steps: React.FC<Props> = ({
   useEffect(() => {
     onFinalStepChange(isFinalStep);
   }, [isFinalStep, onFinalStepChange]);
+
+  useEffect(() => {
+    // this effect basically pushes the user back if it sees that the step is > 2
+    // it only runs on load
+    // So users would always have to add payment data again in case they reload/revisit page after it's been added
+    if (step > 2) {
+      setActive(2);
+      setPeakActive(2);
+      router.push(`${pathWithoutQuery}?step=2`, { scroll: false });
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return (
     <div className="lg:grow">
