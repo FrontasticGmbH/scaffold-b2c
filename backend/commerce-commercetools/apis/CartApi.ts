@@ -226,18 +226,16 @@ export class CartApi extends BaseApi {
     return this.buildCartWithAvailableShippingMethods(commercetoolsCart, locale);
   }
 
-  async updateLineItem(cart: Cart, lineItem: LineItem): Promise<Cart> {
+  async updateLineItems(cart: Cart, lineItems: LineItem[]): Promise<Cart> {
     const locale = await this.getCommercetoolsLocal();
 
     const cartUpdate: CartUpdate = {
       version: +cart.cartVersion,
-      actions: [
-        {
-          action: 'changeLineItemQuantity',
-          lineItemId: lineItem.lineItemId,
-          quantity: +lineItem.count,
-        } as CartChangeLineItemQuantityAction,
-      ],
+      actions: lineItems.map((lineItem) => ({
+        action: 'changeLineItemQuantity',
+        lineItemId: lineItem.lineItemId,
+        quantity: +lineItem.count,
+      })) as CartChangeLineItemQuantityAction[],
     };
 
     const commercetoolsCart = await this.updateCart(cart.cartId, cartUpdate);

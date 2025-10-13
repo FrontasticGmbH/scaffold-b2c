@@ -7,6 +7,7 @@ A Store Launchpad for B2C Retail built with commercetools Frontend and Composabl
 This B2C Launchpad is a commercetools Frontend template for creating B2C commerce websites. It consists of Frontend components, extensions, and types that leverage features and functionalities from [commercetools Composable Commerce](https://docs.commercetools.com/docs/composable-commerce) and [commercetools Frontend](https://docs.commercetools.com/docs/frontend).
 
 **Key Technologies:**
+
 - **Frontend**: Node.js 24 with Next.js 15 and React 19
 - **Backend**: Node.js 24 with commercetools Composable Commerce integration
 - **Email**: SendGrid and SMTP support for transactional emails
@@ -34,7 +35,6 @@ The B2C Launchpad includes the following main components:
 - **SEO optimization** with sitemap and robots.txt generation
 - **Email campaign management** with SendGrid and SMTP support
 
-
 Built with modern web technologies following commercetools best practices for scalability and performance.
 
 ## Getting Started
@@ -43,21 +43,23 @@ Built with modern web technologies following commercetools best practices for sc
 
 The following should be installed locally:
 
-* Homebrew for macOS or Linux
-* scoop for Windows
-* Node.js (version 24.x)
-* Yarn (version 4.4.1)
+- Homebrew for macOS or Linux
+- scoop for Windows
+- Node.js (version 24.x)
+- Yarn (version 4.4.1)
 
 ### 1. Install the CLI
 
 The CLI is our command-line interface that you can use for development. To install the latest version of the CLI, open a command-line tool and run one of the following commands based on your operating system.
 
 **For macOS and Linux:**
+
 ```bash
 brew tap frontasticgmbh/tap && brew install frontastic-cli
 ```
 
 **For Windows:**
+
 ```bash
 # Add scoop bucket
 scoop bucket add FrontasticGmbH_scoop-bucket https://github.com/FrontasticGmbH/scoop-bucket

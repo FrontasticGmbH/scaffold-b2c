@@ -185,7 +185,7 @@ export const updateLineItem: ActionHook = async (request: Request, actionContext
     };
 
     let cart = await CartFetcher.fetchCart(request, actionContext.frontasticContext);
-    cart = await cartApi.updateLineItem(cart, lineItem);
+    cart = await cartApi.updateLineItems(cart, [lineItem]);
 
     const cartId = cart.cartId;
 

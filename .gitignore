@@ -11,6 +11,7 @@ frontastic-cli-dependencies
 
 # JS build related
 **/node_modules/
+**/.yarn/
 yarn-debug.log*
 yarn-error.log*
 .next
