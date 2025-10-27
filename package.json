@@ -1,0 +1,25 @@
+{
+  "name": "@commercetools-frontend/b2c-launchpad",
+  "version": "1.0.0",
+  "description": "B2C Launchpad Project",
+  "license": "MIT",
+  "private": true,
+  "packageManager": "yarn@4.4.1",
+  "engines": {
+    "node": ">=24"
+  },
+  "scripts": {
+    "frontend:build": "cd frontend && yarn build",
+    "frontend:install": "cd frontend && yarn install",
+    "frontend:lint": "cd frontend && yarn lint",
+    "frontend:test": "cd frontend && yarn test",
+    "backend:build": "cd backend && yarn build",
+    "backend:install": "cd backend && yarn install",
+    "backend:lint": "cd backend && yarn lint",
+    "backend:test": "cd backend && yarn test",
+    "build:all": "yarn backend:build && yarn frontend:build",
+    "install:all": "yarn frontend:install && yarn backend:install",
+    "lint:all": "yarn frontend:lint && yarn backend:lint",
+    "test:all": "yarn frontend:test && yarn backend:test"
+  }
+}

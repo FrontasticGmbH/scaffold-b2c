@@ -1,6 +1,5 @@
 {
-  "name": "@b2cdev/poc-frontend",
-  "version": "4.6.0",
+  "name": "@commercetools-frontend/b2c-launchpad-frontend",
   "license": "MIT",
   "main": "index.js",
   "private": true,
@@ -141,6 +140,7 @@
   },
   "resolutions": {
     "@types/react": "19.0.8",
-    "cookie": "^0.7.0"
+    "cookie": "^0.7.0",
+    "nanoid": "^3.3.8"
   }
 }
