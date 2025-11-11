@@ -16,6 +16,17 @@ async function fetchWishlistFromSession(request: Request, wishlistApi: WishlistA
     }
   }
 
+  const accountId = AccountFetcher.fetchAccountIdFromSession(request);
+
+  if (!accountId) {
+    return undefined;
+  }
+
+  const accountWishlists = await wishlistApi.getForAccount(accountId);
+  if (accountWishlists.length > 0) {
+    return accountWishlists[0];
+  }
+
   return undefined;
 }
 
@@ -108,6 +119,7 @@ export const addToWishlist: ActionHook = async (request, actionContext) => {
       body: JSON.stringify(updatedWishlist),
       sessionData: {
         ...wishlistApi.getSessionData(),
+        wishlistId: updatedWishlist.wishlistId,
       },
     };
   } catch (error) {
