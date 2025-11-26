@@ -54,13 +54,13 @@ import {
 } from '@Types/cart';
 import { CartDiscountSelectionMode, CartDiscountTarget } from '@Types/cart/Discount';
 import { ProductRouter } from '../utils/routers/ProductRouter';
-import { Locale } from '../Locale';
 import LocalizedValue from '../utils/LocalizedValue';
 import { AccountMapper } from './AccountMapper';
 import { ProductMapper } from './ProductMapper';
+import { Locale } from '@Commerce-commercetools/interfaces/Locale';
 
 export class CartMapper {
-  static commercetoolsCartToCart(commercetoolsCart: CommercetoolsCart, locale: Locale, defaultLocale: string): Cart {
+  static commercetoolsCartToCart(commercetoolsCart: CommercetoolsCart, locale: Locale, defaultLocale: Locale): Cart {
     return {
       cartId: commercetoolsCart.id,
       accountId: commercetoolsCart.customerId,
@@ -99,7 +99,7 @@ export class CartMapper {
   static commerceToolsDiscountOnTotalPriceToDiscountOnTotalPrice(
     commerceToolsDiscountOnTotalPrice: CommercetoolsDiscountOnTotalPrice,
     locale: Locale,
-    defaultLocale: string,
+    defaultLocale: Locale,
   ): DiscountOnTotalPrice | undefined {
     if (!commerceToolsDiscountOnTotalPrice) {
       return undefined;
@@ -126,7 +126,7 @@ export class CartMapper {
   static commercetoolsLineItemsToLineItems(
     commercetoolsLineItems: CommercetoolsLineItem[],
     locale: Locale,
-    defaultLocale: string,
+    defaultLocale: Locale,
   ): LineItem[] {
     const lineItems: LineItem[] = [];
 
@@ -230,7 +230,7 @@ export class CartMapper {
   static commercetoolsOrderToOrder(
     commercetoolsOrder: CommercetoolsOrder,
     locale: Locale,
-    defaultLocale: string,
+    defaultLocale: Locale,
   ): Order {
     return {
       cartId: commercetoolsOrder.cart?.id,
@@ -261,7 +261,7 @@ export class CartMapper {
   static commercetoolsShippingInfoToShippingInfo(
     commercetoolsShippingInfo: CommercetoolsShippingInfo | undefined,
     locale: Locale,
-    defaultLocale: string,
+    defaultLocale: Locale,
   ): ShippingInfo | undefined {
     if (commercetoolsShippingInfo === undefined) {
       return undefined;
@@ -292,7 +292,7 @@ export class CartMapper {
   static commercetoolsShippingMethodToShippingMethod(
     commercetoolsShippingMethod: CommercetoolsShippingMethod,
     locale: Locale,
-    defaultLocale: string,
+    defaultLocale: Locale,
   ): ShippingMethod {
     return {
       shippingMethodId: commercetoolsShippingMethod?.id || undefined,
@@ -381,7 +381,7 @@ export class CartMapper {
   static commercetoolsDiscountCodesInfoToDiscountCodes(
     commercetoolsDiscountCodesInfo: CommercetoolsDiscountCodeInfo[] | undefined,
     locale: Locale,
-    defaultLocale: string,
+    defaultLocale: Locale,
   ): DiscountCode[] {
     const discountCodes: DiscountCode[] = [];
 
@@ -397,7 +397,7 @@ export class CartMapper {
   static commercetoolsDiscountCodeInfoToDiscountCode(
     commercetoolsDiscountCodeInfo: CommercetoolsDiscountCodeInfo,
     locale: Locale,
-    defaultLocale: string,
+    defaultLocale: Locale,
   ): DiscountCode {
     let discountCode: DiscountCode = {
       discountCodeId: commercetoolsDiscountCodeInfo.discountCode.id,
@@ -458,7 +458,7 @@ export class CartMapper {
   static commercetoolsDiscountPortionToDiscountedPortion(
     commercetoolsDiscountedPortion: CommercetoolsDiscountedTotalPricePortion | CommercetoolsDiscountedLineItemPortion,
     locale: Locale,
-    defaultLocale: string,
+    defaultLocale: Locale,
   ): DiscountedPortion {
     let cartDiscount: CartDiscount = {
       cartDiscountId: commercetoolsDiscountedPortion.discount.id,
@@ -481,7 +481,7 @@ export class CartMapper {
   static commercetoolsCartDiscountToCartDiscount(
     commercetoolsCartDiscount: CommercetoolsCartDiscount,
     locale: Locale,
-    defaultLocale: string,
+    defaultLocale: Locale,
   ): CartDiscount {
     return {
       cartDiscountId: commercetoolsCartDiscount.id,
@@ -555,7 +555,7 @@ export class CartMapper {
   static commercetoolsDiscountedPricesPerQuantityToDiscountedPricePerCount(
     commercetoolsDiscountedLineItemPricesForQuantity: CommercetoolsDiscountedLineItemPriceForQuantity[] | undefined,
     locale: Locale,
-    defaultLocale: string,
+    defaultLocale: Locale,
   ): DiscountedPricePerCount[] {
     return commercetoolsDiscountedLineItemPricesForQuantity?.map(
       (commercetoolsDiscountedLineItemPriceForQuantity): DiscountedPricePerCount => {
@@ -574,7 +574,7 @@ export class CartMapper {
   static commercetoolsDiscountedLineItemPriceToDiscountedPrice(
     commercetoolsDiscountedLineItemPrice: CommercetoolsDiscountedLineItemPrice | undefined,
     locale: Locale,
-    defaultLocale: string,
+    defaultLocale: Locale,
   ): DiscountedPrice | undefined {
     if (commercetoolsDiscountedLineItemPrice === undefined) {
       return undefined;

@@ -1,16 +1,16 @@
 import { Wishlist } from '@Types/wishlist/Wishlist';
 import { ShoppingList, ShoppingListDraft, ShoppingListLineItem } from '@commercetools/platform-sdk';
 import { LineItem } from '@Types/wishlist/LineItem';
-import { Locale } from '../Locale';
 import { ProductRouter } from '../utils/routers/ProductRouter';
 import LocalizedValue from '../utils/LocalizedValue';
 import { ProductMapper } from './ProductMapper';
+import { Locale } from '@Commerce-commercetools/interfaces/Locale';
 
 export class WishlistMapper {
   static commercetoolsShoppingListToWishlist = (
     commercetoolsShoppingList: ShoppingList,
     locale: Locale,
-    defaultLocale: string,
+    defaultLocale: Locale,
   ): Wishlist => {
     return {
       wishlistId: commercetoolsShoppingList.id,
@@ -27,7 +27,7 @@ export class WishlistMapper {
   private static commercetoolsLineItemToLineItem = (
     commercetoolsLineItem: ShoppingListLineItem,
     locale: Locale,
-    defaultLocale: string,
+    defaultLocale: Locale,
   ): LineItem => {
     const lineItem: LineItem = {
       lineItemId: commercetoolsLineItem.id,

@@ -14,6 +14,8 @@ interface AddToWishlistRequest {
 export class WishlistApi extends BaseApi {
   async getById(wishlistId: string): Promise<Wishlist> {
     const locale = await this.getCommercetoolsLocal();
+    const defaultLocale = await this.getCommercetoolsDefaultLocal();
+
     return await this.requestBuilder()
       .shoppingLists()
       .withId({ ID: wishlistId })
@@ -24,7 +26,7 @@ export class WishlistApi extends BaseApi {
       })
       .execute()
       .then((response) => {
-        return WishlistMapper.commercetoolsShoppingListToWishlist(response.body, locale, this.defaultLocale);
+        return WishlistMapper.commercetoolsShoppingListToWishlist(response.body, locale, defaultLocale);
       })
       .catch((error) => {
         throw new ExternalError({ statusCode: error.statusCode, message: error.message, body: error.body });
@@ -33,6 +35,8 @@ export class WishlistApi extends BaseApi {
 
   async getForAccount(accountId: string): Promise<Wishlist[]> {
     const locale = await this.getCommercetoolsLocal();
+    const defaultLocale = await this.getCommercetoolsDefaultLocal();
+
     return await this.requestBuilder()
       .shoppingLists()
       .get({
@@ -44,7 +48,7 @@ export class WishlistApi extends BaseApi {
       .execute()
       .then((response) => {
         return response.body.results.map((shoppingList) =>
-          WishlistMapper.commercetoolsShoppingListToWishlist(shoppingList, locale, this.defaultLocale),
+          WishlistMapper.commercetoolsShoppingListToWishlist(shoppingList, locale, defaultLocale),
         );
       })
       .catch((error) => {
@@ -54,6 +58,8 @@ export class WishlistApi extends BaseApi {
 
   async getByIdForAccount(wishlistId: string, accountId: string): Promise<Wishlist> {
     const locale = await this.getCommercetoolsLocal();
+    const defaultLocale = await this.getCommercetoolsDefaultLocal();
+
     return await this.requestBuilder()
       .shoppingLists()
       .withId({ ID: wishlistId })
@@ -65,7 +71,7 @@ export class WishlistApi extends BaseApi {
       })
       .execute()
       .then((response) => {
-        return WishlistMapper.commercetoolsShoppingListToWishlist(response.body, locale, this.defaultLocale);
+        return WishlistMapper.commercetoolsShoppingListToWishlist(response.body, locale, defaultLocale);
       })
       .catch((error) => {
         throw new ExternalError({ statusCode: error.statusCode, message: error.message, body: error.body });
@@ -74,6 +80,8 @@ export class WishlistApi extends BaseApi {
 
   async create(wishlist: Omit<Wishlist, 'wishlistId'>): Promise<Wishlist> {
     const locale = await this.getCommercetoolsLocal();
+    const defaultLocale = await this.getCommercetoolsDefaultLocal();
+
     const body = WishlistMapper.wishlistToCommercetoolsShoppingListDraft(wishlist, locale);
     return await this.requestBuilder()
       .shoppingLists()
@@ -85,7 +93,7 @@ export class WishlistApi extends BaseApi {
       })
       .execute()
       .then((response) => {
-        return WishlistMapper.commercetoolsShoppingListToWishlist(response.body, locale, this.defaultLocale);
+        return WishlistMapper.commercetoolsShoppingListToWishlist(response.body, locale, defaultLocale);
       })
       .catch((error) => {
         throw new ExternalError({ statusCode: error.statusCode, message: error.message, body: error.body });
@@ -94,6 +102,7 @@ export class WishlistApi extends BaseApi {
 
   async addToWishlist(wishlist: Wishlist, request: AddToWishlistRequest): Promise<Wishlist> {
     const locale = await this.getCommercetoolsLocal();
+    const defaultLocale = await this.getCommercetoolsDefaultLocal();
 
     return await this.requestBuilder()
       .shoppingLists()
@@ -115,7 +124,7 @@ export class WishlistApi extends BaseApi {
       })
       .execute()
       .then((response) => {
-        return WishlistMapper.commercetoolsShoppingListToWishlist(response.body, locale, this.defaultLocale);
+        return WishlistMapper.commercetoolsShoppingListToWishlist(response.body, locale, defaultLocale);
       })
       .catch((error) => {
         throw new ExternalError({ statusCode: error.statusCode, message: error.message, body: error.body });
@@ -124,6 +133,7 @@ export class WishlistApi extends BaseApi {
 
   async removeLineItem(wishlist: Wishlist, lineItemId: string): Promise<Wishlist> {
     const locale = await this.getCommercetoolsLocal();
+    const defaultLocale = await this.getCommercetoolsDefaultLocal();
 
     return await this.requestBuilder()
       .shoppingLists()
@@ -144,7 +154,7 @@ export class WishlistApi extends BaseApi {
       })
       .execute()
       .then((response) => {
-        return WishlistMapper.commercetoolsShoppingListToWishlist(response.body, locale, this.defaultLocale);
+        return WishlistMapper.commercetoolsShoppingListToWishlist(response.body, locale, defaultLocale);
       })
       .catch((error) => {
         throw new ExternalError({ statusCode: error.statusCode, message: error.message, body: error.body });
@@ -168,6 +178,7 @@ export class WishlistApi extends BaseApi {
 
   async updateLineItemCount(wishlist: Wishlist, lineItemId: string, count: number): Promise<Wishlist> {
     const locale = await this.getCommercetoolsLocal();
+    const defaultLocale = await this.getCommercetoolsDefaultLocal();
 
     return await this.requestBuilder()
       .shoppingLists()
@@ -189,7 +200,7 @@ export class WishlistApi extends BaseApi {
       })
       .execute()
       .then((response) => {
-        return WishlistMapper.commercetoolsShoppingListToWishlist(response.body, locale, this.defaultLocale);
+        return WishlistMapper.commercetoolsShoppingListToWishlist(response.body, locale, defaultLocale);
       })
       .catch((error) => {
         throw new ExternalError({ statusCode: error.statusCode, message: error.message, body: error.body });

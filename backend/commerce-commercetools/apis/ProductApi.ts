@@ -14,7 +14,8 @@ import { ProductSearchFactory } from '@Commerce-commercetools/utils/ProductSearc
 export class ProductApi extends BaseApi {
   async query(productQuery: ProductQuery): Promise<ProductPaginatedResult> {
     const locale = await this.getCommercetoolsLocal();
-    const defaultLocale = this.defaultLocale;
+    const defaultLocale = await this.getCommercetoolsDefaultLocal();
+
     productQuery.categories = await this.hydrateCategories(productQuery);
     productQuery.filters = await this.hydrateFilters(productQuery);
 
@@ -87,7 +88,7 @@ export class ProductApi extends BaseApi {
 
   async queryCategories(categoryQuery: CategoryQuery): Promise<PaginatedResult<Category>> {
     const locale = await this.getCommercetoolsLocal();
-    const defaultLocale = this.defaultLocale;
+    const defaultLocale = await this.getCommercetoolsDefaultLocal();
 
     // TODO: get default from constant
     const limit = +categoryQuery.limit || 24;
@@ -138,6 +139,7 @@ export class ProductApi extends BaseApi {
 
   async getProductFilters(): Promise<FilterField[]> {
     const locale = await this.getCommercetoolsLocal();
+    const defaultLocale = await this.getCommercetoolsDefaultLocal();
 
     const commercetoolsProductTypes = await this.getCommercetoolsProductTypes();
 
@@ -165,7 +167,7 @@ export class ProductApi extends BaseApi {
 
     // Searchable attributes filter
     filterFields.push(
-      ...ProductMapper.commercetoolsProductTypesToFilterFields(commercetoolsProductTypes, locale, this.defaultLocale),
+      ...ProductMapper.commercetoolsProductTypesToFilterFields(commercetoolsProductTypes, locale, defaultLocale),
     );
 
     filterFields.push(...(await this.getCategoryFilters()));

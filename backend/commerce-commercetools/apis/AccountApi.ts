@@ -108,7 +108,7 @@ export class AccountApi extends BaseApi {
     this.invalidateSessionCheckoutData();
 
     const locale = await this.getCommercetoolsLocal();
-    const defaultLocale = this.defaultLocale;
+    const defaultLocale = await this.getCommercetoolsDefaultLocal();
 
     const { account: loggedInAccount, cart: loggedInCart } = await this.requestBuilder()
       .login()

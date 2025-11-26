@@ -91,6 +91,7 @@
     "terms-of-use": "Nutzungsbedingungen.",
     "unable-to-delete-due-to-default": "<highlight>Diese Adresse kann nicht gelöscht werden, da sie aktuell als Standardadresse festgelegt ist.</highlight> Bitte wählen Sie eine andere Standardadresse, bevor Sie diese löschen.",
     "unsubscribe": "Nein, ich möchte keine E-Mails erhalten.",
+    "update-address": "Adresse aktualisieren",
     "update-default-address": "Standardadresse aktualisieren",
     "user": "Benutzer",
     "verification-done": "Email überprüft",

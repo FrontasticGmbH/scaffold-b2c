@@ -93,19 +93,36 @@ const ProductTile: FC<ProductTileProps> = ({
     return `/${name}/p/${selectedVariant.sku}` + (isSearchResult ? '?sr=1' : '');
   }, [product, selectedVariant, isSearchResult]);
 
+  const getVariantColorCode = (attributes: Record<string, any> | undefined) => {
+    if (!attributes) return undefined;
+
+    const directCode = attributes['color-code'] || attributes['finish-code'];
+    if (directCode) return directCode;
+
+    const labelOrText =
+      attributes['color-label'] ||
+      attributes['finish-label'] ||
+      attributes?.color ||
+      attributes?.finish ||
+      (attributes['search-color'] && attributes['search-color'].label) ||
+      (attributes['search-finish'] && attributes['search-finish'].label);
+
+    return textToColor(labelOrText).code;
+  };
+
   return (
     <div ref={ref} data-testid="product-tile">
       <div className="group relative">
         <Link link={productUrl}>
           <div className="relative w-full" data-testid="image-container" onClick={onClick}>
-            <div className="relative bg-white p-8 md:p-16">
-              <div className="relative block w-full" style={{ paddingBottom: '122%' }}>
+            <div className="relative flex justify-center bg-white p-8 md:p-16">
+              <div className="relative block w-[94%]" style={{ paddingBottom: '122%' }}>
                 <Image
                   src={selectedVariant.images?.[0]}
                   suffix="medium"
                   alt={product.name ?? ''}
                   style={{ objectFit: 'contain', objectPosition: 'center' }}
-                  className="w-full rounded-sm group-hover:opacity-75 md:p-16"
+                  className="rounded-sm group-hover:opacity-75 md:p-16"
                   fill
                 />
               </div>
@@ -121,7 +138,7 @@ const ProductTile: FC<ProductTileProps> = ({
             <WishlistButton
               data={wishlist}
               lineItem={productToWishlistLineItem}
-              className="size-12 md:size-20 lg:size-32"
+              className="size-28 lg:size-32"
               addToWishlist={addToWishlist}
               removeFromWishlist={removeLineItem}
             />
@@ -170,7 +187,8 @@ const ProductTile: FC<ProductTileProps> = ({
                 .filter(
                   (variant, index, arr) =>
                     arr.findIndex(
-                      (v) => textToColor(v.attributes?.color).code === textToColor(variant.attributes?.color).code,
+                      (v) =>
+                        (getVariantColorCode(v.attributes) ?? '') === (getVariantColorCode(variant.attributes) ?? ''),
                     ) === index,
                 )
                 .map((variant, index) => (
@@ -181,8 +199,7 @@ const ProductTile: FC<ProductTileProps> = ({
                       variant.sku !== selectedVariant.sku ? 'border-neutral-300' : 'border-neutral-500'
                     }`}
                     style={{
-                      backgroundColor:
-                        textToColor(variant.attributes?.color).code || textToColor(variant.attributes?.finish).code,
+                      backgroundColor: getVariantColorCode(variant.attributes),
                     }}
                     onClick={(e) => {
                       e.preventDefault();

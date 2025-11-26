@@ -43,8 +43,8 @@ import { TermFacet as QueryTermFacet } from '@Types/query/TermFacet';
 import { RangeFacet as QueryRangeFacet } from '@Types/query/RangeFacet';
 import { FacetDefinition } from '@Types/product/FacetDefinition';
 import { ProductDiscount, ProductDiscountedPrice, ProductDiscountValue } from '@Types/cart';
-import { Locale } from '../Locale';
 import { ProductRouter } from '../utils/routers/ProductRouter';
+import { Locale } from '@Commerce-commercetools/interfaces/Locale';
 import LocalizedValue from '@Commerce-commercetools/utils/LocalizedValue';
 
 const TypeMap = new Map<string, string>([
@@ -64,7 +64,7 @@ export class ProductMapper {
     productIdField: string,
     categoryIdField: string,
     locale: Locale,
-    defaultLocale: string,
+    defaultLocale: Locale,
   ): Product {
     const product: Product = {
       productId: commercetoolsProduct?.productProjection?.id,
@@ -72,9 +72,13 @@ export class ProductMapper {
       productRef: commercetoolsProduct?.productProjection?.[productIdField],
       productTypeId: commercetoolsProduct?.productProjection?.productType?.id,
       version: commercetoolsProduct?.productProjection.version?.toString(),
-      name: commercetoolsProduct?.productProjection.name?.[locale.language],
-      slug: commercetoolsProduct?.productProjection.slug?.[locale.language],
-      description: commercetoolsProduct?.productProjection.description?.[locale.language],
+      name: LocalizedValue.getLocalizedValue(locale, defaultLocale, commercetoolsProduct?.productProjection.name),
+      slug: LocalizedValue.getLocalizedValue(locale, defaultLocale, commercetoolsProduct?.productProjection.slug),
+      description: LocalizedValue.getLocalizedValue(
+        locale,
+        defaultLocale,
+        commercetoolsProduct?.productProjection.description,
+      ),
       categories: this.commercetoolsCategoryReferencesToCategories(
         commercetoolsProduct.productProjection.categories,
         categoryIdField,
@@ -198,7 +202,7 @@ export class ProductMapper {
     commercetoolsCategory: CommercetoolsCategory,
     categoryIdField: string,
     locale: Locale,
-    defaultLocale?: string,
+    defaultLocale?: Locale,
   ): Category {
     return {
       categoryId: commercetoolsCategory?.id,
@@ -209,8 +213,8 @@ export class ProductMapper {
       parentRef: commercetoolsCategory.parent?.obj?.[categoryIdField as keyof CommercetoolsCategory] as
         | string
         | undefined,
-      name: commercetoolsCategory.name?.[locale.language] ?? undefined,
-      slug: commercetoolsCategory.slug?.[locale.language] ?? undefined,
+      name: LocalizedValue.getLocalizedValue(locale, defaultLocale, commercetoolsCategory.name) ?? undefined,
+      slug: LocalizedValue.getLocalizedValue(locale, defaultLocale, commercetoolsCategory.slug) ?? undefined,
       depth: commercetoolsCategory.ancestors.length,
       _url: this.generateLocalizedUrl(commercetoolsCategory),
       metaTitle: LocalizedValue.getLocalizedValue(locale, defaultLocale, commercetoolsCategory?.metaTitle) || undefined,
@@ -285,7 +289,23 @@ export class ProductMapper {
       return commercetoolsAttributeValue.map((value) => ProductMapper.extractAttributeValue(value, locale));
     }
 
-    return commercetoolsAttributeValue[locale.language] || commercetoolsAttributeValue;
+    // Check if it's a localized string object (has language keys)
+    if (
+      commercetoolsAttributeValue &&
+      typeof commercetoolsAttributeValue === 'object' &&
+      !Array.isArray(commercetoolsAttributeValue)
+    ) {
+      const localizedValue = LocalizedValue.getLocalizedValue(
+        locale,
+        locale,
+        commercetoolsAttributeValue as LocalizedString,
+      );
+      if (localizedValue) {
+        return localizedValue;
+      }
+    }
+
+    return commercetoolsAttributeValue;
   }
 
   static commercetoolsProductDiscountValueToProductDiscountValue(
@@ -392,8 +412,8 @@ export class ProductMapper {
         commercetoolsProductDiscount.value,
         locale,
       ),
-      description: commercetoolsProductDiscount?.description?.[locale.language],
-      name: commercetoolsProductDiscount?.name?.[locale.language],
+      description: LocalizedValue.getLocalizedValue(locale, locale, commercetoolsProductDiscount?.description),
+      name: LocalizedValue.getLocalizedValue(locale, locale, commercetoolsProductDiscount?.name),
     };
   }
 
@@ -416,7 +436,7 @@ export class ProductMapper {
   static commercetoolsProductTypesToFilterFields(
     commercetoolsProductTypes: CommercetoolsProductType[],
     locale: Locale,
-    defaultLocale: string,
+    defaultLocale: Locale,
   ): FilterField[] {
     const filterFields: FilterField[] = [];
 
@@ -438,7 +458,7 @@ export class ProductMapper {
   static commercetoolsAttributeDefinitionToFilterField(
     commercetoolsAttributeDefinition: CommercetoolsAttributeDefinition,
     locale: Locale,
-    defaultLocale: string,
+    defaultLocale: Locale,
   ): FilterField {
     let commercetoolsAttributeTypeName = commercetoolsAttributeDefinition.type.name;
 
@@ -499,7 +519,7 @@ export class ProductMapper {
   static commercetoolsProductTypesToFacetDefinitions(
     commercetoolsProductTypes: CommercetoolsProductType[],
     locale: Locale,
-    defaultLocale: string,
+    defaultLocale: Locale,
   ): FacetDefinition[] {
     const facetDefinitionsIndex: { [key: string]: FacetDefinition } = {};
 
@@ -514,10 +534,7 @@ export class ProductMapper {
             ? (attribute.type as AttributeSetType)?.elementType.name
             : attribute.type.name,
           attributeId: `variants.attributes.${attribute.name}`,
-          attributeLabel:
-            attribute.label[locale.language] !== undefined && attribute.label[locale.language].length > 0
-              ? attribute.label[locale.language]
-              : attribute.name,
+          attributeLabel: LocalizedValue.getLocalizedValue(locale, defaultLocale, attribute.label) || attribute.name,
           attributeValues:
             this.isAttributeEnumType(attribute.type) && attribute.type.values.length > 0
               ? attribute.type.values.map((value) => ({

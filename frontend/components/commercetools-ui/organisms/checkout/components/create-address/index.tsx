@@ -36,7 +36,6 @@ const CreateAddress = ({ addressType, onAfterSubmit, onSelectBillingAddress, onS
 
   const {
     register,
-    setValue,
     reset,
     watch,
     formState: { errors, isSubmitting },
@@ -103,7 +102,6 @@ const CreateAddress = ({ addressType, onAfterSubmit, onSelectBillingAddress, onS
       <AddressForm
         className="mt-32"
         address={watch()}
-        setValue={setValue}
         register={register}
         errors={errors}
         onSubmit={handleSubmit(onSubmit)}

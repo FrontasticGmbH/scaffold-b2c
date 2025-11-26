@@ -1,10 +1,9 @@
 import React, { useContext, useMemo } from 'react';
 import { useTranslations } from 'next-intl';
-import { FieldErrors, UseFormRegister, UseFormSetValue } from 'react-hook-form';
+import { FieldErrors, UseFormRegister } from 'react-hook-form';
 import Dropdown from 'components/commercetools-ui/atoms/dropdown';
 import Input from 'components/commercetools-ui/atoms/input';
 import { AccountContext } from 'context/account';
-import useGeo from 'helpers/hooks/useGeo';
 import { getLocalizationInfo, i18nConfig } from 'project.config';
 import countryStates from 'public/static/states.json';
 import { Address } from '../../types';
@@ -12,7 +11,6 @@ import { Address } from '../../types';
 interface Props {
   className?: string;
   register: UseFormRegister<Address>;
-  setValue: UseFormSetValue<Address>;
   errors: FieldErrors<Address>;
   address: Address;
   onSubmit?: () => void;
@@ -22,13 +20,11 @@ const AddressForm = ({
   className: containerClassName,
   children,
   register,
-  setValue,
   errors,
   address,
   onSubmit,
 }: React.PropsWithChildren<Props>) => {
   const translate = useTranslations();
-  const { getInfoByZipcode } = useGeo();
   const { loggedIn } = useContext(AccountContext);
 
   const countries = i18nConfig.locales.map((locale) => {
@@ -161,16 +157,7 @@ const AddressForm = ({
           <Input
             type="string"
             label={translate('common.zipCode')}
-            {...register('postalCode', {
-              onChange: (event) => {
-                getInfoByZipcode(event.target.value).then((data) => {
-                  const { 'place name': city, 'state abbreviation': state } = data.places?.[0] ?? {};
-
-                  setValue('city', city ?? '');
-                  setValue('state', state ?? '');
-                });
-              },
-            })}
+            {...register('postalCode')}
             error={errors.postalCode?.message}
             required
           />

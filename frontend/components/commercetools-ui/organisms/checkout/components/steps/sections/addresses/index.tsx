@@ -88,7 +88,6 @@ const Addresses: React.FC<Props> = ({ isCompleted, goToNextStep, goToReview, onU
     watch: getShippingValues,
     formState: { errors: shippingErrors },
     reset: setShippingAddress,
-    setValue: setShippingValue,
   } = useForm<Address>({
     defaultValues: resolvedDefaultShipping,
     mode: 'onBlur',
@@ -103,7 +102,6 @@ const Addresses: React.FC<Props> = ({ isCompleted, goToNextStep, goToReview, onU
     watch: getBillingValues,
     formState: { errors: billingErrors },
     reset: setBillingAddress,
-    setValue: setBillingValue,
   } = useForm<Address>({
     defaultValues: resolvedDefaultBilling,
     mode: 'onBlur',
@@ -219,7 +217,6 @@ const Addresses: React.FC<Props> = ({ isCompleted, goToNextStep, goToReview, onU
               onSubmit={submit}
               errors={shippingErrors}
               register={registerShippingInput}
-              setValue={setShippingValue}
             />
 
             <div className="mt-13 flex flex-col gap-12 md:flex-row md:items-center">
@@ -242,12 +239,7 @@ const Addresses: React.FC<Props> = ({ isCompleted, goToNextStep, goToReview, onU
               />
             </div>
             {!sameShippingAddress && (
-              <AddressForm
-                address={billingAddress}
-                register={registerBillingInput}
-                setValue={setBillingValue}
-                errors={billingErrors}
-              >
+              <AddressForm address={billingAddress} register={registerBillingInput} errors={billingErrors}>
                 <div className="mt-16">
                   <Checkbox
                     label={translate('checkout.save-as-default-billing')}
@@ -316,7 +308,6 @@ const Addresses: React.FC<Props> = ({ isCompleted, goToNextStep, goToReview, onU
 
           <AddressForm
             register={registerShippingInput}
-            setValue={setShippingValue}
             address={shippingAddress}
             errors={shippingErrors}
             onSubmit={submit}
@@ -336,7 +327,6 @@ const Addresses: React.FC<Props> = ({ isCompleted, goToNextStep, goToReview, onU
               <p className="pb-32 text-14 font-semibold uppercase">{translate('checkout.billingAddress')}</p>
               <AddressForm
                 address={billingAddress}
-                setValue={setBillingValue}
                 errors={billingErrors}
                 register={registerBillingInput}
                 onSubmit={submit}
