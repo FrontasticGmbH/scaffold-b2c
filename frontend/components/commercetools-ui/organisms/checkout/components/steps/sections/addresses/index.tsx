@@ -296,7 +296,7 @@ const Addresses: React.FC<Props> = ({ isCompleted, goToNextStep, goToReview, onU
                 }}
                 disabled={disabled}
               >
-                {translate('cart.continue-to')} <span className="lowercase">{translate('cart.shipping')}</span>
+                {translate('cart.continue-to')} {translate('cart.shipping')}
               </Button>
             </div>
           </div>
@@ -356,7 +356,7 @@ const Addresses: React.FC<Props> = ({ isCompleted, goToNextStep, goToReview, onU
                 translate('checkout.save-and-review-order')
               ) : (
                 <>
-                  {translate('cart.continue-to')} <span className="lowercase">{translate('cart.shipping')}</span>
+                  {translate('cart.continue-to')} {translate('cart.shipping')}
                 </>
               )}
             </Button>

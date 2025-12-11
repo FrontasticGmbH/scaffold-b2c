@@ -1,5 +1,11 @@
 # @commercetools-frontend/b2c-launchpad
 
+## 1.1.1
+
+### Patch Changes
+
+-   e7534e3: Bump esbuild package to fix security issue
+
 ## 1.1.0
 
 ### Minor Changes

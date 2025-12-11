@@ -19,14 +19,14 @@ const LoggedOut = () => {
         </Button>
       </PopoverButton>
       <PopoverButton tabIndex={-1}>
-        <Link link="/" className="mt-20 block w-fit text-primary hover:underline">
+        <Link link="/" className="mt-20 block w-fit text-left text-primary hover:underline">
           {translate('account.membership-info')}
         </Link>
       </PopoverButton>
-      <div className="mt-32 flex pb-10">
+      <div className="mt-32 flex flex-wrap gap-x-4 pb-10">
         <span className="whitespace-nowrap">{translate('account.not-member')}</span>
         <PopoverButton tabIndex={-1}>
-          <Link link="/register" className="ml-4 whitespace-nowrap font-medium text-primary hover:underline">
+          <Link link="/register" className="whitespace-nowrap font-medium text-primary hover:underline">
             {translate('account.join-here')}
           </Link>
         </PopoverButton>

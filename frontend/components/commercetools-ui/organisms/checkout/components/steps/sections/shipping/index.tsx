@@ -83,7 +83,7 @@ const Shipping: React.FC<Props> = ({ goToNextStep }) => {
           type="submit"
           onClick={submit}
         >
-          {translate('cart.continue-to')} <span className="lowercase">{translate('cart.payment')}</span>
+          {translate('cart.continue-to')} {translate('cart.payment')}
         </Button>
       </div>
     </div>
