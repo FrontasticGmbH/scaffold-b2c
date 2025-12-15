@@ -1,5 +1,11 @@
 # @commercetools-frontend/b2c-launchpad
 
+## 1.1.2
+
+### Patch Changes
+
+-   084fe54: Updated the versions of react and react-dom packages
+
 ## 1.1.1
 
 ### Patch Changes
