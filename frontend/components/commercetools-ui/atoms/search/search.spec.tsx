@@ -4,12 +4,26 @@ import userEvent from '@testing-library/user-event';
 import { render, screen } from '__test__/utils';
 import Search from '.';
 
-const router = { push: jest.fn() };
+const mockRouter = {
+  push: jest.fn(),
+  replace: jest.fn(),
+  back: jest.fn(),
+  forward: jest.fn(),
+  refresh: jest.fn(),
+  prefetch: jest.fn(),
+};
 
-jest.mock('next/navigation', () => ({
-  useRouter: () => router,
-  useParams: () => ({ locale: 'en' }),
+jest.mock('i18n/routing', () => ({
+  Link: ({ children, href, ...props }: any) => (
+    <a href={href} {...props}>
+      {children}
+    </a>
+  ),
+  useRouter: () => mockRouter,
   usePathname: () => '/en/search',
+  redirect: () => {},
+  getPathname: () => '/en/search',
+  routing: { locales: ['en', 'de'], defaultLocale: 'en' },
 }));
 
 describe('[Component] Search', () => {
@@ -55,7 +69,7 @@ describe('[Component] Search', () => {
 
     await act(async () => await userEvent.click(screen.getByTestId('submit-button')));
 
-    expect(router.push).not.toHaveBeenCalled();
+    expect(mockRouter.push).not.toHaveBeenCalled();
 
     await act(async () => await userEvent.type(screen.getByRole('textbox'), 'I'));
 
@@ -63,7 +77,7 @@ describe('[Component] Search', () => {
 
     await act(async () => await userEvent.click(screen.getByTestId('submit-button')));
 
-    expect(router.push).toHaveBeenCalledWith('/en/search?query=I');
+    expect(mockRouter.push).toHaveBeenCalledWith('/search?query=I');
     expect(document.activeElement).not.toBe(screen.getByRole('textbox'));
   });
 
@@ -107,6 +121,6 @@ describe('[Component] Search', () => {
       fireEvent.mouseUp(screen.getByRole('link'));
     });
 
-    expect(router.push).toHaveBeenCalledWith('item_url');
+    expect(mockRouter.push).toHaveBeenCalledWith('item_url');
   });
 });

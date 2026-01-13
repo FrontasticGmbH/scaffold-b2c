@@ -1,21 +1,21 @@
-import React, { useCallback, useEffect, useMemo, useState } from 'react';
-import { useSearchParams } from 'next/navigation';
-import { useTranslations } from 'use-intl';
 import Button from 'components/commercetools-ui/atoms/button';
+import { CartDetails } from 'frontastic/hooks/useCart/types';
 import usePath from 'helpers/hooks/usePath';
 import { classnames } from 'helpers/utils/classnames';
 import { useRouter } from 'i18n/routing';
+import { useSearchParams } from 'next/navigation';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { Cart, ShippingMethod } from 'types/entity/cart';
-import { CartDetails } from 'frontastic/hooks/useCart/types';
-import AddressesPreview from './previews/addresses';
-import ShippingPreview from './previews/shipping';
-import Addresses from './sections/addresses';
-import Shipping from './sections/shipping';
+import { useTranslations } from 'use-intl';
 import { useCheckout } from '../../provider';
 import Step from '../step';
+import AddressesPreview from './previews/addresses';
 import PaymentPreview from './previews/payment';
+import ShippingPreview from './previews/shipping';
+import Addresses from './sections/addresses';
 import CommercetoolsPayment from './sections/ct-payment';
 import Payment from './sections/payment';
+import Shipping from './sections/shipping';
 
 interface Props {
   cart?: Cart;
@@ -140,7 +140,6 @@ const Steps: React.FC<Props> = ({
       setPeakActive(2);
       router.push(`${pathWithoutQuery}?step=2`, { scroll: false });
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (

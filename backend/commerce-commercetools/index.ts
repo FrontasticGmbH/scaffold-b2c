@@ -61,77 +61,77 @@ export default {
 
       // Identify Product
       if (ProductRouter.identifyFrom(request)) {
-        return ProductRouter.loadFor(request, context.frontasticContext).then((product: Product) => {
-          if (!product) {
-            return null;
+        const product: Product = await ProductRouter.loadFor(request, context.frontasticContext);
+
+        if (!product) {
+          return null;
+        }
+
+        const sku = ProductRouter.skuFromUrl(request);
+        const matchingAttributes: Attributes = {};
+
+        if (sku) {
+          const selectedVariant = product.variants.find((variant) => variant.sku === sku);
+          if (selectedVariant.attributes) {
+            Object.entries(selectedVariant.attributes).forEach(([key, value]) => {
+              // FECL can't match rules on arrays, so we ignore array attributes
+              if (!Array.isArray(value)) {
+                matchingAttributes[key] = value?.key ?? value;
+              }
+            });
           }
+        }
 
-          const sku = ProductRouter.skuFromUrl(request);
-          const matchingAttributes: Attributes = {};
-
-          if (sku) {
-            const selectedVariant = product.variants.find((variant) => variant.sku === sku);
-            if (selectedVariant.attributes) {
-              Object.entries(selectedVariant.attributes).forEach(([key, value]) => {
-                // FECL can't match rules on arrays, so we ignore array attributes
-                if (!Array.isArray(value)) {
-                  matchingAttributes[key] = value?.key ?? value;
-                }
-              });
-            }
-          }
-
-          return {
-            dynamicPageType: 'frontastic/product-detail-page',
-            dataSourcePayload: {
-              product: product,
+        return {
+          dynamicPageType: 'frontastic/product-detail-page',
+          dataSourcePayload: {
+            product: product,
+          },
+          pageMatchingPayload: {
+            productTypeId: product.productTypeId || '',
+            variants: {
+              attributes: matchingAttributes,
             },
-            pageMatchingPayload: {
-              productTypeId: product.productTypeId || '',
-              variants: {
-                attributes: matchingAttributes,
-              },
-              categoryRef: product.categories?.map((category) => category.categoryRef),
-            },
-          };
-        });
+            categoryRef: product.categories?.map((category) => category.categoryRef),
+          },
+        };
       }
 
       // Identify Search
       if (SearchRouter.identifyFrom(request)) {
-        return SearchRouter.loadFor(request, context.frontasticContext).then((result: ProductPaginatedResult) => {
-          if (result) {
-            return {
-              dynamicPageType: 'frontastic/search',
-              dataSourcePayload: result,
-            };
-          }
-          return null;
-        });
+        const result: ProductPaginatedResult = await SearchRouter.loadFor(request, context.frontasticContext);
+
+        if (result) {
+          return {
+            dynamicPageType: 'frontastic/search',
+            dataSourcePayload: result,
+          };
+        }
+        return null;
       }
 
       // Identify Category
       if (CategoryRouter.identifyFrom(request)) {
-        return CategoryRouter.loadFor(request, context.frontasticContext).then((category) => {
-          if (!category) {
-            return null;
-          }
+        const category = await CategoryRouter.loadFor(request, context.frontasticContext);
 
-          return CategoryRouter.loadProductsFor(request, context.frontasticContext, category).then((result) => {
-            if (!result) {
-              return null;
-            }
+        if (!category) {
+          return null;
+        }
 
-            return {
-              dynamicPageType: 'frontastic/category',
-              dataSourcePayload: result,
-              pageMatchingPayload: {
-                categoryRef: category.categoryRef,
-                isMainCategory: category.parentId === undefined,
-              },
-            };
-          });
-        });
+        const result = await CategoryRouter.loadProductsFor(request, context.frontasticContext, category);
+
+        if (!result) {
+          return null;
+        }
+
+        return {
+          dynamicPageType: 'frontastic/category',
+          dataSourcePayload: result,
+          pageMatchingPayload: {
+            categoryRef: category.categoryRef,
+            isMainCategory: category.parentId === undefined,
+          },
+        };
       }
 
       return null;

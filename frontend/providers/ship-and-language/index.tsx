@@ -1,5 +1,5 @@
 import React, { createContext, useContext, useState } from 'react';
-import { useCookies } from 'next-client-cookies';
+import Cookies from 'js-cookie';
 import { useParams } from 'next/navigation';
 import { ProjectSettings } from 'shared/types/ProjectSettings';
 import { Category } from 'types/entity/category';
@@ -22,7 +22,6 @@ const ShipAndLanguageProvider = ({
   categories = [],
 }: React.PropsWithChildren<{ projectSettings?: ProjectSettings; categories?: Category[] }>) => {
   const { path } = usePath();
-  const cookies = useCookies();
 
   const countries = (projectSettings?.countries ?? []).map(mapCountry).filter((value): value is Country => {
     return value !== null && value !== undefined;
@@ -62,7 +61,7 @@ const ShipAndLanguageProvider = ({
 
     if (pathToGo.startsWith('/')) pathToGo = pathToGo.slice(1);
 
-    cookies.set('locale', language);
+    Cookies.set('locale', language);
 
     window.location.assign(`/${language}/${pathToGo}`);
   };

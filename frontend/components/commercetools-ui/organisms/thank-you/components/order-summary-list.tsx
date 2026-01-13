@@ -10,7 +10,9 @@ type OrderSummaryListProps = {
 const OrderSummaryList: FC<OrderSummaryListProps> = ({ className, order }) => {
   return (
     <div className={className}>
-      {order?.lineItems?.map((lineItem) => <OrderLineItem key={lineItem.productId} {...lineItem} />)}
+      {order?.lineItems?.map((lineItem) => (
+        <OrderLineItem key={lineItem.productId} {...lineItem} />
+      ))}
 
       {!order?.lineItems && <OrderLineItem />}
     </div>

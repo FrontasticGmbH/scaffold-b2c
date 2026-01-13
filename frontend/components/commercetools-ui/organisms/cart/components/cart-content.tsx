@@ -1,7 +1,7 @@
 import { useTranslations } from 'use-intl';
+import { CartProps } from '../types';
 import CartItemsList from './cart-items-list';
 import EmptyCart from './empty-cart';
-import { CartProps } from '../types';
 
 type Props = Omit<CartProps, 'paymentMethods'> & {
   className?: string;
@@ -18,7 +18,7 @@ const CartContent = ({
   ...props
 }: Props) => {
   const translate = useTranslations();
-  const text = `(${translate('cart.items', { totalItems: totalItems })})`;
+  const text = `(${translate('cart.items', { totalItems: totalItems ?? 0 })})`;
   return (
     <div className={className}>
       {!isEmpty ? (

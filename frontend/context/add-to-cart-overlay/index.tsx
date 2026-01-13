@@ -1,18 +1,18 @@
-import React, { useCallback, useContext, useState } from 'react';
-import { useParams } from 'next/navigation';
 import { Transition } from '@headlessui/react';
 import { XMarkIcon as CloseIcon } from '@heroicons/react/24/solid';
-import { useTranslations } from 'use-intl';
 import Image from 'components/commercetools-ui/atoms/image';
 import Link from 'components/commercetools-ui/atoms/link';
 import Overlay from 'components/commercetools-ui/atoms/overlay';
 import ProductSlider from 'components/commercetools-ui/organisms/product/product-slider';
+import { useCart, useProduct, useWishlist } from 'frontastic';
 import { CurrencyHelpers } from 'helpers/currencyHelpers';
 import useScrollBlock from 'helpers/hooks/useScrollBlock';
 import useTouchDevice from 'helpers/hooks/useTouchDevice';
 import { mediumDesktop, tablet } from 'helpers/utils/screensizes';
+import { useParams } from 'next/navigation';
+import React, { useCallback, useContext, useState } from 'react';
 import { Product, Variant } from 'types/entity/product';
-import { useCart, useProduct, useWishlist } from 'frontastic';
+import { useTranslations } from 'use-intl';
 import { AddToCartOverlayContextShape, StateProduct } from './types';
 
 const AddToCartOverlayContext = React.createContext<AddToCartOverlayContextShape>({
@@ -118,7 +118,7 @@ const AddToCartOverlayProvider = ({ children }: React.PropsWithChildren) => {
                           locale,
                         )}
                       </span>
-                      <span className="mt-12 block text-14 text-gray-600">x {product?.count}</span>
+                      <span className="mt-12 block text-14 text-gray-600"> {'x ' + product?.count}</span>
                     </div>
                     <span className="hidden text-14 font-medium md:block">
                       {CurrencyHelpers.formatForCurrency(

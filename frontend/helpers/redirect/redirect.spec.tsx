@@ -3,10 +3,8 @@ import Redirect from '.';
 
 const router = { push: jest.fn() };
 
-jest.mock('next/navigation', () => {
+jest.mock('i18n/routing', () => {
   return {
-    useLocale: () => 'en',
-    useParams: () => ({ locale: 'en' }),
     useRouter: () => router,
     usePathname: () => '/en',
   };
@@ -19,7 +17,7 @@ describe('Redirect', () => {
 
   it('should redirect to target when target is defined', () => {
     render(<Redirect target="/categories" />);
-    expect(router.push).toHaveBeenCalledWith('/en/categories');
+    expect(router.push).toHaveBeenCalledWith('/categories');
   });
 
   it('should not redirect when target is not available', () => {

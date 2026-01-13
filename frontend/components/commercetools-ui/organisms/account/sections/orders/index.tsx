@@ -57,7 +57,9 @@ const Orders = ({ orders, loading }: Props) => {
           </div>
 
           <div className="overflow-auto py-24">
-            {orderHistoryContent?.map((order?: Order) => <OrderItem key={order?.orderId} order={order} />)}
+            {orderHistoryContent?.map((order?: Order) => (
+              <OrderItem key={order?.orderId} order={order} />
+            ))}
           </div>
         </>
       )}

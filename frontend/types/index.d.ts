@@ -1,6 +1,4 @@
 import { ReadonlyURLSearchParams } from 'next/navigation';
-import { PageViewData } from '@commercetools/frontend-sdk/lib/types/api/page';
-import { Page as BasePage, PageFolder, Section } from '@frontastic/extension-types';
 import { Params } from './next';
 
 export {};

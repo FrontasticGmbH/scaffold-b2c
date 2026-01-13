@@ -1,12 +1,11 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
-
 @import url('./components/slider.css');
 @import url('./components/default-loader.css');
 @import url('./components/quick-search.css');
 @import url('./components/modal.css');
 @import url('./themes/default.css');
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
 body {
   width: 100%;

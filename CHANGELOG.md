@@ -1,5 +1,37 @@
 # @commercetools-frontend/b2c-launchpad
 
+## 2.0.0
+
+### Major Changes
+
+-   f3d4439: Upgrade B2C frontend to Next.js 16 with React 19 and next-intl v4
+
+    **Major Changes:**
+
+    -   Upgraded Next.js from 15.2.6 to 16.0.7 with Turbopack support
+    -   Upgraded React from 19.2.1 to 19.2.3
+    -   Upgraded next-intl from 3.26.5 to 4.0.0
+    -   Upgraded Storybook from 8.x to 10.1.2
+    -   Upgraded react-icons from 4.12.0 to 5.4.0 for React 19 compatibility
+
+    **Breaking Changes:**
+
+    -   Replaced `next-client-cookies` with `js-cookie` (Next.js 16 incompatibility)
+    -   Removed `CookiesProvider` from layout (no longer needed)
+    -   Updated ESLint configuration to support flat config format
+    -   Excluded Storybook and Jest files from TypeScript build
+
+    **Improvements:**
+
+    -   Build now works with Turbopack (Next.js 16's default bundler)
+    -   All 154 tests passing with comprehensive next-intl mocks
+    -   Fixed CSS import ordering for Turbopack compatibility
+    -   Updated TypeScript configuration to exclude test and mock files
+
+### Patch Changes
+
+-   91be3f5: Axios security vulnerability fixed
+
 ## 1.1.2
 
 ### Patch Changes

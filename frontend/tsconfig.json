@@ -17,7 +17,7 @@
     "moduleResolution": "node",
     "resolveJsonModule": true,
     "isolatedModules": true,
-    "jsx": "preserve",
+    "jsx": "react-jsx",
     "baseUrl": ".",
     "incremental": true,
     "types": ["jest", "@testing-library/jest-dom"],
@@ -27,6 +27,15 @@
       }
     ]
   },
-  "include": [".", ".next/types/**/*.ts"],
-  "exclude": ["node_modules", ".next/types/app/[locale]/[[...slug]]/page.ts", ".next/types/app/[locale]/layout.ts"]
+  "include": [".", ".next/types/**/*.ts", ".next/dev/types/**/*.ts"],
+  "exclude": [
+    "node_modules",
+    ".next/types/app/[locale]/[[...slug]]/page.ts",
+    ".next/types/app/[locale]/layout.ts",
+    "**/*.stories.tsx",
+    "**/*.stories.ts",
+    ".storybook",
+    "jest",
+    "__mocks__"
+  ]
 }

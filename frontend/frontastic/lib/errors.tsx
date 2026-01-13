@@ -15,7 +15,7 @@ const getErrorMessage = (error: LogError) => {
 
   try {
     return JSON.stringify(error?.data[0]);
-  } catch (e) {
+  } catch {
     return 'Unprintable error, check console';
   }
 };

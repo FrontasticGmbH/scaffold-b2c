@@ -13,6 +13,7 @@ import {
   Price as CommercetoolsPrice,
   ProductDiscount as CommercetoolsProductDiscount,
   ProductDiscountValue as CommercetoolsProductDiscountValue,
+  ProductProjection as CommercetoolsProductProjection,
   ProductSearchFacetCountExpression,
   ProductSearchFacetDistinctExpression,
   ProductSearchFacetExpression,
@@ -107,6 +108,48 @@ export class ProductMapper {
     return product;
   }
 
+  static commercetoolsProductProjectionToProduct(
+    commercetoolsProductProjection: CommercetoolsProductProjection,
+    productIdField: string,
+    categoryIdField: string,
+    locale: Locale,
+    defaultLocale: Locale,
+    commercetoolsProductSearchMatchingVariants?: CommercetoolsProductSearchMatchingVariants,
+  ): Product {
+    const product: Product = {
+      productId: commercetoolsProductProjection?.id,
+      productKey: commercetoolsProductProjection?.key,
+      productRef: commercetoolsProductProjection?.[productIdField],
+      productTypeId: commercetoolsProductProjection?.productType?.id,
+      version: commercetoolsProductProjection.version?.toString(),
+      name: LocalizedValue.getLocalizedValue(locale, defaultLocale, commercetoolsProductProjection.name),
+      slug: LocalizedValue.getLocalizedValue(locale, defaultLocale, commercetoolsProductProjection.slug),
+      description: LocalizedValue.getLocalizedValue(locale, defaultLocale, commercetoolsProductProjection.description),
+      categories: this.commercetoolsCategoryReferencesToCategories(
+        commercetoolsProductProjection.categories,
+        categoryIdField,
+        locale,
+      ),
+      variants: this.commercetoolsProductProjectionToProductVariants(
+        commercetoolsProductProjection,
+        locale,
+        commercetoolsProductSearchMatchingVariants,
+      ),
+      metaTitle:
+        LocalizedValue.getLocalizedValue(locale, defaultLocale, commercetoolsProductProjection?.metaTitle) || undefined,
+      metaDescription:
+        LocalizedValue.getLocalizedValue(locale, defaultLocale, commercetoolsProductProjection?.metaDescription) ||
+        undefined,
+      metaKeywords:
+        LocalizedValue.getLocalizedValue(locale, defaultLocale, commercetoolsProductProjection?.metaKeywords) ||
+        undefined,
+    };
+
+    product._url = ProductRouter.generateUrlFor(product);
+
+    return product;
+  }
+
   static commercetoolsProductProjectionToVariants(
     commercetoolsProduct: CommercetoolsProductSearchResult,
     locale: Locale,
@@ -126,6 +169,32 @@ export class ProductMapper {
     variants.push(
       ...commercetoolsProduct.productProjection.variants.map((variant) =>
         this.commercetoolsProductVariantToVariant(variant, locale, commercetoolsProduct.matchingVariants),
+      ),
+    );
+
+    return variants;
+  }
+
+  static commercetoolsProductProjectionToProductVariants(
+    commercetoolsProductProjection: CommercetoolsProductProjection,
+    locale: Locale,
+    commercetoolsProductSearchMatchingVariants?: CommercetoolsProductSearchMatchingVariants,
+  ): Variant[] {
+    const variants: Variant[] = [];
+
+    if (commercetoolsProductProjection.masterVariant) {
+      variants.push(
+        this.commercetoolsProductVariantToVariant(
+          commercetoolsProductProjection.masterVariant,
+          locale,
+          commercetoolsProductSearchMatchingVariants,
+        ),
+      );
+    }
+
+    variants.push(
+      ...commercetoolsProductProjection.variants.map((variant) =>
+        this.commercetoolsProductVariantToVariant(variant, locale, commercetoolsProductSearchMatchingVariants),
       ),
     );
 

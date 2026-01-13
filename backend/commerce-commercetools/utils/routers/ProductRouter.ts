@@ -39,7 +39,6 @@ export class ProductRouter {
 
   static loadFor = async (request: Request, commercetoolsFrontendContext: Context): Promise<Product> => {
     const productApi = new ProductApi(commercetoolsFrontendContext, getLocale(request), getCurrency(request), request);
-
     const sku = ProductRouter.skuFromUrl(request);
 
     if (sku) {

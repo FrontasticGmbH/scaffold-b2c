@@ -1,5 +1,3 @@
-import { ProductQuery } from 'shared/types/query';
-
 type GetProductQuery = {
   id?: string;
   key?: string;

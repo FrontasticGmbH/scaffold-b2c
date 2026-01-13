@@ -1,15 +1,13 @@
-import type { Metadata, Viewport } from 'next';
-import { CookiesProvider } from 'next-client-cookies/server';
-import { NextIntlClientProvider } from 'next-intl';
-import { getMessages } from 'next-intl/server';
+import 'flag-icons/css/flag-icons.min.css';
 import { inter, libre } from 'fonts';
 import { classnames } from 'helpers/utils/classnames';
-import { LayoutProps } from 'types/next';
-import 'tailwindcss/tailwind.css';
+import type { Metadata, Viewport } from 'next';
+import { NextIntlClientProvider } from 'next-intl';
+import { getMessages } from 'next-intl/server';
 import 'react-loading-skeleton/dist/skeleton.css';
 import 'react-tooltip/dist/react-tooltip.css';
-import 'flag-icons/css/flag-icons.min.css';
 import 'styles/app.css';
+import 'tailwindcss/tailwind.css';
 
 export const metadata: Metadata = {
   manifest: '/manifest.json',
@@ -22,21 +20,22 @@ export const viewport: Viewport = {
   themeColor: '#FFF',
 };
 
-export default async function RootLayout(props: LayoutProps) {
-  const params = await props.params;
-
-  const { children } = props;
-  const { locale } = params;
+export default async function RootLayout({
+  children,
+  params,
+}: {
+  children: React.ReactNode;
+  params: Promise<{ locale: string }>;
+}) {
+  const { locale } = await params;
   const messages = await getMessages();
 
   return (
     <html lang={locale} className={classnames(inter.variable, libre.variable)}>
       <body>
-        <CookiesProvider>
-          <NextIntlClientProvider messages={messages} locale={locale}>
-            {children}
-          </NextIntlClientProvider>
-        </CookiesProvider>
+        <NextIntlClientProvider messages={messages} locale={locale}>
+          {children}
+        </NextIntlClientProvider>
       </body>
     </html>
   );

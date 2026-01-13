@@ -2,7 +2,6 @@ import { render, screen } from '__test__/utils';
 import Image from '.';
 import { ImageProps } from './types';
 
-/* eslint-disable @next/next/no-img-element */
 jest.mock('next-cloudinary', () => ({
   CldImage: (props: ImageProps) => (
     <img

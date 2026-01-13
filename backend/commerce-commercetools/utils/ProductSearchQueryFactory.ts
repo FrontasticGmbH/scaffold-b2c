@@ -26,15 +26,6 @@ import {
 } from '@commercetools/platform-sdk';
 import { Locale } from '@Commerce-commercetools/interfaces/Locale';
 
-const EXPANDS = [
-  'categories[*].ancestors[*]',
-  'categories[*].parent',
-  'masterVariant.price.discounted.discount',
-  'masterVariant.prices[*].discounted.discount',
-  'variants[*].price.discounted.discount',
-  'variants[*].prices[*].discounted.discount',
-  'productType',
-];
 const LOCALIZED_FULLTEXT_QUERY_FIELDS = ['name', 'description', 'slug', 'searchKeywords'];
 const KEYWORD_EXACT_QUERY_FIELDS = ['variants.sku'];
 
@@ -53,10 +44,7 @@ export class ProductSearchFactory {
     locale: Locale,
     productIdField: string,
   ): ProductSearchRequest {
-    let commercetoolsProductSearchRequest = ProductSearchFactory.initializeProductSearchRequestObject(
-      productQuery,
-      locale,
-    );
+    let commercetoolsProductSearchRequest = ProductSearchFactory.initializeProductSearchRequestObject(productQuery);
 
     commercetoolsProductSearchRequest = this.applyQueryString(commercetoolsProductSearchRequest, productQuery, locale);
     commercetoolsProductSearchRequest = this.applyQueryCategories(
@@ -106,17 +94,9 @@ export class ProductSearchFactory {
     return commercetoolsProductSearchRequest;
   }
 
-  private static initializeProductSearchRequestObject(
-    productQuery: ProductQuery,
-    locale: Locale,
-  ): ProductSearchRequest {
+  private static initializeProductSearchRequestObject(productQuery: ProductQuery): ProductSearchRequest {
     const commercetoolsProductSearchRequest: Writeable<ProductSearchRequest> = {
       query: {},
-      productProjectionParameters: {
-        priceCountry: locale.country,
-        priceCurrency: locale.currency,
-        expand: EXPANDS,
-      },
       markMatchingVariants: true,
       postFilter: {},
     };
@@ -124,12 +104,7 @@ export class ProductSearchFactory {
     commercetoolsProductSearchRequest.limit = +productQuery.limit || 24;
     commercetoolsProductSearchRequest.offset = this.getOffsetFromCursor(productQuery.cursor);
 
-    if (productQuery.accountGroupIds?.length) {
-      commercetoolsProductSearchRequest.productProjectionParameters.priceCustomerGroupAssignments =
-        productQuery.accountGroupIds;
-    }
-
-    return commercetoolsProductSearchRequest;
+    return commercetoolsProductSearchRequest as ProductSearchRequest;
   }
 
   /**
