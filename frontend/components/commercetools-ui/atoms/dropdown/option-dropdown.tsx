@@ -66,7 +66,11 @@ const Select: React.FC<Props> = ({
       <Listbox value={selected} onChange={handleChange}>
         {({ open }) => (
           <div className="relative w-full">
-            <ListboxButton className={buttonClassNames(open)} data-test-error={error ? '1' : '0'}>
+            <ListboxButton
+              className={buttonClassNames(open)}
+              data-test-error={error ? '1' : '0'}
+              suppressHydrationWarning
+            >
               <span className="text-14">{selected?.name}</span>
               <span
                 className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-8"

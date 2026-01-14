@@ -18,4 +18,4 @@ type GetOrderQuery = {
   orderId: string;
 };
 
-export { type QueryOrdersQuery, type GetOrderQuery };
+export { type GetOrderQuery, type QueryOrdersQuery };

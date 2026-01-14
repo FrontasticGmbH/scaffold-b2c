@@ -1,6 +1,6 @@
-import { NextRequest, NextResponse } from 'next/server';
 import Negotiator from 'negotiator';
 import createMiddleware from 'next-intl/middleware';
+import { NextRequest, NextResponse } from 'next/server';
 import { routing } from './i18n/routing';
 import { i18nConfig } from './project.config';
 

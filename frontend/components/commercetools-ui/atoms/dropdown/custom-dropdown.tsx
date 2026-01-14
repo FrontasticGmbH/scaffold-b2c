@@ -33,7 +33,11 @@ const CustomDropDown = ({
     <Menu as="div" className="relative">
       {({ open }) => (
         <>
-          <MenuButton as="div" className={buttonClassNames ? buttonClassNames(open) : defaultButtonClassNames(open)}>
+          <MenuButton
+            as="div"
+            className={buttonClassNames ? buttonClassNames(open) : defaultButtonClassNames(open)}
+            suppressHydrationWarning
+          >
             {buttonElement}
           </MenuButton>
 

@@ -1,5 +1,17 @@
 # @commercetools-frontend/b2c-launchpad
 
+## 2.0.1
+
+### Patch Changes
+
+-   63090dd: Fix routing and hydration issues after Next.js 16 upgrade
+
+    **Fixes:**
+
+    -   Restore usePath hook contract to maintain compatibility with existing components
+    -   Add suppressHydrationWarning to HeadlessUI components to fix React 19 hydration warnings
+    -   Add next-env.d.ts to .prettierignore to prevent auto-formatting conflicts
+
 ## 2.0.0
 
 ### Major Changes
